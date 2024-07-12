@@ -1,0 +1,17 @@
+[user]
+	email = chenxiaosong@chenxiaosong.com
+	name = ChenXiaoSong
+[core]
+	editor = vim
+	quotepath = false
+[sendemail]
+	from = chenxiaosong@chenxiaosong.com
+	smtpserver = smtp.exmail.qq.com
+	smtpuser = chenxiaosong@chenxiaosong.com
+	smtpencryption = ssl
+	smtppass = 此处填写腾讯企业邮箱的授权密码
+	smtpserverport = 465
+[credential]
+	helper = store
+[color]
+	ui = auto
