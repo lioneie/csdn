@@ -84,7 +84,7 @@ array=(
     1 1 src/linux-config/linux-config.md linux/linux-config.html "Linux配置文件"
     1 1 src/ssh-reverse/ssh-reverse.md linux/ssh-reverse.html "反向ssh和内网穿透"
     1 1 src/userspace-environment/docker.md linux/docker.html "Docker安装与使用"
-    1 1 src/userspace-environment/qemu-kvm-install-macos.md linux/qemu-kvm-install-macos.html "QEMU/KVM安装macOS系统"
+    1 1 src/macos/qemu-kvm-install-macos.md linux/qemu-kvm-install-macos.html "QEMU/KVM安装macOS系统"
     1 1 src/userspace-environment/ghostwriter-makdown.md linux/ghostwriter-makdown.html "ghostwriter: 一款makdown编辑器"
     1 1 src/userspace-environment/mosquitto-mqtt.md linux/mosquitto-mqtt.html "使用mosquitto搭建MQTT服务器"
     1 1 src/editor/editor.md linux/editor.html "编辑器"
