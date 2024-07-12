@@ -1,0 +1,158 @@
+From b235a0f3410f4c1c4a15fb010bb6c6dc06120665 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Date: Thu, 16 May 2024 08:01:27 +0000
+Subject: [PATCH] debug vfs
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+---
+ fs/ext2/dir.c      |  4 +++
+ fs/ext2/file.c     |  6 ++++
+ fs/namei.c         | 89 ++++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/fs.h |  4 ++-
+ 4 files changed, 102 insertions(+), 1 deletion(-)
+
+diff --git a/fs/ext2/dir.c b/fs/ext2/dir.c
+index b335f17f682f..c96ee8e59805 100644
+--- a/fs/ext2/dir.c
++++ b/fs/ext2/dir.c
+@@ -266,6 +266,10 @@ ext2_readdir(struct file *file, struct dir_context *ctx)
+ 	bool need_revalidate = !inode_eq_iversion(inode, file->f_version);
+ 	bool has_filetype;
+ 
++	debug_get_full_path(inode);
++	debug_inode_nlink(inode);
++	debug_sb_mounts(inode);
++
+ 	if (pos > inode->i_size - EXT2_DIR_REC_LEN(1))
+ 		return 0;
+ 
+diff --git a/fs/ext2/file.c b/fs/ext2/file.c
+index 1039e5bf90af..3b34278c81e6 100644
+--- a/fs/ext2/file.c
++++ b/fs/ext2/file.c
+@@ -281,6 +281,12 @@ static ssize_t ext2_dio_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 
+ static ssize_t ext2_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ {
++	struct file *file = iocb->ki_filp;
++	struct inode *inode = file_inode(file);
++	debug_get_full_path(inode);
++	debug_inode_nlink(inode);
++	debug_sb_mounts(inode);
++
+ #ifdef CONFIG_FS_DAX
+ 	if (IS_DAX(iocb->ki_filp->f_mapping->host))
+ 		return ext2_dax_read_iter(iocb, to);
+diff --git a/fs/namei.c b/fs/namei.c
+index 94565bd7e73f..7ba2e6701091 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -5227,3 +5227,92 @@ const struct inode_operations page_symlink_inode_operations = {
+ 	.get_link	= page_get_link,
+ };
+ EXPORT_SYMBOL(page_symlink_inode_operations);
++
++void debug_inode_nlink(struct inode *inode)
++{
++	unsigned int nlink = inode->i_nlink;
++	struct dentry *tmp = NULL;
++	printk("%s:%d, inode:%px, nlink:%d\n",
++	       __func__, __LINE__, inode, nlink);
++
++	/*
++	struct hlist_head i_dentry
++	struct hlist_node d_alias
++
++	hlist_for_each_entry(pos=tmp, &i_dentry=&inode->i_dentry, member=d_u.d_alias)
++
++	for (tmp = container_of((&i_dentry)->first, struct dentry, member);\
++	     tmp;                                                       \
++	     tmp = container_of((tmp)->member.next, struct dentry, member))
++	 */
++	hlist_for_each_entry(tmp, &inode->i_dentry, d_u.d_alias) {
++		printk("%s:%d, name:%s, dentry:%px, inode:%px\n",
++		       __func__, __LINE__, tmp->d_name.name, tmp, tmp->d_inode);
++	}
++}
++EXPORT_SYMBOL(debug_inode_nlink);
++
++void debug_sb_mounts(struct inode *inode)
++{
++	struct super_block *sb = inode->i_sb;
++	struct mount *mnt;
++	char *buffer = (char *)__get_free_page(GFP_KERNEL | __GFP_ZERO);
++	char *mpt_path;
++	printk("%s:%d, sb:%px\n", __func__, __LINE__, sb);
++	/*
++	struct list_head mnt_instance
++	struct list_head s_mounts
++	 */
++	list_for_each_entry(mnt, &sb->s_mounts, mnt_instance) {
++		mpt_path = dentry_path_raw(mnt->mnt_mountpoint, buffer,
++					    PAGE_SIZE);
++		printk("%s:%d, mountpoint path:%s, mnt_mountpoint:%px, mnt:%px, sb:%px\n", __func__, __LINE__, mpt_path, mnt->mnt_mountpoint, mnt, mnt->mnt.mnt_sb);
++	}
++	free_page((unsigned long)buffer);
++}
++EXPORT_SYMBOL(debug_sb_mounts);
++
++void debug_get_full_path(struct inode *inode)
++{
++	struct super_block *sb = inode->i_sb;
++	char *buffer = (char *)__get_free_page(GFP_KERNEL | __GFP_ZERO);
++	char *tmp_path = (char *)__get_free_page(GFP_KERNEL | __GFP_ZERO);
++	char *full_path = (char *)__get_free_page(GFP_KERNEL | __GFP_ZERO);
++	struct mount *mnt;
++	char *file_path;
++	struct dentry *dentry = d_find_alias(inode);
++
++	file_path = dentry_path_raw(dentry, buffer, PAGE_SIZE);
++
++	while (1) {
++		printk("%s:%d, file_path:%s\n", __func__, __LINE__, file_path);
++		memcpy(tmp_path, full_path, PAGE_SIZE);
++		snprintf(full_path, PAGE_SIZE, "%s%s", file_path, tmp_path);
++		printk("%s:%d, full_path:%s\n", __func__, __LINE__, full_path);
++		/*
++		struct list_head s_mounts
++		struct list_head mnt_instance
++
++		list_for_each_entry(pos=mnt, &s_mounts=&sb->s_mounts, member=mnt_instance)
++
++		for (mnt = list_first_entry((&s_mounts)->next, struct struct mount, member);        \
++		     !list_entry_is_head(mnt, head, member);                    \
++		     pos = list_next_entry(mnt, member))
++		 */
++		list_for_each_entry(mnt, &sb->s_mounts, mnt_instance) {
++			file_path = dentry_path_raw(mnt->mnt_mountpoint, buffer,
++						    PAGE_SIZE);
++			sb = mnt->mnt_mountpoint->d_inode->i_sb;
++			break;
++		}
++		// sb is new super block
++		if (mnt->mnt.mnt_sb == sb)
++			break;
++	}
++
++	free_page((unsigned long)buffer);
++	free_page((unsigned long)tmp_path);
++	free_page((unsigned long)full_path);
++	dput(dentry); // 与d_find_alias配套
++}
++EXPORT_SYMBOL(debug_get_full_path);
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 4a40823c3c67..d6d27e96ca88 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -3377,5 +3377,7 @@ extern int vfs_fadvise(struct file *file, loff_t offset, loff_t len,
+ 		       int advice);
+ extern int generic_fadvise(struct file *file, loff_t offset, loff_t len,
+ 			   int advice);
+-
++extern void debug_inode_nlink(struct inode *inode);
++extern void debug_get_full_path(struct inode *inode);
++extern void debug_sb_mounts(struct inode *inode);
+ #endif /* _LINUX_FS_H */
+-- 
+2.34.1
+
