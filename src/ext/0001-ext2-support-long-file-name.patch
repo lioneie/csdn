@@ -1,0 +1,339 @@
+From d83ffe75d998d2c574285c5c96d026e36dc972fa Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Date: Wed, 24 Apr 2024 08:27:06 +0000
+Subject: [PATCH] ext2: support long file name
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+---
+ fs/ext2/dir.c      |  46 +++++++++++--
+ fs/ext2/namei.c    |  20 +++++-
+ fs/namei.c         | 163 +++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/fs.h |   8 +++
+ 4 files changed, 228 insertions(+), 9 deletions(-)
+
+diff --git a/fs/ext2/dir.c b/fs/ext2/dir.c
+index 4fb155b5a958..e65f102166ad 100644
+--- a/fs/ext2/dir.c
++++ b/fs/ext2/dir.c
+@@ -257,6 +257,7 @@ static inline void ext2_set_de_type(ext2_dirent *de, struct inode *inode)
+ static int
+ ext2_readdir(struct file *file, struct dir_context *ctx)
+ {
++	int ret = 0;
+ 	loff_t pos = ctx->pos;
+ 	struct inode *inode = file_inode(file);
+ 	struct super_block *sb = inode->i_sb;
+@@ -266,9 +267,17 @@ ext2_readdir(struct file *file, struct dir_context *ctx)
+ 	unsigned chunk_mask = ~(ext2_chunk_size(inode)-1);
+ 	bool need_revalidate = !inode_eq_iversion(inode, file->f_version);
+ 	bool has_filetype;
++#if CXS_CREATE_HASHFILE_IN_SAME_DIR
++	char *dir_full_name = kzalloc(CXS_FILENAME_MAXLEN + 1, GFP_KERNEL);
+ 
+-	if (pos > inode->i_size - EXT2_DIR_REC_LEN(1))
+-		return 0;
++	printk("%s:%d\n", __func__, __LINE__);
++	cxs_get_full_name(inode, dir_full_name, CXS_FILENAME_MAXLEN + 1);
++#endif
++
++	if (pos > inode->i_size - EXT2_DIR_REC_LEN(1)) {
++		ret = 0;
++		goto out;
++	}
+ 
+ 	has_filetype =
+ 		EXT2_HAS_INCOMPAT_FEATURE(sb, EXT2_FEATURE_INCOMPAT_FILETYPE);
+@@ -284,7 +293,8 @@ ext2_readdir(struct file *file, struct dir_context *ctx)
+ 				   "bad page in #%lu",
+ 				   inode->i_ino);
+ 			ctx->pos += PAGE_SIZE - offset;
+-			return PTR_ERR(kaddr);
++			ret = PTR_ERR(kaddr);
++			goto out;
+ 		}
+ 		if (unlikely(need_revalidate)) {
+ 			if (offset) {
+@@ -297,30 +307,52 @@ ext2_readdir(struct file *file, struct dir_context *ctx)
+ 		de = (ext2_dirent *)(kaddr+offset);
+ 		limit = kaddr + ext2_last_byte(inode, n) - EXT2_DIR_REC_LEN(1);
+ 		for ( ;(char*)de <= limit; de = ext2_next_entry(de)) {
++			const char *name;
+ 			if (de->rec_len == 0) {
+ 				ext2_error(sb, __func__,
+ 					"zero-length directory entry");
+ 				folio_release_kmap(folio, de);
+-				return -EIO;
++				ret = -EIO;
++				goto out;
+ 			}
++			name = de->name;
+ 			if (de->inode) {
++				unsigned l = strlen(name);
+ 				unsigned char d_type = DT_UNKNOWN;
+ 
+ 				if (has_filetype)
+ 					d_type = fs_ftype_to_dtype(de->file_type);
+ 
+-				if (!dir_emit(ctx, de->name, de->name_len,
++				if (strcmp(name, ".") && strcmp(name, "..") &&
++				    !strncmp(name, CXS_HASH_PREFIX, strlen(CXS_HASH_PREFIX))) {
++					/* TODO: free it  */
++					char *filename = kzalloc(CXS_FILENAME_MAXLEN+1, GFP_KERNEL);
++#if CXS_CREATE_HASHFILE_IN_SAME_DIR
++					cxs_unhash_filename(name, filename, CXS_FILENAME_MAXLEN+1, dir_full_name);
++#else
++					cxs_unhash_filename(name, filename, CXS_FILENAME_MAXLEN+1, "");
++#endif
++					l = strlen(filename);
++					name = filename;
++				}
++
++				if (!dir_emit(ctx, name, l,
+ 						le32_to_cpu(de->inode),
+ 						d_type)) {
+ 					folio_release_kmap(folio, de);
+-					return 0;
++					ret = 0;
++					goto out;
+ 				}
+ 			}
+ 			ctx->pos += ext2_rec_len_from_disk(de->rec_len);
+ 		}
+ 		folio_release_kmap(folio, kaddr);
+ 	}
+-	return 0;
++out:
++#if CXS_CREATE_HASHFILE_IN_SAME_DIR
++	kfree(dir_full_name);
++#endif
++	return ret;;
+ }
+ 
+ /*
+diff --git a/fs/ext2/namei.c b/fs/ext2/namei.c
+index 8346ab9534c1..0bab847ac6aa 100644
+--- a/fs/ext2/namei.c
++++ b/fs/ext2/namei.c
+@@ -59,8 +59,24 @@ static struct dentry *ext2_lookup(struct inode * dir, struct dentry *dentry, uns
+ 	ino_t ino;
+ 	int res;
+ 	
+-	if (dentry->d_name.len > EXT2_NAME_LEN)
+-		return ERR_PTR(-ENAMETOOLONG);
++	if (dentry->d_name.len > EXT2_NAME_LEN) {
++		/* TODO: free filename */
++		char *filename = kzalloc(EXT2_NAME_LEN+1,
++					 GFP_KERNEL);
++		char hash_name[CXS_HASH_NAME_LEN];
++#if CXS_CREATE_HASHFILE_IN_SAME_DIR
++		char *dir_full_name = kzalloc(CXS_FILENAME_MAXLEN + 1, GFP_KERNEL);
++		printk("%s:%d\n", __func__, __LINE__);
++		cxs_get_full_name(dir, dir_full_name, CXS_FILENAME_MAXLEN + 1);
++		cxs_hash_filename(dentry->d_name.name, hash_name, sizeof(hash_name), dir_full_name);
++		kfree(dir_full_name);
++#else
++		cxs_hash_filename(dentry->d_name.name, hash_name, sizeof(hash_name), "");
++#endif
++		memcpy(filename, hash_name, strlen(hash_name)+1);
++		dentry->d_name.name = filename;
++		dentry->d_name.len = strlen(filename);
++	}
+ 
+ 	res = ext2_inode_by_name(dir, &dentry->d_name, &ino);
+ 	if (res) {
+diff --git a/fs/namei.c b/fs/namei.c
+index 9342fa6a38c2..5e3f2926437a 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -205,6 +205,169 @@ getname_flags(const char __user *filename, int flags, int *empty)
+ 	return result;
+ }
+ 
++static int simple_hash(const char *name)
++{
++	int i;
++	int res = 0;
++	for (i = 0; i < strlen(name); i++) {
++		res += name[i];
++	}
++	return res;
++}
++
++static struct file *cxs_open_file(const char *filename)
++{
++	struct file *filp;
++	filp = filp_open(filename, O_CREAT | O_RDWR, 0666);
++	if (IS_ERR(filp))
++		printk("failed to open %s\n", filename);
++	return filp;
++}
++
++static bool cxs_read_hash_file(const char *filename, char *buffer, size_t len)
++{
++	bool ret = true;
++	ssize_t res;
++	struct file *filp;
++
++	filp = cxs_open_file(filename);
++	if (IS_ERR(filp)) {
++		ret = false;
++		goto out;
++	}
++
++	filp->f_pos = 0;
++	res = kernel_read(filp, buffer, len, &filp->f_pos);
++	if (res <= 0) {
++		ret = false;
++		printk("%s:%d, failed to read from %s\n", __func__, __LINE__, filename);
++		goto out;
++	}
++	printk("%s:%d, successful read from %s\n", __func__, __LINE__, filename);
++out:
++	filp_close(filp, NULL);
++	return ret;
++}
++
++static bool cxs_write_hash_file(const char *filename, char *buffer, size_t len)
++{
++	bool ret = true;
++	ssize_t res;
++	struct file *filp;
++
++	filp = cxs_open_file(filename);
++	if (IS_ERR(filp)) {
++		ret = false;
++		goto out;
++	}
++
++	filp->f_pos = 0;
++	res = kernel_write(filp, buffer, len, &filp->f_pos);
++	if (res <= 0) {
++		ret = false;
++		printk("%s:%d, failed to write to %s\n", __func__, __LINE__, filename);
++		goto out;
++	}
++	printk("%s:%d, successful write to %s\n", __func__, __LINE__, filename);
++out:
++	filp_close(filp, NULL);
++	return ret;
++}
++
++void cxs_hash_filename(const char *name, const char *hash_name, unsigned int hash_name_len, char *dir_name)
++{
++	unsigned int hash;
++	char buffer[CXS_FILENAME_MAXLEN + 1];
++	char hash_file_name[hash_name_len + 1];
++	hash = simple_hash(name); // or use full_name_hash ?
++	snprintf(hash_name, hash_name_len, CXS_HASH_PREFIX"%d", hash);
++	snprintf(hash_file_name, sizeof(hash_file_name), "%s/.%s", dir_name, hash_name);
++
++	while (1) {
++		// TODO: 文件打开失败的错误处理
++		if (cxs_read_hash_file(hash_file_name, buffer, sizeof(buffer))) { // 文件里面有内容
++			if (!strcmp(name, buffer)) // 原文件名一样
++				return;
++			// 原文件名不一样
++			hash += 1;
++			snprintf(hash_name, sizeof(hash_name), CXS_HASH_PREFIX"%d", hash);
++			snprintf(hash_file_name, sizeof(hash_file_name), "%s/.%s", dir_name, hash_name);
++		} else {
++			printk("will write to %s\n", hash_file_name);
++			cxs_write_hash_file(hash_file_name, name, strlen(name) + 1);
++			return;
++		}
++	}
++}
++EXPORT_SYMBOL(cxs_hash_filename);
++
++void cxs_unhash_filename(const char *hash_name, const char *name, unsigned int name_len, char *dir_name)
++{
++	char hash_file_name[CXS_HASH_NAME_LEN + 1];
++	snprintf(hash_file_name, sizeof(hash_file_name), "%s/.%s", dir_name, hash_name);
++	// TODO: 文件打开失败的错误处理
++	cxs_read_hash_file(hash_file_name, name, name_len);
++	printk("unhash %s to %s\n", hash_name, name);
++}
++EXPORT_SYMBOL(cxs_unhash_filename);
++
++int cxs_get_full_name(struct inode *inode, char *full_name, int full_name_size)
++{
++	int ret;
++	struct super_block *sb = inode->i_sb;
++	char *buffer = (char *)__get_free_page(GFP_KERNEL);
++	char *file_path;
++	char tmp_name[full_name_size];
++	struct mount *mnt;
++	struct dentry *tmp;
++	struct dentry *dentry = NULL;
++
++	if (!buffer)
++		return -ENOMEM;
++
++	ret = -EPERM;
++	hlist_for_each_entry(tmp, &inode->i_dentry, d_u.d_alias) {
++		if (inode->i_sb && tmp && tmp->d_inode == inode) {
++			dentry = tmp;
++			break;
++		}
++	}
++
++	if (!dentry)
++		goto out;
++
++	file_path = dentry_path_raw(dentry, buffer, PAGE_SIZE); // 不能用d_find_alias(inode)获取dentry
++	if (IS_ERR(file_path))
++		goto out;
++
++	printk("%s:%d, file_path:%s\n", __func__, __LINE__, file_path);
++	while (1) {
++		memcpy(tmp_name, full_name, strlen(full_name) + 1);
++		snprintf(full_name, full_name_size, "%s%s",
++			 file_path, tmp_name);
++		printk("%s:%d, full_name:%s\n", __func__, __LINE__, full_name);
++		list_for_each_entry(mnt, &sb->s_mounts, mnt_instance) {
++			file_path = dentry_path_raw(mnt->mnt_mountpoint, buffer,
++						    PAGE_SIZE);
++			printk("%s:%d, file_path:%s\n",
++			       __func__, __LINE__, file_path);
++			if (mnt->mnt.mnt_sb == sb) {
++				sb = mnt->mnt_mountpoint->d_inode->i_sb;
++				break;
++			}
++		}
++		// sb is new super block
++		if (mnt->mnt.mnt_sb == sb)
++			break;
++	}
++	printk("%s:%d, full_name:%s\n", __func__, __LINE__, full_name);
++	ret = 0;
++out:
++	free_page((unsigned long)buffer);
++	return ret;
++}
++EXPORT_SYMBOL(cxs_get_full_name);
++
+ struct filename *
+ getname_uflags(const char __user *filename, int uflags)
+ {
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 1fbc72c5f112..00c02d924fdb 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2628,6 +2628,14 @@ extern int filp_close(struct file *, fl_owner_t id);
+ extern struct filename *getname_flags(const char __user *, int, int *);
+ extern struct filename *getname_uflags(const char __user *, int);
+ extern struct filename *getname(const char __user *);
++
++#define CXS_CREATE_HASHFILE_IN_SAME_DIR	0
++#define CXS_HASH_PREFIX	"cxs_hash"
++#define CXS_HASH_NAME_LEN	(strlen(CXS_HASH_PREFIX) + 65)
++#define CXS_FILENAME_MAXLEN	4095
++extern void cxs_hash_filename(const char *name, const char *hash_name, unsigned int hash_name_len, char *dir_name);
++extern void cxs_unhash_filename(const char *hash_name, const char *name, unsigned int name_len, char *dir_name);
++extern int cxs_get_full_name(struct inode *inode, char *full_name, int full_name_size);
+ extern struct filename *getname_kernel(const char *);
+ extern void putname(struct filename *name);
+ 
+-- 
+2.34.1
+
