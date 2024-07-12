@@ -260,7 +260,7 @@ git clone https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linu
 
 ## 编译步骤
 
-建议新建一个`build`目录，把所有的编译输出存放在这个目录下，注意<!-- public begin -->[`.config`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/x86_64/config)<!-- public end --><!-- private begin -->`x86_64/config`<!-- private end -->文件复制到`build/.config`。`.config`配置文件至少要打开以下配置（建议通过`make O=build menuconfig`命令修改）：
+建议新建一个`build`目录，把所有的编译输出存放在这个目录下，注意<!-- public begin -->[`.config`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)<!-- public end --><!-- private begin -->`x86_64/config`<!-- private end -->文件复制到`build/.config`。`.config`配置文件至少要打开以下配置（建议通过`make O=build menuconfig`命令修改）：
 ```sh
 CONFIG_EXT4_FS
 CONFIG_XFS_FS
@@ -273,7 +273,7 @@ CONFIG_BINFMT_MISC
 <!-- public begin -->
 ```sh
 rm build -rf && mkdir build
-cp /home/sonvhi/chenxiaosong/code/blog/courses/kernel/x86_64/config build/.config
+cp /home/sonvhi/chenxiaosong/code/tmp/configs/x86_64-config build/.config
 ```
 <!-- public end -->
 
@@ -531,9 +531,9 @@ CONFIG_GDB_SCRIPTS=y # gdb python
 CONFIG_RANDOMIZE_BASE = n # 关闭地址随机化
 ```
 
-可以使用<!-- public begin -->我常用的[x86_64的内核配置文件](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/x86_64/config)。<!-- public end --><!-- private begin -->`kernel/x86_64/config`配置文件。<!-- private end -->
+可以使用<!-- public begin -->我常用的[x86_64的内核配置文件](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)。<!-- public end --><!-- private begin -->`x86_64/config`配置文件。<!-- private end -->
 
-<!-- public begin -->gcc的编译选项`O1`优化等级不需要修改就可以编译通过。`O0`优化等级无法编译（尝试`CONFIG_JUMP_LABEL=n`还是不行），要修改汇编代码，有兴趣的朋友可以和我一直尝试。<!-- public end -->`Og`优化等级经过修改可以编译通过，`x86_64`合入目录<!-- public begin -->[`courses/kernel/x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/x86_64)<!-- public end --><!-- private begin -->`kernel/x86_64`<!-- private end -->对应版本的补丁。建议使用`Og`优化等级编译，既能满足gdb调试需求，也能尽量少的修改代码。
+<!-- public begin -->gcc的编译选项`O1`优化等级不需要修改就可以编译通过。`O0`优化等级无法编译（尝试`CONFIG_JUMP_LABEL=n`还是不行），要修改汇编代码，有兴趣的朋友可以和我一直尝试。<!-- public end -->`Og`优化等级经过修改可以编译通过，`x86_64`合入目录<!-- public begin -->[`courses/kernel/x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/x86_64)<!-- public end --><!-- private begin -->`x86_64`<!-- private end -->对应版本的补丁。建议使用`Og`优化等级编译，既能满足gdb调试需求，也能尽量少的修改代码。
 
 ## QEMU命令选项
 
