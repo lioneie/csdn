@@ -1,0 +1,5 @@
+search --no-floppy --fs-uuid --set=dev b7aa1308-f57e-4f28-834c-c463237a8383
+set prefix=($dev)/boot/grub2
+
+export $prefix
+configfile $prefix/grub.cfg

@@ -1,0 +1,3 @@
+search.fs_uuid b7aa1308-f57e-4f28-834c-c463237a8383 root 
+set prefix=($root)'/boot/grub2'
+configfile $prefix/grub.cfg
