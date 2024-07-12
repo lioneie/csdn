@@ -1,0 +1,116 @@
+From 6a58dd8be839f86aae53ea542bcbc66e95ccaa56 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Date: Mon, 29 May 2023 15:40:38 +0800
+Subject: [PATCH] clean cloud cache test
+
+Signed-off-by: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Change-Id: If0fff84707c4978e3bc8370c46ea41fcafcf05d2
+---
+ BUILD.gn                                      |  1 +
+ services/cloudfiledaemon/BUILD.gn             | 29 ++++++++++++
+ .../src/fuse_manager/clean_cache_test.cpp     | 44 +++++++++++++++++++
+ 3 files changed, 74 insertions(+)
+ create mode 100644 services/cloudfiledaemon/src/fuse_manager/clean_cache_test.cpp
+
+diff --git a/BUILD.gn b/BUILD.gn
+index 52aae86..c2624ca 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -20,6 +20,7 @@ group("services_target") {
+     "${services_path}:distributedfile_etc",
+     "${services_path}:distributedfile_sa_profile",
+     "${services_path}/cloudfiledaemon:cloudfiledaemon",
++    "${services_path}/cloudfiledaemon:clean_cache_test",
+     "${services_path}/cloudsyncservice:cloudsync_sa",
+     "${services_path}/distributedfiledaemon:libdistributedfiledaemon",
+   ]
+diff --git a/services/cloudfiledaemon/BUILD.gn b/services/cloudfiledaemon/BUILD.gn
+index 7fe8e28..1ddfdea 100644
+--- a/services/cloudfiledaemon/BUILD.gn
++++ b/services/cloudfiledaemon/BUILD.gn
+@@ -58,3 +58,32 @@ ohos_shared_library("cloudfiledaemon") {
+   part_name = "dfs_service"
+   subsystem_name = "filemanagement"
+ }
++
++ohos_executable("clean_cache_test") {
++  include_dirs = [
++    "include",
++  ]
++
++  sources = [
++    "src/fuse_manager/clean_cache_test.cpp",
++  ]
++
++  defines = [
++    "LOG_DOMAIN=0xD004307",
++  ]
++
++  deps = [
++    "${utils_path}:libdistributedfiledentry",
++    "${utils_path}:libdistributedfileutils",
++  ]
++
++  external_deps = [
++    "dfs_service:cloudsync_kit_inner",
++    "ipc:ipc_core",
++  ]
++
++  part_name = "dfs_service"
++  subsystem_name = "filemanagement"
++  install_enable = true
++}
++
+diff --git a/services/cloudfiledaemon/src/fuse_manager/clean_cache_test.cpp b/services/cloudfiledaemon/src/fuse_manager/clean_cache_test.cpp
+new file mode 100644
+index 0000000..377ba6f
+--- /dev/null
++++ b/services/cloudfiledaemon/src/fuse_manager/clean_cache_test.cpp
+@@ -0,0 +1,44 @@
++/*
++ * Copyright (C) 2023 Huawei Device Co., Ltd.
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#include <functional>
++#include <iostream>
++#include <map>
++#include <string>
++#include <vector>
++#include "utils_log.h"
++#include "cloud_sync_manager.h"
++
++using namespace std;
++using namespace OHOS;
++using namespace OHOS::FileManagement::CloudSync;
++
++int main(int argc, char **argv)
++{
++    LOGI("clean cache start");
++    // std::vector<std::string> args(argv, argv + argc);
++    // string userId = args[1];
++    int32_t ret = 0;
++
++    CleanOptions options;
++
++    // CloudSyncManagerImpl::Clean
++    ret = CloudSyncManager::GetInstance().Clean("", options);
++
++    LOGI("clean cache end");
++    std::cout << "ret: " << ret << std::endl;
++    return ret;
++}
++
+-- 
+2.34.1
+

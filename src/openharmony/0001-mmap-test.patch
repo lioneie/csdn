@@ -1,0 +1,143 @@
+From c20d8122b23b6a9bd82f9976d962899406f377bf Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong2@huawei.com>
+Date: Fri, 16 Jun 2023 10:58:47 +0000
+Subject: [PATCH] mmap test
+
+Signed-off-by: ChenXiaoSong <chenxiaosong2@huawei.com>
+Change-Id: I76731cde7ad88720c747a8adbc8dbcbca0404f8f
+---
+ BUILD.gn                                      |  1 +
+ services/cloudfiledaemon/BUILD.gn             | 21 +++++
+ .../src/fuse_manager/mmap_test.cpp            | 79 +++++++++++++++++++
+ 3 files changed, 101 insertions(+)
+ create mode 100644 services/cloudfiledaemon/src/fuse_manager/mmap_test.cpp
+
+diff --git a/BUILD.gn b/BUILD.gn
+index f69ec3a..f9a3cd3 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -20,6 +20,7 @@ group("services_target") {
+     "${services_path}:distributedfile_etc",
+     "${services_path}:distributedfile_sa_profile",
+     "${services_path}/cloudfiledaemon:cloudfiledaemon",
++    "${services_path}/cloudfiledaemon:mmap_test",
+     "${services_path}/cloudsyncservice:cloudsync_sa",
+     "${services_path}/distributedfiledaemon:libdistributedfiledaemon",
+   ]
+diff --git a/services/cloudfiledaemon/BUILD.gn b/services/cloudfiledaemon/BUILD.gn
+index b175363..e3e3de7 100644
+--- a/services/cloudfiledaemon/BUILD.gn
++++ b/services/cloudfiledaemon/BUILD.gn
+@@ -57,3 +57,24 @@ ohos_shared_library("cloudfiledaemon") {
+   part_name = "dfs_service"
+   subsystem_name = "filemanagement"
+ }
++
++ohos_executable("mmap_test") {
++  include_dirs = [
++    "include",
++  ]
++
++  sources = [
++    "src/fuse_manager/mmap_test.cpp",
++  ]
++
++  defines = [ "LOG_TAG=\"mmap_test\"" ]
++
++  deps = [
++    "${utils_path}:libdistributedfiledentry",
++    "${utils_path}:libdistributedfileutils",
++  ]
++
++  part_name = "dfs_service"
++  subsystem_name = "filemanagement"
++  install_enable = true
++}
+diff --git a/services/cloudfiledaemon/src/fuse_manager/mmap_test.cpp b/services/cloudfiledaemon/src/fuse_manager/mmap_test.cpp
+new file mode 100644
+index 0000000..a89be65
+--- /dev/null
++++ b/services/cloudfiledaemon/src/fuse_manager/mmap_test.cpp
+@@ -0,0 +1,79 @@
++/*
++ * Copyright (C) 2023 Huawei Device Co., Ltd.
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#include <functional>
++#include <iostream>
++#include <map>
++#include <string>
++#include <vector>
++#include "utils_log.h"
++#include <sys/mman.h>
++#include <sys/stat.h>
++#include <fcntl.h>
++#include <unistd.h>
++
++using namespace std;
++using namespace OHOS;
++
++int main(int argc, char **argv)
++{
++    LOGI("mmap test start");
++    // std::vector<std::string> args(argv, argv + argc);
++    // string userId = args[1];
++    int32_t ret = 0;
++
++    const char* filename = "/mnt/hmdfs/100/account/device_view/cloud/dir1/dir2/file4";
++    int fd = open(filename, O_RDONLY);
++    if (fd == -1) {
++        LOGE("open error, errno: %d", errno);
++        cout << "open error, errno: " << errno << endl;
++        return 1;
++    }
++
++    struct stat st;
++    if (fstat(fd, &st) == -1) {
++        LOGE("fstat error, errno: %d", errno);
++        cout << "fstat error, errno: " << errno << endl;
++        close(fd);
++        return 1;
++    }
++
++    void* addr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
++    if (addr == MAP_FAILED) {
++        LOGE("mmap error, errno: %d", errno);
++        cout << "mmap error, errno: " << errno << endl;
++        close(fd);
++        return 1;
++    }
++
++    // 读取映射区域的内容
++    char* data = static_cast<char*>(addr);
++    LOGI("Content of the file: %s", data);
++    cout << "Content of the file: " << data << endl;
++
++    // 解除内存映射
++    if (munmap(addr, st.st_size) == -1) {
++        LOGE("munmap error, errno: %d", errno);
++        cout << "munmap error, errno: " << errno << endl;
++        close(fd);
++        return 1;
++    }
++
++    close(fd);
++
++    LOGI("mmap test end");
++    return ret;
++}
++
+-- 
+2.34.1
+

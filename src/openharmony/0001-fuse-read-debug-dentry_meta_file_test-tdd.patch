@@ -1,0 +1,87 @@
+From a329fbf997aa42fd0bd43f63f14c7f0e5d9f300e Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Date: Tue, 13 Jun 2023 12:31:25 +0000
+Subject: [PATCH] fuse read debug, dentry_meta_file_test tdd
+
+Signed-off-by: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Change-Id: I130ba40fabbb50be311dd17d9609fe7ec96cf162
+---
+ .../src/dk_asset_read_session.cpp             |  6 ++-
+ .../dentry/dentry_meta_file_test.cpp          | 42 +++++++++++++------
+ 2 files changed, 34 insertions(+), 14 deletions(-)
+
+diff --git a/adapter/cloud_adapter_example/src/dk_asset_read_session.cpp b/adapter/cloud_adapter_example/src/dk_asset_read_session.cpp
+index 8b0cdba..c27ea5a 100644
+--- a/adapter/cloud_adapter_example/src/dk_asset_read_session.cpp
++++ b/adapter/cloud_adapter_example/src/dk_asset_read_session.cpp
+@@ -20,7 +20,11 @@ void DKAssetReadSession::GetAssetInfo() {}
+ void DKAssetReadSession::Seek(int64_t offset, DKSeekFromWhere fromWhere) {}
+ int64_t DKAssetReadSession::Read(int64_t size, char *buffer, DKError &error)
+ {
+-    return int64_t();
++    buffer[0] = '1';
++    buffer[1] = '1';
++    buffer[2] = '%';
++    buffer[3] = '\n';
++    return 4;
+ }
+ int64_t DKAssetReadSession::PRead(int64_t offset, int64_t size, char *buffer, DKError &error)
+ {
+diff --git a/test/unittests/cloudsync_sa/dentry/dentry_meta_file_test.cpp b/test/unittests/cloudsync_sa/dentry/dentry_meta_file_test.cpp
+index 6408cb2..5d1de04 100644
+--- a/test/unittests/cloudsync_sa/dentry/dentry_meta_file_test.cpp
++++ b/test/unittests/cloudsync_sa/dentry/dentry_meta_file_test.cpp
+@@ -61,21 +61,37 @@ void DentryMetaFileTest::TearDown(void)
+ HWTEST_F(DentryMetaFileTest, MetaFileCreate, TestSize.Level1)
+ {
+     std::string cacheDir =
+-        "/data/service/el2/" + std::to_string(TEST_USER_ID) + "/hmdfs/cache/cloud_cache/dentry_cache/cloud/";
++        "/data/service/el2/100/hmdfs/cache/account_cache/dentry_cache/cloud/";
+     ForceRemoveDirectory(cacheDir);
+ 
+-    MetaFile mFile(TEST_USER_ID, "/");
+-    MetaBase mBase1("file1", "id1");
+-    mBase1.size = TEST_ISIZE;
+-    int ret = mFile.DoCreate(mBase1);
+-    EXPECT_EQ(ret, 0);
+-    MetaBase mBase2("file2", "id2");
+-    mBase2.size = TEST_ISIZE;
+-    ret = mFile.DoCreate(mBase2);
+-    EXPECT_EQ(ret, 0);
+-    MetaFile mFile2(TEST_USER_ID, "/a/b");
+-    MetaBase mBase3("file3", "id3");
+-    ret = mFile2.DoCreate(mBase3);
++    auto mFileRoot = MetaFileMgr::GetInstance().GetMetaFile(100, "/");
++    MetaBase mBaseReg1("file1", "fileid1");
++    mBaseReg1.size = 10;
++    mBaseReg1.mode = S_IFREG;
++    EXPECT_EQ(mFileRoot->DoCreate(mBaseReg1), 0);
++    MetaBase mBaseReg2("file2", "fileid2");
++    mBaseReg2.size = 20;
++    mBaseReg2.mode = S_IFREG;
++    EXPECT_EQ(mFileRoot->DoCreate(mBaseReg2), 0);
++    mFileRoot = nullptr;
++
++    auto mFileDir1 = MetaFileMgr::GetInstance().GetMetaFile(100, "/dir1");
++    MetaBase mBaseReg3("file3", "fileid3");
++    mBaseReg3.size = 30;
++    mBaseReg3.mode = S_IFREG;
++    mBaseReg3.fileType = FILE_TYPE_THUMBNAIL;
++    EXPECT_EQ(mFileDir1->DoCreate(mBaseReg3), 0);
++    mFileDir1 = nullptr;
++
++    auto mFileDir2 = MetaFileMgr::GetInstance().GetMetaFile(100, "/dir1/dir2");
++    MetaBase mBaseReg4("file4", "fileid4");
++    mBaseReg4.size = 100*1024;
++    mBaseReg4.mode = S_IFREG;
++    mBaseReg4.fileType = FILE_TYPE_LCD;
++    EXPECT_EQ(mFileDir2->DoCreate(mBaseReg4), 0);
++    mFileDir2 = nullptr;
++
++    MetaFileMgr::GetInstance().ClearAll();
+ }
+ 
+ /**
+-- 
+2.34.1
+
