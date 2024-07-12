@@ -1,0 +1,3 @@
+- [Specifications](https://riscv.org/technical/specifications/)
+- [The RISC-V Reader: An Open Architecture Atlas](http://riscvbook.com/chinese/)（还有以前的老版本[v2p1](http://riscvbook.com/chinese/RISC-V-Reader-Chinese-v2p1.pdf)）
+- [sifive/freedom-e-sdk](https://github.com/sifive/freedom-e-sdk)
