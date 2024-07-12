@@ -1,0 +1,36 @@
+/* 用于内联代码的样式 */
+code {
+  // padding: .2em .4em;
+  margin: 0;
+  // font-size: 85%;
+  white-space: break-spaces;
+  background-color: rgba(175,184,193,0.2);
+  // border-radius: 6px;
+}
+
+/* 引用样式 */
+blockquote {
+  margin: 0;
+  padding: 0 1em;
+  color: #656d76;
+  border-left: .25em solid #d0d7de;
+}
+
+/* 表格样式 */
+table {
+  border-collapse: collapse;
+}
+
+/* 表头样式 */
+th {
+  border: 2px solid rgb(0, 0, 0); /* 边框颜色和粗细 */
+  padding: 8px;
+  text-align: center;
+}
+
+/* 单元格样式 */
+td {
+  border: 2px solid rgb(0, 0, 0);
+  padding: 8px;
+  text-align: center;
+}
