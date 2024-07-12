@@ -1,0 +1,1 @@
+[cifs: Fix UAF in cifs_demultiplex_thread()](https://patchwork.kernel.org/project/cifs-client/patch/20221116031136.3967579-2-zhangxiaoxu5@huawei.com/)

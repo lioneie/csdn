@@ -1,0 +1,1 @@
+[cifs: fix missing unlock in cifs_file_copychunk_range()](https://patchwork.kernel.org/project/cifs-client/patch/20221119045159.1400244-1-chenxiaosong2@huawei.com/)

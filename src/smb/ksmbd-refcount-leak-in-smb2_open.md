@@ -1,0 +1,1 @@
+[ksmbd: fix possible refcount leak in smb2_open()](https://patchwork.kernel.org/project/cifs-client/patch/20230302135804.2583061-1-chenxiaosong2@huawei.com/)
