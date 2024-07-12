@@ -1,0 +1,46 @@
+From 4ea97c5246137a41c50073538fc52b7388630ed2 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Date: Thu, 26 Oct 2023 01:45:45 +0000
+Subject: [PATCH] x86_64: 5.10 gcc build with -Og
+
+Signed-off-by: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+---
+ Makefile                            | 8 +-------
+ include/linux/compiler_attributes.h | 2 +-
+ 2 files changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 5105828bf6da..f249ff97a390 100644
+--- a/Makefile
++++ b/Makefile
+@@ -755,13 +755,7 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, format-truncation)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, format-overflow)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
+ 
+-ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
+-KBUILD_CFLAGS += -O2
+-else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+-KBUILD_CFLAGS += -O3
+-else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+-KBUILD_CFLAGS += -Os
+-endif
++KBUILD_CFLAGS += -Og
+ 
+ # Tell gcc to never replace conditional load with a non-conditional one
+ KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index 08eb06301791..aa562772233b 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -144,7 +144,7 @@
+  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-error-function-attribute
+  */
+ #if __has_attribute(__error__)
+-# define __compiletime_error(msg)       __attribute__((__error__(msg)))
++# define __compiletime_error(msg)       // __attribute__((__error__(msg)))
+ #else
+ # define __compiletime_error(msg)
+ #endif
+-- 
+2.34.1
+

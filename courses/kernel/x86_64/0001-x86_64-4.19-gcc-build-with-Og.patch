@@ -1,0 +1,44 @@
+From 45e44cf09d86a022bac46ab8d1bd4563b0acec95 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Date: Wed, 25 Oct 2023 09:20:03 +0000
+Subject: [PATCH] x86_64: 4.19 gcc build with -Og
+
+Signed-off-by: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+---
+ Makefile                     | 6 +-----
+ include/linux/compiler-gcc.h | 2 +-
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 002d81755142..ae4f5729fece 100644
+--- a/Makefile
++++ b/Makefile
+@@ -679,11 +679,7 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, format-overflow)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, int-in-bool-context)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
+ 
+-ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+-KBUILD_CFLAGS   += -Os
+-else
+-KBUILD_CFLAGS   += -O2
+-endif
++KBUILD_CFLAGS   += -Og
+ 
+ # Tell gcc to never replace conditional load with a non-conditional one
+ KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
+diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+index a80d6de3c8ad..a9070c196320 100644
+--- a/include/linux/compiler-gcc.h
++++ b/include/linux/compiler-gcc.h
+@@ -70,7 +70,7 @@
+ 
+ #ifndef __CHECKER__
+ #define __compiletime_warning(message) __attribute__((warning(message)))
+-#define __compiletime_error(message) __attribute__((error(message)))
++#define __compiletime_error(message) // __attribute__((error(message)))
+ 
+ #ifdef LATENT_ENTROPY_PLUGIN
+ #define __latent_entropy __attribute__((latent_entropy))
+-- 
+2.34.1
+
