@@ -385,6 +385,7 @@ sudo apt-get install libattr1-dev libcap-ng-dev -y
 sudo apt install ninja-build -y
 sudo apt-get install libglib2.0-dev -y
 sudo apt-get install libpixman-1-dev -y
+sudo apt install python3-pip
 pip install tomli
 ```
 

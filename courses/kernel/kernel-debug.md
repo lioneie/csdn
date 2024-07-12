@@ -454,6 +454,7 @@ qemu启动的命令行最好指定`-append "nokaslr ..."`。
 ```sh
 echo 1 > /proc/sys/kernel/panic_on_oops # 注意不能用 vim 编辑
 cat /proc/sys/kernel/panic_on_oops # 确认是否生效
+echo 3000 > /proc/sys/kernel/panic # panic之后多久重启
 ```
 
 按`ctrl + a c`打开QEMU控制台，使用以下命令导出vmcore：
