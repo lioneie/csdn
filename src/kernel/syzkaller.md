@@ -52,7 +52,7 @@ sudo apt update
 sudo apt install make gcc flex bison libncurses-dev libelf-dev libssl-dev -y
 ```
 
-内核[config](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/x86_64/config)文件还要打开以下配置：
+内核[x86_64-config](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)文件还要打开以下配置：
 ```sh
 # Debug info for symbolization.
 CONFIG_DEBUG_INFO_DWARF4=y
