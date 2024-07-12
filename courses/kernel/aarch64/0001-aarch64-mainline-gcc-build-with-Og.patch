@@ -1,0 +1,61 @@
+From f9968d943c15b823285d2de662ca49a9e0210605 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Date: Thu, 26 Oct 2023 02:37:03 +0000
+Subject: [PATCH] aarch64: mainline gcc build with -Og
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+---
+ Makefile                            | 9 ++-------
+ include/linux/compiler_attributes.h | 2 +-
+ include/linux/compiler_types.h      | 2 +-
+ 3 files changed, 4 insertions(+), 9 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 5c418efbe89b..be736300ebca 100644
+--- a/Makefile
++++ b/Makefile
+@@ -816,13 +816,8 @@ endif # need-config
+ 
+ KBUILD_CFLAGS	+= -fno-delete-null-pointer-checks
+ 
+-ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
+-KBUILD_CFLAGS += -O2
+-KBUILD_RUSTFLAGS += -Copt-level=2
+-else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+-KBUILD_CFLAGS += -Os
+-KBUILD_RUSTFLAGS += -Copt-level=s
+-endif
++KBUILD_CFLAGS += -Og
++KBUILD_RUSTFLAGS += -Copt-level=g
+ 
+ # Always set `debug-assertions` and `overflow-checks` because their default
+ # depends on `opt-level` and `debug-assertions`, respectively.
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index 28566624f008..0e4f1b25e25e 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -148,7 +148,7 @@
+  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-error-function-attribute
+  */
+ #if __has_attribute(__error__)
+-# define __compiletime_error(msg)       __attribute__((__error__(msg)))
++# define __compiletime_error(msg)       // __attribute__((__error__(msg)))
+ #else
+ # define __compiletime_error(msg)
+ #endif
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index c523c6683789..99de2676399d 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -410,7 +410,7 @@ struct ftrace_likely_data {
+ #endif
+ 
+ #define _compiletime_assert(condition, msg, prefix, suffix) \
+-	__compiletime_assert(condition, msg, prefix, suffix)
++// 	__compiletime_assert(condition, msg, prefix, suffix)
+ 
+ /**
+  * compiletime_assert - break build and emit msg if condition is false
+-- 
+2.34.1
+
