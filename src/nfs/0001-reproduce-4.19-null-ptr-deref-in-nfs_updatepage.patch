@@ -1,0 +1,36 @@
+From fcd3891bba1e51ce0074629c3f5964b84c8e1881 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Date: Fri, 27 Oct 2023 03:03:12 +0000
+Subject: [PATCH] reproduce 4.19 null-ptr-deref in nfs_updatepage
+
+Signed-off-by: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+---
+ fs/nfs/write.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/fs/nfs/write.c b/fs/nfs/write.c
+index ec0fd6b3d185..d5c820f2cf98 100644
+--- a/fs/nfs/write.c
++++ b/fs/nfs/write.c
+@@ -637,6 +637,7 @@ static int nfs_page_async_flush(struct nfs_pageio_descriptor *pgio,
+ 	WARN_ON_ONCE(test_bit(PG_CLEAN, &req->wb_flags));
+ 
+ 	ret = req->wb_context->error;
++	ret = -EDQUOT;
+ 	/* If there is a fatal error that covers this write, just exit */
+ 	if (nfs_error_is_fatal_on_server(ret))
+ 		goto out_launder;
+@@ -1122,7 +1123,9 @@ static struct nfs_page *nfs_try_to_update_request(struct inode *inode,
+ 	 * Note: nfs_flush_incompatible() will already
+ 	 * have flushed out requests having wrong owners.
+ 	 */
+-	if (offset > rqend || end < req->wb_offset)
++	// if (offset > rqend || end < req->wb_offset)
++	// 因为这个条件不好构造，所以这里直接改成满足条件
++	if (1)
+ 		goto out_flushme;
+ 
+ 	/* Okay, the request matches. Update the region */
+-- 
+2.34.1
+

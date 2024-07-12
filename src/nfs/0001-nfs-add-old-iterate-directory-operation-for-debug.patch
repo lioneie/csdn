@@ -1,0 +1,91 @@
+From bddd4619e007edf17ea36c03384c203660af9fc1 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Date: Mon, 15 Apr 2024 08:44:27 +0000
+Subject: [PATCH] nfs: add old '->iterate' directory operation for debug
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+---
+ fs/nfs/dir.c       |  2 +-
+ fs/readdir.c       | 22 ++++++++++++++++++----
+ include/linux/fs.h |  1 +
+ 3 files changed, 20 insertions(+), 5 deletions(-)
+
+diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
+index ac505671efbd..f2ec9a59a50c 100644
+--- a/fs/nfs/dir.c
++++ b/fs/nfs/dir.c
+@@ -60,7 +60,7 @@ static void nfs_readdir_clear_array(struct folio *);
+ const struct file_operations nfs_dir_operations = {
+ 	.llseek		= nfs_llseek_dir,
+ 	.read		= generic_read_dir,
+-	.iterate_shared	= nfs_readdir,
++	.iterate	= nfs_readdir,
+ 	.open		= nfs_opendir,
+ 	.release	= nfs_closedir,
+ 	.fsync		= nfs_fsync_dir,
+diff --git a/fs/readdir.c b/fs/readdir.c
+index 278bc0254732..ac0b71fa1923 100644
+--- a/fs/readdir.c
++++ b/fs/readdir.c
+@@ -88,8 +88,11 @@ int iterate_dir(struct file *file, struct dir_context *ctx)
+ {
+ 	struct inode *inode = file_inode(file);
+ 	int res = -ENOTDIR;
++	bool shared = true;
+ 
+-	if (!file->f_op->iterate_shared)
++	if (file->f_op->iterate)
++		shared = false;
++	else if (!file->f_op->iterate_shared)
+ 		goto out;
+ 
+ 	res = security_file_permission(file, MAY_READ);
+@@ -100,19 +103,30 @@ int iterate_dir(struct file *file, struct dir_context *ctx)
+ 	if (res)
+ 		goto out;
+ 
+-	res = down_read_killable(&inode->i_rwsem);
++	if (shared)
++		res = down_read_killable(&inode->i_rwsem);
++	else
++		res = down_write_killable(&inode->i_rwsem);
++
+ 	if (res)
+ 		goto out;
+ 
+ 	res = -ENOENT;
+ 	if (!IS_DEADDIR(inode)) {
+ 		ctx->pos = file->f_pos;
+-		res = file->f_op->iterate_shared(file, ctx);
++		if (shared)
++			res = file->f_op->iterate_shared(file, ctx);
++		else
++			res = file->f_op->iterate(file, ctx);
+ 		file->f_pos = ctx->pos;
+ 		fsnotify_access(file);
+ 		file_accessed(file);
+ 	}
+-	inode_unlock_shared(inode);
++	if (shared)
++		inode_unlock_shared(inode);
++	else
++		inode_unlock(inode);
++
+ out:
+ 	return res;
+ }
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 00fc429b0af0..dcee19443b75 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2011,6 +2011,7 @@ struct file_operations {
+ 	int (*iopoll)(struct kiocb *kiocb, struct io_comp_batch *,
+ 			unsigned int flags);
+ 	int (*iterate_shared) (struct file *, struct dir_context *);
++	int (*iterate) (struct file *, struct dir_context *);
+ 	__poll_t (*poll) (struct file *, struct poll_table_struct *);
+ 	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
+ 	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
+-- 
+2.34.1
+
