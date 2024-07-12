@@ -1,0 +1,54 @@
+From ad5de158c402ca88730a4aae32ba82b2f62a47f9 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Date: Tue, 30 Jan 2024 15:47:13 +0000
+Subject: [PATCH] debug long filename
+
+Signed-off-by: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+---
+ fs/namei.c | 7 +++++++
+ fs/open.c  | 4 ++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/fs/namei.c b/fs/namei.c
+index 4e0de939fea1..5c557517170e 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -149,6 +149,10 @@ getname_flags(const char __user *filename, int flags, int *empty)
+ 	result->name = kname;
+ 
+ 	len = strncpy_from_user(kname, filename, EMBEDDED_NAME_MAX);
++	if (!strcmp(current->comm, "touch")) {
++		printk("%s:%d, len:%d\n", __func__, __LINE__, len);
++	}
++
+ 	if (unlikely(len < 0)) {
+ 		__putname(result);
+ 		return ERR_PTR(len);
+@@ -176,6 +180,9 @@ getname_flags(const char __user *filename, int flags, int *empty)
+ 		}
+ 		result->name = kname;
+ 		len = strncpy_from_user(kname, filename, PATH_MAX);
++		if (!strcmp(current->comm, "touch")) {
++			printk("%s:%d, len:%d\n", __func__, __LINE__, len);
++		}
+ 		if (unlikely(len < 0)) {
+ 			__putname(kname);
+ 			kfree(result);
+diff --git a/fs/open.c b/fs/open.c
+index a84d21e55c39..53519bc75f19 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -1399,6 +1399,10 @@ static long do_sys_openat2(int dfd, const char __user *filename,
+ 	if (IS_ERR(tmp))
+ 		return PTR_ERR(tmp);
+ 
++	if (!strncmp(tmp->name, "/mnt/1234567890", 15)) {
++		printk("%s:%d\n", __func__, __LINE__);
++	}
++
+ 	fd = get_unused_fd_flags(how->flags);
+ 	if (fd >= 0) {
+ 		struct file *f = do_filp_open(dfd, tmp, &op);
+-- 
+2.34.1
+
