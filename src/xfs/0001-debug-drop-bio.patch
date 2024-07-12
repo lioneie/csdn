@@ -1,0 +1,204 @@
+From 30736bdda7b665fd89304017609678a2e35cd70c Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Date: Fri, 31 May 2024 04:43:56 +0000
+Subject: [PATCH] debug drop bio
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+---
+ block/bio.c               |  3 +-
+ block/blk-core.c          | 78 +++++++++++++++++++++++++++++++++++++++
+ fs/xfs/xfs_aops.c         |  4 +-
+ fs/xfs/xfs_buf.c          |  1 +
+ fs/xfs/xfs_discard.c      |  1 +
+ fs/xfs/xfs_log.c          |  5 +++
+ include/linux/blk_types.h |  1 +
+ 7 files changed, 91 insertions(+), 2 deletions(-)
+
+diff --git a/block/bio.c b/block/bio.c
+index e9e809a63c59..b0f535789578 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -1390,7 +1390,8 @@ int submit_bio_wait(struct bio *bio)
+ 	bio->bi_end_io = submit_bio_wait_endio;
+ 	bio->bi_opf |= REQ_SYNC;
+ 	submit_bio(bio);
+-	blk_wait_io(&done);
++	if (!bio->debug)
++		blk_wait_io(&done);
+ 
+ 	return blk_status_to_errno(bio->bi_status);
+ }
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 82c3ae22d76d..3433ce2e7846 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -51,6 +51,9 @@
+ #include "blk-throttle.h"
+ #include "blk-ioprio.h"
+ 
++int debug_drop_bio = 0;
++EXPORT_SYMBOL_GPL(debug_drop_bio);
++
+ struct dentry *blk_debugfs_root;
+ 
+ EXPORT_TRACEPOINT_SYMBOL_GPL(block_bio_remap);
+@@ -864,6 +867,75 @@ static void bio_set_ioprio(struct bio *bio)
+ 	blkcg_set_ioprio(bio);
+ }
+ 
++/**
++ * bio_memscan - Find a character in an area of memory.
++ * @addr: The memory area
++ * @c: The byte to search for
++ * @size: The size of the area.
++ *
++ * returns the address of the first occurrence of @c,
++ * or NULL if @c is not found
++ */
++static void *bio_memscan(void *addr, int c, size_t size)
++{
++	unsigned char *p = addr;
++
++	while (size) {
++		if (*p == (unsigned char)c)
++			return (void *)p;
++		p++;
++		size--;
++	}
++	return NULL;
++}
++
++/*
++ * return 0 if bio have special data,
++ * or 1 if it is not found
++ */
++static int check_bio_data(struct bio *bio) {
++	int ret = 1;
++	struct bio_vec *bvec;
++	struct bvec_iter_all iter_all;
++	char *kaddr;
++	char *tmp;
++	char *last_addr;
++	unsigned int len;
++
++	bio_for_each_segment_all(bvec, bio, iter_all) {
++		kaddr = kmap_local_page(bvec->bv_page);
++		last_addr = kaddr + bvec->bv_offset + bvec->bv_len - 1;
++		tmp = kaddr + bvec->bv_offset;
++		goto scan;
++again:
++		tmp++;
++scan:
++		len = last_addr - tmp + 1;
++		tmp = bio_memscan(tmp, 'X', len);
++		if (!tmp)
++			goto unmap;
++
++		printk("%s:%d, find X\n", __func__, __LINE__);
++		if (!(tmp + 1 <= last_addr && tmp[1] == 'A'))
++			goto again;
++		printk("%s:%d, find A\n", __func__, __LINE__);
++		if (!(tmp + 2 <= last_addr && tmp[2] == 'G'))
++			goto again;
++		printk("%s:%d, find G\n", __func__, __LINE__);
++		if (!(tmp + 3 <= last_addr && tmp[3] == 'F'))
++			goto again;
++		printk("%s:%d, find F\n", __func__, __LINE__);
++		printk("%s:%d, find success\n", __func__, __LINE__);
++		ret = 0;
++unmap:
++		kunmap_local(kaddr);
++		if (!ret)
++			return ret;
++	}
++	return ret;
++}
++
++
+ /**
+  * submit_bio - submit a bio to the block device layer for I/O
+  * @bio: The &struct bio which describes the I/O
+@@ -879,6 +951,12 @@ static void bio_set_ioprio(struct bio *bio)
+  */
+ void submit_bio(struct bio *bio)
+ {
++	if (bio->debug && debug_drop_bio && !check_bio_data(bio)) {
++		printk("%s:%d, exec bi_end_io\n", __func__, __LINE__);
++		bio->bi_end_io(bio);
++		return;
++	}
++	bio->debug = 0;
+ 	if (bio_op(bio) == REQ_OP_READ) {
+ 		task_io_account_read(bio->bi_iter.bi_size);
+ 		count_vm_events(PGPGIN, bio_sectors(bio));
+diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
+index 6dead20338e2..0a1668a8817f 100644
+--- a/fs/xfs/xfs_aops.c
++++ b/fs/xfs/xfs_aops.c
+@@ -418,8 +418,10 @@ xfs_prepare_ioend(
+ 
+ 	/* send ioends that might require a transaction to the completion wq */
+ 	if (xfs_ioend_is_append(ioend) || ioend->io_type == IOMAP_UNWRITTEN ||
+-	    (ioend->io_flags & IOMAP_F_SHARED))
++	    (ioend->io_flags & IOMAP_F_SHARED)) {
++		ioend->io_bio.debug = 1;
+ 		ioend->io_bio.bi_end_io = xfs_end_bio;
++	}
+ 	return status;
+ }
+ 
+diff --git a/fs/xfs/xfs_buf.c b/fs/xfs/xfs_buf.c
+index aa4dbda7b536..c4a253a7798c 100644
+--- a/fs/xfs/xfs_buf.c
++++ b/fs/xfs/xfs_buf.c
+@@ -1558,6 +1558,7 @@ xfs_buf_ioapply_map(
+ 
+ 	bio = bio_alloc(bp->b_target->bt_bdev, nr_pages, op, GFP_NOIO);
+ 	bio->bi_iter.bi_sector = sector;
++	bio->debug = 1;
+ 	bio->bi_end_io = xfs_buf_bio_end_io;
+ 	bio->bi_private = bp;
+ 
+diff --git a/fs/xfs/xfs_discard.c b/fs/xfs/xfs_discard.c
+index 25fe3b932b5a..b52cbab160ee 100644
+--- a/fs/xfs/xfs_discard.c
++++ b/fs/xfs/xfs_discard.c
+@@ -135,6 +135,7 @@ xfs_discard_extents(
+ 
+ 	if (bio) {
+ 		bio->bi_private = extents;
++		bio->debug = 1;
+ 		bio->bi_end_io = xfs_discard_endio;
+ 		submit_bio(bio);
+ 	} else {
+diff --git a/fs/xfs/xfs_log.c b/fs/xfs/xfs_log.c
+index 416c15494983..aa64695c2157 100644
+--- a/fs/xfs/xfs_log.c
++++ b/fs/xfs/xfs_log.c
+@@ -2253,6 +2253,11 @@ xlog_write_full(
+ 		struct xfs_log_iovec	*reg = &lv->lv_iovecp[index];
+ 		struct xlog_op_header	*ophdr = reg->i_addr;
+ 
++		char *log_data = (char *)ophdr + sizeof(struct xlog_op_header);
++		if (log_data[0] == 'X' && log_data[1] == 'A' && log_data[2] == 'G' && log_data[3] == 'F')
++			printk("%s:%d, 0x%02x 0x%02x 0x%02x 0x%02x\n", __func__, __LINE__,
++			       log_data[0], log_data[1], log_data[2], log_data[3]);
++
+ 		ophdr->oh_tid = cpu_to_be32(ticket->t_tid);
+ 		xlog_write_iovec(iclog, log_offset, reg->i_addr,
+ 				reg->i_len, len, record_cnt, data_cnt);
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 781c4500491b..ee38a29f728f 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -262,6 +262,7 @@ struct bio {
+ 	struct bio_vec		*bi_io_vec;	/* the actual vec list */
+ 
+ 	struct bio_set		*bi_pool;
++	char			debug;
+ 
+ 	/*
+ 	 * We can inline a number of vecs at the end of the bio, to avoid
+-- 
+2.34.1
+
