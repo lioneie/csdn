@@ -263,7 +263,7 @@ cat trace_pipe
 
 ## 插入`kprobe`模块
 
-参考<!-- public begin -->[kprobes](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/kprobes)<!-- public end --><!-- private begin -->`kernel/kprobes`里的例子<!-- private end -->。
+参考<!-- public begin -->[kprobes](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/kprobes)<!-- public end --><!-- private begin -->`kprobes`里的例子<!-- private end -->。
 
 # 打印
 
