@@ -493,36 +493,6 @@ crash> mod -s <module name> <ko path> # 加载
 crash> mod -d <module name> # 删除
 ```
 
-<!-- public begin -->
-### qemu环境待解决的问题（TODO）
-
-安装最新版本的`qemu`，安装最新`crash`，使用最新的内核版本，导出`vmcore`后，启动`crash`。
-
-```sh
-# 无法查看模块相关信息
-crash> mod
-mod: cannot access vmalloc'd module memory
-
-# 崩溃在ext2模块（以ko插入）的 ext2_readdir()，显示exception RIP: unknown or invalid address
-...
-    [exception RIP: unknown or invalid address]
-    RIP: ffffffffa02038e4  RSP: ffffc900025a7e00  RFLAGS: 00010297
-    RAX: 0000000000000000  RBX: 0000000000000000  RCX: 00000000fffffc00
-    RDX: 0000000000000001  RSI: ffff888106530000  RDI: 0000000000000400
-    RBP: ffffc900025a7eb0   R8: 0000000000000000   R9: 0000000000000000
-    R10: 0000000000000000  R11: 0000000000000000  R12: ffff888101fa6500
-    R13: ffff888102549568  R14: ffff8881025494c8  R15: ffff88810b04b000
-    ORIG_RAX: ffffffffffffffff  CS: 0010  SS: 0018
- #6 [ffffc900025a7e60] iterate_dir at ffffffff81649d0b
- #7 [ffffc900025a7ea8] __se_sys_getdents64 at ffffffff8164a811
- #8 [ffffc900025a7f10] __x64_sys_getdents64 at ffffffff8164a8ff
- #9 [ffffc900025a7f20] x64_sys_call at ffffffff810059ad
-#10 [ffffc900025a7f28] do_syscall_64 at ffffffff829591d3
-#11 [ffffc900025a7f50] entry_SYSCALL_64_after_hwframe at ffffffff82a0012b
-...
-```
-<!-- public end -->
-
 ## `crash`常用命令
 
 启动`crash`:
@@ -858,13 +828,16 @@ make -j8
 
 # `systemtap`
 
+<!-- public begin -->
+- [systemtap README翻译](https://chenxiaosong.com/translations/systemtap-readme.html)
+<!-- public end -->
 - [Systemtap tutorial](https://sourceware.org/systemtap/)
 - [systemtap源码](https://sourceware.org/git/?p=systemtap.git;a=tree)
 - [源码中的例子](https://sourceware.org/git/?p=systemtap.git;a=tree;f=testsuite/systemtap.examples;h=816fa8005086a2fcec91a82883aec4956a1ae96c;hb=HEAD)
 
 测试发现，ubuntu2404暂时无法运行`systemtap`脚本，ubuntu2204无法探测`return`。可以尝试在`fedora40`中测试。
 
-## 环境
+## fedora40测试环境
 
 基于`kprobe`，典型的应用是列出前几个调用次数最多的系统调用。
 
@@ -893,6 +866,22 @@ hello world
 # 或者编译成ko再运行
 stap -m helloword hello-word.stp
 staprun helloword.ko
+```
+
+## 源码安装
+
+在`qemu`中启动最新内核，需要从源码安装`systemtap`。运行<!-- public begin -->[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/mod-cfg.sh)<!-- public end --><!-- private begin -->`mod-cfg.sh`<!-- private end -->脚本链接`qemu`导出的`9p`文件系统中的内核仓库目录。
+
+```sh
+dnf install g++ -y
+
+git clone https://sourceware.org/git/systemtap.git
+cd systemtap
+mkdir build
+cd build
+../configure --prefix=/your/path
+make all # 内存小时不能加 -j`nproc`，否则会oom
+make install
 ```
 
 ## 跟踪函数
