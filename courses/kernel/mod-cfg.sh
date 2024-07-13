@@ -13,3 +13,6 @@ target=${knl_base_dir}/build/mod/lib/modules/${knl_vers}
 link_name=/lib/modules/${knl_vers}
 rm ${link_name} -rf
 ln -s ${target} ${link_name}
+# 重新链接build目录
+rm /lib/modules/${knl_vers}/build
+ln -s ${knl_base_dir}/build/ /lib/modules/${knl_vers}/build
