@@ -894,6 +894,7 @@ stap -l 'module("xfs").function("xfs*")' # xfs模块的函数
 
 `test.stp`文件：
 ```sh
+# 如果xfs编译到vmlinux中，'module("xfs")'要换成'kernel'
 probe module("xfs").function("xfs_file_read_iter").call {
     printf("Function %s called\n", probefunc())
 }
