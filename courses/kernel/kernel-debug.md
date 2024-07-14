@@ -828,6 +828,8 @@ make -j8
 
 # `systemtap`
 
+参考:
+
 <!-- public begin -->
 - [systemtap README翻译](https://chenxiaosong.com/translations/systemtap-readme.html)
 <!-- public end -->
@@ -886,7 +888,7 @@ make install
 
 ## 跟踪函数
 
-查看可以被跟踪的函数
+查看可以被跟踪的函数:
 ```sh
 stap -l 'kernel.function("sched*")' # 编译到vmlinux中的函数
 stap -l 'module("xfs").function("xfs*")' # xfs模块的函数
