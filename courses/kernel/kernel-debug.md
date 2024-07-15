@@ -911,7 +911,7 @@ make -j`nproc`
 ```sh
 # fedora
 dnf install -y asciidoc xmlto libtraceevent-devel
-cd cd tools/perf
+cd tools/perf
 make -j`nproc`
 ```
 
