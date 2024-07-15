@@ -72,6 +72,10 @@ rpm2cpio ../kernel-6.8.5-301.fc40.src.rpm | cpio -idmv
 tar xvf linux-6.8.5.tar.xz 
 ```
 
+## qemu
+
+内核编译时打开[Documentation/9psetup](https://wiki.qemu.org/Documentation/9psetup)中的配置。虚拟机中执行脚本<!-- public begin -->[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/mod-cfg.sh)<!-- public end --><!-- private begin -->`mod-cfg.sh`<!-- private end -->（直接运行`bash mod-cfg.sh`可以查看使用帮助）挂载和链接模块目录
+
 # `ftrace`
 
 - [Documentation/trace](https://github.com/torvalds/linux/tree/master/Documentation/trace)
@@ -872,7 +876,7 @@ staprun helloword.ko
 
 ## 源码安装
 
-在`qemu`中启动最新内核，需要从源码安装`systemtap`。运行<!-- public begin -->[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/mod-cfg.sh)<!-- public end --><!-- private begin -->`mod-cfg.sh`<!-- private end -->脚本链接`qemu`导出的`9p`文件系统中的内核仓库目录。
+在`qemu`中用`systemtap`调试最新内核，需要在虚拟机中用源码安装`systemtap`。
 
 ```sh
 dnf install g++ -y
