@@ -801,35 +801,6 @@ crash> dis -l ext2_readdir
 
 与第二个入参相关的寄存器是`rsi`，只有`mov    %rsi,%rbp`一条汇编指令，意思是将源寄存器 `%rsi` 的内容移动到目标寄存器 `%rbp`，所以`rsi`的值没有被改变，就是第二个参数的值。
 
-<!-- ing begin -->
-
-# `oops`
-
-发生`oops`时，除了导出`vmcore`后使用`crash`分析外，还可以用其他方法分析。
-
-编译外部模块时，要在`Makefile`中指定`KBUILD_CFLAGS += -g`参数添加符号信息表。
-
-```sh
-# 交叉编译用 aarch64-linux-gnu-objdump
-
-```
-
-# `perf`
-
-## 编译
-
-在内核编译环境上，在内核代码目录下：
-```sh
-# 根据 make 命令报错提示安装
-sudo apt install -y libdw-dev systemtap-sdt-dev libunwind-dev libslang2-dev libperl-dev libzstd-dev libcap-dev libnuma-dev libbabeltrace-ctf-dev libpfm4-dev libtraceevent-dev
-
-cd tools/perf
-# export ARCH=arm64
-# export CROSS_COMPILE=aarch64-linux-gnu-
-make -j8
-```
-<!-- ing end -->
-
 # `systemtap`
 
 参考:
@@ -918,3 +889,41 @@ mount image /mnt
 echo 1234567 > /mnt/file
 cat /mnt/file
 ```
+
+# `perf`
+
+## 编译
+
+在内核编译环境上，在内核代码目录下：
+```sh
+# 根据 make 命令报错提示安装
+sudo apt install -y libtraceevent-dev
+
+cd tools/perf
+# export ARCH=arm64
+# export CROSS_COMPILE=aarch64-linux-gnu-
+make -j`nproc`
+```
+
+但这样编译出来的`perf`，在虚拟机中还要安装相关依赖库。
+
+建议直接在虚拟机中编译，把内核仓库代码复制到虚拟机中:
+```sh
+# fedora
+dnf install -y asciidoc xmlto libtraceevent-devel
+cd cd tools/perf
+make -j`nproc`
+```
+
+<!-- ing begin -->
+# `oops`
+
+发生`oops`时，除了导出`vmcore`后使用`crash`分析外，还可以用其他方法分析。
+
+编译外部模块时，要在`Makefile`中指定`KBUILD_CFLAGS += -g`参数添加符号信息表。
+
+```sh
+# 交叉编译用 aarch64-linux-gnu-objdump
+
+```
+<!-- ing end -->
