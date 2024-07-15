@@ -25,7 +25,7 @@
 
 使用`strace -o strace.out -f -v -s 4096 ls /media/media-root-365C-B654`得到以下日志：
 ```sh
-# 偶尔会返回错误码 2 (Host is down)
+# 偶尔会报错　(Host is down)
  79 241573 newfstatat(AT_FDCWD, "/media/media-root-365C-B654", 0x5587298b58, 0) = -1 ENOTSUPP (Unknown error 524)
  97 241573 write(2, "ls: ", 4)              = 4
  98 241573 write(2, "cannot access '/media/media-root-365C-B654'", 43) = 43
@@ -53,11 +53,22 @@ wait_for_free_credits
 wait_for_compound_request
 ```
 
+发现`-ENOTSUPP`都不是这几个函数返回的。
+
 # 复现
 
 ```sh
 # -o iocharset=utf8 可能报错 CIFS VFS: CIFS mount error: iocharset utf8 not found
 mount -t cifs -o rw,relatime,vers=2.1,cache=strict,uid=0,noforceuid,gid=0,noforcegid,addr=127.0.0.1,file_mode=0777,dir_mode=0777,soft,nounix,mapposix,noperm,rsize=1048576,wsize=1048576,bsize=1048576,echo_interval=2,actimeo=2 //localhost/TEST /mnt
+```
+
+## `Host is down`
+
+报错`Host is down`的情况很好构造。
+
+```sh
+ifconfig lo down
+strace -o strace.out -f -v -s 4096 ls /mnt
 ```
 
 # 代码分析
@@ -87,4 +98,22 @@ statx
 newfstatat
   vfs_fstatat
     vfs_statx
+
+// 返回-EHOSTDOWN错误的路径
+statx
+  do_statx
+    vfs_statx
+      vfs_getattr
+        vfs_getattr_nosec
+          cifs_getattr
+            cifs_revalidate_dentry_attr
+              cifs_get_inode_info
+                cifs_get_fattr
+                  smb2_query_path_info
+                    smb2_compound_op
+                      SMB2_open_init
+                        smb2_plain_req_init
+                          smb2_reconnect
+                            cifs_wait_for_server_reconnect
+                              return -EHOSTDOWN
 ```
