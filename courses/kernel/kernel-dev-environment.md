@@ -526,8 +526,9 @@ sudo apt install gdb-multiarch -y
 CONFIG_DEBUG_SECTION_MISMATCH=y # 防止内联
 CONFIG_DEBUG_INFO=y # 调试信息
 CONFIG_DEBUG_KERNEL=y # 调试信息
-CONFIG_FRAME_POINTER=y # Makefile 中选择GCC编译选项
 CONFIG_GDB_SCRIPTS=y # gdb python
+DEBUG_INFO_REDUCED=n # 关闭
+CONFIG_FRAME_POINTER=y # Makefile 中选择GCC编译选项
 CONFIG_RANDOMIZE_BASE = n # 关闭地址随机化
 ```
 
