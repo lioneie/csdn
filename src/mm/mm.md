@@ -164,20 +164,3 @@ Linux交换子系统在磁盘上建立swap area，专门用于存放没有磁盘
 而有磁盘映射的页（如程序段）则直接丢弃
 当需要访问该内存中不存在的页时，会触发缺页异常，相应的异常处理程序从磁盘换入RAM中缺失的页
 ```
-
-# `enum pageflags`
-
-在内核代码中，我们经常看到类似`SetPageError`、`PagePrivate`的函数，但总是找不到定义，这是因为这些函数是通过宏定义生成的。
-
-宏定义是对`enum pageflags`中的每个值进行宏展开，这里列出设置和检测的宏定义：
-```c
-// 检测
-#define TESTPAGEFLAG(uname, lname, policy)                       
-static __always_inline int Page##uname(struct page *page)        
-        { return test_bit(PG_##lname, &policy(page, 0)->flags); }
-
-// 设置                                          
-#define SETPAGEFLAG(uname, lname, policy)                        
-static __always_inline void SetPage##uname(struct page *page)    
-        { set_bit(PG_##lname, &policy(page, 1)->flags); }        
-```
