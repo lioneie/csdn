@@ -29,7 +29,7 @@ sudo dpkg -i xxx.ddeb
 
 如果要编译外部模块，需要复制`vmlinux`:
 ```sh
-cp /usr/lib/debug/boot/vmlinux-`uname -r` /usr/lib/modules/`uname -r`/build/
+cp /usr/lib/debug/boot/vmlinux-`uname -r` /usr/lib/modules/`uname -r`/build/vmlinux
 ```
 
 安装内核源码：
