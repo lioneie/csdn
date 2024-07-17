@@ -1,11 +1,3 @@
-<!-- public begin -->
-[点击这里从百度网盘下载配套的视频教程](https://chenxiaosong.com/baidunetdisk)。
-
-[点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://chenxiaosong.com/bili/kernel)。
-
-[点击跳转到内核课程所有目录](https://chenxiaosong.com/courses/kernel.html)
-<!-- public end -->
-
 下面介绍Linux内核编译环境和测试环境的搭建过程，当然我也为各位朋友准备好了已经安装好的虚拟机镜像，只需下载运行即可。
 
 <!-- public begin -->[点击这里从百度网盘下载对应平台的虚拟机镜像](https://chenxiaosong.com/baidunetdisk)，<!-- public end -->`x86_64`（也就是你平时用来安装windows系统的电脑，或者2020年前的苹果电脑）选择`ubuntu-x64_64.zip`，`arm64`（2020年末之后的苹果电脑）选择`ubuntu-aarch64.zip`。虚拟机运行后，登录界面的密码是`1`。

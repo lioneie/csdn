@@ -1,11 +1,3 @@
-<!-- public begin -->
-[点击这里从百度网盘下载配套的视频教程](https://chenxiaosong.com/baidunetdisk)。
-
-[点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://chenxiaosong.com/bili/kernel)。
-
-[点击跳转到内核课程所有目录](https://chenxiaosong.com/courses/kernel.html)
-<!-- public end -->
-
 一般的Linux书籍都是先讲解进程和内存相关的知识，但我想先讲解文件系统。<!-- public begin -->第一，因为我就是做文件系统的，更擅长这一块，其他模块的内容我还要再去好好看看书，毕竟不能误人子弟嘛；第二，是<!-- public end -->因为文件系统模块更接近于用户态，是相对比较好理解的内容（当然想深入还是要下大功夫的），由文件系统入手比较适合初学者。
 
 # 什么是文件系统

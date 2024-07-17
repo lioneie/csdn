@@ -2,7 +2,7 @@ src_path=/home/sonvhi/chenxiaosong/code # 替换为你的仓库路径
 dst_path=/var/www
 tmp_html_path=${dst_path}/html-tmp
 html_path=${dst_path}/html
-tmp_courses_path=/tmp/blog-courses
+tmp_courses_path=/tmp/blog
 
 . ${src_path}/blog/src/blog-web/common-lib.sh
 
@@ -15,13 +15,13 @@ array=(
     1 1 src/blog-web/blog.md blog.html "陈孝松博客"
     1 1 src/blog-web/contributions.md contributions.html "陈孝松自由软件贡献"
     # 课程
-    0 1 ${tmp_courses_path}/kernel.md courses/kernel.html "Linux内核课程"
-        1 1 ${tmp_courses_path}/kernel-introduction.md courses/kernel-introduction.html "内核简介"
-        1 1 ${tmp_courses_path}/kernel-dev-environment.md courses/kernel-dev-environment.html "内核开发环境"
-        1 1 ${tmp_courses_path}/kernel-book.md courses/kernel-book.html "内核书籍推荐"
-        1 1 ${tmp_courses_path}/kernel-source.md courses/kernel-source.html "内核源码介绍"
-        1 1 ${tmp_courses_path}/kernel-fs.md courses/kernel-fs.html "文件系统"
-        1 1 ${tmp_courses_path}/kernel-debug.md courses/kernel-debug.html "内核调试方法"
+    0 1 ${tmp_courses_path}/courses/kernel/kernel.md courses/kernel.html "Linux内核课程"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-introduction.md courses/kernel-introduction.html "内核简介"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-dev-environment.md courses/kernel-dev-environment.html "内核开发环境"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-book.md courses/kernel-book.html "内核书籍推荐"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-source.md courses/kernel-source.html "内核源码介绍"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-fs.md courses/kernel-fs.html "文件系统"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-debug.md courses/kernel-debug.html "内核调试方法"
     0 1 courses/nfs/nfs.md courses/nfs.html "nfs文件系统"
         1 1 courses/nfs/nfs-introduction.md courses/nfs-introduction.html "nfs简介"
         1 1 courses/nfs/nfs-environment.md courses/nfs-environment.html "nfs环境"
@@ -140,7 +140,7 @@ array=(
 
 init_begin() {
     mkdir -p ${tmp_html_path}
-    bash ${src_path}/blog/courses/remove-private.sh
+    bash ${src_path}/blog/courses/courses.sh
 }
 
 init_end() {

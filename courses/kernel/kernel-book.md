@@ -1,11 +1,3 @@
-<!-- public begin -->
-[点击这里从百度网盘下载配套的视频教程](https://chenxiaosong.com/baidunetdisk)。
-
-[点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://chenxiaosong.com/bili/kernel)。
-
-[点击跳转到内核课程所有目录](https://chenxiaosong.com/courses/kernel.html)
-<!-- public end -->
-
 讲完了开发环境的准备，在讲具体内核模块知识点之前，我想先列一下曾经读过的几本书，其中有的书我看过很多遍，当然也有一些只看过一部分。总体来说，这些书是网上推荐比较多的。如果发现有其他好书，我还会继续补充，各位朋友如果有推荐的书也可以告诉我。
 
 各位朋友可以[点击这里从百度网盘下载pdf电子书](https://chenxiaosong.com/baidunetdisk)。电子书请仅作为学习用途，有需要的话建议购买纸质书。
