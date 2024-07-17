@@ -26,6 +26,9 @@ array=(
             1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md \
                 courses/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html \
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
+            1 1 courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md
+                courses/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html
+                "e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
     0 1 courses/nfs/nfs.md courses/nfs.html "nfs文件系统"
         1 1 courses/nfs/nfs-introduction.md courses/nfs-introduction.html "nfs简介"
         1 1 courses/nfs/nfs-environment.md courses/nfs-environment.html "nfs环境"
