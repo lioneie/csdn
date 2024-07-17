@@ -14,6 +14,7 @@ kernel_files() {
         1 courses/kernel/kernel-source.md
         1 courses/kernel/kernel-fs.md
         1 courses/kernel/kernel-debug.md
+        1 courses/kernel/kernel-patches.md
     )
 
     local element_count="${#array[@]}" # 总个数

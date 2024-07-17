@@ -63,3 +63,5 @@
 # [文件系统](https://chenxiaosong.com/courses/kernel-fs.html)
 
 # [内核调试方法](https://chenxiaosong.com/courses/kernel-debug.html)
+
+# [内核补丁分析](https://chenxiaosong.com/courses/kernel-patches.html)
