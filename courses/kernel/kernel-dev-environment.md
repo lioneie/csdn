@@ -34,6 +34,11 @@ sudo apt-get install virt-manager -y # docker中不需要安装，虚拟机图�
 sudo apt install flex bison bc kmod pahole -y # 内核编译所需软件
 sudo apt-get install libelf-dev libssl-dev libncurses-dev -y # 内核源码编译依赖的库
 sudo apt install zstd -y
+```
+
+交叉编译所需软件：
+```sh
+sudo apt-get install u-boot-tools -y
 sudo apt install gcc-9-aarch64-linux-gnu -y # 指定版本的交叉编译软件
 mv /usr/bin/aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc.bak # 原来指向其他版本
 ln -s /usr/bin/aarch64-linux-gnu-gcc-9 /usr/bin/aarch64-linux-gnu-gcc # 指向特定版本
