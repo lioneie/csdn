@@ -33,6 +33,10 @@ sudo apt-get install qemu qemu-kvm qemu-system -y # qemu虚拟机相关软件
 sudo apt-get install virt-manager -y # docker中不需要安装，虚拟机图形界面，会安装iptables，可能需要重启才能以非root用户启动virt-manager，当然对于内核开发来说安装这个软件是为了生成自动生成virbr0网络接口
 sudo apt install flex bison bc kmod pahole -y # 内核编译所需软件
 sudo apt-get install libelf-dev libssl-dev libncurses-dev -y # 内核源码编译依赖的库
+sudo apt install zstd -y
+sudo apt install gcc-9-aarch64-linux-gnu -y # 指定版本的交叉编译软件
+mv /usr/bin/aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc.bak # 原来指向其他版本
+ln -s /usr/bin/aarch64-linux-gnu-gcc-9 /usr/bin/aarch64-linux-gnu-gcc # 指向特定版本
 ```
 <!-- TODO: 源码安装crash, emacs -->
 
@@ -271,13 +275,14 @@ cp /home/sonvhi/chenxiaosong/code/tmp/configs/x86_64-config build/.config
 ```
 <!-- public end -->
 
-编译命令如下：
+编译和安装命令如下：
 ```sh
 make O=build menuconfig # 交互式地配置内核的编译选项
 make O=build olddefconfig -j`nproc`
 make O=build bzImage -j`nproc` # x86_64
 make O=build Image -j`nproc` # aarch64，比如2020年末之后的arm芯片的苹果电脑上vmware fusion安装的ubuntu
 make O=build modules -j`nproc`
+mkdir -p build/boot && make O=build install INSTALL_PATH=boot -j`nproc`
 make O=build modules_install INSTALL_MOD_PATH=mod -j`nproc`
 ```
 
@@ -299,6 +304,17 @@ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- O=build Image
 <!-- public begin -->
 - 肯定还有一些其他有用的补丁，后面再补充哈。
 <!-- public end -->
+
+## 发行版替换内核
+
+用发行版``/boot/config-`uname -r` ``配置文件，删除`CONFIG_SYSTEM_TRUSTED_KEYS`和`CONFIG_SYSTEM_REVOCATION_KEYS`配置值，在编译环境上编译安装后，删除`build/mod/lib/modules/xxx/build`和`build/mod/lib/modules/xxx/source`链接文件。
+
+```sh
+# centos
+mkinitrd /boot/initrd.img-xxx xxx
+# ubuntu
+mkinitramfs -o /boot/initrd.img-xxx xxx
+```
 
 # 使用QEMU测试内核代码
 
