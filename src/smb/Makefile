@@ -4,12 +4,13 @@
 
 obj-m += kretprobe_smb.o
 
-CROSS_COMPILE=''
+ARCH=arm64
+CROSS_COMPILE='aarch64-linux-gnu-'
 
-KDIR := /usr/lib/modules/`uname -r`/build/
+KDIR := /home/sonvhi/chenxiaosong/code/tmp-linux/build
 
 all:
-	make -C ${KDIR} M=`pwd`
+	make -C ${KDIR} M=`pwd` ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 
 clean:
 	rm -f *.ko *.o *.mod *.mod.o *.mod.c .*.cmd *.symvers  modul*
