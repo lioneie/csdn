@@ -39,7 +39,7 @@
 使用`kretprobe`模块代码，[`kretprobe_smb.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/smb/kretprobe_smb.c)和[`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/smb/Makefile):
 ```sh
 make -j`nproc`
-insmod ./kretprobe_smb.ko func="wait_for_free_credits" # wait_for_free_credits可替换为其他函数名
+insmod ./kretprobe_smb.ko func="compound_send_recv" # compound_send_recv可替换为其他函数名
 ```
 
 尝试跟踪这几个返回`-ENOTSUPP`的函数：
@@ -50,10 +50,33 @@ cifs_fiemap
 smb2_adjust_credits
 handle_read_data
 wait_for_free_credits
-wait_for_compound_request
+wait_for_compound_request // 无法直接跟踪，可以跟踪 compound_send_recv
 ```
 
-发现`-ENOTSUPP`都不是这几个函数返回的。
+发现返回`-ENOTSUPP`的是`wait_for_compound_request()`函数。
+
+替换为主线内核，得到如下日志：
+```sh
+[ 7296.825123] CPU: 2 PID: 51185 Comm: ls Kdump: loaded Tainted: G           OE      6.10.0+ #1
+[ 7296.825133] Hardware name: RDO OpenStack Compute, BIOS 0.0.0 02/06/2015
+[ 7296.825135] Call trace:
+...
+[ 7296.825189]  compound_send_recv+0x0/0xbc8 [cifs]
+[ 7296.825242]  smb2_query_path_info+0x128/0x3e4 [cifs]
+[ 7296.825279]  cifs_get_fattr+0x354/0x920 [cifs]
+[ 7296.825312]  cifs_get_inode_info+0x80/0x150 [cifs]
+[ 7296.825344]  cifs_revalidate_dentry_attr+0x19c/0x2e4 [cifs]
+[ 7296.825376]  cifs_getattr+0xa8/0x27c [cifs]
+[ 7296.825408]  vfs_getattr_nosec+0xb4/0xd4
+[ 7296.825411]  vfs_getattr+0x50/0x6c
+[ 7296.825413]  vfs_statx_path+0x2c/0xf8
+[ 7296.825415]  vfs_statx+0x9c/0x100
+[ 7296.825416]  vfs_fstatat+0x5c/0xd8
+[ 7296.825419]  __do_sys_newfstatat+0x28/0x64
+...
+
+[ 7296.825445] compound_send_recv returned 4294967261 and took 325120 ns to execute
+```
 
 # 复现
 
@@ -73,9 +96,9 @@ strace -o strace.out -f -v -s 4096 ls /mnt
 
 # 代码分析
 
-[可能的修复补丁](https://chenxiaosong.com/courses/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)。
+[相关补丁](https://chenxiaosong.com/courses/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)。
 
-执行`ls /mnt`时，在`cifs`的代码中唯一可能返回`-ENOTSUPP`错误的只有`wait_for_free_credits()`
+执行`ls /mnt`时，返回`-ENOTSUPP`错误的一个流程：
 ```c
 statx
   vfs_statx
@@ -95,13 +118,17 @@ statx
                   SMB2_close_flags
                     cifs_send_recv
                       wait_for_free_credits
+```
 
-// 和 statx 系统调用一样，执行到vfs_statx
+和 `statx` 系统调用一样，`newfstatat`最终执行到`vfs_statx`:
+```c
 newfstatat
   vfs_fstatat
     vfs_statx
+```
 
-// 返回-EHOSTDOWN错误的路径
+返回-EHOSTDOWN错误的路径:
+```c
 statx
   do_statx
     vfs_statx
