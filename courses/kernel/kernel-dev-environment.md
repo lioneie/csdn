@@ -312,14 +312,19 @@ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- O=build Image
 
 ## 发行版替换内核
 
-用发行版``/boot/config-`uname -r` ``配置文件，删除`CONFIG_SYSTEM_TRUSTED_KEYS`和`CONFIG_SYSTEM_REVOCATION_KEYS`配置值，在编译环境上编译安装后，删除`build/mod/lib/modules/xxx/build`和`build/mod/lib/modules/xxx/source`链接文件。
+用发行版``/boot/config-`uname -r` ``配置文件，删除`CONFIG_SYSTEM_TRUSTED_KEYS`和`CONFIG_SYSTEM_REVOCATION_KEYS`配置值，在编译环境上编译安装后，删除`build/mod/lib/modules/xxx/build`和`build/mod/lib/modules/xxx/source`链接文件，然后压缩（文件太多，不压缩复制会很慢）打包复制到待测环境上。
 
+把`build/mod/lib/modules/xxx/`复制到待测环境上的`/lib/modules/`路径，把`build/boot/`目录下的文件复制到待测环境上的`/boot/`路径下。
+
+生成`initrd.img`，其中`xxx`为内核版本：
 ```sh
 # centos
 mkinitrd /boot/initrd.img-xxx xxx
 # ubuntu
 mkinitramfs -o /boot/initrd.img-xxx xxx
 ```
+
+ubuntu下运行`update-grub`，`x86`的`grub.cfg`文件在`/boot/grub/grub.cfg`，`arm64`的`grub.cfg`文件在`/boot/efi/boot/grub/grub.cfg`。麒麟桌面系统要在把`grub.cfg`新生成的启动项里的`security=kysec`改成`security= `（注意后面有空格）。
 
 # 使用QEMU测试内核代码
 
