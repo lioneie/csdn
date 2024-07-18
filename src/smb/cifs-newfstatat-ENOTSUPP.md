@@ -32,6 +32,8 @@
 111 241573 write(2, ": Unknown error 524", 19) = 19
 ```
 
+`newfstatat`系统调用大部分时候返回`ENOTSUPP(524)`错误。
+
 # `kprobe`调试
 
 麒麟arm64系统下无法用`kprobe trace`，内核配置`CONFIG_TRACING`没打开。也没法用`systemtap`。
