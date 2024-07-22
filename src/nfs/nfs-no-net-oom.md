@@ -1,6 +1,6 @@
 # 构造
 
-nfs环境搭建请参考[《nfs环境》](https://chenxiaosong.com/courses/nfs-environment.html)。
+nfs环境搭建请参考[《nfs环境》](https://chenxiaosong.com/courses/nfs/nfs-environment.html)。
 
 构造nfs断网不断写文件导致oom的场景：
 ```sh

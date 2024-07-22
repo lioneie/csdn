@@ -12,16 +12,16 @@
 
 点击下面的标题跳转。
 
-# [nfs简介](https://chenxiaosong.com/courses/nfs-introduction.html)
+# [nfs简介](https://chenxiaosong.com/courses/nfs/nfs-introduction.html)
 
-# [nfs环境](https://chenxiaosong.com/courses/nfs-environment.html)
+# [nfs环境](https://chenxiaosong.com/courses/nfs/nfs-environment.html)
 
-# [nfs client数据结构](https://chenxiaosong.com/courses/nfs-client-struct.html)
+# [nfs client数据结构](https://chenxiaosong.com/courses/nfs/nfs-client-struct.html)
 
 # [Parallel NFS (pNFS)](https://chenxiaosong.com/courses/pnfs.html)
 
 # [nfs server (nfsd)](https://chenxiaosong.com/courses/nfsd.html)
 
-# [nfs Procedures和Operations](https://chenxiaosong.com/courses/nfs-procedures.html)
+# [nfs Procedures和Operations](https://chenxiaosong.com/courses/nfs/nfs-procedures.html)
 
-# [nfs文件句柄](https://chenxiaosong.com/courses/nfs-filehandle.html)
+# [nfs文件句柄](https://chenxiaosong.com/courses/nfs/nfs-filehandle.html)
