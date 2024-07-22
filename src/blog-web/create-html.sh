@@ -34,7 +34,7 @@ array=(
             1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md \
                 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html \
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
-    0 1 courses/nfs/nfs.md courses/nfs.html "nfs文件系统"
+    0 1 courses/nfs/nfs.md courses/nfs/nfs.html "nfs文件系统"
         1 1 courses/nfs/nfs-introduction.md courses/nfs-introduction.html "nfs简介"
         1 1 courses/nfs/nfs-environment.md courses/nfs-environment.html "nfs环境"
         1 1 courses/nfs/nfs-client-struct.md courses/nfs-client-struct.html "nfs client数据结构"
