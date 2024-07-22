@@ -16,13 +16,13 @@ array=(
     1 1 src/blog-web/contributions.md contributions.html "陈孝松自由软件贡献"
     # 课程
     0 1 ${tmp_courses_path}/courses/kernel/kernel.md courses/kernel/kernel.html "Linux内核课程"
-        1 1 ${tmp_courses_path}/courses/kernel/kernel-introduction.md courses/kernel-introduction.html "内核简介"
-        1 1 ${tmp_courses_path}/courses/kernel/kernel-dev-environment.md courses/kernel-dev-environment.html "内核开发环境"
-        1 1 ${tmp_courses_path}/courses/kernel/kernel-book.md courses/kernel-book.html "内核书籍推荐"
-        1 1 ${tmp_courses_path}/courses/kernel/kernel-source.md courses/kernel-source.html "内核源码介绍"
-        1 1 ${tmp_courses_path}/courses/kernel/kernel-fs.md courses/kernel-fs.html "文件系统"
-        1 1 ${tmp_courses_path}/courses/kernel/kernel-debug.md courses/kernel-debug.html "内核调试方法"
-        1 1 ${tmp_courses_path}/courses/kernel/kernel-patches.md courses/kernel-patches.html "内核补丁分析"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-introduction.md courses/kernel/kernel-introduction.html "内核简介"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-dev-environment.md courses/kernel/kernel-dev-environment.html "内核开发环境"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-book.md courses/kernel/kernel-book.html "内核书籍推荐"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-source.md courses/kernel/kernel-source.html "内核源码介绍"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-fs.md courses/kernel/kernel-fs.html "文件系统"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-debug.md courses/kernel/kernel-debug.html "内核调试方法"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-patches.md courses/kernel/kernel-patches.html "内核补丁分析"
             # nfs
             1 1 courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md
                 courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html

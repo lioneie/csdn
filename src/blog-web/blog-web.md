@@ -56,7 +56,7 @@ apt-get install pandoc -y
 
 ```sh
 wkhtmltopdf --enable-internal-links --enable-external-links test.html test.pdf
-wkhtmltopdf --enable-internal-links --enable-external-links https://chenxiaosong.com/courses/kernel-debug.html test.pdf
+wkhtmltopdf --enable-internal-links --enable-external-links https://chenxiaosong.com/courses/kernel/kernel-debug.html test.pdf
 ```
 
 但代码框无法左右滑动，暂时不知道怎么搞TODO，知道的小伙伴一定要告诉我。
