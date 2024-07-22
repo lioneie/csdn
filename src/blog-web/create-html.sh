@@ -45,7 +45,7 @@ array=(
     0 1 courses/smb/smb.md courses/smb/smb.html "smb文件系统"
         1 1 courses/smb/smb-introduction.md courses/smb/smb-introduction.html "smb简介"
         1 1 courses/smb/smb-environment.md courses/smb/smb-environment.html "smb环境"
-        1 1 courses/smb/ksmbd.md courses/ksmbd.html "KSMBD - SMB3 Kernel Server"
+        1 1 courses/smb/ksmbd.md courses/smb/ksmbd.html "KSMBD - SMB3 Kernel Server"
         1 1 courses/smb/smb-client-struct.md courses/smb/smb-client-struct.html "smb client数据结构"
     1 1 courses/book-contents.md courses/book-contents.html "书籍目录"
     # Linux内核
