@@ -42,7 +42,7 @@ array=(
         1 1 courses/nfs/nfsd.md courses/nfs/nfsd.html "nfs server (nfsd)"
         1 1 courses/nfs/nfs-procedures.md courses/nfs/nfs-procedures.html "nfs Procedures和Operations"
         1 1 courses/nfs/nfs-filehandle.md courses/nfs/nfs-filehandle.html "nfs文件句柄"
-    0 1 courses/smb/smb.md courses/smb.html "smb文件系统"
+    0 1 courses/smb/smb.md courses/smb/smb.html "smb文件系统"
         1 1 courses/smb/smb-introduction.md courses/smb-introduction.html "smb简介"
         1 1 courses/smb/smb-environment.md courses/smb-environment.html "smb环境"
         1 1 courses/smb/ksmbd.md courses/ksmbd.html "KSMBD - SMB3 Kernel Server"

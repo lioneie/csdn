@@ -18,7 +18,7 @@
 
 # SMB文件系统课程
 
-[点击查看smb文件系统（持续更新中）](https://chenxiaosong.com/courses/smb.html)
+[点击查看smb文件系统（持续更新中）](https://chenxiaosong.com/courses/smb/smb.html)
 
 # Linux内核
 
