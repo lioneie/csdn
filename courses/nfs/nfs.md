@@ -18,7 +18,7 @@
 
 # [nfs client数据结构](https://chenxiaosong.com/courses/nfs/nfs-client-struct.html)
 
-# [Parallel NFS (pNFS)](https://chenxiaosong.com/courses/pnfs.html)
+# [Parallel NFS (pNFS)](https://chenxiaosong.com/courses/nfs/pnfs.html)
 
 # [nfs server (nfsd)](https://chenxiaosong.com/courses/nfsd.html)
 
