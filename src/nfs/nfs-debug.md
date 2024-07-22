@@ -104,7 +104,7 @@ echo 1 > /proc/sys/kernel/sysrq
 echo c > /proc/sysrq-trigger
 ```
 
-关于vmcore的更详细内容，请查看[《Linux内核课程》](https://chenxiaosong.com/courses/kernel.html)。
+关于vmcore的更详细内容，请查看[《Linux内核课程》](https://chenxiaosong.com/courses/kernel/kernel.html)。
 
 # 非特权源端口挂载
 

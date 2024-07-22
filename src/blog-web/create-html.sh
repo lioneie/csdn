@@ -15,7 +15,7 @@ array=(
     1 1 src/blog-web/blog.md blog.html "陈孝松博客"
     1 1 src/blog-web/contributions.md contributions.html "陈孝松自由软件贡献"
     # 课程
-    0 1 ${tmp_courses_path}/courses/kernel/kernel.md courses/kernel.html "Linux内核课程"
+    0 1 ${tmp_courses_path}/courses/kernel/kernel.md courses/kernel/kernel.html "Linux内核课程"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-introduction.md courses/kernel-introduction.html "内核简介"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-dev-environment.md courses/kernel-dev-environment.html "内核开发环境"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-book.md courses/kernel-book.html "内核书籍推荐"
@@ -25,14 +25,14 @@ array=(
         1 1 ${tmp_courses_path}/courses/kernel/kernel-patches.md courses/kernel-patches.html "内核补丁分析"
             # nfs
             1 1 courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md
-                courses/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html
+                courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html
                 "e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
             1 1 courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md
-                courses/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.html
+                courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.html
                 "2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()"
             # smb
             1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md \
-                courses/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html \
+                courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html \
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
     0 1 courses/nfs/nfs.md courses/nfs.html "nfs文件系统"
         1 1 courses/nfs/nfs-introduction.md courses/nfs-introduction.html "nfs简介"

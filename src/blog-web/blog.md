@@ -6,7 +6,7 @@
 
 # Linux内核课程
 
-[点击查看Linux内核课程（持续更新中）](https://chenxiaosong.com/courses/kernel.html)
+[点击查看Linux内核课程（持续更新中）](https://chenxiaosong.com/courses/kernel/kernel.html)
 
 利用业余时间整理了一个Linux内核相关的教程，最大的目的是为了整理自己以前学习到的知识点，当然也为了学习还没学到的知识点，查缺补漏，温故知新。
 
