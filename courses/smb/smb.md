@@ -13,10 +13,10 @@
 
 点击下面的标题跳转。
 
-# [smb简介](https://chenxiaosong.com/courses/smb-introduction.html)
+# [smb简介](https://chenxiaosong.com/courses/smb/smb-introduction.html)
 
-# [smb环境](https://chenxiaosong.com/courses/smb-environment.html)
+# [smb环境](https://chenxiaosong.com/courses/smb/smb-environment.html)
 
 # [KSMBD - SMB3 Kernel Server](https://chenxiaosong.com/courses/ksmbd.html)
 
-# [smb client数据结构](https://chenxiaosong.com/courses/smb-client-struct.html)
+# [smb client数据结构](https://chenxiaosong.com/courses/smb/smb-client-struct.html)
