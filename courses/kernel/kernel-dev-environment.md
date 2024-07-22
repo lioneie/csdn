@@ -288,7 +288,7 @@ make O=build bzImage -j`nproc` # x86_64
 make O=build Image -j`nproc` # aarch64，比如2020年末之后的arm芯片的苹果电脑上vmware fusion安装的ubuntu
 make O=build modules -j`nproc`
 mkdir -p build/boot && make O=build install INSTALL_PATH=boot -j`nproc`
-make O=build modules_install INSTALL_MOD_PATH=mod -j`nproc`
+make O=build modules_install INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=mod -j`nproc`
 ```
 
 在`x86_64`下，如果是交叉编译其他架构，`ARCH`的值为`arch/`目录下相应的架构，编译命令是：
