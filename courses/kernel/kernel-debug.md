@@ -646,7 +646,7 @@ index b335f17f682f..01893352b0bb 100644
 
 ### 查看崩溃在哪一行
 
-可以使用内核仓库的脚本：
+可以使用内核仓库的脚本`scripts/faddr2line`：
 ```sh
 # 查看内核日志
 crash> dmesg | less
@@ -657,7 +657,8 @@ RIP: 0010:ext2_readdir+0x7e/0x310
 ...
  iterate_dir+0xb6/0x1f0
 
-# 在内核仓库目录下执行的shell命令，在docker ubuntu2204环境中打印不出具体行号，原因暂时母鸡
+# 在内核仓库目录下执行的shell命令，在x86_64下也可以直接运行脚本解析aarch64的vmcore
+# 遇到过在有些环境上解析结果有问题，可能是某些软件版本的问题，可以尝试换个环境
 ./scripts/faddr2line build/vmlinux ext2_readdir+0x7e/0x310 # 或者把vmlinux替换成ko文件
 ext2_readdir at fs/ext2/dir.c:270
 ```
