@@ -4,6 +4,8 @@
 
 [`e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt`](https://chenxiaosong.com/courses/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html)
 
+[2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()`](https://chenxiaosong.com/courses/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.html)
+
 # SMB(CIFS)文件系统
 
 [`7de0394801da cifs: Fix in error types returned for out-of-credit situations.`](https://chenxiaosong.com/courses/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)

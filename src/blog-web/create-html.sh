@@ -27,6 +27,9 @@ array=(
             1 1 courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md
                 courses/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html
                 "e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
+            1 1 courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md
+                courses/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.html
+                "2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()"
             # smb
             1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md \
                 courses/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html \
