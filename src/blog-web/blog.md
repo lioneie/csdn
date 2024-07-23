@@ -144,4 +144,4 @@
 
 # 翻译
 
-[点击查看翻译文章](https://chenxiaosong.com/translations/translations.html)
+[点击查看翻译文章](https://chenxiaosong.com/src/translations/translations.html)

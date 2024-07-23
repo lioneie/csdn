@@ -20,8 +20,8 @@
 | NFSv2 | [rfc1094](https://www.rfc-editor.org/rfc/rfc1094.html) | March 1989 | 27 |
 | NFSv3 | [rfc1813](https://www.rfc-editor.org/rfc/rfc1813.html) | June 1995 | 126 |
 | NFSv4 | [rfc3530](https://www.rfc-editor.org/rfc/rfc3530.html)<br>（被[rfc7530](https://www.rfc-editor.org/rfc/rfc7530.html)取代，March 2015） | April 2003 | 275 |
-| NFSv4.1 | [rfc5661](https://www.rfc-editor.org/rfc/rfc5661.html) [翻译](https://chenxiaosong.com/translations/rfc5661-nfsv4.1.html) | January 2010 | 617 |
-| NFSv4.2 | [rfc7862](https://www.rfc-editor.org/rfc/rfc7862.html) [翻译](https://chenxiaosong.com/translations/rfc7862-nfsv4.2.html) | November 2016 | 104 |
+| NFSv4.1 | [rfc8881](https://www.rfc-editor.org/rfc/rfc8881.html) [翻译](https://chenxiaosong.com/src/translations/nfs/rfc8881-nfsv4.1.html) | January 2010 | 617 |
+| NFSv4.2 | [rfc7862](https://www.rfc-editor.org/rfc/rfc7862.html) [翻译](https://chenxiaosong.com/src/translations/nfs/rfc7862-nfsv4.2.html) | November 2016 | 104 |
 -->
 
 nfs各个版本的区别：

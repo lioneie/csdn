@@ -1,26 +1,26 @@
 # nfs
 
-[Network File System (NFS) Version 4 Minor Version 1 Protocol](https://chenxiaosong.com/translations/rfc8881-nfsv4.1.html)
+[Network File System (NFS) Version 4 Minor Version 1 Protocol](https://chenxiaosong.com/src/translations/nfs/rfc8881-nfsv4.1.html)
 
-[Network File System (NFS) Version 4 Minor Version 2 Protocol](https://chenxiaosong.com/translations/rfc7862-nfsv4.2.html)
+[Network File System (NFS) Version 4 Minor Version 2 Protocol](https://chenxiaosong.com/src/translations/nfs/rfc7862-nfsv4.2.html)
 
-[NFSv4 client identifier](https://chenxiaosong.com/translations/kernel-doc-client-identifier.html)
+[NFSv4 client identifier](https://chenxiaosong.com/src/translations/nfs/kernel-doc-client-identifier)
 
-[Connectathon NFS tests README](https://chenxiaosong.com/translations/cthon-nfs-tests-readme.html)
+[Connectathon NFS tests README](https://chenxiaosong.com/src/translations/nfs/cthon-nfs-tests-readme.html)
 
-[Red Hat Bugzilla - Bug 2176575 - intermittent severe NFS client performance drop via nfs_server_reap_expired_delegations looping?](https://chenxiaosong.com/translations/bugzilla-redhat-bug-2176575.html)
+[Red Hat Bugzilla - Bug 2176575 - intermittent severe NFS client performance drop via nfs_server_reap_expired_delegations looping?](https://chenxiaosong.com/src/translations/nfs/bugzilla-redhat-bug-2176575.html)
 
-[pnfs.com](https://chenxiaosong.com/translations/pnfs.com.html)
+[pnfs.com](https://chenxiaosong.com/src/translations/nfs/pnfs.com.html)
 
-[kernel doc: Reference counting in pnfs](https://chenxiaosong.com/translations/kernel-doc-pnfs.html)
+[kernel doc: Reference counting in pnfs](https://chenxiaosong.com/src/translations/nfs/kernel-doc-pnfs.html)
 
-[linux-nfs.org PNFS Development](https://chenxiaosong.com/translations/pnfs-development.html)
+[linux-nfs.org PNFS Development](https://chenxiaosong.com/src/translations/nfs/pnfs-development.html)
 
-[kernel doc: NFSv4.1 Server Implementation](https://chenxiaosong.com/translations/kernel-doc-nfs41-server.html)
+[kernel doc: NFSv4.1 Server Implementation](https://chenxiaosong.com/src/translations/nfs/kernel-doc-nfs41-server.html)
 
-[kernel doc: pNFS block layout server user guide](https://chenxiaosong.com/translations/kernel-doc-pnfs-block-server.html)
+[kernel doc: pNFS block layout server user guide](https://chenxiaosong.com/src/translations/nfs/kernel-doc-pnfs-block-server.html)
 
-[kernel doc: pNFS SCSI layout server user guide](https://chenxiaosong.com/translations/kernel-doc-pnfs-scsi-server.html)
+[kernel doc: pNFS SCSI layout server user guide](https://chenxiaosong.com/src/translations/nfs/kernel-doc-pnfs-scsi-server.html)
 
 # smb
 

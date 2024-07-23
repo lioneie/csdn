@@ -1,7 +1,7 @@
 # 文档
 
-- [PNFS Development - Linux NFS](https://chenxiaosong.com/translations/pnfs-development.html)
-- [pnfs.com](https://chenxiaosong.com/translations/pnfs.com.html)
+- [PNFS Development - Linux NFS](https://chenxiaosong.com/src/translations/nfs/pnfs-development.html)
+- [pnfs.com](https://chenxiaosong.com/src/translations/nfs/pnfs.com.html)
 - block layout: [January 2010 rfc5663 Parallel NFS (pNFS) Block/Volume Layout](https://www.rfc-editor.org/rfc/rfc5663), [July 2012 rfc6688 Parallel NFS (pNFS) Block Disk Protection](https://www.rfc-editor.org/rfc/rfc6688)
 - flexible file layout: [August 2018 rfc8435 Parallel NFS (pNFS) Flexible File Layout](https://www.rfc-editor.org/rfc/rfc8435)
 - object layout （已废弃）: [January 2010 rfc5664 Object-Based Parallel NFS (pNFS) Operations](https://www.rfc-editor.org/rfc/rfc5664)
