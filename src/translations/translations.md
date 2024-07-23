@@ -24,13 +24,13 @@
 
 # smb
 
-[[MS-SMB]: Server Message Block (SMB) Protocol](https://chenxiaosong.com/translations/ms-smb.html)
+[[MS-SMB]: Server Message Block (SMB) Protocol](https://chenxiaosong.com/src/translations/smb/ms-smb.html)
 
-[[MS-SMB2]: Server Message Block (SMB) Protocol Versions 2 and 3](https://chenxiaosong.com/translations/ms-smb2.html)
+[[MS-SMB2]: Server Message Block (SMB) Protocol Versions 2 and 3](https://chenxiaosong.com/src/translations/smb/ms-smb2.html)
 
-[KSMBD kernel doc](https://chenxiaosong.com/translations/ksmbd-kernel-doc.html)
+[KSMBD kernel doc](https://chenxiaosong.com/src/translations/smb/ksmbd-kernel-doc.html)
 
-[ksmbd-tools README](https://chenxiaosong.com/translations/ksmbd-tools-readme.html)
+[ksmbd-tools README](https://chenxiaosong.com/src/translations/smb/ksmbd-tools-readme.html)
 
 # btrfs
 

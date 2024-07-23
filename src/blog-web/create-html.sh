@@ -121,10 +121,10 @@ array=(
         1 1 src/translations/nfs/kernel-doc-pnfs-block-server.md ~ "kernel doc: pNFS block layout server user guide"
         1 1 src/translations/nfs/kernel-doc-pnfs-scsi-server.md ~ "kernel doc: pNFS SCSI layout server user guide"
         # smb
-        1 1 src/translations/smb/ms-smb.md translations/ms-smb.html "[MS-SMB]: Server Message Block (SMB) Protocol"
-        1 1 src/translations/smb/ms-smb2.md translations/ms-smb2.html "[MS-SMB2]: Server Message Block (SMB) Protocol Versions 2 and 3"
-        1 1 src/translations/smb/ksmbd-kernel-doc.md translations/ksmbd-kernel-doc.html "KSMBD kernel doc"
-        1 1 src/translations/smb/ksmbd-tools-readme.md translations/ksmbd-tools-readme.html "ksmbd-tools README"
+        1 1 src/translations/smb/ms-smb.md ~ "[MS-SMB]: Server Message Block (SMB) Protocol"
+        1 1 src/translations/smb/ms-smb2.md ~ "[MS-SMB2]: Server Message Block (SMB) Protocol Versions 2 and 3"
+        1 1 src/translations/smb/ksmbd-kernel-doc.md ~ "KSMBD kernel doc"
+        1 1 src/translations/smb/ksmbd-tools-readme.md ~ "ksmbd-tools README"
         # btrfs
         1 1 src/translations/btrfs/btrfs-doc.rst translations/btrfs-doc.html "BTRFS documentation"
         # xfs
