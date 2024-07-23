@@ -38,33 +38,33 @@
 
 # NFS（网络文件系统）
 
-[定位NFS问题的常用方法](https://chenxiaosong.com/nfs/nfs-debug.html)
+[定位NFS问题的常用方法](https://chenxiaosong.com/src/nfs/nfs-debug.html)
 
-[CVE-2022-24448](https://chenxiaosong.com/nfs/CVE-2022-24448.html)
+[CVE-2022-24448](https://chenxiaosong.com/src/nfs/CVE-2022-24448.html)
 
-[NFS回写错误处理不正确的问题](https://chenxiaosong.com/nfs/nfs-handle-writeback-errors-incorrectly.html)
+[NFS回写错误处理不正确的问题](https://chenxiaosong.com/src/nfs/nfs-handle-writeback-errors-incorrectly.html)
 
-[4.19 nfs_updatepage空指针解引用问题](https://chenxiaosong.com/nfs/4.19-null-ptr-deref-in-nfs_updatepage.html)
+[4.19 nfs_updatepage空指针解引用问题](https://chenxiaosong.com/src/nfs/4.19-null-ptr-deref-in-nfs_updatepage.html)
 
-[4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/nfs/4.19-null-ptr-deref-in-nfs_readpage_async.html)
+[4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/src/nfs/4.19-null-ptr-deref-in-nfs_readpage_async.html)
 
-[aarch64架构 4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/nfs/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.html)
+[aarch64架构 4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/src/nfs/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.html)
 
-[4.19 rdma协议不支持的问题](https://chenxiaosong.com/nfs/4.19-rdma-not-supported.html)
+[4.19 rdma协议不支持的问题](https://chenxiaosong.com/src/nfs/4.19-rdma-not-supported.html)
 
-[4.19 nfs lazy umount 后无法挂载的问题](https://chenxiaosong.com/nfs/4.19-nfs-mount-hung.html)
+[4.19 nfs lazy umount 后无法挂载的问题](https://chenxiaosong.com/src/nfs/4.19-nfs-mount-hung.html)
 
-[4.19 nfs4_put_stid报warning紧接着panic的问题](https://chenxiaosong.com/nfs/4.19-warning-in-nfs4_put_stid-and-panic.html)
+[4.19 nfs4_put_stid报warning紧接着panic的问题](https://chenxiaosong.com/src/nfs/4.19-warning-in-nfs4_put_stid-and-panic.html)
 
-[Connectathon NFS tests](https://chenxiaosong.com/nfs/cthon-nfs-tests.html)
+[Connectathon NFS tests](https://chenxiaosong.com/src/nfs/cthon-nfs-tests.html)
 
-[4.19 nfs没实现iterate_shared导致的遍历目录无法并发问题](https://chenxiaosong.com/nfs/4.19-nfs-no-iterate_shared.html)
+[4.19 nfs没实现iterate_shared导致的遍历目录无法并发问题](https://chenxiaosong.com/src/nfs/4.19-nfs-no-iterate_shared.html)
 
-[重启nfs server后client打开文件卡顿很长时间的问题](https://chenxiaosong.com/nfs/unable-to-initialize-client-recovery-tracking.html)
+[重启nfs server后client打开文件卡顿很长时间的问题](https://chenxiaosong.com/src/nfs/unable-to-initialize-client-recovery-tracking.html)
 
-[4.19 ltp nfs测试失败问题](https://chenxiaosong.com/nfs/4.19-ltp-nfs-fail.html)
+[4.19 ltp nfs测试失败问题](https://chenxiaosong.com/src/nfs/4.19-ltp-nfs-fail.html)
 
-[nfs断网导致oom的问题](https://chenxiaosong.com/nfs/nfs-no-net-oom.html)
+[nfs断网导致oom的问题](https://chenxiaosong.com/src/nfs/nfs-no-net-oom.html)
 
 # SMB(CIFS)文件系统
 

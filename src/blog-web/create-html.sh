@@ -54,20 +54,20 @@ array=(
     1 1 src/kernel/gio-to-mount.md ~ "gio执行慢的临时解决办法"
     1 1 src/kernel/syzkaller.md ~ "syzkaller - 内核模糊测试工具"
     # nfs
-    1 1 src/nfs/nfs-debug.md nfs/nfs-debug.html "定位NFS问题的常用方法"
-    1 1 src/nfs/CVE-2022-24448.md nfs/CVE-2022-24448.html "CVE-2022-24448"
-    1 1 src/nfs/nfs-handle-writeback-errors-incorrectly.md nfs/nfs-handle-writeback-errors-incorrectly.html "NFS回写错误处理不正确的问题"
-    1 1 src/nfs/4.19-null-ptr-deref-in-nfs_updatepage.md nfs/4.19-null-ptr-deref-in-nfs_updatepage.html '4.19 nfs_updatepage空指针解引用问题'
-    1 1 src/nfs/4.19-null-ptr-deref-in-nfs_readpage_async.md nfs/4.19-null-ptr-deref-in-nfs_readpage_async.html '4.19 nfs_readpage_async空指针解引用问题'
-    1 1 src/nfs/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md nfs/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.html "aarch64架构 4.19 nfs_readpage_async空指针解引用问题"
-    1 1 src/nfs/4.19-rdma-not-supported.md nfs/4.19-rdma-not-supported.html "4.19 rdma协议不支持的问题"
-    1 1 src/nfs/4.19-nfs-mount-hung.md nfs/4.19-nfs-mount-hung.html "4.19 nfs lazy umount 后无法挂载的问题"
-    1 1 src/nfs/4.19-warning-in-nfs4_put_stid-and-panic.md nfs/4.19-warning-in-nfs4_put_stid-and-panic.html "4.19 nfs4_put_stid报warning紧接着panic的问题"
-    1 1 src/nfs/cthon-nfs-tests.md nfs/cthon-nfs-tests.html "Connectathon NFS tests"
-    1 1 src/nfs/4.19-nfs-no-iterate_shared.md nfs/4.19-nfs-no-iterate_shared.html "nfs没实现iterate_shared导致的遍历目录无法并发问题"
-    1 1 src/nfs/unable-to-initialize-client-recovery-tracking.md nfs/unable-to-initialize-client-recovery-tracking.html "重启nfs server后client打开文件卡顿很长时间的问题"
-    1 1 src/nfs/4.19-ltp-nfs-fail.md nfs/4.19-ltp-nfs-fail.html "4.19 ltp nfs测试失败问题"
-    1 1 src/nfs/nfs-no-net-oom.md nfs/nfs-no-net-oom.html "nfs断网导致oom的问题"
+    1 1 src/nfs/nfs-debug.md ~ "定位NFS问题的常用方法"
+    1 1 src/nfs/CVE-2022-24448.md ~ "CVE-2022-24448"
+    1 1 src/nfs/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
+    1 1 src/nfs/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage空指针解引用问题'
+    1 1 src/nfs/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async空指针解引用问题'
+    1 1 src/nfs/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md ~ "aarch64架构 4.19 nfs_readpage_async空指针解引用问题"
+    1 1 src/nfs/4.19-rdma-not-supported.md ~ "4.19 rdma协议不支持的问题"
+    1 1 src/nfs/4.19-nfs-mount-hung.md ~ "4.19 nfs lazy umount 后无法挂载的问题"
+    1 1 src/nfs/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid报warning紧接着panic的问题"
+    1 1 src/nfs/cthon-nfs-tests.md ~ "Connectathon NFS tests"
+    1 1 src/nfs/4.19-nfs-no-iterate_shared.md ~ "nfs没实现iterate_shared导致的遍历目录无法并发问题"
+    1 1 src/nfs/unable-to-initialize-client-recovery-tracking.md ~ "重启nfs server后client打开文件卡顿很长时间的问题"
+    1 1 src/nfs/4.19-ltp-nfs-fail.md ~ "4.19 ltp nfs测试失败问题"
+    1 1 src/nfs/nfs-no-net-oom.md ~ "nfs断网导致oom的问题"
     # smb(cifs)
     1 1 src/smb/4.19-null-ptr-deref-in-cifs_reconnect.md smb/4.19-null-ptr-deref-in-cifs_reconnect.html "4.19 cifs_reconnect空指针解引用问题"
     1 1 src/smb/cifs-newfstatat-ENOTSUPP.md smb/cifs-newfstatat-ENOTSUPP.html "cifs newfstatat报错ENOTSUPP"
