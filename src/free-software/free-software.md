@@ -38,7 +38,7 @@ KVM为Linux内核的模块。
 
 QEMU：[https://www.qemu.org/](https://www.qemu.org/)。
 
-[QEMU/KVM安装macOS系统](https://chenxiaosong.com/linux/qemu-kvm-install-macos.html)。
+[QEMU/KVM安装macOS系统](https://chenxiaosong.com/src/macos/qemu-kvm-install-macos.html)。
 
 # 编辑器：emacs
 

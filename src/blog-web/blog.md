@@ -104,29 +104,29 @@
 
 # Linux环境
 
-[VNC远程桌面](https://chenxiaosong.com/linux/vnc.html)
+[VNC远程桌面](https://chenxiaosong.com/src/userspace-environment/vnc.html)
 
-[如何拥有个人域名的网站和邮箱](https://chenxiaosong.com/linux/blog-web.html)
+[如何拥有个人域名的网站和邮箱](https://chenxiaosong.com/src/blog-web/blog-web.html)
 
-[Linux环境安装与配置](https://chenxiaosong.com/linux/install-linux.html)
+[Linux环境安装与配置](https://chenxiaosong.com/src/userspace-environment/install-linux.html)
 
-[Linux配置文件](https://chenxiaosong.com/linux/linux-config.html)
+[Linux配置文件](https://chenxiaosong.com/src/linux-config/linux-config.html)
 
-[反向ssh和内网穿透](https://chenxiaosong.com/linux/ssh-reverse.html)
+[反向ssh和内网穿透](https://chenxiaosong.com/src/ssh-reverse/ssh-reverse.html)
 
-[Docker安装与使用](https://chenxiaosong.com/linux/docker.html)
+[Docker安装与使用](https://chenxiaosong.com/src/userspace-environment/docker.html)
 
-[QEMU/KVM安装macOS系统](https://chenxiaosong.com/linux/qemu-kvm-install-macos.html)
+[QEMU/KVM安装macOS系统](https://chenxiaosong.com/src/macos/qemu-kvm-install-macos.html)
 
-[ghostwriter: 一款makdown编辑器](https://chenxiaosong.com/linux/ghostwriter-makdown.html)
+[ghostwriter: 一款makdown编辑器](https://chenxiaosong.com/src/userspace-environment/ghostwriter-makdown.html)
 
-[使用mosquitto搭建MQTT服务器](https://chenxiaosong.com/linux/mosquitto-mqtt.html)
+[使用mosquitto搭建MQTT服务器](https://chenxiaosong.com/src/userspace-environment/mosquitto-mqtt.html)
 
-[编辑器](https://chenxiaosong.com/linux/editor.html)
+[编辑器](https://chenxiaosong.com/src/editor/editor.html)
 
-[Linux使用wine运行Windows软件](https://chenxiaosong.com/linux/wine.html)
+[Linux使用wine运行Windows软件](https://chenxiaosong.com/src/windows/wine.html)
 
-[OpenHarmony编译运行调试环境](https://chenxiaosong.com/linux/openharmony.html)
+[OpenHarmony编译运行调试环境](https://chenxiaosong.com/src/openharmony/openharmony.html)
 
 # 还没有分类
 

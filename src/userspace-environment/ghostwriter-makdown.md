@@ -2,7 +2,7 @@
 
 曾经尝试过几款自由开源的markdown编辑器，但都不够理想，不是功能不完善就是缺陷多。
 
-现在我是直接在[自己的个人网站](https://chenxiaosong.com/)上查看最终的显示效果，具体可以看[《如何快速搭建一个简陋的个人网站》](https://chenxiaosong.com/linux/blog-web.html)。
+现在我是直接在[自己的个人网站](https://chenxiaosong.com/)上查看最终的显示效果，具体可以看[《如何快速搭建一个简陋的个人网站》](https://chenxiaosong.com/src/blog-web/blog-web.html)。
 
 尝试的其中一款编辑器就是[KDE的ghostwriter](https://ghostwriter.kde.org/)，这个markdown编辑器功能挺完善，但缺陷也不少。
 

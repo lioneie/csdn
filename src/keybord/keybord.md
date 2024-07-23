@@ -2,7 +2,7 @@
 
 # Linux
 
-xmodmap是Linux桌面系统用于更改键位分布的软件，具体查看[《Linux配置文件》](https://chenxiaosong.com/linux/linux-config.html)中有关xmodmap配置相关的章节。
+xmodmap是Linux桌面系统用于更改键位分布的软件，具体查看[《Linux配置文件》](https://chenxiaosong.com/src/linux-config/linux-config.html)中有关xmodmap配置相关的章节。
 
 # macOS
 
