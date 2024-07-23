@@ -16,7 +16,13 @@ create_sign() {
     sed -i '1d;$d' ${tmp_html_path}/sign.html # 删除第一行和最后一行
 }
 
-# 要定义数组array, 每一行代表： 是否生成目录 是否添加签名 markdown或rst文件相对路径 html文件相对路径 网页标题
+# 要定义数组array
+# 每一行代表：
+#    是否生成目录
+#    是否添加签名
+#    源文件，markdown或rst文件相对路径
+#    目的文件，html文件相对路径，如果是~，就代表只和源文件的后缀名不同
+#    网页标题
 create_html() {
     # local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ${src_path} ${tmp_html_path}
     local src_path=$1
@@ -33,9 +39,11 @@ create_html() {
         local pandoc_options=${pandoc_common_options}
 
         local src_file=${src_path}/${ifile} # 相对路径
-        echo "create ${ofile}"
         if [[ ${ifile} == '/'* ]]; then
             src_file=${ifile} # 绝对路径
+        fi
+        if [[ ${ofile} == ~ ]]; then
+            ofile="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
         fi
         local dst_file=${tmp_html_path}/${ofile} # 生成的html文件名
         local dst_dir="$(dirname "${dst_file}")" # html文件所在的文件夹
@@ -49,6 +57,7 @@ create_html() {
         if [[ ${is_toc} == 1 ]]; then
             pandoc_options="${pandoc_options} --toc"
         fi
+        echo "create ${ofile}"
         pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
         if [[ ${is_sign} == 1 ]]; then
             # 在<header之后插入sign.html整个文件
