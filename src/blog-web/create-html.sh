@@ -126,13 +126,13 @@ array=(
         1 1 src/translations/smb/ksmbd-kernel-doc.md ~ "KSMBD kernel doc"
         1 1 src/translations/smb/ksmbd-tools-readme.md ~ "ksmbd-tools README"
         # btrfs
-        1 1 src/translations/btrfs/btrfs-doc.rst translations/btrfs-doc.html "BTRFS documentation"
+        1 1 src/translations/btrfs/btrfs-doc.rst ~ "BTRFS documentation"
         # xfs
-        1 1 src/translations/xfs/xfs_filesystem_structure.md translations/xfs_filesystem_structure.html "xfs_filesystem_structure.pdf"
+        1 1 src/translations/xfs/xfs_filesystem_structure.md ~ "xfs_filesystem_structure.pdf"
         # wine
-        1 1 src/translations/wine/building-wine-winehq-wiki.md translations/building-wine-winehq-wiki.html "Building Wine - WineHQ Wiki"
-        1 1 src/translations/wine/box64-docs-X64WINE.md translations/box64-docs-X64WINE.html "box64 Installing Wine64"
-        1 1 src/translations/wine/box86-docs-X86WINE.md translations/box86-docs-X86WINE.html "box86 Installing Wine (and winetricks)"
+        1 1 src/translations/wine/building-wine-winehq-wiki.md ~ "Building Wine - WineHQ Wiki"
+        1 1 src/translations/wine/box64-docs-X64WINE.md ~ "box64 Installing Wine64"
+        1 1 src/translations/wine/box86-docs-X86WINE.md ~ "box86 Installing Wine (and winetricks)"
         # tests
         1 1 src/translations/tests/ltp-readme.md translations/ltp-readme.html "Linux Test Project README"
         1 1 src/translations/tests/ltp-network-tests-readme.md translations/ltp-network-tests-readme.html "LTP Network Tests README"

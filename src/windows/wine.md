@@ -141,7 +141,7 @@ make install -j12 # 这时可以运行微信了
 
 aarch64下还要安装box软件，32位box安装参考[ptitSeb/box86/blob/master/docs/COMPILE.md](https://github.com/ptitSeb/box86/blob/master/docs/COMPILE.md)，64位box安装参考[ptitSeb/box64/blob/main/docs/COMPILE.md](https://github.com/ptitSeb/box64/blob/main/docs/COMPILE.md)（要安装`box64`而不是`box64-arm64`）。
 
-wine的环境请参考[box64 Installing Wine64翻译](https://chenxiaosong.com/translations/box64-docs-X64WINE.html)和[box86 Installing Wine (and winetricks)翻译](https://chenxiaosong.com/translations/box86-docs-X86WINE.html)。
+wine的环境请参考[box64 Installing Wine64翻译](https://chenxiaosong.com/src/translations/wine/box64-docs-X64WINE.html)和[box86 Installing Wine (and winetricks)翻译](https://chenxiaosong.com/src/translations/wine/box86-docs-X86WINE.html)。
 
 ```sh
 rm -rf ~/.wine-old; mv ~/.wine ~/.wine-old

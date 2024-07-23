@@ -34,19 +34,19 @@
 
 # btrfs
 
-[BTRFS documentation](https://chenxiaosong.com/translations/btrfs-doc.html)
+[BTRFS documentation](https://chenxiaosong.com/src/translations/btrfs/btrfs-doc.html)
 
 # xfs
 
-[xfs_filesystem_structure.pdf](https://chenxiaosong.com/translations/xfs_filesystem_structure.html)
+[xfs_filesystem_structure.pdf](https://chenxiaosong.com/src/translations/xfs/xfs_filesystem_structure.html)
 
 # wine
 
-[Building Wine - WineHQ Wiki](https://chenxiaosong.com/translations/building-wine-winehq-wiki.html)
+[Building Wine - WineHQ Wiki](https://chenxiaosong.com/src/translations/wine/building-wine-winehq-wiki.html)
 
-[box64 Installing Wine64](https://chenxiaosong.com/translations/box64-docs-X64WINE.html)
+[box64 Installing Wine64](https://chenxiaosong.com/src/translations/wine/box64-docs-X64WINE.html)
 
-[box86 Installing Wine (and winetricks)](https://chenxiaosong.com/translations/box86-docs-X86WINE.html)
+[box86 Installing Wine (and winetricks)](https://chenxiaosong.com/src/translations/wine/box86-docs-X86WINE.html)
 
 # tests
 
