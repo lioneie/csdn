@@ -24,30 +24,27 @@ array=(
         1 1 ${tmp_courses_path}/courses/kernel/kernel-debug.md courses/kernel/kernel-debug.html "内核调试方法"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-patches.md courses/kernel/kernel-patches.html "内核补丁分析"
             # nfs
-            1 1 courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md
-                courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html
+            1 1 courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
                 "e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
-            1 1 courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md
-                courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.html
+            1 1 courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md ~
                 "2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()"
             # smb
-            1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md \
-                courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html \
+            1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
-    0 1 courses/nfs/nfs.md courses/nfs/nfs.html "nfs文件系统"
-        1 1 courses/nfs/nfs-introduction.md courses/nfs/nfs-introduction.html "nfs简介"
-        1 1 courses/nfs/nfs-environment.md courses/nfs/nfs-environment.html "nfs环境"
-        1 1 courses/nfs/nfs-client-struct.md courses/nfs/nfs-client-struct.html "nfs client数据结构"
-        1 1 courses/nfs/pnfs.md courses/nfs/pnfs.html "Parallel NFS (pNFS)"
-        1 1 courses/nfs/nfsd.md courses/nfs/nfsd.html "nfs server (nfsd)"
-        1 1 courses/nfs/nfs-procedures.md courses/nfs/nfs-procedures.html "nfs Procedures和Operations"
-        1 1 courses/nfs/nfs-filehandle.md courses/nfs/nfs-filehandle.html "nfs文件句柄"
-    0 1 courses/smb/smb.md courses/smb/smb.html "smb文件系统"
-        1 1 courses/smb/smb-introduction.md courses/smb/smb-introduction.html "smb简介"
-        1 1 courses/smb/smb-environment.md courses/smb/smb-environment.html "smb环境"
-        1 1 courses/smb/ksmbd.md courses/smb/ksmbd.html "KSMBD - SMB3 Kernel Server"
-        1 1 courses/smb/smb-client-struct.md courses/smb/smb-client-struct.html "smb client数据结构"
-    1 1 courses/book-contents.md courses/book-contents.html "书籍目录"
+    0 1 courses/nfs/nfs.md ~ "nfs文件系统"
+        1 1 courses/nfs/nfs-introduction.md ~ "nfs简介"
+        1 1 courses/nfs/nfs-environment.md ~ "nfs环境"
+        1 1 courses/nfs/nfs-client-struct.md ~ "nfs client数据结构"
+        1 1 courses/nfs/pnfs.md ~ "Parallel NFS (pNFS)"
+        1 1 courses/nfs/nfsd.md ~ "nfs server (nfsd)"
+        1 1 courses/nfs/nfs-procedures.md ~ "nfs Procedures和Operations"
+        1 1 courses/nfs/nfs-filehandle.md ~ "nfs文件句柄"
+    0 1 courses/smb/smb.md ~ "smb文件系统"
+        1 1 courses/smb/smb-introduction.md ~ "smb简介"
+        1 1 courses/smb/smb-environment.md ~ "smb环境"
+        1 1 courses/smb/ksmbd.md ~ "KSMBD - SMB3 Kernel Server"
+        1 1 courses/smb/smb-client-struct.md ~ "smb client数据结构"
+    1 1 courses/book-contents.md ~ "书籍目录"
     # Linux内核
     1 1 src/kernel-environment/kernel-qemu-kvm.md kernel/kernel-qemu-kvm.html "QEMU/KVM环境搭建与使用"
     1 1 src/strace-fault-inject/strace-fault-inject.md kernel/strace-fault-inject.html "strace内存分配失败故障注入"
