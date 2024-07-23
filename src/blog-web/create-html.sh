@@ -81,11 +81,11 @@ array=(
     1 1 src/ext/symlink-file-size-not-match.md ~ "symlink file size 错误的问题"
     1 1 src/ext/uaf-in-ext4_search_dir.md ~ "ext4_search_dir空指针解引用问题"
     # 文件系统
-    1 1 src/filesystem/configfs-race.md fs/configfs-race.html "configfs加载或卸载模块时的并发问题"
-    1 1 src/filesystem/microsoft-fs.md fs/microsoft-fs.html "微软文件系统"
-    1 1 src/btrfs/4.19-btrfs-forced-readonly.md fs/4.19-btrfs-forced-readonly.html "4.19 btrfs文件系统变成只读的问题"
-    1 1 src/filesystem/minix-fs.md fs/minix-fs.html "minix文件系统"
-    1 1 src/filesystem/tmpfs-oom.md fs/tmpfs-oom.html "tmpfs不断写导致oom的问题"
+    1 1 src/filesystem/configfs-race.md ~ "configfs加载或卸载模块时的并发问题"
+    1 1 src/filesystem/microsoft-fs.md ~ "微软文件系统"
+    1 1 src/btrfs/4.19-btrfs-forced-readonly.md ~ "4.19 btrfs文件系统变成只读的问题"
+    1 1 src/filesystem/minix-fs.md ~ "minix文件系统"
+    1 1 src/filesystem/tmpfs-oom.md ~ "tmpfs不断写导致oom的问题"
     # Linux环境
     1 1 src/userspace-environment/vnc.md linux/vnc.html "VNC远程桌面"
     1 1 src/blog-web/blog-web.md linux/blog-web.html "如何拥有个人域名的网站和邮箱"

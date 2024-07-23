@@ -92,15 +92,15 @@
 
 # 文件系统
 
-[configfs加载或卸载模块时的并发问题](https://chenxiaosong.com/fs/configfs-race.html)
+[configfs加载或卸载模块时的并发问题](https://chenxiaosong.com/src/filesystem/configfs-race.html)
 
-[微软文件系统](https://chenxiaosong.com/fs/microsoft-fs.html)
+[微软文件系统](https://chenxiaosong.com/src/filesystem/microsoft-fs.html)
 
-[4.19 btrfs文件系统变成只读的问题](https://chenxiaosong.com/fs/4.19-btrfs-forced-readonly.html)
+[4.19 btrfs文件系统变成只读的问题](https://chenxiaosong.com/src/btrfs/4.19-btrfs-forced-readonly.html)
 
-[minix文件系统](https://chenxiaosong.com/fs/minix-fs.html)
+[minix文件系统](https://chenxiaosong.com/src/filesystem/minix-fs.html)
 
-[tmpfs不断写导致oom的问题](https://chenxiaosong.com/fs/tmpfs-oom.html)
+[tmpfs不断写导致oom的问题](https://chenxiaosong.com/src/filesystem/tmpfs-oom.html)
 
 # Linux环境
 

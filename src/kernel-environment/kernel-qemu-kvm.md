@@ -106,7 +106,7 @@ qemu启动参数需要做一些小修改 `-append "... root=/dev/vda2 ..."`。
 
 默认的登录账号是`root`，密码是 `openEuler12#$`，具体参考[系统安装](https://docs.openeuler.org/zh/docs/22.03_LTS_SP3/docs/Releasenotes/%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85.html)。
 
-注意需要打开`vfat`文件系统相关配置，具体查看[《微软文件系统》](https://chenxiaosong.com/fs/microsoft-fs.html)中`vfat`相关的一节。否则会进入emergency mode，如果你实在不想打开`vfat`文件系统相关配置，可以编辑`/etc/fstab`文件删除`/boot`相关的一行，重启系统就可以正常启动了，但不建议哈。
+注意需要打开`vfat`文件系统相关配置，具体查看[《微软文件系统》](https://chenxiaosong.com/src/filesystem/microsoft-fs.html)中`vfat`相关的一节。否则会进入emergency mode，如果你实在不想打开`vfat`文件系统相关配置，可以编辑`/etc/fstab`文件删除`/boot`相关的一行，重启系统就可以正常启动了，但不建议哈。
 
 # virt-manager
 
