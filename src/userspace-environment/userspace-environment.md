@@ -205,7 +205,7 @@ chromium-browser --proxy-server="https=127.0.0.1:1080;http=127.0.0.1:1080;ftp=12
 填写[产品试用申请](https://www.kylinos.cn/support/trial.html)，以下是各个版本的下载地址：
 
 - [Kylin-Server-V10-SP3-General-Release-2303-X86_64.iso](https://distro-images.kylinos.cn:8802/web_pungi/download/share/vYTMm38Pkaq0KRGzg9pBsWf2c16FUwJL/)
-- [Kylin-Server-V10-SP3-General-Release-2303-ARM64.iso](https://distro-images.kylinos.cn:8802/web_pungi/download/share/yYdlHoRzAre1mFPK9s3NviID4Lg5w6MW/)
+- [Kylin-Server-V10-SP3-2403-Release-20240426-arm64.iso](https://iso.kylinos.cn/web_pungi/download/cdn/ni3tIfZoEKLDglszRXvh9WymuwOT5r6M/)，[Kylin-Server-V10-SP3-General-Release-2303-ARM64.iso](https://distro-images.kylinos.cn:8802/web_pungi/download/share/yYdlHoRzAre1mFPK9s3NviID4Lg5w6MW/)
 - [Kylin-Desktop-V10-SP1-General-Release-2303-X86_64.iso](https://distro-images.kylinos.cn:8802/web_pungi/download/share/b4vmX7qEk90dyBrFfS5ANpGngaW2hZUK/)
 - [Kylin-Desktop-V10-SP1-HWE-Release-2303-X86_64.iso](https://distro-images.kylinos.cn:8802/web_pungi/download/share/hXaJrnQWscuN2YtS7VAZizRP0EFbH4y3/)
 - [Kylin-Desktop-V10-SP1-General-Release-2303-ARM64.iso](https://distro-images.kylinos.cn:8802/web_pungi/download/share/M8UbGlg2WyeHnANzv0srJOEjC9R7ZXDx/)
