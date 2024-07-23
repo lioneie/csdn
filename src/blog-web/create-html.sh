@@ -69,17 +69,17 @@ array=(
     1 1 src/nfs/4.19-ltp-nfs-fail.md ~ "4.19 ltp nfs测试失败问题"
     1 1 src/nfs/nfs-no-net-oom.md ~ "nfs断网导致oom的问题"
     # smb(cifs)
-    1 1 src/smb/4.19-null-ptr-deref-in-cifs_reconnect.md smb/4.19-null-ptr-deref-in-cifs_reconnect.html "4.19 cifs_reconnect空指针解引用问题"
-    1 1 src/smb/cifs-newfstatat-ENOTSUPP.md smb/cifs-newfstatat-ENOTSUPP.html "cifs newfstatat报错ENOTSUPP"
+    1 1 src/smb/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect空指针解引用问题"
+    1 1 src/smb/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat报错ENOTSUPP"
     # xfs
-    1 1 src/xfs/xfs-null-ptr-deref-in-xfs_getbmap.md xfs/xfs-null-ptr-deref-in-xfs_getbmap.html "xfs_getbmap发生空指针解引用问题"
-    1 1 src/xfs/xfs-shutdown-fs.md xfs/xfs-shutdown-fs.html "xfs agf没落盘的问题"
+    1 1 src/xfs/xfs-null-ptr-deref-in-xfs_getbmap.md ~ "xfs_getbmap发生空指针解引用问题"
+    1 1 src/xfs/xfs-shutdown-fs.md ~ "xfs agf没落盘的问题"
     # ext
-    1 1 src/ext/null-ptr-deref-in-jbd2_journal_commit_transaction.md ext/null-ptr-deref-in-jbd2_journal_commit_transaction.html "jbd2_journal_commit_transaction空指针解引用问题"
-    1 1 src/ext/bugon-in-ext4_writepages.md ext/bugon-in-ext4_writepages.html "ext4_writepages报BUG_ON的问题"
-    1 1 src/ext/bugon-in-start_this_handle.md ext/bugon-in-start_this_handle.html "start_this_handle报BUG_ON的问题"
-    1 1 src/ext/symlink-file-size-not-match.md ext/symlink-file-size-not-match.html "symlink file size 错误的问题"
-    1 1 src/ext/uaf-in-ext4_search_dir.md ext/uaf-in-ext4_search_dir.html "ext4_search_dir空指针解引用问题"
+    1 1 src/ext/null-ptr-deref-in-jbd2_journal_commit_transaction.md ~ "jbd2_journal_commit_transaction空指针解引用问题"
+    1 1 src/ext/bugon-in-ext4_writepages.md ~ "ext4_writepages报BUG_ON的问题"
+    1 1 src/ext/bugon-in-start_this_handle.md ~ "start_this_handle报BUG_ON的问题"
+    1 1 src/ext/symlink-file-size-not-match.md ~ "symlink file size 错误的问题"
+    1 1 src/ext/uaf-in-ext4_search_dir.md ~ "ext4_search_dir空指针解引用问题"
     # 文件系统
     1 1 src/filesystem/configfs-race.md fs/configfs-race.html "configfs加载或卸载模块时的并发问题"
     1 1 src/filesystem/microsoft-fs.md fs/microsoft-fs.html "微软文件系统"

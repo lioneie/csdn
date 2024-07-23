@@ -68,27 +68,27 @@
 
 # SMB(CIFS)文件系统
 
-[4.19 cifs_reconnect空指针解引用问题](https://chenxiaosong.com/smb/4.19-null-ptr-deref-in-cifs_reconnect.html)
+[4.19 cifs_reconnect空指针解引用问题](https://chenxiaosong.com/src/smb/4.19-null-ptr-deref-in-cifs_reconnect.html)
 
-[cifs newfstatat报错ENOTSUPP](https://chenxiaosong.com/smb/cifs-newfstatat-ENOTSUPP.html)
+[cifs newfstatat报错ENOTSUPP](https://chenxiaosong.com/src/smb/cifs-newfstatat-ENOTSUPP.html)
 
 # XFS文件系统
 
-[xfs_getbmap发生空指针解引用问题](https://chenxiaosong.com/xfs/xfs-null-ptr-deref-in-xfs_getbmap.html)
+[xfs_getbmap发生空指针解引用问题](https://chenxiaosong.com/src/xfs/xfs-null-ptr-deref-in-xfs_getbmap.html)
 
-[xfs agf没落盘的问题](https://chenxiaosong.com/xfs/xfs-shutdown-fs.html)
+[xfs agf没落盘的问题](https://chenxiaosong.com/src/xfs/xfs-shutdown-fs.html)
 
 # EXT文件系统
 
-[jbd2_journal_commit_transaction空指针解引用问题](https://chenxiaosong.com/ext/null-ptr-deref-in-jbd2_journal_commit_transaction.html)
+[jbd2_journal_commit_transaction空指针解引用问题](https://chenxiaosong.com/src/ext/null-ptr-deref-in-jbd2_journal_commit_transaction.html)
 
-[ext4_writepages报BUG_ON的问题](https://chenxiaosong.com/ext/bugon-in-ext4_writepages.html)
+[ext4_writepages报BUG_ON的问题](https://chenxiaosong.com/src/ext/bugon-in-ext4_writepages.html)
 
-[start_this_handle报BUG_ON的问题](https://chenxiaosong.com/ext/bugon-in-start_this_handle.html)
+[start_this_handle报BUG_ON的问题](https://chenxiaosong.com/src/ext/bugon-in-start_this_handle.html)
 
-[symlink file size 错误的问题](https://chenxiaosong.com/ext/symlink-file-size-not-match.html)
+[symlink file size 错误的问题](https://chenxiaosong.com/src/ext/symlink-file-size-not-match.html)
 
-[ext4_search_dir空指针解引用问题](https://chenxiaosong.com/ext/uaf-in-ext4_search_dir.html)
+[ext4_search_dir空指针解引用问题](https://chenxiaosong.com/src/ext/uaf-in-ext4_search_dir.html)
 
 # 文件系统
 
