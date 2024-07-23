@@ -6,7 +6,7 @@ sysmonitor工具通过内核的inotify特性实现文件的监控功能。inotif
 
 当前（2023年12月13日）仅在[openEuler内核openEuler-22.03-LTS-SP2分支](https://gitee.com/openeuler/kernel/tree/openEuler-22.03-LTS-SP2/)发布。
 
-下载openeuler的qcow2镜像（可参考[《QEMU/KVM环境搭建与使用》](https://chenxiaosong.com/kernel/kernel-qemu-kvm.html)中openeuler相关的章节），安装并启动sysmonitor：
+下载openeuler的qcow2镜像（可参考[《QEMU/KVM环境搭建与使用》](https://chenxiaosong.com/src/kernel-environment/kernel-qemu-kvm.html)中openeuler相关的章节），安装并启动sysmonitor：
 ```sh
 dnf install sysmonitor -y
 systemctl restart sysmonitor

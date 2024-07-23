@@ -22,19 +22,19 @@
 
 # Linux内核
 
-[QEMU/KVM环境搭建与使用](https://chenxiaosong.com/kernel/kernel-qemu-kvm.html)
+[QEMU/KVM环境搭建与使用](https://chenxiaosong.com/src/kernel-environment/kernel-qemu-kvm.html)
 
-[strace内存分配失败故障注入](https://chenxiaosong.com/kernel/strace-fault-inject.html)
+[strace内存分配失败故障注入](https://chenxiaosong.com/src/strace-fault-inject/strace-fault-inject.html)
 
-[openEuler的sysmonitor](https://chenxiaosong.com/kernel/openeuler-sysmonitor.html)
+[openEuler的sysmonitor](https://chenxiaosong.com/src/kernel/openeuler-sysmonitor.html)
 
-[使用kprobe监控scsi的读写数据](https://chenxiaosong.com/kernel/kprobe-scsi-data.html)
+[使用kprobe监控scsi的读写数据](https://chenxiaosong.com/src/kernel/kprobe-scsi-data.html)
 
-[Linux进程调度](https://chenxiaosong.com/kernel/process.html)
+[Linux进程调度](https://chenxiaosong.com/src/process/process.html)
 
-[gio执行慢的临时解决办法](https://chenxiaosong.com/kernel/gio-to-mount.html)
+[gio执行慢的临时解决办法](https://chenxiaosong.com/src/kernel/gio-to-mount.html)
 
-[syzkaller - 内核模糊测试工具](https://chenxiaosong.com/kernel/syzkaller.html)
+[syzkaller - 内核模糊测试工具](https://chenxiaosong.com/src/kernel/syzkaller.html)
 
 # NFS（网络文件系统）
 
