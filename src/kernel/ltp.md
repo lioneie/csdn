@@ -6,11 +6,11 @@ apt search linux-headers | less # 搜索对应的软件包名
 apt install -y linux-headers-amd64 linux-headers-5.10.0-28-common
 ```
 
-编译安装参考[README中文翻译](https://chenxiaosong.com/translations/ltp-readme.html)，默认安装在`/opt/ltp`中。
+编译安装参考[README中文翻译](https://chenxiaosong.com/src/translations/tests/ltp-readme.html)，默认安装在`/opt/ltp`中。
 
 # LTP Network Tests
 
-[LTP Network Tests README中文翻译](https://chenxiaosong.com/translations/ltp-network-tests-readme.html)。
+[LTP Network Tests README中文翻译](https://chenxiaosong.com/src/translations/tests/ltp-network-tests-readme.html)。
 
 打开配置`CONFIG_VETH=m`、`CONFIG_NFS_FS=m`。
 

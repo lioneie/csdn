@@ -1,2 +1,2 @@
-[(x)fstests README中文翻译](http://10.42.20.221/translations/xfstests-readme.html)。
+[(x)fstests README中文翻译](https://chenxiaosong.com/src/translations/tests/xfstests-readme.html)。
 

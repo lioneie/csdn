@@ -807,7 +807,7 @@ crash> dis -l ext2_readdir
 参考:
 
 <!-- public begin -->
-- [systemtap README翻译](https://chenxiaosong.com/translations/systemtap-readme.html)
+- [systemtap README翻译](https://chenxiaosong.com/src/translations/systemtap/systemtap-readme.html)
 <!-- public end -->
 - [Systemtap tutorial](https://sourceware.org/systemtap/)
 - [systemtap源码](https://sourceware.org/git/?p=systemtap.git;a=tree)

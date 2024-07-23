@@ -134,14 +134,14 @@ array=(
         1 1 src/translations/wine/box64-docs-X64WINE.md ~ "box64 Installing Wine64"
         1 1 src/translations/wine/box86-docs-X86WINE.md ~ "box86 Installing Wine (and winetricks)"
         # tests
-        1 1 src/translations/tests/ltp-readme.md translations/ltp-readme.html "Linux Test Project README"
-        1 1 src/translations/tests/ltp-network-tests-readme.md translations/ltp-network-tests-readme.html "LTP Network Tests README"
-        1 1 src/translations/tests/xfstests-readme.md translations/xfstests-readme.html "(x)fstests README"
-        1 1 src/translations/tests/syzkaller.md translations/syzkaller.html "syzkaller - kernel fuzzer"
+        1 1 src/translations/tests/ltp-readme.md ~ "Linux Test Project README"
+        1 1 src/translations/tests/ltp-network-tests-readme.md ~ "LTP Network Tests README"
+        1 1 src/translations/tests/xfstests-readme.md ~ "(x)fstests README"
+        1 1 src/translations/tests/syzkaller.md ~ "syzkaller - kernel fuzzer"
         # qemu
-        1 1 src/translations/qemu/qemu-networking-nat.md translations/qemu-networking-nat.html "QEMU Documentation/Networking/NAT"
+        1 1 src/translations/qemu/qemu-networking-nat.md ~ "QEMU Documentation/Networking/NAT"
         # systemtap
-        1 1 src/translations/systemtap/systemtap-readme.md translations/systemtap-readme.html "systemtap README"
+        1 1 src/translations/systemtap/systemtap-readme.md ~ "systemtap README"
     # private
     1 1 src/private/v2ray/v2ray.md private/v2ray.html "v2ray代理服务器"
     1 1 src/private/chatgpt/chatgpt.md private/chatgpt.html "注册ChatGPT"

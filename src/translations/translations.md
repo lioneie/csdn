@@ -50,18 +50,18 @@
 
 # tests
 
-[Linux Test Project README](https://chenxiaosong.com/translations/ltp-readme.html)
+[Linux Test Project README](https://chenxiaosong.com/src/translations/tests/ltp-readme.html)
 
-[LTP Network Tests README](https://chenxiaosong.com/translations/ltp-network-tests-readme.html)
+[LTP Network Tests README](https://chenxiaosong.com/src/translations/tests/ltp-network-tests-readme.html)
 
-[(x)fstests README](https://chenxiaosong.com/translations/xfstests-readme.html)
+[(x)fstests README](https://chenxiaosong.com/src/translations/tests/xfstests-readme.html)
 
-[syzkaller - kernel fuzzer](https://chenxiaosong.com/translations/syzkaller.html)
+[syzkaller - kernel fuzzer](https://chenxiaosong.com/src/translations/tests/syzkaller.html)
 
 # qemu
 
-[QEMU Documentation/Networking/NAT](https://chenxiaosong.com/translations/qemu-networking-nat.html)
+[QEMU Documentation/Networking/NAT](https://chenxiaosong.com/src/translations/qemu/qemu-networking-nat.html)
 
 # systemtap
 
-[systemtap README](https://chenxiaosong.com/translations/systemtap-readme.html)
+[systemtap README](https://chenxiaosong.com/src/translations/systemtap/systemtap-readme.html)

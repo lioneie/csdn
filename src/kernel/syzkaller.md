@@ -27,7 +27,7 @@ CONFIG_BINFMT_MISC=y
 参考：
 
 - [syzkaller源码](https://github.com/google/syzkaller)
-- [syzkaller文档翻译](https://chenxiaosong.com/translations/syzkaller.html)
+- [syzkaller文档翻译](https://chenxiaosong.com/src/translations/tests/syzkaller.html)
 
 # 软件环境
 
