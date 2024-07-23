@@ -108,7 +108,7 @@
 
 [如何拥有个人域名的网站和邮箱](https://chenxiaosong.com/linux/blog-web.html)
 
-[Linux环境安装与配置](https://chenxiaosong.com/linux/userspace-environment.html)
+[Linux环境安装与配置](https://chenxiaosong.com/linux/install-linux.html)
 
 [Linux配置文件](https://chenxiaosong.com/linux/linux-config.html)
 

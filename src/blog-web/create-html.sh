@@ -92,7 +92,7 @@ array=(
     # Linux环境
     1 1 src/userspace-environment/vnc.md linux/vnc.html "VNC远程桌面"
     1 1 src/blog-web/blog-web.md linux/blog-web.html "如何拥有个人域名的网站和邮箱"
-    1 1 src/userspace-environment/userspace-environment.md linux/userspace-environment.html "Linux环境安装与配置"
+    1 1 src/userspace-environment/install-linux.md linux/install-linux.html "Linux环境安装与配置"
     1 1 src/linux-config/linux-config.md linux/linux-config.html "Linux配置文件"
     1 1 src/ssh-reverse/ssh-reverse.md linux/ssh-reverse.html "反向ssh和内网穿透"
     1 1 src/userspace-environment/docker.md linux/docker.html "Docker安装与使用"
