@@ -6,7 +6,7 @@
 
 邮箱： chenxiaosong@chenxiaosong.com，欢迎交流。
 
-爱好：自行车骑行，Linux操作系统。顺便提一句，[只用键盘](https://chenxiaosong.com/pictures/self-introduction/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/others/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
+爱好：自行车骑行，Linux操作系统。顺便提一句，[只用键盘](https://chenxiaosong.com/pictures/self-introduction/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/src/wubi/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
 
 自由软件的狂热者，能力一般的极客。现在麒麟软件从事**Linux内核**开发，工作内容全世界都看得到，[贡献过多个自由开源软件项目](https://chenxiaosong.com/contributions.html)。
 

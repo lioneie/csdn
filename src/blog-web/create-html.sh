@@ -100,12 +100,12 @@ array=(
     1 1 src/windows/wine.md ~ "Linux使用wine运行Windows软件"
     1 1 src/openharmony/openharmony.md ~ "OpenHarmony编译运行调试环境"
     # 其他
-    1 1 src/windows/windows.md others/windows.html "Windows系统"
-    1 1 src/wubi/wubi.md others/wubi.html "五笔输入法"
-    1 1 src/keybord/keybord.md others/keyboard.html "键盘配置"
-    1 1 src/free-software/free-software.md others/free-software.html "自由软件介绍"
-    1 1 src/lorawan/stm32-linux.md others/stm32-linux.html "STM32 Linux开发环境"
-    1 1 src/health/tooth-clean.md others/tooth-clean.html "牙齿护理"
+    1 1 src/windows/windows.md ~ "Windows系统"
+    1 1 src/wubi/wubi.md ~ "五笔输入法"
+    1 1 src/keybord/keybord.md ~ "键盘配置"
+    1 1 src/free-software/free-software.md ~ "自由软件介绍"
+    1 1 src/lorawan/stm32-linux.md ~ "STM32 Linux开发环境"
+    1 1 src/health/tooth-clean.md ~ "牙齿护理"
     # 翻译
     1 1 src/translations/translations.md translations/translations.html "翻译"
         # nfs

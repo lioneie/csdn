@@ -130,17 +130,17 @@
 
 # 还没有分类
 
-[Windows系统](https://chenxiaosong.com/others/windows.html)
+[Windows系统](https://chenxiaosong.com/src/windows/windows.html)
 
-[键盘配置](https://chenxiaosong.com/others/keyboard.html)
+[键盘配置](https://chenxiaosong.com/src/keybord/keybord.html)
 
-[五笔输入法](https://chenxiaosong.com/others/wubi.html)
+[五笔输入法](https://chenxiaosong.com/src/wubi/wubi.html)
 
-[自由软件介绍](https://chenxiaosong.com/others/free-software.html)
+[自由软件介绍](https://chenxiaosong.com/src/free-software/free-software.html)
 
-[STM32 Linux开发环境](https://chenxiaosong.com/others/stm32-linux.html)
+[STM32 Linux开发环境](https://chenxiaosong.com/src/lorawan/stm32-linux.html)
 
-[牙齿护理](https://chenxiaosong.com/others/tooth-clean.html)
+[牙齿护理](https://chenxiaosong.com/src/health/tooth-clean.html)
 
 # 翻译
 
