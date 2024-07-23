@@ -216,7 +216,7 @@ chromium-browser --proxy-server="https=127.0.0.1:1080;http=127.0.0.1:1080;ftp=12
 
 注意桌面麒麟系统在arm芯片的macos上无法用vmware fusion安装，可以用[UTM](https://github.com/utmapp/UTM)安装。
 
-基于openeuler的服务器麒麟系统用`qemu`命令行启动时，编辑网络用命令`nmtui`，网络接口名改成和`ifconfig`中一样的名，再`启用连接 -> 激活`。arm64版本无法用[VMware以及UTM等虚拟机安装](https://gitee.com/src-openeuler/kernel/issues/I7LDS2)，可以尝试用[EulerLauncher](https://gitee.com/openeuler/eulerlauncher/blob/master/docs/mac-user-manual.md)安装。
+基于openeuler的服务器麒麟系统用`qemu`命令行启动时，编辑网络用命令`nmtui`，网络接口名改成和`ifconfig`中一样的名，再`启用连接 -> 激活`。arm64版本无法用[VMware以及UTM等虚拟机安装](https://gitee.com/src-openeuler/kernel/issues/I7LDS2)，可以尝试用[EulerLauncher](https://gitee.com/openeuler/eulerlauncher/tree/master/docs)安装（还可以参考[openeuler文档中的EulerLauncher](https://gitee.com/openeuler/docs/tree/master/docs/zh/docs/EulerLauncher)）。
 
 <!-- 使用qcow2格式镜像就没有以下问题：安装虚拟机时cpu、内存、硬盘不要分配太大，比如我用的是M2的Macbook Air（8G内存，8核，256G硬盘），只需分配2G内存（已验证分配4G无法安装），磁盘64G（默认分区方式要求硬盘必须大于50G）。安装完成后再次启动前可以把配置改大，但8G内存的电脑分配的内存不要超过2G，否则容易卡死（比如当启动其他虚拟机时）。安装时最好使用自定义分区，`efi`分区`512M`（注意要在下拉选项中选择），swap分区可以分配稍大一些，剩下全给`/`，备份分区在虚拟机中就不分配了。注意要修改成不休眠，默认10分钟锁屏幕，15分钟进入休眠，utm虚拟机就无法唤醒了。-->
 
