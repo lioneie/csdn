@@ -4,7 +4,11 @@
 
 [`e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt`](https://chenxiaosong.com/courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html)
 
-[2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()`](https://chenxiaosong.com/courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.html)
+[`12357f1b2c8e nfsd: minor 4.1 callback cleanup`](https://chenxiaosong.com/courses/kernel/patches/nfsd-minor-4.1-callback-cleanup.html)
+
+[`2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()`](https://chenxiaosong.com/courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.html)
+
+[`22876f540bdf NFS: Don't call generic_error_remove_page() while holding locks`]https://chenxiaosong.com/courses/kernel/patches/NFS-Don-t-call-generic_error_remove_page-while-holdi.html)
 
 # SMB(CIFS)文件系统
 

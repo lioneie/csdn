@@ -35,6 +35,8 @@ array=(
                 "12357f1b2c8e nfsd: minor 4.1 callback cleanup"
             1 1 courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md ~
                 "2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()"
+            1 1 courses/kernel/patches/NFS-Don-t-call-generic_error_remove_page-while-holdi.md ~
+                "22876f540bdf NFS: Don't call generic_error_remove_page() while holding locks"
             # smb
             1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
