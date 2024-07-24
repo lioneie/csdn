@@ -10,6 +10,8 @@
 
 [`22876f540bdf NFS: Don't call generic_error_remove_page() while holding locks`]https://chenxiaosong.com/courses/kernel/patches/NFS-Don-t-call-generic_error_remove_page-while-holdi.html)
 
+[`e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held`](https://chenxiaosong.com/courses/kernel/patches/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.html)
+
 # SMB(CIFS)文件系统
 
 [`7de0394801da cifs: Fix in error types returned for out-of-credit situations.`](https://chenxiaosong.com/courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)
