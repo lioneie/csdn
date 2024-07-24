@@ -1,6 +1,3 @@
-
-邮件列表类似问题的讨论：[nfsd: radix tree warning in nfs4_put_stid and kernel panic](https://lore.kernel.org/all/76C32636621C40EC87811F625761F2AF@alyakaslap/)
-
 [`2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()`](https://lore.kernel.org/all/20191023214318.9350-1-trond.myklebust@hammerspace.com/) 邮件：
 
 - Trond Myklebust: 当我们销毁客户端租约并调用 `nfsd4_shutdown_callback()` 时，我们必须确保在所有未完成的回调终止并释放它们的有效负载之前不返回。
@@ -14,6 +11,10 @@
 - J. Bruce Fields: [哎呀，这次记得附上补丁了。--b.](https://lore.kernel.org/all/20191108175228.GB758@fieldses.org/)
 - J. Bruce Fields: [回调代码依赖于其中很多部分只能从有序工作队列 callback_wq 中调用，这值得记录。](https://lore.kernel.org/all/20191108175417.GC758@fieldses.org/)
 - J. Bruce Fields: [意外的错误可能表明回调路径存在问题。](https://lore.kernel.org/all/20191108175559.GD758@fieldses.org/)
+
+邮件列表类似问题的讨论：[nfsd: radix tree warning in nfs4_put_stid and kernel panic](https://lore.kernel.org/all/76C32636621C40EC87811F625761F2AF@alyakaslap/)
+
+4.19等低版本合入此补丁可能还要合入前置补丁[`12357f1b2c8e nfsd: minor 4.1 callback cleanup`](https://chenxiaosong.com/courses/kernel/patches/nfsd-minor-4.1-callback-cleanup.html)。
 
 ```c
 // 重启服务 systemctl restart nfs-server

@@ -6,7 +6,12 @@ tmp_courses_path=/tmp/blog
 
 . ${src_path}/blog/src/blog-web/common-lib.sh
 
-# 每一行代表： 是否生成目录 是否添加签名 markdown或rst文件相对路径 html文件相对路径 网页标题
+# 每一行代表：
+#    是否生成目录
+#    是否添加签名
+#    源文件，markdown或rst文件相对路径
+#    目的文件，html文件相对路径，如果是~，就代表只和源文件的后缀名不同
+#    网页标题
 array=(
     # 自我介绍
     0 0 src/blog-web/index.md index.html '陈孝松个人主页'
@@ -26,6 +31,8 @@ array=(
             # nfs
             1 1 courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
                 "e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
+            1 1 courses/kernel/patches/nfsd-minor-4.1-callback-cleanup.md ~
+                "12357f1b2c8e nfsd: minor 4.1 callback cleanup"
             1 1 courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md ~
                 "2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()"
             # smb
