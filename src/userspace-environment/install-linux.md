@@ -226,3 +226,11 @@ chromium-browser --proxy-server="https=127.0.0.1:1080;http=127.0.0.1:1080;ftp=12
 
 [ArcoLinux](https://arcolinux.com/)是[Arch Linux](https://archlinux.org/)的衍生发行版。
 
+# virt-manager安装aarch64架构系统
+
+- 首先`ssh-copy-id root@${ip}`确保可以免密码登录`root`用户（可以试试非root用户）。
+- 启动virt-manager后，`添加连接 -> 勾选 通过ssh连接到远程主机 -> 用户名: root -> 主机名: ${ip}:22｀。
+- `创建虚拟机 -> 架构选项 -> 架构: aarch64 -> 机器类型: virt -> 在完成前打勾 在安装前自定义配置`。
+- 跳出配置界面，`概况 固件: UEFI aarch64 -> cpu数 型号: cortex-a72 -> 添加硬件 图形 类型: VNC服务器 地址: 所有接口 -> 添加硬件 输入 USB鼠标 USB键盘`。
+
+注意要把virt-manager窗口关闭才能用vnc客户端登录，有些系统鼠标定位有一点小问题。
