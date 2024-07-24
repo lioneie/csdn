@@ -120,7 +120,8 @@ array=(
         1 1 src/translations/nfs/rfc7862-nfsv4.2.md ~ "Network File System (NFS) Version 4 Minor Version 2 Protocol"
         1 1 src/translations/nfs/kernel-doc-client-identifier.rst ~ "NFSv4 client identifier"
         1 1 src/translations/nfs/cthon-nfs-tests-readme.md ~ "Connectathon NFS tests README"
-        1 1 src/translations/nfs/bugzilla-redhat-bug-2176575.md ~ "Red Hat Bugzilla - Bug 2176575 - intermittent severe NFS client performance drop via nfs_server_reap_expired_delegations looping?"
+        1 1 src/translations/nfs/bugzilla-redhat-bug-2176575.md ~
+            "Red Hat Bugzilla - Bug 2176575 - intermittent severe NFS client performance drop via nfs_server_reap_expired_delegations looping?"
         1 1 src/translations/nfs/pnfs.com.md ~ "pnfs.com"
         1 1 src/translations/nfs/kernel-doc-pnfs.md ~ "kernel doc: Reference counting in pnfs"
         1 1 src/translations/nfs/pnfs-development.md ~ "linux-nfs.org PNFS Development"
