@@ -128,6 +128,8 @@
 
 [OpenHarmony编译运行调试环境](https://chenxiaosong.com/src/openharmony/openharmony.html)
 
+[macOS下用EulerLauncher运行openEuler](https://chenxiaosong.com/src/userspace-environment/eulerlauncher.html)
+
 # 还没有分类
 
 [Windows系统](https://chenxiaosong.com/src/windows/windows.html)

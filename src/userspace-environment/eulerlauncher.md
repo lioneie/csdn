@@ -1,5 +1,6 @@
 - [openEuler/docs/zh/docs/EulerLauncher](https://gitee.com/openeuler/docs/tree/master/docs/zh/docs/EulerLauncher)
 - [eulerlauncher/docs](https://gitee.com/openeuler/eulerlauncher/tree/master/docs)
+- [我提交的一个pr](https://gitee.com/openeuler/docs/pulls/13993)
 
 这个eulerlauncher的代码质量看着不高，因为随便在线浏览一下就看到像[`111`](https://gitee.com/openeuler/eulerlauncher/commit/981e58d3f229bd873e0b35d4fbd948119d82031d)和[`1`](https://gitee.com/openeuler/eulerlauncher/commit/2cca964649f002be03aa7d1bcfe1c3b3211ca7f2)这种提交记录。
 
@@ -35,8 +36,10 @@ memory = 2048 # 配置虚拟机的内存大小，单位为M，M1用户请勿配�
 ```sh
 eulerlauncher images # 获取可用镜像列表
 eulerlauncher download-image 22.03-LTS # 异步下载镜像
+eulerlauncher load-image --path {image_file_path} IMAGE_NAME # 加载本地镜像
 eulerlauncher images # 查看到Ready才可启动
 eulerlauncher launch --image 22.03-LTS 22.03-LTS-instance1 # 创建虚拟机
 eulerlauncher list # 获取虚拟机列表
 ssh root@{instance_ip} # 默认用户为 root 默认密码为 openEuler12#$
+eulerlauncher delete-instance 22.03-LTS-instance1 # 删除虚拟机
 ```

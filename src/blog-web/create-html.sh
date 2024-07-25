@@ -113,6 +113,7 @@ array=(
     1 1 src/editor/editor.md ~ "编辑器"
     1 1 src/windows/wine.md ~ "Linux使用wine运行Windows软件"
     1 1 src/openharmony/openharmony.md ~ "OpenHarmony编译运行调试环境"
+    1 1 src/userspace-environment/eulerlauncher.md ~ "macOS下用EulerLauncher运行openEuler"
     # 其他
     1 1 src/windows/windows.md ~ "Windows系统"
     1 1 src/wubi/wubi.md ~ "五笔输入法"
