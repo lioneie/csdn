@@ -181,7 +181,12 @@ static __always_inline void SetPage##uname(struct page *page)
         { set_bit(PG_##lname, &policy(page, 1)->flags); }        
 ```
 
-页的拥有者可能是用户空间进程、动态分配的内核数据、静态内核代、页调整缓存等。
+页的拥有者可能是用户空间进程、动态分配的内核数据、静态内核代、页高速缓存等。
 
 页的大小可以用`getconf -a | grep PAGESIZE`命令查看。`x86`默认打开配置`CONFIG_HAVE_PAGE_SIZE_4KB`和`CONFIG_PAGE_SIZE_4KB`。
 
+# 区
+
+内核使用区（zone）对相似特性的页进行分组，有四种区：
+
+- 
