@@ -28,6 +28,9 @@ array=(
         1 1 ${tmp_courses_path}/courses/kernel/kernel-fs.md courses/kernel/kernel-fs.html "文件系统"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-debug.md courses/kernel/kernel-debug.html "内核调试方法"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-patches.md courses/kernel/kernel-patches.html "内核补丁分析"
+            # vfs
+            1 1 courses/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.md ~
+                "4595a298d556 iomap: Set all uptodate bits for an Uptodate page"
             # nfs
             1 1 courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
                 "e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"

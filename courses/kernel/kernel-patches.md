@@ -1,5 +1,9 @@
 本文章列出一些内核补丁的分析，有些是我写的，有些是我定位问题时遇到的。
 
+# VFS（虚拟文件系统）
+
+[`4595a298d556 iomap: Set all uptodate bits for an Uptodate page`](https://chenxiaosong.com/courses/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.html)
+
 # NFS（网络文件系统）
 
 [`e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt`](https://chenxiaosong.com/courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html)
