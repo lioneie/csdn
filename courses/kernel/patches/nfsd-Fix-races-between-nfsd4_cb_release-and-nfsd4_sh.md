@@ -3,8 +3,8 @@
 [`2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()`](https://lore.kernel.org/all/20191023214318.9350-1-trond.myklebust@hammerspace.com/) 邮件：
 
 - Trond Myklebust: 当我们销毁客户端租约并调用 `nfsd4_shutdown_callback()` 时，我们必须确保在所有未完成的回调终止并释放它们的有效负载之前不返回。
-- J. Bruce Fields: 这太好了，谢谢！我们从 Red Hat 用户那里看到了我相当确定是相同的 bug。我认为我的盲区是假设 rpc 任务不会在 rpc_shutdown_client() 之后继续存在。然而，它导致了 xfstests 的运行挂起，我还没有弄清楚原因。我会在今天下午花些时间进行研究，并告诉你我找到的东西。
-- Trond Myklebust: 这是发生在版本2还是版本1？在版本1中，由于我认为在版本2中已经修复的引用计数泄漏，__destroy_client() 中肯定存在挂起问题。
+- J. Bruce Fields: 这太好了，谢谢！我们从 Red Hat 用户那里看到了我相当确定是相同的 bug。我认为我的盲区是假设 rpc 任务不会在 `rpc_shutdown_client()` 之后继续存在。然而，它导致了 xfstests 的运行挂起，我还没有弄清楚原因。我会在今天下午花些时间进行研究，并告诉你我找到的东西。
+- Trond Myklebust: 这是发生在版本2还是版本1？在版本1中，由于我认为在版本2中已经修复的引用计数泄漏，`__destroy_client()` 中肯定存在挂起问题。
 - J. Bruce Fields: 我以为我正在运行版本2，让我仔细检查一下...
 - J. Bruce Fields: 是的，在版本2上我在 `generic/013` 测试中遇到了挂起的情况。我快速检查了一下日志，没有看到有趣的信息，除此之外我还没有进行详细的调查。
 - J. Bruce Fields： 通过运行 `./check -nfs generic/013` 可以重现。在Wireshark中看到的最后一条信息是一个异步的COPY调用和回复。这意味着可能正在尝试执行 CB_OFFLOAD。嗯。
@@ -20,6 +20,35 @@
 
 # 代码分析
 
+`struct nfs4_client`中增加一个字段`cl_cb_inflight`表示未完成的回调的个数，注意这个补丁的标题是说竞争发生在两个函数之间。我们先来看一下补丁合入前的竞争：
+```c
+nfsd4_cb_release
+  // nfsd4_run_cb // 这里补丁合入前后没有变化
+  //   queue_work(callback_wq, &cb->cb_work)
+  cb->cb_ops->release
+
+__destroy_client
+  nfsd4_shutdown_callback
+```
+
+合入补丁之后，变成：
+```c
+nfsd4_cb_release
+  // nfsd4_queue_cb // 这里补丁合入前后没有变化
+  //   queue_work(callback_wq, &cb->cb_work)
+  nfsd41_destroy_cb
+    cb->cb_ops->release
+    nfsd41_cb_inflight_end
+      atomic_dec_and_test
+      wake_up_var // cl_cb_inflight变为0时，唤醒nfsd4_shutdown_callback
+
+__destroy_client
+  nfsd4_shutdown_callback
+    nfsd41_cb_inflight_wait_complete // cl_cb_inflight变为0时，唤醒
+```
+
+<!--
+调试：
 ```c
 // 重启服务 systemctl restart nfs-server
 nfsd_svc
@@ -31,8 +60,6 @@ nfsd_svc
             __destroy_client
               nfsd4_shutdown_callback
 
-
-
 // 挂载 4.0
 rpc_async_schedule
   __rpc_execute
@@ -40,3 +67,4 @@ rpc_async_schedule
       nfsd4_cb_probe_done
         nfsd4_mark_cb_state(clp, NFSD4_CB_UP)
 ```
+-->
