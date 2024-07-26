@@ -5,7 +5,7 @@
 3. 另一个局域网电脑 private-client
 ```
 
-```
+```sh
                            Wide Area Network                         
                               +--------+
                               | public |                             
