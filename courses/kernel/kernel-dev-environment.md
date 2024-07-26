@@ -575,6 +575,12 @@ qemu启动虚拟机时，要添加以下几个选项：
 gdb build/vmlinux
 ```
 
+如果是其他架构：
+```sh
+gdb --tui build/vmlinux # --tui: Use a terminal user interface.
+(gdb) set architecture aarch64
+```
+
 进入GDB界面后：
 ```sh
 (gdb) target remote:5555 # 对应qemu命令中的-gdb tcp::5555
