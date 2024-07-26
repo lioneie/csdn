@@ -37,6 +37,7 @@ memory = 2048 # 配置虚拟机的内存大小，单位为M，M1用户请勿配�
 eulerlauncher images # 获取可用镜像列表
 eulerlauncher download-image 22.03-LTS # 异步下载镜像
 eulerlauncher load-image --path {image_file_path} IMAGE_NAME # 加载本地镜像
+eulerlauncher delete-image 22.03-LTS # 删除镜像
 eulerlauncher images # 查看到Ready才可启动
 eulerlauncher launch --image 22.03-LTS 22.03-LTS-instance1 # 创建虚拟机
 eulerlauncher list # 获取虚拟机列表
