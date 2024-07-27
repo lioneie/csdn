@@ -187,7 +187,7 @@ static __always_inline void SetPage##uname(struct page *page)
 
 # 区
 
-内核使用区（zone）对相似特性的页进行分组，定义在`include/linux/mmzone.h`：
+内核使用区（zone）对相似特性的页进行分组，描述的是物理内存。定义在`include/linux/mmzone.h`：
 ```c
 enum zone_type {
         /*
@@ -501,6 +501,47 @@ void free_pages(unsigned long addr, unsigned int order)
 // 释放一个page，传入虚拟地址
 free_page(addr)
 ```
+
+分配以字节为单位的内存：
+```c
+// 物理地址是连续的，一般是硬件设备要用到
+void *kmalloc(size_t size, gfp_t gfp)
+// 和kmalloc()配对使用，参数p可以为NULL
+void kfree(void *p)
+// 可能睡眠，物理地址可以不连续，虚拟地址连续，典型用途是获取大块内存，如模块装载
+void *vmalloc(unsigned long size)
+// 可能睡眠，和 vmalloc配对使用
+void vfree(const void *addr)
+```
+
+# `gfp_t`
+
+在`include/linux/gfp_types.h`中的解释：
+```c
+/* typedef 在 include/linux/types.h 中，但我们希望将文档放在这里 */     
+#if 0                                                                  
+/**
+ * typedef gfp_t - 内存分配标志。
+ * 
+ * GFP 标志在 Linux 中广泛用于指示如何分配内存。GFP 的缩写来源于
+ * get_free_pages()，这是底层的内存分配函数。并不是每个 GFP 标志都被
+ * 每个可能分配内存的函数所支持。大多数用户会使用简单的 ``GFP_KERNEL``。
+ */                                                               
+typedef unsigned int __bitwise gfp_t;                                  
+#endif                                                                 
+```
+
+## 行为修饰符
+
+表示内核应该如何分配所需的内存。
+
+## 区修饰符
+
+表示从哪个区分配内存。
+
+## 类型标志
+
+组合了行为修饰符和区修饰符。
 
 # 页高速缓存
 
