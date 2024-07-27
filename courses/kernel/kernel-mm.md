@@ -187,7 +187,320 @@ static __always_inline void SetPage##uname(struct page *page)
 
 # 区
 
-内核使用区（zone）对相似特性的页进行分组，有四种区：
+内核使用区（zone）对相似特性的页进行分组，定义在`include/linux/mmzone.h`：
+```c
+enum zone_type {
+        /*
+         * ZONE_DMA 和 ZONE_DMA32 用于当外设无法对所有可寻址内存（ZONE_NORMAL）进行 DMA 时。
+         * 在该区域覆盖整个 32 位地址空间的架构上使用 ZONE_DMA32。对于具有较小 DMA 地址限制的
+         * 架构，保留 ZONE_DMA。当定义了 ZONE_DMA32 时，假定 32 位 DMA 掩码。
+         * 一些 64 位平台可能需要同时使用这两个区域，因为它们支持具有不同 DMA 地址限制的外设。
+         */
+#ifdef CONFIG_ZONE_DMA
+        ZONE_DMA,
+#endif
+#ifdef CONFIG_ZONE_DMA32
+        ZONE_DMA32,
+#endif
+        /*
+         * Normal addressable memory is in ZONE_NORMAL. DMA operations can be
+         * performed on pages in ZONE_NORMAL if the DMA devices support
+         * transfers to all addressable memory.
+         */
+        ZONE_NORMAL,
+#ifdef CONFIG_HIGHMEM
+        /*
+         * A memory area that is only addressable by the kernel through
+         * mapping portions into its own address space. This is for example
+         * used by i386 to allow the kernel to address the memory beyond
+         * 900MB. The kernel will set up special mappings (page
+         * table entries on i386) for each page that the kernel needs to
+         * access.
+         */
+        ZONE_HIGHMEM,
+#endif
+        /*
+         * ZONE_MOVABLE is similar to ZONE_NORMAL, except that it contains
+         * movable pages with few exceptional cases described below. Main use
+         * cases for ZONE_MOVABLE are to make memory offlining/unplug more
+         * likely to succeed, and to locally limit unmovable allocations - e.g.,
+         * to increase the number of THP/huge pages. Notable special cases are:
+         *
+         * 1. Pinned pages: (long-term) pinning of movable pages might
+         *    essentially turn such pages unmovable. Therefore, we do not allow
+         *    pinning long-term pages in ZONE_MOVABLE. When pages are pinned and
+         *    faulted, they come from the right zone right away. However, it is
+         *    still possible that address space already has pages in
+         *    ZONE_MOVABLE at the time when pages are pinned (i.e. user has
+         *    touches that memory before pinning). In such case we migrate them
+         *    to a different zone. When migration fails - pinning fails.
+         * 2. memblock allocations: kernelcore/movablecore setups might create
+         *    situations where ZONE_MOVABLE contains unmovable allocations
+         *    after boot. Memory offlining and allocations fail early.
+         * 3. Memory holes: kernelcore/movablecore setups might create very rare
+         *    situations where ZONE_MOVABLE contains memory holes after boot,
+         *    for example, if we have sections that are only partially
+         *    populated. Memory offlining and allocations fail early.
+         * 4. PG_hwpoison pages: while poisoned pages can be skipped during
+         *    memory offlining, such pages cannot be allocated.
+         * 5. Unmovable PG_offline pages: in paravirtualized environments,
+         *    hotplugged memory blocks might only partially be managed by the
+         *    buddy (e.g., via XEN-balloon, Hyper-V balloon, virtio-mem). The
+         *    parts not manged by the buddy are unmovable PG_offline pages. In
+         *    some cases (virtio-mem), such pages can be skipped during
+         *    memory offlining, however, cannot be moved/allocated. These
+         *    techniques might use alloc_contig_range() to hide previously
+         *    exposed pages from the buddy again (e.g., to implement some sort
+         *    of memory unplug in virtio-mem).
+         * 6. ZERO_PAGE(0), kernelcore/movablecore setups might create
+         *    situations where ZERO_PAGE(0) which is allocated differently
+         *    on different platforms may end up in a movable zone. ZERO_PAGE(0)
+         *    cannot be migrated.
+         * 7. Memory-hotplug: when using memmap_on_memory and onlining the
+         *    memory to the MOVABLE zone, the vmemmap pages are also placed in
+         *    such zone. Such pages cannot be really moved around as they are
+         *    self-stored in the range, but they are treated as movable when
+         *    the range they describe is about to be offlined.
+         *
+         * In general, no unmovable allocations that degrade memory offlining
+         * should end up in ZONE_MOVABLE. Allocators (like alloc_contig_range())
+         * have to expect that migrating pages in ZONE_MOVABLE can fail (even
+         * if has_unmovable_pages() states that there are no unmovable pages,
+         * there can be false negatives).
+         */
+        ZONE_MOVABLE,
+#ifdef CONFIG_ZONE_DEVICE
+        ZONE_DEVICE,
+#endif
+        __MAX_NR_ZONES
+
+};
+```
+
+内存区域的划分取决于体系结构，有些体系结构上所有的内存都是`ZONE_NORMAL`。
+
+32位`x86`的：
+
+- `ZONE_DMA`范围是`0~16M`。
+- `ZONE_NORMAL`的范围是`16~896M`。
+- `ZONE_HIGHMEM`的范围是大于`896M`的内存。
+
+而64位`x86_64`则没有`ZONE_HIGHMEM`。
+
+每个区用结构结构体`struct zone`表示:
+```c
+enum zone_watermarks {
+        WMARK_MIN, // 最低水印。当可用内存低于此水印时，内核将强制执行紧急内存回收操作，以确保系统不会耗尽内存
+        WMARK_LOW, // 低水印。当可用内存低于此水印但高于最低水印时，内核将开始执行内存回收操作，但不会像最低水印那么紧急
+        WMARK_HIGH, // 高水印。当可用内存高于此水印时，内核认为系统内存充足，不需要进行内存回收操作
+        WMARK_PROMO, // promotion提升，一种优化机制，用于更细粒度地控制内存分配和回收。它的作用是当内存压力较高时，将某些内存区域的水印提升到较高水平，以便更积极地进行内存回收，防止内存耗尽的风险。
+        NR_WMARK      
+};                    
+
+struct zone {
+        /* Read-mostly fields */
+
+        /* zone watermarks, access with *_wmark_pages(zone) macros */
+        unsigned long _watermark[NR_WMARK]; // 查看zone_watermarks
+        unsigned long watermark_boost;
+
+        unsigned long nr_reserved_highatomic;
+
+        /*
+         * We don't know if the memory that we're going to allocate will be
+         * freeable or/and it will be released eventually, so to avoid totally
+         * wasting several GB of ram we must reserve some of the lower zone
+         * memory (otherwise we risk to run OOM on the lower zones despite
+         * there being tons of freeable ram on the higher zones).  This array is
+         * recalculated at runtime if the sysctl_lowmem_reserve_ratio sysctl
+         * changes.
+         */
+        long lowmem_reserve[MAX_NR_ZONES];
+
+#ifdef CONFIG_NUMA
+        int node;
+#endif
+        struct pglist_data      *zone_pgdat;
+        struct per_cpu_pages    __percpu *per_cpu_pageset;
+        struct per_cpu_zonestat __percpu *per_cpu_zonestats;
+        /*
+         * the high and batch values are copied to individual pagesets for
+         * faster access
+         */
+        int pageset_high;
+        int pageset_batch;
+
+#ifndef CONFIG_SPARSEMEM
+        /*
+         * Flags for a pageblock_nr_pages block. See pageblock-flags.h.
+         * In SPARSEMEM, this map is stored in struct mem_section
+         */
+        unsigned long           *pageblock_flags;
+#endif /* CONFIG_SPARSEMEM */
+
+        /* zone_start_pfn == zone_start_paddr >> PAGE_SHIFT */
+        unsigned long           zone_start_pfn;
+
+        /*
+         * spanned_pages is the total pages spanned by the zone, including
+         * holes, which is calculated as:
+         *      spanned_pages = zone_end_pfn - zone_start_pfn;
+         *
+         * present_pages is physical pages existing within the zone, which
+         * is calculated as:
+         *      present_pages = spanned_pages - absent_pages(pages in holes);
+         *
+         * present_early_pages is present pages existing within the zone
+         * located on memory available since early boot, excluding hotplugged
+         * memory.
+         *
+         * managed_pages is present pages managed by the buddy system, which
+         * is calculated as (reserved_pages includes pages allocated by the
+         * bootmem allocator):
+         *      managed_pages = present_pages - reserved_pages;
+         *
+         * cma pages is present pages that are assigned for CMA use
+         * (MIGRATE_CMA).
+         *
+         * So present_pages may be used by memory hotplug or memory power
+         * management logic to figure out unmanaged pages by checking
+         * (present_pages - managed_pages). And managed_pages should be used
+         * by page allocator and vm scanner to calculate all kinds of watermarks
+         * and thresholds.
+         *
+         * Locking rules:
+         *
+         * zone_start_pfn and spanned_pages are protected by span_seqlock.
+         * It is a seqlock because it has to be read outside of zone->lock,
+         * and it is done in the main allocator path.  But, it is written
+         * quite infrequently.
+         *
+         * The span_seq lock is declared along with zone->lock because it is
+         * frequently read in proximity to zone->lock.  It's good to
+         * give them a chance of being in the same cacheline.
+         *
+         * Write access to present_pages at runtime should be protected by
+         * mem_hotplug_begin/done(). Any reader who can't tolerant drift of
+         * present_pages should use get_online_mems() to get a stable value.
+         */
+        atomic_long_t           managed_pages;
+        unsigned long           spanned_pages;
+        unsigned long           present_pages;
+#if defined(CONFIG_MEMORY_HOTPLUG)
+        unsigned long           present_early_pages;
+#endif
+#ifdef CONFIG_CMA
+        unsigned long           cma_pages;
+#endif
+
+        const char              *name; // 查看 char * const zone_names[MAX_NR_ZONES]
+
+#ifdef CONFIG_MEMORY_ISOLATION
+        /*
+         * Number of isolated pageblock. It is used to solve incorrect
+         * freepage counting problem due to racy retrieving migratetype
+         * of pageblock. Protected by zone->lock.
+         */
+        unsigned long           nr_isolate_pageblock;
+#endif
+
+#ifdef CONFIG_MEMORY_HOTPLUG
+        /* see spanned/present_pages for more description */
+        seqlock_t               span_seqlock;
+#endif
+
+        int initialized;
+
+        /* Write-intensive fields used from the page allocator */
+        CACHELINE_PADDING(_pad1_);
+
+        /* free areas of different sizes */
+        struct free_area        free_area[MAX_ORDER + 1];
+
+#ifdef CONFIG_UNACCEPTED_MEMORY
+        /* Pages to be accepted. All pages on the list are MAX_ORDER */
+        struct list_head        unaccepted_pages;
+#endif
+
+        /* zone flags, see below */
+        unsigned long           flags;
+
+        /* Primarily protects free_area */
+        spinlock_t              lock; // 只保护结构，不保护在这个区的页
+
+        /* Write-intensive fields used by compaction and vmstats. */
+        CACHELINE_PADDING(_pad2_);
+
+        /*
+         * When free pages are below this point, additional steps are taken
+         * when reading the number of free pages to avoid per-cpu counter
+         * drift allowing watermarks to be breached
+         */
+        unsigned long percpu_drift_mark;
+
+#if defined CONFIG_COMPACTION || defined CONFIG_CMA
+        /* pfn where compaction free scanner should start */
+        unsigned long           compact_cached_free_pfn;
+        /* pfn where compaction migration scanner should start */
+        unsigned long           compact_cached_migrate_pfn[ASYNC_AND_SYNC];
+        unsigned long           compact_init_migrate_pfn;
+        unsigned long           compact_init_free_pfn;
+#endif
+
+#ifdef CONFIG_COMPACTION
+        /*
+         * On compaction failure, 1<<compact_defer_shift compactions
+         * are skipped before trying again. The number attempted since
+         * last failure is tracked with compact_considered.
+         * compact_order_failed is the minimum compaction failed order.
+         */
+        unsigned int            compact_considered;
+        unsigned int            compact_defer_shift;
+        int                     compact_order_failed;
+#endif
+
+#if defined CONFIG_COMPACTION || defined CONFIG_CMA
+        /* Set to true when the PG_migrate_skip bits should be cleared */
+        bool                    compact_blockskip_flush;
+#endif
+
+        bool                    contiguous;
+
+        CACHELINE_PADDING(_pad3_);
+        /* Zone statistics */
+        atomic_long_t           vm_stat[NR_VM_ZONE_STAT_ITEMS];
+        atomic_long_t           vm_numa_event[NR_VM_NUMA_EVENT_ITEMS];
+} ____cacheline_internodealigned_in_smp;
+```
+
+# 分配和释放内存的接口
+
+分配页：
+```c
+// 分配 2^order 个连续物理page，返回值是第一个page的指针
+struct page *alloc_pages(gfp_t gfp_mask, unsigned int order)
+// 页转换成逻辑地址
+void *page_address(const struct page *page)
+void free_pages(unsigned long addr, unsigned int order)
+// 返回值是逻辑地址
+unsigned long __get_free_pages(gfp_t gfp_mask, unsigned int order)
+// 只分配一个page，返回值是page的指针
+alloc_page(gfp_mask)
+// 只分配一个page，返回值是虚拟地址
+__get_free_page(gfp_mask)
+// 只分配一个page，返回值是虚拟地址，全部填充0
+unsigned long get_zeroed_page(gfp_t gfp_mask)
+```
+
+释放页：
+```c
+// 传入page指针
+void __free_pages(struct page *page, unsigned int order)
+// 传入虚拟地址
+void free_pages(unsigned long addr, unsigned int order)
+// 释放一个page，传入虚拟地址
+free_page(addr)
+```
 
 # 页高速缓存
 
