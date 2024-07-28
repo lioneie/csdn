@@ -541,6 +541,106 @@ typedef unsigned int __bitwise gfp_t;
 #define GFP_ZONEMASK    (__GFP_DMA|__GFP_HIGHMEM|__GFP_DMA32|__GFP_MOVABLE)        
 ```
 
+## 页面的移动性和放置提示
+
+```c
+/**
+ * DOC: 页面的移动性和放置提示
+ *
+ * 页面的移动性和放置提示
+ * -----------------------
+ *
+ * 这些标志提供了有关页面移动性的信息。具有相似移动性的页面被放置在相同的页面块中，以最大限度地减少由外部碎片引起的问题。
+ *
+ * %__GFP_MOVABLE （也是一个区域修饰符）表示页面可以通过内存压缩期间的页面迁移来移动或可以被回收。
+ *
+ * %__GFP_RECLAIMABLE 用于指定 SLAB_RECLAIM_ACCOUNT 的 slab 分配，其页面可以通过收缩器（shrinkers）释放。
+ *
+ * %__GFP_WRITE 表示调用者打算对页面进行写操作。尽可能地，这些页面将分散在本地区域之间，以避免所有脏页面集中在一个区域（公平区域分配策略）。
+ *
+ * %__GFP_HARDWALL 强制执行 cpuset 内存分配策略。
+ *
+ * %__GFP_THISNODE 强制分配从请求的节点中满足，不进行回退或放置策略的强制执行。
+ *
+ * %__GFP_ACCOUNT 使分配计入 kmemcg。kmemcg 是 Kernel Memory Control Group（内核内存控制组）的缩写。它是 Linux 内核中的一种内存管理机制，用于对内核内存进行分组和控制。具体来说，kmemcg 允许用户限制和监视内核分配的内存，以防止某些进程消耗过多的内核内存资源，从而影响系统的整体性能和稳定性。
+ */
+#define __GFP_RECLAIMABLE ((__force gfp_t)___GFP_RECLAIMABLE)
+#define __GFP_WRITE	((__force gfp_t)___GFP_WRITE)
+#define __GFP_HARDWALL   ((__force gfp_t)___GFP_HARDWALL)
+#define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
+#define __GFP_ACCOUNT	((__force gfp_t)___GFP_ACCOUNT)
+```
+
+## 水位标志修饰符
+
+```c
+/**
+ * DOC: 水位标志修饰符
+ *
+ * 水位标志修饰符 -- 控制对紧急预留内存的访问
+ * --------------------------------------------
+ *
+ * %__GFP_HIGH 表示调用者是高优先级的，并且在系统能够继续前进之前，必须满足该请求。
+ * 例如，从原子上下文创建 IO 上下文以清理页面和请求。
+ *
+ * %__GFP_MEMALLOC 允许访问所有内存。这只能在调用者保证分配将很快释放更多内存时使用，
+ * 例如进程退出或交换。使用者应该是内存管理（MM）或与虚拟内存（VM）紧密协作（例如通过 NFS 进行交换）。
+ * 使用此标志的用户必须非常小心，不要完全耗尽预留内存，并实施一种控制机制，
+ * 根据释放的内存量来控制预留内存的消耗。在使用此标志之前，应始终考虑使用预先分配的池（例如 mempool）。
+ *
+ * %__GFP_NOMEMALLOC 用于明确禁止访问紧急预留内存。如果同时设置了 %__GFP_MEMALLOC 标志，此标志优先。
+ */
+#define __GFP_HIGH	((__force gfp_t)___GFP_HIGH)
+#define __GFP_MEMALLOC	((__force gfp_t)___GFP_MEMALLOC)
+#define __GFP_NOMEMALLOC ((__force gfp_t)___GFP_NOMEMALLOC)
+```
+
+## 回收修饰符
+
+```c
+/**
+ * DOC: 回收修饰符
+ *
+ * 回收修饰符
+ * ----------
+ * 请注意，以下所有标志仅适用于可休眠的分配（例如 %GFP_NOWAIT 和 %GFP_ATOMIC 将忽略它们）。
+ *
+ * %__GFP_IO 可以启动物理 IO。
+ *
+ * %__GFP_FS 可以调用底层文件系统。清除此标志可以避免分配器递归到可能已经持有锁的文件系统中。
+ *
+ * %__GFP_DIRECT_RECLAIM 表示调用者可以进入直接回收。如果有备用选项可用，可以清除此标志以避免不必要的延迟。
+ *
+ * %__GFP_KSWAPD_RECLAIM 表示调用者希望在达到低水位时唤醒 kswapd 并让它回收页面直到达到高水位。当有备用选项可用且回收可能会中断系统时，调用者可能希望清除此标志。一个典型的例子是 THP 分配，其中备用选项成本低廉，但回收/压缩可能导致间接停滞。
+ *
+ * %__GFP_RECLAIM 是允许/禁止直接回收和 kswapd 回收的简写。
+ *
+ * 默认分配器行为取决于请求大小。我们有一个所谓昂贵分配（order > %PAGE_ALLOC_COSTLY_ORDER）的概念。
+ * !昂贵分配是至关重要的，不能失败，所以它们默认情况下是隐含的不失败（某些例外情况如 OOM 受害者可能会失败，因此调用者仍需检查失败）而昂贵请求则试图不造成干扰，即使不调用 OOM 杀手也会后退。
+ * 以下三个修饰符可以用来覆盖某些隐含规则
+ *
+ * %__GFP_NORETRY: 虚拟内存实现将只尝试非常轻量级的内存直接回收以在内存压力下获得一些内存（因此它可以休眠）。它将避免像 OOM 杀手这样具有破坏性的操作。在内存压力大的情况下，失败是很可能发生的，因此调用者必须处理失败。此标志适用于可以轻松处理失败且成本较低的情况，例如降低吞吐量
+ *
+ * %__GFP_RETRY_MAYFAIL: 虚拟内存实现将在某些地方有进展的情况下重试先前失败的内存回收过程。它可以等待其他任务尝试高层次的内存释放方法，例如压缩（消除碎片）和页面换出。
+ * 重试次数有一定限制，但比 %__GFP_NORETRY 的限制大。
+ * 带有此标志的分配可能会失败，但只有在确实没有未使用的内存时才会失败。尽管这些分配不会直接触发 OOM 杀手，但它们的失败表明系统可能很快需要使用 OOM 杀手。
+ * 调用者必须处理失败，但可以通过失败更高级别的请求或以效率低得多的方式完成来合理地处理。
+ * 如果分配确实失败，并且调用者能够释放一些非必要的内存，那么这样做可能会使整个系统受益。
+ *
+ * %__GFP_NOFAIL: 虚拟内存实现 _必须_ 无限重试：调用者无法处理分配失败。分配可能会无限期阻塞，但不会返回失败。测试失败是没有意义的。
+ * 新用户应仔细评估（并且该标志应仅在没有合理的失败策略时使用），但绝对比在分配器周围编写无尽循环代码更可取。
+ * 强烈不建议将此标志用于昂贵的分配。
+ */
+#define __GFP_IO	((__force gfp_t)___GFP_IO)
+#define __GFP_FS	((__force gfp_t)___GFP_FS)
+#define __GFP_DIRECT_RECLAIM	((__force gfp_t)___GFP_DIRECT_RECLAIM) /* Caller can reclaim */
+#define __GFP_KSWAPD_RECLAIM	((__force gfp_t)___GFP_KSWAPD_RECLAIM) /* kswapd can wake */
+#define __GFP_RECLAIM ((__force gfp_t)(___GFP_DIRECT_RECLAIM|___GFP_KSWAPD_RECLAIM))
+#define __GFP_RETRY_MAYFAIL	((__force gfp_t)___GFP_RETRY_MAYFAIL)
+#define __GFP_NOFAIL	((__force gfp_t)___GFP_NOFAIL)
+#define __GFP_NORETRY	((__force gfp_t)___GFP_NORETRY)
+```
+
 ## 类型标志
 
 组合了行为修饰符和区修饰符。
