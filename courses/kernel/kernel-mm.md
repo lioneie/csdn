@@ -210,7 +210,7 @@ enum zone_type {
         /*
         * ZONE_MOVABLE 类似于 ZONE_NORMAL，不同之处在于它包含可移动页面，
         * 下面描述了几个例外情况。ZONE_MOVABLE 的主要用途是增加内存下线/卸载
-        * 成功的可能性，并局部限制不可移动的分配 - 例如，增加 THP/大页的数量。
+        * 成功的可能性，并局部限制不可移动的分配 - 例如，增加 THP(Transparent Huge Pages， 透明大页)/大页的数量。
         * 值得注意的特殊情况包括：
         *
         * 1. 锁定页面：（长期）锁定可移动页面可能会实质上使这些页面变得不可移动。
@@ -611,7 +611,7 @@ typedef unsigned int __bitwise gfp_t;
  *
  * %__GFP_DIRECT_RECLAIM 表示调用者可以进入直接回收。如果有备用选项可用，可以清除此标志以避免不必要的延迟。
  *
- * %__GFP_KSWAPD_RECLAIM 表示调用者希望在达到低水位时唤醒 kswapd 并让它回收页面直到达到高水位。当有备用选项可用且回收可能会中断系统时，调用者可能希望清除此标志。一个典型的例子是 THP 分配，其中备用选项成本低廉，但回收/压缩可能导致间接停滞。
+ * %__GFP_KSWAPD_RECLAIM 表示调用者希望在达到低水位时唤醒 kswapd 并让它回收页面直到达到高水位。当有备用选项可用且回收可能会中断系统时，调用者可能希望清除此标志。一个典型的例子是 THP(Transparent Huge Pages， 透明大页) 分配，其中备用选项成本低廉，但回收/压缩可能导致间接停滞。
  *
  * %__GFP_RECLAIM 是允许/禁止直接回收和 kswapd 回收的简写。
  *
@@ -633,8 +633,8 @@ typedef unsigned int __bitwise gfp_t;
  */
 #define __GFP_IO	((__force gfp_t)___GFP_IO)
 #define __GFP_FS	((__force gfp_t)___GFP_FS)
-#define __GFP_DIRECT_RECLAIM	((__force gfp_t)___GFP_DIRECT_RECLAIM) /* Caller can reclaim */
-#define __GFP_KSWAPD_RECLAIM	((__force gfp_t)___GFP_KSWAPD_RECLAIM) /* kswapd can wake */
+#define __GFP_DIRECT_RECLAIM	((__force gfp_t)___GFP_DIRECT_RECLAIM) /* 调用者可以回收 */
+#define __GFP_KSWAPD_RECLAIM	((__force gfp_t)___GFP_KSWAPD_RECLAIM) /* kswapd 可以唤醒 */
 #define __GFP_RECLAIM ((__force gfp_t)(___GFP_DIRECT_RECLAIM|___GFP_KSWAPD_RECLAIM))
 #define __GFP_RETRY_MAYFAIL	((__force gfp_t)___GFP_RETRY_MAYFAIL)
 #define __GFP_NOFAIL	((__force gfp_t)___GFP_NOFAIL)
@@ -692,7 +692,7 @@ typedef unsigned int __bitwise gfp_t;
  * %GFP_HIGHUSER_MOVABLE 适用于内核不需要直接访问的用户空间分配，但需要访问时可以使用 kmap()。
  * 预计这些分配可通过页回收或页迁移移动。通常，LRU 上的页也会分配 %GFP_HIGHUSER_MOVABLE。
  *
- * %GFP_TRANSHUGE 和 %GFP_TRANSHUGE_LIGHT 用于 THP 分配。
+ * %GFP_TRANSHUGE 和 %GFP_TRANSHUGE_LIGHT 用于 THP(Transparent Huge Pages， 透明大页) 分配。
  * 它们是复合分配，如果内存不可用，通常会快速失败，并且在失败时不会唤醒 kswapd/kcompactd。
  * _LIGHT 版本根本不尝试回收/压缩，默认用于页面错误路径，而非轻量版用于 khugepaged。
  */
