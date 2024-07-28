@@ -1140,11 +1140,11 @@ struct ext2_xattr_entry {
  * 目录项的新版本。由于EXT2结构以英特尔字节顺序存储，并且name_len字段永远不可能大于255个字符，因此可以安全地将额外的一个字节重新分配给file_type字段。
  */
 struct ext2_dir_entry_2 {
-        __le32  inode;                  /* Inode number，索引节点号 */
-        __le16  rec_len;                /* Directory entry length，目录项长度，总是4的倍数 */
-        __u8    name_len;               /* Name length，文件名长度 */
+        __le32  inode;                  /* 索引节点号 */
+        __le16  rec_len;                /* 目录项长度，总是4的倍数 */
+        __u8    name_len;               /* 文件名长度 */
         __u8    file_type;              // 文件类型，struct ext2_dir_entry中没有
-        char    name[];                 /* File name, up to EXT2_NAME_LEN，文件名，最大255字节 */
+        char    name[];                 /* 文件名，最大EXT2_NAME_LEN (255)字节 */
 };
 ```
 
