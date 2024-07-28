@@ -942,80 +942,76 @@ mount
 ### 超级块
 
 ```c
-/*
- * Structure of the super block
- */
 struct ext2_super_block {
-        __le32  s_inodes_count;         /* Inodes count，索引节点总数 */
-        __le32  s_blocks_count;         /* Blocks count，块总数 */
-        __le32  s_r_blocks_count;       /* Reserved blocks count，保留的块数 */
-        __le32  s_free_blocks_count;    /* Free blocks count，空闲块计数器 */
-        __le32  s_free_inodes_count;    /* Free inodes count，空闲索引节点计数器 */
-        __le32  s_first_data_block;     /* First Data Block，第一个数据块的块号，总是为1 */
+        __le32  s_inodes_count;         /* 索引节点总数 */
+        __le32  s_blocks_count;         /* 块总数 */
+        __le32  s_r_blocks_count;       /* 保留的块数 */
+        __le32  s_free_blocks_count;    /* 空闲块计数器 */
+        __le32  s_free_inodes_count;    /* 空闲索引节点计数器 */
+        __le32  s_first_data_block;     /* 第一个数据块的块号，总是为1 */
         // 最小 EXT2_MIN_BLOCK_SIZE，最大 EXT2_MAX_BLOCK_SIZE
-        __le32  s_log_block_size;       /* Block size，块大小，对数表示，值为0时表示2^0*1024=1024，值为1时表示2^1*1024=2048,值为2时表示2^2*1024=4096 */
-        __le32  s_log_frag_size;        /* Fragment size，片大小 */
-        __le32  s_blocks_per_group;     /* # Blocks per group，每组中的块数 */
-        __le32  s_frags_per_group;      /* # Fragments per group，每组中的片数 */
-        __le32  s_inodes_per_group;     /* # Inodes per group，每组中的索引节点数 */
-        __le32  s_mtime;                /* Mount time，最后一次挂载时间 */
-        __le32  s_wtime;                /* Write time，写时间 */
-        __le16  s_mnt_count;            /* Mount count，挂载次数 */
-        __le16  s_max_mnt_count;        /* Maximal mount count，检查之前挂载操作的次数 */
-        __le16  s_magic;                /* Magic signature，幻数，EXT2_SUPER_MAGIC */
-        __le16  s_state;                /* File system state，状态标志,挂载时为0，正常卸载为1(EXT2_VALID_FS)，错误为2(EXT2_ERROR_FS) */
-        __le16  s_errors;               /* Behaviour when detecting errors，检测到错误的行为 */
-        __le16  s_minor_rev_level;      /* minor revision level，次版本号 */
-        __le32  s_lastcheck;            /* time of last check，最后检查的时间 */
-        __le32  s_checkinterval;        /* max. time between checks，检查间隔 */
-        __le32  s_creator_os;           /* OS，在什么操作系统上格式化的 */
+        __le32  s_log_block_size;       /* 块大小，对数表示，值为0时表示2^0*1024=1024，值为1时表示2^1*1024=2048,值为2时表示2^2*1024=4096 */
+        __le32  s_log_frag_size;        /* 片大小 */
+        __le32  s_blocks_per_group;     /* 每组中的块数 */
+        __le32  s_frags_per_group;      /* 每组中的片数 */
+        __le32  s_inodes_per_group;     /* 每组中的索引节点数 */
+        __le32  s_mtime;                /* 最后一次挂载时间 */
+        __le32  s_wtime;                /* 写时间 */
+        __le16  s_mnt_count;            /* 挂载次数 */
+        __le16  s_max_mnt_count;        /* 检查之前挂载操作的次数，挂载次数达到这个值后要进行检查 */
+        __le16  s_magic;                /* 幻数，EXT2_SUPER_MAGIC */
+        __le16  s_state;                /* 状态标志,挂载时为0，正常卸载为1(EXT2_VALID_FS)，错误为2(EXT2_ERROR_FS) */
+        __le16  s_errors;               /* 检测到错误的行为 */
+        __le16  s_minor_rev_level;      /* 次版本号 */
+        __le32  s_lastcheck;            /* 最后检查的时间 */
+        __le32  s_checkinterval;        /* 检查间隔 */
+        __le32  s_creator_os;           /* 在什么操作系统上格式化的 */
         __le32  s_rev_level;            /* Revision level，主版本号 */
-        __le16  s_def_resuid;           /* Default uid for reserved blocks，保留块的默认uid */
-        __le16  s_def_resgid;           /* Default gid for reserved blocks，保留块默认gid */
+        __le16  s_def_resuid;           /* 保留块的默认uid */
+        __le16  s_def_resgid;           /* 保留块默认gid */
         /*
-         * These fields are for EXT2_DYNAMIC_REV superblocks only.
+         * 这些字段仅适用于 EXT2_DYNAMIC_REV 超级块。
          *
-         * Note: the difference between the compatible feature set and
-         * the incompatible feature set is that if there is a bit set
-         * in the incompatible feature set that the kernel doesn't
-         * know about, it should refuse to mount the filesystem.
-         * 
-         * e2fsck's requirements are more strict; if it doesn't know
-         * about a feature in either the compatible or incompatible
-         * feature set, it must abort and not try to meddle with
-         * things it doesn't understand...
+         * 注意：兼容功能集和不兼容功能集之间的区别在于，
+         * 如果内核不知道不兼容功能集中设置的位，
+         * 它应该拒绝挂载文件系统。
+         *
+         * e2fsck 的要求更加严格；如果它不知道
+         * 兼容或不兼容功能集中的某个功能，
+         * 它必须中止操作，而不是尝试处理
+         * 它不理解的东西...
          */
-        __le32  s_first_ino;            /* First non-reserved inode，第一个非保留的索引节点号 */
-        __le16   s_inode_size;          /* size of inode structure，磁盘索引节点大小 */
-        __le16  s_block_group_nr;       /* block group # of this superblock，超级块块组号 */
-        __le32  s_feature_compat;       /* compatible feature set，兼容特性，查看 EXT2_FEATURE_COMPAT_DIR_PREALLOC 等宏定义 */
-        __le32  s_feature_incompat;     /* incompatible feature set，非兼容特性 */
-        __le32  s_feature_ro_compat;    /* readonly-compatible feature set，只读兼容特性 */
-        __u8    s_uuid[16];             /* 128-bit uuid for volume，文件系统标识符 */
-        char    s_volume_name[16];      /* volume name，卷名 */
-        char    s_last_mounted[64];     /* directory where last mounted，最后挂载点路径 */
-        __le32  s_algorithm_usage_bitmap; /* For compression，压缩 */
+        __le32  s_first_ino;            /* 第一个非保留的索引节点号 */
+        __le16   s_inode_size;          /* 磁盘索引节点大小 */
+        __le16  s_block_group_nr;       /* 超级块块组号 */
+        __le32  s_feature_compat;       /* 兼容特性，查看 EXT2_FEATURE_COMPAT_DIR_PREALLOC 等宏定义 */
+        __le32  s_feature_incompat;     /* 非兼容特性 */
+        __le32  s_feature_ro_compat;    /* 只读兼容特性 */
+        __u8    s_uuid[16];             /* 卷的 128 位 uuid，文件系统标识符 */
+        char    s_volume_name[16];      /* 卷名 */
+        char    s_last_mounted[64];     /* 最后挂载点文件夹 */
+        __le32  s_algorithm_usage_bitmap; /* 压缩 */
         /*
-         * Performance hints.  Directory preallocation should only
-         * happen if the EXT2_COMPAT_PREALLOC flag is on.
+         * 性能提示。只有在 EXT2_COMPAT_PREALLOC 标志开启时，
+         * 才应进行目录预分配。
          */
-        __u8    s_prealloc_blocks;      /* Nr of blocks to try to preallocate，预分配的块数 */
-        __u8    s_prealloc_dir_blocks;  /* Nr to preallocate for dirs，为目录预分配的块数 */
+        __u8    s_prealloc_blocks;      /* 预分配的块数 */
+        __u8    s_prealloc_dir_blocks;  /* 为目录预分配的块数 */
         __u16   s_padding1; // 对齐用的
         /*
-         * Journaling support valid if EXT3_FEATURE_COMPAT_HAS_JOURNAL set. 日志相关
+         * 如果设置了 EXT3_FEATURE_COMPAT_HAS_JOURNAL，则启用日志支持。
          */
-        __u8    s_journal_uuid[16];     /* uuid of journal superblock */
-        __u32   s_journal_inum;         /* inode number of journal file */
-        __u32   s_journal_dev;          /* device number of journal file */
-        __u32   s_last_orphan;          /* start of list of inodes to delete */
-        __u32   s_hash_seed[4];         /* HTREE hash seed */
-        __u8    s_def_hash_version;     /* Default hash version to use */
+        __u8    s_journal_uuid[16];     /* 日志超级块的 uuid */
+        __u32   s_journal_inum;         /* 日志文件的 inode 编号 */
+        __u32   s_journal_dev;          /* 日志文件的设备编号 */
+        __u32   s_last_orphan;          /* 要删除的 inode 列表的起始位置 */
+        __u32   s_hash_seed[4];         /* HTREE 哈希种子 */
+        __u8    s_def_hash_version;     /* 使用的默认哈希版本 */
         __u8    s_reserved_char_pad;
         __u16   s_reserved_word_pad;
         __le32  s_default_mount_opts;
-        __le32  s_first_meta_bg;        /* First metablock block group */
-        __u32   s_reserved[190];        /* Padding to the end of the block */
+        __le32  s_first_meta_bg;        /* 第一个元块组 */
+        __u32   s_reserved[190];        /* 填充到块的末尾 */
 };
 ```
 
