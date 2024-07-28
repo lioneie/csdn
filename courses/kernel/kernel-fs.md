@@ -758,11 +758,11 @@ struct vfsmount {
 `files_struct`描述单个进程相关的信息，`struct task_struct`中的`files`成员指向它。
 ```c
 /*
- * Open file table structure
+ * /* 打开的文件表结构 */
  */
 struct files_struct {
   /*
-   * read mostly part
+   * 主要用于读取的部分
    */
         atomic_t count;             // 引用计数
         bool resize_in_progress;
@@ -770,9 +770,9 @@ struct files_struct {
 
         struct fdtable __rcu *fdt;  // 如果打开的文件数大于NR_OPEN_DEFAULT，分配一个新数组
         struct fdtable fdtab;       // 基fd表
-  /*
-   * written part on a separate cache line in SMP
-   */
+        /*
+        * 在 SMP 中，写入部分位于单独的缓存行
+        */
         spinlock_t file_lock ____cacheline_aligned_in_smp;  // 单个文件的锁
         unsigned int next_fd;                               // 缓存下一个可用的fd
         unsigned long close_on_exec_init[1];                // exec()时关闭的fd链表
