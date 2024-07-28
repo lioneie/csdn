@@ -64,4 +64,6 @@
 
 # [内核调试方法](https://chenxiaosong.com/courses/kernel/kernel-debug.html)
 
+# [内存管理](https://chenxiaosong.com/courses/kernel/kernel-mm.html)
+
 # [内核补丁分析](https://chenxiaosong.com/courses/kernel/kernel-patches.html)
