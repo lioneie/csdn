@@ -1018,17 +1018,14 @@ struct ext2_super_block {
 ### 组描述符
 
 ```c
-/*
- * Structure of a blocks group descriptor
- */
 struct ext2_group_desc
 {
-        __le32  bg_block_bitmap;        /* Blocks bitmap block，数据块位图所在的块号 */
-        __le32  bg_inode_bitmap;        /* Inodes bitmap block，inode位图所在的块号 */
-        __le32  bg_inode_table;         /* Inodes table block，inode表所在的起始块号 */
-        __le16  bg_free_blocks_count;   /* Free blocks count，组中空闲块个数 */
-        __le16  bg_free_inodes_count;   /* Free inodes count，组中空闲索引节点数 */
-        __le16  bg_used_dirs_count;     /* Directories count，组中目录数 */
+        __le32  bg_block_bitmap;        /* 数据块位图所在的块号 */
+        __le32  bg_inode_bitmap;        /* inode位图所在的块号 */
+        __le32  bg_inode_table;         /* inode表所在的起始块号 */
+        __le16  bg_free_blocks_count;   /* 组中空闲块个数 */
+        __le16  bg_free_inodes_count;   /* 组中空闲索引节点数 */
+        __le16  bg_used_dirs_count;     /* 组中目录数 */
         __le16  bg_pad;
         __le32  bg_reserved[3];
 };
