@@ -1207,23 +1207,23 @@ struct ext2_dir_entry_2 {
 VFS的`struct super_block`中的`s_fs_info`指向`struct ext2_sb_info`类型的结构：
 ```c
 /*
- * second extended-fs super-block data in memory
+ * 第二扩展文件系统的内存中超级块数据 */
  */
 struct ext2_sb_info {
-        unsigned long s_inodes_per_block;/* Number of inodes per block */
-        unsigned long s_blocks_per_group;/* Number of blocks in a group */
-        unsigned long s_inodes_per_group;/* Number of inodes in a group */
-        unsigned long s_itb_per_group;  /* Number of inode table blocks per group */
-        unsigned long s_gdb_count;      /* Number of group descriptor blocks */
+        unsigned long s_inodes_per_block;/* 每个块的 inode 数量 */
+        unsigned long s_blocks_per_group;/* 每组中的块数 */
+        unsigned long s_inodes_per_group;/* 每组中的 inode 数量 */
+        unsigned long s_itb_per_group;  /* 每组的 inode 表块数 */
+        unsigned long s_gdb_count;      /* 组描述符块的数量 */
         // 组描述符的个数，可以放在一个块中
-        unsigned long s_desc_per_block; /* Number of group descriptors per block */
-        unsigned long s_groups_count;   /* Number of groups in the fs */
-        unsigned long s_overhead_last;  /* Last calculated overhead */
-        unsigned long s_blocks_last;    /* Last seen block count */
+        unsigned long s_desc_per_block; /* 每个块的组描述符数量 */
+        unsigned long s_groups_count;   /* 文件系统中的组数 */
+        unsigned long s_overhead_last;  /* 最近一次计算的开销 */
+        unsigned long s_blocks_last;    /* 最近一次看到的块数 */
         // 包含磁盘超级块的缓冲区的缓冲区头
-        struct buffer_head * s_sbh;     /* Buffer containing the super block */
+        struct buffer_head * s_sbh;     /* 包含超级块的缓冲区 */
         // 指向磁盘超级块所在的缓冲区
-        struct ext2_super_block * s_es; /* Pointer to the super block in the buffer */
+        struct ext2_super_block * s_es; /* 指向缓冲区中超级块的指针 */
         // 指向一个缓冲区（包含组描述符的缓冲区）首部数组
         struct buffer_head ** s_group_desc;
         unsigned long  s_mount_opt;
@@ -1244,17 +1244,15 @@ struct ext2_sb_info {
         struct percpu_counter s_freeinodes_counter;
         struct percpu_counter s_dirs_counter;
         struct blockgroup_lock *s_blockgroup_lock;
-        /* root of the per fs reservation window tree */
+        /* 每个文件系统预留窗口树的根 */
         spinlock_t s_rsv_window_lock;
         struct rb_root s_rsv_window_root; // ext2_reserve_window_node的所有实例
         struct ext2_reserve_window_node s_rsv_window_head;
         /*
-         * s_lock protects against concurrent modifications of s_mount_state,
-         * s_blocks_last, s_overhead_last and the content of superblock's
-         * buffer pointed to by sbi->s_es.
+         * s_lock 保护 s_mount_state、s_blocks_last、s_overhead_last 和由 sbi->s_es 指向的
+         * 超级块缓冲区内容的并发修改。
          *
-         * Note: It is used in ext2_show_options() to provide a consistent view
-         * of the mount options.
+         * 注意: 在 ext2_show_options() 中使用它来提供挂载选项的一致视图。
          */
         spinlock_t s_lock;
         struct mb_cache *s_ea_block_cache;
@@ -1298,7 +1296,7 @@ ext2超级块的操作实现是`struct super_operations ext2_sops`。
 
 ```c
 /*
- * second extended file system inode data in memory
+ * 第二扩展文件系统在内存中的 inode 数据
  */
 struct ext2_inode_info {
         __le32  i_data[15];
@@ -1332,14 +1330,13 @@ struct ext2_inode_info {
         rwlock_t i_meta_lock;
 
         /*
-         * truncate_mutex is for serialising ext2_truncate() against
-         * ext2_getblock().  It also protects the internals of the inode's
-         * reservation data structures: ext2_reserve_window and
-         * ext2_reserve_window_node.
+         * truncate_mutex 用于将 ext2_truncate() 与 ext2_getblock() 串行化。
+         * 它还保护 inode 的预留数据结构的内部： ext2_reserve_window 和
+         * ext2_reserve_window_node。
          */
         struct mutex truncate_mutex;
         struct inode    vfs_inode;      // 虚拟文件系统的索引节点
-        struct list_head i_orphan;      /* unlinked but open inodes */
+        struct list_head i_orphan;      /* 已解除链接但仍打开的 inodes */
 #ifdef CONFIG_QUOTA
         struct dquot *i_dquot[MAXQUOTAS];
 #endif
