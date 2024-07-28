@@ -417,34 +417,34 @@ struct inode_operations {
 
 ```c
 struct dentry {
-        /* RCU lookup touched fields */
-        unsigned int d_flags;           /* protected by d_lock，目录项标识 */
-        seqcount_spinlock_t d_seq;      /* per dentry seqlock */
-        struct hlist_bl_node d_hash;    /* lookup hash list, 散列表 */
-        struct dentry *d_parent;        /* parent directory，父目录 */
-        struct qstr d_name; // 目录项名，d_name.name是字符串数组
-        struct inode *d_inode;          /* Where the name belongs to - NULL is negative， 关联的索引节点 */
-        unsigned char d_iname[DNAME_INLINE_LEN];        /* small names，短文件名 */
+        /* RCU 查找涉及的字段 */
+        unsigned int d_flags;           /* 受 d_lock 保护，目录项标识 */
+        seqcount_spinlock_t d_seq;      /* 每个目录项的 seqlock */
+        struct hlist_bl_node d_hash;    /* 查找哈希列表 */
+        struct dentry *d_parent;        /* 父目录 */
+        struct qstr d_name;             // 目录项名，d_name.name是字符串数组
+        struct inode *d_inode;          /* 名称所属的位置 - NULL 表示negative， 关联的索引节点 */
+        unsigned char d_iname[DNAME_INLINE_LEN];        /* 短文件名 */
 
-        /* Ref lookup also touches following */
-        struct lockref d_lockref;       /* per-dentry lock and refcount，使用计数，用d_count()函数获取 */
+        /* 引用查找也涉及以下内容 */
+        struct lockref d_lockref;       /* 每个目录项的锁和引用计数，用d_count()函数获取 */
         const struct dentry_operations *d_op; // 目录项操作指针
-        struct super_block *d_sb;       /* The root of the dentry tree，文件的超级块 */
-        unsigned long d_time;           /* used by d_revalidate，重置时间 */
-        void *d_fsdata;                 /* fs-specific data，文件系统特有数据 */
+        struct super_block *d_sb;       /* 目录项树的根，文件的超级块 */
+        unsigned long d_time;           /* 由 d_revalidate 使用，重置时间 */
+        void *d_fsdata;                 /* 文件系统特有数据 */
 
         union {
                 struct list_head d_lru;         /* LRU list，Least Recently Used 最近最少使用链表 */
-                wait_queue_head_t *d_wait;      /* in-lookup ones only */
+                wait_queue_head_t *d_wait;      /* 仅用于查找中的项目 */
         };
-        struct list_head d_child;       /* child of parent list，目录项内部形成的链表 */
-        struct list_head d_subdirs;     /* our children，子目录链表 */
+        struct list_head d_child;       /* 父列表的子项，目录项内部形成的链表 */
+        struct list_head d_subdirs;     /* 子目录链表 */
         /*
-         * d_alias and d_rcu can share memory
+         * d_alias 和 d_rcu 可以共享内存
          */
         union {
                 struct hlist_node d_alias;      /* inode alias list，索引节点别名链表，当有多个硬链接时，就有多个dentry指向同一个inode，多个dentry都放到d_alias链表中 */
-                struct hlist_bl_node d_in_lookup_hash;  /* only for in-lookup ones */
+                struct hlist_bl_node d_in_lookup_hash;  /* 仅用于查找中的项目 */
                 struct rcu_head d_rcu; // RCU加锁
         } d_u;
 } __randomize_layout;
