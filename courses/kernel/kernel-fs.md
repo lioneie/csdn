@@ -803,18 +803,18 @@ struct mnt_namespace {
         struct ns_common        ns;
         struct mount *  root; // 根目录的挂载点
         /*
-         * Traversal and modification of .list is protected by either
-         * - taking namespace_sem for write, OR
-         * - taking namespace_sem for read AND taking .ns_lock.
+         * 对 .list 的遍历和修改受以下任意一种方式保护：
+         * - 获取 namespace_sem 的写锁，或
+         * - 获取 namespace_sem 的读锁并获取 .ns_lock
          */
         struct list_head        list; // 挂载点链表
         spinlock_t              ns_lock;
         struct user_namespace   *user_ns;
         struct ucounts          *ucounts; // 用户计数
-        u64                     seq;    /* Sequence number to prevent loops */
+        u64                     seq;    /* 防止循环的序列号 */
         wait_queue_head_t poll; // 轮询的等待队列
         u64 event; // 事件计数
-        unsigned int            mounts; /* # of mounts in the namespace */
+        unsigned int            mounts; /* 命名空间中的挂载数量 */
         unsigned int            pending_mounts;
 } __randomize_layout;
 
