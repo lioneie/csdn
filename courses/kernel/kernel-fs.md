@@ -719,37 +719,37 @@ struct mount {
         int mnt_count;   // 引用计数
         int mnt_writers; // 写者引用计数
 #endif
-        struct list_head mnt_mounts;    /* list of children, anchored here，子文件系统链表 */
-        struct list_head mnt_child;     /* and going through their mnt_child，子文件系统链表 */
-        struct list_head mnt_instance;  /* mount instance on sb->s_mounts */
-        const char *mnt_devname;        /* Name of device e.g. /dev/dsk/hda1，设备文件名 */
+        struct list_head mnt_mounts;    /* 子文件系统链表, 固定在此 */
+        struct list_head mnt_child;     /* 子文件系统链表 */
+        struct list_head mnt_instance;  /* sb->s_mounts 上的挂载实例 */
+        const char *mnt_devname;        /* 设备名称，例如 /dev/dsk/hda1 */
         struct list_head mnt_list;      // 描述符链表
-        struct list_head mnt_expire;    /* link in fs-specific expiry list，在到期链表的位置 */
-        struct list_head mnt_share;     /* circular list of shared mounts，在共享安装链表的位置 */
-        struct list_head mnt_slave_list;/* list of slave mounts，从安装链表 */
-        struct list_head mnt_slave;     /* slave list entry，在从安装链表的位置 */
-        struct mount *mnt_master;       /* slave is on master->mnt_slave_list，从安装链表的主人 */
-        struct mnt_namespace *mnt_ns;   /* containing namespace，相关的命名空间 */
-        struct mountpoint *mnt_mp;      /* where is it mounted */
+        struct list_head mnt_expire;    /* 在到期链表的位置 */
+        struct list_head mnt_share;     /* 在共享安装链表的位置 */
+        struct list_head mnt_slave_list;/* 从安装链表 */
+        struct list_head mnt_slave;     /* 在从安装链表的位置 */
+        struct mount *mnt_master;       /* 从安装链表的主人 */
+        struct mnt_namespace *mnt_ns;   /* 相关的命名空间 */
+        struct mountpoint *mnt_mp;      /* 挂载的位置 */
         union {
-                struct hlist_node mnt_mp_list;  /* list mounts with the same mountpoint */
+                struct hlist_node mnt_mp_list;  /* 具有相同挂载点的挂载链表 */
                 struct hlist_node mnt_umount;
         };
-        struct list_head mnt_umounting; /* list entry for umount propagation */
+        struct list_head mnt_umounting; /* 用于卸载传播的列表条目 */
 #ifdef CONFIG_FSNOTIFY
         struct fsnotify_mark_connector __rcu *mnt_fsnotify_marks;
         __u32 mnt_fsnotify_mask;
 #endif
-        int mnt_id;                     /* mount identifier，安装标识符 */
-        int mnt_group_id;               /* peer group identifier，组标识符 */
-        int mnt_expiry_mark;            /* true if marked for expiry，到期时为1 */
+        int mnt_id;                     /* 安装标识符 */
+        int mnt_group_id;               /* 组标识符 */
+        int mnt_expiry_mark;            /* 到期时为1 */
         struct hlist_head mnt_pins;
         struct hlist_head mnt_stuck_children;
 } __randomize_layout;
 
 struct vfsmount {
-        struct dentry *mnt_root;        /* root of the mounted tree，该文件系统的根目录项 */
-        struct super_block *mnt_sb;     /* pointer to superblock，超级块 */
+        struct dentry *mnt_root;        /* 该文件系统的根目录项 */
+        struct super_block *mnt_sb;     /* 超级块 */
         int mnt_flags;                  // 挂载标志, MNT_NOSUID 等
         struct mnt_idmap *mnt_idmap;
 } __randomize_layout;
