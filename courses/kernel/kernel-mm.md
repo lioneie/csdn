@@ -19,9 +19,6 @@ MMU，英文全称Memory Management Unit，中文翻译为内存管理单元，�
 
 # 页
 
-- KMSAN: todo
-- KASAN: todo
-
 ```c
 struct page {
         unsigned long flags;            /* 原子标志，其中一些可能被异步更新 */
@@ -64,7 +61,10 @@ struct page {
         int _last_cpupid;
 #endif
 } _struct_page_alignment;
+```
 
+我们把`struct page`结构体中的两个`union`单独拎出来讲：
+```c
 /*
  * 这个联合体中有五个字（20/40字节）可用。
  * 警告：第一个字的第0位用于 PageTail()。这意味着
@@ -176,6 +176,8 @@ static __always_inline void SetPage##uname(struct page *page)
 页的拥有者可能是用户空间进程、动态分配的内核数据、静态内核代、页高速缓存等。
 
 页的大小可以用`getconf -a | grep PAGESIZE`命令查看。`x86`默认打开配置`CONFIG_HAVE_PAGE_SIZE_4KB`和`CONFIG_PAGE_SIZE_4KB`。
+
+在看内存相关的代码时，还会看到KASAN（Kernel Address Sanitizer）和KMSAN（Kernel Memory Sanitizer）两个概念，他们是用于检测和调试内存错误的工具。
 
 # 区
 
@@ -425,7 +427,7 @@ struct zone {
 } ____cacheline_internodealigned_in_smp;
 ```
 
-# 分配和释放内存的接口
+# 函数接口
 
 分配页：
 ```c
@@ -565,10 +567,10 @@ typedef unsigned int __bitwise gfp_t;
  * %__GFP_ACCOUNT 使分配计入 kmemcg。kmemcg 是 Kernel Memory Control Group（内核内存控制组）的缩写。它是 Linux 内核中的一种内存管理机制，用于对内核内存进行分组和控制。具体来说，kmemcg 允许用户限制和监视内核分配的内存，以防止某些进程消耗过多的内核内存资源，从而影响系统的整体性能和稳定性。
  */
 #define __GFP_RECLAIMABLE ((__force gfp_t)___GFP_RECLAIMABLE)
-#define __GFP_WRITE	((__force gfp_t)___GFP_WRITE)
+#define __GFP_WRITE     ((__force gfp_t)___GFP_WRITE)
 #define __GFP_HARDWALL   ((__force gfp_t)___GFP_HARDWALL)
-#define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
-#define __GFP_ACCOUNT	((__force gfp_t)___GFP_ACCOUNT)
+#define __GFP_THISNODE  ((__force gfp_t)___GFP_THISNODE)
+#define __GFP_ACCOUNT   ((__force gfp_t)___GFP_ACCOUNT)
 ```
 
 ## 水位标志修饰符
@@ -590,8 +592,8 @@ typedef unsigned int __bitwise gfp_t;
  *
  * %__GFP_NOMEMALLOC 用于明确禁止访问紧急预留内存。如果同时设置了 %__GFP_MEMALLOC 标志，此标志优先。
  */
-#define __GFP_HIGH	((__force gfp_t)___GFP_HIGH)
-#define __GFP_MEMALLOC	((__force gfp_t)___GFP_MEMALLOC)
+#define __GFP_HIGH      ((__force gfp_t)___GFP_HIGH)
+#define __GFP_MEMALLOC  ((__force gfp_t)___GFP_MEMALLOC)
 #define __GFP_NOMEMALLOC ((__force gfp_t)___GFP_NOMEMALLOC)
 ```
 
@@ -631,14 +633,14 @@ typedef unsigned int __bitwise gfp_t;
  * 新用户应仔细评估（并且该标志应仅在没有合理的失败策略时使用），但绝对比在分配器周围编写无尽循环代码更可取。
  * 强烈不建议将此标志用于昂贵的分配。
  */
-#define __GFP_IO	((__force gfp_t)___GFP_IO)
-#define __GFP_FS	((__force gfp_t)___GFP_FS)
-#define __GFP_DIRECT_RECLAIM	((__force gfp_t)___GFP_DIRECT_RECLAIM) /* 调用者可以回收 */
-#define __GFP_KSWAPD_RECLAIM	((__force gfp_t)___GFP_KSWAPD_RECLAIM) /* kswapd 可以唤醒 */
+#define __GFP_IO        ((__force gfp_t)___GFP_IO)
+#define __GFP_FS        ((__force gfp_t)___GFP_FS)
+#define __GFP_DIRECT_RECLAIM    ((__force gfp_t)___GFP_DIRECT_RECLAIM) /* 调用者可以回收 */
+#define __GFP_KSWAPD_RECLAIM    ((__force gfp_t)___GFP_KSWAPD_RECLAIM) /* kswapd 可以唤醒 */
 #define __GFP_RECLAIM ((__force gfp_t)(___GFP_DIRECT_RECLAIM|___GFP_KSWAPD_RECLAIM))
-#define __GFP_RETRY_MAYFAIL	((__force gfp_t)___GFP_RETRY_MAYFAIL)
-#define __GFP_NOFAIL	((__force gfp_t)___GFP_NOFAIL)
-#define __GFP_NORETRY	((__force gfp_t)___GFP_NORETRY)
+#define __GFP_RETRY_MAYFAIL     ((__force gfp_t)___GFP_RETRY_MAYFAIL)
+#define __GFP_NOFAIL    ((__force gfp_t)___GFP_NOFAIL)
+#define __GFP_NORETRY   ((__force gfp_t)___GFP_NORETRY)
 ```
 
 ## 类型标志
@@ -696,20 +698,20 @@ typedef unsigned int __bitwise gfp_t;
  * 它们是复合分配，如果内存不可用，通常会快速失败，并且在失败时不会唤醒 kswapd/kcompactd。
  * _LIGHT 版本根本不尝试回收/压缩，默认用于页面错误路径，而非轻量版用于 khugepaged。
  */
-#define GFP_ATOMIC	(__GFP_HIGH|__GFP_KSWAPD_RECLAIM)
-#define GFP_KERNEL	(__GFP_RECLAIM | __GFP_IO | __GFP_FS)
+#define GFP_ATOMIC      (__GFP_HIGH|__GFP_KSWAPD_RECLAIM)
+#define GFP_KERNEL      (__GFP_RECLAIM | __GFP_IO | __GFP_FS)
 #define GFP_KERNEL_ACCOUNT (GFP_KERNEL | __GFP_ACCOUNT)
-#define GFP_NOWAIT	(__GFP_KSWAPD_RECLAIM)
-#define GFP_NOIO	(__GFP_RECLAIM)
-#define GFP_NOFS	(__GFP_RECLAIM | __GFP_IO)
-#define GFP_USER	(__GFP_RECLAIM | __GFP_IO | __GFP_FS | __GFP_HARDWALL)
-#define GFP_DMA		__GFP_DMA
-#define GFP_DMA32	__GFP_DMA32
-#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
-#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | __GFP_SKIP_KASAN)
-#define GFP_TRANSHUGE_LIGHT	((GFP_HIGHUSER_MOVABLE | __GFP_COMP | \
-			 __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
-#define GFP_TRANSHUGE	(GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
+#define GFP_NOWAIT      (__GFP_KSWAPD_RECLAIM)
+#define GFP_NOIO        (__GFP_RECLAIM)
+#define GFP_NOFS        (__GFP_RECLAIM | __GFP_IO)
+#define GFP_USER        (__GFP_RECLAIM | __GFP_IO | __GFP_FS | __GFP_HARDWALL)
+#define GFP_DMA         __GFP_DMA
+#define GFP_DMA32       __GFP_DMA32
+#define GFP_HIGHUSER    (GFP_USER | __GFP_HIGHMEM)
+#define GFP_HIGHUSER_MOVABLE    (GFP_HIGHUSER | __GFP_MOVABLE | __GFP_SKIP_KASAN)
+#define GFP_TRANSHUGE_LIGHT     ((GFP_HIGHUSER_MOVABLE | __GFP_COMP | \
+                         __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
+#define GFP_TRANSHUGE   (GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
 ```
 
 # 页高速缓存
