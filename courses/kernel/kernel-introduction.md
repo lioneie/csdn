@@ -121,3 +121,41 @@ POSIX标准的目的是为了在各种Unix操作系统上定位API（应用程�
 - [CentOS](https://www.centos.org/)：来自于Red Hat Enterprise Linux（RHEL）依照开放源代码规定发布的源代码所编译而成，不包含闭源代码的软件，2014年与红帽公司合作，2020年红帽终止CentOS，采用CentOS Stream。
 - [Rocky Linux](https://rockylinux.org/)：CentOS的创始人在CentOS终止后创建的，继续CentOS的目标。首个正式版本8.4在2021年6月21日发布。
 - [openEuler](https://www.openeuler.org/zh/)：2019 年12月31日社区成立，版本发布周期和Ubuntu一样，只是换成了每年的3月和6月。参与度最高的有华为、麒麟软件等公司。
+
+<!-- ing begin -->
+# Linux内核的就业
+
+找工作时，我们会看招聘岗位的要求。其实，在学习时，我们也可以看招聘岗位要求，针对一些公司招聘要求去学习相应的知识点。
+
+首先我们可以在[LWN上搜索贡献排名靠前的公司](https://lwn.net/Articles/948970/)，当然这是全世界的排名。或者看中国由华为发起的参与公司很多的[openEuler社区的商业发行版](https://www.openeuler.org/zh/download/commercial-release/)的公司。
+
+下面我们列一下在中国的几类内核相关的岗位要求。
+
+## 岗位职责
+
+- 操作系统内核移植、适配以及定制
+- 移动产品板卡和驱动开发
+- 内核和驱动层问题分析和调试工作
+- Linux内核性能的评估、设计、实现和验证
+- 分析内核panic、死锁、内存踩踏/溢出，core hang和bus hang等疑难问题
+- 内核CVE等补丁的回合和新特性移植
+- 完成内核开发的技术文档设计和输出
+- 内核驱动开发和单元测试
+- 操作系统产品线版本定制和研发
+- 
+
+## 岗位要求
+
+- 对Linux内核及底层有强烈兴趣，对技术有追求
+- 熟悉ARM、MIPS、X86架构中的一种或者多种
+- 阅读过内核中的主要模块（文件系统、TCP/IP、IO、内存管理、进程管理等）之一的源代码
+- 具备Linux内核调试能力，灵活运用kexec、crash、kprobe、kdump、perf等调试工具
+- 熟悉ebpf框架
+- 熟悉Linux内核开源社区发展，参与过社区开发
+- 熟悉汇编语言
+- 熟悉KVM底层实现原理
+- 熟悉RTOS系统底层实现原理
+- 熟悉Linux系统性能调做及Linux服务管理
+- 熟悉嵌入式设备Linux内核适配（体系结构适配）
+- 熟悉Linux驱动开发流程和驱动框架
+<!-- ing end -->
