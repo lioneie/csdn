@@ -603,7 +603,7 @@ struct address_space {
         gfp_t                   gfp_mask;         // 用于分配页面的内存分配标志。
         atomic_t                i_mmap_writable;  // VM_SHARED 映射的数量。
 #ifdef CONFIG_READ_ONLY_THP_FOR_FS
-        /* number of thp, only for non-shmem files */
+        /* thp 的数量，仅用于非 shmem 文件 */
         atomic_t                nr_thps;        // 页缓存中的 THP（非共享内存）数量。
 #endif
         struct rb_root_cached   i_mmap;         // 私有和共享映射的树。
@@ -617,15 +617,18 @@ struct address_space {
         struct list_head        private_list;   // 供 address_space 的拥有者使用。
         void                    *private_data;  // 供 address_space 的拥有者使用。
 } __attribute__((aligned(sizeof(long)))) __randomize_layout;
+```
 
+地址空间操作:
+```c
 struct address_space_operations {
         int (*writepage)(struct page *page, struct writeback_control *wbc); // 将文件在内存page中的更新到磁盘上
         int (*read_folio)(struct file *, struct folio *); // 从磁盘上读取文件的数据到内存page中
 
-        /* Write back some dirty pages from this mapping. */
+        /* 从此映射中回写一些脏页。 */
         int (*writepages)(struct address_space *, struct writeback_control *); // 将多个page更新到磁盘上
 
-        /* Mark a folio dirty.  Return true if this dirtied it */
+        /* 标记一个 folio 为脏页。如果此操作使其变脏，则返回 true */
         bool (*dirty_folio)(struct address_space *, struct folio *);
 
         void (*readahead)(struct readahead_control *);
@@ -637,7 +640,7 @@ struct address_space_operations {
                                 loff_t pos, unsigned len, unsigned copied,
                                 struct page *page, void *fsdata);
 
-        /* Unfortunately this kludge is needed for FIBMAP. Don't use it */
+        /* 不幸的是，FIBMAP 需要这个权宜之计。不要使用它 */
         sector_t (*bmap)(struct address_space *, sector_t); // 将文件中的逻辑块扇区编号映射为对应设备上的物理块扇区编号
         void (*invalidate_folio) (struct folio *, size_t offset, size_t len); // 使某个page部分或全部失效
         bool (*release_folio)(struct folio *, gfp_t); // 日志文件系统使用，释放page
