@@ -505,8 +505,8 @@ struct file {
         };
 
         /*
-         * Protects f_ep, f_flags.
-         * Must not be taken from IRQ context.
+         * 保护 f_ep 和 f_flags。
+         * 禁止在 IRQ 上下文中获取。
          */
         spinlock_t              f_lock; // 单个文件结构锁
         fmode_t                 f_mode; // 访问模式
@@ -525,18 +525,18 @@ struct file {
 #ifdef CONFIG_SECURITY
         void                    *f_security; // 安全模块
 #endif
-        /* needed for tty driver, and maybe others */
+        /* tty 驱动程序以及其他驱动程序可能需要 */
         void                    *private_data; // tty设备驱动的钩子
 
 #ifdef CONFIG_EPOLL
-        /* Used by fs/eventpoll.c to link all the hooks to this file */
+        /* 由 fs/eventpoll.c 用于链接所有的钩子到这个file对象 */
         struct hlist_head       *f_ep; // 事件池链表
 #endif /* #ifdef CONFIG_EPOLL */
         struct address_space    *f_mapping; // 页缓存映射
         errseq_t                f_wb_err;
         errseq_t                f_sb_err; /* for syncfs */
 } __randomize_layout
-  __attribute__((aligned(4)));  /* lest something weird decides that 2 is OK */
+  __attribute__((aligned(4)));  /* 防止某些奇怪的情况认为 2 是可以的 */
 ```
 
 ## 文件操作
