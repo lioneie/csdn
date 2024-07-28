@@ -1039,21 +1039,21 @@ struct ext2_group_desc
 
 ```c
 /*
- * Structure of an inode on the disk
+ * 磁盘索引节点结构
  */
 struct ext2_inode {
-        __le16  i_mode;         /* File mode，文件类型和访问权限，查看S_ISREG()等函数 */
-        __le16  i_uid;          /* Low 16 bits of Owner Uid，拥有者id */
+        __le16  i_mode;         /* 文件类型和访问权限，查看S_ISREG()等函数 */
+        __le16  i_uid;          /* 所有者 Uid 的低 16 位，拥有者id */
         // 文件长度，最高位没使用，最大表示2GB文件，大于2GB文件再使用i_dir_acl字段
-        __le32  i_size;         /* Size in bytes */
-        __le32  i_atime;        /* Access time，访问时间 */
-        __le32  i_ctime;        /* Creation time，索引节点最后改变时间 */
-        __le32  i_mtime;        /* Modification time，文件数据最后改变时间 */
-        __le32  i_dtime;        /* Deletion Time，删除时间 */
-        __le16  i_gid;          /* Low 16 bits of Group Id，用户组id */
-        __le16  i_links_count;  /* Links count，硬链接计数 */
-        __le32  i_blocks;       /* Blocks count，数据块数，以512字节为单位 */
-        __le32  i_flags;        /* File flags，文件标志 */
+        __le32  i_size;         /* 大小（字节） */
+        __le32  i_atime;        /* 访问时间 */
+        __le32  i_ctime;        /* 索引节点创建时间 */
+        __le32  i_mtime;        /* 文件数据最后改变时间 */
+        __le32  i_dtime;        /* 删除时间 */
+        __le16  i_gid;          /* 组 ID 的低 16 位，用户组id */
+        __le16  i_links_count;  /* 硬链接计数 */
+        __le32  i_blocks;       /* 数据块数，以512字节为单位 */
+        __le32  i_flags;        /* 文件标志 */
         union {
                 struct {
                         __le32  l_i_reserved1;
@@ -1066,36 +1066,36 @@ struct ext2_inode {
                 } masix1;
         } osd1;                         /* OS dependent 1，特定操作系统信息 */
         // i_block 数据块指针，指向15个块，前12个指向数据，第13个一次间接地址，第14个二次间接地址，第15个三次间接地址
-        __le32  i_block[EXT2_N_BLOCKS];/* Pointers to blocks */
-        __le32  i_generation;   /* File version (for NFS)，文件版本，给nfs用的 */
+        __le32  i_block[EXT2_N_BLOCKS];/* 指向块的指针 */
+        __le32  i_generation;   /* 文件版本，给nfs用的 */
         // i_file_acl 访问控制列表，指向一个存放增强属性的块，其他inode如果增强属性一样，可以共享同一个块
-        __le32  i_file_acl;     /* File ACL */
-        __le32  i_dir_acl;      /* Directory ACL，目录访问控制列表 */
-        __le32  i_faddr;        /* Fragment address，片地址 */
+        __le32  i_file_acl;     /* 文件访问控制列表（ACL） */
+        __le32  i_dir_acl;      /* 目录访问控制列表 */
+        __le32  i_faddr;        /* 片地址 */
         union {
                 struct {
-                        __u8    l_i_frag;       /* Fragment number */
-                        __u8    l_i_fsize;      /* Fragment size */
+                        __u8    l_i_frag;       /* 片编号 */
+                        __u8    l_i_fsize;      /* 片大小 */
                         __u16   i_pad1;
-                        __le16  l_i_uid_high;   /* these 2 fields    */
-                        __le16  l_i_gid_high;   /* were reserved2[0] */
+                        __le16  l_i_uid_high;   /* 以前是reserved2[0]    */
+                        __le16  l_i_gid_high;   /* 以前是reserved2[0] */
                         __u32   l_i_reserved2;
                 } linux2;
                 struct {
-                        __u8    h_i_frag;       /* Fragment number */
-                        __u8    h_i_fsize;      /* Fragment size */
+                        __u8    h_i_frag;       /* 片编号 */
+                        __u8    h_i_fsize;      /* 片大小 */
                         __le16  h_i_mode_high;
                         __le16  h_i_uid_high;
                         __le16  h_i_gid_high;
                         __le32  h_i_author;
                 } hurd2;
                 struct {
-                        __u8    m_i_frag;       /* Fragment number */
-                        __u8    m_i_fsize;      /* Fragment size */
+                        __u8    m_i_frag;       /* 片编号 */
+                        __u8    m_i_fsize;      /* 片大小 */
                         __u16   m_pad1;
                         __u32   m_i_reserved2[2];
                 } masix2;
-        } osd2;                         /* OS dependent 2，特定文件系统信息 */
+        } osd2;                         /* 特定文件系统信息 */
 };
 ```
 
