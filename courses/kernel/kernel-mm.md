@@ -19,6 +19,9 @@ MMU，英文全称Memory Management Unit，中文翻译为内存管理单元，�
 
 # 页
 
+- KMSAN: todo
+- KASAN: todo
+
 ```c
 struct page {
         unsigned long flags;            /* 原子标志，其中一些可能被异步更新 */
@@ -103,65 +106,56 @@ union page_union_1 {
                 */
                 unsigned long private;
         };
-        struct {        /* page_pool used by netstack */
+        struct {        /* 网络栈使用的 page_pool */
                 /**
-                    * @pp_magic: magic value to avoid recycling non
-                    * page_pool allocated pages.
-                    */
+                * @pp_magic: 魔术值，用于避免回收非 page_pool 分配的页面。
+                */
                 unsigned long pp_magic;
                 struct page_pool *pp;
                 unsigned long _pp_mapping_pad;
                 unsigned long dma_addr;
                 union {
                         /**
-                            * dma_addr_upper: might require a 64-bit
-                            * value on 32-bit architectures.
-                            */
+                        * dma_addr_upper: 在 32 位架构上可能需要 64 位值。
+                        */
                         unsigned long dma_addr_upper;
                         /**
-                            * For frag page support, not supported in
-                            * 32-bit architectures with 64-bit DMA.
-                            */
+                        * 支持 frag page，不支持 64 位 DMA 的 32 位架构。
+                        */
                         atomic_long_t pp_frag_count;
                 };
         };
-        struct {        /* Tail pages of compound page */
-                unsigned long compound_head;    /* Bit zero is set */
+        struct {        /* 复合页面的尾页 */
+                unsigned long compound_head;    /* 位零已设置 */
         };
-        struct {        /* ZONE_DEVICE pages */
-                /** @pgmap: Points to the hosting device page map. */
+        struct {        /* ZONE_DEVICE 页面 */
+                /** @pgmap: 指向宿主设备页面映射。 */
                 struct dev_pagemap *pgmap;
                 void *zone_device_data;
                 /*
-                    * ZONE_DEVICE private pages are counted as being
-                    * mapped so the next 3 words hold the mapping, index,
-                    * and private fields from the source anonymous or
-                    * page cache page while the page is migrated to device
-                    * private memory.
-                    * ZONE_DEVICE MEMORY_DEVICE_FS_DAX pages also
-                    * use the mapping, index, and private fields when
-                    * pmem backed DAX files are mapped.
-                    */
+                * ZONE_DEVICE 私有页面被计为已映射，因此接下来的 3 个字保存了
+                * 映射、索引和私有字段，当页面迁移到设备私有内存时，这些字段来自
+                * 源匿名页面或页面缓存页面。
+                * ZONE_DEVICE MEMORY_DEVICE_FS_DAX 页面在 pmem 支持的 DAX 文件
+                * 被映射时也使用映射、索引和私有字段。
+                */
         };
 
-        /** @rcu_head: You can use this to free a page by RCU. */
+        /** @rcu_head: 您可以使用它通过 RCU 释放页面。 */
         struct rcu_head rcu_head;
 }
 
 /* 这个联合体的大小是4字节。 */
 union page_union_2 {
         /*
-            * If the page can be mapped to userspace, encodes the number
-            * of times this page is referenced by a page table.
-            */
+        * 如果页面可以映射到用户空间，则编码该页面被页表引用的次数。
+        */
         atomic_t _mapcount;
 
         /*
-            * If the page is neither PageSlab nor mappable to userspace,
-            * the value stored here may help determine what this page
-            * is used for.  See page-flags.h for a list of page types
-            * which are currently stored here.
-            */
+        * 如果页面既不是 PageSlab 也不能映射到用户空间，此处存储的值可能有助于
+        * 确定该页面的用途。有关当前存储在此处的页面类型列表，请参见 page-flags.h。
+        */
         unsigned int page_type;
 }
 ```
@@ -201,71 +195,51 @@ enum zone_type {
         ZONE_DMA32,
 #endif
         /*
-         * Normal addressable memory is in ZONE_NORMAL. DMA operations can be
-         * performed on pages in ZONE_NORMAL if the DMA devices support
-         * transfers to all addressable memory.
-         */
+        * 可寻址的常规内存在 ZONE_NORMAL 中。如果 DMA 设备支持对所有可寻址内存的传输，
+        * 则可以对 ZONE_NORMAL 中的页面执行 DMA 操作。
+        */
         ZONE_NORMAL,
 #ifdef CONFIG_HIGHMEM
         /*
-         * A memory area that is only addressable by the kernel through
-         * mapping portions into its own address space. This is for example
-         * used by i386 to allow the kernel to address the memory beyond
-         * 900MB. The kernel will set up special mappings (page
-         * table entries on i386) for each page that the kernel needs to
-         * access.
-         */
+        * 一种只能通过将部分映射到其自身地址空间来由内核寻址的内存区域。
+        * 例如，i386 使用此区域允许内核寻址超过 900MB 的内存。
+        * 内核将为每个需要访问的页面设置特殊映射（在 i386 上为页表项）。
+        */
         ZONE_HIGHMEM,
 #endif
         /*
-         * ZONE_MOVABLE is similar to ZONE_NORMAL, except that it contains
-         * movable pages with few exceptional cases described below. Main use
-         * cases for ZONE_MOVABLE are to make memory offlining/unplug more
-         * likely to succeed, and to locally limit unmovable allocations - e.g.,
-         * to increase the number of THP/huge pages. Notable special cases are:
-         *
-         * 1. Pinned pages: (long-term) pinning of movable pages might
-         *    essentially turn such pages unmovable. Therefore, we do not allow
-         *    pinning long-term pages in ZONE_MOVABLE. When pages are pinned and
-         *    faulted, they come from the right zone right away. However, it is
-         *    still possible that address space already has pages in
-         *    ZONE_MOVABLE at the time when pages are pinned (i.e. user has
-         *    touches that memory before pinning). In such case we migrate them
-         *    to a different zone. When migration fails - pinning fails.
-         * 2. memblock allocations: kernelcore/movablecore setups might create
-         *    situations where ZONE_MOVABLE contains unmovable allocations
-         *    after boot. Memory offlining and allocations fail early.
-         * 3. Memory holes: kernelcore/movablecore setups might create very rare
-         *    situations where ZONE_MOVABLE contains memory holes after boot,
-         *    for example, if we have sections that are only partially
-         *    populated. Memory offlining and allocations fail early.
-         * 4. PG_hwpoison pages: while poisoned pages can be skipped during
-         *    memory offlining, such pages cannot be allocated.
-         * 5. Unmovable PG_offline pages: in paravirtualized environments,
-         *    hotplugged memory blocks might only partially be managed by the
-         *    buddy (e.g., via XEN-balloon, Hyper-V balloon, virtio-mem). The
-         *    parts not manged by the buddy are unmovable PG_offline pages. In
-         *    some cases (virtio-mem), such pages can be skipped during
-         *    memory offlining, however, cannot be moved/allocated. These
-         *    techniques might use alloc_contig_range() to hide previously
-         *    exposed pages from the buddy again (e.g., to implement some sort
-         *    of memory unplug in virtio-mem).
-         * 6. ZERO_PAGE(0), kernelcore/movablecore setups might create
-         *    situations where ZERO_PAGE(0) which is allocated differently
-         *    on different platforms may end up in a movable zone. ZERO_PAGE(0)
-         *    cannot be migrated.
-         * 7. Memory-hotplug: when using memmap_on_memory and onlining the
-         *    memory to the MOVABLE zone, the vmemmap pages are also placed in
-         *    such zone. Such pages cannot be really moved around as they are
-         *    self-stored in the range, but they are treated as movable when
-         *    the range they describe is about to be offlined.
-         *
-         * In general, no unmovable allocations that degrade memory offlining
-         * should end up in ZONE_MOVABLE. Allocators (like alloc_contig_range())
-         * have to expect that migrating pages in ZONE_MOVABLE can fail (even
-         * if has_unmovable_pages() states that there are no unmovable pages,
-         * there can be false negatives).
-         */
+        * ZONE_MOVABLE 类似于 ZONE_NORMAL，不同之处在于它包含可移动页面，
+        * 下面描述了几个例外情况。ZONE_MOVABLE 的主要用途是增加内存下线/卸载
+        * 成功的可能性，并局部限制不可移动的分配 - 例如，增加 THP/大页的数量。
+        * 值得注意的特殊情况包括：
+        *
+        * 1. 锁定页面：（长期）锁定可移动页面可能会实质上使这些页面变得不可移动。
+        *    因此，我们不允许在 ZONE_MOVABLE 中长期锁定页面。当页面被锁定并出现错误时，
+        *    它们会立即从正确的区域中获取。然而，当页面被锁定时，地址空间中可能已经有
+        *    位于 ZONE_MOVABLE 中的页面（即用户在锁定前已访问该内存）。在这种情况下，
+        *    我们将它们迁移到不同的区域。当迁移失败时 - 锁定失败。
+        * 2. memblock 分配：kernelcore/movablecore 设置可能会在引导后导致
+        *    ZONE_MOVABLE 中包含不可移动的分配。内存下线和分配会很早失败。
+        * 3. 内存空洞：kernelcore/movablecore 设置可能会在引导后导致 ZONE_MOVABLE
+        *    中包含内存空洞，例如，如果我们有仅部分填充的部分。内存下线和分配会很早失败。
+        * 4. PG_hwpoison 页面：虽然在内存下线期间可以跳过中毒页面，但这些页面不能被分配。
+        * 5. 不可移动的 PG_offline 页面：在半虚拟化环境中，热插拔的内存块可能仅部分
+        *    由伙伴系统管理（例如，通过 XEN-balloon、Hyper-V balloon、virtio-mem）。
+        *    由伙伴系统未管理的部分是不可移动的 PG_offline 页面。在某些情况下
+        *    （virtio-mem），在内存下线期间可以跳过这些页面，但不能移动/分配。
+        *    这些技术可能会使用 alloc_contig_range() 再次隐藏之前暴露的页面
+        *    （例如，在 virtio-mem 中实现某种内存卸载）。
+        * 6. ZERO_PAGE(0)：kernelcore/movablecore 设置可能会导致
+        *    ZERO_PAGE(0)（在不同平台上分配方式不同）最终位于可移动区域。
+        *    ZERO_PAGE(0) 不能迁移。
+        * 7. 内存热插拔：当使用 memmap_on_memory 并将内存上线到 MOVABLE 区域时，
+        *    vmemmap 页面也会放置在该区域。这些页面不能真正移动，因为它们自存储在范围内，
+        *    但在描述的范围即将下线时，它们被视为可移动。
+        *
+        * 总体而言，不应在 ZONE_MOVABLE 中出现不可移动的分配，这会降低内存下线的效果。
+        * 分配器（如 alloc_contig_range()）必须预料到在 ZONE_MOVABLE 中迁移页面可能会失败
+        * （即使 has_unmovable_pages() 表示没有不可移动页面，也可能存在假阴性）。
+        */
         ZONE_MOVABLE,
 #ifdef CONFIG_ZONE_DEVICE
         ZONE_DEVICE,
@@ -292,27 +266,24 @@ enum zone_watermarks {
         WMARK_LOW, // 低水印。当可用内存低于此水印但高于最低水印时，内核将开始执行内存回收操作，但不会像最低水印那么紧急
         WMARK_HIGH, // 高水印。当可用内存高于此水印时，内核认为系统内存充足，不需要进行内存回收操作
         WMARK_PROMO, // promotion提升，一种优化机制，用于更细粒度地控制内存分配和回收。它的作用是当内存压力较高时，将某些内存区域的水印提升到较高水平，以便更积极地进行内存回收，防止内存耗尽的风险。
-        NR_WMARK      
+        NR_WMARK  // 总数
 };                    
 
 struct zone {
-        /* Read-mostly fields */
+        /* 主要为只读字段 */
 
-        /* zone watermarks, access with *_wmark_pages(zone) macros */
-        unsigned long _watermark[NR_WMARK]; // 查看zone_watermarks
+        /* 区域水印，通过 *_wmark_pages(zone) 宏访问 */
+        unsigned long _watermark[NR_WMARK]; // 查看 zone_watermarks
         unsigned long watermark_boost;
 
         unsigned long nr_reserved_highatomic;
 
         /*
-         * We don't know if the memory that we're going to allocate will be
-         * freeable or/and it will be released eventually, so to avoid totally
-         * wasting several GB of ram we must reserve some of the lower zone
-         * memory (otherwise we risk to run OOM on the lower zones despite
-         * there being tons of freeable ram on the higher zones).  This array is
-         * recalculated at runtime if the sysctl_lowmem_reserve_ratio sysctl
-         * changes.
-         */
+        * 我们不知道将要分配的内存是否可释放或最终会被释放，所以为了避免完全浪费数GB的内存，
+        * 我们必须保留一些较低区域的内存（否则我们有可能在较低区域内存不足的情况下，
+        * 而较高区域却有大量可释放的内存）。如果 sysctl_lowmem_reserve_ratio 的 sysctl 发生变化，
+        * 该数组会在运行时重新计算。
+        */
         long lowmem_reserve[MAX_NR_ZONES];
 
 #ifdef CONFIG_NUMA
@@ -322,65 +293,51 @@ struct zone {
         struct per_cpu_pages    __percpu *per_cpu_pageset;
         struct per_cpu_zonestat __percpu *per_cpu_zonestats;
         /*
-         * the high and batch values are copied to individual pagesets for
-         * faster access
-         */
+        * high 和 batch 值被复制到各个页面集以便更快速地访问
+        */
         int pageset_high;
         int pageset_batch;
 
 #ifndef CONFIG_SPARSEMEM
         /*
-         * Flags for a pageblock_nr_pages block. See pageblock-flags.h.
-         * In SPARSEMEM, this map is stored in struct mem_section
-         */
+        * pageblock_nr_pages 块的标志。请参阅 pageblock-flags.h。
+        * 在 SPARSEMEM 中，此映射存储在 struct mem_section 中。
+        */
         unsigned long           *pageblock_flags;
 #endif /* CONFIG_SPARSEMEM */
 
         /* zone_start_pfn == zone_start_paddr >> PAGE_SHIFT */
         unsigned long           zone_start_pfn;
-
         /*
-         * spanned_pages is the total pages spanned by the zone, including
-         * holes, which is calculated as:
-         *      spanned_pages = zone_end_pfn - zone_start_pfn;
-         *
-         * present_pages is physical pages existing within the zone, which
-         * is calculated as:
-         *      present_pages = spanned_pages - absent_pages(pages in holes);
-         *
-         * present_early_pages is present pages existing within the zone
-         * located on memory available since early boot, excluding hotplugged
-         * memory.
-         *
-         * managed_pages is present pages managed by the buddy system, which
-         * is calculated as (reserved_pages includes pages allocated by the
-         * bootmem allocator):
-         *      managed_pages = present_pages - reserved_pages;
-         *
-         * cma pages is present pages that are assigned for CMA use
-         * (MIGRATE_CMA).
-         *
-         * So present_pages may be used by memory hotplug or memory power
-         * management logic to figure out unmanaged pages by checking
-         * (present_pages - managed_pages). And managed_pages should be used
-         * by page allocator and vm scanner to calculate all kinds of watermarks
-         * and thresholds.
-         *
-         * Locking rules:
-         *
-         * zone_start_pfn and spanned_pages are protected by span_seqlock.
-         * It is a seqlock because it has to be read outside of zone->lock,
-         * and it is done in the main allocator path.  But, it is written
-         * quite infrequently.
-         *
-         * The span_seq lock is declared along with zone->lock because it is
-         * frequently read in proximity to zone->lock.  It's good to
-         * give them a chance of being in the same cacheline.
-         *
-         * Write access to present_pages at runtime should be protected by
-         * mem_hotplug_begin/done(). Any reader who can't tolerant drift of
-         * present_pages should use get_online_mems() to get a stable value.
-         */
+        * spanned_pages 是该区域所跨越的总页数，包括空洞，计算公式为：
+        *      spanned_pages = zone_end_pfn - zone_start_pfn;
+        *
+        * present_pages 是该区域内存在的物理页，计算公式为：
+        *      present_pages = spanned_pages - absent_pages(空洞中的页数);
+        *
+        * present_early_pages 是自启动早期以来该区域内存在的内存页，不包括热插拔内存。
+        *
+        * managed_pages 是由伙伴系统管理的存在页，计算公式为（reserved_pages 包括由 bootmem 分配器分配的页）：
+        *      managed_pages = present_pages - reserved_pages;
+        *
+        * cma_pages 是分配给 CMA 使用的存在页（MIGRATE_CMA）。
+        *
+        * 因此， present_pages 可被内存热插拔或内存电源管理逻辑用来通过检查
+        * (present_pages - managed_pages) 来找出未管理的页。而 managed_pages
+        * 应该被页分配器和虚拟内存扫描器用来计算各种水印和阈值。
+        *
+        * 锁定规则：
+        *
+        * zone_start_pfn 和 spanned_pages 受 span_seqlock 保护。
+        * 这是一个 seqlock，因为它必须在 zone->lock 外部读取，
+        * 并且它是在主分配器路径中完成的。但是，它的写入频率非常低。
+        *
+        * span_seq 锁与 zone->lock 一起声明，因为它在 zone->lock 附近经常被读取。
+        * 这样有机会使它们位于同一个缓存行中。
+        *
+        * 运行时对 present_pages 的写访问应由 mem_hotplug_begin/done() 保护。
+        * 任何无法容忍 present_pages 漂移的读者应使用 get_online_mems() 以获得稳定的值。
+        */
         atomic_long_t           managed_pages;
         unsigned long           spanned_pages;
         unsigned long           present_pages;
@@ -395,51 +352,49 @@ struct zone {
 
 #ifdef CONFIG_MEMORY_ISOLATION
         /*
-         * Number of isolated pageblock. It is used to solve incorrect
-         * freepage counting problem due to racy retrieving migratetype
-         * of pageblock. Protected by zone->lock.
-         */
+        * 隔离页面块的数量。用于解决由于竞争性检索页面块的迁移类型导致的错误空闲页计数问题。
+        * 受 zone->lock 保护。
+        */
         unsigned long           nr_isolate_pageblock;
 #endif
 
 #ifdef CONFIG_MEMORY_HOTPLUG
-        /* see spanned/present_pages for more description */
+        /* 有关详细描述，请参阅 spanned/present_pages */
         seqlock_t               span_seqlock;
 #endif
 
         int initialized;
 
-        /* Write-intensive fields used from the page allocator */
+        /* 页分配器使用的写密集字段 */
         CACHELINE_PADDING(_pad1_);
 
-        /* free areas of different sizes */
+        /* 不同大小的空闲区域 */
         struct free_area        free_area[MAX_ORDER + 1];
 
 #ifdef CONFIG_UNACCEPTED_MEMORY
-        /* Pages to be accepted. All pages on the list are MAX_ORDER */
+        /* 待接受的页面。列表中的所有页面都是 MAX_ORDER */
         struct list_head        unaccepted_pages;
 #endif
 
-        /* zone flags, see below */
+        /* 区域标志，见下文 */
         unsigned long           flags;
 
-        /* Primarily protects free_area */
+        /* 主要保护 free_area */
         spinlock_t              lock; // 只保护结构，不保护在这个区的页
 
-        /* Write-intensive fields used by compaction and vmstats. */
+        /* 由压缩和 vmstats 使用的写密集字段。 */
         CACHELINE_PADDING(_pad2_);
 
         /*
-         * When free pages are below this point, additional steps are taken
-         * when reading the number of free pages to avoid per-cpu counter
-         * drift allowing watermarks to be breached
-         */
+        * 当空闲页数低于此点时，在读取空闲页数时会采取额外步骤，
+        * 以避免每个 CPU 计数器漂移导致水印被突破
+        */
         unsigned long percpu_drift_mark;
 
 #if defined CONFIG_COMPACTION || defined CONFIG_CMA
-        /* pfn where compaction free scanner should start */
+        /* 压缩空闲扫描器应开始的 pfn（page frame number 页帧号） */
         unsigned long           compact_cached_free_pfn;
-        /* pfn where compaction migration scanner should start */
+        /* 压缩迁移扫描器应开始的页帧号（pfn） */
         unsigned long           compact_cached_migrate_pfn[ASYNC_AND_SYNC];
         unsigned long           compact_init_migrate_pfn;
         unsigned long           compact_init_free_pfn;
@@ -447,18 +402,17 @@ struct zone {
 
 #ifdef CONFIG_COMPACTION
         /*
-         * On compaction failure, 1<<compact_defer_shift compactions
-         * are skipped before trying again. The number attempted since
-         * last failure is tracked with compact_considered.
-         * compact_order_failed is the minimum compaction failed order.
-         */
+        * 在压缩失败时，跳过 1<<compact_defer_shift 次压缩后再尝试。
+        * 自上次失败以来尝试的次数由 compact_considered 跟踪。
+        * compact_order_failed 是压缩失败的最小顺序。
+        */
         unsigned int            compact_considered;
         unsigned int            compact_defer_shift;
         int                     compact_order_failed;
 #endif
 
 #if defined CONFIG_COMPACTION || defined CONFIG_CMA
-        /* Set to true when the PG_migrate_skip bits should be cleared */
+        /* 当应清除 PG_migrate_skip 位时设为 true */
         bool                    compact_blockskip_flush;
 #endif
 
@@ -534,30 +488,26 @@ typedef unsigned int __bitwise gfp_t;
 表示内核应该如何分配所需的内存。
 
 ```c
-/**                                                                             
- * DOC: Action modifiers                                                        
- *                                                                              
- * Action modifiers                                                             
- * ----------------                                                             
- *                                                                              
- * %__GFP_NOWARN suppresses allocation failure reports.                         
- *                                                                              
- * %__GFP_COMP address compound page metadata.                                  
- *                                                                              
- * %__GFP_ZERO returns a zeroed page on success.                                
- *                                                                              
- * %__GFP_ZEROTAGS zeroes memory tags at allocation time if the memory itself   
- * is being zeroed (either via __GFP_ZERO or via init_on_alloc, provided that   
- * __GFP_SKIP_ZERO is not set). This flag is intended for optimization: setting 
- * memory tags at the same time as zeroing memory has minimal additional        
- * performace impact.                                                           
- *                                                                              
- * %__GFP_SKIP_KASAN makes KASAN skip unpoisoning on page allocation.           
- * Used for userspace and vmalloc pages; the latter are unpoisoned by           
- * kasan_unpoison_vmalloc instead. For userspace pages, results in              
- * poisoning being skipped as well, see should_skip_kasan_poison for            
- * details. Only effective in HW_TAGS mode.                                     
- */                                                                             
+/**
+ * DOC: 操作修饰符
+ * 
+ * 操作修饰符
+ * ----------------
+ * 
+ * %__GFP_NOWARN 抑制分配失败报告。
+ * 
+ * %__GFP_COMP 处理复合页元数据。
+ * 
+ * %__GFP_ZERO 成功时返回已清零的页。
+ * 
+ * %__GFP_ZEROTAGS 如果内存本身被清零（通过 __GFP_ZERO 或 init_on_alloc，
+ * 前提是未设置 __GFP_SKIP_ZERO ），则在分配时清零内存标签。此标志用于优化：
+ * 在清零内存的同时设置内存标签对性能的额外影响最小。
+ * 
+ * %__GFP_SKIP_KASAN 使 KASAN 在页分配时跳过取消标记。用于用户空间和 vmalloc 页；
+ * 后者由 kasan_unpoison_vmalloc 代替取消标记。对于用户空间页，
+ * 也会跳过标记，详细信息见 should_skip_kasan_poison。仅在 HW_TAGS 模式下有效。
+ */                                                                            
 #define __GFP_NOWARN    ((__force gfp_t)___GFP_NOWARN)                          
 #define __GFP_COMP      ((__force gfp_t)___GFP_COMP)                            
 #define __GFP_ZERO      ((__force gfp_t)___GFP_ZERO)                            
@@ -565,10 +515,10 @@ typedef unsigned int __bitwise gfp_t;
 #define __GFP_SKIP_ZERO ((__force gfp_t)___GFP_SKIP_ZERO)                       
 #define __GFP_SKIP_KASAN ((__force gfp_t)___GFP_SKIP_KASAN)                     
                                                                                 
-/* Disable lockdep for GFP context tracking */                                  
+/* 禁用 GFP 上下文跟踪的 lockdep */                               
 #define __GFP_NOLOCKDEP ((__force gfp_t)___GFP_NOLOCKDEP)                       
                                                                                 
-/* Room for N __GFP_FOO bits */                                                 
+/* 为 N 个 __GFP_FOO 位预留空间 */                                               
 #define __GFP_BITS_SHIFT (26 + IS_ENABLED(CONFIG_LOCKDEP))                      
 #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))          
 ```
@@ -578,13 +528,12 @@ typedef unsigned int __bitwise gfp_t;
 表示从哪个区分配内存。注意返回逻辑地址的函数如`__get_free_pages()`和`kmalloc()`等不能指定`__GFP_HIGHMEM`，因为可能会出现还没映射虚拟地址空间，没有虚拟地址。
 
 ```c
-/*                                                                                 
- * Physical address zone modifiers (see linux/mmzone.h - low four bits)            
- *                                                                                 
- * Do not put any conditional on these. If necessary modify the definitions        
- * without the underscores and use them consistently. The definitions here may     
- * be used in bit comparisons.                                                     
- */                                                                                
+/*
+ * 物理地址区域修饰符（参见 linux/mmzone.h - 低四位）
+ * 
+ * 不要对这些修饰符做任何条件判断。如有必要，修改没有下划线的定义并一致地使用它们。
+ * 这里的定义可能会用于位比较。
+ */                                                                              
 #define __GFP_DMA       ((__force gfp_t)___GFP_DMA)                                
 #define __GFP_HIGHMEM   ((__force gfp_t)___GFP_HIGHMEM)                            
 #define __GFP_DMA32     ((__force gfp_t)___GFP_DMA32)                              
@@ -597,76 +546,55 @@ typedef unsigned int __bitwise gfp_t;
 组合了行为修饰符和区修饰符。
 
 ```c
-
 /**
- * DOC: Useful GFP flag combinations
+ * DOC: 有用的 GFP 标志组合
  *
- * Useful GFP flag combinations
+ * 有用的 GFP 标志组合
  * ----------------------------
  *
- * Useful GFP flag combinations that are commonly used. It is recommended
- * that subsystems start with one of these combinations and then set/clear
- * %__GFP_FOO flags as necessary.
+ * 常用的 GFP 标志组合。建议子系统从这些组合之一开始，然后根据需要设置/清除 %__GFP_FOO 标志。
  *
- * %GFP_ATOMIC users can not sleep and need the allocation to succeed. A lower
- * watermark is applied to allow access to "atomic reserves".
- * The current implementation doesn't support NMI and few other strict
- * non-preemptive contexts (e.g. raw_spin_lock). The same applies to %GFP_NOWAIT.
+ * %GFP_ATOMIC 用户不能休眠，需要分配成功。应用了较低的水印以允许访问“原子保留”。
+ * 当前实现不支持 NMI 和其他一些严格的非抢占上下文（例如 raw_spin_lock）。
+ * %GFP_NOWAIT 也是如此。
  *
- * %GFP_KERNEL is typical for kernel-internal allocations. The caller requires
- * %ZONE_NORMAL or a lower zone for direct access but can direct reclaim.
+ * %GFP_KERNEL 适用于内核内部分配。调用者需要 %ZONE_NORMAL 或更低区域以直接访问，但可以直接回收。
  *
- * %GFP_KERNEL_ACCOUNT is the same as GFP_KERNEL, except the allocation is
- * accounted to kmemcg.
+ * %GFP_KERNEL_ACCOUNT 与 GFP_KERNEL 相同，但分配会记入 kmemcg。
  *
- * %GFP_NOWAIT is for kernel allocations that should not stall for direct
- * reclaim, start physical IO or use any filesystem callback.
+ * %GFP_NOWAIT 适用于不应因直接回收、启动物理 IO 或使用任何文件系统回调而停滞的内核分配。
  *
- * %GFP_NOIO will use direct reclaim to discard clean pages or slab pages
- * that do not require the starting of any physical IO.
- * Please try to avoid using this flag directly and instead use
- * memalloc_noio_{save,restore} to mark the whole scope which cannot
- * perform any IO with a short explanation why. All allocation requests
- * will inherit GFP_NOIO implicitly.
+ * %GFP_NOIO 将使用直接回收来丢弃不需要启动任何物理 IO 的干净页或 slab 页。
+ * 请尽量避免直接使用此标志，而应使用 memalloc_noio_{save,restore}
+ * 来标记整个范围，说明不能执行任何 IO 的原因。所有分配请求将隐式继承 GFP_NOIO。
  *
- * %GFP_NOFS will use direct reclaim but will not use any filesystem interfaces.
- * Please try to avoid using this flag directly and instead use
- * memalloc_nofs_{save,restore} to mark the whole scope which cannot/shouldn't
- * recurse into the FS layer with a short explanation why. All allocation
- * requests will inherit GFP_NOFS implicitly.
+ * %GFP_NOFS 将使用直接回收，但不会使用任何文件系统接口。
+ * 请尽量避免直接使用此标志，而应使用 memalloc_nofs_{save,restore}
+ * 来标记整个范围，说明不能/不应递归到 FS 层的原因。所有分配请求将隐式继承 GFP_NOFS。
  *
- * %GFP_USER is for userspace allocations that also need to be directly
- * accessibly by the kernel or hardware. It is typically used by hardware
- * for buffers that are mapped to userspace (e.g. graphics) that hardware
- * still must DMA to. cpuset limits are enforced for these allocations.
+ * %GFP_USER 适用于需要内核或硬件直接访问的用户空间分配。
+ * 它通常用于映射到用户空间的硬件缓冲区（例如图形），硬件仍然必须进行 DMA。
+ * 这些分配强制执行 cpuset 限制。
  *
- * %GFP_DMA exists for historical reasons and should be avoided where possible.
- * The flags indicates that the caller requires that the lowest zone be
- * used (%ZONE_DMA or 16M on x86-64). Ideally, this would be removed but
- * it would require careful auditing as some users really require it and
- * others use the flag to avoid lowmem reserves in %ZONE_DMA and treat the
- * lowest zone as a type of emergency reserve.
+ * %GFP_DMA 出于历史原因存在，应尽可能避免使用。
+ * 标志表示调用者要求使用最低区域（%ZONE_DMA 或 x86-64 上的 16M）。
+ * 理想情况下，应删除该标志，但这需要仔细审核，因为一些用户确实需要它，
+ * 而其他用户使用该标志来避免 %ZONE_DMA 中的低内存保留，并将最低区域视为一种紧急保留。
  *
- * %GFP_DMA32 is similar to %GFP_DMA except that the caller requires a 32-bit
- * address. Note that kmalloc(..., GFP_DMA32) does not return DMA32 memory
- * because the DMA32 kmalloc cache array is not implemented.
- * (Reason: there is no such user in kernel).
+ * %GFP_DMA32 类似于 %GFP_DMA，除了调用者要求 32 位地址。
+ * 请注意，kmalloc(..., GFP_DMA32) 不返回 DMA32 内存，因为未实现 DMA32 kmalloc 缓存数组。
+ * （原因：内核中没有这样的用户）。
  *
- * %GFP_HIGHUSER is for userspace allocations that may be mapped to userspace,
- * do not need to be directly accessible by the kernel but that cannot
- * move once in use. An example may be a hardware allocation that maps
- * data directly into userspace but has no addressing limitations.
+ * %GFP_HIGHUSER 适用于可能映射到用户空间的用户空间分配，
+ * 不需要内核直接访问但一旦使用便不能移动。例如硬件分配，直接将数据映射到用户空间，
+ * 但没有地址限制。
  *
- * %GFP_HIGHUSER_MOVABLE is for userspace allocations that the kernel does not
- * need direct access to but can use kmap() when access is required. They
- * are expected to be movable via page reclaim or page migration. Typically,
- * pages on the LRU would also be allocated with %GFP_HIGHUSER_MOVABLE.
+ * %GFP_HIGHUSER_MOVABLE 适用于内核不需要直接访问的用户空间分配，但需要访问时可以使用 kmap()。
+ * 预计这些分配可通过页回收或页迁移移动。通常，LRU 上的页也会分配 %GFP_HIGHUSER_MOVABLE。
  *
- * %GFP_TRANSHUGE and %GFP_TRANSHUGE_LIGHT are used for THP allocations. They
- * are compound allocations that will generally fail quickly if memory is not
- * available and will not wake kswapd/kcompactd on failure. The _LIGHT
- * version does not attempt reclaim/compaction at all and is by default used
- * in page fault path, while the non-light is used by khugepaged.
+ * %GFP_TRANSHUGE 和 %GFP_TRANSHUGE_LIGHT 用于 THP 分配。
+ * 它们是复合分配，如果内存不可用，通常会快速失败，并且在失败时不会唤醒 kswapd/kcompactd。
+ * _LIGHT 版本根本不尝试回收/压缩，默认用于页面错误路径，而非轻量版用于 khugepaged。
  */
 #define GFP_ATOMIC	(__GFP_HIGH|__GFP_KSWAPD_RECLAIM)
 #define GFP_KERNEL	(__GFP_RECLAIM | __GFP_IO | __GFP_FS)
