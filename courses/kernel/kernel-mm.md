@@ -12,6 +12,8 @@ address  +------------+ address  +--------+ address
          +------------+          +--------+
 ```
 
+- 逻辑地址（logical address）：由段（segment）和偏移量（offset或displacement）
+
 MMU，英文全称Memory Management Unit，中文翻译为内存管理单元，又叫分页内存管理单元（Paged Memory Management Unit），把虚拟地址转换成物理地址。MMU以page大小为单位管理内存，虚拟内存的最小单位就是page。
 
 
@@ -42,18 +44,15 @@ struct page {
          * WANT_PAGE_VIRTUAL
          */
 #if defined(WANT_PAGE_VIRTUAL)
-        void *virtual;                  /* Kernel virtual address (NULL if
-                                           not kmapped, ie. highmem) */
+        void *virtual;                  /* 内核虚拟地址（如果不是 kmapped，即 highmem，则为 NULL） */
 #endif /* WANT_PAGE_VIRTUAL */
 
 #ifdef CONFIG_KMSAN
         /*
-         * KMSAN metadata for this page:
-         *  - shadow page: every bit indicates whether the corresponding
-         *    bit of the original page is initialized (0) or not (1);
-         *  - origin page: every 4 bytes contain an id of the stack trace
-         *    where the uninitialized value was created.
-         */
+        * 此页面的 KMSAN 元数据：
+        *  - 影子页面：每个位表示原始页面对应位是否已初始化（0）或未初始化（1）；
+        *  - 原始页面：每 4 个字节包含一个栈追踪的 ID，用于指示未初始化值的创建位置。
+        */
         struct page *kmsan_shadow;
         struct page *kmsan_origin;
 #endif
@@ -70,39 +69,38 @@ struct page {
  * 冲突和误报的 PageTail()。
  */
 union page_union_1 {
-        struct {        /* Page cache and anonymous pages */
+        struct {        /* 页面缓存和匿名页 */
                 /**
-                    * @lru: Pageout list, eg. active_list protected by
-                    * lruvec->lru_lock.  Sometimes used as a generic list
-                    * by the page owner.
-                    */
+                * @lru: 页面淘汰列表，例如 active_list，由 lruvec->lru_lock 保护。
+                * 有时由页面所有者用作通用列表。
+                */
                 union {
                         struct list_head lru;
 
-                        /* Or, for the Unevictable "LRU list" slot */
+                        /* 或者，对于不可回收的 "LRU 列表" 槽位 */
                         struct {
-                                /* Always even, to negate PageTail */
+                                /* 总是偶数，以抵消 PageTail */
                                 void *__filler;
-                                /* Count page's or folio's mlocks */
+                                /* 统计页面或页片的 mlock 数量 */
                                 unsigned int mlock_count;
                         };
 
-                        /* Or, free page */
+                        /* 或者，空闲页面 */
                         struct list_head buddy_list;
                         struct list_head pcp_list;
                 };
-                /* See page-flags.h for PAGE_MAPPING_FLAGS */
+                /* 有关 PAGE_MAPPING_FLAGS，请参见 page-flags.h */
                 struct address_space *mapping;
                 union {
-                        pgoff_t index;          /* Our offset within mapping. */
-                        unsigned long share;    /* share count for fsdax */
+                        pgoff_t index;          /* 我们在映射中的偏移量。 */
+                        unsigned long share;    /* fsdax 的共享计数 */
                 };
                 /**
-                    * @private: Mapping-private opaque data.
-                    * Usually used for buffer_heads if PagePrivate.
-                    * Used for swp_entry_t if PageSwapCache.
-                    * Indicates order in the buddy system if PageBuddy.
-                    */
+                * @private: 映射专用的不透明数据。
+                * 如果 PagePrivate，通常用于 buffer_heads。
+                * 如果 PageSwapCache，则用于 swp_entry_t。
+                * 如果 PageBuddy，则表示伙伴系统中的顺序。
+                */
                 unsigned long private;
         };
         struct {        /* page_pool used by netstack */
@@ -535,13 +533,156 @@ typedef unsigned int __bitwise gfp_t;
 
 表示内核应该如何分配所需的内存。
 
+```c
+/**                                                                             
+ * DOC: Action modifiers                                                        
+ *                                                                              
+ * Action modifiers                                                             
+ * ----------------                                                             
+ *                                                                              
+ * %__GFP_NOWARN suppresses allocation failure reports.                         
+ *                                                                              
+ * %__GFP_COMP address compound page metadata.                                  
+ *                                                                              
+ * %__GFP_ZERO returns a zeroed page on success.                                
+ *                                                                              
+ * %__GFP_ZEROTAGS zeroes memory tags at allocation time if the memory itself   
+ * is being zeroed (either via __GFP_ZERO or via init_on_alloc, provided that   
+ * __GFP_SKIP_ZERO is not set). This flag is intended for optimization: setting 
+ * memory tags at the same time as zeroing memory has minimal additional        
+ * performace impact.                                                           
+ *                                                                              
+ * %__GFP_SKIP_KASAN makes KASAN skip unpoisoning on page allocation.           
+ * Used for userspace and vmalloc pages; the latter are unpoisoned by           
+ * kasan_unpoison_vmalloc instead. For userspace pages, results in              
+ * poisoning being skipped as well, see should_skip_kasan_poison for            
+ * details. Only effective in HW_TAGS mode.                                     
+ */                                                                             
+#define __GFP_NOWARN    ((__force gfp_t)___GFP_NOWARN)                          
+#define __GFP_COMP      ((__force gfp_t)___GFP_COMP)                            
+#define __GFP_ZERO      ((__force gfp_t)___GFP_ZERO)                            
+#define __GFP_ZEROTAGS  ((__force gfp_t)___GFP_ZEROTAGS)                        
+#define __GFP_SKIP_ZERO ((__force gfp_t)___GFP_SKIP_ZERO)                       
+#define __GFP_SKIP_KASAN ((__force gfp_t)___GFP_SKIP_KASAN)                     
+                                                                                
+/* Disable lockdep for GFP context tracking */                                  
+#define __GFP_NOLOCKDEP ((__force gfp_t)___GFP_NOLOCKDEP)                       
+                                                                                
+/* Room for N __GFP_FOO bits */                                                 
+#define __GFP_BITS_SHIFT (26 + IS_ENABLED(CONFIG_LOCKDEP))                      
+#define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))          
+```
+
 ## 区修饰符
 
-表示从哪个区分配内存。
+表示从哪个区分配内存。注意返回逻辑地址的函数如`__get_free_pages()`和`kmalloc()`等不能指定`__GFP_HIGHMEM`，因为可能会出现还没映射虚拟地址空间，没有虚拟地址。
+
+```c
+/*                                                                                 
+ * Physical address zone modifiers (see linux/mmzone.h - low four bits)            
+ *                                                                                 
+ * Do not put any conditional on these. If necessary modify the definitions        
+ * without the underscores and use them consistently. The definitions here may     
+ * be used in bit comparisons.                                                     
+ */                                                                                
+#define __GFP_DMA       ((__force gfp_t)___GFP_DMA)                                
+#define __GFP_HIGHMEM   ((__force gfp_t)___GFP_HIGHMEM)                            
+#define __GFP_DMA32     ((__force gfp_t)___GFP_DMA32)                              
+#define __GFP_MOVABLE   ((__force gfp_t)___GFP_MOVABLE)  /* ZONE_MOVABLE allowed */
+#define GFP_ZONEMASK    (__GFP_DMA|__GFP_HIGHMEM|__GFP_DMA32|__GFP_MOVABLE)        
+```
 
 ## 类型标志
 
 组合了行为修饰符和区修饰符。
+
+```c
+
+/**
+ * DOC: Useful GFP flag combinations
+ *
+ * Useful GFP flag combinations
+ * ----------------------------
+ *
+ * Useful GFP flag combinations that are commonly used. It is recommended
+ * that subsystems start with one of these combinations and then set/clear
+ * %__GFP_FOO flags as necessary.
+ *
+ * %GFP_ATOMIC users can not sleep and need the allocation to succeed. A lower
+ * watermark is applied to allow access to "atomic reserves".
+ * The current implementation doesn't support NMI and few other strict
+ * non-preemptive contexts (e.g. raw_spin_lock). The same applies to %GFP_NOWAIT.
+ *
+ * %GFP_KERNEL is typical for kernel-internal allocations. The caller requires
+ * %ZONE_NORMAL or a lower zone for direct access but can direct reclaim.
+ *
+ * %GFP_KERNEL_ACCOUNT is the same as GFP_KERNEL, except the allocation is
+ * accounted to kmemcg.
+ *
+ * %GFP_NOWAIT is for kernel allocations that should not stall for direct
+ * reclaim, start physical IO or use any filesystem callback.
+ *
+ * %GFP_NOIO will use direct reclaim to discard clean pages or slab pages
+ * that do not require the starting of any physical IO.
+ * Please try to avoid using this flag directly and instead use
+ * memalloc_noio_{save,restore} to mark the whole scope which cannot
+ * perform any IO with a short explanation why. All allocation requests
+ * will inherit GFP_NOIO implicitly.
+ *
+ * %GFP_NOFS will use direct reclaim but will not use any filesystem interfaces.
+ * Please try to avoid using this flag directly and instead use
+ * memalloc_nofs_{save,restore} to mark the whole scope which cannot/shouldn't
+ * recurse into the FS layer with a short explanation why. All allocation
+ * requests will inherit GFP_NOFS implicitly.
+ *
+ * %GFP_USER is for userspace allocations that also need to be directly
+ * accessibly by the kernel or hardware. It is typically used by hardware
+ * for buffers that are mapped to userspace (e.g. graphics) that hardware
+ * still must DMA to. cpuset limits are enforced for these allocations.
+ *
+ * %GFP_DMA exists for historical reasons and should be avoided where possible.
+ * The flags indicates that the caller requires that the lowest zone be
+ * used (%ZONE_DMA or 16M on x86-64). Ideally, this would be removed but
+ * it would require careful auditing as some users really require it and
+ * others use the flag to avoid lowmem reserves in %ZONE_DMA and treat the
+ * lowest zone as a type of emergency reserve.
+ *
+ * %GFP_DMA32 is similar to %GFP_DMA except that the caller requires a 32-bit
+ * address. Note that kmalloc(..., GFP_DMA32) does not return DMA32 memory
+ * because the DMA32 kmalloc cache array is not implemented.
+ * (Reason: there is no such user in kernel).
+ *
+ * %GFP_HIGHUSER is for userspace allocations that may be mapped to userspace,
+ * do not need to be directly accessible by the kernel but that cannot
+ * move once in use. An example may be a hardware allocation that maps
+ * data directly into userspace but has no addressing limitations.
+ *
+ * %GFP_HIGHUSER_MOVABLE is for userspace allocations that the kernel does not
+ * need direct access to but can use kmap() when access is required. They
+ * are expected to be movable via page reclaim or page migration. Typically,
+ * pages on the LRU would also be allocated with %GFP_HIGHUSER_MOVABLE.
+ *
+ * %GFP_TRANSHUGE and %GFP_TRANSHUGE_LIGHT are used for THP allocations. They
+ * are compound allocations that will generally fail quickly if memory is not
+ * available and will not wake kswapd/kcompactd on failure. The _LIGHT
+ * version does not attempt reclaim/compaction at all and is by default used
+ * in page fault path, while the non-light is used by khugepaged.
+ */
+#define GFP_ATOMIC	(__GFP_HIGH|__GFP_KSWAPD_RECLAIM)
+#define GFP_KERNEL	(__GFP_RECLAIM | __GFP_IO | __GFP_FS)
+#define GFP_KERNEL_ACCOUNT (GFP_KERNEL | __GFP_ACCOUNT)
+#define GFP_NOWAIT	(__GFP_KSWAPD_RECLAIM)
+#define GFP_NOIO	(__GFP_RECLAIM)
+#define GFP_NOFS	(__GFP_RECLAIM | __GFP_IO)
+#define GFP_USER	(__GFP_RECLAIM | __GFP_IO | __GFP_FS | __GFP_HARDWALL)
+#define GFP_DMA		__GFP_DMA
+#define GFP_DMA32	__GFP_DMA32
+#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
+#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | __GFP_SKIP_KASAN)
+#define GFP_TRANSHUGE_LIGHT	((GFP_HIGHUSER_MOVABLE | __GFP_COMP | \
+			 __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
+#define GFP_TRANSHUGE	(GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
+```
 
 # 页高速缓存
 
