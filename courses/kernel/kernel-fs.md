@@ -66,7 +66,7 @@ struct super_block {
         const struct quotactl_ops       *s_qcop; // 限额控制方法
         const struct export_operations *s_export_op; // 导出方法
         unsigned long           s_flags; // 挂载标志
-        unsigned long           s_iflags;       /* internal SB_I_* flags */
+        unsigned long           s_iflags;       /* 内部 SB_I_* 标志 */
         unsigned long           s_magic; // 文件系统幻数
         struct dentry           *s_root; // 目录挂载点
         struct rw_semaphore     s_umount; // 卸载信号量
@@ -78,7 +78,7 @@ struct super_block {
         const struct xattr_handler **s_xattr; // 扩展的属性操作
 #ifdef CONFIG_FS_ENCRYPTION
         const struct fscrypt_operations *s_cop;
-        struct fscrypt_keyring  *s_master_keys; /* master crypto keys in use */
+        struct fscrypt_keyring  *s_master_keys; /* 主加密密钥正在使用 */
 #endif
 #ifdef CONFIG_FS_VERITY
         const struct fsverity_operations *s_vop;
@@ -87,27 +87,27 @@ struct super_block {
         struct unicode_map *s_encoding;
         __u16 s_encoding_flags;
 #endif
-        struct hlist_bl_head    s_roots;        /* alternate root dentries for NFS */
-        struct list_head        s_mounts;       /* list of mounts; _not_ for fs use，struct mount的mnt_instance加到这个链表中 */
+        struct hlist_bl_head    s_roots;        /* NFS 的备用根目录项 */
+        struct list_head        s_mounts;       /* 挂载点列表；_不_用于文件系统，struct mount的mnt_instance加到这个链表中 */
         struct block_device     *s_bdev; // 相关的块设备
         struct backing_dev_info *s_bdi;
         struct mtd_info         *s_mtd; // 存储磁盘信息
         struct hlist_node       s_instances; // 这种类型的所有文件系统
-        unsigned int            s_quota_types;  /* Bitmask of supported quota types */
+        unsigned int            s_quota_types;  /* 支持的配额类型的位掩码 */
         struct quota_info       s_dquot;        /* 限额相关选项 */
 
         struct sb_writers       s_writers;
 
         /*
-         * Keep s_fs_info, s_time_gran, s_fsnotify_mask, and
-         * s_fsnotify_marks together for cache efficiency. They are frequently
-         * accessed and rarely modified.
+         * 将 s_fs_info, s_time_gran, s_fsnotify_mask 和
+         * s_fsnotify_marks 放在一起以提高缓存效率。
+         * 它们经常被访问但很少被修改。
          */
-        void                    *s_fs_info;     /* Filesystem private info，文件系统特殊信息 */
+        void                    *s_fs_info;     /* 文件系统私有信息 */
 
-        /* Granularity of c/m/atime in ns (cannot be worse than a second) */
+        /* c/m/atime 的精度（以纳秒为单位，不能超过一秒） */
         u32                     s_time_gran; // 时间戳粒度
-        /* Time limits for c/m/atime in seconds */
+        /* c/m/atime 的时间限制（以秒为单位） */
         time64_t                   s_time_min;
         time64_t                   s_time_max;
 #ifdef CONFIG_FSNOTIFY
@@ -115,76 +115,73 @@ struct super_block {
         struct fsnotify_mark_connector __rcu    *s_fsnotify_marks;
 #endif
 
-        char                    s_id[32];       /* Informational name，文本名字 */
-        uuid_t                  s_uuid;         /* UUID */
+        char                    s_id[32];       /* 信息性名称，文本名字 */
+        uuid_t                  s_uuid;         /* Universally Unique Identifier"（全局唯一标识符） */
 
         unsigned int            s_max_links;
 
         /*
-         * The next field is for VFS *only*. No filesystems have any business
-         * even looking at it. You had been warned.
+         * 下一个字段仅供 VFS 使用。任何文件系统都没有权利查看它。
+         * 你已经被警告过了。
          */
         struct mutex s_vfs_rename_mutex;        /* Kludge，重命名锁 */
 
         /*
-         * Filesystem subtype.  If non-empty the filesystem type field
-         * in /proc/mounts will be "type.subtype"
+         * 文件系统子类型。如果非空，/proc/mounts 中的文件系统类型字段
+         * 将是 "type.subtype"
          */
         const char *s_subtype; // 子类型名称
 
-        const struct dentry_operations *s_d_op; /* default d_op for dentries */
+        const struct dentry_operations *s_d_op; /* 目录项的默认 d_op */
 
-        struct shrinker s_shrink;       /* per-sb shrinker handle */
+        struct shrinker s_shrink;       /* 每个超级块的收缩器句柄 */
 
-        /* Number of inodes with nlink == 0 but still referenced */
+        /* nlink == 0 但仍被引用的 inode 数量 */
         atomic_long_t s_remove_count;
 
         /*
-         * Number of inode/mount/sb objects that are being watched, note that
-         * inodes objects are currently double-accounted.
+         * 被监视的 inode/mount/sb 对象的数量，注意 inode 对象目前被双重计算。
          */
         atomic_long_t s_fsnotify_connectors;
 
-        /* Read-only state of the superblock is being changed */
+        /* 超级块的只读状态正在被更改 */
         int s_readonly_remount;
 
-        /* per-sb errseq_t for reporting writeback errors via syncfs */
+        /* 每个超级块的 errseq_t 用于通过 syncfs 报告回写错误 */
         errseq_t s_wb_err;
 
-        /* AIO completions deferred from interrupt context */
+        /* 从中断上下文推迟的 AIO 完成 */
         struct workqueue_struct *s_dio_done_wq;
         struct hlist_head s_pins;
 
         /*
-         * Owning user namespace and default context in which to
-         * interpret filesystem uids, gids, quotas, device nodes,
-         * xattrs and security labels.
+         * 拥有的用户命名空间和默认上下文，用于解释文件系统的 uid、gid、配额、
+         * 设备节点、xattrs 和安全标签。
          */
         struct user_namespace *s_user_ns;
 
         /*
-         * The list_lru structure is essentially just a pointer to a table
-         * of per-node lru lists, each of which has its own spinlock.
-         * There is no need to put them into separate cachelines.
+         * list_lru 结构本质上只是指向每个节点 lru 列表表格的指针，
+         * 每个节点都有自己的自旋锁。没有必要将它们放入不同的缓存行。
          */
         struct list_lru         s_dentry_lru; // 未被使用目录项链表
         struct list_lru         s_inode_lru;
         struct rcu_head         rcu;
         struct work_struct      destroy_work;
 
-        struct mutex            s_sync_lock;    /* sync serialisation lock */
+        struct mutex            s_sync_lock;    /* 同步序列化锁 */
 
         /*
-         * Indicates how deep in a filesystem stack this SB is
+         * 指示该超级块在文件系统栈中的深度
          */
         int s_stack_depth;
 
-        /* s_inode_list_lock protects s_inodes */
+        /* s_inode_list_lock 保护 s_inodes */
         spinlock_t              s_inode_list_lock ____cacheline_aligned_in_smp;
         struct list_head        s_inodes;       /* 索引节点链表 */
 
         spinlock_t              s_inode_wblist_lock;
-        struct list_head        s_inodes_wb;    /* writeback inodes */
+        struct list_head        s_inodes_wb;    /* 回写的 inode */
 } __randomize_layout;
 ```
 
