@@ -1102,13 +1102,13 @@ struct ext2_inode {
 `i_file_acl`指向一个存放增强属性的块，其他inode如果增强属性一样，可以共享同一个块，系统调用`setxattr()`、`lsetxattr()`、`fsetxattr()`设置文件增强属性，`getxattr()`、`lgetxattr()`、`fgetxattr()`返回文件增强属性，`listxattr()`、`llistxattr()`、`flistxattr()`列出文件所有增强属性。这些系统调用是通过       `chacl()`、`setfacl()`、`getfacl()`调用的。没有正式成为POSIX标准。
 ```c
 struct ext2_xattr_entry {
-        __u8    e_name_len;     /* length of name */
-        __u8    e_name_index;   /* attribute name index */
-        __le16  e_value_offs;   /* offset in disk block of value */
-        __le32  e_value_block;  /* disk block attribute is stored on (n/i) */
-        __le32  e_value_size;   /* size of attribute value */
-        __le32  e_hash;         /* hash value of name and value */
-        char    e_name[];       /* attribute name，可变数组/柔性数组/零长度数组 */
+        __u8    e_name_len;     /* 名称长度 */
+        __u8    e_name_index;   /* 属性名称索引 */
+        __le16  e_value_offs;   /* 值在磁盘块中的偏移量 */
+        __le32  e_value_block;  /* 属性存储的磁盘块 (n/i) */
+        __le32  e_value_size;   /* 属性值的大小 */
+        __le32  e_hash;         /* 名称和值的哈希值 */
+        char    e_name[];       /* 属性名称，可变数组/柔性数组/零长度数组 */
 };
 ```
 
