@@ -270,11 +270,10 @@ struct inode {
         void                    *i_security; // 安全模块
 #endif
 
-        /* Stat data, not accessed from path walking */
+        /* 统计数据，不在路径遍历中访问 */
         unsigned long           i_ino; // 索引节点号
         /*
-         * Filesystems may only read i_nlink directly.  They shall use the
-         * following functions for modification:
+         * 文件系统只能直接读取 i_nlink。它们应该使用以下函数进行修改：
          *
          *    (set|clear|inc|drop)_nlink
          *    inode_(inc|dec)_link_count
@@ -287,8 +286,8 @@ struct inode {
         loff_t                  i_size; // 大小，单位：字节
         struct timespec64       i_atime; // 最后访问时间
         struct timespec64       i_mtime; // 最后修改时间
-        struct timespec64       __i_ctime; /* use inode_*_ctime accessors! 最后改变时间 */
-        spinlock_t              i_lock; /* i_blocks, i_bytes, maybe i_size，自旋锁 */
+        struct timespec64       __i_ctime; /* 使用 inode_*_ctime accessors ! 最后改变时间 */
+        spinlock_t              i_lock; /* 保护 i_blocks, i_bytes, 还有 i_size，自旋锁 */
         unsigned short          i_bytes; // 使用的字节数
         u8                      i_blkbits; // 以位为单位的块大小
         u8                      i_write_hint;
@@ -298,26 +297,26 @@ struct inode {
         seqcount_t              i_size_seqcount; // 对 i_size 进行串行计数
 #endif
 
-        /* Misc */
+        /* Miscellaneous 杂项 */
         unsigned long           i_state; // 状态标志
         struct rw_semaphore     i_rwsem;
 
-        unsigned long           dirtied_when;   /* jiffies of first dirtying，第一次弄脏数据的时间 */
+        unsigned long           dirtied_when;   /* 第一次弄脏时的 jiffies 值，第一次弄脏数据的时间 */
         unsigned long           dirtied_time_when;
 
         struct hlist_node       i_hash; // 散列表
-        struct list_head        i_io_list;      /* backing dev IO list */
+        struct list_head        i_io_list;      /* 后备设备 IO 列表 */
 #ifdef CONFIG_CGROUP_WRITEBACK
-        struct bdi_writeback    *i_wb;          /* the associated cgroup wb */
+        struct bdi_writeback    *i_wb;          /* 关联的 cgroup wb */
 
-        /* foreign inode detection, see wbc_detach_inode() */
+        /* 外来 inode 检测，参见 wbc_detach_inode() */
         int                     i_wb_frn_winner;
         u16                     i_wb_frn_avg_time;
         u16                     i_wb_frn_history;
 #endif
         struct list_head        i_lru;          /* inode LRU list，Least Recently Used 最近最少使用链表 */
         struct list_head        i_sb_list; // 超级块链表
-        struct list_head        i_wb_list;      /* backing dev writeback list */
+        struct list_head        i_wb_list;      /* 后备设备回写列表 */
         union {
                 struct hlist_head       i_dentry; // 目录项链表
                 struct rcu_head         i_rcu;
@@ -347,7 +346,7 @@ struct inode {
         __u32                   i_generation;
 
 #ifdef CONFIG_FSNOTIFY
-        __u32                   i_fsnotify_mask; /* all events this inode cares about */
+        __u32                   i_fsnotify_mask; /* 该 inode 关心的所有事件 */
         struct fsnotify_mark_connector __rcu    *i_fsnotify_marks;
 #endif
 
@@ -359,7 +358,7 @@ struct inode {
         struct fsverity_info    *i_verity_info;
 #endif
 
-        void                    *i_private; /* fs or device private pointer，私有指针 */
+        void                    *i_private; /* 文件系统或设备的私有指针 */
 } __randomize_layout;
 ```
 
