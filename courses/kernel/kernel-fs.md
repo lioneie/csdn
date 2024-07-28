@@ -675,10 +675,10 @@ struct file_system_type {
 #define FS_REQUIRES_DEV         1 
 #define FS_BINARY_MOUNTDATA     2
 #define FS_HAS_SUBTYPE          4
-#define FS_USERNS_MOUNT         8       /* Can be mounted by userns root */
-#define FS_DISALLOW_NOTIFY_PERM 16      /* Disable fanotify permission events */
-#define FS_ALLOW_IDMAP         32       /* FS has been updated to handle vfs idmappings. */
-#define FS_RENAME_DOES_D_MOVE   32768   /* FS will handle d_move() during rename() internally. */
+#define FS_USERNS_MOUNT         8       /* 可以由用户命名空间根目录挂载 */
+#define FS_DISALLOW_NOTIFY_PERM 16      /* 禁用 fanotify 权限事件 */
+#define FS_ALLOW_IDMAP         32       /* 文件系统已更新以处理 vfs id 映射。 */
+#define FS_RENAME_DOES_D_MOVE   32768   /* 文件系统将在内部处理 rename() 时的 d_move()。 */
         int (*init_fs_context)(struct fs_context *);
         const struct fs_parameter_spec *parameters;
         struct dentry *(*mount) (struct file_system_type *, int, // 从磁盘中读取超级块
