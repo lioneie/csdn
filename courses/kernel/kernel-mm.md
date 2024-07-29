@@ -435,7 +435,6 @@ struct zone {
 struct page *alloc_pages(gfp_t gfp_mask, unsigned int order)
 // 页转换成逻辑地址
 void *page_address(const struct page *page)
-void free_pages(unsigned long addr, unsigned int order)
 // 返回值是逻辑地址
 unsigned long __get_free_pages(gfp_t gfp_mask, unsigned int order)
 // 只分配一个page，返回值是page的指针
@@ -464,7 +463,7 @@ void *kmalloc(size_t size, gfp_t gfp)
 void kfree(void *p)
 // 可能睡眠，物理地址可以不连续，虚拟地址连续，典型用途是获取大块内存，如模块装载
 void *vmalloc(unsigned long size)
-// 可能睡眠，和 vmalloc配对使用
+// 可能睡眠，和 vmalloc() 配对使用
 void vfree(const void *addr)
 ```
 
@@ -698,7 +697,7 @@ typedef unsigned int __bitwise gfp_t;
  * 它们是复合分配，如果内存不可用，通常会快速失败，并且在失败时不会唤醒 kswapd/kcompactd。
  * _LIGHT 版本根本不尝试回收/压缩，默认用于页面错误路径，而非轻量版用于 khugepaged。
  */
-#define GFP_ATOMIC      (__GFP_HIGH|__GFP_KSWAPD_RECLAIM)
+#define GFP_ATOMIC      (__GFP_HIGH|__GFP_KSWAPD_RECLAIM) // 在中断处理程序、软中断、tasklet
 #define GFP_KERNEL      (__GFP_RECLAIM | __GFP_IO | __GFP_FS)
 #define GFP_KERNEL_ACCOUNT (GFP_KERNEL | __GFP_ACCOUNT)
 #define GFP_NOWAIT      (__GFP_KSWAPD_RECLAIM)
@@ -712,6 +711,87 @@ typedef unsigned int __bitwise gfp_t;
 #define GFP_TRANSHUGE_LIGHT     ((GFP_HIGHUSER_MOVABLE | __GFP_COMP | \
                          __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
 #define GFP_TRANSHUGE   (GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
+```
+
+# slab
+
+一个高速缓存包含多个slab，slab由一个或多个物理上连续的页组成，每个slab包含被缓存的数据结构。
+
+高速缓存使用结构体`struct kmem_cache`表示，其中包含多个`struct kmem_cache_node`对象，这个结构体中有3个重要的成员：
+```c
+struct kmem_cache_node {
+        ...
+        struct list_head slabs_partial; // 部分满
+        struct list_head slabs_full;    // 满
+        struct list_head slabs_free;    // 空
+        ...
+};
+```
+
+这3个链表包含高速缓存中的所有slab，`struct slab`用于描述每个slab：
+```c
+/* 重用 struct page 中的位 */
+struct slab {
+	unsigned long __page_flags;
+
+#if defined(CONFIG_SLAB)
+
+	struct kmem_cache *slab_cache;
+	union {
+		struct {
+			struct list_head slab_list; // 满、部分满或空链表
+			void *freelist;	/* 空闲对象索引数组 */
+			void *s_mem;	/* 在slab中的第一个对象 */
+		};
+		struct rcu_head rcu_head;
+	};
+	unsigned int active;
+
+#elif defined(CONFIG_SLUB)
+
+	struct kmem_cache *slab_cache;
+	union {
+		struct {
+			union {
+				struct list_head slab_list;
+#ifdef CONFIG_SLUB_CPU_PARTIAL
+				struct {
+					struct slab *next;
+					int slabs;	/* 剩余的slab数量 */
+				};
+#endif
+			};
+			/* 双字边界 */
+			union {
+				struct {
+					void *freelist;		/* 第一个空闲对象 */
+					union {
+						unsigned long counters;
+						struct {
+							unsigned inuse:16; // slab中已分配的对象数
+							unsigned objects:15;
+							unsigned frozen:1;
+						};
+					};
+				};
+#ifdef system_has_freelist_aba
+				freelist_aba_t freelist_counter;
+#endif
+			};
+		};
+		struct rcu_head rcu_head;
+	};
+	unsigned int __unused;
+
+#else
+#error "Unexpected slab allocator configured"
+#endif
+
+	atomic_t __page_refcount;
+#ifdef CONFIG_MEMCG
+	unsigned long memcg_data;
+#endif
+};
 ```
 
 # 页高速缓存
