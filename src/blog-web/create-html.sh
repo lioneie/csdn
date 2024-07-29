@@ -46,6 +46,8 @@ array=(
             # smb
             1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
+            1 1 courses/kernel/patches/smb-client-fix-use-after-free-bug-in-cifs_debug_data.md ~
+                "d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()"
     0 1 courses/nfs/nfs.md ~ "nfs文件系统"
         1 1 courses/nfs/nfs-introduction.md ~ "nfs简介"
         1 1 courses/nfs/nfs-environment.md ~ "nfs环境"
