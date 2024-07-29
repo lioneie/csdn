@@ -794,6 +794,53 @@ struct slab {
 };
 ```
 
+slab分配器通过`kmem_getpages() -> __alloc_pages_node()`分配内存，通过`kmem_freepages() -> __free_pages()`释放内存。
+
+slab分配器的接口：
+```c
+/**
+ * kmem_cache_create - 创建一个缓存。可能休眠，不能在中断上下文中使用
+ * @name: 用于在 /proc/slabinfo 中标识此缓存的字符串。
+ * @size: 在此缓存中创建的对象的大小。
+ * @align: 对象所需的对齐方式。
+ * @flags: SLAB 标志
+ * @ctor: 对象的构造函数。大部分都设置为NULL
+ * 
+ * 不能在中断内调用，但可以被中断。
+ * 当缓存分配新的页面时，@ctor 会运行。
+ * 
+ * 标志包括
+ * 
+ * %SLAB_POISON - 用已知的测试模式（a5a5a5a5）填充 slab，以捕捉对未初始化内存的引用。
+ * 
+ * %SLAB_RED_ZONE - 在分配的内存周围插入“红色”区域，以检查缓冲区溢出。
+ * 
+ * %SLAB_HWCACHE_ALIGN - 将此缓存中的对象对齐到硬件缓存行。如果您像 davem 一样仔细计算周期，这可能会有好处。
+ *
+ * 还有其他的标志，请查看上述宏定义附近的代码
+ * 
+ * 返回: 成功时返回指向缓存的指针，失败时返回 NULL。
+ */
+struct kmem_cache *
+kmem_cache_create(const char *name, unsigned int size, unsigned int align,
+                slab_flags_t flags, void (*ctor)(void *))
+
+/* 销毁高速缓存，也可能睡眠 */
+void kmem_cache_destroy(struct kmem_cache *s)
+
+/* 获取对象 */
+void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+
+/**
+ * kmem_cache_free - 释放一个对象
+ * @cachep: 分配对象时使用的缓存。
+ * @objp: 之前分配的对象。
+ * 
+ * 释放之前从该缓存中分配的对象。
+ */
+void kmem_cache_free(struct kmem_cache *cachep, void *objp)
+```
+
 # 页高速缓存
 
 访问磁盘的速度要远低于访问内存的速度。
