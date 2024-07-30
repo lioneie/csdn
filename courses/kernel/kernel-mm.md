@@ -19,6 +19,41 @@ MMU，英文全称Memory Management Unit，中文翻译为内存管理单元，�
 
 # 页
 
+<!--
+```c
+/*
+ * 系统中的每个物理页面都有一个 struct page 结构与之关联，
+ * 以跟踪我们当前使用该页面的用途。注意，我们无法跟踪哪些任务在使用页面，
+ * 但如果它是一个页缓存页面，rmap 结构可以告诉我们谁在映射它。
+ *
+ * 如果使用 alloc_pages() 分配页面，可以使用 struct page 中的一些空间
+ * 供自己使用。主联合中的五个字是可用的，除了第一个字的位0必须保持清零。
+ * 许多用户使用这个字来存储一个保证对齐的对象指针。
+ * 如果使用与 page->mapping 相同的存储空间，必须在释放页面之前将其恢复为 NULL。
+ *
+ * 如果你的页面不会映射到用户空间，还可以使用 mapcount 联合中的四个字节，
+ * 但在释放之前必须调用 page_mapcount_reset()。
+ *
+ * 如果想使用 refcount 字段，必须以不会导致其他 CPU 临时增加然后减少
+ * 引用计数时出现问题的方式使用。在从 alloc_pages() 接收到页面时，
+ * 引用计数将为正。
+ *
+ * 如果分配 order > 0 的页面，可以使用每个子页面中的某些字段，
+ * 但之后可能需要恢复其中一些值。
+ *
+ * SLUB 使用 cmpxchg_double() 来原子性地更新其空闲列表和计数器。
+ * 这要求在 struct slab 中空闲列表和计数器是相邻的并且是双字对齐的。
+ * 由于 struct slab 目前只是重新解释 struct page 的位，
+ * 我们将所有 struct page 对齐到双字边界，并确保 'freelist' 在 struct slab 中是对齐的。
+ */
+#ifdef CONFIG_HAVE_ALIGNED_STRUCT_PAGE                              
+#define _struct_page_alignment  __aligned(2 * sizeof(unsigned long))
+#else                                                               
+#define _struct_page_alignment  __aligned(sizeof(unsigned long))    
+#endif                                                              
+```
+-->
+
 ```c
 struct page {
         unsigned long flags;            /* 原子标志，其中一些可能被异步更新 */
@@ -715,7 +750,7 @@ typedef unsigned int __bitwise gfp_t;
 
 # slab
 
-一个高速缓存包含多个slab，slab由一个或多个物理上连续的页组成，每个slab包含被缓存的数据结构。
+slab的字面意思是指“板”或“平板”。一个高速缓存包含多个slab，slab由一个或多个物理上连续的页组成，每个slab包含被缓存的数据结构。
 
 高速缓存使用结构体`struct kmem_cache`表示，其中包含多个`struct kmem_cache_node`对象，这个结构体中有3个重要的成员：
 ```c
@@ -840,6 +875,45 @@ void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
  */
 void kmem_cache_free(struct kmem_cache *cachep, void *objp)
 ```
+
+slub: todo
+
+Linux内核曾经有过slob分配器，已经移除了，具体请查看[`remove SLOB and allow kfree() with kmem_cache_alloc()`](https://lore.kernel.org/all/20230310103210.22372-1-vbabka@suse.cz/)。
+
+# 高端内存
+
+用`struct page *alloc_pages(gfp_t gfp_mask, unsigned int order)`分配的page，如果指定了`__GFP_HIGHMEM`，就没有逻辑地址，如果是映射到内核地址空间，可以使用：
+```c
+// 高端内存就建立永久映射，可能休眠
+void *kmap(struct page *page)
+// 解除映射
+void kunmap(struct page *page)
+```
+
+当不能休眠时，使用临时映射（原子映射）：
+```c
+// 建立临时映射，禁止内核抢占
+void *kmap_atomic(struct page *page)
+/**
+ * kunmap_atomic - 解除由 kmap_atomic() 映射的虚拟地址 - 已弃用！
+ * @__addr:       要解除映射的虚拟地址
+ * 
+ * 解除先前由 kmap_atomic() 映射的地址并重新启用页面错误处理。
+ * 根据 PREEMP_RT 配置，还可能重新启用迁移和抢占。用户不应该依赖这些副作用。
+ * 
+ * 映射应按照它们映射的相反顺序解除映射。
+ * 有关嵌套的详细信息，请参见 kmap_local_page()。
+ * 
+ * @__addr 可以是映射页面内的任何地址，因此不需要减去添加的任何偏移量。
+ * 与 kunmap() 相反，此函数接受从 kmap_atomic() 返回的地址，而不是传递给它的页面。
+ * 如果传递页面，编译器会发出警告。
+ */
+kunmap_atomic(__addr)
+```
+
+# percpu
+
+
 
 # 页高速缓存
 
