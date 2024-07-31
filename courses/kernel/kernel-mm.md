@@ -767,64 +767,64 @@ struct kmem_cache_node {
 ```c
 /* 重用 struct page 中的位 */
 struct slab {
-	unsigned long __page_flags;
+        unsigned long __page_flags;
 
 #if defined(CONFIG_SLAB)
 
-	struct kmem_cache *slab_cache;
-	union {
-		struct {
-			struct list_head slab_list; // 满、部分满或空链表
-			void *freelist;	/* 空闲对象索引数组 */
-			void *s_mem;	/* 在slab中的第一个对象 */
-		};
-		struct rcu_head rcu_head;
-	};
-	unsigned int active;
+        struct kmem_cache *slab_cache;
+        union {
+                struct {
+                        struct list_head slab_list; // 满、部分满或空链表
+                        void *freelist; /* 空闲对象索引数组 */
+                        void *s_mem;    /* 在slab中的第一个对象 */
+                };
+                struct rcu_head rcu_head;
+        };
+        unsigned int active;
 
 #elif defined(CONFIG_SLUB)
 
-	struct kmem_cache *slab_cache;
-	union {
-		struct {
-			union {
-				struct list_head slab_list;
+        struct kmem_cache *slab_cache;
+        union {
+                struct {
+                        union {
+                                struct list_head slab_list;
 #ifdef CONFIG_SLUB_CPU_PARTIAL
-				struct {
-					struct slab *next;
-					int slabs;	/* 剩余的slab数量 */
-				};
+                                struct {
+                                        struct slab *next;
+                                        int slabs;      /* 剩余的slab数量 */
+                                };
 #endif
-			};
-			/* 双字边界 */
-			union {
-				struct {
-					void *freelist;		/* 第一个空闲对象 */
-					union {
-						unsigned long counters;
-						struct {
-							unsigned inuse:16; // slab中已分配的对象数
-							unsigned objects:15;
-							unsigned frozen:1;
-						};
-					};
-				};
+                        };
+                        /* 双字边界 */
+                        union {
+                                struct {
+                                        void *freelist;         /* 第一个空闲对象 */
+                                        union {
+                                                unsigned long counters;
+                                                struct {
+                                                        unsigned inuse:16; // slab中已分配的对象数
+                                                        unsigned objects:15;
+                                                        unsigned frozen:1;
+                                                };
+                                        };
+                                };
 #ifdef system_has_freelist_aba
-				freelist_aba_t freelist_counter;
+                                freelist_aba_t freelist_counter;
 #endif
-			};
-		};
-		struct rcu_head rcu_head;
-	};
-	unsigned int __unused;
+                        };
+                };
+                struct rcu_head rcu_head;
+        };
+        unsigned int __unused;
 
 #else
 #error "Unexpected slab allocator configured"
 #endif
 
-	atomic_t __page_refcount;
+        atomic_t __page_refcount;
 #ifdef CONFIG_MEMCG
-	unsigned long memcg_data;
+        unsigned long memcg_data;
 #endif
 };
 ```
@@ -967,6 +967,268 @@ void free_percpu(void __percpu *ptr)
 get_cpu_var(name)++
 // 完成，激活抢占，和编译时创建的用法一样
 put_cpu_var(name)
+```
+
+# 进程地址空间
+
+可被进程合法访问的地址空间称为内存区域（memory area）。
+
+## 内存描述符
+
+内核使用内存描述符表示进程的地址空间。`struct task_struct`结构体中的`mm`成员指向进程使用的内存描述符。
+```c
+struct mm_struct {
+        struct {
+                /*
+                 * 经常被写入的字段被放置在一个单独的缓存行中。
+                 */
+                struct {
+                        /**
+                         * @mm_count: 对 &struct mm_struct 的引用数量
+                         * (@mm_users 计数为 1)。
+                         *
+                         * 使用 mmgrab()/mmdrop() 来修改。当该值降为 0 时，
+                         * 释放 &struct mm_struct。
+                         */
+                        atomic_t mm_count;
+                } ____cacheline_aligned_in_smp;
+
+                struct maple_tree mm_mt;
+#ifdef CONFIG_MMU
+                unsigned long (*get_unmapped_area) (struct file *filp,
+                                unsigned long addr, unsigned long len,
+                                unsigned long pgoff, unsigned long flags);
+#endif
+                unsigned long mmap_base;        /* mmap 区域的基址 */
+                unsigned long mmap_legacy_base; /* 自下而上分配的 mmap 区域的基址 */
+#ifdef CONFIG_HAVE_ARCH_COMPAT_MMAP_BASES
+                /* 兼容 mmap() 的基址 */
+                unsigned long mmap_compat_base;
+                unsigned long mmap_compat_legacy_base;
+#endif
+                unsigned long task_size;        /* 任务虚拟内存空间的大小 */
+                pgd_t * pgd;
+
+#ifdef CONFIG_MEMBARRIER
+                /**
+                 * @membarrier_state: 控制 membarrier 行为的标志。
+                 *
+                 * 该字段靠近 @pgd，希望能在相同的缓存行中，以便在 switch_mm()
+                 * 中减少缓存失效。
+                 */
+                atomic_t membarrier_state;
+#endif
+
+                /**
+                 * @mm_users: 包括用户空间在内的用户数量。
+                 *
+                 * 使用 mmget()/mmget_not_zero()/mmput() 来修改。当该值降为 0 时
+                 * (即任务退出且没有其他临时引用持有者时)，我们也会释放对
+                 * @mm_count 的引用(如果 @mm_count 也降为 0，则可能会释放 &struct mm_struct)。
+                 */
+                atomic_t mm_users; // 使用该地址的进程数目
+
+#ifdef CONFIG_SCHED_MM_CID
+                /**
+                 * @pcpu_cid: 每个 CPU 当前的 cid。
+                 *
+                 * 跟踪每个 CPU 当前分配的 mm_cid。每个 CPU 的 mm_cid 值由其各自的
+                 * 运行队列锁序列化。
+                 */
+                struct mm_cid __percpu *pcpu_cid;
+                /*
+                 * @mm_cid_next_scan: 下一次 mm_cid 扫描的时间（以 jiffies 为单位）。
+                 */
+                unsigned long mm_cid_next_scan;
+#endif
+#ifdef CONFIG_MMU
+                atomic_long_t pgtables_bytes;   /* 所有页表的大小 */
+#endif
+                int map_count;                  /* VMAs 的数量 */
+
+                spinlock_t page_table_lock; /* 保护页表和某些计数器 */
+                /*
+                 * 在某些内核配置下，当前 mmap_lock 在 'mm_struct' 内的偏移量
+                 * 是 0x120，这是非常优化的，因为它的两个热字段 'count' 和 'owner'
+                 * 位于两个不同的缓存行中，当 mmap_lock 竞争激烈时，这两个字段都
+                 * 会被频繁访问，当前布局有助于减少缓存争用。
+                 *
+                 * 因此，在 mmap_lock 之前添加新字段时请小心，这很容易将这两个
+                 * 字段推入一个缓存行中。
+                 */
+                struct rw_semaphore mmap_lock;
+
+                // 所有的mm_struct对象通过mmlist域连接在双链表中
+                struct list_head mmlist; /* 可能交换的 mm 的列表。这些
+                                          * 全局串联在 init_mm.mmlist 上，
+                                          * 由 mmlist_lock 保护。
+                                          */
+#ifdef CONFIG_PER_VMA_LOCK
+                /*
+                 * 该字段具有类似锁的语义，这意味着它有时会以 ACQUIRE/RELEASE 语义访问。
+                 * 大致而言，递增序列号等同于释放 VMAs 上的锁；读取序列号可以是获取
+                 * VMA 读锁的一部分。
+                 *
+                 * 在使用 RELEASE 语义的写 mmap_lock 下可以修改。
+                 * 当持有写 mmap_lock 时，可以在没有其他保护的情况下读取。
+                 * 如果不持有写 mmap_lock，则可以使用 ACQUIRE 语义读取。
+                 */
+                int mm_lock_seq;
+#endif
+
+                unsigned long hiwater_rss; /* RSS 使用的高水位标记 */
+                unsigned long hiwater_vm;  /* 虚拟内存使用的高水位标记 */
+
+                unsigned long total_vm;    /* 映射的总页数 */
+                unsigned long locked_vm;   /* 设置了 PG_mlocked 的页数 */
+                atomic64_t    pinned_vm;   /* 永久增加引用计数 */
+                unsigned long data_vm;     /* VM_WRITE & ~VM_SHARED & ~VM_STACK */
+                unsigned long exec_vm;     /* VM_EXEC & ~VM_WRITE & ~VM_STACK */
+                unsigned long stack_vm;    /* VM_STACK */
+                unsigned long def_flags;
+
+                /**
+                 * @write_protect_seq: 当任何线程写保护此 mm 映射的页以强制稍后 COW 时锁定，
+                 * 例如在为 fork() 复制页表期间。
+                 */
+                seqcount_t write_protect_seq;
+
+                spinlock_t arg_lock; /* 保护以下字段 */
+
+                unsigned long start_code, end_code, start_data, end_data;
+                unsigned long start_brk, brk, start_stack;
+                unsigned long arg_start, arg_end, env_start, env_end;
+
+                unsigned long saved_auxv[AT_VECTOR_SIZE]; /* 用于 /proc/PID/auxv */
+
+                struct percpu_counter rss_stat[NR_MM_COUNTERS];
+
+                struct linux_binfmt *binfmt;
+
+                /* 特定架构的 MM 上下文 */
+                mm_context_t context;
+
+                unsigned long flags; /* 必须使用原子位操作访问 */
+
+#ifdef CONFIG_AIO
+                spinlock_t                      ioctx_lock;
+                struct kioctx_table __rcu       *ioctx_table;
+#endif
+#ifdef CONFIG_MEMCG
+                /*
+                 * "owner" 指向被视为此 mm 的规范用户/所有者的任务。必须同时满足以下
+                 * 条件才能更改它：
+                 *
+                 * current == mm->owner
+                 * current->mm != mm
+                 * new_owner->mm == mm
+                 * 持有 new_owner->alloc_lock
+                 */
+                struct task_struct __rcu *owner;
+#endif
+                struct user_namespace *user_ns;
+
+                /* 存储指向 /proc/<pid>/exe 符号链接的文件引用 */
+                struct file __rcu *exe_file;
+#ifdef CONFIG_MMU_NOTIFIER
+                struct mmu_notifier_subscriptions *notifier_subscriptions;
+#endif
+#if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !USE_SPLIT_PMD_PTLOCKS
+                pgtable_t pmd_huge_pte; /* 由 page_table_lock 保护 */
+#endif
+#ifdef CONFIG_NUMA_BALANCING
+                /*
+                 * numa_next_scan 是下一次 PTE 重新映射为 PROT_NONE 以触发 NUMA 提示
+                 * 故障的时间；此类故障收集统计数据并在必要时将页迁移到新节点。
+                 */
+                unsigned long numa_next_scan;
+
+                /* 扫描和重新映射 PTEs 的重新启动点。 */
+                unsigned long numa_scan_offset;
+
+                /* numa_scan_seq 防止两个线程重新映射 PTEs。 */
+                int numa_scan_seq;
+#endif
+                /*
+                 * 正在进行带有批处理 TLB 刷新的操作。移动进程内存的任何操作都需要
+                 * 在移动 PROT_NONE 映射页时刷新 TLB。
+                 */
+                atomic_t tlb_flush_pending;
+#ifdef CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+                /* 参见 flush_tlb_batched_pending() */
+                atomic_t tlb_flush_batched;
+#endif
+                struct uprobes_state uprobes_state;
+#ifdef CONFIG_PREEMPT_RT
+                struct rcu_head delayed_drop;
+#endif
+#ifdef CONFIG_HUGETLB_PAGE
+                atomic_long_t hugetlb_usage;
+#endif
+                struct work_struct async_put_work;
+
+#ifdef CONFIG_IOMMU_SVA
+                u32 pasid;
+#endif
+#ifdef CONFIG_KSM
+                /*
+                 * 表示此进程中有多少页参与 KSM 合并（不包括 ksm_zero_pages）。
+                 */
+                unsigned long ksm_merging_pages;
+                /*
+                 * 表示检查是否进行 KSM 合并的页数，包括已合并和未合并的。
+                 */
+                unsigned long ksm_rmap_items;
+                /*
+                 * 表示启用 KSM use_zero_pages 时，有多少空页与内核零页合并。
+                 */
+                unsigned long ksm_zero_pages;
+#endif /* CONFIG_KSM */
+#ifdef CONFIG_LRU_GEN
+                struct {
+                        /* 此 mm_struct 位于 lru_gen_mm_list 上 */
+                        struct list_head list;
+                        /*
+                         * 切换到此 mm_struct 时设置，作为自上次每节点页表遍历清除相应
+                         * 位以来是否使用过的提示。
+                         */
+                        unsigned long bitmap;
+#ifdef CONFIG_MEMCG
+                        /* 指向上面 "owner" 的 memcg */
+                        struct mem_cgroup *memcg;
+#endif
+                } lru_gen;
+#endif /* CONFIG_LRU_GEN */
+        } __randomize_layout;
+
+        /*
+         * mm_cpumask 需要位于 mm_struct 的末尾，因为它是基于 nr_cpu_ids 动态调整大小的。
+         */
+        unsigned long cpu_bitmap[];
+};
+```
+
+## 相关函数
+
+进程创建时：
+```c
+fork
+  copy_mm
+    mm = oldmm // if (clone_flags & CLONE_VM)
+    dup_mm
+      allocate_mm
+        kmem_cache_alloc
+```
+
+进程退出时:
+```c
+exit_mm
+  mmput // 减少 mm_users
+    __mmput
+      mmdrop // 减少mm_count
+        mm_count
+          free_mm
+            kmem_cache_free
 ```
 
 # 页高速缓存
