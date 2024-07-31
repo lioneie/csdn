@@ -911,9 +911,63 @@ void *kmap_atomic(struct page *page)
 kunmap_atomic(__addr)
 ```
 
-# percpu
+# 每CPU变量
 
+为每一个cpu分配一个变量可以减少数据锁定，也可以减少缓存失效（也叫缓存抖动，会影响系统性能）。
 
+## 老的方法
+
+```c
+unsigned long data[NR_CPUS];
+int cpu;
+cpu = get_cpu(); // 禁止内核抢占
+data[cpu]++;
+put_cpu(); // 激活内核抢占
+```
+
+## 新的接口
+
+编译时创建，注意不能在动态插入的模块中使用：
+```c
+// 定义
+DEFINE_PER_CPU(type, name)
+// 声明
+DECLARE_PER_CPU(type, name)
+// 获取并操作当前cpu变量，禁止抢占
+get_cpu_var(name)++
+// 完成，激活抢占
+put_cpu_var(name)
+// 获取并操作其他cpu上的变量，不会禁止抢占，也没有锁保护，不建议这样用
+per_cpu(name, cpunum)++
+```
+
+动态创建：
+```c
+// 调用__alloc_percpu实现
+alloc_percpu(type) // __alloc_percpu(sizeof(type), __alignof__(type))
+/**                                                           
+ * __alloc_percpu - 分配动态每CPU区域              
+ * @size: 要分配的区域大小，以字节为单位                   
+ * @align: 区域的对齐方式（最大为 PAGE_SIZE）                  
+ *                                                            
+ * 等效于 __alloc_percpu_gfp(size, align, %GFP_KERNEL)。
+ */                                                           
+void __percpu *__alloc_percpu(size_t size, size_t align)      
+/**                                  
+ * free_percpu - 释放每CPU区域    
+ * @ptr: 指向要释放的区域的指针     
+ *                                   
+ * 释放每CPU区域 @ptr。            
+ *                                   
+ * 上下文：                          
+ * 可以从原子上下文中调用。
+ */                                  
+void free_percpu(void __percpu *ptr) 
+// 获取并操作当前cpu变量，禁止抢占，和编译时创建的用法一样
+get_cpu_var(name)++
+// 完成，激活抢占，和编译时创建的用法一样
+put_cpu_var(name)
+```
 
 # 页高速缓存
 
