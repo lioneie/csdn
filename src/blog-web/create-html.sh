@@ -43,6 +43,8 @@ array=(
                 "22876f540bdf NFS: Don't call generic_error_remove_page() while holding locks"
             1 1 courses/kernel/patches/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.md ~
                 "e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held"
+            1 1 courses/kernel/patches/nfsd4-use-reference-count-to-free-client.md ~
+                "59f8e91b75ec nfsd4: use reference count to free client"
             # smb
             1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."

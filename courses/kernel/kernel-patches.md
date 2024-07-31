@@ -16,6 +16,8 @@
 
 [`e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held`](https://chenxiaosong.com/courses/kernel/patches/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.html)
 
+[`59f8e91b75ec nfsd4: use reference count to free client`](https://chenxiaosong.com/courses/kernel/patches/nfsd4-use-reference-count-to-free-client.html)
+
 # SMB(CIFS)文件系统
 
 [`7de0394801da cifs: Fix in error types returned for out-of-credit situations.`](https://chenxiaosong.com/courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)
