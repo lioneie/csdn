@@ -57,6 +57,8 @@ address  +------------+ address  +--------+ address
 ```
 -->
 
+## `struct page`
+
 ```c
 struct page {
         unsigned long flags;            /* 原子标志，其中一些可能被异步更新 */
@@ -101,7 +103,28 @@ struct page {
 } _struct_page_alignment;
 ```
 
-我们把`struct page`结构体中的两个`union`单独拎出来讲：
+`flags`字段里的每一位定义在`enum pageflags`。在内核代码中，我们经常看到类似`SetPageError`、`PagePrivate`的函数，但总是找不到定义，这是因为这些函数是通过宏定义生成的。宏定义是对`enum pageflags`中的每个值进行宏展开，这里列出设置和检测的宏定义：
+```c
+// 检测
+#define TESTPAGEFLAG(uname, lname, policy)                       
+static __always_inline int Page##uname(struct page *page)        
+        { return test_bit(PG_##lname, &policy(page, 0)->flags); }
+
+// 设置                                          
+#define SETPAGEFLAG(uname, lname, policy)                        
+static __always_inline void SetPage##uname(struct page *page)    
+        { set_bit(PG_##lname, &policy(page, 1)->flags); }        
+```
+
+页的拥有者可能是用户空间进程、动态分配的内核数据、静态内核代、页高速缓存等。
+
+页的大小可以用`getconf -a | grep PAGESIZE`命令查看。`x86`默认打开配置`CONFIG_HAVE_PAGE_SIZE_4KB`和`CONFIG_PAGE_SIZE_4KB`。
+
+在看内存相关的代码时，还会看到KASAN（Kernel Address Sanitizer）和KMSAN（Kernel Memory Sanitizer）两个概念，他们是用于检测和调试内存错误的工具。
+
+## 两个`union`
+
+我们再把`struct page`结构体中的两个`union`单独拎出来讲：
 ```c
 /*
  * 这个联合体中有五个字（20/40字节）可用。
@@ -198,26 +221,7 @@ union page_union_2 {
 }
 ```
 
-`flags`字段里的每一位定义在`enum pageflags`。在内核代码中，我们经常看到类似`SetPageError`、`PagePrivate`的函数，但总是找不到定义，这是因为这些函数是通过宏定义生成的。宏定义是对`enum pageflags`中的每个值进行宏展开，这里列出设置和检测的宏定义：
-```c
-// 检测
-#define TESTPAGEFLAG(uname, lname, policy)                       
-static __always_inline int Page##uname(struct page *page)        
-        { return test_bit(PG_##lname, &policy(page, 0)->flags); }
-
-// 设置                                          
-#define SETPAGEFLAG(uname, lname, policy)                        
-static __always_inline void SetPage##uname(struct page *page)    
-        { set_bit(PG_##lname, &policy(page, 1)->flags); }        
-```
-
-页的拥有者可能是用户空间进程、动态分配的内核数据、静态内核代、页高速缓存等。
-
-页的大小可以用`getconf -a | grep PAGESIZE`命令查看。`x86`默认打开配置`CONFIG_HAVE_PAGE_SIZE_4KB`和`CONFIG_PAGE_SIZE_4KB`。
-
-在看内存相关的代码时，还会看到KASAN（Kernel Address Sanitizer）和KMSAN（Kernel Memory Sanitizer）两个概念，他们是用于检测和调试内存错误的工具。
-
-# 区
+## 区
 
 内核使用区（zone）对相似特性的页进行分组，描述的是物理内存。定义在`include/linux/mmzone.h`：
 ```c
@@ -291,7 +295,7 @@ enum zone_type {
 
 内存区域的划分取决于体系结构，有些体系结构上所有的内存都是`ZONE_NORMAL`。
 
-32位`x86`的：
+32位`x86`：
 
 - `ZONE_DMA`范围是`0~16M`。
 - `ZONE_NORMAL`的范围是`16~896M`。
@@ -465,7 +469,9 @@ struct zone {
 } ____cacheline_internodealigned_in_smp;
 ```
 
-# 函数接口
+# 内存分配与释放
+
+## 函数接口
 
 分配页：
 ```c
@@ -505,7 +511,7 @@ void *vmalloc(unsigned long size)
 void vfree(const void *addr)
 ```
 
-# `gfp_t`
+## `gfp_t`
 
 在`include/linux/gfp_types.h`中的解释：
 ```c
@@ -522,7 +528,7 @@ typedef unsigned int __bitwise gfp_t;
 #endif                                                                 
 ```
 
-## 行为修饰符
+### 行为修饰符
 
 表示内核应该如何分配所需的内存。
 
@@ -562,7 +568,7 @@ typedef unsigned int __bitwise gfp_t;
 #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))          
 ```
 
-## 区修饰符
+### 区修饰符
 
 表示从哪个区分配内存。注意返回逻辑地址的函数如`__get_free_pages()`和`kmalloc()`等不能指定`__GFP_HIGHMEM`，因为可能会出现还没映射虚拟地址空间，没有虚拟地址。
 
@@ -580,7 +586,7 @@ typedef unsigned int __bitwise gfp_t;
 #define GFP_ZONEMASK    (__GFP_DMA|__GFP_HIGHMEM|__GFP_DMA32|__GFP_MOVABLE)        
 ```
 
-## 页面的移动性和放置提示
+### 页面的移动性和放置提示
 
 ```c
 /**
@@ -610,7 +616,7 @@ typedef unsigned int __bitwise gfp_t;
 #define __GFP_ACCOUNT   ((__force gfp_t)___GFP_ACCOUNT)
 ```
 
-## 水位标志修饰符
+### 水位标志修饰符
 
 ```c
 /**
@@ -634,7 +640,7 @@ typedef unsigned int __bitwise gfp_t;
 #define __GFP_NOMEMALLOC ((__force gfp_t)___GFP_NOMEMALLOC)
 ```
 
-## 回收修饰符
+### 回收修饰符
 
 ```c
 /**
@@ -680,7 +686,7 @@ typedef unsigned int __bitwise gfp_t;
 #define __GFP_NORETRY   ((__force gfp_t)___GFP_NORETRY)
 ```
 
-## 类型标志
+### 类型标志
 
 组合了行为修饰符和区修饰符。
 
