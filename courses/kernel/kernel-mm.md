@@ -975,7 +975,7 @@ put_cpu_var(name)
 
 ## 内存描述符
 
-内核使用内存描述符表示进程的地址空间。`struct task_struct`结构体中的`mm`成员指向进程使用的内存描述符。
+内核使用内存描述符表示进程的地址空间。`struct task_struct`结构体中的`mm`成员指向进程使用的内存描述符，内核线程的没有内存描述符所以`mm`为空（可使用前一个用户空间进程的`mm`，用`active_mm`指向）。
 ```c
 struct mm_struct {
         struct {
@@ -1230,6 +1230,10 @@ exit_mm
           free_mm
             kmem_cache_free
 ```
+
+## 虚拟内存区域
+
+
 
 # 页高速缓存
 
