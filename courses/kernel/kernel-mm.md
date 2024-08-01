@@ -221,6 +221,106 @@ union page_union_2 {
 }
 ```
 
+## `struct folio`
+
+`struct folio` 是一种新引入的结构，旨在表示多个连续页面的集合（例如，多个 4KB 页面的组合）。它包含对多个页面的引用，允许内核在处理大页或多个相邻页面时更有效地管理内存。`struct folio` 是对 `struct page` 概念的扩展。
+
+```c
+/**
+ * struct folio - 表示一组连续的字节。
+ * @flags: 与页面标志相同。
+ * @lru: 最近最少使用列表；跟踪此 folio 最近的使用情况。
+ * @mlock_count: 此 folio 被 mlock() 固定的次数。
+ * @mapping: 此页面所属的文件，或指向匿名内存的 anon_vma。
+ * @index: 文件内的偏移量，以页面为单位。对于匿名内存，这是从 mmap 开始的索引。
+ * @private: 文件系统每个 folio 的数据（参见 folio_attach_private()）。
+ * @swap: 如果 folio_test_swapcache()，则用于 swp_entry_t。
+ * @_mapcount: 不要直接访问此成员。使用 folio_mapcount() 来查找此 folio 被用户空间映射的次数。
+ * @_refcount: 不要直接访问此成员。使用 folio_ref_count() 来查找对此 folio 的引用次数。
+ * @memcg_data: 内存控制组数据。
+ * @_entire_mapcount: 不要直接使用，请调用 folio_entire_mapcount()。
+ * @_nr_pages_mapped: 不要直接使用，请调用 folio_mapcount()。
+ * @_pincount: 不要直接使用，请调用 folio_maybe_dma_pinned()。
+ * @_folio_nr_pages: 不要直接使用，请调用 folio_nr_pages()。
+ * @_hugetlb_subpool: 不要直接使用，请在 hugetlb.h 中使用访问器。
+ * @_hugetlb_cgroup: 不要直接使用，请在 hugetlb_cgroup.h 中使用访问器。
+ * @_hugetlb_cgroup_rsvd: 不要直接使用，请在 hugetlb_cgroup.h 中使用访问器。
+ * @_hugetlb_hwpoison: 不要直接使用，请调用 raw_hwp_list_head()。
+ * @_deferred_list: 内存压力下要拆分的 folios。
+ *
+ * folio 是一组物理上、虚拟上和逻辑上连续的字节。它的大小是 2 的幂，并且与该幂对齐。它至少与 %PAGE_SIZE 一样大。如果它在页面缓存中，它位于文件偏移的倍数位置。它可以映射到用户空间的任意页面偏移地址，但其内核虚拟地址与其大小对齐。
+ */
+struct folio {
+        /* private: 不要记录匿名联合体 */
+        union {
+                struct {
+        /* public: */
+                        unsigned long flags;
+                        union {
+                                struct list_head lru;
+        /* private: 避免输出混乱 */
+                                struct {
+                                        void *__filler;
+        /* public: */
+                                        unsigned int mlock_count;
+        /* private: */
+                                };
+        /* public: */
+                        };
+                        struct address_space *mapping;
+                        pgoff_t index;
+                        union {
+                                void *private;
+                                swp_entry_t swap;
+                        };
+                        atomic_t _mapcount;
+                        atomic_t _refcount;
+#ifdef CONFIG_MEMCG
+                        unsigned long memcg_data;
+#endif
+        /* private: 带有 struct page 的联合体是过渡性的 */
+                };
+                struct page page;
+        };
+        union {
+                struct {
+                        unsigned long _flags_1;
+                        unsigned long _head_1;
+                        unsigned long _folio_avail;
+        /* public: */
+                        atomic_t _entire_mapcount;
+                        atomic_t _nr_pages_mapped;
+                        atomic_t _pincount;
+#ifdef CONFIG_64BIT
+                        unsigned int _folio_nr_pages;
+#endif
+        /* private: 带有 struct page 的联合体是过渡性的 */
+                };
+                struct page __page_1;
+        };
+        union {
+                struct {
+                        unsigned long _flags_2;
+                        unsigned long _head_2;
+        /* public: */
+                        void *_hugetlb_subpool;
+                        void *_hugetlb_cgroup;
+                        void *_hugetlb_cgroup_rsvd;
+                        void *_hugetlb_hwpoison;
+        /* private: 带有 struct page 的联合体是过渡性的 */
+                };
+                struct {
+                        unsigned long _flags_2a;
+                        unsigned long _head_2a;
+        /* public: */
+                        struct list_head _deferred_list;
+        /* private: 带有 struct page 的联合体是过渡性的 */
+                };
+                struct page __page_2;
+        };
+};
+```
+
 ## 区
 
 内核使用区（zone）对相似特性的页进行分组，描述的是物理内存。定义在`include/linux/mmzone.h`：
