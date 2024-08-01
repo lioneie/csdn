@@ -12,10 +12,13 @@ address  +------------+ address  +--------+ address
          +------------+          +--------+
 ```
 
-- 逻辑地址（logical address）：由段（segment）和偏移量（offset或displacement）
+三种地址介绍：
 
-MMU，英文全称Memory Management Unit，中文翻译为内存管理单元，又叫分页内存管理单元（Paged Memory Management Unit），把虚拟地址转换成物理地址。MMU以page大小为单位管理内存，虚拟内存的最小单位就是page。
+- 逻辑地址（logical address）: 由段（segment）和偏移量（offset或displacement）组成。RISC（Reduced Instruction Set Computers）体系结构（如ARM）分段支持有限，在某些支持段的CISC（Complex Instruction Set Computers）体系结构如x86（x86无法绕过分段），Linux内核中，所有的段（如：用户代码段、用户数据段、内核代码段、内核数据段等）都从0地址开始，偏移量就是线性地址的大小，所以逻辑地址和线性地址是一毛一样的。
+- 线性地址（linear address）: 又叫虚拟地址（virtual address），是连续的地址。
+- 物理地址（physical address）: 用于内存芯片级的内存寻址单元
 
+分段单元（segmentation unit）和分页单元（paging unit）都由MMU完成，英文全称Memory Management Unit，中文翻译为内存管理单元，又叫分页内存管理单元（Paged Memory Management Unit），最终转换成物理地址。MMU以page大小为单位管理内存，虚拟内存的最小单位就是page。
 
 # 页
 
@@ -971,8 +974,6 @@ put_cpu_var(name)
 
 # 进程地址空间
 
-可被进程合法访问的地址空间称为内存区域（memory area）。
-
 ## 内存描述符
 
 内核使用内存描述符表示进程的地址空间。`struct task_struct`结构体中的`mm`成员指向进程使用的内存描述符，内核线程的没有内存描述符所以`mm`为空（可使用前一个用户空间进程的`mm`，用`active_mm`指向）。
@@ -1007,7 +1008,7 @@ struct mm_struct {
                 unsigned long mmap_compat_legacy_base;
 #endif
                 unsigned long task_size;        /* 任务虚拟内存空间的大小 */
-                pgd_t * pgd;
+                pgd_t * pgd; // 页全局目录，由 page_table_lock 保护 
 
 #ifdef CONFIG_MEMBARRIER
                 /**
@@ -1233,8 +1234,350 @@ exit_mm
 
 ## 虚拟内存区域
 
+可被进程合法访问的地址空间称为内存区域（memory area），内存区域也称为虚拟内存区域（Virtual Memory Areas, VMAs）。如果两个独立的进程将同一个文件映射到各自的地址空间，不会共享`vm_area_struct`；如果两个线程共享一个地址空间，则共享`vm_area_struct`。
+```c
+/*
+ * 这个结构体描述了一个虚拟内存区域。每个 VM 区域/任务有一个这样的结构体。
+ * 一个 VM 区域是指进程虚拟内存空间中具有特定页错误处理规则的部分
+ * （例如共享库、可执行区域等）。
+ */
+struct vm_area_struct {
+        /* 第一缓存行包含用于 VMA 树遍历的信息。 */
 
+        union {
+                struct {
+                        /* VMA 覆盖 mm 内的 [vm_start; vm_end) 地址 */
+                        unsigned long vm_start;
+                        unsigned long vm_end;
+                };
+#ifdef CONFIG_PER_VMA_LOCK
+                struct rcu_head vm_rcu; /* 用于延迟释放。 */
+#endif
+        };
 
+        struct mm_struct *vm_mm;        /* 我们所属的地址空间。 */
+        pgprot_t vm_page_prot;    /* 该 VMA 的访问权限。 */
+
+        /*
+         * 标志，参见 mm.h。
+         * 查看 VM_READ 等宏定义。
+         * 其中VM_SEQ_READ和VM_RAND_READ可通过系统调用madvise(behavior)设置，behavior可以是MADV_SEQUENTIAL或MADV_RANDOM
+         * 要修改请使用 vm_flags_{init|reset|set|clear|mod} 函数。
+         */
+        union {
+                const vm_flags_t vm_flags;
+                vm_flags_t __private __vm_flags;
+        };
+
+#ifdef CONFIG_PER_VMA_LOCK
+        /*
+         * 只能在同时持有以下两者时写入（使用 WRITE_ONCE()）：
+         *  - mmap_lock（写模式）
+         *  - vm_lock->lock（写模式）
+         * 在持有以下任一时可以可靠读取：
+         *  - mmap_lock（读或写模式）
+         *  - vm_lock->lock（读或写模式）
+         * 可以在不持有任何锁时不可靠地读取（使用 READ_ONCE()），
+         * 这种情况下只有 RCU 可以保持 VMA 结构体已分配。
+         *
+         * 该序列计数器明确允许溢出；序列计数器重用只会导致偶尔
+         * 采用慢路径。
+         */
+        int vm_lock_seq;
+        struct vma_lock *vm_lock;
+
+        /* 指示从 mm->mm_mt 树分离的区域的标志 */
+        bool detached;
+#endif
+
+        /*
+         * 对于具有地址空间和后备存储的区域，
+         * 链接到 address_space->i_mmap 区间树。
+         *
+         */
+        struct {
+                struct rb_node rb;
+                unsigned long rb_subtree_last;
+        } shared;
+
+        /*
+         * 一个文件的 MAP_PRIVATE vma 可以同时在 i_mmap 树和 anon_vma
+         * 列表中，发生 COW 后。MAP_SHARED vma 只能在 i_mmap 树中。
+         * 匿名 MAP_PRIVATE、栈或 brk vma（文件指针为 NULL）只能在
+         * anon_vma 列表中。
+         */
+        struct list_head anon_vma_chain; /* 由 mmap_lock 和 page_table_lock
+                                                                          * 序列化 */
+        struct anon_vma *anon_vma;         /* 由 page_table_lock 序列化 */
+
+        /* 处理该结构体的函数指针。 */
+        const struct vm_operations_struct *vm_ops;
+
+        /* 我们后备存储的信息： */
+        unsigned long vm_pgoff;  /* 在 PAGE_SIZE 单位内的 vm_file 偏移 */
+        struct file *vm_file;      /* 我们映射的文件（可以为 NULL）。 */
+        void *vm_private_data;    /* 曾经是 vm_pte（共享内存） */
+
+#ifdef CONFIG_ANON_VMA_NAME
+        /*
+         * 对于私有和共享匿名映射，一个指向包含 vma 名称的以空字符结尾的字符串的指针，
+         * 如果未命名则为 NULL。由 mmap_lock 序列化。使用 anon_vma_name 访问。
+         */
+        struct anon_vma_name *anon_name;
+#endif
+#ifdef CONFIG_SWAP
+        atomic_long_t swap_readahead_info;
+#endif
+#ifndef CONFIG_MMU
+        struct vm_region *vm_region;    /* NOMMU 映射区域 */
+#endif
+#ifdef CONFIG_NUMA
+        struct mempolicy *vm_policy;    /* 该 VMA 的 NUMA 策略 */
+#endif
+#ifdef CONFIG_NUMA_BALANCING
+        struct vma_numab_state *numab_state;    /* NUMA 平衡状态 */
+#endif
+        struct vm_userfaultfd_ctx vm_userfaultfd_ctx;
+} __randomize_layout;
+```
+
+## VMA操作
+
+`vm_area_struct`中的`vm_ops`字段：
+```c
+/*
+ * 这些是虚拟内存管理函数 - 打开一个区域、关闭和取消映射它
+ * （需要保持磁盘上的文件最新等），当发生无页异常或写保护页异常时
+ * 调用的函数指针。
+ */
+struct vm_operations_struct {
+        // 指定的内存区域被加到地址空间时，open被调用
+        void (*open)(struct vm_area_struct * area);
+        /**
+         * @close: 当 VMA 从内存管理中移除时调用。
+         * 上下文：用户上下文。可能会休眠。调用者持有 mmap_lock。
+         */
+        void (*close)(struct vm_area_struct * area);
+        /* 在拆分前的任何时间调用以检查是否允许拆分 */
+        int (*may_split)(struct vm_area_struct *area, unsigned long addr);
+        int (*mremap)(struct vm_area_struct *area);
+        /*
+         * 由 mprotect() 调用以在 mprotect() 完成之前进行特定于驱动程序的权限检查。
+         * VMA 不能被修改。如果 mprotect() 可以继续则返回 0。
+         */
+        int (*mprotect)(struct vm_area_struct *vma, unsigned long start,
+                        unsigned long end, unsigned long newflags);
+        vm_fault_t (*fault)(struct vm_fault *vmf);
+        vm_fault_t (*huge_fault)(struct vm_fault *vmf, unsigned int order);
+        vm_fault_t (*map_pages)(struct vm_fault *vmf,
+                        pgoff_t start_pgoff, pgoff_t end_pgoff);
+        unsigned long (*pagesize)(struct vm_area_struct * area);
+
+        /* 通知一个以前只读的页面即将变为可写，如果返回错误将导致 SIGBUS */
+        vm_fault_t (*page_mkwrite)(struct vm_fault *vmf);
+
+        /* 当使用 VM_PFNMAP|VM_MIXEDMAP 时与 page_mkwrite 相同 */
+        vm_fault_t (*pfn_mkwrite)(struct vm_fault *vmf);
+
+        /* 当 get_user_pages() 失败时由 access_process_vm 调用，通常用于特殊的 VMA。
+         * 另请参见 generic_access_phys()，它是一个适用于任何 iomem 映射的通用实现。
+         */
+        int (*access)(struct vm_area_struct *vma, unsigned long addr,
+                      void *buf, int len, int write);
+
+        /* 由 /proc/PID/maps 代码调用，以询问 VMA 是否有特殊名称。
+         * 返回非 NULL 还会导致此 VMA 无条件地被转储。
+         */
+        const char *(*name)(struct vm_area_struct *vma);
+
+#ifdef CONFIG_NUMA
+        /*
+         * set_policy() 操作必须在返回时为任何非 NULL 的 @new mempolicy 添加引用
+         * 以保持策略。调用者应传递 NULL @new 以移除策略并回退到周围的上下文
+         * ——即不要安装 MPOL_DEFAULT 策略，也不要安装任务或系统默认的 mempolicy。
+         */
+        int (*set_policy)(struct vm_area_struct *vma, struct mempolicy *new);
+
+        /*
+         * get_policy() 操作必须为标记为 MPOL_SHARED 的任何 (vma,addr) 处的策略添加引用 [mpol_get()]。
+         * mm/mempolicy.c 中的共享策略基础设施将自动执行此操作。
+         * 如果 (vma,addr) 处的策略未标记为 MPOL_SHARED，则 get_policy() 不得添加引用。
+         * vma 策略受 mmap_lock 保护。如果在该地址处没有 [共享/vma] mempolicy，
+         * 则 get_policy() 操作必须返回 NULL——即不要“回退”到任务或系统默认策略。
+         */
+        struct mempolicy *(*get_policy)(struct vm_area_struct *vma,
+                                        unsigned long addr);
+#endif
+        /*
+         * 由 vm_normal_page() 调用，用于特殊的 PTEs 以查找 @addr 的页面。
+         * 如果默认行为（使用 pte_page()）找不到正确的页面，这很有用。
+         */
+        struct page *(*find_special_page)(struct vm_area_struct *vma,
+                                          unsigned long addr);
+};
+```
+
+## 查看内存区域
+
+我们看一个最简单的程序`test.c`：
+```c
+#include <stdio.h>
+
+int main(int argc, char *argv[]) {
+        printf("Hello, World!\n");
+        while (1) {
+                // 在循环中可以执行其他操作，这里我们只让它一直循环
+        }
+        return 0;
+}
+```
+
+然后编译运行：
+```sh
+gcc -o test test.c
+./test & # 后台运行，会打印出进程号
+```
+
+查看内存区域：
+```sh
+cat /proc/2985/maps
+00400000-00401000 r--p 00000000 fd:02 806031960                          /root/test
+00401000-00402000 r-xp 00001000 fd:02 806031960                          /root/test
+00402000-00403000 r--p 00002000 fd:02 806031960                          /root/test
+00403000-00404000 r--p 00002000 fd:02 806031960                          /root/test
+00404000-00405000 rw-p 00003000 fd:02 806031960                          /root/test
+36732000-36753000 rw-p 00000000 00:00 0                                  [heap]
+7f4ed4e61000-7f4ed4e64000 rw-p 00000000 00:00 0 
+7f4ed4e64000-7f4ed4e8c000 r--p 00000000 fd:02 268556763                  /usr/lib64/libc.so.6
+7f4ed4e8c000-7f4ed4ff5000 r-xp 00028000 fd:02 268556763                  /usr/lib64/libc.so.6
+7f4ed4ff5000-7f4ed5043000 r--p 00191000 fd:02 268556763                  /usr/lib64/libc.so.6
+7f4ed5043000-7f4ed5047000 r--p 001de000 fd:02 268556763                  /usr/lib64/libc.so.6
+7f4ed5047000-7f4ed5049000 rw-p 001e2000 fd:02 268556763                  /usr/lib64/libc.so.6
+7f4ed5049000-7f4ed5053000 rw-p 00000000 00:00 0 
+7f4ed505b000-7f4ed505f000 r--p 00000000 00:00 0                          [vvar]
+7f4ed505f000-7f4ed5061000 r-xp 00000000 00:00 0                          [vdso]
+7f4ed5061000-7f4ed5062000 r--p 00000000 fd:02 268556760                  /usr/lib64/ld-linux-x86-64.so.2
+7f4ed5062000-7f4ed5089000 r-xp 00001000 fd:02 268556760                  /usr/lib64/ld-linux-x86-64.so.2
+7f4ed5089000-7f4ed5093000 r--p 00028000 fd:02 268556760                  /usr/lib64/ld-linux-x86-64.so.2
+7f4ed5093000-7f4ed5095000 r--p 00032000 fd:02 268556760                  /usr/lib64/ld-linux-x86-64.so.2
+7f4ed5095000-7f4ed5097000 rw-p 00034000 fd:02 268556760                  /usr/lib64/ld-linux-x86-64.so.2
+7ffc36b1b000-7ffc36b3c000 rw-p 00000000 00:00 0                          [stack]
+ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
+```
+
+还可以用更方便阅读的形式输出：
+```sh
+pmap 2985
+3090:   ./test
+0000000000400000      4K r---- test
+0000000000401000      4K r-x-- test # 可读和可执行，代码段
+0000000000402000      4K r---- test
+0000000000403000      4K r---- test
+0000000000404000      4K rw--- test # 可读和可写，数据段
+0000000036732000    132K rw---   [ anon ] # 匿名映射，通常用于堆或其他动态分配的内存
+00007f4ed4e61000     12K rw---   [ anon ]
+00007f4ed4e64000    160K r---- libc.so.6
+00007f4ed4e8c000   1444K r-x-- libc.so.6
+00007f4ed4ff5000    312K r---- libc.so.6
+00007f4ed5043000     16K r---- libc.so.6
+00007f4ed5047000      8K rw--- libc.so.6 # 数据段
+00007f4ed5049000     40K rw---   [ anon ]
+00007f4ed505b000     16K r----   [ anon ]
+00007f4ed505f000      8K r-x--   [ anon ]
+00007f4ed5061000      4K r---- ld-linux-x86-64.so.2
+00007f4ed5062000    156K r-x-- ld-linux-x86-64.so.2
+00007f4ed5089000     40K r---- ld-linux-x86-64.so.2
+00007f4ed5093000      8K r---- ld-linux-x86-64.so.2
+00007f4ed5095000      8K rw--- ld-linux-x86-64.so.2
+00007ffc36b1b000    132K rw---   [ stack ] # 栈内存区域
+ffffffffff600000      4K --x--   [ anon ]
+ total             2520K
+```
+
+## 内存区域操作函数
+
+```c
+/**
+ * find_vma() - 查找给定地址的 VMA，或下一个 VMA。
+ * @mm: 要检查的 mm_struct
+ * @addr: 地址
+ *
+ * 返回值: 与 addr 关联的 VMA，或下一个 VMA。
+ * 在 addr 及其以上没有 VMA 的情况下，可能返回 %NULL。
+ */
+struct vm_area_struct *find_vma(struct mm_struct *mm, unsigned long addr)
+
+/**
+ * find_vma_prev() - 查找给定地址的 VMA，或下一个 VMA，并将 %pprev 设置为前一个 VMA（如果有的话）。
+ * 与 find_vma() 相同，但也在 *pprev 中返回指向前一个 VMA 的指针。
+ * @mm: 要检查的 mm_struct
+ * @addr: 地址
+ * @pprev: 指向前一个 VMA 的指针
+ *
+ * 注意，这里缺少 RCU 锁，因为使用了外部的 mmap_lock()。
+ *
+ * 返回值: 与 @addr 关联的 VMA，或下一个 VMA。
+ * 在 addr 及其以上没有 VMA 的情况下，可能返回 %NULL。
+ */
+struct vm_area_struct *
+find_vma_prev(struct mm_struct *mm, unsigned long addr,
+              struct vm_area_struct **pprev)
+
+/**
+ * find_vma_intersection() - 查找第一个与区间相交的 VMA
+ * @mm: 进程地址空间
+ * @start_addr: 包含的起始用户地址
+ * @end_addr: 排除的结束用户地址
+ *
+ * 返回值: 区间内的第一个 VMA，否则为 %NULL。假设 start_addr < end_addr。
+ */
+struct vm_area_struct *find_vma_intersection(struct mm_struct *mm,
+                                             unsigned long start_addr,
+                                             unsigned long end_addr)
+
+// 将一个地址区间加入到进程的地址空间，扩展已存在的内存区域域创建新的区域，调用者必须持有 current->mm->mmap_lock 的写锁
+// file为NULL或offset为0称为匿名映射（anonymous mapping），否则称为文件映射（file-backed mapping）
+// prot: 请查看 PROT_READ 等定义
+// flag: 请查看 MAP_SHARED 和 MAP_GROWSDOWN 等定义
+unsigned long do_mmap(struct file *file, unsigned long addr,
+                      unsigned long len, unsigned long prot,
+                      unsigned long flags, vm_flags_t vm_flags,
+                      unsigned long pgoff, unsigned long *populate,
+                      struct list_head *uf)
+
+// 最终调用到 do_mmap()
+SYSCALL_DEFINE6(mmap_pgoff, unsigned long, addr, unsigned long, len,
+                unsigned long, prot, unsigned long, flags,          
+                unsigned long, fd, unsigned long, pgoff)            
+
+/* do_munmap() - 非maple tree感知的do_munmap()调用的包装函数
+ * @mm: mm_struct结构体                                                         
+ * @start: 要munmap的起始地址                                        
+ * @len: 要munmap的长度                                          
+ * @uf: userfaultfd的list_head                                             
+ *                                                                            
+ * 返回: 成功返回0，否则返回错误                                     
+ */
+int do_munmap(struct mm_struct *mm, unsigned long start, size_t len,
+              struct list_head *uf)
+
+// 最终调用到 do_munmap()
+SYSCALL_DEFINE2(munmap, unsigned long, addr, size_t, len)
+```
+
+## 页表
+
+应用程序操作的是虚拟内存，但处理器操作的是物理内存，Linux内核使用三级页表完成地址转换：
+
+- 顶级页表 - 页全局目录: PGD，Page Global Directory，`pgd_t`类型的数组。
+- 二级页表 - 页中间目录: PMD，Page Middle Directory，`pmd_t`类型的数组。
+- 三级页表 - 页表项: PTE，Page Table Entry，包含`pte_t`类型的页表项，指向物理页面。
+
+`struct mm_struct`中的`pgd`成员指向进程的页全局目录，由`page_table_lock`保护。内核正确的设置了页表后，搜索页表的工作由硬件完成。
+
+为了加快搜索物理地址的速度，多数体系结构实现了 Translation Lookaside Buffer，翻译为: 转译后备缓冲器（又叫页表缓存、转址旁路缓存）。
+
+<!-- ing begin -->
 # 页高速缓存
 
 访问磁盘的速度要远低于访问内存的速度。
@@ -1246,3 +1589,4 @@ exit_mm
 - Write Back，写操作先写到内存缓存中，磁盘不会立刻更新，先标记脏页，然后将脏页周期性的写到磁盘中。
 
 Linux的缓存回收是选择没有标记为脏的页进行简单替换。最近最少使用算法，LRU，
+<!-- ing end -->

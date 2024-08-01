@@ -45,14 +45,6 @@ RPL = requestor privilege level 请求者特权级
 代码段还是数据段
 ```
 
-Linux更喜欢**分页**，但x86处理器无法绕过分段
-
-RISC体系结构（如ARM）分段支持有限
-
-Linux让x86所有的段都从0地址开始
-
-Linux逻辑地址 == 线性地址
-
 Linux的权限管理等都交由**分页机制**来完成
 
 # Linux分页
