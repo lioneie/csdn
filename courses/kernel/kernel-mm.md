@@ -13,8 +13,8 @@ address  +------------+ address  +--------+ address
 三种地址介绍：
 
 - 逻辑地址（logical address）: 由段（segment）和偏移量（offset或displacement）组成。RISC（Reduced Instruction Set Computers）体系结构（如ARM）分段支持有限，在某些支持段的CISC（Complex Instruction Set Computers）体系结构如x86（x86无法绕过分段），Linux内核中，所有的段（如：用户代码段、用户数据段、内核代码段、内核数据段）都从0地址开始，偏移量就是线性地址的大小，所以逻辑地址和线性地址是一毛一样的。<!-- public begin -->对x86汇编感兴趣的话可以参考小甲鱼老师的[【8086汇编入门】《零基础入门学习汇编语言》](https://www.bilibili.com/video/BV1Rs411c7HG/?spm_id_from=333.999.0.0&vd_source=b3241359025e41f053e9e1b071acb6f8)。<!-- public end -->
-- 线性地址（linear address）: 又叫虚拟地址（virtual address），是连续的地址。
-- 物理地址（physical address）: 用于内存芯片级的内存寻址单元
+- 线性地址（linear address）: 又叫虚拟地址（virtual address），是连续的地址。在32位系统中，用户空间通常占用前3GB的线性地址空间，内核空间通常占用3GB~4GB的线性地址空间。在64位系统中，用户空间和内核空间占用更大的范围，具体的范围取决于内核的配置和架构。
+- 物理地址（physical address）: 用于内存芯片级的内存寻址单元。
 
 分段单元（segmentation unit）和分页单元（paging unit）都由MMU完成，英文全称Memory Management Unit，中文翻译为内存管理单元，又叫分页内存管理单元（Paged Memory Management Unit），最终转换成物理地址。MMU以page大小为单位管理内存，虚拟内存的最小单位就是page。
 
