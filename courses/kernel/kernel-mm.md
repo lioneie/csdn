@@ -1,8 +1,6 @@
 我们知道，操作系统是横跨软件和硬件的桥梁，其中内存寻址是操作系统设计的硬件基础之一。
 
-# 内存相关概念
-
-先介绍几个概念。
+# 内存地址
 
 ```sh
 logical                 linear              physical
@@ -14,7 +12,7 @@ address  +------------+ address  +--------+ address
 
 三种地址介绍：
 
-- 逻辑地址（logical address）: 由段（segment）和偏移量（offset或displacement）组成。RISC（Reduced Instruction Set Computers）体系结构（如ARM）分段支持有限，在某些支持段的CISC（Complex Instruction Set Computers）体系结构如x86（x86无法绕过分段），Linux内核中，所有的段（如：用户代码段、用户数据段、内核代码段、内核数据段等）都从0地址开始，偏移量就是线性地址的大小，所以逻辑地址和线性地址是一毛一样的。
+- 逻辑地址（logical address）: 由段（segment）和偏移量（offset或displacement）组成。RISC（Reduced Instruction Set Computers）体系结构（如ARM）分段支持有限，在某些支持段的CISC（Complex Instruction Set Computers）体系结构如x86（x86无法绕过分段），Linux内核中，所有的段（如：用户代码段、用户数据段、内核代码段、内核数据段）都从0地址开始，偏移量就是线性地址的大小，所以逻辑地址和线性地址是一毛一样的。
 - 线性地址（linear address）: 又叫虚拟地址（virtual address），是连续的地址。
 - 物理地址（physical address）: 用于内存芯片级的内存寻址单元
 
@@ -59,6 +57,7 @@ address  +------------+ address  +--------+ address
 
 ## `struct page`
 
+系统中的每个物理页面都用`struct page`描述：
 ```c
 struct page {
         unsigned long flags;            /* 原子标志，其中一些可能被异步更新 */
@@ -322,6 +321,8 @@ struct folio {
 ```
 
 ## 区
+
+物理内存在逻辑上分为三级结构: 节点（在NUMA系统中，Non-Uniform Memory Access，可查看`pg_data_t`），区，页。
 
 内核使用区（zone）对相似特性的页进行分组，描述的是物理内存。定义在`include/linux/mmzone.h`：
 ```c
@@ -938,8 +939,6 @@ struct slab {
 };
 ```
 
-slab分配器通过`kmem_getpages() -> __alloc_pages_node()`分配内存，通过`kmem_freepages() -> __free_pages()`释放内存。
-
 slab分配器的接口：
 ```c
 /**
@@ -985,7 +984,7 @@ void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
 void kmem_cache_free(struct kmem_cache *cachep, void *objp)
 ```
 
-slub: todo
+目前内核中已经引入SLUB (Unqueued Allocator)，旧的SLAB将被弃用，请查看`SLAB_DEPRECATED`配置。SLUB 是一种改进版的 slab 分配器，它通过最小化缓存行使用来代替管理缓存对象队列（SLAB 方法）。每个 CPU 的缓存通过对象的 slabs 而不是对象的队列来实现。SLUB 可以有效地使用内存并具有增强的诊断功能。
 
 Linux内核曾经有过slob分配器，已经移除了，具体请查看[`remove SLOB and allow kfree() with kmem_cache_alloc()`](https://lore.kernel.org/all/20230310103210.22372-1-vbabka@suse.cz/)。
 
@@ -1673,13 +1672,13 @@ SYSCALL_DEFINE2(munmap, unsigned long, addr, size_t, len)
 
 ## 页表
 
-应用程序操作的是虚拟内存，但处理器操作的是物理内存，Linux内核使用三级页表完成地址转换：
+应用程序操作的是虚拟内存，但处理器操作的是物理内存。举个例子，32位x86 PAE模式下（Physical Address Extension，物理地址扩展，可以访问64G内存），Linux内核使用三级页表完成地址转换：
 
 - 顶级页表 - 页全局目录: PGD，Page Global Directory，`pgd_t`类型的数组。
 - 二级页表 - 页中间目录: PMD，Page Middle Directory，`pmd_t`类型的数组。
 - 三级页表 - 页表项: PTE，Page Table Entry，包含`pte_t`类型的页表项，指向物理页面。
 
-`struct mm_struct`中的`pgd`成员指向进程的页全局目录，由`page_table_lock`保护。内核正确的设置了页表后，搜索页表的工作由硬件完成。
+其他体系结构下的使用的页表级数不一样，如`arm64`采用四级页表。`struct mm_struct`中的`pgd`成员指向进程的页全局目录，由`page_table_lock`保护。内核正确的设置了页表后，搜索页表的工作由硬件完成。
 
 为了加快搜索物理地址的速度，多数体系结构实现了 Translation Lookaside Buffer，翻译为: 转译后备缓冲器（又叫页表缓存、转址旁路缓存）。
 
