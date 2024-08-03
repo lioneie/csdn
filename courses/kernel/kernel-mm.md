@@ -115,7 +115,7 @@ static __always_inline void SetPage##uname(struct page *page)
         { set_bit(PG_##lname, &policy(page, 1)->flags); }        
 ```
 
-页的拥有者可能是用户空间进程、动态分配的内核数据、静态内核代、页高速缓存等。
+页的拥有者可能是用户空间进程、动态分配的内核数据、静态内核代码、页高速缓存等。
 
 页的大小可以用`getconf -a | grep PAGESIZE`命令查看。`x86`默认打开配置`CONFIG_HAVE_PAGE_SIZE_4KB`和`CONFIG_PAGE_SIZE_4KB`。
 
@@ -322,7 +322,7 @@ struct folio {
 
 ## 区
 
-物理内存在逻辑上分为三级结构: 节点（在NUMA系统中，Non-Uniform Memory Access，可查看`pg_data_t`），区，页。
+物理内存在逻辑上分为三级结构: 节点（在NUMA系统中，Non-Uniform Memory Access，非统一内存访问，可查看`pg_data_t`），区，页。
 
 内核使用区（zone）对相似特性的页进行分组，描述的是物理内存。定义在`include/linux/mmzone.h`：
 ```c
@@ -789,7 +789,7 @@ typedef unsigned int __bitwise gfp_t;
 
 ### 类型标志
 
-组合了行为修饰符和区修饰符。
+组合了以上修饰符。
 
 ```c
 /**
