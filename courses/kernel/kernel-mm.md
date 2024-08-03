@@ -846,7 +846,19 @@ typedef unsigned int __bitwise gfp_t;
 #define GFP_KERNEL      (__GFP_RECLAIM | __GFP_IO | __GFP_FS)
 #define GFP_KERNEL_ACCOUNT (GFP_KERNEL | __GFP_ACCOUNT)
 #define GFP_NOWAIT      (__GFP_KSWAPD_RECLAIM)
+// GFP_NOIO 表示在内存分配期间不允许执行任何 I/O 操作
+// 当你在一个上下文中进行内存分配，而这个上下文可能已经持有某些锁，
+// 这些锁在进行 I/O 操作时可能会导致死锁。在这种情况下，
+// 使用 GFP_NOIO 可以确保内存分配不会触发 I/O 操作，
+// 从而避免潜在的死锁问题。
 #define GFP_NOIO        (__GFP_RECLAIM)
+// GFP_NOFS 表示在内存分配期间不允许执行任何与文件系统相关的操作。
+// 当你在文件系统代码中进行内存分配，而这个上下文可能已经持有文件系统的锁，
+// 这些锁在进行文件系统操作时可能会导致死锁。在这种情况下，
+// 使用 GFP_NOFS 可以确保内存分配不会触发文件系统操作，
+// 从而避免潜在的死锁问题。
+// GFP_NOIO 比 GFP_NOFS 更严格，因为它不仅禁止文件系统相关的操作，还禁止所有的 I/O 操作。
+// GFP_NOFS 仅禁止文件系统相关的操作，但允许非文件系统的 I/O 操作。
 #define GFP_NOFS        (__GFP_RECLAIM | __GFP_IO)
 #define GFP_USER        (__GFP_RECLAIM | __GFP_IO | __GFP_FS | __GFP_HARDWALL)
 #define GFP_DMA         __GFP_DMA
