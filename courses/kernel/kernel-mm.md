@@ -1,3 +1,7 @@
+<!--
+https://mp.weixin.qq.com/mp/homepage?__biz=MzI3NzA5MzUxNA==&hid=14&sn=a7deb8f4a4986e1d148671008bd1403c&scene=1&devicetype=iMac+Mac14%2C2+OSX+OSX+14.5+build(23F79)&version=13080414&lang=zh_CN&nettype=WIFI&ascene=0&uin=&key=&fontScale=100
+-->
+
 # 内存地址
 
 操作系统是横跨软件和硬件的桥梁，其中内存寻址是操作系统设计的硬件基础之一。
@@ -1457,6 +1461,12 @@ struct vm_area_struct {
         struct vm_userfaultfd_ctx vm_userfaultfd_ctx;
 } __randomize_layout;
 ```
+
+常见的段：
+
+- TEXT段：程序代码段，`vm_flags`字段为`VM_EXEC`和`VM_READ`，`vm_file`字段不为`NULL`。
+- DATA段：静态初始化的数据，所以有初值的全局变量（不为0）和static变量在data区。`vm_flags`为`VM_READ`和`VM_WRITE`。
+- BSS段：Block Started by Symbol，通常是指用来存放程序中**未初始化或初始化为0**的全局变量的一块内存区域，在程序载入时由内核清0。`vm_flags`为`VM_READ`和`VM_WRITE`。
 
 ## VMA操作
 
