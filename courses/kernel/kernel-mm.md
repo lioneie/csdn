@@ -1677,7 +1677,7 @@ SYSCALL_DEFINE6(mmap_pgoff, unsigned long, addr, unsigned long, len,
                 unsigned long, prot, unsigned long, flags,          
                 unsigned long, fd, unsigned long, pgoff)            
 
-/* do_munmap() - 非maple tree感知的do_munmap()调用的包装函数
+/* do_munmap() - 取消映射给定范围，非maple tree感知的do_munmap()调用的包装函数
  * @mm: mm_struct结构体                                                         
  * @start: 要munmap的起始地址                                        
  * @len: 要munmap的长度                                          
