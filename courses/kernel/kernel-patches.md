@@ -12,7 +12,7 @@
 
 [`2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()`](https://chenxiaosong.com/courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.html)
 
-[`22876f540bdf NFS: Don't call generic_error_remove_page() while holding locks`]https://chenxiaosong.com/courses/kernel/patches/NFS-Don-t-call-generic_error_remove_page-while-holdi.html)
+[`22876f540bdf NFS: Don't call generic_error_remove_page() while holding locks`](https://chenxiaosong.com/courses/kernel/patches/NFS-Don-t-call-generic_error_remove_page-while-holdi.html)
 
 [`e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held`](https://chenxiaosong.com/courses/kernel/patches/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.html)
 
