@@ -1462,7 +1462,7 @@ struct vm_area_struct {
 } __randomize_layout;
 ```
 
-常见的段：
+常见的段（这里的"段"英文是"section"）：
 
 - TEXT段：程序代码段，`vm_flags`字段为`VM_EXEC`和`VM_READ`，`vm_file`字段不为`NULL`。
 - DATA段：静态初始化的数据，所以有初值的全局变量（不为0）和static变量在data区。`vm_flags`为`VM_READ`和`VM_WRITE`。
