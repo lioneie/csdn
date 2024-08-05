@@ -18,29 +18,29 @@
 
 ```c
 struct cifs_sb_info {                                                
-        struct rb_root tlink_tree;                                   
-        spinlock_t tlink_tree_lock;                                  
-        struct tcon_link *master_tlink;                              
-        struct nls_table *local_nls;                                 
-        struct smb3_fs_context *ctx;                                 
-        atomic_t active;                                             
-        unsigned int mnt_cifs_flags;                                 
-        struct delayed_work prune_tlinks;                            
-        struct rcu_head rcu;                                         
+        struct rb_root tlink_tree;               // tlink 树
+        spinlock_t tlink_tree_lock;              // tlink 树锁
+        struct tcon_link *master_tlink;          // 主 tlink
+        struct nls_table *local_nls;             // 本地 nls 表
+        struct smb3_fs_context *ctx;             // smb3 文件系统上下文
+        atomic_t active;                         // 活跃计数
+        unsigned int mnt_cifs_flags;             // 挂载标志
+        struct delayed_work prune_tlinks;        // 延迟清理 tlinks
+        struct rcu_head rcu;                     // RCU 头
                                                                      
-        /* only used when CIFS_MOUNT_USE_PREFIX_PATH is set */       
-        char *prepath;                                               
+        /* 只有当 CIFS_MOUNT_USE_PREFIX_PATH 被设置时使用 */       
+        char *prepath;                           // 预路径
                                                                      
         /*                                                           
-         * Indicate whether serverino option was turned off later    
-         * (cifs_autodisable_serverino) in order to match new mounts.
+         * 指示是否在以后关闭了 serverino 选项
+         * (cifs_autodisable_serverino) 以匹配新挂载点。
          */                                                          
-        bool mnt_cifs_serverino_autodisabled;                        
+        bool mnt_cifs_serverino_autodisabled;    // serverino 自动禁用标志
         /*                                                           
-         * Available once the mount has completed.                   
+         * 挂载完成后可用。                   
          */                                                          
-        struct dentry *root;                                         
-};                                                                   
+        struct dentry *root;                     // 根目录 dentry
+}; 
 ```
 
 # 超级块操作
@@ -52,13 +52,12 @@ static const struct super_operations cifs_super_ops = {
         .write_inode    = cifs_write_inode,                                     
         .free_inode = cifs_free_inode,                                          
         .drop_inode     = cifs_drop_inode,                                      
-        .evict_inode    = cifs_evict_inode,                                     
-/*      .show_path      = cifs_show_path, */ /* Would we ever need show path? */
+        .evict_inode    = cifs_evict_inode,  
+/*      .show_path      = cifs_show_path, */ /* 我们是否需要显示路径？ */
         .show_devname   = cifs_show_devname,                                    
-/*      .delete_inode   = cifs_delete_inode,  */  /* Do not need above          
-        function unless later we add lazy close of inodes or unless the         
-        kernel forgets to call us with the same number of releases (closes)     
-        as opens */                                                             
+/*      .delete_inode   = cifs_delete_inode,  */  /* 除非以后我们添加惰性关闭
+        索引节点的功能，或者内核忘记在关闭时调用我们与打开次数相同的
+        释放次数，否则不需要上述函数 */
         .show_options = cifs_show_options,                                      
         .umount_begin   = cifs_umount_begin,                                    
         .freeze_fs      = cifs_freeze,                                          
@@ -74,45 +73,45 @@ smb没有磁盘索引节点，只有内存索引节点。
 
 ```c
 /*                                 
- * One of these for each file inode
+ * 每个文件 inode 的结构体
  */                                
 struct cifsInodeInfo {                                                                          
-        struct netfs_inode netfs; /* Netfslib context and vfs inode */                          
-        bool can_cache_brlcks;                                                                  
-        struct list_head llist; /* locks helb by this inode */                                  
+        struct netfs_inode netfs;       /* Netfslib 上下文和 vfs inode */                          
+        bool can_cache_brlcks;          // 是否可以缓存字节范围锁
+        struct list_head llist;         /* 该 inode 持有的锁列表 */                                  
         /*                                                                                      
-         * NOTE: Some code paths call down_read(lock_sem) twice, so                             
-         * we must always use cifs_down_write() instead of down_write()                         
-         * for this semaphore to avoid deadlocks.                                               
+         * 注意：有些代码路径会两次调用 down_read(lock_sem)，所以                             
+         * 我们必须始终使用 cifs_down_write() 而不是 down_write()                         
+         * 来避免此信号量的死锁。                                               
          */                                                                                     
-        struct rw_semaphore lock_sem;   /* protect the fields above */                          
-        /* BB add in lists for dirty pages i.e. write caching info for oplock */                
-        struct list_head openFileList;                                                          
-        spinlock_t      open_file_lock; /* protects openFileList */                             
-        __u32 cifsAttrs; /* e.g. DOS archive bit, sparse, compressed, system */                 
-        unsigned int oplock;            /* oplock/lease level we have */                        
-        unsigned int epoch;             /* used to track lease state changes */                 
-#define CIFS_INODE_PENDING_OPLOCK_BREAK   (0) /* oplock break in progress */                    
-#define CIFS_INODE_PENDING_WRITERS        (1) /* Writes in progress */                          
-#define CIFS_INODE_FLAG_UNUSED            (2) /* Unused flag */                                 
-#define CIFS_INO_DELETE_PENDING           (3) /* delete pending on server */                    
-#define CIFS_INO_INVALID_MAPPING          (4) /* pagecache is invalid */                        
-#define CIFS_INO_LOCK                     (5) /* lock bit for synchronization */                
-#define CIFS_INO_MODIFIED_ATTR            (6) /* Indicate change in mtime/ctime */              
-#define CIFS_INO_CLOSE_ON_LOCK            (7) /* Not to defer the close when lock is set */     
-        unsigned long flags;                                                                    
-        spinlock_t writers_lock;                                                                
-        unsigned int writers;           /* Number of writers on this inode */                   
-        unsigned long time;             /* jiffies of last update of inode */                   
-        u64  server_eof;                /* current file size on server -- protected by i_lock */
-        u64  uniqueid;                  /* server inode number */                               
-        u64  createtime;                /* creation time on server */                           
-        __u8 lease_key[SMB2_LEASE_KEY_SIZE];    /* lease key for this inode */                  
-        struct list_head deferred_closes; /* list of deferred closes */                         
-        spinlock_t deferred_lock; /* protection on deferred list */                             
-        bool lease_granted; /* Flag to indicate whether lease or oplock is granted. */          
-        char *symlink_target;                                                                   
-};                                                                                              
+        struct rw_semaphore lock_sem;   /* 保护上面的字段 */                          
+        /* BB 添加用于脏页列表，即 oplock 的写缓存信息 */                
+        struct list_head openFileList;  // 打开文件列表
+        spinlock_t      open_file_lock; /* 保护 openFileList */                             
+        __u32 cifsAttrs;                /* 例如 DOS 归档位、稀疏、压缩、系统等属性 */                 
+        unsigned int oplock;            /* 我们拥有的 oplock/lease 级别 */                        
+        unsigned int epoch;             /* 用于跟踪租约状态变化 */                 
+#define CIFS_INODE_PENDING_OPLOCK_BREAK   (0) /* 正在进行 oplock 断裂 */                    
+#define CIFS_INODE_PENDING_WRITERS        (1) /* 正在进行写操作 */                          
+#define CIFS_INODE_FLAG_UNUSED            (2) /* 未使用的标志 */                                 
+#define CIFS_INO_DELETE_PENDING           (3) /* 服务器上待删除 */                    
+#define CIFS_INO_INVALID_MAPPING          (4) /* pagecache 无效 */                        
+#define CIFS_INO_LOCK                     (5) /* 同步锁位 */                
+#define CIFS_INO_MODIFIED_ATTR            (6) /* 指示 mtime/ctime 的变化 */              
+#define CIFS_INO_CLOSE_ON_LOCK            (7) /* 不要在设置锁时延迟关闭 */     
+        unsigned long flags;             // 标志字段
+        spinlock_t writers_lock;          // 写入锁
+        unsigned int writers;             /* 此 inode 的写入者数量 */                   
+        unsigned long time;               /* inode 最后更新的 jiffies */                   
+        u64  server_eof;                  /* 服务器上的当前文件大小 - 由 i_lock 保护 */
+        u64  uniqueid;                    /* 服务器 inode 编号 */                               
+        u64  createtime;                  /* 服务器上的创建时间 */                           
+        __u8 lease_key[SMB2_LEASE_KEY_SIZE];    /* 此 inode 的租约密钥 */                  
+        struct list_head deferred_closes; /* 延迟关闭列表 */                         
+        spinlock_t deferred_lock;         /* 保护延迟列表 */                             
+        bool lease_granted;               /* 标志指示是否授予租约或 oplock。 */          
+        char *symlink_target;             // 符号链接目标
+}; 
 ```
 
 # 索引节点操作
@@ -181,7 +180,7 @@ const struct inode_operations cifs_namespace_inode_operations = {
 const struct dentry_operations cifs_dentry_ops = {                             
         .d_revalidate = cifs_d_revalidate,                                     
         .d_automount = cifs_d_automount,                                       
-/* d_delete:       cifs_d_delete,      */ /* not needed except for debugging */
+/* d_delete:       cifs_d_delete,      */ /* 除了调试之外不需要 */
 };                                                                             
 
 const struct dentry_operations cifs_ci_dentry_ops = {
@@ -343,20 +342,20 @@ const struct address_space_operations cifs_addr_ops = {
         .direct_IO = cifs_direct_io,                                         
         .invalidate_folio = cifs_invalidate_folio,                           
         .launder_folio = cifs_launder_folio,                                 
-        .migrate_folio = filemap_migrate_folio,                              
+        .migrate_folio = filemap_migrate_folio,       
         /*                                                                   
-         * TODO: investigate and if useful we could add an is_dirty_writeback
-         * helper if needed                                                  
-         */                                                                  
+        * TODO: 调查一下，如果有用，我们可以添加一个 is_dirty_writeback
+        * 辅助函数（如果需要的话）                                                  
+        */                        
         .swap_activate = cifs_swap_activate,                                 
         .swap_deactivate = cifs_swap_deactivate,                             
 };                                                                           
 
 /*                                                                       
- * cifs_readahead requires the server to support a buffer large enough to
- * contain the header plus one complete page of data.  Otherwise, we need
- * to leave cifs_readahead out of the address space operations.          
- */                                                                      
+ * cifs_readahead 需要服务器支持一个足够大的缓冲区，以容纳
+ * 头部加上一个完整的数据页。否则，我们需要在地址空间操作中
+ * 省略 cifs_readahead 。          
+ */                                                                       
 const struct address_space_operations cifs_addr_ops_smallbuf = {         
         .read_folio = cifs_read_folio,                                   
         .writepages = cifs_writepages,                                   
