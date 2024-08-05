@@ -22,23 +22,21 @@
 
 ```c
 /*
- * NFS client parameters stored in the superblock. 挂载参数不同时每挂载一次创建一个nfs_server，请看 nfs_compare_super()
+ * "存储在超级块中的 NFS 客户端参数". 挂载参数不同时每挂载一次创建一个nfs_server，请看 nfs_compare_super()
  */
 struct nfs_server {
-        struct nfs_client *     nfs_client;     /* shared client and NFS4 state, 多个nfs_server对应一个nfs_client */
-        struct list_head        client_link;    /* List of other nfs_server structs
-                                                 * that share the same client
-                                                 */
-        struct list_head        master_link;    /* link in master servers list */
-        struct rpc_clnt *       client;         /* RPC client handle， rpc客户端 */
-        struct rpc_clnt *       client_acl;     /* ACL RPC client handle， acl想着的rpc客户端 */
-        struct nlm_host         *nlm_host;      /* NLM client handle, v2 v3文件锁 */
-        struct nfs_iostats __percpu *io_stats;  /* I/O statistics， io统计信息 */
-        atomic_long_t           writeback;      /* number of writeback pages， 正在向server写入的页的个数 */
-        unsigned int            write_congested;/* flag set when writeback gets too high */
-        unsigned int            flags;          /* various flags， 挂载选项 */
+        struct nfs_client *     nfs_client;     /* 共享客户端和 NFS4 状态，多个 nfs_server 对应一个 nfs_client */
+        struct list_head        client_link;    /* 共享同一个客户端的其他 nfs_server 结构的列表 */
+        struct list_head        master_link;    /* 主服务器列表中的链接 */
+        struct rpc_clnt *       client;         /* RPC 客户端句柄 */
+        struct rpc_clnt *       client_acl;     /* ACL RPC 客户端句柄 */
+        struct nlm_host         *nlm_host;      /* NLM 客户端句柄，v2 v3 文件锁 */
+        struct nfs_iostats __percpu *io_stats;  /* I/O 统计信息 */
+        atomic_long_t           writeback;      /* 正在向服务器写入的页的个数 */
+        unsigned int            write_congested;/* 当写回过高时设置的标志 */
+        unsigned int            flags;          /* 各种标志，挂载选项 */
 
-/* The following are for internal use only. Also see uapi/linux/nfs_mount.h */
+/* 以下仅供内部使用。另见 uapi/linux/nfs_mount.h */
 #define NFS_MOUNT_LOOKUP_CACHE_NONEG    0x10000
 #define NFS_MOUNT_LOOKUP_CACHE_NONE     0x20000
 #define NFS_MOUNT_NORESVPORT            0x40000
@@ -52,86 +50,73 @@ struct nfs_server {
 #define NFS_MOUNT_TRUNK_DISCOVERY       0x04000000
 #define NFS_MOUNT_SHUTDOWN              0x08000000
 
-        unsigned int            fattr_valid;    /* Valid attributes */
-        unsigned int            caps;           /* server capabilities， server的功能，getattr请求获取的 */
-        unsigned int            rsize;          /* read size， read请求数据最大值 */
-        unsigned int            rpages;         /* read size (in pages) */
-        unsigned int            wsize;          /* write size，write请求数据最大值 */
-        unsigned int            wpages;         /* write size (in pages) */
-        unsigned int            wtmult;         /* server disk block size， server磁盘块大小 */
-        unsigned int            dtsize;         /* readdir size, readdir请求 */
-        unsigned short          port;           /* "port=" setting， server端口 */
-        unsigned int            bsize;          /* server block size， server块大小 */
+        unsigned int            fattr_valid;    /* 有效的属性 */
+        unsigned int            caps;           /* 服务器功能，getattr 请求获取的 */
+        unsigned int            rsize;          /* 读取大小，read 请求数据最大值 */
+        unsigned int            rpages;         /* 读取大小（以页为单位） */
+        unsigned int            wsize;          /* 写入大小，write 请求数据最大值 */
+        unsigned int            wpages;         /* 写入大小（以页为单位） */
+        unsigned int            wtmult;         /* 服务器磁盘块大小 */
+        unsigned int            dtsize;         /* readdir 大小，readdir 请求 */
+        unsigned short          port;           /* "port=" 设置，服务器端口 */
+        unsigned int            bsize;          /* 服务器块大小 */
 #ifdef CONFIG_NFS_V4_2
-        unsigned int            gxasize;        /* getxattr size */
-        unsigned int            sxasize;        /* setxattr size */
-        unsigned int            lxasize;        /* listxattr size */
+        unsigned int            gxasize;        /* getxattr 大小 */
+        unsigned int            sxasize;        /* setxattr 大小 */
+        unsigned int            lxasize;        /* listxattr 大小 */
 #endif
-        unsigned int            acregmin;       /* attr cache timeouts， 普通文件缓存超时时间 */
+        unsigned int            acregmin;       /* 属性缓存超时时间，普通文件缓存超时时间 */
         unsigned int            acregmax;
-        unsigned int            acdirmin;       // 目录缓存
+        unsigned int            acdirmin;       /* 目录缓存超时时间 */
         unsigned int            acdirmax;
-        unsigned int            namelen;        // 文件名最大长度
-        unsigned int            options;        /* extra options enabled by mount */
-        unsigned int            clone_blksize;  /* granularity of a CLONE operation */
-#define NFS_OPTION_FSCACHE      0x00000001      /* - local caching enabled */
-#define NFS_OPTION_MIGRATION    0x00000002      /* - NFSv4 migration enabled */
+        unsigned int            namelen;        /* 文件名最大长度 */
+        unsigned int            options;        /* 挂载启用的额外选项 */
+        unsigned int            clone_blksize;  /* CLONE 操作的粒度 */
+#define NFS_OPTION_FSCACHE      0x00000001      /* - 本地缓存启用 */
+#define NFS_OPTION_MIGRATION    0x00000002      /* - NFSv4 迁移启用 */
 
         enum nfs4_change_attr_type
-                                change_attr_type;/* Description of change attribute */
+                                change_attr_type;/* 变更属性描述 */
 
         struct nfs_fsid         fsid;
-        int                     s_sysfs_id;     /* sysfs dentry index */
-        __u64                   maxfilesize;    /* maximum file size */
-        struct timespec64       time_delta;     /* smallest time granularity， 时间精度 */
-        unsigned long           mount_time;     /* when this fs was mounted， 挂载时间 */
-        struct super_block      *super;         /* VFS super block */
-        dev_t                   s_dev;          /* superblock dev numbers */
-        struct nfs_auth_info    auth_info;      /* parsed auth flavors */
+        int                     s_sysfs_id;     /* sysfs dentry 索引 */
+        __u64                   maxfilesize;    /* 最大文件大小 */
+        struct timespec64       time_delta;     /* 最小时间粒度 */
+        unsigned long           mount_time;     /* 文件系统挂载时间 */
+        struct super_block      *super;         /* VFS 超级块 */
+        dev_t                   s_dev;          /* 超级块设备编号 */
+        struct nfs_auth_info    auth_info;      /* 解析的认证方式 */
 
 #ifdef CONFIG_NFS_FSCACHE
-        struct fscache_volume   *fscache;       /* superblock cookie */
-        char                    *fscache_uniq;  /* Uniquifier (or NULL) */
+        struct fscache_volume   *fscache;       /* 超级块 cookie */
+        char                    *fscache_uniq;  /* 唯一标识符（或 NULL） */
 #endif
 
-        u32                     pnfs_blksize;   /* layout_blksize attr，block layout才会用到 */
+        u32                     pnfs_blksize;   /* layout_blksize 属性，仅 block layout 使用 */
 #if IS_ENABLED(CONFIG_NFS_V4)
-        u32                     attr_bitmask[3];/* V4 bitmask representing the set
-                                                   of attributes supported on this
-                                                   filesystem */
+        u32                     attr_bitmask[3];/* V4 位掩码，表示此文件系统上支持的一组属性 */
         u32                     attr_bitmask_nl[3];
-                                                /* V4 bitmask representing the
-                                                   set of attributes supported
-                                                   on this filesystem excluding
-                                                   the label support bit. */
+                                                /* V4 位掩码，表示此文件系统上支持的一组属性，
+                                                   不包括标签支持位。 */
         u32                     exclcreat_bitmask[3];
-                                                /* V4 bitmask representing the
-                                                   set of attributes supported
-                                                   on this filesystem for the
-                                                   exclusive create. */
+                                                /* V4 位掩码，表示此文件系统上支持的排他创建属性 */
         u32                     cache_consistency_bitmask[3];
-                                                /* V4 bitmask representing the subset
-                                                   of change attribute, size, ctime
-                                                   and mtime attributes supported by
-                                                   the server */
-        u32                     acl_bitmask;    /* V4 bitmask representing the ACEs
-                                                   that are supported on this
-                                                   filesystem */
-        u32                     fh_expire_type; /* V4 bitmask representing file
-                                                   handle volatility type for
-                                                   this filesystem， 文件句柄过期原因 */
-        struct pnfs_layoutdriver_type  *pnfs_curr_ld; /* Active layout driver，有3种：block layout、file layout、object layout */
-        struct rpc_wait_queue   roc_rpcwaitq;   // rpc任务等待队列
-        void                    *pnfs_ld_data;  /* per mount point data */
+                                                /* V4 位掩码，表示服务器支持的变更属性、大小、
+                                                   ctime 和 mtime 属性的子集 */
+        u32                     acl_bitmask;    /* V4 位掩码，表示此文件系统上支持的 ACEs */
+        u32                     fh_expire_type; /* V4 位掩码，表示此文件系统的文件句柄过期类型 */
+        struct pnfs_layoutdriver_type  *pnfs_curr_ld; /* 活动布局驱动，有 3 种：block layout、file layout、object layout */
+        struct rpc_wait_queue   roc_rpcwaitq;   // rpc 任务等待队列
+        void                    *pnfs_ld_data;  /* 每个挂载点的数据 */
 
-        /* the following fields are protected by nfs_client->cl_lock */
+        /* 以下字段由 nfs_client->cl_lock 保护 */
         struct rb_root          state_owners;
 #endif
         struct ida              openowner_id;
         struct ida              lockowner_id;
-        struct list_head        state_owners_lru; // 空闲的nfs4_state_owner(表示客户端的用户)
-        struct list_head        layouts;        // pnfs_layout_hdr链表
-        struct list_head        delegations;    // nfs_delegation链表
+        struct list_head        state_owners_lru; // 空闲的 nfs4_state_owner (表示客户端的用户)
+        struct list_head        layouts;        // pnfs_layout_hdr 链表
+        struct list_head        delegations;    // nfs_delegation 链表
         struct list_head        ss_copies;
 
         unsigned long           mig_gen;
@@ -140,22 +125,22 @@ struct nfs_server {
 #define NFS_MIG_FAILED                  (2)
 #define NFS_MIG_TSM_POSSIBLE            (3)
 
-        void (*destroy)(struct nfs_server *);   // nfs_destroy_server和nfs4_destroy_server
+        void (*destroy)(struct nfs_server *);   // nfs_destroy_server 和 nfs4_destroy_server
 
-        atomic_t active; /* Keep trace of any activity to this server， 引用计数 */
+        atomic_t active; /* 保持对该服务器的任何活动的追踪，引用计数 */
 
-        /* mountd-related mount options */
-        struct sockaddr_storage mountd_address; // mount服务器地址
-        size_t                  mountd_addrlen; // mount服务器地址长度
-        u32                     mountd_version; // mount协议版本
-        unsigned short          mountd_port;    // mount协议端口
-        unsigned short          mountd_protocol;// 传输层协议,默认tcp
+        /* mountd 相关的挂载选项 */
+        struct sockaddr_storage mountd_address; // mount 服务器地址
+        size_t                  mountd_addrlen; // mount 服务器地址长度
+        u32                     mountd_version; // mount 协议版本
+        unsigned short          mountd_port;    // mount 协议端口
+        unsigned short          mountd_protocol;// 传输层协议，默认 tcp
         struct rpc_wait_queue   uoc_rpcwaitq;
 
-        /* XDR related information */
+        /* XDR 相关信息 */
         unsigned int            read_hdrsize;
 
-        /* User namespace info */
+        /* 用户命名空间信息 */
         const struct cred       *cred;
         bool                    has_sec_mnt_opts;
         struct kobject          kobj;
@@ -166,108 +151,108 @@ struct nfs_server {
 
 ```c
 /*                                                                                                 
- * The nfs_client identifies our client state to the server.                                       
+ * nfs_client 标识我们的客户端状态到服务器。                                       
  */                                                                                                
 struct nfs_client {                                                                                
         refcount_t              cl_count;       // 引用计数
         atomic_t                cl_mds_count;   //
-        int                     cl_cons_state;  /* current construction state (-ve: init error)，下面的3种状态 */ 
-#define NFS_CS_READY            0               /* ready to be used */                             
-#define NFS_CS_INITING          1               /* busy initialising */                            
-#define NFS_CS_SESSION_INITING  2               /* busy initialising  session */                   
-        unsigned long           cl_res_state;   /* NFS resources state */                          
-#define NFS_CS_CALLBACK         1               /* - callback started */                           
-#define NFS_CS_IDMAP            2               /* - idmap started */                              
-#define NFS_CS_RENEWD           3               /* - renewd started */                             
-#define NFS_CS_STOP_RENEW       4               /* no more state to renew */                       
-#define NFS_CS_CHECK_LEASE_TIME 5               /* need to check lease time */                     
-        unsigned long           cl_flags;       /* behavior switches */                            
-#define NFS_CS_NORESVPORT       0               /* - use ephemeral src port */                     
-#define NFS_CS_DISCRTRY         1               /* - disconnect on RPC retry */                    
-#define NFS_CS_MIGRATION        2               /* - transparent state migr */                     
-#define NFS_CS_INFINITE_SLOTS   3               /* - don't limit TCP slots */                      
-#define NFS_CS_NO_RETRANS_TIMEOUT       4       /* - Disable retransmit timeouts */                
-#define NFS_CS_TSM_POSSIBLE     5               /* - Maybe state migration */                      
-#define NFS_CS_NOPING           6               /* - don't ping on connect */                      
-#define NFS_CS_DS               7               /* - Server is a DS */                             
-#define NFS_CS_REUSEPORT        8               /* - reuse src port on reconnect */                
-#define NFS_CS_PNFS             9               /* - Server used for pnfs */                       
-        struct sockaddr_storage cl_addr;        /* server identifier， 服务器ip和端口 */
-        size_t                  cl_addrlen;     // cl_addr的长度
-        char *                  cl_hostname;    /* hostname of server */                           
-        char *                  cl_acceptor;    /* GSSAPI acceptor name */                         
-        struct list_head        cl_share_link;  /* link in global client list */                   
-        struct list_head        cl_superblocks; /* List of nfs_server structs,一个nfs_client包含多个nfs_server */                   
+        int                     cl_cons_state;  /* 当前构建状态 (-ve: 初始化错误)，下面的 3 种状态 */ 
+#define NFS_CS_READY            0               /* 准备使用 */                             
+#define NFS_CS_INITING          1               /* 正在初始化 */                            
+#define NFS_CS_SESSION_INITING  2               /* 正在初始化会话 */                   
+        unsigned long           cl_res_state;   /* NFS 资源状态 */                          
+#define NFS_CS_CALLBACK         1               /* - 回调已启动 */                           
+#define NFS_CS_IDMAP            2               /* - idmap 已启动 */                              
+#define NFS_CS_RENEWD           3               /* - renewd 已启动 */                             
+#define NFS_CS_STOP_RENEW       4               /* 不再需要续约状态 */                       
+#define NFS_CS_CHECK_LEASE_TIME 5               /* 需要检查租约时间 */                     
+        unsigned long           cl_flags;       /* 行为开关 */                            
+#define NFS_CS_NORESVPORT       0               /* - 使用临时源端口 */                     
+#define NFS_CS_DISCRTRY         1               /* - 在 RPC 重试时断开连接 */                    
+#define NFS_CS_MIGRATION        2               /* - 透明状态迁移 */                     
+#define NFS_CS_INFINITE_SLOTS   3               /* - 不限制 TCP 槽 */                      
+#define NFS_CS_NO_RETRANS_TIMEOUT       4       /* - 禁用重传超时 */                
+#define NFS_CS_TSM_POSSIBLE     5               /* - 可能状态迁移 */                      
+#define NFS_CS_NOPING           6               /* - 连接时不进行 ping */                      
+#define NFS_CS_DS               7               /* - 服务器是 DS */                             
+#define NFS_CS_REUSEPORT        8               /* - 重新连接时重用源端口 */                
+#define NFS_CS_PNFS             9               /* - 服务器用于 pnfs */                       
+        struct sockaddr_storage cl_addr;        /* 服务器标识，服务器 ip 和端口 */
+        size_t                  cl_addrlen;     // cl_addr 的长度
+        char *                  cl_hostname;    /* 服务器的主机名 */                           
+        char *                  cl_acceptor;    /* GSSAPI 接收者名称 */                         
+        struct list_head        cl_share_link;  /* 全局客户端列表中的链接 */                   
+        struct list_head        cl_superblocks; /* nfs_server 结构体列表，一个 nfs_client 包含多个 nfs_server */                   
                                                                                                    
-        struct rpc_clnt *       cl_rpcclient;   // 与nfs_server无关的RPC请求时使用
-        const struct nfs_rpc_ops *rpc_ops;      /* NFS protocol vector, 有nfs_v2_clientops、nfs_v3_clientops、nfs_v4_clientops */                          
-        int                     cl_proto;       /* Network transport protocol, 默认tcp */
-        struct nfs_subversion * cl_nfs_mod;     /* pointer to nfs version module */                
+        struct rpc_clnt *       cl_rpcclient;   // 与 nfs_server 无关的 RPC 请求时使用
+        const struct nfs_rpc_ops *rpc_ops;      /* NFS 协议向量，有 nfs_v2_clientops、nfs_v3_clientops、nfs_v4_clientops */                          
+        int                     cl_proto;       /* 网络传输协议，默认 tcp */
+        struct nfs_subversion * cl_nfs_mod;     /* 指向 nfs 版本模块的指针 */                
                                                                                                    
-        u32                     cl_minorversion;/* NFSv4 minorversion */                           
-        unsigned int            cl_nconnect;    /* Number of connections */                        
-        unsigned int            cl_max_connect; /* max number of xprts allowed */                  
-        const char *            cl_principal;   /* used for machine cred */                        
-        struct xprtsec_parms    cl_xprtsec;     /* xprt security policy */                         
+        u32                     cl_minorversion;/* NFSv4 次要版本 */                           
+        unsigned int            cl_nconnect;    /* 连接数 */                        
+        unsigned int            cl_max_connect; /* 允许的最大传输数 */                  
+        const char *            cl_principal;   /* 用于机器凭证 */                        
+        struct xprtsec_parms    cl_xprtsec;     /* 传输安全策略 */                         
                                                                                                    
 #if IS_ENABLED(CONFIG_NFS_V4)                                                                      
-        struct list_head        cl_ds_clients; /* auth flavor data servers */                      
-        u64                     cl_clientid;    /* constant */                                     
-        nfs4_verifier           cl_confirm;     /* Clientid verifier */                            
+        struct list_head        cl_ds_clients; /* 认证方式的服务器数据 */                      
+        u64                     cl_clientid;    /* 常量 */                                     
+        nfs4_verifier           cl_confirm;     /* 客户端 ID 验证器 */                            
         unsigned long           cl_state;                                                          
                                                                                                    
         spinlock_t              cl_lock;                                                           
                                                                               
-        unsigned long           cl_lease_time;  // 一般为90s
+        unsigned long           cl_lease_time;  // 一般为 90s
         unsigned long           cl_last_renewal;
-        struct delayed_work     cl_renewd;      // 超时调用nfs4_renew_state()
+        struct delayed_work     cl_renewd;      // 超时调用 nfs4_renew_state()
                                                                               
         struct rpc_wait_queue   cl_rpcwaitq;                                  
                                                                               
         /* idmapper */                                                        
         struct idmap *          cl_idmap;                                     
                                                                               
-        /* Client owner identifier */                                         
+        /* 客户端所有者标识符 */                                         
         const char *            cl_owner_id;                                  
                                                                               
-        u32                     cl_cb_ident;    /* v4.0 callback identifier */
+        u32                     cl_cb_ident;    /* v4.0 回调标识符 */
         const struct nfs4_minor_version_ops *cl_mvops;                        
         unsigned long           cl_mig_gen;                                   
                                                                               
-        /* NFSv4.0 transport blocking */                                      
+        /* NFSv4.0 传输阻塞 */                                      
         struct nfs4_slot_table  *cl_slot_tbl;                                 
                                                                               
-        /* The sequence id to use for the next CREATE_SESSION */              
+        /* 用于下一个 CREATE_SESSION 的序列 ID */              
         u32                     cl_seqid;                                     
-        /* The flags used for obtaining the clientid during EXCHANGE_ID */    
+        /* 在 EXCHANGE_ID 期间用于获取客户端 ID 的标志 */    
         u32                     cl_exchange_flags;                            
-        struct nfs4_session     *cl_session;    /* shared session */          
+        struct nfs4_session     *cl_session;    /* 共享会话 */          
         bool                    cl_preserve_clid;                             
         struct nfs41_server_owner *cl_serverowner;                            
         struct nfs41_server_scope *cl_serverscope;                            
         struct nfs41_impl_id    *cl_implid;                                   
-        /* nfs 4.1+ state protection modes: */                                
+        /* nfs 4.1+ 状态保护模式: */                                
         unsigned long           cl_sp4_flags;                                 
-#define NFS_SP4_MACH_CRED_MINIMAL  1    /* Minimal sp4_mach_cred - state ops  
-                                         * must use machine cred */           
-#define NFS_SP4_MACH_CRED_CLEANUP  2    /* CLOSE and LOCKU */                 
-#define NFS_SP4_MACH_CRED_SECINFO  3    /* SECINFO and SECINFO_NO_NAME */     
-#define NFS_SP4_MACH_CRED_STATEID  4    /* TEST_STATEID and FREE_STATEID */   
+#define NFS_SP4_MACH_CRED_MINIMAL  1    /* 最小 sp4_mach_cred - 状态操作  
+                                         * 必须使用机器凭证 */           
+#define NFS_SP4_MACH_CRED_CLEANUP  2    /* CLOSE 和 LOCKU */                 
+#define NFS_SP4_MACH_CRED_SECINFO  3    /* SECINFO 和 SECINFO_NO_NAME */     
+#define NFS_SP4_MACH_CRED_STATEID  4    /* TEST_STATEID 和 FREE_STATEID */   
 #define NFS_SP4_MACH_CRED_WRITE    5    /* WRITE */                           
-#define NFS_SP4_MACH_CRED_COMMIT   6    /* COMMIT */                          
+#define NFS_SP4_MACH_CRED_COMMIT   6    /* COMMIT */                           
 #define NFS_SP4_MACH_CRED_PNFS_CLEANUP  7 /* LAYOUTRETURN */                  
 #if IS_ENABLED(CONFIG_NFS_V4_1)                                               
         wait_queue_head_t       cl_lock_waitq;                                
 #endif /* CONFIG_NFS_V4_1 */                                                  
 #endif /* CONFIG_NFS_V4 */                                                    
                                                                               
-        /* Our own IP address, as a null-terminated string.                   
-         * This is used to generate the mv0 callback address.                 
+        /* 我们自己的 IP 地址，作为一个以 null 结尾的字符串。                   
+         * 这用于生成 mv0 回调地址。                 
          */                                                                   
         char                    cl_ipaddr[48];                                
         struct net              *cl_net; // 网络命名空间
         struct list_head        pending_cb_stateids;                          
-};                                                                            
+};                                                
 ```
 
 ## 相关代码流程
@@ -343,64 +328,60 @@ nfs没有磁盘索引节点，只有内存索引节点。
 
 ```c
 /*
- * nfs fs inode data in memory
+ * nfs fs inode 内存中的数据
  */
 struct nfs_inode {
         /*
-         * The 64bit 'inode number'
+         * 64位 '索引节点编号'
          */
         __u64 fileid; // 索引节点编号
         /*
-         * NFS file handle
+         * NFS 文件句柄
          */
         struct nfs_fh           fh; // 文件句柄
         /*
-         * Various flags
+         * 各种标志
          */
-        unsigned long           flags;                  /* atomic bit ops */
-        unsigned long           cache_validity;         /* bit mask */
+        unsigned long           flags;                  /* 原子位操作 */
+        unsigned long           cache_validity;         /* 位掩码 */
         /*
-         * read_cache_jiffies is when we started read-caching this inode.
-         * attrtimeo is for how long the cached information is assumed
-         * to be valid. A successful attribute revalidation doubles
-         * attrtimeo (up to acregmax/acdirmax), a failure resets it to
-         * acregmin/acdirmin.
+         * read_cache_jiffies 是我们开始读取缓存这个索引节点的时间。
+         * attrtimeo 是缓存信息被认为有效的时间。成功的属性重新验证将使
+         * attrtimeo 翻倍（最多到 acregmax/acdirmax），失败会将其重置为
+         * acregmin/acdirmin。
          *
-         * We need to revalidate the cached attrs for this inode if
+         * 如果以下条件成立，我们需要重新验证这个索引节点的缓存属性
          *
          *      jiffies - read_cache_jiffies >= attrtimeo
          *
-         * Please note the comparison is greater than or equal
-         * so that zero timeout values can be specified.
+         * 请注意比较是大于等于，这样可以指定零超时值。
          */
         unsigned long           read_cache_jiffies;     // 文件属性更新时间
         unsigned long           attrtimeo;              // 文件属性超时时间
-        unsigned long           attrtimeo_timestamp;    // attrtimeo最后个性时间
+        unsigned long           attrtimeo_timestamp;    // attrtimeo最后更新时间
 
         unsigned long           attr_gencount;          // 文件属性相关计数
 
         struct rb_root          access_cache;           // nfs_access_entry链表
-        struct list_head        access_cache_entry_lru; // 
+        struct list_head        access_cache_entry_lru;
         struct list_head        access_cache_inode_lru;
 
         union {
-                /* Directory */
+                /* 目录 */
                 struct {
-                        /* "Generation counter" for the attribute cache.
-                         * This is bumped whenever we update the metadata
-                         * on the server.
+                        /* 属性缓存的“生成计数器”。
+                         * 每当我们更新服务器上的元数据时，都会增加这个计数器。
                          */
                         unsigned long   cache_change_attribute;
                         /*
-                         * This is the cookie verifier used for NFSv3 readdir
-                         * operations
+                         * 这是用于 NFSv3 readdir 操作的 cookie 验证器
                          */
                         __be32          cookieverf[NFS_DIR_VERIFIER_SIZE];
-                        /* Readers: in-flight sillydelete RPC calls */
-                        /* Writers: rmdir */
+                        /* 读操作：正在进行的 sillydelete RPC 调用 */
+                        /* 写操作：rmdir */
                         struct rw_semaphore     rmdir_sem;
                 };
-                /* Regular file */
+                /* 常规文件 */
                 struct {
                         atomic_long_t   nrequests;
                         atomic_long_t   redirtied_pages;
@@ -409,34 +390,24 @@ struct nfs_inode {
                 };
         };
 
-        /* Open contexts for shared mmap writes */
+        /* 共享 mmap 写操作的打开上下文 */
         struct list_head        open_files;
 
-        /* Keep track of out-of-order replies.
-         * The ooo array contains start/end pairs of
-         * numbers from the changeid sequence when
-         * the inode's iversion has been updated.
-         * It also contains end/start pair (i.e. reverse order)
-         * of sections of the changeid sequence that have
-         * been seen in replies from the server.
-         * Normally these should match and when both
-         * A:B and B:A are found in ooo, they are both removed.
-         * And if a reply with A:B causes an iversion update
-         * of A:B, then neither are added.
-         * When a reply has pre_change that doesn't match
-         * iversion, then the changeid pair and any consequent
-         * change in iversion ARE added.  Later replies
-         * might fill in the gaps, or possibly a gap is caused
-         * by a change from another client.
-         * When a file or directory is opened, if the ooo table
-         * is not empty, then we assume the gaps were due to
-         * another client and we invalidate the cached data.
+        /* 跟踪乱序回复。
+         * ooo 数组包含来自 changeid 序列的开始/结束对，当索引节点的
+         * iversion 已更新时。它还包含从服务器回复中看到的 changeid 序列的
+         * 结束/开始对（即反向顺序）。
+         * 通常这些应该匹配，当 A:B 和 B:A 都在 ooo 中时，它们都会被移除。
+         * 如果回复中的 A:B 导致 iversion 更新为 A:B，则不会添加。
+         * 当回复的 pre_change 不匹配 iversion 时，则会添加 changeid 对和
+         * 任何随之而来的 iversion 变化。稍后的回复可能会填补空白，或者
+         * 可能由于另一个客户端的更改导致出现空白。
+         * 当文件或目录被打开时，如果 ooo 表不为空，则我们假定这些空白是由
+         * 另一个客户端造成的，并且我们会使缓存数据无效。
          *
-         * We can only track a limited number of concurrent gaps.
-         * Currently that limit is 16.
-         * We allocate the table on demand.  If there is insufficient
-         * memory, then we probably cannot cache the file anyway
-         * so there is no loss.
+         * 我们只能跟踪有限数量的并发空白。目前限制是 16。
+         * 我们按需分配表。如果内存不足，那么我们可能无法缓存文件，所以也
+         * 不会有损失。
          */
         struct {
                 int cnt;
@@ -447,15 +418,15 @@ struct nfs_inode {
 
 #if IS_ENABLED(CONFIG_NFS_V4)
         struct nfs4_cached_acl  *nfs4_acl;
-        /* NFSv4 state */
+        /* NFSv4 状态 */
         struct list_head        open_states;
         struct nfs_delegation __rcu *delegation;
         struct rw_semaphore     rwsem;
 
-        /* pNFS layout information */
+        /* pNFS 布局信息 */
         struct pnfs_layout_hdr *layout;
 #endif /* CONFIG_NFS_V4*/
-        /* how many bytes have been written/read and how many bytes queued up, 已经读写的数据量 */
+        /* 已经读写的数据量 */
         __u64 write_io;
         __u64 read_io;
 #ifdef CONFIG_NFS_V4_2
@@ -464,7 +435,7 @@ struct nfs_inode {
         union {
                 struct inode            vfs_inode;
 #ifdef CONFIG_NFS_FSCACHE
-                struct netfs_inode      netfs; /* netfs context and VFS inode */
+                struct netfs_inode      netfs; /* netfs 上下文和 VFS 索引节点 */
 #endif
         };
 };
