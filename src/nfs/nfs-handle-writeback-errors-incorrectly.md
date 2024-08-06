@@ -2,6 +2,8 @@
 
 我的补丁集：[nfs: handle writeback errors correctly](https://patchwork.kernel.org/project/linux-nfs/list/?series=628066&state=%2A&archive=both)。
 
+[openeuler5.10的后续方案](https://gitee.com/openeuler/kernel/pulls/10046/commits)
+
 # 问题描述
 
 ```
