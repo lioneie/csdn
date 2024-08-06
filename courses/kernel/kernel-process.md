@@ -1,5 +1,7 @@
 # 进程
 
+## 简介
+
 程序是存储在磁盘中，而进程是处于执行期的程序（当然还有相关资源），从内核视角看又叫任务（task）。执行线程，简称线程（thread），是在进程中活动的对象，内核调度的对象是线程，而不是进程。Linux内核不区分线程和进程，线程是特殊的进程。
 
 进程提供两种虚拟机制: 虚拟处理器和虚拟内存。
@@ -25,7 +27,23 @@ struct pcpu_hot {
 };                                                                  
 ```
 
+## 进程描述符
+
 用结构体`struct task_struct`来描述进程，这个结构体很大，请查看<!-- private begin -->`task_struct.c`<!-- private end --><!-- public begin -->[`task_struct.c`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/task_struct.c)<!-- public end -->。
+
+其中`__state`可以是以下值，通过`set_current_state(state_value)`来设置：
+
+- `TASK_RUNNING`: 进程可执行，要么正在执行，要么在等待队列中等待执行。
+- `TASK_INTERRUPTIBLE`: 进程正在休眠，当某些条件满足时唤醒，接收到信号可被唤醒。
+- `TASK_UNINTERRUPTIBLE`: 接收到信号不能唤醒，其他和`TASK_INTERRUPTIBLE`一样。
+- `__TASK_STOPPED`: 进程停止执行，没有投入运行也不能投入运行，接收到`SIGSTOP`、`SIGTSTP`、`SIGTTIN`、`SIGTTOU`信号时进入这个状态，在调试期间接收到任何信号也进入这个状态。
+- `__TASK_TRACED`: 被其他进程跟踪，如通过`ptrace`调试。
+
+`exit_state`退出状态可以是以下值：
+
+- `EXIT_ZOMBIE`: 进程已经终止，但其状态尚未被父进程读取，进程描述符仍然存在。
+- `EXIT_DEAD`: 进程状态已经被读取，系统正在进行最终清理，进程描述符尚未完全释放。
+- `EXIT_TRACE`: 进程正在被跟踪（traced）。这通常发生在调试会话中，进程在执行过程中被调试器（如gdb）所跟踪。
 
 # 进程创建
 
