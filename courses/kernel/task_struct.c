@@ -332,7 +332,7 @@ struct task_struct {
          * - 使用[gs]et_task_comm()访问它
          * - 使用task_lock()锁定它
          */
-        char                            comm[TASK_COMM_LEN];
+        char                            comm[TASK_COMM_LEN]; // command name
 
         struct nameidata                *nameidata;
 

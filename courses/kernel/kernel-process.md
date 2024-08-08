@@ -45,29 +45,54 @@ struct pcpu_hot {
 - `EXIT_DEAD`: 进程状态已经被读取，系统正在进行最终清理，进程描述符尚未完全释放。
 - `EXIT_TRACE`: 进程正在被跟踪（traced）。这通常发生在调试会话中，进程在执行过程中被调试器（如gdb）所跟踪。
 
-# 进程创建
+用`set_current_state(state_value)`设置进程状态。
 
+在系统启动的最后阶段启动pid这`1`的`init`进程，其他进程都是这个进程的后代，通过`current->parent`获得当前进程的父进程，当前进程的子进程用如下代码遍历：
+```c
+
+struct list_head *list;
+struct task_struct *child;
+
+list_for_each(list, &current->children) {
+        child = list_entry(list, struct task_struct, sibling);
+        printk(KERN_INFO "child pid: %d, comm: %s\n", child->pid, child->comm);
+}
+```
+
+遍历祖先，直到`init`进程：
+```c
+struct task_struct *task;
+for (task = current; task != &init_task; task = task->parent) {
+        printk(KERN_INFO "pid: %d, comm: %s\n", task->pid, task->comm);
+}
+```
+
+从`tasks`成员获取前一个和后一个进程：
+```c
+list_entry(task->tasks.next, struct task_struct, tasks) // 后一个，next_task(p)宏定义
+list_entry(task->tasks.prev, struct task_struct, tasks) // 前一个
+```
+
+遍历所有进程用`for_each_process(p)`宏定义，但除非必要，我们不建议这样全部遍历。
+
+## 进程创建和终结
+
+进程的创建包含`fork()`（或`vfork`）和`exec`（`execve()`和`execveat()`）。
+
+其中`fork`相关流程如下：
 ```c
 // kernel/fork.c
-SYSCALL_DEFINE0(fork)
-
-/*                                                                      
- * 好的，这是主要的 fork 例程。                                      
- *                                                                      
- * 它复制进程，如果成功则启动它，并在需要时使用虚拟内存等待它完成。
- *                                                                      
- * args->exit_signal 预计由调用者检查其合理性。                      
- */
-pid_t kernel_clone(struct kernel_clone_args *args)
-
-// kernel/exit.c
-SYSCALL_DEFINE1(exit, int, error_code)
-
-SYSCALL_DEFINE4(wait4, pid_t, upid, int __user *, stat_addr,
-                int, options, struct rusage __user *, ru)
-
-/*                                                                         
- * sys_waitpid() 保留用于兼容性。waitpid() 应该通过从 libc.a 调用 sys_wait4() 来实现。
- */                                                                        
-SYSCALL_DEFINE3(waitpid, pid_t, pid, int __user *, stat_addr, int, options)
+fork // 适合大多数创建子进程的场景，尤其是当子进程需要在执行exec()之前做更多操作时（如文件描述符重定向、环境变量设置等）
+vfork // 效率高，适用于子进程立即调用exec()替换自身的场景（如执行一个新程序）
+clone3
+clone
+  kernel_clone
+    copy_process
+      dup_task_struct
 ```
+
+进程终结时，调用`exit()`系统调用（在`kernel/exit.c`中），进程退出执行后`__state`被设置为`EXIT_ZOMBIE`状态，直到父进程调用`wait4()`和`waitpid()`系统调用查询子进程是否终结，然后进程描述符被释放，`release_task()`被调用。
+
+# 线程
+
+线程是和其他进程共享某些资源（如地址空间等）的进程，
