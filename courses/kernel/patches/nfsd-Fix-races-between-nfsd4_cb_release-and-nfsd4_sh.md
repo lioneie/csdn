@@ -14,9 +14,14 @@
 - J. Bruce Fields: [回调代码依赖于其中很多部分只能从有序工作队列 callback_wq 中调用，这值得记录。](https://lore.kernel.org/all/20191108175417.GC758@fieldses.org/)
 - J. Bruce Fields: [意外的错误可能表明回调路径存在问题。](https://lore.kernel.org/all/20191108175559.GD758@fieldses.org/)
 
+讨论此补丁的相关邮件：[nfsd: radix tree warning in nfs4_put_stid and kernel panic](https://lore.kernel.org/all/76C32636621C40EC87811F625761F2AF@alyakaslap/)
+
+# 依赖补丁
+
 4.19等低版本合入此补丁可能还要合入前置补丁[`12357f1b2c8e nfsd: minor 4.1 callback cleanup`](https://chenxiaosong.com/courses/kernel/patches/nfsd-minor-4.1-callback-cleanup.html)。
 
-讨论此补丁的相关邮件：[nfsd: radix tree warning in nfs4_put_stid and kernel panic](https://lore.kernel.org/all/76C32636621C40EC87811F625761F2AF@alyakaslap/)
+已被回退的后续修复补丁[`c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down`](https://chenxiaosong.com/courses/kernel/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.html)。
+
 
 # 代码分析
 

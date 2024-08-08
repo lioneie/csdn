@@ -45,6 +45,8 @@ array=(
                 "e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held"
             1 1 courses/kernel/patches/nfsd4-use-reference-count-to-free-client.md ~
                 "59f8e91b75ec nfsd4: use reference count to free client"
+            1 1 courses/kernel/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.md ~
+                "c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down"
             # smb
             1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."

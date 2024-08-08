@@ -18,6 +18,8 @@
 
 [`59f8e91b75ec nfsd4: use reference count to free client`](https://chenxiaosong.com/courses/kernel/patches/nfsd4-use-reference-count-to-free-client.html)
 
+[`c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down`](https://chenxiaosong.com/courses/kernel/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.html)
+
 # SMB(CIFS)文件系统
 
 [`7de0394801da cifs: Fix in error types returned for out-of-credit situations.`](https://chenxiaosong.com/courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)
