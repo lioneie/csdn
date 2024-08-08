@@ -1,0 +1,241 @@
+From a913242dcea09096545e2bc86523ff339fdcc6ad Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@kylinos.cn>
+Date: Thu, 8 Aug 2024 02:20:48 +0000
+Subject: [PATCH] debug 4.19-warning-in-nfs4_put_stid-and-panic
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@kylinos.cn>
+---
+ fs/nfsd/nfs4state.c        | 13 ++++++++++++-
+ fs/nfsd/state.h            |  1 +
+ include/linux/idr.h        |  3 +++
+ include/linux/radix-tree.h |  5 +++++
+ lib/idr.c                  | 25 +++++++++++++++++++------
+ lib/radix-tree.c           | 15 +++++++++++++--
+ 6 files changed, 53 insertions(+), 9 deletions(-)
+
+diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
+index 05932bf1fa65..06f88019c6a2 100644
+--- a/fs/nfsd/nfs4state.c
++++ b/fs/nfsd/nfs4state.c
+@@ -49,6 +49,7 @@
+ 
+ #include "netns.h"
+ #include "pnfs.h"
++#include <linux/delay.h>
+ 
+ #define NFSDDBG_FACILITY                NFSDDBG_PROC
+ 
+@@ -684,7 +685,7 @@ struct nfs4_stid *nfs4_alloc_stid(struct nfs4_client *cl, struct kmem_cache *sla
+ 
+ 	idr_preload(GFP_KERNEL);
+ 	spin_lock(&cl->cl_lock);
+-	new_id = idr_alloc_cyclic(&cl->cl_stateids, stid, 0, 0, GFP_NOWAIT);
++	new_id = idr_alloc_cyclic2(&cl->cl_stateids, stid, 0, 0, GFP_NOWAIT, 1);
+ 	spin_unlock(&cl->cl_lock);
+ 	idr_preload_end();
+ 	if (new_id < 0)
+@@ -853,6 +854,12 @@ nfs4_put_stid(struct nfs4_stid *s)
+ 	struct nfs4_file *fp = s->sc_file;
+ 	struct nfs4_client *clp = s->sc_client;
+ 
++	if (s->debug && s->sc_count.refs.counter == 1) {
++		printk("%s:%d, begin delay\n", __func__, __LINE__);
++		mdelay(10 * 1000);
++		printk("%s:%d, end delay\n", __func__, __LINE__);
++	}
++
+ 	might_lock(&clp->cl_lock);
+ 
+ 	if (!refcount_dec_and_lock(&s->sc_count, &clp->cl_lock)) {
+@@ -1942,6 +1949,9 @@ __destroy_client(struct nfs4_client *clp)
+ 		}
+ 	}
+ 	nfsd4_return_all_client_layouts(clp);
++	printk("%s:%d, begin delay\n", __func__, __LINE__);
++	mdelay(10 * 1000);
++	printk("%s:%d, end delay\n", __func__, __LINE__);
+ 	nfsd4_shutdown_callback(clp);
+ 	if (clp->cl_cb_conn.cb_xprt)
+ 		svc_xprt_put(clp->cl_cb_conn.cb_xprt);
+@@ -3939,6 +3949,7 @@ static void nfsd4_cb_recall_release(struct nfsd4_callback *cb)
+ {
+ 	struct nfs4_delegation *dp = cb_to_delegation(cb);
+ 
++	dp->dl_stid.debug = 1;
+ 	nfs4_put_stid(&dp->dl_stid);
+ }
+ 
+diff --git a/fs/nfsd/state.h b/fs/nfsd/state.h
+index 0f07ad6dc1ef..d0b4e5060883 100644
+--- a/fs/nfsd/state.h
++++ b/fs/nfsd/state.h
+@@ -101,6 +101,7 @@ struct nfs4_stid {
+ 	struct nfs4_client	*sc_client;
+ 	struct nfs4_file	*sc_file;
+ 	void			(*sc_free)(struct nfs4_stid *);
++	char debug;
+ };
+ 
+ /*
+diff --git a/include/linux/idr.h b/include/linux/idr.h
+index b6c6151c7446..11b108f951be 100644
+--- a/include/linux/idr.h
++++ b/include/linux/idr.h
+@@ -114,7 +114,10 @@ void idr_preload(gfp_t gfp_mask);
+ int idr_alloc(struct idr *, void *ptr, int start, int end, gfp_t);
+ int __must_check idr_alloc_u32(struct idr *, void *ptr, u32 *id,
+ 				unsigned long max, gfp_t);
++int __must_check idr_alloc_u32_2(struct idr *, void *ptr, u32 *id,
++				unsigned long max, gfp_t, char debug);
+ int idr_alloc_cyclic(struct idr *, void *ptr, int start, int end, gfp_t);
++int idr_alloc_cyclic2(struct idr *, void *ptr, int start, int end, gfp_t, char debug);
+ void *idr_remove(struct idr *, unsigned long id);
+ void *idr_find(const struct idr *, unsigned long id);
+ int idr_for_each(const struct idr *,
+diff --git a/include/linux/radix-tree.h b/include/linux/radix-tree.h
+index 34149e8b5f73..de933d454c6c 100644
+--- a/include/linux/radix-tree.h
++++ b/include/linux/radix-tree.h
+@@ -102,6 +102,7 @@ struct radix_tree_node {
+ 	};
+ 	void __rcu	*slots[RADIX_TREE_MAP_SIZE];
+ 	unsigned long	tags[RADIX_TREE_MAX_TAGS][RADIX_TREE_TAG_LONGS];
++	char debug;
+ };
+ 
+ /* The IDR tag is stored in the low bits of the GFP flags */
+@@ -364,6 +365,10 @@ void __rcu **idr_get_free(struct radix_tree_root *root,
+ 			      struct radix_tree_iter *iter, gfp_t gfp,
+ 			      unsigned long max);
+ 
++void __rcu **idr_get_free2(struct radix_tree_root *root,
++			      struct radix_tree_iter *iter, gfp_t gfp,
++			      unsigned long max, char debug);
++
+ enum {
+ 	RADIX_TREE_ITER_TAG_MASK = 0x0f,	/* tag index in lower nybble */
+ 	RADIX_TREE_ITER_TAGGED   = 0x10,	/* lookup tagged slots */
+diff --git a/lib/idr.c b/lib/idr.c
+index 6ff3b1c36e0a..4a2771bb6c5f 100644
+--- a/lib/idr.c
++++ b/lib/idr.c
+@@ -31,8 +31,8 @@ DEFINE_PER_CPU(struct ida_bitmap *, ida_bitmap);
+  * or -ENOSPC if no free IDs could be found.  If an error occurred,
+  * @nextid is unchanged.
+  */
+-int idr_alloc_u32(struct idr *idr, void *ptr, u32 *nextid,
+-			unsigned long max, gfp_t gfp)
++int idr_alloc_u32_2(struct idr *idr, void *ptr, u32 *nextid,
++			unsigned long max, gfp_t gfp, char debug)
+ {
+ 	struct radix_tree_iter iter;
+ 	void __rcu **slot;
+@@ -46,7 +46,7 @@ int idr_alloc_u32(struct idr *idr, void *ptr, u32 *nextid,
+ 
+ 	id = (id < base) ? 0 : id - base;
+ 	radix_tree_iter_init(&iter, id);
+-	slot = idr_get_free(&idr->idr_rt, &iter, gfp, max - base);
++	slot = idr_get_free2(&idr->idr_rt, &iter, gfp, max - base, debug);
+ 	if (IS_ERR(slot))
+ 		return PTR_ERR(slot);
+ 
+@@ -57,6 +57,13 @@ int idr_alloc_u32(struct idr *idr, void *ptr, u32 *nextid,
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(idr_alloc_u32_2);
++
++int idr_alloc_u32(struct idr *idr, void *ptr, u32 *nextid,
++			unsigned long max, gfp_t gfp)
++{
++	return idr_alloc_u32_2(idr, ptr, nextid, max, gfp, 0);
++}
+ EXPORT_SYMBOL_GPL(idr_alloc_u32);
+ 
+ /**
+@@ -117,7 +124,7 @@ EXPORT_SYMBOL_GPL(idr_alloc);
+  * Return: The newly allocated ID, -ENOMEM if memory allocation failed,
+  * or -ENOSPC if no free IDs could be found.
+  */
+-int idr_alloc_cyclic(struct idr *idr, void *ptr, int start, int end, gfp_t gfp)
++int idr_alloc_cyclic2(struct idr *idr, void *ptr, int start, int end, gfp_t gfp, char debug)
+ {
+ 	u32 id = idr->idr_next;
+ 	int err, max = end > 0 ? end - 1 : INT_MAX;
+@@ -125,10 +132,10 @@ int idr_alloc_cyclic(struct idr *idr, void *ptr, int start, int end, gfp_t gfp)
+ 	if ((int)id < start)
+ 		id = start;
+ 
+-	err = idr_alloc_u32(idr, ptr, &id, max, gfp);
++	err = idr_alloc_u32_2(idr, ptr, &id, max, gfp, debug);
+ 	if ((err == -ENOSPC) && (id > start)) {
+ 		id = start;
+-		err = idr_alloc_u32(idr, ptr, &id, max, gfp);
++		err = idr_alloc_u32_2(idr, ptr, &id, max, gfp, debug);
+ 	}
+ 	if (err)
+ 		return err;
+@@ -136,6 +143,12 @@ int idr_alloc_cyclic(struct idr *idr, void *ptr, int start, int end, gfp_t gfp)
+ 	idr->idr_next = id + 1;
+ 	return id;
+ }
++EXPORT_SYMBOL(idr_alloc_cyclic2);
++
++int idr_alloc_cyclic(struct idr *idr, void *ptr, int start, int end, gfp_t gfp)
++{
++	return idr_alloc_cyclic2(idr, ptr, start, end, gfp, 0);
++}
+ EXPORT_SYMBOL(idr_alloc_cyclic);
+ 
+ /**
+diff --git a/lib/radix-tree.c b/lib/radix-tree.c
+index e5cab5c4e383..f89328cde951 100644
+--- a/lib/radix-tree.c
++++ b/lib/radix-tree.c
+@@ -452,6 +452,9 @@ static void radix_tree_node_rcu_free(struct rcu_head *head)
+ static inline void
+ radix_tree_node_free(struct radix_tree_node *node)
+ {
++	if (node->debug) {
++		dump_stack();
++	}
+ 	call_rcu(&node->rcu_head, radix_tree_node_rcu_free);
+ }
+ 
+@@ -2127,9 +2130,9 @@ int ida_pre_get(struct ida *ida, gfp_t gfp)
+ 	return 1;
+ }
+ 
+-void __rcu **idr_get_free(struct radix_tree_root *root,
++void __rcu **idr_get_free2(struct radix_tree_root *root,
+ 			      struct radix_tree_iter *iter, gfp_t gfp,
+-			      unsigned long max)
++			      unsigned long max, char debug)
+ {
+ 	struct radix_tree_node *node = NULL, *child;
+ 	void __rcu **slot = (void __rcu **)&root->rnode;
+@@ -2163,6 +2166,7 @@ void __rcu **idr_get_free(struct radix_tree_root *root,
+ 			rcu_assign_pointer(*slot, node_to_entry(child));
+ 			if (node)
+ 				node->count++;
++			child->debug = debug;
+ 		} else if (!radix_tree_is_internal_node(child))
+ 			break;
+ 
+@@ -2198,6 +2202,13 @@ void __rcu **idr_get_free(struct radix_tree_root *root,
+ 	return slot;
+ }
+ 
++void __rcu **idr_get_free(struct radix_tree_root *root,
++			      struct radix_tree_iter *iter, gfp_t gfp,
++			      unsigned long max)
++{
++	return idr_get_free2(root, iter, gfp, max, 0);
++}
++
+ /**
+  * idr_destroy - release all internal memory from an IDR
+  * @idr: idr handle
+-- 
+2.34.1
+
