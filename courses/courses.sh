@@ -15,6 +15,7 @@ kernel_files() {
         1 courses/kernel/kernel-fs.md
         1 courses/kernel/kernel-debug.md
         1 courses/kernel/kernel-mm.md
+        1 courses/kernel/kernel-process.md
         1 courses/kernel/kernel-patches.md
     )
 

@@ -91,8 +91,142 @@ clone
       dup_task_struct
 ```
 
-进程终结时，调用`exit()`系统调用（在`kernel/exit.c`中），进程退出执行后`__state`被设置为`EXIT_ZOMBIE`状态，直到父进程调用`wait4()`和`waitpid()`系统调用查询子进程是否终结，然后进程描述符被释放，`release_task()`被调用。
+进程终结时，调用`exit()`系统调用（在`kernel/exit.c`中）:
+```c
+exit
+  do_exit
+    exit_notify
+      forget_original_parent
+        exit_ptrace
+        find_new_reaper
+          if (reaper == &init_task) // 进程所在的线程组内如果没有其他进程，则返回init进程
+```
+
+进程退出执行后`__state`被设置为`EXIT_ZOMBIE`状态，直到父进程调用`wait4()`和`waitpid()`系统调用查询子进程是否终结，然后进程描述符被释放，`release_task()`被调用:
+```c
+wait4
+waitpid
+  kernel_wait4
+    do_wait
+      do_wait_thread
+        wait_consider_task
+          wait_task_zombie
+            release_task
+```
 
 # 线程
 
-线程是和其他进程共享某些资源（如地址空间等）的进程，
+## 创建线程
+
+线程是和其他进程共享某些资源（如地址空间等）的进程，创建线程：
+```c
+// 共享: 地址空间、文件系统资源、文件描述符、信号处理程序
+clone(CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND, 0)
+```
+
+`clone`系统调用的参数`clone_flags`可以是如下值的组合:
+```c
+/*
+ * cloning flags:
+ */
+#define CSIGNAL		0x000000ff	/* 在退出时要发送的信号掩码 */
+#define CLONE_VM	0x00000100	/* 设置此标志时，进程之间共享虚拟内存（VM） */
+#define CLONE_FS	0x00000200	/* 设置此标志时，进程之间共享文件系统信息 */
+#define CLONE_FILES	0x00000400	/* 设置此标志时，进程之间共享已打开的文件 */
+#define CLONE_SIGHAND	0x00000800	/* 设置此标志时，进程之间共享信号处理程序和被阻塞的信号 */
+#define CLONE_PIDFD	0x00001000	/* 设置此标志时，在父进程中创建一个 pidfd */
+#define CLONE_PTRACE	0x00002000	/* 设置此标志时，允许对子进程的跟踪继续 */
+#define CLONE_VFORK	0x00004000	/* 设置此标志时，子进程在释放内存管理器（mm_release）时唤醒父进程 */
+#define CLONE_PARENT	0x00008000	/* 设置此标志时，子进程与克隆进程拥有相同的父进程 */
+#define CLONE_THREAD	0x00010000	/* 同一线程组？ */
+#define CLONE_NEWNS	0x00020000	/* 新的挂载命名空间组 */
+#define CLONE_SYSVSEM	0x00040000	/* 共享 System V 的 SEM_UNDO 语义 */
+#define CLONE_SETTLS	0x00080000	/* 为子进程创建新的 TLS */
+#define CLONE_PARENT_SETTID	0x00100000	/* 在父进程中设置 TID */
+#define CLONE_CHILD_CLEARTID	0x00200000	/* 在子进程中清除 TID */
+#define CLONE_DETACHED		0x00400000	/* 未使用，忽略 */
+#define CLONE_UNTRACED		0x00800000	/* 设置此标志时，跟踪进程不能强制对子进程使用 CLONE_PTRACE */
+#define CLONE_CHILD_SETTID	0x01000000	/* 在子进程中设置 TID */
+#define CLONE_NEWCGROUP		0x02000000	/* 新的 cgroup 命名空间 */
+#define CLONE_NEWUTS		0x04000000	/* 新的 UTS 命名空间 */
+#define CLONE_NEWIPC		0x08000000	/* 新的 IPC 命名空间 */
+#define CLONE_NEWUSER		0x10000000	/* 新的用户命名空间 */
+#define CLONE_NEWPID		0x20000000	/* 新的 PID 命名空间 */
+#define CLONE_NEWNET		0x40000000	/* 新的网络命名空间 */
+#define CLONE_IO		0x80000000	/* 克隆 IO 上下文 */
+
+/* clone3() 系统调用的标志。 */
+#define CLONE_CLEAR_SIGHAND 0x100000000ULL /* 清除任何信号处理程序并重置为 SIG_DFL。 */
+#define CLONE_INTO_CGROUP 0x200000000ULL /* 在具有相应权限的情况下克隆到特定的 cgroup 中。 */
+
+/*
+ * 克隆标志与 CSIGNAL 交叉，因此只能与 unshare 和 clone3 系统调用一起使用：
+ */
+#define CLONE_NEWTIME	0x00000080	/* 新的时间命名空间 */
+```
+
+## 内核线程
+
+独立运行在内核空间的进程叫内核线程（kernel thread），和普通的用户进程的区别是没有独立的地址空间，也就是`task_struct`中的`mm`成员设置为`NULL`，所有内核线程都是`kthreadd`内核线程的后代。
+
+创建新的内核线程：
+```c
+/**
+ * kthread_create - 在当前节点上创建一个内核线程，处于不可运行状态，要通过wake_up_process()唤醒
+ * @threadfn: 要在线程中运行的函数
+ * @data: 传递给 @threadfn() 的数据指针
+ * @namefmt: 用于线程名称的 printf 风格格式字符串
+ * @arg: 用于 @namefmt 的参数
+ *
+ * 该宏将在当前节点上创建一个内核线程，并将其置于停止状态。
+ * 这只是 kthread_create_on_node() 的一个辅助函数；
+ * 详细信息请参见 kthread_create_on_node() 的文档。
+ */
+#define kthread_create(threadfn, data, namefmt, arg...) \                   
+        kthread_create_on_node(threadfn, data, NUMA_NO_NODE, namefmt, ##arg)
+
+/**
+ * wake_up_process - 唤醒特定进程，唤醒kthread_create()创建的内核线程
+ * @p: 要唤醒的进程
+ *
+ * 尝试唤醒指定的进程，并将其移到可运行进程集合中。
+ *
+ * 返回值: 如果进程被唤醒则返回 1，如果进程已经在运行则返回 0。
+ *
+ * 该函数在访问任务状态之前执行一个完整的内存屏障。
+ */
+int wake_up_process(struct task_struct *p)
+```
+
+也可以调用以下函数创建内核线程并立刻运行：
+```c
+/**
+ * kthread_run - 创建并唤醒一个线程。简单的调用了kthread_create()和wake_up_process()
+ * @threadfn: 要运行的函数，直到 signal_pending(current) 为止。
+ * @data: 传递给 @threadfn 的数据指针。
+ * @namefmt: 线程名称的 printf 风格格式。
+ *
+ * 描述: 这是 kthread_create() 后紧跟 wake_up_process() 的便捷包装。
+ * 返回值: 返回创建的内核线程指针或 ERR_PTR(-ENOMEM)。
+ */
+#define kthread_run(threadfn, data, namefmt, ...)
+```
+
+`threadfn()`一直运行直到调用`do_exit()`退出，或内核其他部分调用以下函数退出：
+```c
+/**
+ * kthread_stop - 停止由 kthread_create() 创建的线程。
+ * @k: 由 kthread_create() 创建的线程。
+ *
+ * 设置 @k 线程的 kthread_should_stop() 返回 true，唤醒它，并等待其退出。
+ * 这也可以在 kthread_create() 之后调用，而不是调用 wake_up_process()：
+ * 线程将会退出而不调用 threadfn()。
+ *
+ * 如果 threadfn() 可能会自己调用 kthread_exit()，则调用者必须确保
+ * task_struct 不会被释放。
+ *
+ * 返回值: 返回 threadfn() 的结果，如果从未调用过 wake_up_process()，
+ * 则返回 %-EINTR。
+ */
+int kthread_stop(struct task_struct *k)
+```
