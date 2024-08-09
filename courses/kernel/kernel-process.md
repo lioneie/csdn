@@ -230,3 +230,8 @@ int wake_up_process(struct task_struct *p)
  */
 int kthread_stop(struct task_struct *k)
 ```
+
+# 进程调度
+
+process scheduler，简称为scheduler，翻译为进程调度器，有些中文书籍也翻译为进程调度程序，简称调度程序，注意这里的"程序"不是前面我们讲的能用`ps`命令查看的"进程"（所以"进程调度程序"这个翻译不好），而是内核的一个核心功能，直接集成在内核代码中。
+
