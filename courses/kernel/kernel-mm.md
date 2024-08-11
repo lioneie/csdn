@@ -1704,6 +1704,22 @@ SYSCALL_DEFINE2(munmap, unsigned long, addr, size_t, len)
 
 为了加快搜索物理地址的速度，多数体系结构实现了 Translation Lookaside Buffer，翻译为: 转译后备缓冲器（又叫页表缓存、转址旁路缓存）。
 
+# 伙伴算法
+
+`struct zone`中有一个`free_area[MAX_ORDER + 1]`的数组:
+```c
+struct free_area {                                       
+        struct list_head        free_list[MIGRATE_TYPES];
+        unsigned long           nr_free;                 
+};                                                       
+```
+
+其中`free_area[0]`中的链表中的内存块单位是`2^0=1`个page，`free_area[1]`的单位是`2^1`个page，以此类推。这种内存块称为"页块"或简称"块"，大小相同且物理地址连续的两个页块称为"伙伴"。
+
+伙伴算法的工作原理：先在大小满足要求的块链表中查找是否有空闲块，如果有就直接分配内存，否则在更大的块链表中查找，逆过程就是块的释放，把满足伙伴关系的块合并。
+
+要分配`2^3=8`个page，`free_area[3]`（8个page的页块大小）、`free_area[4]`（16个page的页块大小）中的链表都找不到空闲块，只有`free_area[5]`（32个page的页块大小）中有空闲块，先把32 page的页块分成2个16 page的页块，其中一个16 page的页块插入`free_area[4]`的链表中，另一个16 page的页块再分成2个8 page的页块，一个8 page的页块插入`free_area[3]`的链表中，另一个8 page的页块用于最终分配。具体请查看`__rmqueue_smallest()`和`expand()`函数。访问虚拟内存时，如果物理内存还没分配，最终调用`alloc_pages()`为进程分配page，并将虚拟内存和物理内存的映射关系写入页表。
+
 <!-- ing begin -->
 # 页高速缓存
 
