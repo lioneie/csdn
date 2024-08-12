@@ -222,7 +222,7 @@ struct task_struct {
         struct restart_block            restart_block;
 
         pid_t                           pid;
-        pid_t                           tgid;
+        pid_t                           tgid; // thread group identifier, 线程组中主线程的pid
 
 #ifdef CONFIG_STACKPROTECTOR
         /* -fstack-protector GCC功能的Canary（金丝雀值）: */
