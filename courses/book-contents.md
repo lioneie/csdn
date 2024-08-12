@@ -2265,3 +2265,775 @@ lO.4.3 异步串行通信控制器UART
     8.10 文件系统编程模式 767
 主要参考文献 769
 ```
+
+# [《UNIX环境高级编程（第3版）》](https://book.douban.com/subject/25900403/)
+
+```
+Chapter　1. UNIX System Overview / UNIX基础知识　1
+1.1　Introduction / 引言　1
+1.2　UNIX Architecture / UNIX体系结构　1
+1.3　Logging In / 登录　2
+1.4　Files and Directories / 文件和目录　4
+1.5　Input and Output / 输入和输出　8
+1.6　Programs and Processes / 程序和进程　10
+1.7　Error Handling / 出错处理　14
+1.8　User Identification / 用户标识　16
+1.9　Signals / 信号　18
+1.10　Time Values / 时间值　20
+1.11　System Calls and Library Functions / 系统调用和库函数　21
+1.12　Summary / 小结　23
+Exercises　/ 习题　24
+Chapter　2. UNIX Standardization and Implementations / UNIX标准及实现　25
+2.1　Introduction / 引言　25
+2.2　UNIX Standardization / UNIX标准化　25
+2.2.1　ISO C　25
+2.2.2　IEEE POSIX　26
+2.2.3　The Single UNIX Specification　30
+2.2.4　FIPS　32
+2.3　UNIX System Implementations / UNIX系统实现　33
+2.3.1　UNIX System V Release 4 / SVR4　33
+2.3.2　4.4BSD　34
+2.3.3　FreeBSD　34
+2.3.4　Linux　35
+2.3.5　Mac OS X　35
+2.3.6　Solaris　35
+2.3.7　Other UNIX Systems / 其他UNIX系统　35
+2.4　Relationship of Standards and Implementations / 标准和实现的关系　36
+2.5　Limits / 限制　36
+2.5.1　ISO C Limits / ISO C限制　37
+2.5.2　POSIX Limits / POSIX限制　38
+2.5.3　XSI Limits / XSI限制　41
+2.5.4　sysconf， pathconf， and fpathconf Functions / 函数sysconf、pathconf和fpathconf　42
+2.5.5　Indeterminate Runtime Limits / 不确定的运行时限制　49
+2.6　Options / 选项　53
+2.7　Feature Test Macros / 功能测试宏　57
+2.8　Primitive System Data Types / 基本系统数据类型　58
+2.9　Differences Between Standards / 标准之间的冲突　58
+2.10　Summary / 小结　60
+Exercises　/ 习题　60
+Chapter　3. File I/O / 文件I/O　61
+3.1　Introduction / 引言　61
+3.2　File Descriptors / 文件描述符　61
+3.3　open and openat Functions / 函数open和openat　62
+3.4　creat Function / 函数creat　66
+3.5　close Function / 函数close　66
+3.6　lseek Function / 函数lseek　66
+3.7　read Function / 函数read　71
+3.8　write Function / 函数write　72
+3.9　I/O Efficiency / I/O的效率　72
+3.10　File Sharing / 文件共享　74
+3.11　Atomic Operations / 原子操作　77
+3.12　dup and dup2 Functions / 函数dup和dup2　79
+3.13　sync， fsync， and fdatasync Functions / 函数sync、fsync和fdatasync　81
+3.14　fcntl Function / 函数fcntl　82
+3.15　ioctl Function / 函数ioctl　87
+3.16　/dev/fd　88
+3.17　Summary / 小结　90
+Exercises　/ 习题　90
+Chapter　4. Files and Directories / 文件和目录　93
+4.1　Introduction / 引言　93
+4.2　stat， fstat， fstatat， and lstat Functions / 函数stat、fstat、fstatat和lstat　93
+4.3　File Types / 文件类型　95
+4.4　Set-User-ID and Set-Group-ID / 设置用户ID和设置组ID　98
+4.5　File Access Permissions / 文件访问权限　99
+4.6　Ownership of New Files and Directories / 新文件和目录的所有权　101
+4.7　access and faccessat Functions / 函数access和faccessat　102
+4.8　umask Function / 函数umask　104
+4.9　chmod， fchmod， and fchmodat Functions / 函数chmod、fchmod和fchmodat　106
+4.10　Sticky Bit / 粘着位　108
+4.11　chown， fchown， fchownat， and lchown Functions / 函数chown、fchown、fchownat和lchown　109
+4.12　File Size / 文件长度　111
+4.13　File Truncation / 文件截断　112
+4.14　File Systems / 文件系统　113
+4.15　link， linkat， unlink， unlinkat， and remove Functions / 函数link、linkat、unlink、unlinkat和remove　116
+4.16　rename and renameat Functions / 函数rename和renameat　119
+4.17　Symbolic Links / 符号链接　120
+4.18　Creating and Reading Symbolic Links / 创建和读取符号链接　123
+4.19　File Times / 文件的时间　124
+4.20　futimens， utimensat， and utimes Functions / 函数futimens、utimensat和utimes　126
+4.21　mkdir， mkdirat， and rmdir Functions / 函数mkdir、mkdirat和rmdir　129
+4.22　Reading Directories / 读目录　130
+4.23　chdir， fchdir， and getcwd Functions / 函数chdir、fchdir和getcwd　135
+4.24　Device Special Files / 设备特殊文件　137
+4.25　Summary of File Access Permission Bits / 文件访问权限位小结　140
+4.26　Summary / 小结　140
+Exercises　/ 习题　141
+Chapter　5. Standard I/O Library / 标准I/O库　143
+5.1　Introduction / 引言　143
+5.2　Streams and FILE Objects / 流和FILE对象　143
+5.3　Standard Input， Standard Output， and Standard Error / 标准输入、标准输出和标准错误　145
+5.4　Buffering / 缓冲　145
+5.5　Opening a Stream / 打开流　148
+5.6　Reading and Writing a Stream / 读和写流　150
+5.7　Line-at-a-Time I/O / 每次一行I/O　152
+5.8　Standard I/O Efficiency / 标准I/O的效率　153
+5.9　Binary I/O / 二进制I/O　156
+5.10　Positioning a Stream / 定位流　157
+5.11　Formatted I/O / 格式化I/O　159
+5.12　Implementation Details / 实现细节　164
+5.13　Temporary Files / 临时文件　167
+5.14　Memory Streams / 内存流　171
+5.15　Alternatives to Standard I/O / 标准I/O的替代软件　174
+5.16　Summary / 小结　175
+Exercises　/ 习题　175
+Chapter　6. System Data Files and Information / 系统数据文件和信息　177
+6.1　Introduction / 引言　177
+6.2　Password File / 口令文件　177
+6.3　Shadow Passwords / 阴影口令　181
+6.4　Group File / 组文件　182
+6.5　Supplementary Group IDs / 附属组ID　183
+6.6　Implementation Differences / 实现区别　184
+6.7　Other Data Files / 其他数据文件　185
+6.8　Login Accounting / 登录账户记录　186
+6.9　System Identification / 系统标识　187
+6.10　Time and Date Routines / 时间和日期例程　189
+6.11　Summary / 小结　196
+Exercises　/ 习题　196
+Chapter　7. Process Environment / 进程环境　197
+7.1　Introduction / 引言　197
+7.2　main Function / main函数　197
+7.3　Process Termination / 进程终止　198
+7.4　Command-Line Arguments / 命令行参数　203
+7.5　Environment List / 环境表　203
+7.6　Memory Layout of a C Program / C程序的存储空间布局　204
+7.7　Shared Libraries / 共享库　206
+7.8　Memory Allocation / 存储空间分配　207
+7.9　Environment Variables / 环境变量　210
+7.10　setjmp and longjmp Functions / 函数setjmp和longjmp　213
+7.11　getrlimit and setrlimit Functions / 函数getrlimit和setrlimit　220
+7.12　Summary / 小结　225
+Exercises　/ 习题　226
+Chapter　8. Process Control / 进程控制　227
+8.1　Introduction / 引言　227
+8.2　Process Identifiers / 进程标识　227
+8.3　fork Function / 函数fork　229
+8.4　vfork Function / 函数vfork　234
+8.5　exit Functions / 函数exit　236
+8.6　wait and waitpid Functions / 函数wait和waitpid　238
+8.7　waitid Function / 函数waitid　244
+8.8　wait3 and wait4 Functions / 函数wait3和wait4　245
+8.9　Race Conditions / 竞争条件　245
+8.10　exec Functions / 函数exec　249
+8.11　Changing User IDs and Group IDs / 更改用户ID和更改组ID　255
+8.12　Interpreter Files / 解释器文件　260
+8.13　system Function / 函数system　264
+8.14　Process Accounting / 进程会计　269
+8.15　User Identification / 用户标识　275
+8.16　Process Scheduling / 进程调度　276
+8.17　Process Times / 进程时间　280
+8.18　Summary / 小结　282
+Exercises　/ 习题　283
+Chapter　9. Process Relationships / 进程关系　285
+9.1　Introduction / 引言　285
+9.2　Terminal Logins / 终端登录　285
+9.3　Network Logins / 网络登录　290
+9.4　Process Groups / 进程组　293
+9.5　Sessions / 会话　295
+9.6　Controlling Terminal / 控制终端　296
+9.7　tcgetpgrp， tcsetpgrp， and tcgetsid Functions / 函数tcgetpgrp、tcsetpgrp和tcgetsid　298
+9.8　Job Control / 作业控制　299
+9.9　Shell Execution of Programs / Shell执行程序　303
+9.10　Orphaned Process Groups / 孤儿进程组　307
+9.11　FreeBSD Implementation / FreeBSD实现　310
+9.12　Summary / 小结　312
+Exercises　/ 习题　312
+Chapter　10. Signals / 信号　313
+10.1　Introduction / 引言　313
+10.2　Signal Concepts / 信号概念　313
+10.3　signal Function / 函数signal　323
+10.4　Unreliable Signals / 不可靠的信号　326
+10.5　Interrupted System Calls / 中断的系统调用　327
+10.6　Reentrant Functions / 可重入函数　330
+10.7　SIGCLD Semantics / SIGCLD语义　332
+10.8　Reliable-Signal Terminology and Semantics / 可靠信号术语和语义　335
+10.9　kill and raise Functions / 函数kill和raise　336
+10.10　alarm and pause Functions / 函数alarm和pause　338
+10.11　Signal Sets / 信号集　344
+10.12　sigprocmask Function / 函数sigprocmask　346
+10.13　sigpending Function / 函数sigpending　347
+10.14　sigaction Function / 函数sigaction　349
+10.15　sigsetjmp and siglongjmp Functions / 函数sigsetjmp和siglongjmp　355
+10.16　sigsuspend Function / 函数sigsuspend　359
+10.17　abort Function / 函数abort　365
+10.18　system Function / 函数system　367
+10.19　sleep， nanosleep， and clock_nanosleep Functions / 函数sleep、nanosleep和clock_nanosleep　373
+10.20　sigqueue Function / 函数sigqueue　376
+10.21　Job-Control Signals / 作业控制信号　377
+10.22　Signal Names and Numbers / 信号名和编号　379
+10.23　Summary / 小结　381
+Exercises　/ 习题　381
+Chapter　11. Threads / 线程　383
+11.1　Introduction / 引言　383
+11.2　Thread Concepts / 线程概念　383
+11.3　Thread Identification / 线程标识　384
+11.4　Thread Creation / 线程创建　385
+11.5　Thread Termination / 线程终止　388
+11.6　Thread Synchronization / 线程同步　397
+11.6.1　Mutexes / 互斥量　399
+11.6.2　Deadlock Avoidance / 避免死锁　402
+11.6.3　pthread_mutex_timedlock Function / 函数pthread_mutex_timedlock　407
+11.6.4　Reader-Writer Locks / 读写锁　409
+11.6.5　Reader-Writer Locking with Timeouts / 带有超时的读写锁　413
+11.6.6　Condition Variables / 条件变量　413
+11.6.7　Spin Locks / 自旋锁　417
+11.6.8　Barriers / 屏障　418
+11.7　Summary / 小结　422
+Exercises　/ 习题　422
+Chapter　12. Thread Control / 线程控制　425
+12.1　Introduction / 引言　425
+12.2　Thread Limits / 线程限制　425
+12.3　Thread Attributes / 线程属性　426
+12.4　Synchronization Attributes / 同步属性　430
+12.4.1　Mutex Attributes / 互斥量属性　430
+12.4.2　Reader-Writer Lock Attributes / 读写锁属性　439
+12.4.3　Condition Variable Attributes / 条件变量属性　440
+12.4.4　Barrier Attributes / 屏障属性　441
+12.5　Reentrancy / 重入　442
+12.6　Thread-Specific Data / 线程特定数据　446
+12.7　Cancel Options / 取消选项　451
+12.8　Threads and Signals / 线程和信号　453
+12.9　Threads and fork / 线程和fork　457
+12.10　Threads and I/O / 线程和I/O　461
+12.11　Summary / 小结　462
+Exercises　/ 习题　462
+Chapter　13. Daemon Processes / 守护进程　463
+13.1　Introduction / 引言　463
+13.2　Daemon Characteristics / 守护进程的特征　463
+13.3　Coding Rules / 编程规则　466
+13.4　Error Logging / 出错记录　469
+13.5　Single-Instance Daemons / 单实例守护进程　473
+13.6　Daemon Conventions / 守护进程的惯例　474
+13.7　Client-Server Model / 客户进程-服务器进程模型　479
+13.8　Summary / 小结　480
+Exercises　/ 习题　480
+Chapter　14. Advanced I/O / 高级I/O　481
+14.1　Introduction / 引言　481
+14.2　Nonblocking I/O / 非阻塞I/O　481
+14.3　Record Locking / 记录锁　485
+14.4　I/O Multiplexing / I/O多路转接　500
+14.4.1　select and pselect Functions / 函数select和pselect　502
+14.4.2　poll Function / 函数poll　506
+14.5　Asynchronous I/O / 异步I/O　509
+14.5.1　System V Asynchronous I/O / System V异步I/O　510
+14.5.2　BSD Asynchronous I/O / BSD异步I/O　510
+14.5.3　POSIX Asynchronous I/O / POSIX异步I/O　511
+14.6　readv and writev Functions / 函数readv和writev　521
+14.7　readn and writen Functions / 函数readn和writen　523
+14.8　Memory-Mapped I/O / 存储映射I/O　525
+14.9　Summary / 小结　531
+Exercises　/ 习题　532
+Chapter　15. Interprocess Communication / 进程间通信　533
+15.1　Introduction / 引言　533
+15.2　Pipes / 管道　534
+15.3　popen and pclose Functions / 函数popen和pclose　541
+15.4　Coprocesses / 协同进程　548
+15.5　FIFOs　552
+15.6　XSI IPC　556
+15.6.1　Identifiers and Keys / 标识符和键　556
+15.6.2　Permission Structure / 权限结构　558
+15.6.3　Configuration Limits / 结构限制　559
+15.6.4　Advantages and Disadvantages / 优点和缺点　559
+15.7　Message Queues / 消息队列　561
+15.8　Semaphores / 信号量　565
+15.9　Shared Memory / 共享存储　571
+15.10　POSIX Semaphores / POSIX信号量　579
+15.11　Client-Server Properties / 客户进程-服务器进程属性　585
+15.12　Summary / 小结　587
+Exercises　/ 习题　587
+Chapter　16. Network IPC： Sockets / 网络IPC：套接字　589
+16.1　Introduction / 引言　589
+16.2　Socket Descriptors / 套接字描述符　590
+16.3　Addressing / 寻址　593
+16.3.1　Byte Ordering / 字节序　593
+16.3.2　Address Formats / 地址格式　595
+16.3.3　Address Lookup / 地址查询　597
+16.3.4　Associating Addresses with Sockets / 将套接字与地址关联　604
+16.4　Connection Establishment / 建立连接　605
+16.5　Data Transfer / 数据传输　610
+16.6　Socket Options / 套接字选项　623
+16.7　Out-of-Band Data / 带外数据　626
+16.8　Nonblocking and Asynchronous I/O / 非阻塞和异步I/O　627
+16.9　Summary / 小结　628
+Exercises　/ 习题　628
+Chapter　17. Advanced IPC / 高级进程间通信　629
+17.1　Introduction / 引言　629
+17.2　UNIX Domain Sockets / UNIX域套接字　629
+17.3　Unique Connections / 唯一连接　635
+17.4　Passing File Descriptors / 传送文件描述符　642
+17.5　An Open Server， Version 1 / 打开服务器进程第 1版　653
+17.6　An Open Server， Version 2 / 打开服务器进程第 2版　659
+17.7　Summary / 小结　669
+Exercises　/ 习题　670
+Chapter　18. Terminal I/O / 终端I/O　671
+18.1　Introduction / 引言　671
+18.2　Overview / 概述　671
+18.3　Special Input Characters / 特殊输入字符　678
+18.4　Getting and Setting Terminal Attributes / 获得和设置终端属性　683
+18.5　Terminal Option Flags / 终端选项标志　683
+18.6　stty Command / stty命令　691
+18.7　Baud Rate Functions / 波特率函数　692
+18.8　Line Control Functions / 行控制函数　693
+18.9　Terminal Identification / 终端标识　694
+18.10　Canonical Mode / 规范模式　700
+18.11　Noncanonical Mode / 非规范模式　703
+18.12　Terminal Window Size / 终端窗口大小　710
+18.13　termcap， terminfo， and curses / termcap、terminfo和curses　712
+18.14　Summary / 小结　713
+Exercises　/ 习题　713
+Chapter　19. Pseudo Terminals / 伪终端　715
+19.1　Introduction / 引言　715
+19.2　Overview / 概述　715
+19.3　Opening Pseudo-Terminal Devices / 打开伪终端设备　722
+19.4　pty_fork Function / 函数pty_fork　726
+19.5　pty Program / pty程序　729
+19.6　Using the pty Program / 使用pty程序　733
+19.7　Advanced Features / 高级特性　740
+19.8　Summary / 小结　741
+Exercises　/ 习题　742
+Chapter　20. A Database Library / 数据库函数库　743
+20.1　Introduction / 引言　743
+20.2　History / 历史　743
+20.3　The Library / 函数库　744
+20.4　Implementation Overview / 实现概述　746
+20.5　Centralized or Decentralized / 集中式还是非集中式　750
+20.6　Concurrency / 并发　752
+20.7　Building the Library / 构造函数库　753
+20.8　Source Code / 源代码　753
+20.9　Performance / 性能　781
+20.10　Summary / 小结　786
+Exercises　/ 习题　787
+Chapter　21. Communicating with a Network Printer / 与网络打印机通信　789
+21.1　Introduction / 引言　789
+21.2　The Internet Printing Protocol / 网络打印协议　789
+21.3　The Hypertext Transfer Protocol / 超文本传输协议HTTP　792
+21.4　Printer Spooling / 打印假脱机技术　793
+21.5　Source Code / 源代码　795
+21.6　Summary / 小结　843
+Exercises　/ 习题　843
+Appendix　A. Function Prototypes / 函数原型　845
+Appendix　B. Miscellaneous Source Code / 其他源代码　895
+B.1　Our Header File / 本书使用的头文件　895
+B.2　Standard Error Routines / 标准出错例程　898
+Appendix　C. Solutions to Selected Exercises / 部分习题答案　905
+Bibliography　/ 参考书目　947
+```
+
+# [《Linux程序设计（第４版）》](https://book.douban.com/subject/4831448/)
+
+```
+第1章 入门 1
+1.1 unix、linux和gnu简介 1
+1.1.1 什么是unix 1
+1.1.2 什么是linux 2
+1.1.3 gnu项目和自由软件基金会 3
+1.1.4 linux发行版 3
+1.2 linux程序设计 4
+1.2.1 linux程序 4
+1.2.2 文本编辑器 5
+1.2.3 c语言编译器 5
+1.2.4 开发系统导引 7
+1.3 获得帮助 12
+1.4 小结 14
+第2章 shell程序设计 15
+2.1 为什么使用shell编程 15
+2.2 一点哲学 16
+2.3 什么是shell 16
+2.4 管道和重定向 18
+2.4.1 重定向输出 18
+2.4.2 重定向输入 19
+.2.4.3 管道 19
+2.5 作为程序设计语言的shell 20
+2.5.1 交互式程序 20
+2.5.2 创建脚本 21
+2.5.3 把脚本设置为可执行 22
+2.6 shell的语法 23
+2.6.1 变量 23
+2.6.2 条件 27
+2.6.3 控制结构 29
+2.6.4 函数 39
+2.6.5 命令 42
+2.6.6 命令的执行 58
+2.6.7 here文档 61
+2.6.8 调试脚本程序 63
+2.7 迈向图形化：dialog工具 63
+2.8 综合应用 68
+2.8.1 需求 68
+2.8.2 设计 68
+2.8.3 应用程序的说明 76
+2.9 小结 77
+第3章 文件操作 78
+3.1 linux文件结构 78
+3.1.1 目录 79
+3.1.2 文件和设备 79
+3.2 系统调用和设备驱动程序 80
+3.3 库函数 81
+3.4 底层文件访问 82
+3.4.1 write系统调用 82
+3.4.2 read系统调用 83
+3.4.3 open系统调用 84
+3.4.4 访问权限的初始值 85
+3.4.5 其他与文件管理有关的系统调用 88
+3.5 标准i/o库 91
+3.5.1 fopen函数 91
+3.5.2 fread函数 92
+3.5.3 fwrite函数 92
+3.5.4 fclose函数 92
+3.5.5 fflush函数 93
+3.5.6 fseek函数 93
+3.5.7 fgetc、getc和getchar函数 93
+3.5.8 fputc、putc和putchar函数 94
+3.5.9 fgets和gets函数 94
+3.6 格式化输入和输出 94
+3.6.1 printf、fprintf和sprintf函数 94
+3.6.2 scanf、fscanf和sscanf函数 96
+3.6.3 其他流函数 98
+3.6.4 文件流错误 99
+3.6.5 文件流和文件描述符 99
+3.7 文件和目录的维护 100
+3.7.1 chmod系统调用 100
+3.7.2 chown系统调用 100
+3.7.3 unlink、link和symlink系统调用 100
+3.7.4 mkdir和rmdir系统调用 101
+3.7.5 chdir系统调用和getcwd函数 101
+3.8 扫描目录 102
+3.8.1 opendir函数 102
+3.8.2 readdir函数 102
+3.8.3 telldir函数 103
+3.8.4 seekdir函数 103
+3.8.5 closedir函数 103
+3.9 错误处理 106
+3.9.1 strerror函数 106
+3.9.2 perror函数 106
+3.10 /proc文件系统 107
+3.11 高级主题：fcntl和mmap 110
+3.11.1 fcntl系统调用 110
+3.11.2 mmap函数 111
+3.12 小结 113
+第4章 linux环境 114
+4.1 程序参数 114
+4.1.1 getopt 116
+4.1.2 getopt_long 118
+4.2 环境变量 120
+4.2.1 环境变量的用途 122
+4.2.2 environ变量 122
+4.3 时间和日期 123
+4.4 临时文件 129
+4.5 用户信息 131
+4.6 主机信息 134
+4.7 日志 135
+4.8 资源和限制 139
+4.9 小结 143
+第5章 终端 144
+5.1 对终端进行读写 144
+5.2 与终端进行对话 149
+5.3 终端驱动程序和通用终端接口 151
+5.3.1 概述 151
+5.3.2 硬件模型 151
+5.4 termios结构 152
+5.4.1 输入模式 153
+5.4.2 输出模式 154
+5.4.3 控制模式 155
+5.4.4 本地模式 155
+5.4.5 特殊控制字符 155
+5.4.6 终端速度 158
+5.4.7 其他函数 159
+5.5 终端的输出 162
+5.5.1 终端的类型 163
+5.5.2 识别终端类型 163
+5.5.3 使用terminfo功能标志 165
+5.6 检测击键动作 170
+5.7 虚拟控制台 172
+5.8 伪终端 173
+5.9 小结 174
+第6章 使用curses函数库管理基于文本的屏幕 175
+6.1 用curses函数库进行编译 175
+6.2 curses术语和概念 176
+6.3 屏幕 178
+6.3.1 输出到屏幕 179
+6.3.2 从屏幕读取 180
+6.3.3 清除屏幕 180
+6.3.4 移动光标 180
+6.3.5 字符属性 181
+6.4 键盘 183
+6.4.1 键盘模式 183
+6.4.2 键盘输入 184
+6.5 窗口 185
+6.5.1 window结构 185
+6.5.2 通用函数 186
+6.5.3 移动和更新窗口 187
+6.5.4 优化屏幕刷新 190
+6.6 子窗口 191
+6.7 keypad模式 193
+6.8 彩色显示 195
+6.9 pad 198
+6.10 cd唱片应用程序 200
+6.10.1 新cd唱片应用程序的开始部分 200
+6.10.2 main函数 202
+6.10.3 建立菜单 203
+6.10.4 操作数据库文件 204
+6.10.5 查询cd数据库 209
+6.11 小结 213
+第7章 数据管理 214
+7.1 内存管理 214
+7.1.1 简单的内存分配 214
+7.1.2 分配大量的内存 215
+7.1.3 滥用内存 218
+7.1.4 空指针 219
+7.1.5 释放内存 220
+7.1.6 其他内存分配函数 221
+7.2 文件锁定 222
+7.2.1 创建锁文件 222
+7.2.2 区域锁定 225
+7.2.3 锁定状态下的读写操作 227
+7.2.4 文件锁的竞争 232
+7.2.5 其他锁命令 236
+7.2.6 死锁 236
+7.3 数据库 237
+7.3.1 dbm数据库 237
+7.3.2 dbm例程 238
+7.3.3 dbm访问函数 239
+7.3.4 其他dbm函数 242
+7.4 cd唱片应用程序 244
+7.4.1 更新设计 244
+7.4.2 使用dbm数据库的cd唱片应用程序 245
+7.5 小结 262
+第8章 mysql 263
+8.1 安装 263
+8.1.1 mysql软件包 264
+8.1.2 安装后的配置 266
+8.1.3 安装后的故障修复 270
+8.2 mysql管理 270
+8.2.1 命令 270
+8.2.2 创建用户并赋予权限 274
+8.2.3 密码 276
+8.2.4 创建数据库 276
+8.2.5 数据类型 277
+8.2.6 创建表 278
+8.2.7 图形化工具 280
+8.3 使用c语言访问mysql数据 283
+8.3.1 连接例程 283
+8.3.2 错误处理 287
+8.3.3 执行sql语句 288
+8.3.4 更多的函数 301
+8.4 cd数据库应用程序 301
+8.4.1 创建表 302
+8.4.2 添加数据 304
+8.4.3 使用c语言访问数据 306
+8.5 小结 316
+第9章 开发工具 317
+9.1 多个源文件带来的问题 317
+9.2 make命令和makefile文件 318
+9.2.1 makefile的语法 318
+9.2.2 make命令的选项和参数 318
+9.2.3 makefile文件中的注释 321
+9.2.4 makefile文件中的宏 321
+9.2.5 多个目标 323
+9.2.6 内置规则 325
+9.2.7 后缀和模式规则 326
+9.2.8 用make管理函数库 327
+9.2.9 高级主题：makefile文件和子目录 329
+9.2.10 gnu make和gcc 329
+9.3 源代码控制 330
+9.3.1 rcs 331
+9.3.2 sccs 336
+9.3.3 rcs和sccs的比较 336
+9.3.4 cvs 337
+9.3.5 cvs的前端程序 340
+9.3.6 subversion 341
+9.4 编写手册页 342
+9.5 发行软件 345
+9.5.1 patch程序 345
+9.5.2 其他软件发行工具 347
+9.6 rpm软件包 349
+9.6.1 使用rpm软件包文件 349
+9.6.2 安装rpm软件包 350
+9.6.3 创建rpm软件包 350
+9.7 其他软件包格式 358
+9.8 开发环境 358
+9.8.1 kdevelop 358
+9.8.2 其他开发环境 360
+9.9 小结 360
+第10章 调试 361
+10.1 错误类型 361
+10.2 常用调试技巧 362
+10.2.1 有漏洞的程序 362
+10.2.2 代码检查 364
+10.2.3 取样法 365
+10.2.4 程序的受控执行 367
+10.3 使用gdb进行调试 368
+10.3.1 启动gdb 368
+10.3.2 运行一个程序 369
+10.3.3 栈跟踪 369
+10.3.4 检查变量 370
+10.3.5 列出程序源代码 370
+10.3.6 设置断点 371
+10.3.7 用调试器打补丁 374
+10.3.8 深入学习gdb 375
+10.4 其他调试工具 375
+10.4.1 lint：清理程序中的“垃圾” 376
+10.4.2 函数调用工具 378
+10.4.3 用prof/gprof产生执行存档 380
+10.5 断言 381
+10.6 内存调试 383
+10.6.1 electricfence函数库 383
+10.6.2 valgrind 384
+10.7 小结 387
+第11章 进程和信号 388
+11.1 什么是进程 388
+11.2 进程的结构 388
+11.2.1 进程表 390
+11.2.2 查看进程 390
+11.2.3 系统进程 391
+11.2.4 进程调度 393
+11.3 启动新进程 394
+11.3.1 等待一个进程 399
+11.3.2 僵尸进程 401
+11.3.3 输入和输出重定向 403
+11.3.4 线程 404
+11.4 信号 404
+11.4.1 发送信号 408
+11.4.2 信号集 412
+11.5 小结 415
+第12章 posix线程 416
+12.1 什么是线程 416
+12.2 线程的优点和缺点 417
+12.3 第一个线程程序 418
+12.4 同时执行 421
+12.5 同步 423
+12.5.1 用信号量进行同步 423
+12.5.2 用互斥量进行同步 427
+12.6 线程的属性 431
+12.7 取消一个线程 435
+12.8 多线程 438
+12.9 小结 442
+第13章 进程间通信：管道 443
+13.1 什么是管道 443
+13.2 进程管道 444
+13.3 将输出送往popen 445
+13.3.1 传递更多的数据 446
+13.3.2 如何实现popen 447
+13.4 pipe调用 449
+13.5 父进程和子进程 451
+13.5.1 管道关闭后的读操作 453
+13.5.2 把管道用作标准输入和标准输出 454
+13.6 命名管道：fifo 456
+13.6.1 访问fifo文件 458
+13.6.2 高级主题：使用fifo的客户/服务器应用程序 464
+13.7 cd数据库应用程序 468
+13.7.1 目标 469
+13.7.2 实现 469
+13.7.3 客户接口函数 472
+13.7.4 服务器接口server.c 478
+13.7.5 管道 481
+13.7.6 对cd数据库应用程序的总结 487
+13.8 小结 487
+第14章 信号量、共享内存和消息队列 488
+14.1 信号量 488
+14.1.1 信号量的定义 489
+14.1.2 一个理论性的例子 489
+14.1.3 linux的信号量机制 490
+14.1.4 使用信号量 492
+14.2 共享内存 496
+14.2.1 shmget函数 497
+14.2.2 shmat函数 497
+14.2.3 shmdt 498
+14.2.4 shmctl 498
+14.3 消息队列 502
+14.3.1 msgget函数 502
+14.3.2 msgsnd函数 503
+14.3.3 msgrcv函数 503
+14.3.4 msgctl函数 504
+14.4 cd数据库应用程序 507
+14.4.1 修改服务器函数 507
+14.4.2 修改客户函数 509
+14.5 ipc状态命令 511
+14.5.1 显示信号量状态 511
+14.5.2 显示共享内存状态 511
+14.5.3 显示消息队列状态 511
+14.6 小结 512
+第15章 套接字 513
+15.1 什么是套接字 513
+15.2 套接字连接 513
+15.2.1 套接字属性 517
+15.2.2 创建套接字 519
+15.2.3 套接字地址 520
+15.2.4 命名套接字 520
+15.2.5 创建套接字队列 521
+15.2.6 接受连接 521
+15.2.7 请求连接 522
+15.2.8 关闭套接字 523
+15.2.9 套接字通信 523
+15.2.10 主机字节序和网络字节序 525
+15.3 网络信息 527
+15.3.1 因特网守护进程（xinetd/inetd） 531
+15.3.2 套接字选项 533
+15.4 多客户 534
+15.4.1 select系统调用 537
+15.4.2 多客户 540
+15.5 数据报 543
+15.6 小结 545
+第16章 用gtk+进行gnome编程 546
+16.1 x视窗系统简介 546
+16.1.1 x服务器 547
+16.1.2 x客户端 547
+16.1.3 x协议 547
+16.1.4 xlib库 547
+16.1.5 x工具包 547
+16.1.6 窗口管理器 548
+16.1.7 创建gui的其他方法——平台无关的窗囗api 548
+16.2 gtk+简介 549
+16.2.1 glib类型系统 549
+16.2.2 gtk+对象系统 550
+16.2.3 gnome简介 550
+16.2.4 安装gnome/gtk+开发库 551
+16.3 事件、信号和回调函数 554
+16.4 组装盒构件 556
+16.5 gtk+构件 559
+16.5.1 gtkwindow 559
+16.5.2 gtkentry 560
+16.5.3 gtkspinbutton 563
+16.5.4 gtkbutton 565
+16.5.5 gtktreeview 568
+16.6 gnome构件 571
+16.7 gnome菜单 572
+16.8 对话框 576
+16.8.1 gtkdialog 577
+16.8.2 模式对话框 578
+16.8.3 非模式对话框 579
+16.8.4 gtkmessagedialog 580
+16.9 cd数据库应用程序 581
+16.10 小结 592
+第17章 用qt进行kde编程 593
+17.1 kde和qt简介 593
+17.2 安装qt 594
+17.3 信号和槽 596
+17.4 qt构件 602
+17.4.1 qlineedit 602
+17.4.2 qt按钮 605
+17.4.3 qcombobox 609
+17.4.4 qlistview 613
+17.5 对话框 615
+17.5.1 qdialog 615
+17.5.2 qmessagebox 617
+17.5.3 qinputdialog 618
+17.5.4 使用qmake简化makefile文件的编写 620
+17.6 kde的菜单和工具栏 620
+17.7 使用kde/qt编写cd数据库应用程序 624
+17.7.1 主窗口 624
+17.7.2 addcddialog 627
+17.7.3 logondialog 629
+17.7.4 main.cpp 630
+17.8 小结 632
+第18章 linux标准 633
+18.1 c编程语言 634
+18.1.1 发展历史简介 634
+18.1.2 gnu编译器集 634
+18.1.3 gcc选项 635
+18.2 接口和lsb 636
+18.2.1 lsb标准函数库 637
+18.2.2 lsb用户和组 638
+18.2.3 lsb系统初始化 638
+18.3 文件系统层次结构标准 639
+18.4 更多标准 642
+18.5 小结 642
+```
