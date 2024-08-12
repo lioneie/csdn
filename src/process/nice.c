@@ -1,16 +1,7 @@
-/**  @file : nice.c
-  *  @note : 此程序来源于：Unix环境高级编程（第3版）-- [美] W.Richard Stevens & Stephen A.Rago 著 戚正伟 张亚英 尤晋元 译
-  *  @brief : nice验证
-  *
-  *  @author : 陈孝松
-  *  @date : 2021.04.07 10:23
-  *
-  *  @note :
-  *  @record :
-  *       2021.04.07 10:23 created
-  *
-  *  @warning :
-*/
+// SPDX-License-Identifier: GPL-2.0
+/*
+ *  此程序修改自：Unix环境高级编程（第3版）-- [美] W.Richard Stevens & Stephen A.Rago 著 戚正伟 张亚英 尤晋元 译
+ */
 #include <sys/types.h>      /* some systems still require this */
 #include <sys/stat.h>
 #include <sys/termios.h>    /* for winsize */
@@ -40,16 +31,16 @@ struct timeval end;
 static void
 err_doit(int errnoflag, int error, const char *fmt, va_list ap) 
 {
-    char    buf[MAXLINE];
+	char    buf[MAXLINE];
 
-    vsnprintf(buf, MAXLINE-1, fmt, ap);
-    if (errnoflag)
-        snprintf(buf+strlen(buf), MAXLINE-strlen(buf)-1, ": %s",
-          strerror(error));
-    strcat(buf, "\n");
-    fflush(stdout);     /* in case stdout and stderr are the same */
-    fputs(buf, stderr);
-    fflush(NULL);       /* flushes all stdio output streams */
+	vsnprintf(buf, MAXLINE-1, fmt, ap);
+	if (errnoflag)
+		snprintf(buf+strlen(buf), MAXLINE-strlen(buf)-1, ": %s",
+		  strerror(error));
+	strcat(buf, "\n");
+	fflush(stdout);     /* in case stdout and stderr are the same */
+	fputs(buf, stderr);
+	fflush(NULL);       /* flushes all stdio output streams */
 }
 
 /*
@@ -59,12 +50,12 @@ err_doit(int errnoflag, int error, const char *fmt, va_list ap)
 void
 err_quit(const char *fmt, ...)
 {
-    va_list     ap; 
+	va_list     ap; 
 
-    va_start(ap, fmt);
-    err_doit(0, 0, fmt, ap);
-    va_end(ap);
-    exit(1);
+	va_start(ap, fmt);
+	err_doit(0, 0, fmt, ap);
+	va_end(ap);
+	exit(1);
 }
 
 /*
@@ -74,12 +65,12 @@ err_quit(const char *fmt, ...)
 void
 err_sys(const char *fmt, ...)
 {
-    va_list     ap;
+	va_list     ap;
 
-    va_start(ap, fmt);
-    err_doit(1, errno, fmt, ap);
-    va_end(ap);
-    exit(1);
+	va_start(ap, fmt);
+	err_doit(1, errno, fmt, ap);
+	va_end(ap);
+	exit(1);
 }
 
 void
@@ -114,7 +105,7 @@ main(int argc, char *argv[])
 	if (argc == 2)
 		adj = strtol(argv[1], NULL, 10);
 	gettimeofday(&end, NULL);
-	end.tv_sec += 10;	/* run for 10 seconds */
+	end.tv_sec += 10;	/* 运行10秒 */
 
 	if ((pid = fork()) < 0) {
 		err_sys("fork failed");
