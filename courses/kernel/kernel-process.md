@@ -256,6 +256,50 @@ Linux采用两种优先级范围：
 
 timeslice，翻译为"时间片"（在其他系统上又称为quantum或processor slice），是进程被抢占前能持续运行的时间。时间片的长短会影响系统性能，太长交互表现差，太短又会导致进程切换的开销大。后面要介绍Linux内核现在使用的CFS调度器没有直接给进程分配时间片，而是取决于进程消耗了多少处理器使用比。
 
+# 用户空间接口
+
+nice值表示进程对其他进程的**友好程度**，nice值越高表示占用cpu越低
+
+nice值取值范围 0 ~ 39 （对应静态优先级）
+
+```c
+int nice(int incr)
+```
+
+示例文件<!-- public begin -->[`nice.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/nice.c)<!-- public end --><!-- private begin -->`nice.c`<!-- private end -->。两个进程并行运行，各自增加自己的计数器。父进程使用默认nice值，子进程nice值可选。
+
+`gcc nice.c -o nice` 编译文件。
+
+- 单核cpu系统，运行 `./nice` ，nice值相等，父子进程计数值几乎相等。
+- 单核cpu系统，运行 `./nice 20`,子进程nice值高，子进程的计数值极小。
+- 双核或多核cpu系统，运行 `./nice 20`,子进程nice值高，但父子进程计数值几乎相等。因为父子进程不共享同一cpu，分别在不同cpu上同时运行。
+
+获取和设置进程优先级：
+```c
+int getpriority(int which, id_t who)
+int setpriority(int which, id_t who, int value)
+```
+
+<!--
+获取和设置进程的调度策略：
+
+```c
+sched_setscheduler 
+sched_getscheduler
+```
+
+获取和设置POSIX线程的调度：
+
+```c
+pthread_attr_setschedpolicy
+pthread_attr_getschedpolicy
+pthread_attr_getschedparam
+pthread_attr_setschedparam
+pthread_attr_getinheritsched
+pthread_attr_setinheritsched
+```
+-->
+
 ## 调度策略
 
 `struct task_struct`中的`policy`表示调度策略。
