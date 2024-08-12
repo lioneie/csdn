@@ -2618,7 +2618,7 @@ Appendix　C. Solutions to Selected Exercises / 部分习题答案　905
 Bibliography　/ 参考书目　947
 ```
 
-# [《Linux程序设计（第４版）》](https://book.douban.com/subject/4831448/)
+# [《Linux程序设计（第4版）》](https://book.douban.com/subject/4831448/)
 
 ```
 第1章 入门 1
