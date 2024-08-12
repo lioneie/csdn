@@ -1,3 +1,7 @@
+<!--
+https://mp.weixin.qq.com/mp/homepage?__biz=MzI3NzA5MzUxNA==&hid=14&sn=a7deb8f4a4986e1d148671008bd1403c&scene=18&devicetype=android-31&version=28003255&lang=zh_CN&nettype=WIFI&ascene=0&pass_ticket=g0mPh534tJrl5gE9tLzM6LyENbehF%2BgNRmGTYAX3oL7VjrmEIkVz7S1FaWrX92H9&wx_header=3&scene=1
+-->
+
 # 进程
 
 ## 简介
@@ -122,6 +126,8 @@ waitpid
 
 # 线程
 
+一个多线程的程序，所有线程形成一个线程组，线程组中的第一个线程为线程组的pid，　这个第一个线程叫主线程，也就是调用`pthread_create()`的线程，`struct task_struct`中的`tgid`表示线程组中主线程的pid，`getpid()`系统调用获得的就是这个值。
+
 ## 创建线程
 
 线程是和其他进程共享某些资源（如地址空间等）的进程，创建线程：
@@ -239,7 +245,7 @@ int kthread_stop(struct task_struct *k)
 
 # 进程调度
 
-## 多任务
+## 简介
 
 process scheduler，简称为scheduler，翻译为进程调度器，有些中文书籍也翻译为进程调度程序，简称调度程序，注意这里的"程序"不是前面我们讲的能用`ps`命令查看的"进程"（所以"进程调度程序"这个翻译不好），而是内核的一个核心功能，直接集成在内核代码中。
 
@@ -247,7 +253,109 @@ process scheduler，简称为scheduler，翻译为进程调度器，有些中文
 
 非抢占式多任务（cooperative multitasking）模式，除非进程主动停止运行，否则会一直执行，进程主动挂起自己的操作叫yielding，翻译为让出（cpu）或让步，可能出现不让出cpu的进程，绝大部分操作系统都采用了抢占式多任务。
 
-## O(n)和O(1)调度算法
+进程分为I/O消耗型和处理器消耗型。I/O消耗型进程大部分时间都在提交I/O请求或等待I/O请求（如键盘输入、网络I/O等），经常处于可运行状态，但运行时间很短。处理器消耗型进程刚好相反，大部分时间都在执行代码，没有被抢占就一直运行，不经常运行，但一旦运行时间比较长，如执行大量数学计算的程序。当然，也可能出现某个程序在不同时间段属于不同类型的情况。
+
+Linux采用两种优先级范围：
+
+- nice值: -20 ~ +19，默认为0，nice代表对其他进程的友好程度，nice值越高优先级越低，有些操作系统的nice值代表分配给进程的时间片的绝对值，Linux内核的nice值代表时间片的比例。使用命令`ps -el`输出的`NI`一列就是nice值。
+- 实时优先级: 0 ~ 99，任何实时进程的优先级都高于普通进程，实时优先级与nice优先级处于互不相交的两个范畴。使用命令`ps -eo state,uid,pid,ppid,rtprio,time,comm`输出的`RTPRIO`一列就是实时优先级，如果是`-`就代表不是实时进程。
+
+timeslice，翻译为"时间片"（在其他系统上又称为quantum或processor slice），是进程被抢占前能持续运行的时间。时间片的长短会影响系统性能，太长交互表现差，太短又会导致进程切换的开销大。后面要介绍Linux内核现在使用的CFS调度器没有直接给进程分配时间片，而是取决于进程消耗了多少处理器使用比。
+
+# 用户空间接口
+
+nice值表示进程对其他进程的**友好程度**，nice值越高表示占用cpu越低
+
+nice值取值范围 0 ~ 39 （对应静态优先级）
+
+```c
+int nice(int incr)
+```
+
+示例文件<!-- public begin -->[`nice.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/nice.c)<!-- public end --><!-- private begin -->`nice.c`<!-- private end -->。两个进程并行运行，各自增加自己的计数器。父进程使用默认nice值，子进程nice值可选。
+
+`gcc nice.c -o nice` 编译文件。
+
+- 单核cpu系统，运行 `./nice` ，nice值相等，父子进程计数值几乎相等。
+- 单核cpu系统，运行 `./nice 20`,子进程nice值高，子进程的计数值极小。
+- 双核或多核cpu系统，运行 `./nice 20`,子进程nice值高，但父子进程计数值几乎相等。因为父子进程不共享同一cpu，分别在不同cpu上同时运行。
+
+获取和设置进程优先级：
+```c
+int getpriority(int which, id_t who)
+int setpriority(int which, id_t who, int value)
+```
+
+<!--
+获取和设置进程的调度策略：
+
+```c
+sched_setscheduler 
+sched_getscheduler
+```
+
+获取和设置POSIX线程的调度：
+
+```c
+pthread_attr_setschedpolicy
+pthread_attr_getschedpolicy
+pthread_attr_getschedparam
+pthread_attr_setschedparam
+pthread_attr_getinheritsched
+pthread_attr_setinheritsched
+```
+-->
+
+## 调度策略
+
+`struct task_struct`中的`policy`表示调度策略。
+
+```c
+/*
+ * 调度策略
+ */
+#define SCHED_NORMAL            0    // 普通调度策略
+#define SCHED_FIFO              1    // 先入先出调度策略，运行时间比较短的进程
+#define SCHED_RR                2    // 轮转调度策略，运行时间比较长的进程
+#define SCHED_BATCH             3    // 批处理调度策略，cpu消耗型进程
+/* SCHED_ISO: 保留但尚未实现 */
+#define SCHED_IDLE              5    // 空闲调度策略，极低优先级的后台进程
+#define SCHED_DEADLINE          6    // 截止期限调度策略
+```
+
+调试策略的具体实现用`struct sched_class`表示，可以查看宏定义`DEFINE_SCHED_CLASS`的引用。
+
+比较重要的数据结构还有`struct rq`（管理可运行状态进程，表示一个可运行队列，也就是就绪队列）和`struct sched_entity`（调度器中调度实体）。
+<!--
+/*
+ * 这是主要的、每个CPU对应的运行队列数据结构。
+ *
+ * 锁定规则：那些需要锁定多个运行队列的地方（例如负载均衡或线程迁移代码），
+ * 锁的获取操作必须按 &runqueue 的地址升序进行。
+ */
+struct rq {
+-->
+
+CFS相关的函数流程如下：
+```c
+schedule
+  __schedule
+    pick_next_task
+      __pick_next_task
+        __pick_next_task_fair // class->pick_next_task
+```
+
+## O(n)和O(1)调度器
+
+<!--
+**静态优先级**（100 ~ 139）
+
+静态优先级<120，基本时间片=max((140-静态优先级)*20, MIN_TIMESLICE)
+
+静态优先级>=120，基本时间片=max((140-静态优先级)*5, MIN_TIMESLICE)
+
+**动态优先级**=max(100 , min(静态优先级 - bonus + 5) , 139))，I/O消耗型进程bonus为正
+-->
 
 **内核2.4**版本的简陋的**O(n)**调度算法,进程数量多时，调度效率非常低：
 
@@ -261,33 +369,19 @@ for (系统中的每个进程) {
 **内核2.5**版本引入的O(1)调度现在已经被CFS调度取代，但作为一个经典的调度算法，非常值得介绍，其他改进的调度算法都是基于O(1)调度算法。
 
 ```c
-struct{
-	struct prio_array 活跃进程集合;
-	struct prio_array 过期进程集合;
-}可运行队列;
+struct {
+  struct prio_array 活跃进程集合，时间片未用完
+  struct prio_array 过期进程集合，已经用完时间片
+} 可运行队列;
 
-struct{ //优先级数组
-	进程个数;
-	uint32_t 位图[5]; //160位，前140位有用
-	进程链表[140]; //对应优先级0~139
-}prio_array;
+struct {
+  进程个数;
+  uint32_t 位图[5]; //160位，前140位有用，每一位代表对应的进程链表是否存在进程
+  进程链表[140]; //对应动态优先级0~139
+} prio_array; // 优先级数组
 ```
 
-2个优先级数组prio_array分别表示**活跃进程集合**和**过期进程集合**
-
-过期数组进程已经用完时间片，而活跃数组进程时间片未用完
-
-进程从活跃数组移动到过期数组前，已经重新计算好了时间片
-
-本质就是采用**分散计算时间片**的方法
-
-当活跃进程数组中没有进程时，只需要交换两个数组的指针，原来的过期数组变为活跃数组
-
-**位图**（第0位~139位）中的每一位代表对应的**进程链表**是否存在进程
-
-因此只需要**依次遍历**位图的第一位，找到第一个置位，对应的进程链表上的所有进程都是优先级最高的，选取链表头的进程来执行即可。
-
-O(1)调度算法在进程数量不是很多在情况下（几十个）表现出近乎完美的性能。但程序数量更多时，或对响应时间敏感的程序（如需要用户交互的桌面应用），却有一些先天不足
+进程从活跃数组移动到过期数组前，已经重新计算好了时间片，本质就是采用**分散计算时间片**的方法。当活跃进程数组中没有进程时，只需要交换两个数组的指针，原来的过期数组变为活跃数组。因此只需要**依次遍历**位图的第一位，找到第一个置位，对应的进程链表上的所有进程都是优先级最高的，选取链表头的进程来执行即可。
 
 <!--
 请阅读2.6.11内核`linux/kernel/sched.c`中的下列函数：
@@ -298,3 +392,13 @@ O(1)调度算法在进程数量不是很多在情况下（几十个）表现出�
 
 更新时间片：`schedule_tick`
 -->
+
+# 完全公平调度器
+
+Completely Fair Scheduler，翻译为"完全公平调度器"，缩写为CFS。参考了康恩·科里瓦斯所开发的楼梯调度算法（staircase scheduler）与RSDL（反转楼梯最后期限调度算法，The Rotating Staircase Deadline Schedule）的经验。
+
+O(1)调度算法在进程数量不是很多在情况下（几十个）表现出近乎完美的性能。但程序数量更多时，或对响应时间敏感的程序（如需要用户交互的桌面应用），却有一些先天不足。在2.6.23版本中引入了CFS，取代了O(1)调试器。
+
+前面我们说过，CFS下进程是否投入运行取决于处理器时间使用比。我们看一个例子，在只有一个cpu的电脑上，系统运行了2个进程，一个是vim（I/O消耗型），一个是gcc（处理器消耗型），如果nice值相同，CFS承诺给这两个进程各50%的cpu使用比，但vim更多的时间在等待用户输入，所以vim肯定用不到50%的cpu使用比，而gcc肯定用到超过50%的cpu使用比。所以，当我们输入字符唤醒vim时，CFS发现vim的cpu使用更少，所以想兑现完全公平的承诺，立刻抢占gcc，让vim投入运行，我们输入完字符后，vim却还是不贪心只使用了一丢丢cpu就继续睡了。
+
+# 负载均衡
