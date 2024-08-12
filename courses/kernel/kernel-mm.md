@@ -1694,7 +1694,7 @@ SYSCALL_DEFINE2(munmap, unsigned long, addr, size_t, len)
 
 ## 页表
 
-应用程序操作的是虚拟内存，但处理器操作的是物理内存。举个例子，32位x86 PAE模式下（Physical Address Extension，物理地址扩展，可以访问64G内存），Linux内核使用三级页表完成地址转换：
+应用程序操作的是虚拟内存，但处理器操作的是物理内存。举个例子，32位x86 PAE模式下（Physical Address Extension，物理地址扩展，32位线性地址可以访问64G物理内存，处理器管脚36个），Linux内核使用三级页表完成地址转换：
 
 - 顶级页表 - 页全局目录: PGD，Page Global Directory，`pgd_t`类型的数组。
 - 二级页表 - 页中间目录: PMD，Page Middle Directory，`pmd_t`类型的数组。
@@ -1702,7 +1702,7 @@ SYSCALL_DEFINE2(munmap, unsigned long, addr, size_t, len)
 
 其他体系结构下的使用的页表级数不一样，如`arm64`采用四级页表。`struct mm_struct`中的`pgd`成员指向进程的页全局目录，由`page_table_lock`保护。内核正确的设置了页表后，搜索页表的工作由硬件完成。
 
-为了加快搜索物理地址的速度，多数体系结构实现了 Translation Lookaside Buffer，翻译为: 转译后备缓冲器（又叫页表缓存、转址旁路缓存）。
+为了加快搜索物理地址的速度，多数体系结构实现了 Translation Lookaside Buffer，翻译为: 转译后备缓冲器（又叫页表缓存、转址旁路缓存）。90%命中TLB，10%需要访问页表。
 
 # 伙伴算法
 
@@ -1718,7 +1718,7 @@ struct free_area {
 
 伙伴算法的工作原理：先在大小满足要求的块链表中查找是否有空闲块，如果有就直接分配内存，否则在更大的块链表中查找，逆过程就是块的释放，把满足伙伴关系的块合并。
 
-要分配`2^3=8`个page，`free_area[3]`（8个page的页块大小）、`free_area[4]`（16个page的页块大小）中的链表都找不到空闲块，只有`free_area[5]`（32个page的页块大小）中有空闲块，先把32 page的页块分成2个16 page的页块，其中一个16 page的页块插入`free_area[4]`的链表中，另一个16 page的页块再分成2个8 page的页块，一个8 page的页块插入`free_area[3]`的链表中，另一个8 page的页块用于最终分配。具体请查看`__rmqueue_smallest()`和`expand()`函数。访问虚拟内存时，如果物理内存还没分配，会发生缺页异常，最终调用`alloc_pages()`为进程分配page，并将虚拟内存和物理内存的映射关系写入页表。
+要分配`2^3=8`个page，`free_area[3]`（8个page的页块大小）、`free_area[4]`（16个page的页块大小）中的链表都找不到空闲块，只有`free_area[5]`（32个page的页块大小）中有空闲块，先把32 page的页块分成2个16 page的页块，其中一个16 page的页块插入`free_area[4]`的链表中，另一个16 page的页块再分成2个8 page的页块，一个8 page的页块插入`free_area[3]`的链表中，另一个8 page的页块用于最终分配。具体请查看`__rmqueue_smallest()`和`expand()`函数。访问虚拟内存时，如果物理内存还没分配，会发生缺页异常，内核将从磁盘或交换文件（SWAP）中将要访问的页装入物理内存，最终调用`alloc_pages()`为进程分配page，并将虚拟内存和物理内存的映射关系写入页表。内核总是**尽量延后**分配用户空间的内存。
 
 <!-- ing begin -->
 # 页高速缓存
