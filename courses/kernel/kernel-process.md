@@ -42,7 +42,7 @@ struct pcpu_hot {
 `exit_state`退出状态可以是以下值：
 
 - `EXIT_ZOMBIE`: 进程已经终止，但其状态尚未被父进程读取，进程描述符仍然存在。
-- `EXIT_DEAD`: 进程状态已经被读取，系统正在进行最终清理，进程描述符尚未完全释放。
+- `EXIT_DEAD`: 进程状态已经被父进程读取，系统正在进行最终清理，进程描述符尚未完全释放。
 - `EXIT_TRACE`: 进程正在被跟踪（traced）。这通常发生在调试会话中，进程在执行过程中被调试器（如gdb）所跟踪。
 
 用`set_current_state(state_value)`设置进程状态。
@@ -81,9 +81,14 @@ list_entry(task->tasks.prev, struct task_struct, tasks) // 前一个
 
 其中`fork`相关流程如下：
 ```c
-// kernel/fork.c
-fork // 适合大多数创建子进程的场景，尤其是当子进程需要在执行exec()之前做更多操作时（如文件描述符重定向、环境变量设置等）
-vfork // 效率高，适用于子进程立即调用exec()替换自身的场景（如执行一个新程序）
+// fork()适合大多数创建子进程的场景，尤其是当子进程需要在执行exec()之前做更多操作时（如文件描述符重定向、环境变量设置等）
+// 会为子进程分配一个新的地址空间，并将父进程的地址空间内容复制到子进程中
+// 这个复制过程称为写时复制（Copy-On-Write, COW），即在父子进程之间共享相同的内存页，只有当父或子进程尝试修改某个页时，才会实际进行内存复制
+fork
+// vfork() 不会为子进程复制父进程的地址空间
+// 效率高，适用于子进程立即调用exec()替换自身的场景（如执行一个新程序）
+// 父进程会被挂起（即不能执行任何操作），直到调用 exec()，以防止父子进程之间发生竞争条件或冲突
+vfork
 clone3
 clone
   kernel_clone
@@ -111,6 +116,7 @@ waitpid
       do_wait_thread
         wait_consider_task
           wait_task_zombie
+            if (state == EXIT_DEAD)
             release_task
 ```
 
