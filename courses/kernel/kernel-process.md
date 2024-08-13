@@ -414,7 +414,90 @@ O(1)调度算法在进程数量不是很多在情况下（几十个）表现出�
 
 前面我们说过，CFS下进程是否投入运行取决于处理器时间使用比。我们看一个例子，在只有一个cpu的电脑上，系统运行了2个进程，一个是vim（I/O消耗型），一个是gcc（处理器消耗型），如果nice值相同，CFS承诺给这两个进程各50%的cpu使用比，但vim更多的时间在等待用户输入，所以vim肯定用不到50%的cpu使用比，而gcc肯定用到超过50%的cpu使用比。所以，当我们输入字符唤醒vim时，CFS发现vim的cpu使用更少，所以想兑现完全公平的承诺，立刻抢占gcc，让vim投入运行，我们输入完字符后，vim却还是不贪心只使用了一丢丢cpu就继续睡了。
 
-进程所获得的处理器时间由这个进程和所有可运行进程nice值的相对差值决定的，nice值对时间片的作用是几何加权而不是算术加权，nice值对应的是处理器使用比。
+进程所获得的处理器时间由这个进程和所有可运行进程nice值的相对差值决定的，nice值对应的是处理器使用比。
 
+具体代码实现请查看`DEFINE_SCHED_CLASS(fair)`。
+
+## 时间记账
+
+`struct task_struct`中有一个`struct sched_entity`类型的成员`se`。`struct sched_entity`的`vruntime`变量表示进程的虚拟运行时间（virtual runtime），这个值的计算是经过了所有可运行进程总数的标准化（被加权），可以帮助逼近CFS模型所追求的"理想多任务处理器"。
+
+函数调用流程如下：
+```c
+update_process_times
+  scheduler_tick
+    task_tick_fair
+      entity_tick
+        update_curr
+          curr->vruntime += calc_delta_fair
+```
+
+## 进程选择
+
+CFS选择下一个运行进程时，会选择虚拟运行时间最小的进程。CFS使用红黑树来管理可运行进程队列，挑选下一个任务的流程如下：
+```c
+schedule
+  __schedule
+    pick_next_task
+      __pick_next_task
+        __pick_next_task_fair
+          pick_next_task_fair
+            pick_next_entity
+              pick_eevdf
+                __pick_eevdf
+```
+
+向红黑树中加入进程发生在进程变为可运行状态（被唤醒）或创建进程时，流程如下：
+```c
+activate_task
+  enqueue_task
+    enqueue_task_fair
+      enqueue_entity
+        __enqueue_entity
+          rb_add_augmented_cached
+            rb_insert_augmented_cached
+              // 维护一个缓存，存放最左叶子节点
+              root->rb_leftmost = node
+```
+
+从红黑树中删除进程发生在进程变为不可进行或进程终结时，流程如下：
+```c
+pick_next_task_fair
+  set_next_entity
+    __dequeue_entity
+```
+
+## 休眠和唤醒
+
+内核用`wait_queue_entry`表示等待队列，静态创建可以用`DECLARE_WAITQUEUE()`，动态创建可以用`init_waitqueue_head()`。
+
+休眠操作如下：
+```c
+// wq 是等待队列
+DEFINE_WAIT(wait); // 或者用 init_wait()
+add_wait_queue(&wq, &wait); // 在其他地方用 wake_up()唤醒
+while (!condition) // condition是等待的事件
+        prepare_to_wait(&wq, &wait, TASK_INTERRUPTIBLE);
+        if (signal_pending(current)) {
+                // 处理信号
+        }
+        schedule();
+}
+finish_wait(&wq, &wait);
+```
+
+`inotify_read()`函数中相关代码:
+```c
+DEFINE_WAIT_FUNC(wait, woken_wake_function);
+add_wait_queue(&group->notification_waitq, &wait);
+while (1) {
+        if (signal_pending(current))
+                break;
+        wait_woken(&wait, TASK_INTERRUPTIBLE, MAX_SCHEDULE_TIMEOUT);
+}
+remove_wait_queue(&group->notification_waitq, &wait);
+```
+
+用`wake_up(struct wait_queue_head *wq_head)`唤醒。
 
 # 负载均衡
