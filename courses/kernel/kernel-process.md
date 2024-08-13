@@ -272,6 +272,11 @@ nice值取值范围 0 ~ 39 （对应静态优先级）。
 int nice(int incr)
 ```
 
+这个接口是直接调用nice系统调用:
+```c
+SYSCALL_DEFINE1(nice, int, increment)
+```
+
 示例文件<!-- public begin -->[`nice.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/nice.c)<!-- public end --><!-- private begin -->`nice.c`<!-- private end -->。两个进程并行运行，各自增加自己的计数器。父进程使用默认nice值，子进程nice值可选。
 
 `gcc nice.c -o nice` 编译文件。
@@ -280,21 +285,8 @@ int nice(int incr)
 - 单核cpu系统，运行 `./nice 20`，子进程nice值高，子进程的计数值极小。
 - 双核或多核cpu系统，运行 `./nice 20`，子进程nice值高，但父子进程计数值几乎相等。因为父子进程不共享同一cpu，分别在不同cpu上同时运行。
 
-获取和设置进程优先级：
-```c
-int getpriority(int which, id_t who)
-int setpriority(int which, id_t who, int value)
-```
 
-<!--
-获取和设置进程的调度策略：
-
-```c
-sched_setscheduler 
-sched_getscheduler
-```
-
-获取和设置POSIX线程的调度：
+`/usr/include/pthread.h`或`/usr/aarch64-linux-gnu/include/pthread.h`头文件中POSIX线程调度相关的函数：
 
 ```c
 pthread_attr_setschedpolicy
@@ -304,7 +296,21 @@ pthread_attr_setschedparam
 pthread_attr_getinheritsched
 pthread_attr_setinheritsched
 ```
--->
+
+再列出一些调度相关的库函数，也是直接调用同名的系统调用:
+
+- `getpriority`: 获取进程优先级
+- `setpriority`: 设置进程优先级
+- `sched_getscheduler`: 获取进程的调度策略
+- `sched_setscheduler`: 设置进程的调度策略
+- `sched_getparam`: 获取实时优先级
+- `sched_setparam`: 设置实时优先级
+- `sched_get_priority_max`: 获取实时优先级的最大值
+- `sched_get_priority_min`: 获取实时优先级的最小值
+- `sched_rr_get_interval`: 获取进程的时间片值
+- `sched_setaffinity`: 设置处理器亲和力
+- `sched_getaffinity`: 获取处理器亲和力
+- `sched_yield`: 暂时让出处理器
 
 ## 调度策略
 
@@ -314,7 +320,7 @@ pthread_attr_setinheritsched
 /*
  * 调度策略
  */
-#define SCHED_NORMAL            0    // 普通调度策略
+#define SCHED_NORMAL            0    // 普通调度策略，如CFS以及被淘汰的O(n)和O(1)
 #define SCHED_FIFO              1    // 先入先出调度策略，运行时间比较短的进程
 #define SCHED_RR                2    // 轮转调度策略，运行时间比较长的进程
 #define SCHED_BATCH             3    // 批处理调度策略，cpu消耗型进程
@@ -343,7 +349,14 @@ schedule
     pick_next_task
       __pick_next_task
         __pick_next_task_fair // class->pick_next_task
+    context_switch
 ```
+
+`set_tsk_need_resched()`、`clear_tsk_need_resched()`、`test_tsk_need_resched()`分别用于设置、清除、检查是否需要重新执行一次调度。
+
+内核即将返回用户空间时（从系统调用返回或中断处理程序返回）会发生用户抢占。Linux内核支持内核抢占，只要没有持有锁，内核就可以抢占，也就是调度器可以挂起一个内核线程。
+
+Linux内核有两种实时调度策略: `SCHED_FIFO`和`SCHED_RR`，这两种调度策略的进程比`SCHED_NORMAL`的进程优先级更高。`SCHED_RR`是带有时间片的`SCHED_FIFO`。这两种实时调度器使用静态优先级，高优先级的实时进程总能抢占低优先级进程。Linux内核是软实时，内核调度进程，尽力使进程在限定时间到来前运行，但不保证总能满足这些进程的要求，对于实时任务的调度不做任何保证，但性能还是不错的。实时优先级范围是`0 ~ MAX_RT_PRIO-1`，而`SCHED_NORMAL`进程的范围是`MAX_RT_PRIO ~ MAX_RT_PRIO+40`（对应`-20 ~ +19`的nice值）。
 
 ## O(n)和O(1)调度器
 
@@ -400,6 +413,8 @@ Completely Fair Scheduler，翻译为"完全公平调度器"，缩写为CFS。�
 O(1)调度算法在进程数量不是很多在情况下（几十个）表现出近乎完美的性能。但程序数量更多时，或对响应时间敏感的程序（如需要用户交互的桌面应用），却有一些先天不足。在2.6.23版本中引入了CFS，取代了O(1)调试器。
 
 前面我们说过，CFS下进程是否投入运行取决于处理器时间使用比。我们看一个例子，在只有一个cpu的电脑上，系统运行了2个进程，一个是vim（I/O消耗型），一个是gcc（处理器消耗型），如果nice值相同，CFS承诺给这两个进程各50%的cpu使用比，但vim更多的时间在等待用户输入，所以vim肯定用不到50%的cpu使用比，而gcc肯定用到超过50%的cpu使用比。所以，当我们输入字符唤醒vim时，CFS发现vim的cpu使用更少，所以想兑现完全公平的承诺，立刻抢占gcc，让vim投入运行，我们输入完字符后，vim却还是不贪心只使用了一丢丢cpu就继续睡了。
+
+进程所获得的处理器时间由这个进程和所有可运行进程nice值的相对差值决定的，nice值对时间片的作用是几何加权而不是算术加权，nice值对应的是处理器使用比。
 
 
 # 负载均衡
