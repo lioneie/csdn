@@ -18,9 +18,9 @@
 
 # 依赖补丁
 
-4.19等低版本合入此补丁可能还要合入前置补丁[`12357f1b2c8e nfsd: minor 4.1 callback cleanup`](https://chenxiaosong.com/courses/kernel/patches/nfsd-minor-4.1-callback-cleanup.html)。
+4.19等低版本合入此补丁可能还要合入前置补丁[`12357f1b2c8e nfsd: minor 4.1 callback cleanup`](https://chenxiaosong.com/courses/nfs/patches/nfsd-minor-4.1-callback-cleanup.html)。
 
-已被回退的后续修复补丁[`c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down`](https://chenxiaosong.com/courses/kernel/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.html)。
+已被回退的后续修复补丁[`c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down`](https://chenxiaosong.com/courses/nfs/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.html)。
 
 
 # 代码分析

@@ -34,19 +34,19 @@ array=(
             1 1 courses/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.md ~
                 "4595a298d556 iomap: Set all uptodate bits for an Uptodate page"
             # nfs
-            1 1 courses/kernel/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
+            1 1 courses/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
                 "e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
-            1 1 courses/kernel/patches/nfsd-minor-4.1-callback-cleanup.md ~
+            1 1 courses/nfs/patches/nfsd-minor-4.1-callback-cleanup.md ~
                 "12357f1b2c8e nfsd: minor 4.1 callback cleanup"
-            1 1 courses/kernel/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md ~
+            1 1 courses/nfs/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md ~
                 "2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()"
-            1 1 courses/kernel/patches/NFS-Don-t-call-generic_error_remove_page-while-holdi.md ~
+            1 1 courses/nfs/patches/NFS-Don-t-call-generic_error_remove_page-while-holdi.md ~
                 "22876f540bdf NFS: Don't call generic_error_remove_page() while holding locks"
-            1 1 courses/kernel/patches/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.md ~
+            1 1 courses/nfs/patches/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.md ~
                 "e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held"
-            1 1 courses/kernel/patches/nfsd4-use-reference-count-to-free-client.md ~
+            1 1 courses/nfs/patches/nfsd4-use-reference-count-to-free-client.md ~
                 "59f8e91b75ec nfsd4: use reference count to free client"
-            1 1 courses/kernel/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.md ~
+            1 1 courses/nfs/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.md ~
                 "c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down"
             # smb
             1 1 courses/kernel/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
