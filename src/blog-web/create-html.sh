@@ -48,6 +48,8 @@ array=(
                 "59f8e91b75ec nfsd4: use reference count to free client"
             1 1 courses/nfs/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.md ~
                 "c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down"
+            1 1 courses/nfs/patches/NFS-Improve-warning-message-when-locks-are-lost.md ~
+                "3e2910c7e23b NFS: Improve warning message when locks are lost."
             # smb
             1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
