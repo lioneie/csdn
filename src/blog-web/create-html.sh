@@ -53,7 +53,7 @@ array=(
         1 1 courses/nfs/nfsd.md ~ "nfs server (nfsd)"
         1 1 courses/nfs/nfs-procedures.md ~ "nfs Procedures和Operations"
         1 1 courses/nfs/nfs-filehandle.md ~ "nfs文件句柄"
-        1 1 courses/nfs/nfs-debug.md ~ "nfs调试"
+        1 1 courses/nfs/nfs-debug.md ~ "nfs调试方法"
         1 1 courses/nfs/nfs-patches.md ~ "nfs补丁分析"
             # 补丁
             1 1 courses/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
