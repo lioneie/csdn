@@ -37,7 +37,8 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     printf("open succ %s\n", file_path);
-
+    printf("will flock\n");
+    sleep(10);
     int res = flock(fd, LOCK_SH);
     if (res == -1) {
         printf("Error: flock %s\n", file_path);
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]) {
     printf("lock succ %s\n", file_path);
 
     printf("begin sleep\n");
-    sleep(60);
+    sleep(999999); // 时间非常久
     printf("end sleep\n");
 
     // Unlock and close the file
@@ -63,6 +64,9 @@ int main(int argc, char *argv[]) {
 gcc -o test test.c
 bash nfs-svr-setup.sh
 mount -t nfs localhost:/s_test /mnt
+# mount -t -o vers=4.0 nfs localhost:/s_test /mnt
+tcpdump --interface=lo --buffer-size=20480 -w 4.2.cap &
+# tcpdump --interface=lo --buffer-size=20480 -w 4.0.cap &
 echo something > /mnt/file # 创建文件
 ./test /mnt/file & # 后台运行
 systemctl restart nfs-server
