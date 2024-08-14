@@ -64,7 +64,7 @@ gcc -o test test.c
 bash nfs-svr-setup.sh
 mount -t nfs localhost:/s_test /mnt
 echo something > /mnt/file # 创建文件
-./test /mnt/file & 后台运行
+./test /mnt/file & # 后台运行
 systemctl restart nfs-server
 ```
 
