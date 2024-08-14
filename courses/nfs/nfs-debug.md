@@ -14,7 +14,7 @@ echo 0x0008 > /proc/sys/sunrpc/nfs_debug # NFSDBG_PAGECACHE
 ```
 
 `include/uapi/linux/nfs_fs.h`中所有的nfs调试`flag`:
-```sh
+```c
 #define NFSDBG_VFS              0x0001
 #define NFSDBG_DIRCACHE         0x0002
 #define NFSDBG_LOOKUPCACHE      0x0004
@@ -39,7 +39,7 @@ echo 0x0002 > /proc/sys/sunrpc/rpc_debug # RPCDBG_CALL
 ```
 
 `include/uapi/linux/sunrpc/debug.h`中所有的rpc调试`flag`:
-```sh
+```c
 #define RPCDBG_XPRT             0x0001
 #define RPCDBG_CALL             0x0002
 #define RPCDBG_DEBUG            0x0004
@@ -104,7 +104,7 @@ echo 1 > /proc/sys/kernel/sysrq
 echo c > /proc/sysrq-trigger
 ```
 
-关于vmcore的更详细内容，请查看[《Linux内核课程》](https://chenxiaosong.com/courses/kernel/kernel.html)。
+关于vmcore的更详细内容，请查看[内核调试方法](https://chenxiaosong.com/courses/kernel/kernel-debug.html)。
 
 # 非特权源端口挂载
 
@@ -127,6 +127,6 @@ client端挂载选项指定`noresvport`：
 mount -t nfs -o vers=4.2,noresvport ${server_ip}:/ /mnt
 ```
 
-请注意，使用非特权源端口挂载在一些场景下是不安全的（从server端的配置选项`insecure`就能看出），尽量只在调试场景下使用。
+请注意，使用非特权源端口挂载在一些场景下是不安全的（从server端的配置选项的字面意思`insecure`就能看出），尽量只在调试场景下使用。
 
 在我曾经定位过的nfs问题中，有碰到过路由器或交换机出于产品的某些原因，把小于1024的端口的数据包都给过滤了，当时就是使用非特权源端口挂载的方法排除其他可能性，最终定位出问题。
