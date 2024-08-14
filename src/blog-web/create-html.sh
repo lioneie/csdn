@@ -19,6 +19,7 @@ array=(
     1 1 src/blog-web/openharmony.md openharmony.html "陈孝松OpenHarmony贡献"
     1 1 src/blog-web/blog.md blog.html "陈孝松博客"
     1 1 src/blog-web/contributions.md contributions.html "陈孝松自由软件贡献"
+    1 1 src/blog-web/translations.md ~ "翻译"
     # 课程
     0 1 ${tmp_courses_path}/courses/kernel/kernel.md courses/kernel/kernel.html "Linux内核课程"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-introduction.md courses/kernel/kernel-introduction.html "内核简介"
@@ -134,7 +135,6 @@ array=(
     1 1 src/lorawan/stm32-linux.md ~ "STM32 Linux开发环境"
     1 1 src/health/tooth-clean.md ~ "牙齿护理"
     # 翻译
-    1 1 src/translations/translations.md ~ "翻译"
         # nfs
         1 1 src/translations/nfs/rfc8881-nfsv4.1.md ~ "Network File System (NFS) Version 4 Minor Version 1 Protocol"
         1 1 src/translations/nfs/rfc7862-nfsv4.2.md ~ "Network File System (NFS) Version 4 Minor Version 2 Protocol"
