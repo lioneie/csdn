@@ -1,3 +1,5 @@
+[`23e3d7f7061f jbd2: fix a potential race while discarding reserved buffers after an abort`](https://patchwork.ozlabs.org/project/linux-ext4/patch/20220317142137.1821590-1-yebin10@huawei.com/)
+
 # 问题描述
 
 ```sh
@@ -296,7 +298,7 @@ mount -o remount,abort /mnt
 
 # 代码分析
 
-修复补丁： [23e3d7f7061f jbd2: fix a potential race while discarding reserved buffers after an abort](https://patchwork.ozlabs.org/project/linux-ext4/patch/20220317142137.1821590-1-yebin10@huawei.com/)
+修复补丁： [`23e3d7f7061f jbd2: fix a potential race while discarding reserved buffers after an abort`](https://patchwork.ozlabs.org/project/linux-ext4/patch/20220317142137.1821590-1-yebin10@huawei.com/)
 
 ```c
 // mkfs.ext4 -F -b 4096 /dev/sda

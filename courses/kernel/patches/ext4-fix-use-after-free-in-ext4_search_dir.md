@@ -1,3 +1,5 @@
+[`c186f0887fe7 ext4: fix use-after-free in ext4_search_dir`](https://lore.kernel.org/all/20220324064816.1209985-1-yebin10@huawei.com/)
+
 # 问题描述
 
 ```sh
@@ -103,7 +105,7 @@ rmdir /mnt/dir/dir
 
 # 代码分析
 
-修复补丁：[ext4: fix use-after-free in ext4_search_dir](https://lore.kernel.org/all/20220324064816.1209985-1-yebin10@huawei.com/)
+修复补丁：[`c186f0887fe7 ext4: fix use-after-free in ext4_search_dir`](https://lore.kernel.org/all/20220324064816.1209985-1-yebin10@huawei.com/)
 
 ```c
 // mkdir dir

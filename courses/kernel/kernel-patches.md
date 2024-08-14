@@ -11,3 +11,15 @@
 # VFS（虚拟文件系统）
 
 [`4595a298d556 iomap: Set all uptodate bits for an Uptodate page`](https://chenxiaosong.com/courses/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.html)
+
+# EXT文件系统
+
+[`23e3d7f7061f jbd2: fix a potential race while discarding reserved buffers after an abort`](https://chenxiaosong.com/courses/kernel/patches/jbd2-fix-a-potential-race-while-discarding-reserved-.html)
+
+[`ef09ed5d37b8 ext4: fix bug_on in ext4_writepages`](https://chenxiaosong.com/courses/kernel/patches/ext4-fix-bug_on-in-ext4_writepages.html)
+
+[`b98535d09179 ext4: fix bug_on in start_this_handle during umount filesystem`](https://chenxiaosong.com/courses/kernel/patches/ext4-fix-bug_on-in-start_this_handle-during-umount-f.html)
+
+[`a2b0b205d125 ext4: fix symlink file size not match to file content`](https://chenxiaosong.com/courses/kernel/patches/ext4-fix-symlink-file-size-not-match-to-file-content.html)
+
+[`c186f0887fe7 ext4: fix use-after-free in ext4_search_dir`](https://chenxiaosong.com/courses/kernel/patches/ext4-fix-use-after-free-in-ext4_search_dir.html)

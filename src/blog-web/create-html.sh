@@ -34,6 +34,17 @@ array=(
             # vfs
             1 1 courses/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.md ~
                 "4595a298d556 iomap: Set all uptodate bits for an Uptodate page"
+            # ext
+            1 1 courses/kernel/patches/jbd2-fix-a-potential-race-while-discarding-reserved-.md ~
+                "23e3d7f7061f jbd2: fix a potential race while discarding reserved buffers after an abort"
+            1 1 courses/kernel/patches/ext4-fix-bug_on-in-ext4_writepages.md ~
+                "ef09ed5d37b8 ext4: fix bug_on in ext4_writepages"
+            1 1 courses/kernel/patches/ext4-fix-bug_on-in-start_this_handle-during-umount-f.md ~
+                "b98535d09179 ext4: fix bug_on in start_this_handle during umount filesystem"
+            1 1 courses/kernel/patches/ext4-fix-symlink-file-size-not-match-to-file-content.md ~
+                "a2b0b205d125 ext4: fix symlink file size not match to file content"
+            1 1 courses/kernel/patches/ext4-fix-use-after-free-in-ext4_search_dir.md ~
+                "c186f0887fe7 ext4: fix use-after-free in ext4_search_dir"
     0 1 courses/nfs/nfs.md ~ "nfs文件系统"
         1 1 courses/nfs/nfs-introduction.md ~ "nfs简介"
         1 1 courses/nfs/nfs-environment.md ~ "nfs环境"
@@ -102,11 +113,7 @@ array=(
     1 1 src/xfs/xfs-null-ptr-deref-in-xfs_getbmap.md ~ "xfs_getbmap发生空指针解引用问题"
     1 1 src/xfs/xfs-shutdown-fs.md ~ "xfs agf没落盘的问题"
     # ext
-    1 1 src/ext/null-ptr-deref-in-jbd2_journal_commit_transaction.md ~ "jbd2_journal_commit_transaction空指针解引用问题"
-    1 1 src/ext/bugon-in-ext4_writepages.md ~ "ext4_writepages报BUG_ON的问题"
-    1 1 src/ext/bugon-in-start_this_handle.md ~ "start_this_handle报BUG_ON的问题"
-    1 1 src/ext/symlink-file-size-not-match.md ~ "symlink file size 错误的问题"
-    1 1 src/ext/uaf-in-ext4_search_dir.md ~ "ext4_search_dir空指针解引用问题"
+
     # 文件系统
     1 1 src/filesystem/configfs-race.md ~ "configfs加载或卸载模块时的并发问题"
     1 1 src/filesystem/microsoft-fs.md ~ "微软文件系统"

@@ -227,7 +227,7 @@ index 60d016138997..e46f41c3e9a2 100644
 
 # 修复补丁合入之前的现象
 
-修复补丁：[a2b0b205d125 ext4: fix symlink file size not match to file content](https://lore.kernel.org/all/20220321144438.201685-1-yebin10@huawei.com/)
+修复补丁：[`a2b0b205d125 ext4: fix symlink file size not match to file content`](https://lore.kernel.org/all/20220321144438.201685-1-yebin10@huawei.com/)
 
 ```sh
 umount /mnt
