@@ -33,7 +33,16 @@ array=(
             # vfs
             1 1 courses/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.md ~
                 "4595a298d556 iomap: Set all uptodate bits for an Uptodate page"
-            # nfs
+    0 1 courses/nfs/nfs.md ~ "nfs文件系统"
+        1 1 courses/nfs/nfs-introduction.md ~ "nfs简介"
+        1 1 courses/nfs/nfs-environment.md ~ "nfs环境"
+        1 1 courses/nfs/nfs-client-struct.md ~ "nfs client数据结构"
+        1 1 courses/nfs/pnfs.md ~ "Parallel NFS (pNFS)"
+        1 1 courses/nfs/nfsd.md ~ "nfs server (nfsd)"
+        1 1 courses/nfs/nfs-procedures.md ~ "nfs Procedures和Operations"
+        1 1 courses/nfs/nfs-filehandle.md ~ "nfs文件句柄"
+        1 1 courses/nfs/nfs-patches.md ~ "nfs补丁分析"
+            # 补丁
             1 1 courses/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
                 "e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
             1 1 courses/nfs/patches/nfsd-minor-4.1-callback-cleanup.md ~
@@ -50,24 +59,17 @@ array=(
                 "c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down"
             1 1 courses/nfs/patches/NFS-Improve-warning-message-when-locks-are-lost.md ~
                 "3e2910c7e23b NFS: Improve warning message when locks are lost."
-            # smb
-            1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
-                "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
-            1 1 courses/smb/patches/smb-client-fix-use-after-free-bug-in-cifs_debug_data.md ~
-                "d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()"
-    0 1 courses/nfs/nfs.md ~ "nfs文件系统"
-        1 1 courses/nfs/nfs-introduction.md ~ "nfs简介"
-        1 1 courses/nfs/nfs-environment.md ~ "nfs环境"
-        1 1 courses/nfs/nfs-client-struct.md ~ "nfs client数据结构"
-        1 1 courses/nfs/pnfs.md ~ "Parallel NFS (pNFS)"
-        1 1 courses/nfs/nfsd.md ~ "nfs server (nfsd)"
-        1 1 courses/nfs/nfs-procedures.md ~ "nfs Procedures和Operations"
-        1 1 courses/nfs/nfs-filehandle.md ~ "nfs文件句柄"
     0 1 courses/smb/smb.md ~ "smb文件系统"
         1 1 courses/smb/smb-introduction.md ~ "smb简介"
         1 1 courses/smb/smb-environment.md ~ "smb环境"
         1 1 courses/smb/ksmbd.md ~ "KSMBD - SMB3 Kernel Server"
         1 1 courses/smb/smb-client-struct.md ~ "smb client数据结构"
+        1 1 courses/smb/smb-patches.md ~ "smb补丁分析"
+            # 补丁
+            1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
+                "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
+            1 1 courses/smb/patches/smb-client-fix-use-after-free-bug-in-cifs_debug_data.md ~
+                "d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()"
     1 1 courses/book-contents.md ~ "书籍目录"
     # Linux内核
     1 1 src/kernel-environment/kernel-qemu-kvm.md ~ "QEMU/KVM环境搭建与使用"

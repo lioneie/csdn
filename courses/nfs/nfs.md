@@ -25,3 +25,5 @@
 # [nfs Procedures和Operations](https://chenxiaosong.com/courses/nfs/nfs-procedures.html)
 
 # [nfs文件句柄](https://chenxiaosong.com/courses/nfs/nfs-filehandle.html)
+
+# [nfs补丁分析](https://chenxiaosong.com/courses/nfs/nfs-patches.html)
