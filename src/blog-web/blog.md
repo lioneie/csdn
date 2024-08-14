@@ -42,8 +42,6 @@
 
 # NFS（网络文件系统）
 
-[定位NFS问题的常用方法](https://chenxiaosong.com/src/nfs/nfs-debug.html)
-
 [CVE-2022-24448](https://chenxiaosong.com/src/nfs/CVE-2022-24448.html)
 
 [NFS回写错误处理不正确的问题](https://chenxiaosong.com/src/nfs/nfs-handle-writeback-errors-incorrectly.html)

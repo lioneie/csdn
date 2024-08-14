@@ -53,6 +53,7 @@ array=(
         1 1 courses/nfs/nfsd.md ~ "nfs server (nfsd)"
         1 1 courses/nfs/nfs-procedures.md ~ "nfs Procedures和Operations"
         1 1 courses/nfs/nfs-filehandle.md ~ "nfs文件句柄"
+        1 1 courses/nfs/nfs-debug.md ~ "nfs调试"
         1 1 courses/nfs/nfs-patches.md ~ "nfs补丁分析"
             # 补丁
             1 1 courses/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
@@ -92,7 +93,6 @@ array=(
     1 1 src/kernel/gio-to-mount.md ~ "gio执行慢的临时解决办法"
     1 1 src/kernel/syzkaller.md ~ "syzkaller - 内核模糊测试工具"
     # nfs
-    1 1 src/nfs/nfs-debug.md ~ "定位NFS问题的常用方法"
     1 1 src/nfs/CVE-2022-24448.md ~ "CVE-2022-24448"
     1 1 src/nfs/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
     1 1 src/nfs/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage空指针解引用问题'
