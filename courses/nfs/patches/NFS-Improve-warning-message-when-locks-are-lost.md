@@ -68,6 +68,7 @@ mount -t nfs localhost:/s_test /mnt
 tcpdump --interface=lo --buffer-size=20480 -w 4.2.cap &
 # tcpdump --interface=lo --buffer-size=20480 -w 4.0.cap &
 echo something > /mnt/file # 创建文件
+echo 3 > /proc/sys/vm/drop_caches
 ./test /mnt/file & # 后台运行
 systemctl restart nfs-server
 ```
