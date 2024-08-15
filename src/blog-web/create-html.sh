@@ -81,7 +81,7 @@ array=(
             # 补丁
             1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
-            1 1 courses/smb/patches/smb-client-fix-use-after-free-bug-in-cifs_debug_data.md ~
+            1 1 courses/smb/patches/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.md ~
                 "d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()"
             1 1 courses/smb/patches/cve-smb-client-fix-potential-UAF-in-is_valid_oplock_brea.md ~
                 "69ccf040acdd smb: client: fix potential UAF in is_valid_oplock_break()"
