@@ -500,7 +500,7 @@ remove_wait_queue(&group->notification_waitq, &wait);
 
 用`wake_up(struct wait_queue_head *wq_head)`唤醒。
 
-# 负载均衡
+## 多处理器系统中的运行队列平衡
 
 多处理器机器有以下几种类型:
 
@@ -509,3 +509,7 @@ remove_wait_queue(&group->notification_waitq, &wait);
 - NUMA: Non-Uniform Memory Access，非统一内存访问，把cpu和RAM以本地"节点"为单位分组。当cpu访问与它在同一个节点中的"本地"RAM，几乎没有竞争，访问非常快。
 
 可以使用`lscpu`命令查看，`Thread(s) per core`代表每个核心的线程数，如果大于1，说明启用了超线程；`NUMA node(s)`表示NUMA节点的数量，如果只有一个节点，则表明不是NUMA架构，内存是所有CPU共享的。
+
+`schedule()`函数从本地cpu运行队列中挑选进程运行，每个cpu有自己的运行队列，一个可运行进程只在一个队列中。
+
+"调度域"（scheduling domain），是一个cpu集合，采取分层组织形式，最上层调度域（所有cpu）包括多个子调度域，子调度域包括一个cpu子集。底层某个调度域（基本调度域）的某个组的总工作量远远低于同一个调度域的另一个组时，开始迁移进程。调度域用`struct sched_domain`表示，调度域中的组用`struct sched_group`表示。相关函数请查看`run_rebalance_domains()`。
