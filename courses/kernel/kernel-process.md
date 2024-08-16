@@ -512,4 +512,6 @@ remove_wait_queue(&group->notification_waitq, &wait);
 
 `schedule()`函数从本地cpu运行队列中挑选进程运行，每个cpu有自己的运行队列，一个可运行进程只在一个队列中。
 
-"调度域"（scheduling domain），是一个cpu集合，采取分层组织形式，最上层调度域（所有cpu）包括多个子调度域，子调度域包括一个cpu子集。底层某个调度域（基本调度域）的某个组的总工作量远远低于同一个调度域的另一个组时，开始迁移进程。调度域用`struct sched_domain`表示，调度域中的组用`struct sched_group`表示。相关函数请查看`run_rebalance_domains()`。
+"调度域"（scheduling domain），是一个cpu集合，采取分层组织形式，最上层调度域（所有cpu）包括多个子调度域，子调度域包括一个cpu子集。底层某个调度域（基本调度域）的某个组的总工作量远远低于同一个调度域的另一个组时，开始迁移进程。调度域用`struct sched_domain`表示，调度域中的组用`struct sched_group`表示。`struct sched_group`中的`cpumask`数组表示这个组的cpu，再使用`cpu_rq()`获取运行队列。
+
+相关函数请查看`run_rebalance_domains()`。
