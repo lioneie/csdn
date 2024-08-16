@@ -491,6 +491,8 @@ finish_wait(&wq, &wait);
 DEFINE_WAIT_FUNC(wait, woken_wake_function);
 add_wait_queue(&group->notification_waitq, &wait);
 while (1) {
+        if (condition)
+                break; // condition是等待的事件
         if (signal_pending(current))
                 break;
         wait_woken(&wait, TASK_INTERRUPTIBLE, MAX_SCHEDULE_TIMEOUT);
@@ -514,4 +516,4 @@ remove_wait_queue(&group->notification_waitq, &wait);
 
 "调度域"（scheduling domain），是一个cpu集合，采取分层组织形式，最上层调度域（所有cpu）包括多个子调度域，子调度域包括一个cpu子集。底层某个调度域（基本调度域）的某个组的总工作量远远低于同一个调度域的另一个组时，开始迁移进程。调度域用`struct sched_domain`表示，调度域中的组用`struct sched_group`表示。`struct sched_group`中的`cpumask`数组表示这个组的cpu，再使用`cpu_rq()`获取运行队列。
 
-相关函数请查看`run_rebalance_domains()`。
+相关函数请查看v6.6的`run_rebalance_domains()`（在v6.10-rc1已重命名成`sched_balance_softirq()`）。
