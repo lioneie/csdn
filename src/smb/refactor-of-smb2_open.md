@@ -1,4 +1,4 @@
-最近调研了ksmbd，打算贡献社区补丁，发现所有的文件系统的函数中排名第二长度（901行, 2803~3705）的是`smb2_open()`（排名第一的是ntfs3的1470行的`log_replay()`，但不熟悉就暂时不瞎参与了），就想着先把这个函数给尝试重构了，也先通过这个函数入手深入了解ksmbd。
+最近调研了ksmbd，打算贡献社区补丁，发现所有的文件系统的函数中排名第二长度（901行, 3714-2810）的是`smb2_open()`（排名第一的是ntfs3的1470行的`log_replay()`，但不熟悉就暂时不瞎参与了），就想着先把这个函数给尝试重构了，也先通过这个函数入手深入了解ksmbd。
 
 # 重构参考
 
@@ -88,11 +88,52 @@ smb2_open
   ksmbd_override_fsids // 这个还没看懂TODO
   ksmbd_vfs_kern_path_locked // 获取当前文件和父目录的path
   if (stream_name) { // 处理stream name
-
+  CreateOptions & FILE_NON_DIRECTORY_FILE_LE && S_ISDIR // 报错是个文件夹
+  CreateOptions & FILE_DIRECTORY_FILE_LE && !S_ISDIR // 报错不是文件夹
+  file_present && CreateDisposition == FILE_CREATE_LE // 报错已存在
+  smb_map_generic_desired_access // 访问权限处理
+  smb_check_perm_dacl // 检查访问权限
+  ksmbd_vfs_query_maximal_access // 请求最大访问权限
+  smb2_create_open_flags // 生成open flag
+  // 文件不存在
+  smb2_creat // 创建
+  smb2_set_ea // Extended Attributes
+  // 文件存在且未请求最大访问权限，处理访问权限
+  inode_permission // 分别检查文件和父目录的访问权限
+  // 此时文件肯定存在了
+  ksmbd_query_inode_status // 获取inode状态
   dentry_open
     vfs_open
       do_dentry_open
         ext2_file_open // 执行到具体的后端文件系统
+  file_info // 处理Create Action Flags
+  ksmbd_vfs_set_fadvise // 将 SMB IO 缓存选项转换为 Linux 选项
+  ksmbd_open_fd // ksmbd_file, Volatile-ID
+  ksmbd_open_durable_fd // Persistent-ID
+  // 开始，如果创建新文件，则设置默认的 Windows 和 POSIX ACL
+  ksmbd_vfs_inherit_posix_acl // 继承
+  smb_inherit_dacl // TODO
+  smb2_create_sd_buffer // security descriptor
+  ksmbd_vfs_set_init_posix_acl
+  ksmbd_acls_fattr // 获取cf_acls和cf_dacls
+  build_sec_desc // 将权限位从模式转换为等效的 CIFS ACL
+  ksmbd_vfs_set_sd_xattr // 设置security descriptor扩展属性
+  // 结束，如果创建新文件，则设置默认的 Windows 和 POSIX ACL
+  smb2_set_stream_name_xattr // stream name扩展属性
+  // 在 daccess、saccess、attrib_only 和 stream 初始化后，能够通过 ksmbd_inode.m_fp_list 搜索到 fp
+  list_add(&fp->node, &fp->f_ci->m_fp_list);
+  ksmbd_inode_pending_delete // 在 oplock 断裂前，检查之前的 fp 中是否有删除待处理
+  smb_break_all_oplock // 断开批处理/独占 oplock 和二级 oplock
+  ksmbd_smb_check_shared_mode // 检查shared mode
+  smb_send_parent_lease_break_noti // 使用parent key比较parent lease。如果没有具有相同parent lease，发送lease断裂通知
+  smb_grant_oplock // 在文件打开时处理 Oplock/Lease 请求
+  ksmbd_fd_set_delete_on_close // 关闭时自动删除
+  smb2_create_truncate
+  smb2_find_context_vals // 在打开请求中查找特定的上下文信息
+  smb_break_all_levII_oplock // 发送 Level 2 Oplock 或 Read Lease 断裂命令
+  vfs_fallocate
+  ksmbd_vfs_getattr
+  opinfo && opinfo->is_lease // 如果请求了租约，则发送租约上下文响应
 ```
 
 # 公共头文件`fs/smb/common/smb2status.h`
