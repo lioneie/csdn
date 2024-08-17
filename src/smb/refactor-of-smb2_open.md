@@ -2,7 +2,7 @@
 
 # 重构参考
 
-重构技巧可以参考[Jason Yan <yanaijie@huawei.com>的ext4重构补丁集](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/ext/refactor-of-__ext4_fill_super.md)
+重构技巧可以参考Jason Yan <yanaijie@huawei.com>的ext4重构补丁集[`some refactor of __ext4_fill_super()`](https://chenxiaosong.com/courses/kernel/patches/refactor-of-__ext4_fill_super.html)
 
 # 客户端流程
 

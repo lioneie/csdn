@@ -45,6 +45,8 @@ array=(
                 "a2b0b205d125 ext4: fix symlink file size not match to file content"
             1 1 courses/kernel/patches/ext4-fix-use-after-free-in-ext4_search_dir.md ~
                 "c186f0887fe7 ext4: fix use-after-free in ext4_search_dir"
+            1 1 courses/kernel/patches/refactor-of-__ext4_fill_super.md ~
+                "some refactor of __ext4_fill_super()"
     0 1 courses/nfs/nfs.md ~ "nfs文件系统"
         1 1 courses/nfs/nfs-introduction.md ~ "nfs简介"
         1 1 courses/nfs/nfs-environment.md ~ "nfs环境"

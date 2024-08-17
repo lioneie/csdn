@@ -23,3 +23,5 @@
 [`a2b0b205d125 ext4: fix symlink file size not match to file content`](https://chenxiaosong.com/courses/kernel/patches/ext4-fix-symlink-file-size-not-match-to-file-content.html)
 
 [`c186f0887fe7 ext4: fix use-after-free in ext4_search_dir`](https://chenxiaosong.com/courses/kernel/patches/ext4-fix-use-after-free-in-ext4_search_dir.html)
+
+[`some refactor of __ext4_fill_super()`](https://chenxiaosong.com/courses/kernel/patches/refactor-of-__ext4_fill_super.html)
