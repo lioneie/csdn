@@ -4,6 +4,10 @@
 
 重构技巧可以参考Jason Yan <yanaijie@huawei.com>的ext4重构补丁集[`some refactor of __ext4_fill_super()`](https://chenxiaosong.com/courses/kernel/patches/refactor-of-__ext4_fill_super.html)
 
+# `smb2_open`重构
+
+函数参数是结构体请参考`nfs4_run_open_task()`。
+
 # 客户端流程
 
 先看一下客户端是怎么请求的，才能更好的知道服务端要处理哪些。
@@ -79,6 +83,27 @@ smb2_open
   parse_stream_name // stream name是什么鬼，后面再看TODO
   ksmbd_share_veto_filename // 检查是否禁止访问的文件，veto翻译为禁止或否决
   server_conf.flags & KSMBD_GLOBAL_FLAG_DURABLE_HANDLE // 处理durable handle
+  parse_durable_handle_context
+    ksmbd_lookup_durable_fd
+      __ksmbd_lookup_fd
+        ksmbd_fp_get
+          atomic_inc_not_zero(&fp->refcount) // 增加引用计数
+  smb2_check_durable_oplock
+  ksmbd_reopen_durable_fd
+    __open_id(&work->sess->file_table, fp, OPEN_ID_TYPE_VOLATILE_ID);
+  ksmbd_override_fsids
+  ksmbd_put_durable_fd
+    __ksmbd_close_fd
+      atomic_dec_and_test(&fp->refcount) // 减少引用计数
+  ksmbd_fd_put
+    atomic_dec_and_test(&fp->refcount) // 减少引用计数
+    __put_fd_final
+      __ksmbd_close_fd
+        ksmbd_remove_durable_fd
+          __ksmbd_remove_durable_fd
+            idr_remove(global_ft.idr, fp->persistent_id)
+        __ksmbd_remove_fd
+      atomic_dec(&work->conn->stats.open_files_count)
   req->ImpersonationLevel // 扮演，模仿
   req->CreateOptions // 判断选项是否有效
   req->CreateDisposition // Disposition 性情，气质，脾性
@@ -109,6 +134,8 @@ smb2_open
   file_info // 处理Create Action Flags
   ksmbd_vfs_set_fadvise // 将 SMB IO 缓存选项转换为 Linux 选项
   ksmbd_open_fd // ksmbd_file, Volatile-ID
+    __open_id(&work->sess->file_table, fp, OPEN_ID_TYPE_VOLATILE_ID);
+    atomic_inc(&work->conn->stats.open_files_count)
   ksmbd_open_durable_fd // Persistent-ID
   // 开始，如果创建新文件，则设置默认的 Windows 和 POSIX ACL
   ksmbd_vfs_inherit_posix_acl // 继承
