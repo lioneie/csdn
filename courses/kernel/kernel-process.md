@@ -541,4 +541,6 @@ Brain Fuck Scheduler, 脑残调度器，由澳洲麻醉师康恩·科里瓦斯�
 
 https://www.kernel.org/doc/html/next/scheduler/sched-ext.html
 
+https://mp.weixin.qq.com/s/dWPWuDtxQBM9Z_GXwKe0KQ
+
 <!-- ing end -->
