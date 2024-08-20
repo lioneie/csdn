@@ -518,15 +518,23 @@ remove_wait_queue(&group->notification_waitq, &wait);
 
 相关函数请查看v6.6的`run_rebalance_domains()`（在v6.10-rc1已重命名成`sched_balance_softirq()`）。
 
-<!-- ing begin -->
 # 其他调度器
 
 ## BFS
 
-Brain Fuck Scheduler, 脑残调度器，由澳洲麻醉师康恩·科里瓦斯所撰写，是O(n)调度器。科里瓦斯并没有打算将BFS应用在 mainline Linux，而是以补丁来维护这套源代码。
+Brain Fuck Scheduler, 脑残调度器，由澳洲麻醉师康恩·科里瓦斯所撰写，是O(n)调度器。科里瓦斯并没有打算将BFS应用在 mainline Linux，[而是以补丁来维护这套源代码](http://ck.kolivas.org/patches/5.0/5.12/5.12-ck1/)。
 
-[源码](http://ck.kolivas.org/patches/5.0/5.12/5.12-ck1/)。
+直接附上维斯百科对他的介绍吧：
 
+> 康恩·科里瓦斯（英语：Con Kolivas）是一名澳洲麻醉师。闲暇时，他曾是Linux内核的开发者之一，在排程器上贡献许多程式码。
+
+> 科里瓦斯是一位职业麻醉师, 同时也是Linux爱好者，据其本人表示，他刚接触Linux内核时甚至没有学习过C语言。他曾开发Linux内核所使用的楼梯调度算法（Staircase Deadline Scheduler）与RSDL（The Rotating Staircase Deadline Schedule）。早期他为Linux kernel编写的补丁都标记为xxx-ck，并由匈牙利程式员英格·蒙内负责审阅。由于林纳斯·托瓦兹改采蒙内撰写的完全公平排程器（CFS）取代Con Kolivas的调度器，并于2.6.23内核采用，出现很大争论。为此科里瓦斯曾一度退出Linux kernel团队。2007年, 科里瓦斯在《澳大利亚个人电脑》杂志上发表了一篇文章，说明自己为什么退出Linux开发。
+
+> 2009年8月31日, 科里瓦斯卷土重来，打造了全新的排程器，并命名为脑残排程器（BFS）BFS调度器的原理十分简单，是为桌面交互式应用量身打造，使得用户的桌面环境更为流畅，过去使用CFS编译内核时，音频视频同时出现会出现严重的停顿，而使用BFS则没有这些问题。Android曾经在试验性的分支，使用BFS作为其操作系统排程器。但是经过测试发现对使用者并没有明显的改进，因此并未合入之后发表的正式版本。
+
+> 2011年7月13日，科里瓦斯又推出一全新软件，名之为cgminer，用于探勘比特币和莱特币等加密电子货币。
+
+<!-- ing begin -->
 ## Extensible Scheduler Class
 
 https://www.kernel.org/doc/html/next/scheduler/sched-ext.html
