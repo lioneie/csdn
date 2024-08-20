@@ -517,3 +517,18 @@ remove_wait_queue(&group->notification_waitq, &wait);
 "调度域"（scheduling domain），是一个cpu集合，采取分层组织形式，最上层调度域（所有cpu）包括多个子调度域，子调度域包括一个cpu子集。底层某个调度域（基本调度域）的某个组的总工作量远远低于同一个调度域的另一个组时，开始迁移进程。调度域用`struct sched_domain`表示，调度域中的组用`struct sched_group`表示。`struct sched_group`中的`cpumask`数组表示这个组的cpu，再使用`cpu_rq()`获取运行队列。
 
 相关函数请查看v6.6的`run_rebalance_domains()`（在v6.10-rc1已重命名成`sched_balance_softirq()`）。
+
+<!-- ing begin -->
+# 其他调度器
+
+## BFS
+
+Brain Fuck Scheduler, 脑残调度器，由澳洲麻醉师康恩·科里瓦斯所撰写，是O(n)调度器。科里瓦斯并没有打算将BFS应用在 mainline Linux，而是以补丁来维护这套源代码。
+
+[源码](http://ck.kolivas.org/patches/5.0/5.12/5.12-ck1/)。
+
+## Extensible Scheduler Class
+
+https://www.kernel.org/doc/html/next/scheduler/sched-ext.html
+
+<!-- ing end -->
