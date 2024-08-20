@@ -8,63 +8,29 @@
 
 函数参数是结构体请参考`nfs4_run_open_task()`。
 
-# 客户端流程
-
-先看一下客户端是怎么请求的，才能更好的知道服务端要处理哪些。
-
-```c
-// vfs的流程
-openat
-  do_sys_open
-    do_sys_openat2
-      do_filp_open
-        path_openat
-          open_last_lookups
-            lookup_open
-              atomic_open
-
-// 请求流程
-atomic_open
-  cifs_atomic_open
-    cifs_do_create
-      smb2_open_file
-        SMB2_open
-          cifs_send_recv
-            compound_send_recv
-              smb2_setup_request // ses->server->ops->setup_request
-                smb2_get_mid_entry
-                  smb2_mid_entry_alloc
-                  // 加到队列中
-                  list_add_tail(&(*mid)->qhead, &server->pending_mid_q);
-                // 状态设置成已提交
-                midQ[i]->mid_state = MID_REQUEST_SUBMITTED
-                smb_send_rqst
-                  __smb_send_rqst
-                    smb_send_kvec
-                wait_for_response
-                  // 状态要为已接收，在dequeue_mid()中设置
-                  midQ->mid_state != MID_RESPONSE_RECEIVED
-                // 回复的内容
-                buf = (char *)midQ[i]->resp_buf
-
-// 回复处理过程
-kthread
-  cifs_demultiplex_thread
-    smb2_find_mid // server->ops->find_mid
-      __smb2_find_mid
-        // 从pending_mid_q链表中找
-        list_for_each_entry
-    standard_receive3
-      cifs_handle_standard
-        handle_mid
-          dequeue_mid
-            // 状态设置成已接收
-            mid->mid_state = MID_RESPONSE_RECEIVED
-            // 在锁的保护下从链表中删除（可能是pending_mid_q链表也可能是retry_list链表）
-            list_del_init(&mid->qhead)
-```
-
 # ksmbd流程
+
+`smb2_open()`框架流程：
+```c
+  ksmbd_override_fsids
+  ksmbd_vfs_getattr
+  goto reconnected_fp;
+  ksmbd_override_fsids
+  // 之前是 goto err_out2
+  ksmbd_vfs_kern_path_locked
+  goto err_out;
+  smb2_creat
+  ksmbd_vfs_kern_path_unlock
+  goto err_out1;
+reconnected_fp:
+  // 已经重连
+err_out:
+  ksmbd_vfs_kern_path_unlock
+err_out1:
+  ksmbd_revert_fsids
+err_out2:
+  // 最后的错误处理
+```
 
 ```c
 kthread
@@ -163,6 +129,62 @@ smb2_open
   opinfo && opinfo->is_lease // 如果请求了租约，则发送租约上下文响应
 ```
 
+# 客户端流程
+
+再看一下客户端是怎么请求的，才能更好的知道服务端要处理哪些。
+
+```c
+// vfs的流程
+openat
+  do_sys_open
+    do_sys_openat2
+      do_filp_open
+        path_openat
+          open_last_lookups
+            lookup_open
+              atomic_open
+
+// 请求流程
+atomic_open
+  cifs_atomic_open
+    cifs_do_create
+      smb2_open_file
+        SMB2_open
+          cifs_send_recv
+            compound_send_recv
+              smb2_setup_request // ses->server->ops->setup_request
+                smb2_get_mid_entry
+                  smb2_mid_entry_alloc
+                  // 加到队列中
+                  list_add_tail(&(*mid)->qhead, &server->pending_mid_q);
+                // 状态设置成已提交
+                midQ[i]->mid_state = MID_REQUEST_SUBMITTED
+                smb_send_rqst
+                  __smb_send_rqst
+                    smb_send_kvec
+                wait_for_response
+                  // 状态要为已接收，在dequeue_mid()中设置
+                  midQ->mid_state != MID_RESPONSE_RECEIVED
+                // 回复的内容
+                buf = (char *)midQ[i]->resp_buf
+
+// 回复处理过程
+kthread
+  cifs_demultiplex_thread
+    smb2_find_mid // server->ops->find_mid
+      __smb2_find_mid
+        // 从pending_mid_q链表中找
+        list_for_each_entry
+    standard_receive3
+      cifs_handle_standard
+        handle_mid
+          dequeue_mid
+            // 状态设置成已接收
+            mid->mid_state = MID_RESPONSE_RECEIVED
+            // 在锁的保护下从链表中删除（可能是pending_mid_q链表也可能是retry_list链表）
+            list_del_init(&mid->qhead)
+```
+
 # 公共头文件`fs/smb/common/smb2status.h`
 
 ## `fs/smb/client/smb2status.h`
@@ -190,22 +212,11 @@ smb2_open
 
 ## 最新代码对比
 
-在vim下，`fs/smb/server/smbstatus.h`先做两组替换`:%s/\t\\\n\t/ /g`和`:%s/ \\\n\t/ /g`，然后再对比两个文件，有以下不同：
+在vim下，`fs/smb/server/smbstatus.h`先做两组替换`:%s/\t\\\n\t/ /g`和`:%s/ \\\n\t/ /g`，然后再和`fs/smb/client/smb2status.h`对比，有以下不同：
 ```sh
-@@ -982,6 +982,8 @@ struct ntstatus {
- #define STATUS_INVALID_TASK_INDEX cpu_to_le32(0xC0000501)
- #define STATUS_THREAD_ALREADY_IN_TASK cpu_to_le32(0xC0000502)
- #define STATUS_CALLBACK_BYPASS cpu_to_le32(0xC0000503)
 # 这俩是client端的
 +#define STATUS_SERVER_UNAVAILABLE cpu_to_le32(0xC0000466)
 +#define STATUS_FILE_NOT_AVAILABLE cpu_to_le32(0xC0000467)
- #define STATUS_PORT_CLOSED cpu_to_le32(0xC0000700)
- #define STATUS_MESSAGE_LOST cpu_to_le32(0xC0000701)
- #define STATUS_INVALID_MESSAGE cpu_to_le32(0xC0000702)
-@@ -1767,6 +1769,3 @@ struct ntstatus {
- #define STATUS_IPSEC_INVALID_PACKET cpu_to_le32(0xC0360005)
- #define STATUS_IPSEC_INTEGRITY_CHECK_FAILED cpu_to_le32(0xC0360006)
- #define STATUS_IPSEC_CLEAR_TEXT_DROP cpu_to_le32(0xC0360007)
 # 这俩是server端的
 -#define STATUS_NO_PREAUTH_INTEGRITY_HASH_OVERLAP cpu_to_le32(0xC05D0000)
 -#define STATUS_INVALID_LOCK_RANGE cpu_to_le32(0xC00001a1)
