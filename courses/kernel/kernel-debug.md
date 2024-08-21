@@ -891,6 +891,7 @@ echo 1234567 > /mnt/file
 cat /mnt/file
 ```
 
+<!-- ing begin -->
 # `perf`
 
 ## 编译
@@ -916,7 +917,6 @@ cd tools/perf
 make -j`nproc`
 ```
 
-<!-- ing begin -->
 # `oops`
 
 发生`oops`时，除了导出`vmcore`后使用`crash`分析外，还可以用其他方法分析。
