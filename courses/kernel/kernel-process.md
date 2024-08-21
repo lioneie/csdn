@@ -1,12 +1,16 @@
 <!--
-https://mp.weixin.qq.com/mp/homepage?__biz=MzI3NzA5MzUxNA==&hid=14&sn=a7deb8f4a4986e1d148671008bd1403c&scene=18&devicetype=android-31&version=28003255&lang=zh_CN&nettype=WIFI&ascene=0&pass_ticket=g0mPh534tJrl5gE9tLzM6LyENbehF%2BgNRmGTYAX3oL7VjrmEIkVz7S1FaWrX92H9&wx_header=3&scene=1
+http://mp.weixin.qq.com/mp/homepage?__biz=MzI3NzA5MzUxNA==&hid=14&sn=a7deb8f4a4986e1d148671008bd1403c&scene=18#wechat_redirect
+
+https://mp.weixin.qq.com/s/5iJpFOOE49OByFds7notqw
+
+https://mp.weixin.qq.com/s/dWPWuDtxQBM9Z_GXwKe0KQ
 -->
 
 # 进程
 
 ## 简介
 
-程序是存储在磁盘中，而进程是处于执行期的程序（当然还有相关资源），从内核视角看又叫任务（task）。执行线程，简称线程（thread），是在进程中活动的对象，内核调度的对象是线程，而不是进程。Linux内核不区分线程和进程，线程是特殊的进程。
+程序是存储在磁盘中，而进程是处于执行期的程序（当然还有其他相关资源），从内核视角看又叫任务（task）。执行线程，简称线程（thread），是在进程中活动的对象，内核调度的对象是线程，而不是进程。Linux内核不区分线程和进程，线程是特殊的进程。
 
 进程提供两种虚拟机制: 虚拟处理器和虚拟内存。
 
@@ -418,7 +422,7 @@ CFS使用红黑树（Red-Black Tree）数据结构来管理就绪队列中的任
 
 进程所获得的处理器时间由这个进程和所有可运行进程nice值的相对差值决定的，nice值对应的是处理器使用比。
 
-具体代码实现请查看`DEFINE_SCHED_CLASS(fair)`。
+因为`v6.6`已经合入了EEVDF调度器相关的补丁集，所以要看CFS的代码实现，要回退到稍早的版本`git checkout v6.5`。具体代码实现请查看`DEFINE_SCHED_CLASS(fair)`。
 
 ## 时间记账
 
@@ -445,8 +449,7 @@ schedule
         __pick_next_task_fair
           pick_next_task_fair
             pick_next_entity
-              pick_eevdf
-                __pick_eevdf
+              TODO
 ```
 
 向红黑树中加入进程发生在进程变为可运行状态（被唤醒）或创建进程时，流程如下：
@@ -469,7 +472,40 @@ pick_next_task_fair
     __dequeue_entity
 ```
 
-## 休眠和唤醒
+# EEVDF调度器
+
+<!-- https://lwn.net/ml/linux-kernel/20230531115839.089944915@infradead.org/ -->
+
+Earliest eligible virtual deadline first，
+
+[`[PATCH 00/15] sched: EEVDF and latency-nice and/or slice-attr`](https://lore.kernel.org/all/20230531115839.089944915@infradead.org/):
+
+- [`[PATCH 01/15] af4cf40470c2 sched/fair: Add cfs_rq::avg_vruntime`](https://lore.kernel.org/all/20230531124603.654144274@infradead.org/)
+- [`[PATCH 02/15] e0c2ff903c32 sched/fair: Remove sched_feat(START_DEBIT)`](https://lore.kernel.org/all/20230531124603.722361178@infradead.org/)
+- [`[PATCH 03/15] 86bfbb7ce4f6 sched/fair: Add lag based placement`](https://lore.kernel.org/all/20230531124603.794929315@infradead.org/)
+- [`[PATCH 04/15] 99d4d26551b5 rbtree: Add rb_add_augmented_cached() helper`](https://lore.kernel.org/all/20230531124603.862983648@infradead.org/)
+- [`[PATCH 05/15] 147f3efaa241 sched/fair: Implement an EEVDF-like scheduling policy`](https://lore.kernel.org/all/20230531124603.931005524@infradead.org/)
+- [`[PATCH 06/15] 76cae9dbe185 sched/fair: Commit to lag based placement`](https://lore.kernel.org/all/20230531124604.000198861@infradead.org/)
+- [`[PATCH 07/15] e8f331bcc270 sched/smp: Use lag to simplify cross-runqueue placement`](https://lore.kernel.org/all/20230531124604.068911180@infradead.org/)
+- [`[PATCH 08/15] 5e963f2bd465 sched/fair: Commit to EEVDF`](https://lore.kernel.org/all/20230531124604.137187212@infradead.org/)
+- [`[PATCH 09/15] e4ec3318a17f sched/debug: Rename sysctl_sched_min_granularity to sysctl_sched_base_slice`](https://lore.kernel.org/all/20230531124604.205287511@infradead.org/)
+- [`[PATCH 10/15] d07f09a1f99c sched/fair: Propagate enqueue flags into place_entity()`](https://lore.kernel.org/all/20230531124604.274010996@infradead.org/)
+
+邮件中的`11~15`补丁未合入。
+
+```c
+schedule
+  __schedule
+    pick_next_task
+      __pick_next_task
+        __pick_next_task_fair
+          pick_next_task_fair
+            pick_next_entity
+              pick_eevdf
+                __pick_eevdf
+```
+
+# 休眠和唤醒
 
 内核用`wait_queue_entry`表示等待队列，静态创建可以用`DECLARE_WAITQUEUE()`，动态创建可以用`init_waitqueue_head()`。
 
@@ -540,7 +576,5 @@ Brain Fuck Scheduler, 脑残调度器，由澳洲麻醉师康恩·科里瓦斯�
 ## Extensible Scheduler Class
 
 https://www.kernel.org/doc/html/next/scheduler/sched-ext.html
-
-https://mp.weixin.qq.com/s/dWPWuDtxQBM9Z_GXwKe0KQ
 
 <!-- ing end -->
