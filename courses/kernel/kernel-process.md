@@ -506,7 +506,7 @@ remove_wait_queue(&group->notification_waitq, &wait);
 
 多处理器机器有以下几种类型:
 
-- 标准的多处理器体系结构: RAM芯片集被所有cpu共享。
+- 标准的多处理器体系结构: 每个cpu有自己的寄存器集，也有自己的高速缓存，但RAM芯片集被所有cpu共享。
 - 超线程: intel发明的，当前线程在访问内存的间隙，处理器可以使用它的机器周期支执行另一个线程。一个超线程的物理cpu可以被Linux看作几个不同的逻辑cpu。
 - NUMA: Non-Uniform Memory Access，非统一内存访问，把cpu和RAM以本地"节点"为单位分组。当cpu访问与它在同一个节点中的"本地"RAM，几乎没有竞争，访问非常快。
 
