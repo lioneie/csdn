@@ -38,14 +38,17 @@ create_html() {
         local html_title=${array[${index}+4]}
         local pandoc_options=${pandoc_common_options}
 
-        local src_file=${src_path}/${ifile} # 相对路径
+        local src_file=${src_path}/${ifile} # 源路径拼接
         if [[ ${ifile} == '/'* ]]; then
             src_file=${ifile} # 绝对路径
         fi
         if [[ ${ofile} == ~ ]]; then
             ofile="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
         fi
-        local dst_file=${tmp_html_path}/${ofile} # 生成的html文件名
+        local dst_file=${tmp_html_path}/${ofile} # 拼接生成html文件名
+        if [[ ${ofile} == '/'* ]]; then
+            dst_file=${ofile} # 绝对路径
+        fi
         local dst_dir="$(dirname "${dst_file}")" # html文件所在的文件夹
         if [ ! -d "${dst_dir}" ]; then
             mkdir -p "${dst_dir}" # 文件夹不存在就创建
