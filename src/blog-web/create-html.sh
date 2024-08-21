@@ -30,6 +30,7 @@ array=(
         1 1 ${tmp_courses_path}/courses/kernel/kernel-debug.md courses/kernel/kernel-debug.html "内核调试方法"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-mm.md courses/kernel/kernel-mm.html "内存管理"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-process.md courses/kernel/kernel-process.html "进程管理和调度"
+        1 1 ${tmp_courses_path}/courses/kernel/kernel-bpf.md courses/kernel/kernel-bpf.html "BPF"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-patches.md courses/kernel/kernel-patches.html "内核补丁分析"
             # vfs
             1 1 courses/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.md ~
