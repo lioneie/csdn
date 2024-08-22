@@ -81,6 +81,7 @@ array=(
         1 1 courses/smb/ksmbd.md ~ "KSMBD - SMB3 Kernel Server"
         1 1 courses/smb/smb-client-struct.md ~ "smb client数据结构"
         1 1 courses/smb/smb-patches.md ~ "smb补丁分析"
+        1 1 courses/smb/smb-refactor.md ~ "smb代码重构"
             # 补丁
             1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."

@@ -22,3 +22,5 @@
 # [smb client数据结构](https://chenxiaosong.com/courses/smb/smb-client-struct.html)
 
 # [smb补丁分析](https://chenxiaosong.com/courses/smb/smb-patches.html)
+
+# [smb代码重构](https://chenxiaosong.com/courses/smb/smb-refactor.html)
