@@ -37,6 +37,27 @@ kthread
             list_del_init(&mid->qhead)
 ```
 
+打开文件处理过程：
+```c
+// vfs的流程
+openat
+  do_sys_open
+    do_sys_openat2
+      do_filp_open
+        path_openat
+          open_last_lookups
+            lookup_open
+              atomic_open
+
+// smb流程
+atomic_open
+  cifs_atomic_open
+    cifs_do_create
+      smb2_open_file
+        SMB2_open
+          cifs_send_recv
+```
+
 读文件处理过程：
 ```c
 read_pages
