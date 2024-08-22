@@ -43,13 +43,11 @@ NFS 服务器有一个玩具级的 flexfile layout实现，仅仅是一个概念
 
 客户端:
 
-- maintainer: Trond Myklebust <trondmy@kernel.org>。
 - 实现了file, block, flexfile layout的支持，object layout已经废弃（已移除支持）。
 - 使用指导文档少，使用很麻烦。
 
 服务端:
 
-- maintainer: Chuck Lever <chuck.lever@oracle.com>，友好。
 - block layout实现较完善，[maintainer在自己仓库有提供测试用例](https://github.com/chucklever/kdevops/tree/pnfs-block-testing)。
 - flexfile layout有初步的实现（概念验证阶段），待扩展。
 - file layout（无用户需求）和object layout（已废弃）不打算实现。
