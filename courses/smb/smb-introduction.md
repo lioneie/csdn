@@ -24,6 +24,20 @@ smb的协议文档有以下几个版本：
 
 # 社区
 
-client maintainer: Steve French <sfrench@samba.org>，友好。
+- nfs client maintainer: Steve French <sfrench@samba.org>，友好。
+- nfs server maintainer: Namjae Jeon <linkinjeon@kernel.org>，友好。
 
-server maintainer: Namjae Jeon <linkinjeon@kernel.org>，友好。
+获取supporter、reviewer、maintainer、open list、moderated list的邮箱:
+```sh
+./scripts/get_maintainer.pl fs/smb/server/
+./scripts/get_maintainer.pl fs/smb/client/
+./scripts/get_maintainer.pl fs/smb/common/
+./scripts/get_maintainer.pl fs/smb/Makefile
+./scripts/get_maintainer.pl fs/smb/Kconfig
+./scripts/get_maintainer.pl fs/smb/
+```
+
+发送补丁:
+```sh
+git send-email --to=linkinjeon@kernel.org,sfrench@samba.org,stfrench@microsoft.com,pc@manguebit.com,sprasad@microsoft.com,dhowells@redhat.com,senozhatsky@chromium.org,tom@talpey.com,ronniesahlberg@gmail.com,bharathsm@microsoft.com --cc=chenxiaosong@kylinos.cn,chenxiaosong@chenxiaosong.com,linux-cifs@vger.kernel.org,linux-kernel@vger.kernel.org 00* # samba-technical@lists.samba.org要订阅才能发送成功
+```

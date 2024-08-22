@@ -6,7 +6,6 @@
 
 # 现状
 
-- maintainer: Namjae Jeon <linkinjeon@kernel.org>，友好。
 - [开发进度](https://github.com/torvalds/linux/blob/master/Documentation/filesystems/smb/ksmbd.rst#ksmbd-feature-status)。以下是待实现或待完善的功能：
   - SMB3 Multi-channel: 部分支持。多通道，计划将来实现重播/重试机制。
   - ACLs: 部分支持。Access Control List (访问控制列表)，仅支持DACL，SACL（审计）计划在未来实现。对于所有权（SID），ksmbd生成随机的子身份验证值（然后存储到磁盘），并使用从inode获取的uid/gid作为本地域SID的RID。目前的ACL实现仅限于独立服务器，不支持作为域成员运行。正在与Samba工具进行集成，以便将来支持作为域成员运行。
