@@ -110,10 +110,10 @@ nfs的rfc协议文档有以下几个版本：
 
 sunrpc模块发送补丁:
 ```sh
-git send-email --to=trondmy@kernel.org,anna@kernel.org,chuck.lever@oracle.com,jlayton@kernel.org,neilb@suse.de,kolga@netapp.com,Dai.Ngo@oracle.com,tom@talpey.com,davem@davemloft.net,edumazet@google.com,kuba@kernel.org,pabeni@redhat.com --cc=linux-nfs@vger.kernel.org,netdev@vger.kernel.org,linux-kernel@vger.kernel.org 00*
+git send-email --to=trondmy@kernel.org,trond.myklebust@hammerspace.com,anna@kernel.org,chuck.lever@oracle.com,jlayton@kernel.org,neilb@suse.de,kolga@netapp.com,Dai.Ngo@oracle.com,tom@talpey.com,davem@davemloft.net,edumazet@google.com,kuba@kernel.org,pabeni@redhat.com --cc=linux-nfs@vger.kernel.org,netdev@vger.kernel.org,linux-kernel@vger.kernel.org 00*
 ```
 
 nfs模块发送补丁:
 ```sh
-git send-email --to=trondmy@kernel.org,anna@kernel.org,chuck.lever@oracle.com,jlayton@kernel.org,neilb@suse.de,kolga@netapp.com,Dai.Ngo@oracle.com,tom@talpey.com --cc=linux-nfs@vger.kernel.org,linux-kernel@vger.kernel.org 00*
+git send-email --to=chuck.lever@oracle.com,trondmy@kernel.org,anna@kernel.org,trond.myklebust@hammerspace.com,jlayton@kernel.org,neilb@suse.de,kolga@netapp.com,Dai.Ngo@oracle.com,tom@talpey.com --cc=linux-nfs@vger.kernel.org,linux-kernel@vger.kernel.org 00*
 ```
