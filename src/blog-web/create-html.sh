@@ -59,6 +59,7 @@ array=(
         1 1 courses/nfs/nfs-debug.md ~ "nfs调试方法"
         1 1 courses/nfs/nfs-patches.md ~ "nfs补丁分析"
             # 补丁
+            1 1 courses/nfs/patches/CVE-2022-24448.md ~ "CVE-2022-24448"
             1 1 courses/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
                 "e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
             1 1 courses/nfs/patches/nfsd-minor-4.1-callback-cleanup.md ~
@@ -99,7 +100,6 @@ array=(
     1 1 src/kernel/gio-to-mount.md ~ "gio执行慢的临时解决办法"
     1 1 src/kernel/syzkaller.md ~ "syzkaller - 内核模糊测试工具"
     # nfs
-    1 1 src/nfs/CVE-2022-24448.md ~ "CVE-2022-24448"
     1 1 src/nfs/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
     1 1 src/nfs/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage空指针解引用问题'
     1 1 src/nfs/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async空指针解引用问题'
