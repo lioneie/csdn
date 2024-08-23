@@ -85,6 +85,8 @@ array=(
         1 1 courses/smb/smb-patches.md ~ "smb补丁分析"
         1 1 courses/smb/smb-refactor.md ~ "smb代码重构"
             # 补丁
+            1 1 courses/smb/patches/cifs-fix-missing-unlock-in-cifs_file_copychunk_range.md ~
+                "502487847743 cifs: fix missing unlock in cifs_file_copychunk_range()"
             1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
             1 1 courses/smb/patches/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.md ~
