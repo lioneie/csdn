@@ -58,9 +58,10 @@ array=(
         1 1 courses/nfs/nfs-filehandle.md ~ "nfs文件句柄"
         1 1 courses/nfs/nfs-debug.md ~ "nfs调试方法"
         1 1 courses/nfs/nfs-patches.md ~ "nfs补丁分析"
-            # 补丁
+            # 我写的补丁
             1 1 courses/nfs/patches/CVE-2022-24448.md ~ "CVE-2022-24448"
             1 1 courses/nfs/patches/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
+            # 其他人的补丁
             1 1 courses/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
                 "e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
             1 1 courses/nfs/patches/nfsd-minor-4.1-callback-cleanup.md ~
@@ -84,9 +85,12 @@ array=(
         1 1 courses/smb/smb-client-struct.md ~ "smb client数据结构"
         1 1 courses/smb/smb-patches.md ~ "smb补丁分析"
         1 1 courses/smb/smb-refactor.md ~ "smb代码重构"
-            # 补丁
+            # 我写的补丁
             1 1 courses/smb/patches/cifs-fix-missing-unlock-in-cifs_file_copychunk_range.md ~
                 "502487847743 cifs: fix missing unlock in cifs_file_copychunk_range()"
+            1 1 courses/smb/patches/ksmbd-fix-possible-refcount-leak-in-smb2_open.md ~
+                "2624b445544f ksmbd: fix possible refcount leak in smb2_open()"
+            # 其他人的补丁
             1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
             1 1 courses/smb/patches/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.md ~
