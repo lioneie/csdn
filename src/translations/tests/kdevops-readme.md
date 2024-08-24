@@ -198,8 +198,8 @@ kdevops 已开始让用户/开发人员推送测试结果。这不仅仅是收�
   * [2023 年 5 月 10 日 kdevops：fstests 和 blktests 测试自动化的进展](https://www.youtube.com/watch?v=aC4gb0r9Hho&ab_channel=TheLinuxFoundation)
     * [LWN 对此演讲的报道](https://lwn.net/Articles/937830/)
     * 对请求存储失败的跟进
-    * [fstests 结果](./workflows/fstests/results/)
-    * [blktests 结果](./workflows/blktests/results/)
+    * [fstests 结果](https://github.com/linux-kdevops/kdevops/tree/main/workflows/fstests/results/)
+    * [blktests 结果](https://github.com/linux-kdevops/kdevops/tree/main/workflows/blktests/results/)
     * 模块支持已确认
     * 人们如何使用 kdevops，一个例子是 Amir 和 Chandan 使用它来支持不同稳定内核的 XFS 稳定工作，使用不同的技术。Amir 使用三星提供的系统资源的本地虚拟化支持，而 Chandan 使用 Oracle Cloud Linux。有关详细信息，请参阅 [LSFMM 2023 Linux 稳定后端](https://www.youtube.com/watch?v=U-f7HlD2Ob4&list=PLbzoR-pLrL6rlmdpJ3-oMgU_zxc1wAhjS&ab_channel=TheLinuxFoundation) 视频
     * 审查 9p 支持
@@ -260,7 +260,7 @@ kdevops 已开始让用户/开发人员推送测试结果。这不仅仅是收�
 
 # 许可证
 
-此作品依据 copyleft-next-0.3.1 许可证授权，详情请参阅 [LICENSE](./LICENSE) 文件。
+此作品依据 copyleft-next-0.3.1 许可证授权，详情请参阅 [LICENSE](https://github.com/linux-kdevops/kdevops/tree/main/LICENSE) 文件。
 请坚持在文件中使用 SPDX 注释进行许可证标注。
 如果文件中没有 SPDX 注释，则默认使用 copyleft-next-0.3.1 许可证。我们保留带有宽松许可证的 SPDX 注释，以确保我们在宽松许可证下采用的上游项目可以从我们对其相应文件的更改中受益。
 同样，GPLv2 文件也是允许的，因为 copyleft-next-0.3.1 与 GPLv2 兼容。
