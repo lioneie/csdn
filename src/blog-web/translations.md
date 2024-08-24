@@ -60,6 +60,8 @@
 
 [kdevops README](https://chenxiaosong.com/src/translations/tests/kdevops-readme.html)
 
+[kdevops docs/nfs.md](https://chenxiaosong.com/src/translations/tests/kdevops-nfs.html)
+
 # qemu
 
 [QEMU Documentation/Networking/NAT](https://chenxiaosong.com/src/translations/qemu/qemu-networking-nat.html)
