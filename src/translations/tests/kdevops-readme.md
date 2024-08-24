@@ -14,9 +14,9 @@ kdevops 提供了一个用于优化 Linux 内核开发和测试的自动化框�
 
 kdevops 通过与 Linux 内核中使用的相同变体语言 kconfig 提供变体。它由 Linux 内核开发人员为 Linux 内核开发人员编写。该项目旨在支持所有 Linux 发行版。
 
-kdevops 支持 [PCIe 直通](docs/libvirt-pcie-passthrough.md) 当使用虚拟化时，允许你选择将哪个 PCIe 设备传递到哪个客户机。你可以选择将所有设备传递给一个客户机，或者选择将某个设备传递给特定客户机。例如，你甚至可以得到多个客户机，每个客户机都有一个 PCIe 直通设备分配，这一切都通过 kconfig 完成。
+kdevops 支持 [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/libvirt-pcie-passthrough.md) 当使用虚拟化时，允许你选择将哪个 PCIe 设备传递到哪个客户机。你可以选择将所有设备传递给一个客户机，或者选择将某个设备传递给特定客户机。例如，你甚至可以得到多个客户机，每个客户机都有一个 PCIe 直通设备分配，这一切都通过 kconfig 完成。
 
-kdevops [PCIe 直通](docs/libvirt-pcie-passthrough.md) 支持使用 [kdevops 动态 kconfig](docs/kdevops-dynamic-configuration.md)，提供了一个新目标 'make dynconfig'，它让 kdevops 根据你的系统环境动态生成 Kconfig 文件。这一机制将来会扩展，以使 kdevops 更加动态，以支持更多的功能。
+kdevops [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/libvirt-pcie-passthrough.md) 支持使用 [kdevops 动态 kconfig](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-dynamic-configuration.md)，提供了一个新目标 'make dynconfig'，它让 kdevops 根据你的系统环境动态生成 Kconfig 文件。这一机制将来会扩展，以使 kdevops 更加动态，以支持更多的功能。
 
 ## kdevops 快速演示
 
@@ -44,7 +44,7 @@ kdevops [PCIe 直通](docs/libvirt-pcie-passthrough.md) 支持使用 [kdevops �
   * `make fstests-baseline`
   * `make fstests-results`
 
-更多细节请参见 [kdevops fstests 文档](docs/fstests.md)
+更多细节请参见 [kdevops fstests 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/fstests.md)
 
 ### 只需 2 条命令即可开始运行 blktests
 
@@ -54,7 +54,7 @@ kdevops [PCIe 直通](docs/libvirt-pcie-passthrough.md) 支持使用 [kdevops �
   * `make blktests-baseline`
   * `make blktests-results`
 
-更多细节请参见 [kdevops blktests 文档](docs/blktests.md)
+更多细节请参见 [kdevops blktests 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/blktests.md)
 
 ### 只需 2 条命令即可开始测试 NFS
 
@@ -63,7 +63,7 @@ kdevops [PCIe 直通](docs/libvirt-pcie-passthrough.md) 支持使用 [kdevops �
   * `make pynfs`
   * `make pynfs-baseline`
 
-更多细节请参见 [kdevops nfs 文档](docs/nfs.md)
+更多细节请参见 [kdevops nfs 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/nfs.md)
 
 ### 只需 2 条命令即可开始运行 git 回归套件
 
@@ -72,7 +72,7 @@ kdevops [PCIe 直通](docs/libvirt-pcie-passthrough.md) 支持使用 [kdevops �
   * `make gitr`
   * `make gitr-baseline`
 
-更多细节请参见 [kdevops gitr 文档](docs/gitr.md)
+更多细节请参见 [kdevops gitr 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/gitr.md)
 
 ### 只需 2 条命令即可开始运行 ltp 套件
 
@@ -81,7 +81,7 @@ kdevops [PCIe 直通](docs/libvirt-pcie-passthrough.md) 支持使用 [kdevops �
   * `make ltp`
   * `make ltp-baseline`
 
-更多细节请参见 [kdevops ltp 文档](docs/ltp.md)
+更多细节请参见 [kdevops ltp 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/ltp.md)
 
 ### 只需 2 条命令即可开始运行 nfstest 套件
 
@@ -90,7 +90,7 @@ kdevops [PCIe 直通](docs/libvirt-pcie-passthrough.md) 支持使用 [kdevops �
   * `make nfstest`
   * `make nfstest-baseline`
 
-更多细节请参见 [kdevops nfstest 文档](docs/nfstest.md)
+更多细节请参见 [kdevops nfstest 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/nfstest.md)
 
 ### 以并行方式运行一些内核自测
 
@@ -105,11 +105,11 @@ kdevops 支持以并行方式运行 Linux 内核自测，这非常简单：
   * `make selftests-kmod`
   * `make selftests-sysctl`
 
-更多细节请参见 [kdevops selftests 文档](docs/selftests.md)
+更多细节请参见 [kdevops selftests 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/selftests.md)
 
 ### CXL
 
-有 CXL 支持。你可以使用虚拟化 CXL 设备，也可以使用 [PCIe 直通](docs/libvirt-pcie-passthrough.md) 将设备分配给客户机并创建自定义拓扑。kdevops 还可以为你构建和安装最新的 CXL 启用的 qemu 版本。更多细节请参见 [kdevops cxl 文档](docs/cxl.md)
+有 CXL 支持。你可以使用虚拟化 CXL 设备，也可以使用 [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/libvirt-pcie-passthrough.md) 将设备分配给客户机并创建自定义拓扑。kdevops 还可以为你构建和安装最新的 CXL 启用的 qemu 版本。更多细节请参见 [kdevops cxl 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/cxl.md)
 
 ## kdevops 聊天
 
@@ -145,33 +145,33 @@ kdevops 工作流是一种目标工作环境，你可以在其中运行不同的
 
 ## kdevops 共享工作流
 
-* [kdevops 示例工作流：运行 make linux](docs/kdevops-make-linux.md)
+* [kdevops 示例工作流：运行 make linux](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-make-linux.md)
 
 ## kdevops 可能专用的工作流
 
-  * [kdevops fstests 文档](docs/fstests.md)
-  * [kdevops blktests 文档](docs/blktets.md)
-  * [kdevops CXL 文档](docs/cxl.md)
-  * [kdevops NFS 文档](docs/nfs.md)
-  * [kdevops 自测文档](docs/selftests.md)
+  * [kdevops fstests 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/fstests.md)
+  * [kdevops blktests 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/blktets.md)
+  * [kdevops CXL 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/cxl.md)
+  * [kdevops NFS 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/nfs.md)
+  * [kdevops 自测文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/selftests.md)
 
 # kdevops 一般文档
 
 以下是 kdevops 推荐的阅读文档。
 
-  * [发送补丁和贡献给 kdevops](docs/contributing.md)
-  * [kdevops 要求](docs/requirements.md)
-  * [kdevops 不断演变的 make 帮助](docs/evolving-make-help.md)
-  * [kdevops 配置](docs/kdevops-configuration.md)
-  * [kdevops 镜像支持](docs/kdevops-mirror.md)
-  * [kdevops 初次运行](docs/kdevops-first-run.md)
-  * [kdevops 运行 make](docs/running-make.md)
-  * [kdevops libvirt 存储池考虑](docs/libvirt-storage-pool.md)
-  * [kdevops PCIe 直通支持](docs/libvirt-pcie-passthrough.md)
-  * [kdevops 运行 make bringup](docs/running-make-bringup.md)
-  * [kdevops 运行 make destroy](docs/kdevops-make-destroy.md)
-  * [kdevops make mrproper](docs/kdevops-restarting-from-scratch.md)
-  * [kdevops 大块尺寸 R&D](docs/lbs.md)
+  * [发送补丁和贡献给 kdevops](https://github.com/linux-kdevops/kdevops/tree/main/docs/contributing.md)
+  * [kdevops 要求](https://github.com/linux-kdevops/kdevops/tree/main/docs/requirements.md)
+  * [kdevops 不断演变的 make 帮助](https://github.com/linux-kdevops/kdevops/tree/main/docs/evolving-make-help.md)
+  * [kdevops 配置](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-configuration.md)
+  * [kdevops 镜像支持](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-mirror.md)
+  * [kdevops 初次运行](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-first-run.md)
+  * [kdevops 运行 make](https://github.com/linux-kdevops/kdevops/tree/main/docs/running-make.md)
+  * [kdevops libvirt 存储池考虑](https://github.com/linux-kdevops/kdevops/tree/main/docs/libvirt-storage-pool.md)
+  * [kdevops PCIe 直通支持](https://github.com/linux-kdevops/kdevops/tree/main/docs/libvirt-pcie-passthrough.md)
+  * [kdevops 运行 make bringup](https://github.com/linux-kdevops/kdevops/tree/main/docs/running-make-bringup.md)
+  * [kdevops 运行 make destroy](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-make-destroy.md)
+  * [kdevops make mrproper](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-restarting-from-scratch.md)
+  * [kdevops 大块尺寸 R&D](https://github.com/linux-kdevops/kdevops/tree/main/docs/lbs.md)
 
 # kdevops kernel-ci 支持
 
@@ -179,7 +179,7 @@ kdevops 支持其自己的内核持续集成支持，以便让 Linux 开发人�
 
 相关文档如下：
 
-  * [kdevops kernel-ci](docs/kernel-ci/README.md)
+  * [kdevops kernel-ci](https://github.com/linux-kdevops/kdevops/tree/main/docs/kernel-ci/README.md)
 
 # kdevops 组织
 
@@ -191,7 +191,7 @@ kdevops 已开始让用户/开发人员推送测试结果。这不仅仅是收�
 
 提供了一个任意的命名空间，以便 linux-kdevops 组织的开发人员可以贡献发现。
 
-请参阅 [查看 kdevops 存档结果](docs/viewing-fstests-results.md) 以查看更多有关如何查看结果的详细信息。我们将来应该为此添加简单的包装器。
+请参阅 [查看 kdevops 存档结果](https://github.com/linux-kdevops/kdevops/tree/main/docs/viewing-fstests-results.md) 以查看更多有关如何查看结果的详细信息。我们将来应该为此添加简单的包装器。
 
 # 关于 kdevops 或相关内容的视频演示
 
@@ -203,7 +203,7 @@ kdevops 已开始让用户/开发人员推送测试结果。这不仅仅是收�
     * 模块支持已确认
     * 人们如何使用 kdevops，一个例子是 Amir 和 Chandan 使用它来支持不同稳定内核的 XFS 稳定工作，使用不同的技术。Amir 使用三星提供的系统资源的本地虚拟化支持，而 Chandan 使用 Oracle Cloud Linux。有关详细信息，请参阅 [LSFMM 2023 Linux 稳定后端](https://www.youtube.com/watch?v=U-f7HlD2Ob4&list=PLbzoR-pLrL6rlmdpJ3-oMgU_zxc1wAhjS&ab_channel=TheLinuxFoundation) 视频
     * 审查 9p 支持
-    * Chandan 添加了 OCI 云支持 [kdevops OCI 文档](docs/kdevops-terraform.md)
+    * Chandan 添加了 OCI 云支持 [kdevops OCI 文档](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-terraform.md)
     * 由于已存在 terraform 提供程序，阿里巴巴云支持是可能的，欢迎补丁
     * arm64 问题 - 帮助我们 debian 的朋友们
     * [Oracle 支持我们提供免费试用云](https://www.oracle.com/cloud/free/)，注册吧！
@@ -237,26 +237,26 @@ kdevops 已开始让用户/开发人员推送测试结果。这不仅仅是收�
 
 以下部分深入探讨了 kdevops 的技术细节。
 
-  * [如何生成 extra_vars.yaml](docs/how-extra-vars-generated.md)
-  * [如何生成 ansible hosts 文件](docs/the-gen-hosts-ansible-role.md)
-  * [什么是 kdevops 节点文件及如何生成这些文件](docs/the-gen-nodes-ansible-role.md)
-    * [如何生成动态 Vagrant 文件](docs/the-gen-nodes-ansible-role-vagrant.md)
-    * [如何生成 terraform kdevops_nodes 变量](docs/the-gen-nodes-ansible-role-terraform.md)
-  * [如何生成 terraform/terraform.tfvars 变量](docs/the-terraform-gen-tfvar-ansible-role.md)
-  * [为何 Vagrant（已弃用）曾用于虚拟化](docs/why-vagrant.md)
-  * [支持带有环回块设备的截断文件的案例](docs/testing-with-loopback.md)
-  * [在使用环回/截断文件设置时遇到的更多问题](docs/seeing-more-issues.md)
-  * [向 kdevops 添加新的工作流程](docs/adding-a-new-workflow.md)
-  * [Kconfig 集成](docs/kconfig-integration.md)
-  * [kdevops 动态 Kconfig 支持](docs/kdevops-dynamic-configuration.md)
-  * [kdevops Git 参考生成支持](docs/kdevops-autorefs.md)
-  * [kdevops 的动机](docs/motivations.md)
-  * [Linux 发行版支持](docs/linux-distro-support.md)
-  * [使用一个文件覆盖所有 Ansible 角色选项](docs/ansible-override.md)
-  * [kdevops Vagrant 支持](docs/kdevops-vagrant.md)
-  * [kdevops terraform 支持 - 使用 kdevops 的云设置](docs/kdevops-terraform.md)
-  * [kdevops 本地 Ansible 角色](docs/ansible-roles.md)
-  * [构建自定义 Vagrant box 的教程](docs/custom-vagrant-boxes.md)
+  * [如何生成 extra_vars.yaml](https://github.com/linux-kdevops/kdevops/tree/main/docs/how-extra-vars-generated.md)
+  * [如何生成 ansible hosts 文件](https://github.com/linux-kdevops/kdevops/tree/main/docs/the-gen-hosts-ansible-role.md)
+  * [什么是 kdevops 节点文件及如何生成这些文件](https://github.com/linux-kdevops/kdevops/tree/main/docs/the-gen-nodes-ansible-role.md)
+    * [如何生成动态 Vagrant 文件](https://github.com/linux-kdevops/kdevops/tree/main/docs/the-gen-nodes-ansible-role-vagrant.md)
+    * [如何生成 terraform kdevops_nodes 变量](https://github.com/linux-kdevops/kdevops/tree/main/docs/the-gen-nodes-ansible-role-terraform.md)
+  * [如何生成 terraform/terraform.tfvars 变量](https://github.com/linux-kdevops/kdevops/tree/main/docs/the-terraform-gen-tfvar-ansible-role.md)
+  * [为何 Vagrant（已弃用）曾用于虚拟化](https://github.com/linux-kdevops/kdevops/tree/main/docs/why-vagrant.md)
+  * [支持带有环回块设备的截断文件的案例](https://github.com/linux-kdevops/kdevops/tree/main/docs/testing-with-loopback.md)
+  * [在使用环回/截断文件设置时遇到的更多问题](https://github.com/linux-kdevops/kdevops/tree/main/docs/seeing-more-issues.md)
+  * [向 kdevops 添加新的工作流程](https://github.com/linux-kdevops/kdevops/tree/main/docs/adding-a-new-workflow.md)
+  * [Kconfig 集成](https://github.com/linux-kdevops/kdevops/tree/main/docs/kconfig-integration.md)
+  * [kdevops 动态 Kconfig 支持](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-dynamic-configuration.md)
+  * [kdevops Git 参考生成支持](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-autorefs.md)
+  * [kdevops 的动机](https://github.com/linux-kdevops/kdevops/tree/main/docs/motivations.md)
+  * [Linux 发行版支持](https://github.com/linux-kdevops/kdevops/tree/main/docs/linux-distro-support.md)
+  * [使用一个文件覆盖所有 Ansible 角色选项](https://github.com/linux-kdevops/kdevops/tree/main/docs/ansible-override.md)
+  * [kdevops Vagrant 支持](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-vagrant.md)
+  * [kdevops terraform 支持 - 使用 kdevops 的云设置](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-terraform.md)
+  * [kdevops 本地 Ansible 角色](https://github.com/linux-kdevops/kdevops/tree/main/docs/ansible-roles.md)
+  * [构建自定义 Vagrant box 的教程](https://github.com/linux-kdevops/kdevops/tree/main/docs/custom-vagrant-boxes.md)
 
 # 许可证
 
