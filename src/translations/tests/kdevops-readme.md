@@ -135,7 +135,7 @@ kdevops 的使用阶段可以分为：
   * 使系统易于访问，并安装通用开发者首选项
   * 运行定义的工作流
 
-![kdevops-diagram](images/kdevops-diagram.png)
+[kdevops-diagram.png](https://github.com/linux-kdevops/kdevops/tree/main/images/kdevops-diagram.png)
 
 ---
 
