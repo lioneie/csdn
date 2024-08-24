@@ -185,6 +185,7 @@ array=(
         1 1 src/translations/tests/ltp-network-tests-readme.md ~ "LTP Network Tests README"
         1 1 src/translations/tests/xfstests-readme.md ~ "(x)fstests README"
         1 1 src/translations/tests/syzkaller.md ~ "syzkaller - kernel fuzzer"
+        1 1 src/translations/tests/kdevops-readme.md ~ "kdevops README"
         # qemu
         1 1 src/translations/qemu/qemu-networking-nat.md ~ "QEMU Documentation/Networking/NAT"
         # systemtap

@@ -58,6 +58,8 @@
 
 [syzkaller - kernel fuzzer](https://chenxiaosong.com/src/translations/tests/syzkaller.html)
 
+[kdevops README](https://chenxiaosong.com/src/translations/tests/kdevops-readme.html)
+
 # qemu
 
 [QEMU Documentation/Networking/NAT](https://chenxiaosong.com/src/translations/qemu/qemu-networking-nat.html)

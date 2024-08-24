@@ -6,7 +6,7 @@ kdevops 的主 git 仓库是：
 
   * https://github.com/linux-kdevops/kdevops
 
-<img src="images/kdevops-trans-bg-edited-individual-with-logo-gausian-blur-1600x1600.png" width=250 align=center alt="kdevops logo">
+[kdevops logo](https://github.com/linux-kdevops/kdevops/tree/main/images/kdevops-trans-bg-edited-individual-with-logo-gausian-blur-1600x1600.png)
 
 kdevops 提供了一个用于优化 Linux 内核开发和测试的自动化框架。它旨在帮助你快速适应任何复杂的 Linux 内核开发环境，并能够迅速为复杂的子系统设置一个完整的测试实验室。
 
