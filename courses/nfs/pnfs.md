@@ -28,6 +28,19 @@
 [1] https://github.com/chucklever/kdevops/tree/pnfs-block-testing
 ```
 
+注意邮件中说的[chucklever/kdevops/tree/pnfs-block-testing)](https://github.com/chucklever/kdevops/tree/pnfs-block-testing)顶部的9个提交也是[linux-kdevops/kdevops](https://github.com/linux-kdevops/kdevops)中的以下几个记录:
+```sh
+9f42f09 docs: Fill out docs/nfs.md
+687ed7f fstests: Enable testing with pNFS block layouts
+976a759 pynfs: Enable testing with pNFS block layouts
+9024573 gitr: Enable testing with pNFS block layouts
+f391aed nfsd_add_export: Enable pnfs on capable exports
+1dcae17 nfsd: Provision an iSCSI initiator on the kdevops NFS server
+af043aa iscsi: Provision a target node to host iSCSI LUNs
+6cc895a Shorten the names of devices where exports reside
+2172d8e nfsd_add_export: Move storage allocation to separate YML files
+```
+
 ## 除了block layout外，nfs server有没计划实现其他的layout?
 
 [Chuck Lever 回复内容](https://lore.kernel.org/all/1D4505F5-1923-4E7B-A12B-F1E05308914C@oracle.com/)翻译如下：
@@ -48,7 +61,7 @@ NFS 服务器有一个玩具级的 flexfile layout实现，仅仅是一个概念
 
 服务端:
 
-- block layout实现较完善，[maintainer在自己仓库有提供测试用例](https://github.com/chucklever/kdevops/tree/pnfs-block-testing)。
+- block layout实现较完善，[linux-kdevops/kdevops](https://github.com/linux-kdevops/kdevops)仓库有测试用例。
 - flexfile layout有初步的实现（概念验证阶段），待扩展。
 - file layout（无用户需求）和object layout（已废弃）不打算实现。
 
