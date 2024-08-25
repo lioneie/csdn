@@ -2,57 +2,37 @@
 
 # 日志
 
-发生问题时，报错日志肯定是很有用的信息，大部分发行版都会把日志放在`/var/log/messages*`文件中，默认情况下，nfs只会打印错误信息。但有些时候，我们需要一些调试日志信息，这时就要打开nfs和rpc的调试开关，以下是打开全部日志的命令，注意这将会打印大量日志，请先把`/var/log/messages*`复制保存到其他位置，避免错误日志被覆盖：
-```sh
-echo 0xFFFF > /proc/sys/sunrpc/nfs_debug # NFSDBG_ALL              0xFFFF
-echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL              0x7fff
+发生问题时，报错日志肯定是很有用的信息，大部分发行版都会把日志放在`/var/log/messages*`文件中，默认情况下，nfs只会打印错误信息。但有些时候，我们需要一些调试日志信息，这时就要打开nfs和rpc的调试开关。几个打印相关的宏定义是`dprintk()`、`dprintk_cont()`、`dprintk_rcu()`、`dprintk_rcu_cont`，下面以`dprintk()`为例讲一下这个宏定义的展开:
+```c
+// include/linux/sunrpc/debug.h
+dprintk(fmt, ...)
+  dfprintk(FACILITY, fmt, ##__VA_ARGS__)
+    ifdebug(fac)
+      // include/linux/sunrpc/debug.h
+      if (unlikely(rpc_debug & RPCDBG_FACILITY))
+      // include/linux/nfs_fs.h
+      if (unlikely(nfs_debug & NFSDBG_FACILITY))
+      // fs/nfsd/nfsd.h
+      if (nfsd_debug & NFSDDBG_FACILITY)
+      // include/linux/lockd/debug.h
+      if (unlikely(nlm_debug & NLMDBG_FACILITY))
+    printk(KERN_DEFAULT fmt, ##__VA_ARGS__);
 ```
 
-如果你缩小了nfs定位的范围，比如说只打开`pagecache`相关的nfs日志：
+以下是打开全部日志的命令，注意这将会打印大量日志，请先把`/var/log/messages*`复制保存到其他位置，避免错误日志被覆盖：
+```sh
+echo 0xFFFF > /proc/sys/sunrpc/nfs_debug # NFSDBG_ALL
+echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL
+echo 0x7FFF > /proc/sys/sunrpc/nfsd_debug # NFSDDBG_ALL
+echo 0x7fff > /proc/sys/sunrpc/nlm_debug # NLMDBG_ALL
+```
+
+如果你缩小了定位的范围，可以只打开某些日志：
 ```sh
 echo 0x0008 > /proc/sys/sunrpc/nfs_debug # NFSDBG_PAGECACHE
-```
-
-`include/uapi/linux/nfs_fs.h`中所有的nfs调试`flag`:
-```c
-#define NFSDBG_VFS              0x0001
-#define NFSDBG_DIRCACHE         0x0002
-#define NFSDBG_LOOKUPCACHE      0x0004
-#define NFSDBG_PAGECACHE        0x0008
-#define NFSDBG_PROC             0x0010
-#define NFSDBG_XDR              0x0020
-#define NFSDBG_FILE             0x0040
-#define NFSDBG_ROOT             0x0080
-#define NFSDBG_CALLBACK         0x0100
-#define NFSDBG_CLIENT           0x0200
-#define NFSDBG_MOUNT            0x0400
-#define NFSDBG_FSCACHE          0x0800
-#define NFSDBG_PNFS             0x1000
-#define NFSDBG_PNFS_LD          0x2000
-#define NFSDBG_STATE            0x4000
-#define NFSDBG_ALL              0xFFFF
-```
-
-同样的，如果你缩小了rpc定位的范围，比如说只打开`call`相关的rpc日志：
-```sh
-echo 0x0002 > /proc/sys/sunrpc/rpc_debug # RPCDBG_CALL
-```
-
-`include/uapi/linux/sunrpc/debug.h`中所有的rpc调试`flag`:
-```c
-#define RPCDBG_XPRT             0x0001
-#define RPCDBG_CALL             0x0002
-#define RPCDBG_DEBUG            0x0004
-#define RPCDBG_NFS              0x0008
-#define RPCDBG_AUTH             0x0010
-#define RPCDBG_BIND             0x0020
-#define RPCDBG_SCHED            0x0040
-#define RPCDBG_TRANS            0x0080
-#define RPCDBG_SVCXPRT          0x0100
-#define RPCDBG_SVCDSP           0x0200
-#define RPCDBG_MISC             0x0400
-#define RPCDBG_CACHE            0x0800
-#define RPCDBG_ALL              0x7fff
+echo 0x0040 > /proc/sys/sunrpc/rpc_debug # RPCDBG_SCHED
+echo 0x0400 > /proc/sys/sunrpc/nfsd_debug # NFSDDBG_PNFS
+echo 0x0008 > /proc/sys/sunrpc/nlm_debug # NLMDBG_SVCLOCK
 ```
 
 # tcpdump抓包
