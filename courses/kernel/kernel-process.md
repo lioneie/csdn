@@ -476,9 +476,19 @@ pick_next_task_fair
 
 <!-- https://lwn.net/ml/linux-kernel/20230531115839.089944915@infradead.org/ -->
 
-Earliest eligible virtual deadline first，
+EEVDF (Earliest Eligible Virtual Deadline First) 调度器是 Linux 内核中的一种新的进程调度算法。它是作为 CFS（完全公平调度器）的替代方案而提出的，旨在提高系统的实时性能和资源分配的公平性。
 
-[`[PATCH 00/15] sched: EEVDF and latency-nice and/or slice-attr`](https://lore.kernel.org/all/20230531115839.089944915@infradead.org/):
+EEVDF 主要基于虚拟截止期限的概念。每个进程都有一个虚拟截止时间，调度器根据哪个进程的虚拟截止时间最早来决定哪个进程优先执行。虚拟截止时间是通过结合进程的执行时间和优先级来计算的。
+
+有以下优点:
+
+- 改进的实时性：EEVDF 更适合处理实时任务，因为它能够更精确地控制任务的执行顺序，减少高优先级任务的延迟。
+- 更公平的资源分配：EEVDF 提供了更公平的 CPU 资源分配机制，避免了某些进程被长期饿死的问题。
+- 更低的复杂度：与 CFS 相比，EEVDF 的计算复杂度更低，可能会带来更好的性能。
+
+EEVDF 适用于需要高实时性和低延迟的系统，例如音视频处理、工业控制、嵌入式系统等场景。通过使用 EEVDF，系统可以更好地满足严格的实时要求，同时提高整体系统的响应速度。
+
+补丁集[`[PATCH 00/15] sched: EEVDF and latency-nice and/or slice-attr`](https://lore.kernel.org/all/20230531115839.089944915@infradead.org/):
 
 - [`[PATCH 01/15] af4cf40470c2 sched/fair: Add cfs_rq::avg_vruntime`](https://lore.kernel.org/all/20230531124603.654144274@infradead.org/)
 - [`[PATCH 02/15] e0c2ff903c32 sched/fair: Remove sched_feat(START_DEBIT)`](https://lore.kernel.org/all/20230531124603.722361178@infradead.org/)
