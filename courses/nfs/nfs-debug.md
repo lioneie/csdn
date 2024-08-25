@@ -51,7 +51,7 @@ sysctl net.core.rmem_default=xxx
 sysctl net.core.rmem_max=xxx
 ```
 
-`tcpdump`抓包的文件，可以使用`wireshark`分析。
+`tcpdump`抓包的文件，可以使用[`wireshark`](https://www.wireshark.org/)分析。如果要查看端口，需要在`preferences -> appearance -> columns`中添加`Src port (unresolved)`和`Dest port (unresolved)`。
 
 # 重新挂载
 
@@ -88,7 +88,7 @@ echo c > /proc/sysrq-trigger
 
 # 非特权源端口挂载
 
-默认情况下，nfs挂载使用的源端口是小于1024的特权端口（Privileged Ports），需要root权限。
+默认情况下，nfs client挂载使用的源端口是小于1024的特权端口（Privileged Ports），需要root权限。
 
 但在某些情况下，无法挂载时，可以尝试使用大于1024的非特权端口挂载，这对排查问题很有帮助。
 
