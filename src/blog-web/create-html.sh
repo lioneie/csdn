@@ -154,6 +154,8 @@ array=(
     1 1 src/lorawan/stm32-linux.md ~ "STM32 Linux开发环境"
     1 1 src/health/tooth-clean.md ~ "牙齿护理"
     # 翻译
+        # kernel
+        1 1 src/translations/kernel/sched-design-CFS.rst ~ "CFS Scheduler"
         # nfs
         1 1 src/translations/nfs/rfc8881-nfsv4.1.md ~ "Network File System (NFS) Version 4 Minor Version 1 Protocol"
         1 1 src/translations/nfs/rfc7862-nfsv4.2.md ~ "Network File System (NFS) Version 4 Minor Version 2 Protocol"
