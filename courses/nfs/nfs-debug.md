@@ -102,9 +102,9 @@ echo c > /proc/sysrq-trigger
 systemctl restart nfs-server.service
 ```
 
-client端挂载选项指定`noresvport`：
+这时client端可以使用所有范围的端口挂载，默认情况下还是使用小于1024的端口，而大于1024的端口要指定挂载选项`noresvport`：
 ```sh
-mount -t nfs -o vers=4.2,noresvport ${server_ip}:/ /mnt
+mount -t nfs -o noresvport ${server_ip}:/ /mnt
 ```
 
 请注意，使用非特权源端口挂载在一些场景下是不安全的（从server端的配置选项的字面意思`insecure`就能看出），尽量只在调试场景下使用。
