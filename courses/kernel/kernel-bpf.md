@@ -67,6 +67,8 @@ sudo dnf install -y \
         zlib-devel
 ```
 
+debian环境，参考[`Dockerfile.debian`](https://github.com/bpftrace/bpftrace/blob/master/docker/Dockerfile.debian)，注意debian版本不能太老，版本太老（如bullseye）有些默认安装的软件可能不支持编译。
+
 编译:
 ```sh
 git clone https://github.com/bpftrace/bpftrace
