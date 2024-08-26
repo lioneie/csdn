@@ -144,7 +144,9 @@ sudo systemctl enable --now code-server@$USER
 sudo systemctl restart code-server@$USER
 ```
 
-然后打开浏览器输入`http://localhost:8888`（8888是`${HOME}/.config/code-server/config.yaml`配置文件中配置的端口）。
+然后打开浏览器输入`http://localhost:8888`（`8888`是`${HOME}/.config/code-server/config.yaml`配置文件中配置的端口）。
+
+有些格式的文件可能不会自动换行显示，可以勾选`View -> Word Wrap`。
 
 注意，和vscode客户端不一样，vscode server装插件时有些插件无法搜索到，这时就需要在[vscode网站](https://marketplace.visualstudio.com/vscode)上下载`.vsix`文件，手动安装。
 
