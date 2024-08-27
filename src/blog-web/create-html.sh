@@ -20,7 +20,7 @@ array=(
     1 1 src/blog-web/blog.md blog.html "陈孝松博客"
     1 1 src/blog-web/contributions.md contributions.html "陈孝松自由软件贡献"
     1 1 src/blog-web/translations.md ~ "翻译"
-    1 1 courses/courses.md courses.html "课程和视频"
+    1 1 src/blog-web/courses.md courses.html "课程和视频"
     # 课程
     0 1 ${tmp_courses_path}/courses/kernel/kernel.md courses/kernel/kernel.html "Linux内核课程"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-introduction.md courses/kernel/kernel-introduction.html "内核简介"
