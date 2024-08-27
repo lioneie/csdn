@@ -14,12 +14,13 @@ tmp_courses_path=/tmp/blog
 #    网页标题
 array=(
     # 自我介绍
-    0 0 src/blog-web/index.md index.html '陈孝松个人主页'
+    1 1 src/blog-web/index.md index.html '陈孝松个人主页'
     1 1 src/blog-web/photos.md photos.html '陈孝松照片'
     1 1 src/blog-web/openharmony.md openharmony.html "陈孝松OpenHarmony贡献"
     1 1 src/blog-web/blog.md blog.html "陈孝松博客"
     1 1 src/blog-web/contributions.md contributions.html "陈孝松自由软件贡献"
     1 1 src/blog-web/translations.md ~ "翻译"
+    1 1 courses/courses.md courses.html "课程和视频"
     # 课程
     0 1 ${tmp_courses_path}/courses/kernel/kernel.md courses/kernel/kernel.html "Linux内核课程"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-introduction.md courses/kernel/kernel-introduction.html "内核简介"

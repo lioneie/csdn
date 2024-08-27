@@ -90,6 +90,10 @@ server {
 		rewrite ^/bili/kernel$ https://www.bilibili.com/video/BV15C411E7Sm/;
 	}
 
+	location /bili/kernel-ext {
+		rewrite ^/bili/kernel-ext$ https://www.bilibili.com/video/BV1Tx4y187vg/;
+	}
+
 	location /bili/kernel/vm {
 		rewrite ^/bili/kernel/vm$ https://www.bilibili.com/video/BV1Ss421T7KY/?vd_source=b3241359025e41f053e9e1b071acb6f8;
 	}
@@ -100,6 +104,10 @@ server {
 
 	location /bili/nfs {
 		rewrite ^/bili/nfs$ https://www.bilibili.com/video/BV1hm421g7T8/;
+	}
+
+	location /bili/others {
+		rewrite ^/bili/others$ https://www.bilibili.com/video/BV14z421z7Mb/;
 	}
 
 	# 转发
