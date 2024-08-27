@@ -24,7 +24,7 @@ ATTRIBUTE_GROUPS(ksmbd_control_class)
     &ksmbd_control_class_group,
 ```
 
-用以下命令控制打印的开关:
+通过读写`/sys/class/ksmbd-control/debug`文件控制，但我们一般不直接操作这个文件，而是用以下命令控制打印的开关:
 ```sh
 ksmbd.control --help # 查看帮助
 # COMPONENT的值有: `all', `smb', `auth', `vfs', `oplock', `ipc', `conn', or `rdma'
