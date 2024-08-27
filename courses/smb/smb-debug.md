@@ -12,6 +12,9 @@ ksmbd_debug
 CLASS_ATTR_RW(debug)
   struct class_attribute class_attr_debug = __ATTR_RW(debug)
     __ATTR(debug, 0644, debug_show, debug_store)
+      .attr = {.name = __stringify(debug),
+        __stringify_1(x)
+          #debug =-> /sys/class/ksmbd-control/debug文件
       .show   = debug_show,
       .store  = debug_store,
 
@@ -22,6 +25,11 @@ ATTRIBUTE_GROUPS(ksmbd_control_class)
   __ATTRIBUTE_GROUPS(ksmbd_control_class)
     ksmbd_control_class_groups[] // 引用这个变量的是ksmbd_control_class
     &ksmbd_control_class_group,
+
+static struct class ksmbd_control_class = {
+        .name           = "ksmbd-control", ==> /sys/class/ksmbd-control/目录
+        .class_groups   = ksmbd_control_class_groups,
+};
 ```
 
 通过读写`/sys/class/ksmbd-control/debug`文件控制，但我们一般不直接操作这个文件，而是用以下命令控制打印的开关:
