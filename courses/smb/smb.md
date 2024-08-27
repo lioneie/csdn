@@ -1,5 +1,9 @@
 做这个课程的目的是通过整理知识点来找到一些正在开发中或需要完善的特性进行社区贡献。
 
+[点击这里从百度网盘下载配套的视频教程](https://chenxiaosong.com/baidunetdisk)。
+
+[点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://chenxiaosong.com/bili/smb)。
+
 参考网站：
 
 - [鸟哥的Linux私房菜 简体 - "SAMBA服务器"章节](http://cn.linux.vbird.org/linux_server/#part3)
