@@ -2,6 +2,8 @@
 
 [CFS Scheduler](https://chenxiaosong.com/src/translations/kernel/sched-design-CFS.html)
 
+[Extensible Scheduler Class](https://chenxiaosong.com/src/translations/kernel/sched-ext.html)
+
 # nfs
 
 [Network File System (NFS) Version 4 Minor Version 1 Protocol](https://chenxiaosong.com/src/translations/nfs/rfc8881-nfsv4.1.html)
