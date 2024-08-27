@@ -52,6 +52,11 @@ openat
 // smb流程
 atomic_open
   cifs_atomic_open
+    cifs_lookup
+      cifs_get_inode_info
+        cifs_get_fattr
+          smb2_query_path_info
+            smb2_compound_op
     cifs_do_create
       smb2_open_file
         SMB2_open
@@ -92,4 +97,21 @@ do_writepages
 kthread
   cifs_demultiplex_thread
     smb2_writev_callback // mids[i]->callback
+```
+
+挂载:
+```c
+mount
+  do_mount
+    path_mount
+      do_new_mount
+        vfs_parse_fs_string
+          vfs_parse_fs_param
+            smb3_fs_context_parse_param
+        parse_monolithic_mount_data
+          smb3_fs_context_parse_monolithic
+            while ((key = strsep(&options, ",")) != NULL) {
+            vfs_parse_fs_string
+              vfs_parse_fs_param
+                smb3_fs_context_parse_param
 ```
