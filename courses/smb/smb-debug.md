@@ -14,7 +14,7 @@ CLASS_ATTR_RW(debug)
     __ATTR(debug, 0644, debug_show, debug_store)
       .attr = {.name = __stringify(debug),
         __stringify_1(x)
-          #debug =-> /sys/class/ksmbd-control/debug文件
+          #debug ==> /sys/class/ksmbd-control/debug文件
       .show   = debug_show,
       .store  = debug_store,
 
