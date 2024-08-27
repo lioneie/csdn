@@ -82,7 +82,7 @@ array=(
     0 1 courses/smb/smb.md ~ "smb文件系统"
         1 1 courses/smb/smb-introduction.md ~ "smb简介"
         1 1 courses/smb/smb-environment.md ~ "smb环境"
-        1 1 courses/smb/ksmbd.md ~ "KSMBD - SMB3 Kernel Server"
+        1 1 courses/smb/ksmbd.md ~ "smb server (ksmbd)"
         1 1 courses/smb/smb-client-struct.md ~ "smb client数据结构"
         1 1 courses/smb/smb-debug.md ~ "smb调试方法"
         1 1 courses/smb/smb-patches.md ~ "smb补丁分析"

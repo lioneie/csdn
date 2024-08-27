@@ -1,6 +1,6 @@
 # 内核server搭建
 
-请查看[KSMBD - SMB3 Kernel Server](https://chenxiaosong.com/courses/smb/ksmbd.html)。
+请查看[smb server (ksmbd)](https://chenxiaosong.com/courses/smb/ksmbd.html)。
 
 # 用户态server搭建
 

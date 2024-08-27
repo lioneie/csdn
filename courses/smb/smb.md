@@ -21,7 +21,7 @@
 
 # [smb环境](https://chenxiaosong.com/courses/smb/smb-environment.html)
 
-# [KSMBD - SMB3 Kernel Server](https://chenxiaosong.com/courses/smb/ksmbd.html)
+# [smb server (ksmbd)](https://chenxiaosong.com/courses/smb/ksmbd.html)
 
 # [smb client数据结构](https://chenxiaosong.com/courses/smb/smb-client-struct.html)
 
