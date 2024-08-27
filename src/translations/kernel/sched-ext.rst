@@ -1,5 +1,5 @@
 
-本文档翻译自`sched-ext.rst <https://gitee.com/chenxiaosonggitee/blog/blob/master/src/translations/kernel/sched-ext-origin.rst>`_，翻译时sched-ext未合入主线，还在next仓库里，当时next仓库里的最新提交是``18b2bd03371b sched_ext: Documentation: Remove mentions of scx_bpf_switch_all``。大部分借助于ChatGPT翻译，仅作为我个人的参考，如果你想查阅，建议看英文文档，因为我不确定我记录的中文翻译是否完整和正确。
+本文档翻译自`sched-ext.rst <https://gitee.com/chenxiaosonggitee/tmp/blob/master/kernel/sched-ext-origin.rst>`_，翻译时sched-ext未合入主线，还在next仓库里，当时next仓库里的最新提交是``18b2bd03371b sched_ext: Documentation: Remove mentions of scx_bpf_switch_all``。大部分借助于ChatGPT翻译，仅作为我个人的参考，如果你想查阅，建议看英文文档，因为我不确定我记录的中文翻译是否完整和正确。
 
 sched_ext 是一个调度器类，其行为可以通过一组 BPF 程序来定义——即 BPF 调度器。
 
