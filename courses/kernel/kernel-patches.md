@@ -8,6 +8,10 @@
 
 [点击这里查看SMB相关补丁](https://chenxiaosong.com/courses/smb/smb-patches.html)
 
+# 调度
+
+[`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)
+
 # VFS（虚拟文件系统）
 
 [`4595a298d556 iomap: Set all uptodate bits for an Uptodate page`](https://chenxiaosong.com/courses/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.html)

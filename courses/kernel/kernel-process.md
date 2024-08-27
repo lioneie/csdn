@@ -488,21 +488,6 @@ EEVDF 主要基于虚拟截止期限的概念。每个进程都有一个虚拟�
 
 EEVDF 适用于需要高实时性和低延迟的系统，例如音视频处理、工业控制、嵌入式系统等场景。通过使用 EEVDF，系统可以更好地满足严格的实时要求，同时提高整体系统的响应速度。
 
-补丁集[`[PATCH 00/15] sched: EEVDF and latency-nice and/or slice-attr`](https://lore.kernel.org/all/20230531115839.089944915@infradead.org/):
-
-- [`[PATCH 01/15] af4cf40470c2 sched/fair: Add cfs_rq::avg_vruntime`](https://lore.kernel.org/all/20230531124603.654144274@infradead.org/)
-- [`[PATCH 02/15] e0c2ff903c32 sched/fair: Remove sched_feat(START_DEBIT)`](https://lore.kernel.org/all/20230531124603.722361178@infradead.org/)
-- [`[PATCH 03/15] 86bfbb7ce4f6 sched/fair: Add lag based placement`](https://lore.kernel.org/all/20230531124603.794929315@infradead.org/)
-- [`[PATCH 04/15] 99d4d26551b5 rbtree: Add rb_add_augmented_cached() helper`](https://lore.kernel.org/all/20230531124603.862983648@infradead.org/)
-- [`[PATCH 05/15] 147f3efaa241 sched/fair: Implement an EEVDF-like scheduling policy`](https://lore.kernel.org/all/20230531124603.931005524@infradead.org/)
-- [`[PATCH 06/15] 76cae9dbe185 sched/fair: Commit to lag based placement`](https://lore.kernel.org/all/20230531124604.000198861@infradead.org/)
-- [`[PATCH 07/15] e8f331bcc270 sched/smp: Use lag to simplify cross-runqueue placement`](https://lore.kernel.org/all/20230531124604.068911180@infradead.org/)
-- [`[PATCH 08/15] 5e963f2bd465 sched/fair: Commit to EEVDF`](https://lore.kernel.org/all/20230531124604.137187212@infradead.org/)
-- [`[PATCH 09/15] e4ec3318a17f sched/debug: Rename sysctl_sched_min_granularity to sysctl_sched_base_slice`](https://lore.kernel.org/all/20230531124604.205287511@infradead.org/)
-- [`[PATCH 10/15] d07f09a1f99c sched/fair: Propagate enqueue flags into place_entity()`](https://lore.kernel.org/all/20230531124604.274010996@infradead.org/)
-
-邮件中的`11~15`补丁未合入。
-
 ```c
 schedule
   __schedule

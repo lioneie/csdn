@@ -33,6 +33,9 @@ array=(
         1 1 ${tmp_courses_path}/courses/kernel/kernel-process.md courses/kernel/kernel-process.html "进程管理和调度"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-bpf.md courses/kernel/kernel-bpf.html "BPF"
         1 1 ${tmp_courses_path}/courses/kernel/kernel-patches.md courses/kernel/kernel-patches.html "内核补丁分析"
+            # 调度
+            1 1 courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.md ~
+                "sched: EEVDF and latency-nice and/or slice-attr"
             # vfs
             1 1 courses/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.md ~
                 "4595a298d556 iomap: Set all uptodate bits for an Uptodate page"
