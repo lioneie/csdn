@@ -54,3 +54,7 @@ cifs_dbg
 ```
 
 动态打印相关的内容请查看[《内核调试方法》](https://chenxiaosong.com/courses/kernel/kernel-debug.html)。
+
+# tcpdump抓包
+
+请查看[《nfs调试方法》](https://chenxiaosong.com/courses/nfs/nfs-debug.html)。
