@@ -1,5 +1,7 @@
 # 打印
 
+## server打印
+
 smb server打印函数是`ksmbd_debug()`，相关代码如下:
 ```c
 ksmbd_debug
@@ -18,9 +20,19 @@ ATTRIBUTE_GROUPS(ksmbd_control_class)
   ksmbd_control_class_group
   .attrs = ksmbd_control_class_attrs
   __ATTRIBUTE_GROUPS(ksmbd_control_class)
-    ksmbd_control_class_groups[] // 引用这具变量的是ksmbd_control_class
+    ksmbd_control_class_groups[] // 引用这个变量的是ksmbd_control_class
     &ksmbd_control_class_group,
 ```
+
+用以下命令控制打印的开关:
+```sh
+ksmbd.control --help # 查看帮助
+# COMPONENT的值有: `all', `smb', `auth', `vfs', `oplock', `ipc', `conn', or `rdma'
+ksmbd.control --debug=vfs
+ksmbd.control --debug= # 不加COMPONENT可以查看当前的状态
+```
+
+## client打印
 
 smb client打印函数有`cifs_dbg()`、`cifs_server_dbg()`、`cifs_tcon_dbg()`、`cifs_info()`，要打开配置`CONFIG_CIFS_DEBUG`才有效，打开`CONFIG_CIFS_DEBUG2`和`CONFIG_CIFS_DEBUG_DUMP_KEYS`能打印更多信息，以`cifs_dbg()`为例代码如下:
 ```c
