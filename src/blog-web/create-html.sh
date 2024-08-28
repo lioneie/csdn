@@ -82,6 +82,8 @@ array=(
                 "c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down"
             1 1 courses/nfs/patches/NFS-Improve-warning-message-when-locks-are-lost.md ~
                 "3e2910c7e23b NFS: Improve warning message when locks are lost."
+            1 1 courses/nfs/patches/nfsd-Remove-incorrect-check-in-nfsd4_validate_statei.md ~
+                "600df3856f0b nfsd: Remove incorrect check in nfsd4_validate_stateid"
     0 1 courses/smb/smb.md ~ "smb文件系统"
         1 1 courses/smb/smb-introduction.md ~ "smb简介"
         1 1 courses/smb/smb-environment.md ~ "smb环境"

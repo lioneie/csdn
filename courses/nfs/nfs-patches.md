@@ -21,3 +21,5 @@
 [`c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down`](https://chenxiaosong.com/courses/nfs/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.html)
 
 [`3e2910c7e23b NFS: Improve warning message when locks are lost.`](https://chenxiaosong.com/courses/nfs/patches/NFS-Improve-warning-message-when-locks-are-lost.html)
+
+[`600df3856f0b nfsd: Remove incorrect check in nfsd4_validate_stateid`](https://chenxiaosong.com/courses/nfs/patches/nfsd-Remove-incorrect-check-in-nfsd4_validate_statei.html)
