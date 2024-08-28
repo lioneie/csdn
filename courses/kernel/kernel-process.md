@@ -449,7 +449,6 @@ schedule
         __pick_next_task_fair
           pick_next_task_fair
             pick_next_entity
-              TODO
 ```
 
 向红黑树中加入进程发生在进程变为可运行状态（被唤醒）或创建进程时，流程如下：
@@ -472,35 +471,7 @@ pick_next_task_fair
     __dequeue_entity
 ```
 
-# EEVDF调度器
-
-<!-- https://lwn.net/ml/linux-kernel/20230531115839.089944915@infradead.org/ -->
-
-EEVDF (Earliest Eligible Virtual Deadline First) 调度器是 Linux 内核中的一种新的进程调度算法。它是作为 CFS（完全公平调度器）的替代方案而提出的，旨在提高系统的实时性能和资源分配的公平性。
-
-EEVDF 主要基于虚拟截止期限的概念。每个进程都有一个虚拟截止时间，调度器根据哪个进程的虚拟截止时间最早来决定哪个进程优先执行。虚拟截止时间是通过结合进程的执行时间和优先级来计算的。
-
-有以下优点:
-
-- 改进的实时性：EEVDF 更适合处理实时任务，因为它能够更精确地控制任务的执行顺序，减少高优先级任务的延迟。
-- 更公平的资源分配：EEVDF 提供了更公平的 CPU 资源分配机制，避免了某些进程被长期饿死的问题。
-- 更低的复杂度：与 CFS 相比，EEVDF 的计算复杂度更低，可能会带来更好的性能。
-
-EEVDF 适用于需要高实时性和低延迟的系统，例如音视频处理、工业控制、嵌入式系统等场景。通过使用 EEVDF，系统可以更好地满足严格的实时要求，同时提高整体系统的响应速度。
-
-```c
-schedule
-  __schedule
-    pick_next_task
-      __pick_next_task
-        __pick_next_task_fair
-          pick_next_task_fair
-            pick_next_entity
-              pick_eevdf
-                __pick_eevdf
-```
-
-# 休眠和唤醒
+## 休眠和唤醒
 
 内核用`wait_queue_entry`表示等待队列，静态创建可以用`DECLARE_WAITQUEUE()`，动态创建可以用`init_waitqueue_head()`。
 
@@ -542,6 +513,7 @@ remove_wait_queue(&group->notification_waitq, &wait);
 - 标准的多处理器体系结构: 采用对称多处理（Symmetric Multi Processing，SMP），每个cpu都参与调度操作系统的所有任务。每个cpu有自己的寄存器集，也有自己的高速缓存，但RAM芯片集被所有cpu共享。
 - 超线程: intel发明的，当前线程在访问内存的间隙，处理器可以使用它的机器周期支执行另一个线程。一个超线程的物理cpu可以被Linux看作几个不同的逻辑cpu。
 - NUMA: Non-Uniform Memory Access，非统一内存访问，把cpu和RAM以本地"节点"为单位分组。当cpu访问与它在同一个节点中的"本地"RAM，几乎没有竞争，访问非常快。
+<!-- - AMD CCX 架构 -->
 
 可以使用`lscpu`命令查看，`Thread(s) per core`代表每个核心的线程数，如果大于1，说明启用了超线程；`NUMA node(s)`表示NUMA节点的数量，如果只有一个节点，则表明不是NUMA架构，内存是所有CPU共享的。
 
@@ -552,6 +524,33 @@ remove_wait_queue(&group->notification_waitq, &wait);
 相关函数请查看v6.6的`run_rebalance_domains()`（在v6.10-rc1已重命名成`sched_balance_softirq()`）。
 
 # 其他调度器
+
+## EEVDF调度器
+
+<!-- https://lwn.net/ml/linux-kernel/20230531115839.089944915@infradead.org/ -->
+
+CFS已经在v6.6被EEVDF (Earliest Eligible Virtual Deadline First，最早可用虚拟截止时间优先) 调度器取代，每个进程有一个虚拟截止时间，代表应该运行完成的时间，EEVDF调度器优先选择虚拟截止时间最早的进程运行，虚拟截止时间取决于进程优先级和已经获得的cpu时间，可以保证延迟敏感的进程及时得到cpu时间。和CFS一样，时间片根据进程的优先级和已使用的 CPU 时间进行综合动态调整。
+
+<!-- public begin -->
+补丁集: [`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
+<!-- public end -->
+
+<!-- private begin -->
+补丁集[`[PATCH 00/15] sched: EEVDF and latency-nice and/or slice-attr`](https://lore.kernel.org/all/20230531115839.089944915@infradead.org/)，合入了邮件中`1~10`的补丁。
+<!-- private end -->
+
+挑选下一个任务的流程如下：
+```c
+schedule
+  __schedule
+    pick_next_task
+      __pick_next_task
+        __pick_next_task_fair
+          pick_next_task_fair
+            pick_next_entity
+              pick_eevdf
+                __pick_eevdf
+```
 
 ## BFS
 
