@@ -13,7 +13,7 @@ sched_ext 是一个调度器类，其行为可以通过一组 BPF 程序来定�
 
 * 当 BPF 调度器触发错误时，会转储调试信息以辅助调试。调试转储被传递给调度器二进制文件并打印出来。调试转储也可以通过 `sched_ext_dump` 跟踪点访问。SysRq 键序列 :kbd:`SysRq-D` 会触发调试转储。这不会终止 BPF 调度器，只能通过跟踪点读取。
 
-切换到和从 sched_ext
+切换到和切换自 sched_ext
 ===============================
 
 ``CONFIG_SCHED_CLASS_EXT`` 是启用 sched_ext 的配置选项，而 ``tools/sched_ext`` 包含示例调度器。使用 sched_ext 应启用以下配置选项：
