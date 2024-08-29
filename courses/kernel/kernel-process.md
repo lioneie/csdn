@@ -582,9 +582,13 @@ Brain Fuck Scheduler, 脑残调度器，由澳洲麻醉师康恩·科里瓦斯�
 
 > 2011年7月13日，科里瓦斯又推出一全新软件，名之为cgminer，用于探勘比特币和莱特币等加密电子货币。
 
-<!-- ing begin -->
 ## Extensible Scheduler Class
 
-https://www.kernel.org/doc/html/next/scheduler/sched-ext.html
+<!-- public begin -->
+- 文档[Extensible Scheduler Class](https://chenxiaosong.com/src/translations/kernel/sched-ext.html)翻译
+<!-- public end -->
+<!-- private begin -->
+- [Extensible Scheduler Class](https://www.kernel.org/doc/html/next/scheduler/sched-ext.html)文档
+<!-- private end -->
 
-<!-- ing end -->
+代码位于内核仓库的`tools/sched_ext/`目录下。
