@@ -47,7 +47,43 @@ kernel_files() {
     add_common array[@] ${common_file}
 }
 
+nfs_files() {
+    local common_file=${src_path}/courses/nfs/common.md
+    # 每一行代表： 是否在开头添加公共内容 文件相对路径
+    local array=(
+        0 courses/nfs/nfs.md
+        1 courses/nfs/nfs-introduction.md
+        1 courses/nfs/nfs-environment.md
+        1 courses/nfs/nfs-client-struct.md
+        1 courses/nfs/pnfs.md
+        1 courses/nfs/nfsd.md
+        1 courses/nfs/nfs-procedures.md
+        1 courses/nfs/nfs-filehandle.md
+        1 courses/nfs/nfs-debug.md
+        1 courses/nfs/nfs-patches.md
+    )
+    add_common array[@] ${common_file}
+}
+
+smb_files() {
+    local common_file=${src_path}/courses/smb/common.md
+    # 每一行代表： 是否在开头添加公共内容 文件相对路径
+    local array=(
+        0 courses/smb/smb.md
+        1 courses/smb/smb-introduction.md
+        1 courses/smb/smb-environment.md
+        1 courses/smb/ksmbd.md
+        1 courses/smb/smb-client-struct.md
+        1 courses/smb/smb-debug.md
+        1 courses/smb/smb-patches.md
+        1 courses/smb/smb-refactor.md
+    )
+    add_common array[@] ${common_file}
+}
+
 rm -rf ${dst_path}
 mkdir ${dst_path} -p
 kernel_files
+nfs_files
+smb_files
 remove_private ${dst_path}
