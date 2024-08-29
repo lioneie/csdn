@@ -471,7 +471,50 @@ pick_next_task_fair
     __dequeue_entity
 ```
 
-## 休眠和唤醒
+# EEVDF调度器
+
+<!-- public begin -->
+- 补丁集: [`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
+- 文档[EEVDF Scheduler](https://chenxiaosong.com/src/translations/kernel/sched-eevdf.html)翻译。
+<!-- public end -->
+
+CFS已经在v6.6被EEVDF (Earliest Eligible Virtual Deadline First，最早可用虚拟截止时间优先) 调度器取代，每个进程有一个虚拟截止时间，代表应该运行完成的时间，EEVDF调度器优先选择虚拟截止时间最早的进程运行，虚拟截止时间取决于进程优先级和已经获得的cpu时间，可以保证延迟敏感的进程及时得到cpu时间。和CFS一样，时间片根据进程的优先级和已使用的 CPU 时间进行综合动态调整。
+
+<!-- private begin -->
+补丁集[`[PATCH 00/15] sched: EEVDF and latency-nice and/or slice-attr`](https://lore.kernel.org/all/20230531115839.089944915@infradead.org/)，合入了邮件中`1~10`的补丁。
+
+`Documentation/scheduler/sched-eevdf.rst`文档（v6.6还未合入）翻译如下:
+
+> "最早可用虚拟截止时间优先" (EEVDF) 首次在1995年的一篇科学出版物中被提出 [1]。Linux内核在版本6.6中开始向EEVDF过渡（作为2024年的一个新选项），放弃了早期的完全公平调度器 (CFS)，转而采用了由Peter Zijlstra在2023年提出的EEVDF版本 [2-4]。更多关于CFS的信息可以在 Documentation/scheduler/sched-design-CFS.rst 中找到。
+
+> 与CFS类似，EEVDF旨在为所有具有相同优先级的可运行任务均等分配CPU时间。为此，它为每个任务分配一个虚拟运行时间，从而创建一个“滞后”值，该值可用于确定任务是否已获得其公平的CPU时间份额。这样，具有正滞后的任务被欠CPU时间，而负滞后意味着任务已超出其份额。EEVDF选择滞后大于或等于零的任务，并为每个任务计算一个虚拟截止时间 (VD)，然后选择具有最早VD的任务作为下一个执行的任务。值得注意的是，这允许具有较短时间片的延迟敏感任务优先处理，从而有助于提高它们的响应能力。
+
+> 关于如何管理滞后，尤其是对休眠任务的管理，目前仍在讨论中；但在撰写本文时，EEVDF基于虚拟运行时间 (VRT) 使用了一种“衰减”机制。这防止了任务通过短暂休眠来重置其负滞后的系统漏洞：当任务休眠时，它仍保留在运行队列中，但标记为“延迟出队”，允许其滞后值随虚拟运行时间 (VRT)衰减。因此，长时间休眠的任务最终会重置其滞后值。最后，如果任务的VD较早，它们可以抢占其他任务，任务也可以使用新的 sched_setattr() 系统调用请求特定的时间片，这进一步促进了延迟敏感应用程序的工作。
+
+> [1] https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=805acf7726282721504c8f00575d91ebfd750564
+
+> [2] https://lore.kernel.org/lkml/a79014e6-ea83-b316-1e12-2ae056bda6fa@linux.vnet.ibm.com/
+
+> [3] https://lwn.net/Articles/969062/
+
+> [4] https://lwn.net/Articles/925371/
+
+<!-- private end -->
+
+挑选下一个任务的流程如下：
+```c
+schedule
+  __schedule
+    pick_next_task
+      __pick_next_task
+        __pick_next_task_fair
+          pick_next_task_fair
+            pick_next_entity
+              pick_eevdf
+                __pick_eevdf
+```
+
+# 休眠和唤醒
 
 内核用`wait_queue_entry`表示等待队列，静态创建可以用`DECLARE_WAITQUEUE()`，动态创建可以用`init_waitqueue_head()`。
 
@@ -506,7 +549,7 @@ remove_wait_queue(&group->notification_waitq, &wait);
 
 用`wake_up(struct wait_queue_head *wq_head)`唤醒。
 
-## 多处理器系统中的运行队列平衡
+# 多处理器系统中的运行队列平衡
 
 多处理器机器有以下几种类型:
 
@@ -524,33 +567,6 @@ remove_wait_queue(&group->notification_waitq, &wait);
 相关函数请查看v6.6的`run_rebalance_domains()`（在v6.10-rc1已重命名成`sched_balance_softirq()`）。
 
 # 其他调度器
-
-## EEVDF调度器
-
-<!-- https://lwn.net/ml/linux-kernel/20230531115839.089944915@infradead.org/ -->
-
-CFS已经在v6.6被EEVDF (Earliest Eligible Virtual Deadline First，最早可用虚拟截止时间优先) 调度器取代，每个进程有一个虚拟截止时间，代表应该运行完成的时间，EEVDF调度器优先选择虚拟截止时间最早的进程运行，虚拟截止时间取决于进程优先级和已经获得的cpu时间，可以保证延迟敏感的进程及时得到cpu时间。和CFS一样，时间片根据进程的优先级和已使用的 CPU 时间进行综合动态调整。
-
-<!-- public begin -->
-补丁集: [`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
-<!-- public end -->
-
-<!-- private begin -->
-补丁集[`[PATCH 00/15] sched: EEVDF and latency-nice and/or slice-attr`](https://lore.kernel.org/all/20230531115839.089944915@infradead.org/)，合入了邮件中`1~10`的补丁。
-<!-- private end -->
-
-挑选下一个任务的流程如下：
-```c
-schedule
-  __schedule
-    pick_next_task
-      __pick_next_task
-        __pick_next_task_fair
-          pick_next_task_fair
-            pick_next_entity
-              pick_eevdf
-                __pick_eevdf
-```
 
 ## BFS
 
