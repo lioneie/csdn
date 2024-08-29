@@ -20,8 +20,12 @@ create_sign() {
 # 每一行代表：
 #    是否生成目录
 #    是否添加签名
-#    源文件，markdown或rst文件相对路径
-#    目的文件，html文件相对路径，如果是~，就代表只和源文件的后缀名不同
+#    源文件的相对路径，markdown或rst文件相对路径
+#    '目的文件'或'源文件路径前缀'，有以下几种情况:
+#        1. 相对路径的html文件
+#        2. 绝对路径的html文件
+#        3. '~'，就代表只和源文件的后缀名不同
+#        4. 绝对路径的目录，代表源文件路径前缀，这时目的文件和上面的情况3一样
 #    网页标题
 create_html() {
     # local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ${src_path} ${tmp_html_path}
@@ -34,21 +38,19 @@ create_html() {
         local is_toc=${array[${index}]}
         local is_sign=${array[${index}+1]}
         local ifile=${array[${index}+2]}
-        local ofile=${array[${index}+3]}
+        local ofile_or_iprepath=${array[${index}+3]}
         local html_title=${array[${index}+4]}
         local pandoc_options=${pandoc_common_options}
 
         local src_file=${src_path}/${ifile} # 源路径拼接
-        if [[ ${ifile} == '/'* ]]; then
-            src_file=${ifile} # 绝对路径
+        if [[ ${ofile_or_iprepath} == ~ ]]; then
+            ofile_or_iprepath="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
         fi
-        if [[ ${ofile} == ~ ]]; then
-            ofile="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
+        if [ -d "${ofile_or_iprepath}" ]; then # ofile_or_iprepath是目录绝对路径, 代表源文件路径前缀
+            src_file=${ofile_or_iprepath}/${ifile}
+            ofile_or_iprepath="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
         fi
-        local dst_file=${tmp_html_path}/${ofile} # 拼接生成html文件名
-        if [[ ${ofile} == '/'* ]]; then
-            dst_file=${ofile} # 绝对路径
-        fi
+        local dst_file=${tmp_html_path}/${ofile_or_iprepath} # 拼接生成html文件名
         local dst_dir="$(dirname "${dst_file}")" # html文件所在的文件夹
         if [ ! -d "${dst_dir}" ]; then
             mkdir -p "${dst_dir}" # 文件夹不存在就创建
@@ -60,7 +62,7 @@ create_html() {
         if [[ ${is_toc} == 1 ]]; then
             pandoc_options="${pandoc_options} --toc"
         fi
-        echo "create ${ofile}"
+        echo "create ${ofile_or_iprepath}"
         pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
         if [[ ${is_sign} == 1 ]]; then
             # 在<header之后插入sign.html整个文件
