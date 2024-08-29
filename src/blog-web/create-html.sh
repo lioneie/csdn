@@ -104,6 +104,8 @@ array=(
                 "d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()"
             1 1 courses/smb/patches/cve-smb-client-fix-potential-UAF-in-is_valid_oplock_brea.md ~
                 "69ccf040acdd smb: client: fix potential UAF in is_valid_oplock_break()"
+            1 1 courses/smb/patches/smb3-fix-problem-with-null-cifs-super-block-with-pre.md ~
+                "87f93d82e0952 smb3: fix problem with null cifs super block with previous patch"
     1 1 courses/book-contents.md ~ "书籍目录"
     # Linux内核
     1 1 src/kernel-environment/kernel-qemu-kvm.md ~ "QEMU/KVM环境搭建与使用"
