@@ -165,6 +165,7 @@ array=(
     # 翻译
         # kernel
         1 1 src/translations/kernel/sched-design-CFS.rst ~ "CFS Scheduler"
+        1 1 src/translations/kernel/sched-eevdf.rst ~ "EEVDF Scheduler"
         1 1 src/translations/kernel/sched-ext.rst ~ "Extensible Scheduler Class"
         # nfs
         1 1 src/translations/nfs/rfc8881-nfsv4.1.md ~ "Network File System (NFS) Version 4 Minor Version 1 Protocol"

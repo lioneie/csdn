@@ -2,6 +2,8 @@
 
 [CFS Scheduler](https://chenxiaosong.com/src/translations/kernel/sched-design-CFS.html)
 
+[EEVDF Scheduler](https://chenxiaosong.com/src/translations/kernel/sched-eevdf.html)
+
 [Extensible Scheduler Class](https://chenxiaosong.com/src/translations/kernel/sched-ext.html)
 
 # nfs
