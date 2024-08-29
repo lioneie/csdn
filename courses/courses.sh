@@ -3,22 +3,10 @@ dst_path=/tmp/blog
 
 . ${src_path}/src/blog-web/common-lib.sh
 
-kernel_files() {
-    local common_file=${src_path}/courses/kernel/common.md
-    # 每一行代表： 是否在开头添加公共内容 文件相对路径
-    local array=(
-        0 courses/kernel/kernel.md
-        1 courses/kernel/kernel-introduction.md
-        1 courses/kernel/kernel-dev-environment.md
-        1 courses/kernel/kernel-book.md
-        1 courses/kernel/kernel-source.md
-        1 courses/kernel/kernel-fs.md
-        1 courses/kernel/kernel-debug.md
-        1 courses/kernel/kernel-mm.md
-        1 courses/kernel/kernel-process.md
-        1 courses/kernel/kernel-bpf.md
-        1 courses/kernel/kernel-patches.md
-    )
+# add_common array[@] ${common_file}
+add_common() {
+    local array=("${!1}") # 使用间接引用来接收数组
+    local common_file=$2
 
     local element_count="${#array[@]}" # 总个数
     local count_per_line=2
@@ -38,6 +26,25 @@ kernel_files() {
         fi
         cat ${src_file} >> ${dst_file}
     done
+}
+
+kernel_files() {
+    local common_file=${src_path}/courses/kernel/common.md
+    # 每一行代表： 是否在开头添加公共内容 文件相对路径
+    local array=(
+        0 courses/kernel/kernel.md
+        1 courses/kernel/kernel-introduction.md
+        1 courses/kernel/kernel-dev-environment.md
+        1 courses/kernel/kernel-book.md
+        1 courses/kernel/kernel-source.md
+        1 courses/kernel/kernel-fs.md
+        1 courses/kernel/kernel-debug.md
+        1 courses/kernel/kernel-mm.md
+        1 courses/kernel/kernel-process.md
+        1 courses/kernel/kernel-bpf.md
+        1 courses/kernel/kernel-patches.md
+    )
+    add_common array[@] ${common_file}
 }
 
 rm -rf ${dst_path}
