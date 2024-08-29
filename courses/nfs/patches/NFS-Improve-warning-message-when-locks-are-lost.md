@@ -47,9 +47,8 @@ int main(int argc, char *argv[]) {
     }
     printf("lock succ %s\n", file_path);
 
-    printf("begin sleep\n");
-    sleep(999999); // 时间非常久
-    printf("end sleep\n");
+    printf("File locked. Press Enter to unlock...");
+    getchar();
 
     // Unlock and close the file
     flock(fd, LOCK_UN);
@@ -61,14 +60,14 @@ int main(int argc, char *argv[]) {
 
 编译运行:
 ```sh
-gcc -o test test.c
 bash nfs-svr-setup.sh
+gcc -o test test.c
 mount -t nfs localhost:/s_test /mnt
-# mount -t -o vers=4.0 nfs localhost:/s_test /mnt
-tcpdump --interface=lo --buffer-size=20480 -w 4.2.cap &
-# tcpdump --interface=lo --buffer-size=20480 -w 4.0.cap &
+# mount -t nfs -o vers=4.0 localhost:/s_test /mnt
 echo something > /mnt/file # 创建文件
 echo 3 > /proc/sys/vm/drop_caches
+tcpdump --interface=lo --buffer-size=20480 -w 4.2.cap &
+# tcpdump --interface=lo --buffer-size=20480 -w 4.0.cap &
 ./test /mnt/file & # 后台运行
 systemctl restart nfs-server
 ```
