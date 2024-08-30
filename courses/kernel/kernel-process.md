@@ -266,7 +266,7 @@ mkfs.ext2 -F image
 mount image /mnt
 gcc -o pthread pthread.c -lpthread
 ./pthread
-ps -L -e -o pid,ppid,cmd | grep pthread # -L 显示线程
+ps -L -e -o pid,ppid,lwp,cmd | grep pthread # -L 显示线程
 ls /proc/<thread pid>/task/
 ```
 
