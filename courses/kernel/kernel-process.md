@@ -128,6 +128,17 @@ waitpid
             release_task
 ```
 
+## 调试
+
+内核打上<!-- public begin -->[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/0001-debug-task_struct.patch)<!-- public end --><!-- private begin -->`0001-debug-task_struct.patch`<!-- private end -->补丁，编译运行<!-- public begin -->[`fork.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/fork.c)<!-- public end --><!-- private begin -->`fork.c`<!-- private end -->:
+```sh
+mkfs.ext2 -F image
+mount image /mnt
+gcc -o fork fork.c
+./fork
+ps -e -o pid,ppid,cmd | grep fork
+```
+
 # 线程
 
 一个多线程的程序，所有线程形成一个线程组，线程组中的第一个线程为线程组的pid，　这个第一个线程叫主线程，也就是调用`pthread_create()`的线程，`struct task_struct`中的`tgid`表示线程组中主线程的pid，`getpid()`系统调用获得的就是这个值。
@@ -245,6 +256,17 @@ int wake_up_process(struct task_struct *p)
  * 则返回 %-EINTR。
  */
 int kthread_stop(struct task_struct *k)
+```
+
+## 调试
+
+内核打上<!-- public begin -->[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/0001-debug-task_struct.patch)<!-- public end --><!-- private begin -->`0001-debug-task_struct.patch`<!-- private end -->补丁，编译运行<!-- public begin -->[`pthread.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/pthread.c)<!-- public end --><!-- private begin -->`pthread.c`<!-- private end -->:
+```sh
+mkfs.ext2 -F image
+mount image /mnt
+gcc -o pthread pthread.c -lpthread
+ps -e -o pid,ppid,cmd | grep pthread
+ls /proc/<thread pid>/task/
 ```
 
 # 进程调度
