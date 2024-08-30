@@ -26,7 +26,7 @@ void *thread_function(void *arg) {
     int thread_num = *((int *)arg);
 
     pid_t tid = syscall(SYS_gettid);
-    printf("Thread %d: PID: %d, TID: %d, PPID: %d\n", thread_num, getpid(), tid, getppid());
+    printf("thread %d: pid %d, tid %d, ppid %d\n", thread_num, getpid(), tid, getppid());
     read_dir();
     while (1)
         ;
@@ -38,7 +38,7 @@ int main() {
     int thread_nums[3];
 
     pid_t tid = syscall(SYS_gettid);
-    printf("main thread PID: %d, TID: %d, PPID: %d\n", getpid(), tid, getppid());
+    printf("main thread pid: %d, tid: %d, ppid: %d\n", getpid(), tid, getppid());
     read_dir();
 
     for (int i = 0; i < 3; i++) {
@@ -54,6 +54,6 @@ int main() {
         pthread_join(threads[i], NULL);
     }
 
-    printf("All threads have completed.\n");
+    printf("all threads have completed.\n");
     return 0;
 }

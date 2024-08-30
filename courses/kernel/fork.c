@@ -28,17 +28,17 @@ int main() {
         pid = fork();
         if (pid < 0) {
             // fork失败
-            perror("Fork failed");
+            perror("fork failed");
             exit(1);
         } else if (pid == 0) {
             // 子进程
-            printf("Child process %d, PID: %d, PPID; %d\n", i + 1, getpid(), getppid());
+            printf("child process %d, pid %d, ppid %d\n", i + 1, getpid(), getppid());
             while (1)
                 ;
             exit(0); // 子进程结束
         } else {
             // 父进程
-            printf("Parent process pid %d, created child %d with PID: %d\n", getpid(), i + 1, pid);
+            printf("parent process pid %d, created child %d with pid %d\n", getpid(), i + 1, pid);
         }
     }
 
