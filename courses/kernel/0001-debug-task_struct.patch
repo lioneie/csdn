@@ -1,0 +1,33 @@
+From 0ccd4af01e66defd61020ebff43de9ff84167c67 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Date: Fri, 30 Aug 2024 13:37:31 +0000
+Subject: [PATCH] debug task_struct
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+---
+ fs/ext2/dir.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/fs/ext2/dir.c b/fs/ext2/dir.c
+index b335f17f682f..da7210ea6a65 100644
+--- a/fs/ext2/dir.c
++++ b/fs/ext2/dir.c
+@@ -265,6 +265,15 @@ ext2_readdir(struct file *file, struct dir_context *ctx)
+ 	unsigned chunk_mask = ~(ext2_chunk_size(inode)-1);
+ 	bool need_revalidate = !inode_eq_iversion(inode, file->f_version);
+ 	bool has_filetype;
++	struct list_head *list;
++	struct task_struct *child;
++
++	printk(KERN_INFO "current pid %d comm %s, parent pid %d comm %s\n",
++	       current->pid, current->comm, current->parent->pid, current->parent->comm);
++	list_for_each(list, &current->children) {
++	        child = list_entry(list, struct task_struct, sibling);
++	        printk(KERN_INFO "child pid %d, comm %s\n", child->pid, child->comm);
++	}
+ 
+ 	if (pos > inode->i_size - EXT2_DIR_REC_LEN(1))
+ 		return 0;
+-- 
+2.34.1
+
