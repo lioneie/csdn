@@ -265,7 +265,8 @@ int kthread_stop(struct task_struct *k)
 mkfs.ext2 -F image
 mount image /mnt
 gcc -o pthread pthread.c -lpthread
-ps -e -o pid,ppid,cmd | grep pthread
+./pthread
+ps -L -e -o pid,ppid,cmd | grep pthread # -L 显示线程
 ls /proc/<thread pid>/task/
 ```
 
