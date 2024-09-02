@@ -14,7 +14,7 @@ https://mp.weixin.qq.com/s/dWPWuDtxQBM9Z_GXwKe0KQ
 
 进程提供两种虚拟机制: 虚拟处理器和虚拟内存。
 
-在调试加打印时，我们经常会使用到`current->comm`和`current->pid`来获取进程名和进程id，其中的`current`宏定义在x86架构的实现如下：
+在调试加打印时，我们经常会使用到`current->comm`和`current->pid`来获取进程名和进程id，如`if (!strcmp(current->comm, "cat")`，其中的`current`宏定义在x86架构的实现如下：
 ```c
 // arch/x86/include/asm/current.h
 #define current get_current()
@@ -285,7 +285,7 @@ process scheduler，简称为scheduler，翻译为进程调度器，有些中文
 Linux采用两种优先级范围：
 
 - nice值: -20 ~ +19，默认为0，nice代表对其他进程的友好程度，nice值越高优先级越低，有些操作系统的nice值代表分配给进程的时间片的绝对值，Linux内核的nice值代表时间片的比例。使用命令`ps -el`输出的`NI`一列就是nice值。
-- 实时优先级: 0 ~ 99，任何实时进程的优先级都高于普通进程，实时优先级与nice优先级处于互不相交的两个范畴。使用命令`ps -eo state,uid,pid,ppid,rtprio,time,comm`输出的`RTPRIO`一列就是实时优先级，如果是`-`就代表不是实时进程。
+- 实时优先级: 0 ~ 99，任何实时进程的优先级都高于普通进程，实时优先级与nice优先级处于互不相交的两个范畴。使用命令`ps -eo state,uid,pid,ppid,rtprio,time,comm,nice`输出的`RTPRIO`一列就是实时优先级，如果是`-`就代表不是实时进程。
 
 timeslice，翻译为"时间片"（在其他系统上又称为quantum或processor slice），是进程被抢占前能持续运行的时间。时间片的长短会影响系统性能，太长交互表现差，太短又会导致进程切换的开销大。后面要介绍Linux内核现在使用的CFS调度器没有直接给进程分配时间片，而是取决于进程消耗了多少处理器使用比。
 
@@ -355,6 +355,8 @@ pthread_attr_setinheritsched
 #define SCHED_IDLE              5    // 空闲调度策略，极低优先级的后台进程
 #define SCHED_DEADLINE          6    // 截止期限调度策略
 ```
+
+某个进程的调度策略可以用`cat /proc/<pid>/sched | grep policy`查看。
 
 调试策略的具体实现用`struct sched_class`表示，可以查看宏定义`DEFINE_SCHED_CLASS`的引用。
 
