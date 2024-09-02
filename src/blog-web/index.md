@@ -4,7 +4,10 @@
 
 目前在湖南长沙，曾在杭州学习和工作过很多年，老家胡建，过年回沙县，没错，就是沙县大酒店，哦不对，是沙县小吃的沙县。
 
-邮箱： chenxiaosong@chenxiaosong.com，欢迎交流。
+联系方式:
+
+- 邮箱: <chenxiaosong@chenxiaosong.com>
+- QQ交流群: 544216206
 
 爱好：自行车骑行，Linux操作系统。顺便提一句，[只用键盘](https://chenxiaosong.com/pictures/self-introduction/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/src/wubi/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
 

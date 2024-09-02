@@ -5,3 +5,4 @@
 - [博客: chenxiaosong.com/blog](https://chenxiaosong.com/blog.html)
 - [贡献: chenxiaosong.com/contributions](https://chenxiaosong.com/contributions.html)
 - 邮箱: <chenxiaosong@chenxiaosong.com>
+- QQ交流群: 544216206
