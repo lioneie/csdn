@@ -260,7 +260,7 @@ int kthread_stop(struct task_struct *k)
 
 ## 调试
 
-内核打上<!-- public begin -->[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/0001-debug-task_struct.patch)<!-- public end --><!-- private begin -->`0001-debug-task_struct.patch`<!-- private end -->补丁，编译运行<!-- public begin -->[`pthread.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/pthread.c)<!-- public end --><!-- private begin -->`pthread.c`<!-- private end -->:
+内核打上<!-- public begin -->[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/0001-debug-task_struct.patch)<!-- public end --><!-- private begin -->`0001-debug-task_struct.patch`<!-- private end -->补丁，编译运行<!-- public begin -->[`pthread.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/pthread.c)<!-- public end --><!-- private begin -->`src/pthread.c`<!-- private end -->:
 ```sh
 mkfs.ext2 -F image
 mount image /mnt
