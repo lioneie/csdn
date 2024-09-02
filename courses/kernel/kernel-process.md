@@ -37,7 +37,7 @@ struct pcpu_hot {
 
 ## 进程描述符
 
-用结构体`struct task_struct`来描述进程，这个结构体很大，请查看<!-- private begin -->`task_struct.c`<!-- private end --><!-- public begin -->[`task_struct.c`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/task_struct.c)<!-- public end -->。
+用结构体`struct task_struct`来描述进程，这个结构体很大，请查看<!-- private begin -->`task_struct.c`<!-- private end --><!-- public begin -->[`src/task_struct.c`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/task_struct.c)<!-- public end -->。
 
 其中`__state`可以是以下值，通过`set_current_state(state_value)`来设置：
 
