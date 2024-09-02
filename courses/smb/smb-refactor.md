@@ -14,6 +14,8 @@
 
 # `smb2_open()`重构
 
+重构补丁还未完成，但发了一些这个函数的bugfix补丁，请查看[`[PATCH v2 00/12] smb: fix some bugs, move duplicate definitions to common header file, and some small cleanups`](https://lore.kernel.org/all/20240822082101.391272-1-chenxiaosong@chenxiaosong.com/)。
+
 先整理一下函数流程。`smb2_open()`框架流程：
 ```c
   ksmbd_override_fsids
@@ -134,23 +136,9 @@ smb2_open
   opinfo && opinfo->is_lease // 如果请求了租约，则发送租约上下文响应
 ```
 
-# `smb2_compound_op()`重构
-
-这个函数有12个参数，649行（827-177），必须重构了他。
-
-```c
-/*
- * 注意：如果传递了 cfile，这里会释放对它的引用。所以请确保在从此函数返回后不要再次使用 cfile。
- * 如果传递了 @out_iov 和 @out_buftype，请确保它们都足够大（>= 3）以容纳所有复合响应。调用方也负责使用 free_rsp_buf() 来释放它们。
- */
-smb2_compound_op
-```
-
-# `smb2_lock()`重构
-
-这个函数也挺长挺复杂，有353行（7535-7181）。
-
 # 公共头文件`fs/smb/common/smb2status.h`
+
+具体的补丁请查看[`[PATCH v2 00/12] smb: fix some bugs, move duplicate definitions to common header file, and some small cleanups`](https://lore.kernel.org/all/20240822082101.391272-1-chenxiaosong@chenxiaosong.com/)。
 
 ## `fs/smb/client/smb2status.h`
 
@@ -163,7 +151,7 @@ smb2_compound_op
 - [`fs/ksmbd/smbstatus.h`的修改历史](https://github.com/torvalds/linux/commits/38c8a9a52082579090e34c033d439ed2cd1a462d/fs/ksmbd/smbstatus.h?browsing_rename_history=true&new_path=fs/smb/server/smbstatus.h&original_branch=master)
 - [`fs/cifsd/smbstatus.h`的修改历史](https://github.com/torvalds/linux/commits/1a93084b9a89818aec0ac7b59a5a51f2112bf203/fs/cifsd/smbstatus.h?browsing_rename_history=true&new_path=fs/smb/server/smbstatus.h&original_branch=master)
 
-`e2f34481b24d cifsd: add server-side procedures for SMB3`的`fs/cifsd/smbstatus.h`最新的`fs/smb/server/smbstatus.h`只有以下不同：
+`e2f34481b24d cifsd: add server-side procedures for SMB3`的`fs/cifsd/smbstatus.h`和最新的`fs/smb/server/smbstatus.h`只有以下不同：
 ```sh
 @@ -1,6 +1,6 @@
  /* SPDX-License-Identifier: LGPL-2.1+ */
@@ -189,10 +177,30 @@ smb2_compound_op
 
 # 公共头文件`fs/smb/common/smbacl.h`
 
-先执行以下替换:
+具体的补丁请查看[`[PATCH v2 00/12] smb: fix some bugs, move duplicate definitions to common header file, and some small cleanups`](https://lore.kernel.org/all/20240822082101.391272-1-chenxiaosong@chenxiaosong.com/)。
+
+执行以下替换:
 ```sh
 find fs/smb/client -type f -exec sed -i 's/struct cifs_ntsd/struct smb_ntsd/g' {} +
 find fs/smb/client -type f -exec sed -i 's/struct cifs_sid/struct smb_sid/g' {} +
 find fs/smb/client -type f -exec sed -i 's/struct cifs_acl/struct smb_acl/g' {} +
 find fs/smb/client -type f -exec sed -i 's/struct cifs_ace/struct smb_ace/g' {} +
 ```
+
+再把重复的宏定义移动到公共头文件。
+
+# `smb2_compound_op()`重构
+
+这个函数有12个参数，649行（827-177），必须重构了他。
+
+```c
+/*
+ * 注意：如果传递了 cfile，这里会释放对它的引用。所以请确保在从此函数返回后不要再次使用 cfile。
+ * 如果传递了 @out_iov 和 @out_buftype，请确保它们都足够大（>= 3）以容纳所有复合响应。调用方也负责使用 free_rsp_buf() 来释放它们。
+ */
+smb2_compound_op
+```
+
+# `smb2_lock()`重构
+
+这个函数也挺长挺复杂，有353行（7535-7181）。
