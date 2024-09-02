@@ -1,4 +1,4 @@
-最近调研了ksmbd，打算贡献社区补丁，用[`calc-func-lines.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/scripts/calc-func-lines.sh)脚本发现所有的文件系统的函数中排名第二长度（901行, 3714-2810）的是`smb2_open()`（排名第一的是ntfs3的1470行的`log_replay()`，但不熟悉就暂时不瞎参与了），就想着先把这个函数给尝试重构了，也先通过这个函数入手深入了解ksmbd。当然除了这个函数也会尝试做一些其他的重构。
+最近调研了ksmbd，打算贡献社区补丁，用[`calc-func-lines.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/scripts/calc-func-lines.sh)脚本发现所有的文件系统的函数中排名第二长度（901行, 3714-2810）的是`smb2_open()`（排名第一的是ntfs3的1470行的`log_replay()`，但不熟悉就暂时不瞎参与了），就想着先把这个函数给尝试重构了，也先通过这个函数入手深入了解ksmbd。当然除了这个函数也会尝试做一些其他的重构。
 
 # 重构参考
 
