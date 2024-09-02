@@ -263,7 +263,7 @@ git clone https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linu
 
 ## 编译步骤
 
-建议新建一个`build`目录，把所有的编译输出存放在这个目录下，注意<!-- public begin -->[`.config`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)<!-- public end --><!-- private begin -->`x86_64/config`<!-- private end -->文件复制到`build/.config`。`.config`配置文件至少要打开以下配置（建议通过`make O=build menuconfig`命令修改）：
+建议新建一个`build`目录，把所有的编译输出存放在这个目录下，注意<!-- public begin -->[`.config`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)<!-- public end --><!-- private begin -->`src/x86_64/config`<!-- private end -->文件复制到`build/.config`。`.config`配置文件至少要打开以下配置（建议通过`make O=build menuconfig`命令修改）：
 ```sh
 CONFIG_EXT4_FS
 CONFIG_XFS_FS
