@@ -14,7 +14,7 @@
 
 # `smb2_open()`重构
 
-重构补丁还未完成，但发了一些这个函数的bugfix补丁，请查看[`[PATCH v2 00/12] smb: fix some bugs, move duplicate definitions to common header file, and some small cleanups`](https://lore.kernel.org/all/20240822082101.391272-1-chenxiaosong@chenxiaosong.com/)。
+重构补丁还未完成，但发了一些这个函数的bugfix补丁，请查看[`[PATCH v2 00/12] smb: fix some bugs, move duplicate definitions to common header file, and some small cleanups`](https://lore.kernel.org/all/20240822082101.391272-1-chenxiaosong@chenxiaosong.com/)，以及2023年时发过的这个函数的一个bugfix补丁[`624b445544f ksmbd: fix possible refcount leak in smb2_open()`](https://patchwork.kernel.org/project/cifs-client/patch/20230302135804.2583061-1-chenxiaosong2@huawei.com/)。
 
 先整理一下函数流程。`smb2_open()`框架流程：
 ```c
