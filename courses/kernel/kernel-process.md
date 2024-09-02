@@ -304,7 +304,7 @@ int nice(int incr)
 SYSCALL_DEFINE1(nice, int, increment)
 ```
 
-示例文件<!-- public begin -->[`nice.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/nice.c)<!-- public end --><!-- private begin -->`nice.c`<!-- private end -->。两个进程并行运行，各自增加自己的计数器。父进程使用默认nice值，子进程nice值可选。
+示例文件<!-- public begin -->[`nice.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/nice.c)<!-- public end --><!-- private begin -->`src/nice.c`<!-- private end -->。两个进程并行运行，各自增加自己的计数器。父进程使用默认nice值，子进程nice值可选。
 
 `gcc nice.c -o nice` 编译文件。
 
