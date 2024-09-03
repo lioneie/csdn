@@ -98,6 +98,8 @@ array=(
         1 1 courses/smb/smb-patches.md ${tmp_courses_path} "smb补丁分析"
         1 1 courses/smb/smb-refactor.md ${tmp_courses_path} "smb代码重构"
             # 我写的补丁
+            1 1 courses/smb/patches/cifs-fix-use-after-free-on-the-link-name.md ~
+                "542228db2f28f cifs: fix use-after-free on the link name"
             # 其他人的补丁
             1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
@@ -132,12 +134,10 @@ array=(
     1 1 src/smb/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect空指针解引用问题"
     1 1 src/smb/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat报错ENOTSUPP"
     # xfs
-    1 1 src/xfs/xfs-null-ptr-deref-in-xfs_getbmap.md ~ "xfs_getbmap发生空指针解引用问题"
     1 1 src/xfs/xfs-shutdown-fs.md ~ "xfs agf没落盘的问题"
     # ext
 
     # 文件系统
-    1 1 src/filesystem/configfs-race.md ~ "configfs加载或卸载模块时的并发问题"
     1 1 src/filesystem/microsoft-fs.md ~ "微软文件系统"
     1 1 src/btrfs/4.19-btrfs-forced-readonly.md ~ "4.19 btrfs文件系统变成只读的问题"
     1 1 src/filesystem/minix-fs.md ~ "minix文件系统"

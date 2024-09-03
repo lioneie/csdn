@@ -62,8 +62,6 @@
 
 # XFS文件系统
 
-[xfs_getbmap发生空指针解引用问题](https://chenxiaosong.com/src/xfs/xfs-null-ptr-deref-in-xfs_getbmap.html)
-
 [xfs agf没落盘的问题](https://chenxiaosong.com/src/xfs/xfs-shutdown-fs.html)
 
 <!--
@@ -71,8 +69,6 @@
 -->
 
 # 文件系统
-
-[configfs加载或卸载模块时的并发问题](https://chenxiaosong.com/src/filesystem/configfs-race.html)
 
 [微软文件系统](https://chenxiaosong.com/src/filesystem/microsoft-fs.html)
 

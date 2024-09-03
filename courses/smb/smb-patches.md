@@ -1,5 +1,9 @@
 # 我写的补丁
 
+<!--
+[`542228db2f28f cifs: fix use-after-free on the link name`](https://chenxiaosong.com/courses/smb/patches/cifs-fix-use-after-free-on-the-link-name.html)
+-->
+
 [`502487847743 cifs: fix missing unlock in cifs_file_copychunk_range()`](https://patchwork.kernel.org/project/cifs-client/patch/20221119045159.1400244-1-chenxiaosong2@huawei.com/)
 
 [`2624b445544f ksmbd: fix possible refcount leak in smb2_open()`](https://patchwork.kernel.org/project/cifs-client/patch/20230302135804.2583061-1-chenxiaosong2@huawei.com/)
@@ -7,6 +11,8 @@
 [`2186a116538a7 smb/server: fix return value of smb2_open()`](https://lore.kernel.org/all/20240822082101.391272-2-chenxiaosong@chenxiaosong.com/)
 
 [`4e8771a3666c8 smb/server: fix potential null-ptr-deref of lease_ctx_info in smb2_open()`](https://lore.kernel.org/all/20240822082101.391272-3-chenxiaosong@chenxiaosong.com/)
+
+[`2b058acecf56f cifs: return the more nuanced writeback error on close()`](https://lore.kernel.org/all/20220518145649.2487377-1-chenxiaosong2@huawei.com/)
 
 # 其他人的补丁
 

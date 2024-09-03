@@ -4,6 +4,8 @@
 
 [NFS回写错误处理不正确的问题](https://chenxiaosong.com/src/nfs/nfs-handle-writeback-errors-incorrectly.html)
 
+[`NFS: check FMODE_EXEC from open context mode`](https://lore.kernel.org/all/20220923054015.2890271-1-chenxiaosong2@huawei.com/)
+
 # 其他人的补丁
 
 [`e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt`](https://chenxiaosong.com/courses/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html)

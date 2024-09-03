@@ -10,9 +10,15 @@
 
 # 我写的补丁
 
+我写的补丁，除了上面的模块外，其他模块还有以下补丁。
+
 [`001c179c4e26 xfs: fix NULL pointer dereference in xfs_getbmap()`](https://chenxiaosong.com/courses/kernel/patches/xfs-fix-NULL-pointer-dereference-in-xfs_getbmap.html)
 
 [`84ec758fb2daa configfs: fix a race in configfs_{,un}register_subsystem()`](https://chenxiaosong.com/courses/kernel/patches/configfs-fix-a-race-in-configfs_-un-register_subsyst.html)
+
+[`f7e942b5bb35d btrfs: qgroup: fix sleep from invalid context bug in btrfs_qgroup_inherit()`](https://lore.kernel.org/all/20221116142354.1228954-3-chenxiaosong2@huawei.com/)
+
+[`a4c853af0c511 btrfs: add might_sleep() annotations`](https://lore.kernel.org/all/20221116142354.1228954-2-chenxiaosong2@huawei.com/)
 
 [`1b513f613731e ntfs: fix BUG_ON in ntfs_lookup_inode_by_name()`](https://lore.kernel.org/all/20220809064730.2316892-1-chenxiaosong2@huawei.com/)
 
