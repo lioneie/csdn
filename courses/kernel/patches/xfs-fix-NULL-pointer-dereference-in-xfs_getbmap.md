@@ -1,3 +1,5 @@
+[`001c179c4e26 xfs: fix NULL pointer dereference in xfs_getbmap()`](https://lore.kernel.org/all/20220727085230.4073478-1-chenxiaosong2@huawei.com/)
+
 # 问题描述
 
 ```sh
@@ -138,8 +140,6 @@ sleep 1
    ifp == NULL               |
    ifp->if_format // null-ptr-deref
 ```
-
-修复补丁： [001c179c4e26 xfs: fix NULL pointer dereference in xfs_getbmap()](https://lore.kernel.org/all/20220727085230.4073478-1-chenxiaosong2@huawei.com/)
 
 # vmcore解析
 

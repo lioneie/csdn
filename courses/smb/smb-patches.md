@@ -4,6 +4,10 @@
 
 [`2624b445544f ksmbd: fix possible refcount leak in smb2_open()`](https://patchwork.kernel.org/project/cifs-client/patch/20230302135804.2583061-1-chenxiaosong2@huawei.com/)
 
+[`2186a116538a7 smb/server: fix return value of smb2_open()`](https://lore.kernel.org/all/20240822082101.391272-2-chenxiaosong@chenxiaosong.com/)
+
+[`4e8771a3666c8 smb/server: fix potential null-ptr-deref of lease_ctx_info in smb2_open()`](https://lore.kernel.org/all/20240822082101.391272-3-chenxiaosong@chenxiaosong.com/)
+
 # 其他人的补丁
 
 [`7de0394801da cifs: Fix in error types returned for out-of-credit situations.`](https://chenxiaosong.com/courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)

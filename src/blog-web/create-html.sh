@@ -33,6 +33,11 @@ array=(
         1 1 courses/kernel/kernel-process.md ${tmp_courses_path} "进程管理和调度"
         1 1 courses/kernel/kernel-bpf.md ${tmp_courses_path} "BPF"
         1 1 courses/kernel/kernel-patches.md ${tmp_courses_path} "内核补丁分析"
+            # 我写的补丁
+            1 1 courses/kernel/patches/xfs-fix-NULL-pointer-dereference-in-xfs_getbmap.md ~
+                "001c179c4e26d xfs: fix NULL pointer dereference in xfs_getbmap()"
+            1 1 courses/kernel/patches/configfs-fix-a-race-in-configfs_-un-register_subsyst.md ~
+                "84ec758fb2da configfs: fix a race in configfs_{,un}register_subsystem()"
             # 调度
             1 1 courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.md ~
                 "sched: EEVDF and latency-nice and/or slice-attr"

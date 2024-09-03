@@ -1,4 +1,4 @@
-这篇文章分析一下补丁[84ec758fb2da configfs: fix a race in configfs_{,un}register_subsystem()](https://lore.kernel.org/all/20220215071030.3067982-1-chenxiaosong2@huawei.com/)
+这篇文章分析一下补丁[`84ec758fb2da configfs: fix a race in configfs_{,un}register_subsystem()`](https://lore.kernel.org/all/20220215071030.3067982-1-chenxiaosong2@huawei.com/)
 
 假设现在循环链表中有4个元素：
 ```sh

@@ -13,8 +13,8 @@ mount -t ntfs /dev/sda1 /mnt
 
 这里介绍两个syzkaller的问题和我提交的修复补丁。
 
-- [kernel BUG in ntfs_lookup_inode_by_name](https://syzkaller.appspot.com/bug?id=c0e6183d33a904a5b7e3d5dedf877c5139b11a53)， 修复补丁: [ntfs: fix BUG_ON in ntfs_lookup_inode_by_name()](https://lore.kernel.org/all/20220809064730.2316892-1-chenxiaosong2@huawei.com/)。
-- [KASAN: out-of-bounds Read in ntfs_are_names_equal](https://syzkaller.appspot.com/bug?id=80913ff3e4962a46fcce7ffd4125fdd1b8e11171)，修复补丁：[ntfs: fix use-after-free in ntfs_ucsncmp()](https://lore.kernel.org/all/20220709064511.3304299-1-chenxiaosong2@huawei.com/)。
+- [`kernel BUG in ntfs_lookup_inode_by_name`](https://syzkaller.appspot.com/bug?id=c0e6183d33a904a5b7e3d5dedf877c5139b11a53)， 修复补丁: [`ntfs: fix BUG_ON in ntfs_lookup_inode_by_name()`](https://lore.kernel.org/all/20220809064730.2316892-1-chenxiaosong2@huawei.com/)。
+- [`KASAN: out-of-bounds Read in ntfs_are_names_equal`](https://syzkaller.appspot.com/bug?id=80913ff3e4962a46fcce7ffd4125fdd1b8e11171)，修复补丁：[`ntfs: fix use-after-free in ntfs_ucsncmp()`](https://lore.kernel.org/all/20220709064511.3304299-1-chenxiaosong2@huawei.com/)。
 
 # vfat
 

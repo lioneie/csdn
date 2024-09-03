@@ -8,6 +8,16 @@
 
 [点击这里查看SMB相关补丁](https://chenxiaosong.com/courses/smb/smb-patches.html)
 
+# 我写的补丁
+
+[`001c179c4e26 xfs: fix NULL pointer dereference in xfs_getbmap()`](https://chenxiaosong.com/courses/kernel/patches/xfs-fix-NULL-pointer-dereference-in-xfs_getbmap.html)
+
+[`84ec758fb2daa configfs: fix a race in configfs_{,un}register_subsystem()`](https://chenxiaosong.com/courses/kernel/patches/configfs-fix-a-race-in-configfs_-un-register_subsyst.html)
+
+[`1b513f613731e ntfs: fix BUG_ON in ntfs_lookup_inode_by_name()`](https://lore.kernel.org/all/20220809064730.2316892-1-chenxiaosong2@huawei.com/)
+
+[`38c9c22a85aee ntfs: fix use-after-free in ntfs_ucsncmp()`](https://lore.kernel.org/all/20220709064511.3304299-1-chenxiaosong2@huawei.com/)
+
 # 调度
 
 [`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)
