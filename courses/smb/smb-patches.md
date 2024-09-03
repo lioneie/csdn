@@ -1,6 +1,6 @@
 # 我写的补丁
 
-[`502487847743 cifs: fix missing unlock in cifs_file_copychunk_range()`](https://chenxiaosong.com/courses/smb/patches/cifs-fix-missing-unlock-in-cifs_file_copychunk_range.html)
+[`502487847743 cifs: fix missing unlock in cifs_file_copychunk_range()`](https://patchwork.kernel.org/project/cifs-client/patch/20221119045159.1400244-1-chenxiaosong2@huawei.com/)
 
 [`2624b445544f ksmbd: fix possible refcount leak in smb2_open()`](https://chenxiaosong.com/courses/smb/patches/ksmbd-fix-possible-refcount-leak-in-smb2_open.html)
 
