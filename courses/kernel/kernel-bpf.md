@@ -1,11 +1,9 @@
-<!-- public begin -->
 BPF是最近几年比较火的内核子系统，我也与时俱进来学习一下。
 
 - BPF（Berkeley Packet Filter）: 伯克利数据包过滤器，诞生于1992年，用于提升网络包过滤工具的性能。2014年重新实现BPF的补丁合入Linux内核主线。主要应用领域: 网络、可观测性、安全。
 - eBPF（extended BPF）: 扩展后的BPF，官方的缩写仍然是BPF。BCC和bpftrace是可以提供高级语言编程支持的BPF前端。
 - bpftrace: 提供了专门用于创建BPF工具的高级语言支持。相比BCC，bpftrace更适合编写功能强大的单行程序、短小的脚本。
 - BCC（BPF Compiler Collection）: BPF编译器集合，最早用于开发BPF跟踪程序的高级框架，提供高级语言环境来实现用户端接口，如BPF程序、C语言、Python、Lua、C++。相比bpftrace，BCC更适合开发复杂的脚本和作为后台进程使用。[源码](https://github.com/iovisor/bcc)。
-<!-- public end -->
 
 # bpftrace
 
@@ -82,4 +80,33 @@ make -j$(nproc) # 内存要大一点，否则会发生oom
 ```sh
 ./src/bpftrace -e 'kprobe:do_nanosleep { printf("sleep by %s\n", comm); }' # 输出 "sleep by crond" 之类的
 sudo make install -j`nproc` # 二进制安装到 /usr/local/bin/，工具安装/usr/local/share/bpftrace/tools/
+```
+
+## 例子
+
+`test.bt`:
+```sh
+kprobe:filemap_read_folio
+{
+        @start[tid] = nsecs;
+        printf("kprobe\n");
+        print(kstack());
+}
+
+kretprobe:filemap_read_folio
+{
+        $us = (nsecs - @start[tid]) / 100;
+        printf("kretprobe, duration %d\n", $us);
+        delete(@start[tid]);
+        print(kstack());
+}
+```
+
+```sh
+backtrace test.bt &
+mkfs.ext2 -F image
+mount image /mnt
+echo something > /mnt/file
+echo 3 > /proc/sys/vm/drop_caches
+cat /mnt/file
 ```
