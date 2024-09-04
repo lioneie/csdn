@@ -28,8 +28,8 @@ update_repo() {
     cd -
 }
 
-update_repo pictures ${is_public_ip} # 部署在公网服务器就推到github
 update_repo blog ${is_public_ip} # 部署在公网服务器就推到github
+update_repo pictures false # 不用推到github
 update_repo private-blog false # 不用推到github
 
 if [ ${is_restart} = false ]; then
