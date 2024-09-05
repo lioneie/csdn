@@ -21,6 +21,7 @@ array=(
     1 1 src/blog-web/contributions.md contributions.html "陈孝松自由软件贡献"
     1 1 src/blog-web/translations.md ~ "翻译"
     1 1 src/blog-web/courses.md courses.html "课程和视频"
+    1 1 src/blog-web/q.md q.html "QQ群讨论过的问题"
     # 课程
     0 1 courses/kernel/kernel.md ${tmp_courses_path} "Linux内核课程"
         1 1 courses/kernel/kernel-introduction.md ${tmp_courses_path} "内核简介"

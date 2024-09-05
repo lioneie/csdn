@@ -6,8 +6,8 @@
 
 联系方式:
 
-- 邮箱: <chenxiaosong@chenxiaosong.com>
-- [QQ交流群(点击查看图片扫码): 544216206](https://chenxiaosong.com/pictures/qq.jpg)
+- 邮箱: <chenxiaosong@chenxiaosong.com>。
+- [QQ交流群(点击查看图片扫码): 544216206](https://chenxiaosong.com/pictures/qq.jpg)，[QQ交流群讨论过的问题请点击这里查看](https://chenxiaosong.com/q.html)。
 
 爱好：自行车骑行，Linux操作系统。顺便提一句，[只用键盘](https://chenxiaosong.com/pictures/self-introduction/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/src/wubi/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
 
