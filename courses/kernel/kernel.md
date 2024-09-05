@@ -2,8 +2,6 @@
 
 在这里郑重承诺一下，接下来的课程的每一个字，我都是用键盘一字一句的敲出来，绝对不会复制粘贴，引用其他朋友原话的内容我也会标明出处，欢迎各位朋友的监督。
 
-[点击这里从百度网盘下载配套的视频教程](https://chenxiaosong.com/baidunetdisk)。
-
 [点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://chenxiaosong.com/bili/kernel)。
 
 [点击这里在哔哩哔哩bilibili在线观看配套的加餐视频（就是一些补充）](https://chenxiaosong.com/bili/kernel-ext)。
