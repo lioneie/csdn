@@ -112,7 +112,7 @@ POSIX标准的目的是为了在各种Unix操作系统上定位API（应用程�
 
 - [Debian](https://www.debian.org/)：Debian计划是由伊恩·默多克在1993年发起的，在1993年9月15日发布Debian 0.01版，第一个稳定版本在1996年发布。<!-- public begin -->我内核测试验证的虚拟机用的就是Debian。<!-- public end -->
 - [Ubuntu](https://cn.ubuntu.com/)：然后得说一下在桌面Linux发行版中使用人数比较多的Ubuntu发行版，是Canonical有限公司基于Debian开发的，但和Debian不同的地方是他的目的是开发更加友好的桌面。Ubuntu每6个月发布一个版本，每年的4月和10月，长期支持（LTS）版本每两年发布一次（如Ubuntu 22.04）。普通版本只支持9个月，LTS版本一般支持5年。<!-- public begin -->我编译代码的环境用的就是Ubuntu。<!-- public end -->
-- [银河麒麟桌面系统](https://product.kylinos.cn/productCase/171/36)：银河麒麟为Ubuntu Kylin的商业版本，当前在国内使用人数比较多。
+- [银河麒麟桌面系统](https://product.kylinos.cn/productCase/171/36)：银河麒麟最初是Ubuntu Kylin的商业版本，现在已有自己的根社区[openKylin](https://www.openkylin.top/index-cn.html)，当前在国内使用人数比较多。
 
 接着介绍一下Red Hat系，使用RPM格式软件包。
 
