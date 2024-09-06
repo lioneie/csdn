@@ -2,7 +2,6 @@ src_path=/home/sonvhi/chenxiaosong/code # 替换为你的仓库路径
 dst_path=/var/www
 tmp_html_path=${dst_path}/html-tmp
 html_path=${dst_path}/html
-tmp_courses_path=/tmp/blog
 
 . ${src_path}/blog/src/blog-web/common-lib.sh
 . ${src_path}/blog/src/blog-web/array.sh

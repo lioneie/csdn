@@ -1,3 +1,5 @@
+tmp_courses_path=/tmp/blog
+
 # 每一行代表:
 #    是否生成目录
 #    是否添加签名
