@@ -8,6 +8,8 @@
 
 [An EEVDF CPU scheduler for Linux](https://chenxiaosong.com/src/translations/kernel/An-EEVDF-CPU-scheduler-for-Linux.html)
 
+[Completing the EEVDF scheduler](https://chenxiaosong.com/src/translations/kernel/Completing-the-EEVDF-scheduler.html)
+
 # nfs
 
 [Network File System (NFS) Version 4 Minor Version 1 Protocol](https://chenxiaosong.com/src/translations/nfs/rfc8881-nfsv4.1.html)

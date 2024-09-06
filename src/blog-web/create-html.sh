@@ -170,6 +170,7 @@ array=(
         1 1 src/translations/kernel/sched-eevdf.rst ~ "EEVDF Scheduler"
         1 1 src/translations/kernel/sched-ext.rst ~ "Extensible Scheduler Class"
         1 1 src/translations/kernel/An-EEVDF-CPU-scheduler-for-Linux.md ~ "An EEVDF CPU scheduler for Linux"
+        1 1 src/translations/kernel/Completing-the-EEVDF-scheduler.md ~ "Completing the EEVDF scheduler"
         # nfs
         1 1 src/translations/nfs/rfc8881-nfsv4.1.md ~ "Network File System (NFS) Version 4 Minor Version 1 Protocol"
         1 1 src/translations/nfs/rfc7862-nfsv4.2.md ~ "Network File System (NFS) Version 4 Minor Version 2 Protocol"
