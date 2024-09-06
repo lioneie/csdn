@@ -13,7 +13,7 @@ grub的配置文件：[src/userspace-environment/boot-efi-EFI](https://gitee.com
 centos9 grub设置：
 ```sh
 blkid # 打印 uuid
-vim /boot/efi/EFI/centos/grub.cfg # 更改 uuid, set prefix=($dev)/　后接正确的路径
+vim /boot/efi/EFI/centos/grub.cfg # 更改 uuid, set prefix=($dev)/ 后接正确的路径
 grub2-mkconfig -o /boot/grub2/grub.cfg # centos9使用的是grub2
 ```
 

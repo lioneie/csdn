@@ -25,7 +25,7 @@
 
 使用`strace -o strace.out -f -v -s 4096 ls /media/media-root-365C-B654`得到以下日志：
 ```sh
-# 偶尔会报错　(Host is down)
+# 偶尔会报错 (Host is down)
  79 241573 newfstatat(AT_FDCWD, "/media/media-root-365C-B654", 0x5587298b58, 0) = -1 ENOTSUPP (Unknown error 524)
  97 241573 write(2, "ls: ", 4)              = 4
  98 241573 write(2, "cannot access '/media/media-root-365C-B654'", 43) = 43

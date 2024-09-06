@@ -75,5 +75,5 @@ int main(int argc, char *argv[]) {
 ```sh
 gcc -o lock lock.c
 ./lock # client 1
-./lock # client 2，这时会调用 SMB2_lock，　server会调用 smb2_lock
+./lock # client 2，这时会调用 SMB2_lock， server会调用 smb2_lock
 ```

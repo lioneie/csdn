@@ -7,7 +7,7 @@ ntfs是只读文件系统，挂载步骤：
 apt install ntfs-3g -y # mkfs.ntfs
 fdisk /dev/sda # 新建分区 /dev/sda1
 mkfs.ntfs /dev/sda1
-apt remove ntfs-3g -y # 必须要卸载　ntfs-3g，否则会使用 fuse 挂载
+apt remove ntfs-3g -y # 必须要卸载 ntfs-3g，否则会使用 fuse 挂载
 mount -t ntfs /dev/sda1 /mnt
 ```
 

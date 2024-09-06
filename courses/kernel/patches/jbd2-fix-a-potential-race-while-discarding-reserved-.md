@@ -270,7 +270,7 @@ int main()
 ```sh
 umount /mnt
 mkfs.ext4 -F -b 4096 /dev/sda
-mount -o nodelalloc /dev/sda /mnt # 必须要指定　nodelalloc
+mount -o nodelalloc /dev/sda /mnt # 必须要指定 nodelalloc
 rm /mnt/file -rf
 dd if=/dev/zero of=/mnt/file bs=4096 count=2
 sync

@@ -141,7 +141,7 @@ ps -e -o pid,ppid,cmd | grep fork
 
 # 线程
 
-一个多线程的程序，所有线程形成一个线程组，线程组中的第一个线程为线程组的pid，　这个第一个线程叫主线程，也就是调用`pthread_create()`的线程，`struct task_struct`中的`tgid`表示线程组中主线程的pid，`getpid()`系统调用获得的就是这个值。
+一个多线程的程序，所有线程形成一个线程组，线程组中的第一个线程为线程组的pid， 这个第一个线程叫主线程，也就是调用`pthread_create()`的线程，`struct task_struct`中的`tgid`表示线程组中主线程的pid，`getpid()`系统调用获得的就是这个值。
 
 ## 创建线程
 

@@ -44,12 +44,12 @@ root::0:0:Super User:/root:/bin/bash
 
 # arm32架构
 
-在 linux 仓库中执行　`make dtbs` 生成 dtb 文件
+在 linux 仓库中执行 `make dtbs` 生成 dtb 文件
 
 ubuntu2204宿主机中创建网络：
 ```sh
 sudo apt install bridge-utils -y # brctl命令
-sudo apt-get install uml-utilities -y # tunctl 命令，　centos９没有
+sudo apt-get install uml-utilities -y # tunctl 命令， centos９没有
 qemu-system-arm -net nic,model=? -M vexpress-a15 # 查看支持的虚拟网络
 sudo tunctl -b # 按顺序创建 tap0 tap1，每输入一次命令创建一个
 sudo tunctl -t tap0 -u sonvhi # 指定名称创建
@@ -92,7 +92,7 @@ systemctl status systemd-modules-load.service # 查看systemd-modules-load服务
 mv /lib/systemd/system/systemd-modules-load.service /lib/systemd/system/systemd-modules-load.service.bak
 
 cp /etc/fstab /etc/fstab.bak # 备份
-vim /etc/fstab # 删除　LABEL=UEFI 一行
+vim /etc/fstab # 删除 LABEL=UEFI 一行
 ```
 
 # openeuler
