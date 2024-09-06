@@ -1,6 +1,6 @@
 翻译自Red Hat Bugzilla – [Bug 2176575 - intermittent severe NFS client performance drop via nfs_server_reap_expired_delegations looping?](https://bugzilla.redhat.com/show_bug.cgi?id=2176575)，大部分借助于ChatGPT翻译，仅作为我个人的参考，如果你想了解具体内容，建议查看原网页，因为我不确定我记录的中文翻译是否完整和正确。
 
-首先，标题翻译为：间歇性的、严重的NFS客户端性能下降，是通过`nfs_server_reap_expired_delegations`循环引发的吗？
+首先，标题翻译为: 间歇性的、严重的NFS客户端性能下降，是通过`nfs_server_reap_expired_delegations`循环引发的吗？
 
 # 评论0: Frank Ch. Eigler 2023-03-08 18:28:42 UTC
 
@@ -73,7 +73,7 @@ Fedora 38 内核版本 6.3.8-200 并不能解决这个问题。一旦问题发�
 # Trond Myklebust 2023-07-17 21:04:57 UTC
 
 ```
-上述情况在以下情形下预期会发生：当 NFSv4.1 服务器指示状态标识已被管理撤销，或者租约已过期时，通过返回错误之一 NFS4ERR_DELEG_REVOKED、NFS4ERR_ADMIN_REVOKED 或 NFS4ERR_EXPIRED。
+上述情况在以下情形下预期会发生: 当 NFSv4.1 服务器指示状态标识已被管理撤销，或者租约已过期时，通过返回错误之一 NFS4ERR_DELEG_REVOKED、NFS4ERR_ADMIN_REVOKED 或 NFS4ERR_EXPIRED。
 
 如果服务器设置了 SEQUENCEID 标志之一 SEQ4_STATUS_EXPIRED_SOME_STATE_REVOKED 或 SEQ4_STATUS_ADMIN_STATE_REVOKED，也会发生这种情况。
 
@@ -83,7 +83,7 @@ Fedora 38 内核版本 6.3.8-200 并不能解决这个问题。一旦问题发�
 # Frank Ch. Eigler 2023-07-17 21:35:22 UTC
 
 ```
-目前没有迹象表明服务器发送了这样的消息：无论是在服务器自己的日志中，还是在客户端的日志中，或者在任何其他客户端中都没有异常。而且，一旦这种情况开始，对已知状态标识列表的迭代似乎是永久的且持续的，直到重新启动机器。它似乎不是一次性的查询。
+目前没有迹象表明服务器发送了这样的消息: 无论是在服务器自己的日志中，还是在客户端的日志中，或者在任何其他客户端中都没有异常。而且，一旦这种情况开始，对已知状态标识列表的迭代似乎是永久的且持续的，直到重新启动机器。它似乎不是一次性的查询。
 ```
 
 # Trond Myklebust 2023-07-17 22:35:25 UTC
@@ -159,7 +159,7 @@ fsid 0:60: expected fileid 0x9fbfd6d, got 0x9fbfd6e
 # Trond Myklebust 2023-07-18 00:52:39 UTC
 
 ```
-更正：'testing state ID with incorrect client ID' 将导致返回 NFS4ERR_BAD_STATEID。这与 NFS4ERR_EXPIRED 具有相同的效果。
+更正: 'testing state ID with incorrect client ID' 将导致返回 NFS4ERR_BAD_STATEID。这与 NFS4ERR_EXPIRED 具有相同的效果。
 ```
 
 # Frank Ch. Eigler 2023-07-18 00:56:23 UTC
@@ -174,7 +174,7 @@ fsid 0:60: expected fileid 0x9fbfd6d, got 0x9fbfd6e
 
 然而，这份报告让我对服务器中的整个nfsd4_validate_stateid产生了疑虑。如果服务器在甚至尝试调用find_stateid_locked（）之前就测试stateid以确保其与新客户端id的一致性，那么我们怎么能够清除那些stateid呢？客户端不应该在TEST_STATEID调用返回NFS4ERR_BAD_STATEID的情况下调用FREE_STATEID。
 
-因此，这可能解释了循环的原因：服务器期望通过FREE_STATEID释放不再有效的stateid，但这永远不会发生，因为TEST_STATEID的结果告诉客户端stateid是错误的。这再次意味着服务器无法清除SEQUENCEID标志，因此我们又会经历一轮TEST_STATEID。如此循环重复...
+因此，这可能解释了循环的原因: 服务器期望通过FREE_STATEID释放不再有效的stateid，但这永远不会发生，因为TEST_STATEID的结果告诉客户端stateid是错误的。这再次意味着服务器无法清除SEQUENCEID标志，因此我们又会经历一轮TEST_STATEID。如此循环重复...
 ```
 
 # 评论14: Benjamin Coddington 2023-08-04 15:28:57 UTC

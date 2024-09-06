@@ -1,4 +1,4 @@
-`e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt`，解决：存储端口故障后，ip切换要2分钟，2分钟内均归零。
+`e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt`，解决: 存储端口故障后，ip切换要2分钟，2分钟内均归零。
 
 ```
 修改rpcrdma_xprt_disconnect()函数，使其不再等待DISCONNECTED事件。这可以防止在远程无响应时阻塞。

@@ -227,7 +227,7 @@ index 60d016138997..e46f41c3e9a2 100644
 
 # 修复补丁合入之前的现象
 
-修复补丁：[`a2b0b205d125 ext4: fix symlink file size not match to file content`](https://lore.kernel.org/all/20220321144438.201685-1-yebin10@huawei.com/)
+修复补丁: [`a2b0b205d125 ext4: fix symlink file size not match to file content`](https://lore.kernel.org/all/20220321144438.201685-1-yebin10@huawei.com/)
 
 ```sh
 umount /mnt
@@ -295,7 +295,7 @@ fsck.ext4 -fy 1 # 文件 1 是对应虚拟机中 /dev/sda 的物理机文件
 
 # 修复补丁合入之后的现象
 
-修复补丁：[a2b0b205d125 ext4: fix symlink file size not match to file content](https://lore.kernel.org/all/20220321144438.201685-1-yebin10@huawei.com/)
+修复补丁: [a2b0b205d125 ext4: fix symlink file size not match to file content](https://lore.kernel.org/all/20220321144438.201685-1-yebin10@huawei.com/)
 
 ```sh
 umount /mnt
@@ -327,7 +327,7 @@ debugfs:  logdump -S
 
 # 代码流程
 
-修复补丁：[a2b0b205d125 ext4: fix symlink file size not match to file content](https://lore.kernel.org/all/20220321144438.201685-1-yebin10@huawei.com/)
+修复补丁: [a2b0b205d125 ext4: fix symlink file size not match to file content](https://lore.kernel.org/all/20220321144438.201685-1-yebin10@huawei.com/)
 
 ```c
 kthread

@@ -60,5 +60,5 @@
 [  414.903099][  3] ---[ end trace c60f5a2914e1708a ]---
 ```
 
-修复补丁：`6306ff39a7fc jfs: fix log->bdev_handle null ptr deref in lbmStartIO`
+修复补丁: `6306ff39a7fc jfs: fix log->bdev_handle null ptr deref in lbmStartIO`
 

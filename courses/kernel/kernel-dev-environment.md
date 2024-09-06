@@ -19,7 +19,7 @@
 - [Virtual Machine Manager](https://virt-manager.org/)。这个虚拟机软件只用在Linux平台上，如果你物理机上安装的操作系统是Linux，那么使用这个软件运行虚拟机就比较合适。比如在Ubuntu上使用命令`sudo apt-get install qemu qemu-kvm virt-manager qemu-system -y`安装（需要重启才能以非root用户启动）。
 - [UTM](https://mac.getutm.app/)。只针对苹果电脑系统，从[github](https://docs.getutm.app/installation/macos/)下载安装包。建议在配置比较高（尤其是内存）的苹果电脑上使用，如果配置比较低可能会遇到一些问题。从[github](https://docs.getutm.app/installation/macos/)上下载安装包。导入虚拟机时，选择"创建一个新虚拟机" -> "虚拟化" -> "其他" -> 打勾"Skip ISO boot"，"Storage"选择小一点的容量（如`1G`），创建虚拟机后打开配置，"VirtIO驱动器" -> "删除"，然后再"新建" -> "导入"，可以选择`vmdk`或`qcow2`等格式，会统一转换成`qcow2`格式，保存后生效。安装后的虚拟机文件在`~/Library/Containers/com.utmapp.UTM/Data/Documents`目录下，默认Finder中不显示这个目录，可以在家目录下打开`Show View Options -> Show Library Folder`。需要注意一下，网络如果选择`共享网络`会出现不稳定断网的情况，建议选择`桥接（高级）`，选择`桥接`时如果宿主机的网络切换了（如连了另一个wifi）虚拟机中的网络也要断开重连一下。如果出现虚拟机网络经常断开的情况，可以尝试宿主机换一个稳定的网络。
 
-配置虚拟机时，Windows系统cpu核数查看方法：任务管理器->性能->CPU，苹果电脑cpu核数查看方法: `sysctl hw.ncpu`或`sysctl -n machdep.cpu.core_count`，Linux系统cpu核数查看方法`lscpu`。
+配置虚拟机时，Windows系统cpu核数查看方法: 任务管理器->性能->CPU，苹果电脑cpu核数查看方法: `sysctl hw.ncpu`或`sysctl -n machdep.cpu.core_count`，Linux系统cpu核数查看方法`lscpu`。
 
 ## 安装Ubuntu发行版
 
@@ -334,13 +334,13 @@ ubuntu下运行`update-grub`，`x86`的`grub.cfg`文件在`/boot/grub/grub.cfg`�
 
 ## 模拟器与虚拟机
 
-Bochs：x86硬件平台的开源模拟器，帮助文档少，只能模拟x86处理器。
+Bochs: x86硬件平台的开源模拟器，帮助文档少，只能模拟x86处理器。
 
-QEMU：quick emulation，高速度、跨平台的开源模拟器，能模拟x86、arm等处理器，与Linux的KVM配合使用，能达到与真实机接近的速度。
+QEMU: quick emulation，高速度、跨平台的开源模拟器，能模拟x86、arm等处理器，与Linux的KVM配合使用，能达到与真实机接近的速度。
 
-第1类虚拟机监控程序：直接在主机硬件上运行，直接向硬件调度资源，速度快。如Linux的KVM（免费）、Windows的Hyper-V（收费）。
+第1类虚拟机监控程序: 直接在主机硬件上运行，直接向硬件调度资源，速度快。如Linux的KVM（免费）、Windows的Hyper-V（收费）。
 
-第2类虚拟机监控程序：在常规操作系统上以软件层或应用的形式运行，速度慢。如Vmware Workstation、Oracal VirtualBox。
+第2类虚拟机监控程序: 在常规操作系统上以软件层或应用的形式运行，速度慢。如Vmware Workstation、Oracal VirtualBox。
 
 本教程中，我们使用qemu来测试运行内核代码。
 
@@ -352,7 +352,7 @@ QEMU：quick emulation，高速度、跨平台的开源模拟器，能模拟x86�
 
 生成raw格式镜像后，再执行以下命令转换成占用空间更小的qcow2格式:
 ```sh
-# -p 显示进度， -f 源镜像格式， -O 转换后的格式， 后面再紧接的是：源文件名称，转换后的文件名称
+# -p 显示进度， -f 源镜像格式， -O 转换后的格式， 后面再紧接的是: 源文件名称，转换后的文件名称
 qemu-img convert -p -f raw -O qcow2 image.raw image.qcow2
 ```
 
@@ -515,7 +515,7 @@ PermitEmptyPasswords yes
 <!-- public begin -->
 曾经使用过fedora发行版，这里记录一下fedora的一些笔记。进入fedora虚拟机后:
 ```sh
-# fedora 启动的时候等待: A start job is running for /dev/zram0，解决办法：删除 zram 的配置文件
+# fedora 启动的时候等待: A start job is running for /dev/zram0，解决办法: 删除 zram 的配置文件
 mv /usr/lib/systemd/zram-generator.conf /usr/lib/systemd/zram-generator.conf.bak
 # fedora26 安装 vim 前，先升级
 sudo dnf update vim-common vim-minimal -y
@@ -650,7 +650,7 @@ gdb ./cifs.ko # ko文件或vmlinux
 (gdb) p &((struct cifsFileInfo *)0)->tlink
 ```
 
-`(struct cifsFileInfo *)0`：这是将整数值 0 强制类型转换为指向 struct cifsFileInfo 类型的指针。这实际上是创建一个指向虚拟内存地址 0 的指针，该地址通常是无效的。这是一个计算偏移量的技巧，因为偏移量的计算不依赖于结构体的实际实例。
+`(struct cifsFileInfo *)0`: 这是将整数值 0 强制类型转换为指向 struct cifsFileInfo 类型的指针。这实际上是创建一个指向虚拟内存地址 0 的指针，该地址通常是无效的。这是一个计算偏移量的技巧，因为偏移量的计算不依赖于结构体的实际实例。
 
 `(0)->tlink`: 指向虚拟内存地址 0 的指针的成员`tlink`。
 

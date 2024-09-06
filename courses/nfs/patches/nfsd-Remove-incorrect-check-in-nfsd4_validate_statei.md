@@ -4,7 +4,7 @@
 - Jeff Layton: 我不太明白。这是在修复一个实际的 bug 吗？虽然承认这段代码似乎是不必要的，但移除它似乎不会导致用户可见的行为变化。我是否漏掉了什么？
 - Trond Myklebust: 在 [https://bugzilla.redhat.com/show_bug.cgi?id=2176575](https://bugzilla.redhat.com/show_bug.cgi?id=2176575) 中明显触发了这个问题。此外，如果您查看提交 [663e36f07666](https://lore.kernel.org/all/20200319141849.GB1546@fieldses.org/)，您会发现它所做的一切就是移除日志消息，因为“这是预期的”。由于某种未知的原因，它没有意识到“然后检查是不正确的”。因此，是的，这是在修复一个真实的 bug。
 - Jeff Layton: 是的，就我所知，那个提交只是移除了警告。我的假设是服务器分发的任何 stateid，si_opaque.so_clid 必须与 clid 匹配。但是...看起来 s2s 复制可能改变了这个规则？无论如何，这个补丁看起来没问题，所以我没有异议。我只是试图理解这可能发生的原因。
-- Chuck Lever III: 我认为 [663e36f](https://lore.kernel.org/all/20200319141849.GB1546@fieldses.org/) 没有改变这个逻辑：在发出警告时它“返回状态”，在移除警告后它也“返回状态”。如果存在 bug，它是否是在添加了“!same_clid()`”检查时引入的呢？修复：7df302f75ee2 ("NFSD: TEST_STATEID should not return NFS4ERR_STALE_STATEID")
+- Chuck Lever III: 我认为 [663e36f](https://lore.kernel.org/all/20200319141849.GB1546@fieldses.org/) 没有改变这个逻辑: 在发出警告时它“返回状态”，在移除警告后它也“返回状态”。如果存在 bug，它是否是在添加了“!same_clid()`”检查时引入的呢？修复: 7df302f75ee2 ("NFSD: TEST_STATEID should not return NFS4ERR_STALE_STATEID")
 - Trond Myklebust: 正确。它无法修复比该补丁更旧的任何问题，因为它无法应用。
 - Chuck Lever III: 正在进行测试。我计划将其应用于 nfsd-fixes 分支（用于 6.5-rc）
 
@@ -18,6 +18,6 @@ TODO: 以下两句话，实在不知道怎么理解:
 
 > 如果服务器设置了 SEQUENCEID 标志之一 SEQ4_STATUS_EXPIRED_SOME_STATE_REVOKED 或 SEQ4_STATUS_ADMIN_STATE_REVOKED，也会发生这种情况。
 >
-> 因此，这可能解释了循环的原因：服务器期望通过FREE_STATEID释放不再有效的stateid，但这永远不会发生，因为TEST_STATEID的结果告诉客户端stateid是错误的。这再次意味着服务器无法清除SEQUENCEID标志，因此我们又会经历一轮TEST_STATEID。如此循环重复...
+> 因此，这可能解释了循环的原因: 服务器期望通过FREE_STATEID释放不再有效的stateid，但这永远不会发生，因为TEST_STATEID的结果告诉客户端stateid是错误的。这再次意味着服务器无法清除SEQUENCEID标志，因此我们又会经历一轮TEST_STATEID。如此循环重复...
 
 “这再次意味着服务器无法清除SEQUENCEID标志，因此我们又会经历一轮TEST_STATEID”，难道test stateid不应该是client端主动发起的？

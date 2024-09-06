@@ -57,8 +57,8 @@ VFS虽然是用C语言写的，但使用了面向对象的设计思路。
 struct super_block {
         struct list_head        s_list;         /* 放在最开头，指向 super_blocks，使用list_add_tail加到super_blocks链表中 */
         dev_t                   s_dev;          /* 设备标识符 */
-        unsigned char           s_blocksize_bits; // 块大小，单位：bit
-        unsigned long           s_blocksize; // 块大小，单位：字节
+        unsigned char           s_blocksize_bits; // 块大小，单位: bit
+        unsigned long           s_blocksize; // 块大小，单位: 字节
         loff_t                  s_maxbytes;     /* 文件大小上限 */
         struct file_system_type *s_type; // 文件系统类型
         const struct super_operations   *s_op; // 超级块方法
@@ -283,7 +283,7 @@ struct inode {
                 unsigned int __i_nlink;
         };
         dev_t                   i_rdev; // 实际设备标识符
-        loff_t                  i_size; // 大小，单位：字节
+        loff_t                  i_size; // 大小，单位: 字节
         struct timespec64       i_atime; // 最后访问时间
         struct timespec64       i_mtime; // 最后修改时间
         struct timespec64       __i_ctime; /* 使用 inode_*_ctime accessors ! 最后改变时间 */
@@ -452,15 +452,15 @@ struct dentry {
 
 目录项有3种状态:
 
-- 被使用：`d_inode`不为空，`d_count()`大于等于`1`
-- 未被使用：`d_inode`不为空，`d_count()`为`0`，注意曾经可能使用过
-- 无效状态：`d_inode`为空
+- 被使用: `d_inode`不为空，`d_count()`大于等于`1`
+- 未被使用: `d_inode`不为空，`d_count()`为`0`，注意曾经可能使用过
+- 无效状态: `d_inode`为空
 
 目录项缓存有3种:
 
-- "被使用的"目录项链表：`inode->i_dentry`链表，一个`inode`可能有多个链接，一个`inode`可能有多个`dentry`
-- "Least Recently Used 最近最少使用"链表：`d_lru`链表，包含未被使用和无效状态的`dentry`
-- 散列表：`dentry_hashtable`链表，散列值由`d_hash()`计算，`d_lookup()`查找散列表
+- "被使用的"目录项链表: `inode->i_dentry`链表，一个`inode`可能有多个链接，一个`inode`可能有多个`dentry`
+- "Least Recently Used 最近最少使用"链表: `d_lru`链表，包含未被使用和无效状态的`dentry`
+- 散列表: `dentry_hashtable`链表，散列值由`d_hash()`计算，`d_lookup()`查找散列表
 
 目录项让相应的索引节点的`i_count`为正，目录项被缓存了，索引节点肯定也被缓存了。
 
@@ -930,12 +930,12 @@ mount
 
 块组中内容的解释:
 
-- 超级块：存储文件系统自身元数据
-- 组描述符：包含所有块组的状态
-- 数据块位图：每个bit表示对应的数据块是否空闲，1表示占用，0表示空闲
-- inode位图：每个bit表示对应的inode是否空闲
-- inode表：块组中的inode
-- 数据块：文件的有用数据
+- 超级块: 存储文件系统自身元数据
+- 组描述符: 包含所有块组的状态
+- 数据块位图: 每个bit表示对应的数据块是否空闲，1表示占用，0表示空闲
+- inode位图: 每个bit表示对应的inode是否空闲
+- inode表: 块组中的inode
+- 数据块: 文件的有用数据
 
 举个例子，`32GB`的磁盘整个盘格式化为ext2文件系统，块大小为`4KB`，1个块大小的数据块位图描述`8*4K=32K`个数据块，也就是`32K*4KB=128MB`，大约有`32*1024MB/128MB=256`个块组。总块数为`total`，块大小为`bsize`字节，块组的总数约为`total/(8*bsize)`，套到上面的例子，就是`total=32*1024MB/4KB=8192K`，块组的总数约为`8192K/(8*4K)=256`个。`bsize`越小，块组数越大。
 
@@ -972,7 +972,7 @@ struct ext2_super_block {
         /*
          * 这些字段仅适用于 EXT2_DYNAMIC_REV 超级块。
          *
-         * 注意：兼容功能集和不兼容功能集之间的区别在于，
+         * 注意: 兼容功能集和不兼容功能集之间的区别在于，
          * 如果内核不知道不兼容功能集中设置的位，
          * 它应该拒绝挂载文件系统。
          *
@@ -1196,11 +1196,11 @@ struct ext2_dir_entry_2 {
 
 磁盘和内存数据结构的关系如下，动态缓存指文件关闭或数据块被删除后页框回收算法从高速缓存中删除数据:
 
-- 超级块：磁盘`ext2_super_block`，内存`ext2_sb_info`，总是缓存
-- 组描述符：磁盘和内存都是`ext2_group_desc`，总是缓存
-- 块位图和inode位图：磁盘是块中的位数组，内存是缓冲区中的位数组，动态缓存
-- 索引节点：磁盘`ext2_inode`，内存`ext2_inode_info`，动态缓存，空闲索引节点从不缓存
-- 数据块：磁盘是字节数组，内存是VFS缓冲区，动态缓存，空闲块从不缓存
+- 超级块: 磁盘`ext2_super_block`，内存`ext2_sb_info`，总是缓存
+- 组描述符: 磁盘和内存都是`ext2_group_desc`，总是缓存
+- 块位图和inode位图: 磁盘是块中的位数组，内存是缓冲区中的位数组，动态缓存
+- 索引节点: 磁盘`ext2_inode`，内存`ext2_inode_info`，动态缓存，空闲索引节点从不缓存
+- 数据块: 磁盘是字节数组，内存是VFS缓冲区，动态缓存，空闲块从不缓存
 
 ### 超级块
 
@@ -1400,7 +1400,7 @@ ext2不经过页缓存直接写调用`ext2_file_write_iter() -> ext2_dio_write_i
 我们举个例子，一个比较小的磁盘（也可以打开内核配置`CONFIG_BLK_DEV_LOOP`然后对文件执行同样的操作），执行完以下命令:
 <!--
 ```sh
-# od选项：以十六进制格式，每行输出一个字节，并且每个字节都输出其地址，具体查看命令 man 1 od
+# od选项: 以十六进制格式，每行输出一个字节，并且每个字节都输出其地址，具体查看命令 man 1 od
 # dd if=/dev/sda bs=1K count=2048 | od -tx1 -Ax > image # 也可以试试 debugfs
 ```
 -->
@@ -1552,7 +1552,7 @@ ext4是日志文件系统，对文件系统的高级修改分两步:
 
 注意，日志功能只能保证系统调用级别的一致性。
 
-ext文件系统有6种元数据：超级块，块组描述符，索引节点，间接块，数据块位图块，索引节点位图块。
+ext文件系统有6种元数据: 超级块，块组描述符，索引节点，间接块，数据块位图块，索引节点位图块。
 
 有3种不同的日志模式:
 

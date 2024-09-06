@@ -1,6 +1,6 @@
 这里介绍一组我发到社区的补丁集，这组补丁集被nfs maintainer剽窃了，但他修改后的版本却没有解决我提出的问题。
 
-我的补丁集：[`nfs: handle writeback errors correctly`](https://patchwork.kernel.org/project/linux-nfs/list/?series=628066&state=%2A&archive=both)。
+我的补丁集: [`nfs: handle writeback errors correctly`](https://patchwork.kernel.org/project/linux-nfs/list/?series=628066&state=%2A&archive=both)。
 
 [openeuler5.10的后续方案](https://gitee.com/openeuler/kernel/pulls/10046/commits)
 
@@ -19,13 +19,13 @@
  fallocate -l 100G /svr/nospc |
                               | mount -t nfs $nfs_server_ip:/ /mnt
                               |
-                              | # 预期错误：空间不足
+                              | # 预期错误: 空间不足
                               | dd if=/dev/zero of=/mnt/file count=1 ibs=1M
                               |
                               | # 释放挂载点的空间
                               | rm /mnt/nospc
                               |
-                              | # 问题1：误报空间不足，问题2：非常非常慢
+                              | # 问题1: 误报空间不足，问题2: 非常非常慢
                               | dd if=/dev/zero of=/mnt/file count=1 ibs=1M
 ```
 
@@ -94,7 +94,7 @@ filp_close
 
 # 我的修改方案
 
-## 第一个补丁：write返回更详细的错误
+## 第一个补丁: write返回更详细的错误
 
 [NFS: return more nuanced writeback errors in nfs_file_write()](https://patchwork.kernel.org/project/linux-nfs/patch/20220401034409.256770-2-chenxiaosong2@huawei.com/)
 
@@ -130,7 +130,7 @@ nfs_file_write
     return -(file->f_mapping->wb_err & MAX_ERRNO) // 返回wb_err 中的错误
 ```
 
-## 第二个补丁：flush返回正确的错误
+## 第二个补丁: flush返回正确的错误
 
 [NFS: nfs{,4}_file_flush() return correct writeback errors](https://patchwork.kernel.org/project/linux-nfs/patch/20220401034409.256770-3-chenxiaosong2@huawei.com/)
 
@@ -143,7 +143,7 @@ nfs_file_flush
     return -(file->f_mapping->wb_err & MAX_ERRNO) // 返回 wb_err 中的错误
 ```
 
-## 第三个补丁：解决 async write 变成 sync write 的问题
+## 第三个补丁: 解决 async write 变成 sync write 的问题
 
 [Revert "nfs: nfs_file_write() should check for writeback errors"](https://patchwork.kernel.org/project/linux-nfs/patch/20220401034409.256770-4-chenxiaosong2@huawei.com/)
 
@@ -170,7 +170,7 @@ write
 
 # maintainer 的修改方案（未解决此问题）
 
-补丁集：[Ensure mapping errors are reported only once](https://patchwork.kernel.org/project/linux-nfs/list/?series=631225&state=%2A&archive=both)
+补丁集: [Ensure mapping errors are reported only once](https://patchwork.kernel.org/project/linux-nfs/list/?series=631225&state=%2A&archive=both)
 
 ## 想解决问题的补丁（实际没解决）
 

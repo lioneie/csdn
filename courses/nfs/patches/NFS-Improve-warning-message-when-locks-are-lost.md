@@ -3,7 +3,7 @@
 [`3e2910c7e23b NFS: Improve warning message when locks are lost.`](https://lore.kernel.org/all/164782079118.24302.10351255364802334775@noble.neil.brown.name/)
 
 ```
-NFS：改进锁丢失时的警告信息
+NFS: 改进锁丢失时的警告信息
 
 NFSv4可能会在某些情况下丢失锁，例如，当网络分区时间超过租期时。如果发生这种情况，会生成以下警告信息:
 

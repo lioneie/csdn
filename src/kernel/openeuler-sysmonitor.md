@@ -1,6 +1,6 @@
 sysmonitor工具通过内核的inotify特性实现文件的监控功能。inotify 是 Linux 内核提供的一种文件系统监视机制，用于监控文件系统事件，比如文件或目录的创建、删除、修改等。它允许应用程序在文件系统发生变化时立即获得通知，而不需要轮询文件系统状态。
 
-相关文档：[docs/sysmonitor](https://gitee.com/openeuler/docs/tree/stable2-22.03_LTS_SP2/docs/zh/docs/sysmonitor)。
+相关文档: [docs/sysmonitor](https://gitee.com/openeuler/docs/tree/stable2-22.03_LTS_SP2/docs/zh/docs/sysmonitor)。
 
 # 测试
 

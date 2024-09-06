@@ -12,7 +12,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/google/syzkaller/blob/master/LICENSE)
 
 `syzkaller` (`[siːzˈkɔːlə]`) 是一个无监督的覆盖率引导内核模糊测试工具。\
-支持的操作系统：`FreeBSD`、`Fuchsia`、`gVisor`、`Linux`、`NetBSD`、`OpenBSD`、`Windows`。
+支持的操作系统: `FreeBSD`、`Fuchsia`、`gVisor`、`Linux`、`NetBSD`、`OpenBSD`、`Windows`。
 
 邮件列表: [syzkaller@googlegroups.com](https://groups.google.com/forum/#!forum/syzkaller)（通过[网页](https://groups.google.com/forum/#!forum/syzkaller)或[电子邮件](mailto:syzkaller+subscribe@googlegroups.com)加入）。
 
@@ -92,14 +92,14 @@ $ ./bin/syz-manager -config=my.cfg
 
 特定虚拟机类型或内核架构的说明可以在以下页面找到:
 
-- [设置：Ubuntu 主机，QEMU 虚拟机，x86-64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md)
-- [设置：Linux 主机，QEMU 虚拟机，arm64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm64-kernel.md)
-- [设置：Linux 主机，QEMU 虚拟机，arm 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm-kernel.md)
-- [设置：Linux 主机，QEMU 虚拟机，riscv64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_riscv64-kernel.md)
-- [设置：Linux 主机，QEMU 虚拟机，s390x 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_s390x-kernel.md)
-- [设置：Linux 主机，安卓设备，arm32/64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_android-device_arm-kernel.md)
-- [设置：Linux 隔离主机](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_isolated.md)
-- [设置：Ubuntu 主机，VMware 虚拟机，x86-64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_vmware-vm_x86-64-kernel.md)
+- [设置: Ubuntu 主机，QEMU 虚拟机，x86-64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md)
+- [设置: Linux 主机，QEMU 虚拟机，arm64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm64-kernel.md)
+- [设置: Linux 主机，QEMU 虚拟机，arm 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm-kernel.md)
+- [设置: Linux 主机，QEMU 虚拟机，riscv64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_riscv64-kernel.md)
+- [设置: Linux 主机，QEMU 虚拟机，s390x 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_s390x-kernel.md)
+- [设置: Linux 主机，安卓设备，arm32/64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_android-device_arm-kernel.md)
+- [设置: Linux 隔离主机](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_isolated.md)
+- [设置: Ubuntu 主机，VMware 虚拟机，x86-64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_vmware-vm_x86-64-kernel.md)
 
 ## install
 
@@ -135,7 +135,7 @@ make
 
 编译后的二进制文件应出现在 `bin/` 目录中。
 
-注意：如果您想进行跨操作系统/架构测试，您需要在 `make` 中指定 `TARGETOS`、`TARGETVMARCH` 和 `TARGETARCH` 参数。详情请参阅 [Makefile](https://github.com/google/syzkaller/blob/master/Makefile)。
+注意: 如果您想进行跨操作系统/架构测试，您需要在 `make` 中指定 `TARGETOS`、`TARGETVMARCH` 和 `TARGETARCH` 参数。详情请参阅 [Makefile](https://github.com/google/syzkaller/blob/master/Makefile)。
 
 ### 环境
 
@@ -179,7 +179,7 @@ Syzkaller 在工作虚拟机或物理设备上执行内核模糊测试。
 
 * QEMU 需要 root 权限才能使用 `-enable-kvm`。
 
-    解决方案：将您的用户添加到 `kvm` 组（`sudo usermod -a -G kvm` 并重新登录）。
+    解决方案: 将您的用户添加到 `kvm` 组（`sudo usermod -a -G kvm` 并重新登录）。
 
 * QEMU 崩溃，错误信息为:
 
@@ -187,7 +187,7 @@ Syzkaller 在工作虚拟机或物理设备上执行内核模糊测试。
     qemu-system-x86_64: error: failed to set MSR 0x48b to 0x159ff00000000
     qemu-system-x86_64: /build/qemu-EmNSP4/qemu-4.2/target/i386/kvm.c:2947: kvm_put_msrs: Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed.
     ```
-    解决方案：从 QEMU 命令行中删除 `-cpu host,migratable=off`。最简单的方法是将 `syz-manager` 配置文件中的 `qemu_args` 设置为 `-enable-kvm`。
+    解决方案: 从 QEMU 命令行中删除 `-cpu host,migratable=off`。最简单的方法是将 `syz-manager` 配置文件中的 `qemu_args` 设置为 `-enable-kvm`。
 
 # Setup: Ubuntu host, QEMU vm, x86-64 kernel
 
@@ -497,7 +497,7 @@ mkdir workdir
 重现一次崩溃的过程可能需要几分钟到一个小时不等，这取决于崩溃是否容易重现或根本无法重现。
 由于这个过程并不完美，因此可以按照[这里](https://github.com/google/syzkaller/blob/master/docs/reproducing_crashes.md)描述的方式尝试手动重现崩溃。
 
-如果成功找到重现器，它可以生成两种形式之一：syzkaller 程序或 C 程序。
+如果成功找到重现器，它可以生成两种形式之一: syzkaller 程序或 C 程序。
 Syzkaller 总是尝试生成更用户友好的 C 重现器，但有时由于各种原因（例如略有不同的时间安排）会失败。
 如果 syzkaller 仅生成了 syzkaller 程序，可以按照[这里](https://github.com/google/syzkaller/blob/master/docs/reproducing_crashes.md)的方式手动执行它们以重现和调试崩溃。
 
@@ -515,11 +515,11 @@ Syzkaller 总是尝试生成更用户友好的 C 重现器，但有时由于各�
 
 创建syzkaller错误的重现程序的过程是自动化的，但它并不完美，因此syzkaller提供了一些工具用于手动执行和重现程序。
 
-在manager `workdir/crashes` 目录中创建的崩溃日志包含在崩溃前执行的程序。在并行执行模式下（当manager配置中的`procs`参数设置为大于1的值时），导致崩溃的程序不一定立即在崩溃前执行；有问题的程序可能在之前的某个地方。有两个工具可以帮助你识别和最小化导致崩溃的程序：`tools/syz-execprog` 和 `tools/syz-prog2c`。
+在manager `workdir/crashes` 目录中创建的崩溃日志包含在崩溃前执行的程序。在并行执行模式下（当manager配置中的`procs`参数设置为大于1的值时），导致崩溃的程序不一定立即在崩溃前执行；有问题的程序可能在之前的某个地方。有两个工具可以帮助你识别和最小化导致崩溃的程序: `tools/syz-execprog` 和 `tools/syz-prog2c`。
 
-`tools/syz-execprog` 在各种模式下执行单个syzkaller程序或一组程序（一次或无限循环；在线程/碰撞模式下（见下文），有或没有覆盖收集）。你可以通过循环运行崩溃日志中的所有程序来开始，以检查是否至少有一个程序确实使内核崩溃：`./syz-execprog -executor=./syz-executor -repeat=0 -procs=16 -cover=0 crash-log`。然后尝试识别导致崩溃的单个程序，可以用 `./syz-execprog -executor=./syz-executor -repeat=0 -procs=16 -cover=0 file-with-a-single-program` 测试程序。
+`tools/syz-execprog` 在各种模式下执行单个syzkaller程序或一组程序（一次或无限循环；在线程/碰撞模式下（见下文），有或没有覆盖收集）。你可以通过循环运行崩溃日志中的所有程序来开始，以检查是否至少有一个程序确实使内核崩溃: `./syz-execprog -executor=./syz-executor -repeat=0 -procs=16 -cover=0 crash-log`。然后尝试识别导致崩溃的单个程序，可以用 `./syz-execprog -executor=./syz-executor -repeat=0 -procs=16 -cover=0 file-with-a-single-program` 测试程序。
 
-注意：`syz-execprog` 在本地执行程序。所以你需要将 `syz-execprog` 和 `syz-executor` 复制到带有测试内核的虚拟机中并在那里运行。
+注意: `syz-execprog` 在本地执行程序。所以你需要将 `syz-execprog` 和 `syz-executor` 复制到带有测试内核的虚拟机中并在那里运行。
 
 一旦你有了导致崩溃的单个程序，尝试通过从程序中删除单个系统调用来最小化它（你可以在行首添加`#`来注释掉单行），以及删除不必要的数据（例如，将`&(0x7f0000001000)="73656c6600"`系统调用参数替换为 `&(0x7f0000001000)=nil`）。你还可以尝试将所有的mmap调用合并为一个映射整个所需区域的单个mmap调用。再次使用 `syz-execprog` 工具测试最小化。
 
@@ -527,7 +527,7 @@ Syzkaller 总是尝试生成更用户友好的 C 重现器，但有时由于各�
 
 现在，运行 `syz-prog2c` 工具处理程序。它会给你可执行的C源代码。如果崩溃在使用 `-threaded/collide=0` 标志时重现，那么这个C程序也应该导致崩溃。
 
-如果崩溃在使用 `-threaded/collide=0` 标志时不可重现，那么你需要最后一步。你可以将线程模式视为每个系统调用在其自己的线程中执行。为了模拟这种执行模式，将单个系统调用移动到单独的线程中。你可以在这里看到一个例子：https://groups.google.com/d/msg/syzkaller/fHZ42YrQM-Y/Z4Xf-BbUDgAJ。
+如果崩溃在使用 `-threaded/collide=0` 标志时不可重现，那么你需要最后一步。你可以将线程模式视为每个系统调用在其自己的线程中执行。为了模拟这种执行模式，将单个系统调用移动到单独的线程中。你可以在这里看到一个例子: https://groups.google.com/d/msg/syzkaller/fHZ42YrQM-Y/Z4Xf-BbUDgAJ。
 
 这个过程在 `syz-repro` 实用程序中有一定程度的自动化。你需要提供你的manager配置和崩溃报告文件。你可以参考[示例配置文件](https://github.com/google/syzkaller/blob/master//pkg/mgrconfig/testdata/qemu.cfg)。
 ```

@@ -238,16 +238,16 @@ $ sudo make install
     - 默认情况下，测试套件将运行自动组中的所有测试。这些是预期作为回归测试正常工作的测试，并且排除了已知会导致机器故障的条件的测试（即“危险”测试）。
     - ./check '*/001' '*/002' '*/003'
     - ./check '*/06?'
-    - 可以通过以下方式运行测试组：./check -g [group(s)]
+    - 可以通过以下方式运行测试组: ./check -g [group(s)]
       构建xfstests后，查看tests/*/group.list文件以了解每个测试的组成员资格。
-    - 如果要运行所有测试，而不管它们属于哪个组（包括危险测试），请使用“all”组：./check -g all
-    - 要随机化测试顺序：./check -r [test(s)]
+    - 如果要运行所有测试，而不管它们属于哪个组（包括危险测试），请使用“all”组: ./check -g all
+    - 要随机化测试顺序: ./check -r [test(s)]
     - 您可以明确指定NFS/AFS/CIFS/OVERLAY，否则
       文件系统类型将从$TEST_DEV自动检测:
-        - 用于运行nfs测试：./check -nfs [test(s)]
-        - 用于运行afs测试：./check -afs [test(s)]
-        - 用于运行cifs/smb3测试：./check -cifs [test(s)]
-        - 用于overlay测试：./check -overlay [test(s)]
+        - 用于运行nfs测试: ./check -nfs [test(s)]
+        - 用于运行afs测试: ./check -afs [test(s)]
+        - 用于运行cifs/smb3测试: ./check -cifs [test(s)]
+        - 用于overlay测试: ./check -overlay [test(s)]
           TEST和SCRATCH分区应预先用另一个基本fs格式化，overlay目录将在其中创建
 
 
@@ -296,7 +296,7 @@ $ sudo make install
         - 在测试中调用 getfacl 时，请传递 "-n" 参数，以便在输出中使用数字标识符而不是符号标识符。
         - 创建新测试时，可以输入自定义文件名。文件名的形式为NNN-custom-name，其中NNN是由./new脚本自动添加的唯一ID，并且"custom-name"是在./new脚本中输入的可选字符串。它只能包含字母数字字符和短划线。请注意，“NNN-”部分是自动添加的。
 
-     6. 测试组成员资格：每个测试可以与任意数量的组相关联，以便选择测试的子集。组名称必须使用集合[:alnum:_-]中的字符进行人类可读。
+     6. 测试组成员资格: 每个测试可以与任意数量的组相关联，以便选择测试的子集。组名称必须使用集合[:alnum:_-]中的字符进行人类可读。
 
         测试作者通过将这些组的名称作为参数传递给 _begin_fstest 函数来将测试与组相关联。虽然 _begin_fstests 是必须在测试开始时调用的shell函数，以正确初始化测试环境，但构建基础结构还会扫描测试文件以查找 _begin_fstests 调用。它执行此操作以编译用于确定在运行 `check` 时要运行哪些测试的组列表。
 

@@ -75,7 +75,7 @@ zip -jr images.zip out/rk3568/packages/phone/images/
 
 [烧写工具及指南](https://gitee.com/hihope_iot/docs/tree/master/HiHope_DAYU200/%E7%83%A7%E5%86%99%E5%B7%A5%E5%85%B7%E5%8F%8A%E6%8C%87%E5%8D%97)。
 
-特别需要注意的是：软件路径中不要含有中文，尤其是对英文版的windows系统。
+特别需要注意的是: 软件路径中不要含有中文，尤其是对英文版的windows系统。
 
 windows安装`DriverAssitant_v5.1.1\DriverInstall.exe`后，打开`RKDevTool.exe`， 配置以下路径:
 ```sh

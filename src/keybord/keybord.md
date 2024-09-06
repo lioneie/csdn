@@ -16,7 +16,7 @@ xmodmap是Linux桌面系统用于更改键位分布的软件，具体查看[《L
 
 默认按`caps_lock`键会切换输入法，设置 `Keybord` -> `Press fn(是一个地球图标) key to` 选 `Do Nothing`。
 
-我使用的配置文件：[karabiner.json](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/keybord/karabiner.json)，放到macOS的`~/.config/karabiner/karabiner.json`路径下。
+我使用的配置文件: [karabiner.json](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/keybord/karabiner.json)，放到macOS的`~/.config/karabiner/karabiner.json`路径下。
 
 # windows autohotkey
 
@@ -25,7 +25,7 @@ windows上更改键位可以使用[autohotkey](https://www.autohotkey.com/)，�
 - [按键列表v1](https://wyagd001.github.io/zh-cn/docs/KeyList.htm)
 - [按键列表v2](https://wyagd001.github.io/v2/docs/KeyList.htm)
 
-v1版本的配置：[autohotkey-v1.1.ahk](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/keybord/autohotkey-v1.1.ahk)。
+v1版本的配置: [autohotkey-v1.1.ahk](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/keybord/autohotkey-v1.1.ahk)。
 
 # hhkb
 

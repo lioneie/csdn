@@ -17,4 +17,4 @@ NFSv4 client详细的Operations定义在`include/linux/nfs4.h`中的`NFSPROC4_CL
 
 # 反向通道Operations
 
-NFSv4反向通道的Operations定义在`include/linux/nfs4.h`中的`enum nfs_cb_opnum4`(老版本内核还重复定义在`fs/nfs/callback.h`中的`enum nfs4_callback_opnum`，我已经提补丁移到公共头文件：[NFSv4, NFSD: move enum nfs_cb_opnum4 to include/linux/nfs4.h](https://lore.kernel.org/all/tencent_03EDD0CAFBF93A9667CFCA1B68EDB4C4A109@qq.com/))，server在`fs/nfsd/state.h`中还定义了`nfsd4_cb_op`，编码解码函数定义在`nfs4_cb_procedures`。client的编码解码函数定义在`callback_ops`。
+NFSv4反向通道的Operations定义在`include/linux/nfs4.h`中的`enum nfs_cb_opnum4`(老版本内核还重复定义在`fs/nfs/callback.h`中的`enum nfs4_callback_opnum`，我已经提补丁移到公共头文件: [NFSv4, NFSD: move enum nfs_cb_opnum4 to include/linux/nfs4.h](https://lore.kernel.org/all/tencent_03EDD0CAFBF93A9667CFCA1B68EDB4C4A109@qq.com/))，server在`fs/nfsd/state.h`中还定义了`nfsd4_cb_op`，编码解码函数定义在`nfs4_cb_procedures`。client的编码解码函数定义在`callback_ops`。

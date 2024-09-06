@@ -21,7 +21,7 @@ sleep 1
 
 # 检查 `stat /mnt` 是否仍在运行
 if ps -p $STAT_PID > /dev/null; then
-    echo "stat /mnt 卡住，输出内核栈："
+    echo "stat /mnt 卡住，输出内核栈: "
     # 如果仍在运行，输出该进程的内核栈
     cat /proc/$STAT_PID/stack
 else

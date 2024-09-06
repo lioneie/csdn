@@ -45,7 +45,7 @@ sync
 
 # 代码分析
 
-修复补丁：[`ef09ed5d37b8 ext4: fix bug_on in ext4_writepages`](https://patchwork.ozlabs.org/project/linux-ext4/patch/20220516122634.1690462-1-yebin10@huawei.com/)
+修复补丁: [`ef09ed5d37b8 ext4: fix bug_on in ext4_writepages`](https://patchwork.ozlabs.org/project/linux-ext4/patch/20220516122634.1690462-1-yebin10@huawei.com/)
 
 ```c
 // 创建小文件，再追加大量数据

@@ -142,7 +142,7 @@
 附录F 内核开发过程参考文献
 ```
 
-# [《LINUX内核完全剖析：基于0.12内核》](https://book.douban.com/subject/3229243/)
+# [《LINUX内核完全剖析: 基于0.12内核》](https://book.douban.com/subject/3229243/)
 
 看早期的内核代码真的很棒，只看过一部分，想继续看完。
 
@@ -169,7 +169,7 @@
 参考文献
 ```
 
-# [《Linux设备驱动开发详解：基于最新的Linux 4.0内核》](https://book.douban.com/subject/26600201/)
+# [《Linux设备驱动开发详解: 基于最新的Linux 4.0内核》](https://book.douban.com/subject/26600201/)
 
 这本书我全部看完了，算是驱动开发的入门书吧，对初学者很友好。
 

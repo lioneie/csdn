@@ -14,7 +14,7 @@ SystemTap是一个Linux跟踪/探测工具。
 
 - Linux内核
 - 内核模块构建环境（kernel-devel rpm）和/或dyninst
-- 可选：被检测的内核/用户空间的调试信息
+- 可选: 被检测的内核/用户空间的调试信息
 - C编译器（与内核编译使用的相同），用于构建内核模块
 - C++11编译器，如gcc 4.8+，用于构建SystemTap本身
 - elfutils 0.151+及其带有libdwfl的版本，用于解析调试信息
@@ -107,7 +107,7 @@ SystemTap是一个Linux跟踪/探测工具。
 
 构建kernel.org内核:
 
-- 使用您通常的流程构建内核。启用以下配置选项：CONFIG_DEBUG_INFO、CONFIG_KPROBES、CONFIG_RELAY、CONFIG_DEBUG_FS、CONFIG_MODULES、CONFIG_MODULE_UNLOAD、CONFIG_UPROBES（如果可用）。
+- 使用您通常的流程构建内核。启用以下配置选项: CONFIG_DEBUG_INFO、CONFIG_KPROBES、CONFIG_RELAY、CONFIG_DEBUG_FS、CONFIG_MODULES、CONFIG_MODULE_UNLOAD、CONFIG_UPROBES（如果可用）。
 - % make modules_install install headers_install
 - 启动到内核。
 

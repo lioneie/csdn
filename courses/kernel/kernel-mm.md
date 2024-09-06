@@ -16,7 +16,7 @@ address  +------------+ address  +--------+ address
 
 三种地址介绍:
 
-- 逻辑地址（logical address）: 由段（segment）和偏移量（offset或displacement）组成。RISC（Reduced Instruction Set Computers）体系结构（如ARM）分段支持有限，在某些支持段的CISC（Complex Instruction Set Computers）体系结构如x86（x86无法绕过分段），Linux内核中，所有的段（如：用户代码段、用户数据段、内核代码段、内核数据段）都从0地址开始，偏移量就是线性地址的大小，所以逻辑地址和线性地址是一毛一样的。<!-- public begin -->对x86汇编感兴趣的话可以参考小甲鱼老师的[【8086汇编入门】《零基础入门学习汇编语言》](https://www.bilibili.com/video/BV1Rs411c7HG/?spm_id_from=333.999.0.0&vd_source=b3241359025e41f053e9e1b071acb6f8)。<!-- public end -->
+- 逻辑地址（logical address）: 由段（segment）和偏移量（offset或displacement）组成。RISC（Reduced Instruction Set Computers）体系结构（如ARM）分段支持有限，在某些支持段的CISC（Complex Instruction Set Computers）体系结构如x86（x86无法绕过分段），Linux内核中，所有的段（如: 用户代码段、用户数据段、内核代码段、内核数据段）都从0地址开始，偏移量就是线性地址的大小，所以逻辑地址和线性地址是一毛一样的。<!-- public begin -->对x86汇编感兴趣的话可以参考小甲鱼老师的[【8086汇编入门】《零基础入门学习汇编语言》](https://www.bilibili.com/video/BV1Rs411c7HG/?spm_id_from=333.999.0.0&vd_source=b3241359025e41f053e9e1b071acb6f8)。<!-- public end -->
 - 线性地址（linear address）: 又叫虚拟地址（virtual address），是连续的地址。在32位系统中，用户空间通常占用前3GB的线性地址空间，内核空间通常占用3GB~4GB的线性地址空间。在64位系统中，用户空间和内核空间占用更大的范围，具体的范围取决于内核的配置和架构。
 - 物理地址（physical address）: 用于内存芯片级的内存寻址单元。
 
@@ -93,8 +93,8 @@ struct page {
 #ifdef CONFIG_KMSAN
         /*
         * 此页面的 KMSAN 元数据:
-        *  - 影子页面：每个位表示原始页面对应位是否已初始化（0）或未初始化（1）；
-        *  - 原始页面：每 4 个字节包含一个栈追踪的 ID，用于指示未初始化值的创建位置。
+        *  - 影子页面: 每个位表示原始页面对应位是否已初始化（0）或未初始化（1）；
+        *  - 原始页面: 每 4 个字节包含一个栈追踪的 ID，用于指示未初始化值的创建位置。
         */
         struct page *kmsan_shadow;
         struct page *kmsan_origin;
@@ -131,7 +131,7 @@ static __always_inline void SetPage##uname(struct page *page)
 ```c
 /*
  * 这个联合体中有五个字（20/40字节）可用。
- * 警告：第一个字的第0位用于 PageTail()。这意味着
+ * 警告: 第一个字的第0位用于 PageTail()。这意味着
  * 这个联合体的其他使用者不能使用这个位，以避免
  * 冲突和误报的 PageTail()。
  */
@@ -362,26 +362,26 @@ enum zone_type {
         * 成功的可能性，并局部限制不可移动的分配 - 例如，增加 THP(Transparent Huge Pages， 透明大页)/大页的数量。
         * 值得注意的特殊情况包括:
         *
-        * 1. 锁定页面：（长期）锁定可移动页面可能会实质上使这些页面变得不可移动。
+        * 1. 锁定页面: （长期）锁定可移动页面可能会实质上使这些页面变得不可移动。
         *    因此，我们不允许在 ZONE_MOVABLE 中长期锁定页面。当页面被锁定并出现错误时，
         *    它们会立即从正确的区域中获取。然而，当页面被锁定时，地址空间中可能已经有
         *    位于 ZONE_MOVABLE 中的页面（即用户在锁定前已访问该内存）。在这种情况下，
         *    我们将它们迁移到不同的区域。当迁移失败时 - 锁定失败。
-        * 2. memblock 分配：kernelcore/movablecore 设置可能会在引导后导致
+        * 2. memblock 分配: kernelcore/movablecore 设置可能会在引导后导致
         *    ZONE_MOVABLE 中包含不可移动的分配。内存下线和分配会很早失败。
-        * 3. 内存空洞：kernelcore/movablecore 设置可能会在引导后导致 ZONE_MOVABLE
+        * 3. 内存空洞: kernelcore/movablecore 设置可能会在引导后导致 ZONE_MOVABLE
         *    中包含内存空洞，例如，如果我们有仅部分填充的部分。内存下线和分配会很早失败。
-        * 4. PG_hwpoison 页面：虽然在内存下线期间可以跳过中毒页面，但这些页面不能被分配。
-        * 5. 不可移动的 PG_offline 页面：在半虚拟化环境中，热插拔的内存块可能仅部分
+        * 4. PG_hwpoison 页面: 虽然在内存下线期间可以跳过中毒页面，但这些页面不能被分配。
+        * 5. 不可移动的 PG_offline 页面: 在半虚拟化环境中，热插拔的内存块可能仅部分
         *    由伙伴系统管理（例如，通过 XEN-balloon、Hyper-V balloon、virtio-mem）。
         *    由伙伴系统未管理的部分是不可移动的 PG_offline 页面。在某些情况下
         *    （virtio-mem），在内存下线期间可以跳过这些页面，但不能移动/分配。
         *    这些技术可能会使用 alloc_contig_range() 再次隐藏之前暴露的页面
         *    （例如，在 virtio-mem 中实现某种内存卸载）。
-        * 6. ZERO_PAGE(0)：kernelcore/movablecore 设置可能会导致
+        * 6. ZERO_PAGE(0): kernelcore/movablecore 设置可能会导致
         *    ZERO_PAGE(0)（在不同平台上分配方式不同）最终位于可移动区域。
         *    ZERO_PAGE(0) 不能迁移。
-        * 7. 内存热插拔：当使用 memmap_on_memory 并将内存上线到 MOVABLE 区域时，
+        * 7. 内存热插拔: 当使用 memmap_on_memory 并将内存上线到 MOVABLE 区域时，
         *    vmemmap 页面也会放置在该区域。这些页面不能真正移动，因为它们自存储在范围内，
         *    但在描述的范围即将下线时，它们被视为可移动。
         *
@@ -777,7 +777,7 @@ typedef unsigned int __bitwise gfp_t;
  * 调用者必须处理失败，但可以通过失败更高级别的请求或以效率低得多的方式完成来合理地处理。
  * 如果分配确实失败，并且调用者能够释放一些非必要的内存，那么这样做可能会使整个系统受益。
  *
- * %__GFP_NOFAIL: 虚拟内存实现 _必须_ 无限重试：调用者无法处理分配失败。分配可能会无限期阻塞，但不会返回失败。测试失败是没有意义的。
+ * %__GFP_NOFAIL: 虚拟内存实现 _必须_ 无限重试: 调用者无法处理分配失败。分配可能会无限期阻塞，但不会返回失败。测试失败是没有意义的。
  * 新用户应仔细评估（并且该标志应仅在没有合理的失败策略时使用），但绝对比在分配器周围编写无尽循环代码更可取。
  * 强烈不建议将此标志用于昂贵的分配。
  */
@@ -833,7 +833,7 @@ typedef unsigned int __bitwise gfp_t;
  *
  * %GFP_DMA32 类似于 %GFP_DMA，除了调用者要求 32 位地址。
  * 请注意，kmalloc(..., GFP_DMA32) 不返回 DMA32 内存，因为未实现 DMA32 kmalloc 缓存数组。
- * （原因：内核中没有这样的用户）。
+ * （原因: 内核中没有这样的用户）。
  *
  * %GFP_HIGHUSER 适用于可能映射到用户空间的用户空间分配，
  * 不需要内核直接访问但一旦使用便不能移动。例如硬件分配，直接将数据映射到用户空间，
@@ -1464,9 +1464,9 @@ struct vm_area_struct {
 
 常见的段（这里的"段"英文是"section"）:
 
-- TEXT段：程序代码段，`vm_flags`字段为`VM_EXEC`和`VM_READ`，`vm_file`字段不为`NULL`。
-- DATA段：静态初始化的数据，所以有初值的全局变量（不为0）和static变量在data区。`vm_flags`为`VM_READ`和`VM_WRITE`。
-- BSS段：Block Started by Symbol，通常是指用来存放程序中**未初始化或初始化为0**的全局变量的一块内存区域，在程序载入时由内核清0。`vm_flags`为`VM_READ`和`VM_WRITE`。
+- TEXT段: 程序代码段，`vm_flags`字段为`VM_EXEC`和`VM_READ`，`vm_file`字段不为`NULL`。
+- DATA段: 静态初始化的数据，所以有初值的全局变量（不为0）和static变量在data区。`vm_flags`为`VM_READ`和`VM_WRITE`。
+- BSS段: Block Started by Symbol，通常是指用来存放程序中**未初始化或初始化为0**的全局变量的一块内存区域，在程序载入时由内核清0。`vm_flags`为`VM_READ`和`VM_WRITE`。
 
 ## VMA操作
 
@@ -1482,7 +1482,7 @@ struct vm_operations_struct {
         void (*open)(struct vm_area_struct * area);
         /**
          * @close: 当 VMA 从内存管理中移除时调用。
-         * 上下文：用户上下文。可能会休眠。调用者持有 mmap_lock。
+         * 上下文: 用户上下文。可能会休眠。调用者持有 mmap_lock。
          */
         void (*close)(struct vm_area_struct * area);
         /* 在拆分前的任何时间调用以检查是否允许拆分 */
@@ -1716,7 +1716,7 @@ struct free_area {
 
 其中`free_area[0]`中的链表中的内存块单位是`2^0=1`个page，`free_area[1]`的单位是`2^1`个page，以此类推。这种内存块称为"页块"或简称"块"，大小相同且物理地址连续的两个页块称为"伙伴"（Buddy）。
 
-伙伴算法的工作原理：先在大小满足要求的块链表中查找是否有空闲块，如果有就直接分配内存，否则在更大的块链表中查找，逆过程就是块的释放，把满足伙伴关系的块合并。
+伙伴算法的工作原理: 先在大小满足要求的块链表中查找是否有空闲块，如果有就直接分配内存，否则在更大的块链表中查找，逆过程就是块的释放，把满足伙伴关系的块合并。
 
 要分配`2^3=8`个page，`free_area[3]`（8个page的页块大小）、`free_area[4]`（16个page的页块大小）中的链表都找不到空闲块，只有`free_area[5]`（32个page的页块大小）中有空闲块，先把32 page的页块分成2个16 page的页块，其中一个16 page的页块插入`free_area[4]`的链表中，另一个16 page的页块再分成2个8 page的页块，一个8 page的页块插入`free_area[3]`的链表中，另一个8 page的页块用于最终分配。具体请查看`__rmqueue_smallest()`和`expand()`函数。访问虚拟内存时，如果物理内存还没分配，会发生缺页异常，内核将从磁盘或交换文件（SWAP）中将要访问的页装入物理内存，最终调用`alloc_pages()`为进程分配page，并将虚拟内存和物理内存的映射关系写入页表。内核总是**尽量延后**分配用户空间的内存。
 

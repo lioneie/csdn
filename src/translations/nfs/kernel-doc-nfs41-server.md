@@ -7,7 +7,7 @@
 
 目前，服务器对 minorversion 1 的支持是默认启用的。可以在运行时通过将字符串 "-4.1" 写入 /proc/fs/nfsd/versions 控制文件来禁用它。请注意，要写入该控制文件，必须先停止 nfsd 服务。您可以使用 rpc.nfsd 来完成此操作；参见 rpc.nfsd(8)。
 
-（警告：较旧的服务器会将 "+4.1" 和 "-4.1" 解释为 "+4" 和 "-4"。因此，旨在同时适用于新旧内核的代码必须在打开或关闭版本 4 的支持之前先打开或关闭 4.1 的支持；rpc.nfsd 可以正确处理这一点。）
+（警告: 较旧的服务器会将 "+4.1" 和 "-4.1" 解释为 "+4" 和 "-4"。因此，旨在同时适用于新旧内核的代码必须在打开或关闭版本 4 的支持之前先打开或关闭 4.1 的支持；rpc.nfsd 可以正确处理这一点。）
 
 nfsd 中的 NFSv4 minorversion 1 (NFSv4.1) 实现基于 RFC 5661。
 
@@ -229,5 +229,5 @@ SEQUENCE:
 非标准复合限制:
 不支持会话前通道 RPC 复合，该复合要求同时具有 ca_maxrequestsize 请求和 ca_maxresponsesize 响应，因此我们可能无法履行在 CREATE_SESSION 前通道协商中做出的承诺。
 
-另见：http://wiki.linux-nfs.org/wiki/index.php/Server_4.0_and_4.1_issues。
+另见: http://wiki.linux-nfs.org/wiki/index.php/Server_4.0_and_4.1_issues。
 ```

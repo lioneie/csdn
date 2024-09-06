@@ -77,7 +77,7 @@ SMB 3.0方言引入了以下增强功能:
 
 ![](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-smb2/ms-smb2_files/image001.png)
 
-图1：使用多通道的两个会话
+图1: 使用多通道的两个会话
 
 SMB 3.0.2方言引入以下增强功能:
 ```

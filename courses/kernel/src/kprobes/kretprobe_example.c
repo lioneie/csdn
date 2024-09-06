@@ -49,14 +49,14 @@ static int entry_handler(struct kretprobe_instance *ri, struct pt_regs *regs)
 
 	data = (struct my_data *)ri->data;
 	data->entry_stamp = ktime_get();
-// x86_64函数参数用到的寄存器：RDI, RSI, RDX, RCX, R8, R9
+// x86_64函数参数用到的寄存器: RDI, RSI, RDX, RCX, R8, R9
 #ifdef CONFIG_X86
 	file = (struct file *)regs->di;
 	ctx = (struct dir_context *)regs->si;
 	pr_info("ip = %lx, flags = 0x%lx\n",
 		regs->ip, regs->flags);
 #endif
-// aarch64函数参数用到的寄存器：X0 ~ X7
+// aarch64函数参数用到的寄存器: X0 ~ X7
 #ifdef CONFIG_ARM64
 	file = (struct file *)regs->regs[0];;
 	ctx = (struct dir_context *)regs->regs[1];;

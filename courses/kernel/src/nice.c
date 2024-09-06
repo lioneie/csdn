@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- *  此程序修改自：Unix环境高级编程（第3版）-- [美] W.Richard Stevens & Stephen A.Rago 著 戚正伟 张亚英 尤晋元 译
+ *  此程序修改自: Unix环境高级编程（第3版）-- [美] W.Richard Stevens & Stephen A.Rago 著 戚正伟 张亚英 尤晋元 译
  */
 #include <sys/types.h>      /* some systems still require this */
 #include <sys/stat.h>

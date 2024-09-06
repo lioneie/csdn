@@ -6,19 +6,19 @@ Linux测试项目（Linux Test Project，简称LTP）是由SGI、OSDL和Bull共�
 
 LTP测试套件包含一系列用于测试Linux内核和相关功能的工具集。我们的目标是通过引入测试自动化技术，改进Linux内核和系统库的质量测试工作。欢迎有兴趣的开源贡献者加入我们。
 
-项目页面位于：http://linux-test-project.github.io/
+项目页面位于: http://linux-test-project.github.io/
 
-最新的镜像始终可在以下位置获取：https://github.com/linux-test-project/ltp/releases
+最新的镜像始终可在以下位置获取: https://github.com/linux-test-project/ltp/releases
 
-关于项目的讨论请访问LTP邮件列表：http://lists.linux.it/listinfo/ltp
+关于项目的讨论请访问LTP邮件列表: http://lists.linux.it/listinfo/ltp
 
-LTP邮件列表的存档位于：https://lore.kernel.org/ltp/
+LTP邮件列表的存档位于: https://lore.kernel.org/ltp/
 
-IRC频道 #ltp：irc.libera.chat
+IRC频道 #ltp: irc.libera.chat
 
-Git仓库位于GitHub：https://github.com/linux-test-project/ltp
+Git仓库位于GitHub: https://github.com/linux-test-project/ltp
 
-Patchwork实例位于：https://patchwork.ozlabs.org/project/ltp/list/
+Patchwork实例位于: https://patchwork.ozlabs.org/project/ltp/list/
 
 # Warning!
 
@@ -139,7 +139,7 @@ $ LTPROOT=/opt/ltp PATH="$PATH:$LTPROOT/testcases/bin" testcases/bin/wc01.sh
 
 ## Network tests
 
-网络测试需要特定的设置，详见testcases/network/README.md（在线查看地址：https://github.com/linux-test-project/ltp/tree/master/testcases/network）。
+网络测试需要特定的设置，详见testcases/network/README.md（在线查看地址: https://github.com/linux-test-project/ltp/tree/master/testcases/network）。
 
 ## Containers
 

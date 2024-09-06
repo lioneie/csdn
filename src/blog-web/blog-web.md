@@ -73,11 +73,11 @@ wkhtmltopdf --enable-internal-links --enable-external-links https://chenxiaosong
 
 默认情况下，pandoc将使用LaTeX来创建PDF，这要求系统中安装了LaTeX引擎（请参见下面的--pdf-engine选项）。或者，pandoc也可以使用ConTeXt、roff ms或HTML作为中间格式。为此，请像之前一样指定一个带有.pdf扩展名的输出文件，但在命令行中添加--pdf-engine选项或使用-t context、-t html或-t ms。用于从中间格式生成PDF的工具可以使用--pdf-engine选项指定。
 
-你可以使用变量来控制PDF的样式，具体取决于使用的中间格式：请参阅LaTeX的变量、ConTeXt的变量、wkhtmltopdf的变量、ms的变量。当使用HTML作为中间格式时，可以使用--css选项来设置输出样式。
+你可以使用变量来控制PDF的样式，具体取决于使用的中间格式: 请参阅LaTeX的变量、ConTeXt的变量、wkhtmltopdf的变量、ms的变量。当使用HTML作为中间格式时，可以使用--css选项来设置输出样式。
 
-要调试PDF的创建，查看中间表示形式可能会有帮助：不要使用-o test.pdf，而是使用例如-s -o test.tex来输出生成的LaTeX文件。然后你可以使用pdflatex test.tex来测试它。
+要调试PDF的创建，查看中间表示形式可能会有帮助: 不要使用-o test.pdf，而是使用例如-s -o test.tex来输出生成的LaTeX文件。然后你可以使用pdflatex test.tex来测试它。
 
-使用LaTeX时，需要以下包（它们包含在所有最近版本的TeX Live中）：amsfonts、amsmath、lm、unicode-math、ifxetex、ifluatex、listings（如果使用--listings选项）、fancyvrb、longtable、booktabs、graphicx（如果文档包含图片）、hyperref、xcolor、ulem、geometry（设置geometry变量）、setspace（使用linestretch）、以及babel（使用lang）。使用xelatex或lualatex作为PDF引擎需要fontspec。xelatex使用polyglossia（使用lang）、xecjk和bidi（设置dir变量）。如果设置了mathspec变量，xelatex将使用mathspec而不是unicode-math。如果可用，upquote和microtype包将被使用，如果csquotes变量或元数据字段设置为true，csquotes包将用于排版。natbib、biblatex、bibtex和biber包可以选择性地用于引用渲染。以下包如果存在，将用于提高输出质量，但pandoc不要求它们必须存在：upquote（用于直引号在verbatim环境中）、microtype（用于更好的间距调整）、parskip（用于更好的段间距）、xurl（用于更好的URL换行）、bookmark（用于更好的PDF书签）、以及footnotehyper或footnote（允许表格中的脚注）。
+使用LaTeX时，需要以下包（它们包含在所有最近版本的TeX Live中）: amsfonts、amsmath、lm、unicode-math、ifxetex、ifluatex、listings（如果使用--listings选项）、fancyvrb、longtable、booktabs、graphicx（如果文档包含图片）、hyperref、xcolor、ulem、geometry（设置geometry变量）、setspace（使用linestretch）、以及babel（使用lang）。使用xelatex或lualatex作为PDF引擎需要fontspec。xelatex使用polyglossia（使用lang）、xecjk和bidi（设置dir变量）。如果设置了mathspec变量，xelatex将使用mathspec而不是unicode-math。如果可用，upquote和microtype包将被使用，如果csquotes变量或元数据字段设置为true，csquotes包将用于排版。natbib、biblatex、bibtex和biber包可以选择性地用于引用渲染。以下包如果存在，将用于提高输出质量，但pandoc不要求它们必须存在: upquote（用于直引号在verbatim环境中）、microtype（用于更好的间距调整）、parskip（用于更好的段间距）、xurl（用于更好的URL换行）、bookmark（用于更好的PDF书签）、以及footnotehyper或footnote（允许表格中的脚注）。
 ```
 
 默认用的是`--pdf-engine pdflatex`，也可以指定其他的`--pdf-engine`，如果未安装，会提示以下内容，根据文档安装所需的软件:
@@ -115,7 +115,7 @@ pandoc test.html --pdf-engine=wkhtmltopdf -o test.pdf
 
 是不是受够了在qq邮箱、foxmail邮箱、163邮箱注册邮箱时你的姓名全拼已经被抢注了，只能在后面加一些乱七八糟的后缀。你有了域名，加上腾讯企业邮箱（免费），就可以拥有一个类似 @chenxiaosong.com 结尾的邮箱了。
 
-首先，在[腾讯企业微信网站](https://work.weixin.qq.com/wework_admin/register_wx?from=exmail&bizmail_code=&wwbiz_version=free&wwbiz_merge=true)上注册一个你个人的企业微信。然后以管理员身份登录到[企业微信](https://work.weixin.qq.com/wework_admin/loginpage_wx)，可通过【管理后台->协作->邮件->概况->配置】中绑定专属域名。详细的操作步骤可参考[如何添加/更换/注销域名？](https://open.work.weixin.qq.com/help2/pc/19809?person_id=1)，温馨提醒：若域名历史没有绑定过邮箱使用且无需搬迁历史邮箱数据的，请选择左侧的【立即迁移】入口；反之，需要搬迁历史邮箱数据的，请选择【同步使用】入口迁移数据。
+首先，在[腾讯企业微信网站](https://work.weixin.qq.com/wework_admin/register_wx?from=exmail&bizmail_code=&wwbiz_version=free&wwbiz_merge=true)上注册一个你个人的企业微信。然后以管理员身份登录到[企业微信](https://work.weixin.qq.com/wework_admin/loginpage_wx)，可通过【管理后台->协作->邮件->概况->配置】中绑定专属域名。详细的操作步骤可参考[如何添加/更换/注销域名？](https://open.work.weixin.qq.com/help2/pc/19809?person_id=1)，温馨提醒: 若域名历史没有绑定过邮箱使用且无需搬迁历史邮箱数据的，请选择左侧的【立即迁移】入口；反之，需要搬迁历史邮箱数据的，请选择【同步使用】入口迁移数据。
 
 如果还是不知道怎么操作腾讯企业邮箱，请咨询企业微信客服。
 

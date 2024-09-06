@@ -1,6 +1,6 @@
 # SMB和NetBIOS
 
-NFS只能在Unix-Like系统间使用，CIFS（Common Internet File System）只能在Windows系统间使用，SMB（Server Message Block，中文翻译：服务器信息块）能够在Windows与Unix-Like之间使用。
+NFS只能在Unix-Like系统间使用，CIFS（Common Internet File System）只能在Windows系统间使用，SMB（Server Message Block，中文翻译: 服务器信息块）能够在Windows与Unix-Like之间使用。
 
 - 1996年，微软提出将SMB改称为Common Internet File System。
 - 2006年，Microsoft 随着 Windows Vista 的发布 引入了新的SMB版本 (SMB 2.0 or SMB2)。

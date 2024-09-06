@@ -30,7 +30,7 @@ _链接来自 [WineHQ 仓库](https://dl.winehq.org/wine-builds/debian/dists/)_
 这种安装方法允许您安装不同版本的 Wine64/Wine。您可以安装任何您希望的 Wine 版本/分支。
 
 ```sh
-	# 注意：只能在 aarch64 上运行（因为 box64 只能在 aarch64 上运行）。
+	# 注意: 只能在 aarch64 上运行（因为 box64 只能在 aarch64 上运行）。
 	# box64 运行 wine-amd64，box86 运行 wine-i386。
 
 	### 用户定义的 Wine 版本变量 ################
@@ -114,7 +114,7 @@ _链接来自 [WineHQ 仓库](https://dl.winehq.org/wine-builds/debian/dists/)_
 		#	wget https://dl.winehq.org/wine-builds/debian/dists/bullseye/main/binary-amd64/wine-devel-amd64_7.1~bullseye-1_amd64.deb
 		# then `dpkg-deb -I package.deb`. Read output, add `:arm64` to packages in dep list, then try installing them on Pi aarch64.	
 
-	# 这些软件包是在 RPiOS 上运行 wine-staging 所需的（致谢：chills340）
+	# 这些软件包是在 RPiOS 上运行 wine-staging 所需的（致谢: chills340）
 	sudo apt install libstb0 -y
 	cd ~/Downloads
 	wget -r -l1 -np -nd -A "libfaudio0_*~bpo10+1_i386.deb" http://ftp.us.debian.org/debian/pool/main/f/faudio/ # Download libfaudio i386 no matter its version number
@@ -143,7 +143,7 @@ cd ~/Downloads && wget https://raw.githubusercontent.com/Winetricks/winetricks/m
 sudo chmod +x winetricks && sudo mv winetricks /usr/local/bin/                                       # Install
 ```
 
-每当我们运行 winetricks 时，我们必须告诉 Box86 抑制其信息横幅，否则 winetricks 将会崩溃。Box86 的信息横幅可以通过在调用 winetricks 之前设置 `BOX86_NOBANNER=1` 环境变量来抑制（例如：`BOX86_NOBANNER=1 winetricks`）。
+每当我们运行 winetricks 时，我们必须告诉 Box86 抑制其信息横幅，否则 winetricks 将会崩溃。Box86 的信息横幅可以通过在调用 winetricks 之前设置 `BOX86_NOBANNER=1` 环境变量来抑制（例如: `BOX86_NOBANNER=1 winetricks`）。
 
 如果 `apt` 安装了 winetricks 的桌面菜单快捷方式（或者如果您为 winetricks 创建了自己的桌面快捷方式），则可能需要编辑该快捷方式以包含 Box86 的 BOX86_NOBANNER=1 环境变量。使用您喜欢的文本编辑器，编辑 `/usr/share/applications/winetricks.desktop` 并将 `Exec=winetricks --gui` 更改为 `Exec=env BOX86_NOBANNER=1 winetricks --gui`。
 
@@ -153,7 +153,7 @@ sudo chmod +x winetricks && sudo mv winetricks /usr/local/bin/                  
 
 `wine64 wineboot` 或 `wine wineboot`（wineprefix 被创建在 `~/.wine/`）
 
-`WINEPREFIX="$HOME/prefix64" wine wineboot`（wineprefix 被创建在 `~/prefix64/`） _注意：您需要在每个命令之前调用 `WINEPREFIX="$HOME/prefix64"` 来使用这个 wineprefix。_
+`WINEPREFIX="$HOME/prefix64" wine wineboot`（wineprefix 被创建在 `~/prefix64/`） _注意: 您需要在每个命令之前调用 `WINEPREFIX="$HOME/prefix64"` 来使用这个 wineprefix。_
 
 创建一个 32 位的 wineprefix:
 
@@ -171,7 +171,7 @@ sudo chmod +x winetricks && sudo mv winetricks /usr/local/bin/                  
 
 `winetricks -q corefonts vcrun2010 dotnet20sp1`  
 
-_此命令将以静默方式依次安装三个软件包：Windows 核心字体、VC++ 2010 运行库和 .NET 2.0 SP1。 `-q` 是“安装静默/安静”命令。_
+_此命令将以静默方式依次安装三个软件包: Windows 核心字体、VC++ 2010 运行库和 .NET 2.0 SP1。 `-q` 是“安装静默/安静”命令。_
 
 调用 Box86 的日志功能（使用 `BOX86_LOG=1` 或类似命令）会导致 winetricks 崩溃。
 

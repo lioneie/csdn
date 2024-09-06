@@ -19,7 +19,7 @@ struct radix_tree_root {
  * 
  * 从以 @root 为根的基数树中删除位于 @index 的 @item。
  * 
- * 返回：已删除的条目，如果条目不存在或给定 @index 处的条目不是 @item，则返回 %NULL。
+ * 返回: 已删除的条目，如果条目不存在或给定 @index 处的条目不是 @item，则返回 %NULL。
  */
 void *radix_tree_delete_item(struct radix_tree_root *root,
                              unsigned long index, void *item)
@@ -56,7 +56,7 @@ struct idr {
  * 调用者应提供自己的锁定机制，以确保不会发生两个对 IDR 的并发修改。
  * 对 IDR 的只读访问可以在 RCU 读锁下进行，或者可以排除同时写入者。
  * 
- * 返回：如果分配了 ID，则返回 0；如果内存分配失败，则返回 -ENOMEM；
+ * 返回: 如果分配了 ID，则返回 0；如果内存分配失败，则返回 -ENOMEM；
  * 如果找不到空闲 ID，则返回 -ENOSPC。如果发生错误，@nextid 不会改变。
  */                                                                       
 int idr_alloc_u32(struct idr *idr, void *ptr, u32 *nextid,                
@@ -77,7 +77,7 @@ int idr_alloc_u32(struct idr *idr, void *ptr, u32 *nextid,
  * 调用者应提供自己的锁定机制，以确保不会发生两个对 IDR 的并发修改。
  * 对 IDR 的只读访问可以在 RCU 读锁下进行，或者可以排除同时写入者。
  * 
- * 返回：新分配的 ID，如果内存分配失败，则返回 -ENOMEM；
+ * 返回: 新分配的 ID，如果内存分配失败，则返回 -ENOMEM；
  * 如果找不到空闲 ID，则返回 -ENOSPC。
  */
 int idr_alloc(struct idr *idr, void *ptr, int start, int end, gfp_t gfp)
@@ -98,7 +98,7 @@ int idr_alloc(struct idr *idr, void *ptr, int start, int end, gfp_t gfp)
  * 调用者应提供自己的锁定机制，以确保不会发生两个对 IDR 的并发修改。
  * 对 IDR 的只读访问可以在 RCU 读锁下进行，或者可以排除同时写入者。
  * 
- * 返回：新分配的 ID，如果内存分配失败，则返回 -ENOMEM；
+ * 返回: 新分配的 ID，如果内存分配失败，则返回 -ENOMEM；
  * 如果找不到空闲 ID，则返回 -ENOSPC。
  */
 int idr_alloc_cyclic(struct idr *idr, void *ptr, int start, int end, gfp_t gfp)
@@ -113,7 +113,7 @@ int idr_alloc_cyclic(struct idr *idr, void *ptr, int start, int end, gfp_t gfp)
  * 由于此函数会修改 IDR，调用者应提供自己的锁定机制，以确保不会发生
  * 对同一 IDR 的并发修改。
  * 
- * 返回：以前与该 ID 关联的指针。
+ * 返回: 以前与该 ID 关联的指针。
  */
 void *idr_remove(struct idr *idr, unsigned long id)
 
@@ -127,7 +127,7 @@ void *idr_remove(struct idr *idr, unsigned long id)
  * 
  * 如果叶指针的生命周期管理正确，则此函数可以在 rcu_read_lock() 下调用。
  * 
- * 返回：与此 ID 关联的指针。
+ * 返回: 与此 ID 关联的指针。
  */
 void *idr_find(const struct idr *idr, unsigned long id)
 

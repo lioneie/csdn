@@ -399,6 +399,6 @@ Valgrind 可以使用这些注释来确定运行在 Wine 上的 Windows 应用�
 - 构建 Wine Gecko
 - Winelib
 - 兼容性
-- 类别：架构（特别是 ARM 和 ARM64）
-- 类别：编译器
-- 类别：开发
+- 类别: 架构（特别是 ARM 和 ARM64）
+- 类别: 编译器
+- 类别: 开发

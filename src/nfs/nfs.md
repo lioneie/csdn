@@ -4,13 +4,13 @@
 
 先看一下维基百科对NFS的定义:
 
-> 网络文件系统（英语：Network File System，缩写作 NFS）是一种分布式文件系统，力求客户端主机可以访问服务器端文件，并且其过程与访问本地存储时一样，它由昇阳电脑（已被甲骨文公司收购）开发，于1984年发布。
+> 网络文件系统（英语: Network File System，缩写作 NFS）是一种分布式文件系统，力求客户端主机可以访问服务器端文件，并且其过程与访问本地存储时一样，它由昇阳电脑（已被甲骨文公司收购）开发，于1984年发布。
 >
-> 它基于开放网路运算远端程序呼叫（ONC RPC，又被称为Sun ONC 或 Sun RPC）系统：一个开放、标准的RFC系统，任何人或组织都可以依据标准实现它。
+> 它基于开放网路运算远端程序呼叫（ONC RPC，又被称为Sun ONC 或 Sun RPC）系统: 一个开放、标准的RFC系统，任何人或组织都可以依据标准实现它。
 
 再看一下SunRPC的定义:
 
-> 开放网路运算远端程序呼叫（英语：Open Network Computing Remote Procedure Call，缩写为ONC RPC），一种被广泛应用的远端程序呼叫（RPC）系统，是一种属于应用层的协议堆叠，底层为TCP/IP协议。开放网路运算（ONC）最早源自于昇阳电脑（Sun），是网路文件系统计划的一部份，因此它经常也被称为Sun ONC 或 Sun RPC。现今在多数类UNIX系统上都实作了这套系统，微软公司也以Windows Services for UNIX在他们产品上提供ONC RPC的支援。2009年，昇阳电脑以标准三条款的BSD许可证释出这套系统。2010年，收购了昇阳电脑的甲骨文公司确认了这套软体BSD许可证的有效性与适用范围。
+> 开放网路运算远端程序呼叫（英语: Open Network Computing Remote Procedure Call，缩写为ONC RPC），一种被广泛应用的远端程序呼叫（RPC）系统，是一种属于应用层的协议堆叠，底层为TCP/IP协议。开放网路运算（ONC）最早源自于昇阳电脑（Sun），是网路文件系统计划的一部份，因此它经常也被称为Sun ONC 或 Sun RPC。现今在多数类UNIX系统上都实作了这套系统，微软公司也以Windows Services for UNIX在他们产品上提供ONC RPC的支援。2009年，昇阳电脑以标准三条款的BSD许可证释出这套系统。2010年，收购了昇阳电脑的甲骨文公司确认了这套软体BSD许可证的有效性与适用范围。
 
 # NFS各版本比较
 
@@ -26,8 +26,8 @@
 
 nfs各个版本的区别:
 
-- NFSv2: 实现基本的功能，有很多的限制，如：读写最大长度限制8192字节，文件句柄长度固定32字节，只支持同步写。
-- NFSv3: 取消了一些限制，如：文件句柄长度最大64字节，支持服务器异步写。增加ACCESS请求检查用户的访问权限。
+- NFSv2: 实现基本的功能，有很多的限制，如: 读写最大长度限制8192字节，文件句柄长度固定32字节，只支持同步写。
+- NFSv3: 取消了一些限制，如: 文件句柄长度最大64字节，支持服务器异步写。增加ACCESS请求检查用户的访问权限。
 - NFSv4: 有状态协议（NFSv2和NFSv3都是无状态协议），实现文件锁功能。只有两种请求`NULL`和`COMPOUND`，支持delegation。文件句柄长度最大128字节。
 - NFSv4.1: 支持并行存储。
 - NFSv4.2: 引入复合写操作（COMPOUNDV4 Write Operations），支持服务器端复制（不经过客户端）。
@@ -109,7 +109,7 @@ nfs client查看文件的`filehandle`，可以用`tcpdump`抓包，再使用`wir
 
 前面说过NFSv4最大的变化是有状态的协议，每个客户端有一个独一无二的clientid，NFSv4.0相关的两种请求是`SETCLIENTID`和`SETCLIENTID_CONFIRM`。
 
-另外，client有三种stateid：`nfs_delegation stateid`, `nfs4_lock_state ls_stateid`, `nfs4_state open_stateid`。
+另外，client有三种stateid: `nfs_delegation stateid`, `nfs4_lock_state ls_stateid`, `nfs4_state open_stateid`。
 
 客户端相关的信息保存在`struct nfs_client`和`struct nfs4_client`中。client初始化clientid的函数为`nfs4_init_clientid()`和`nfs41_init_clientid()`。
 
@@ -123,7 +123,7 @@ nfs client查看文件的`filehandle`，可以用`tcpdump`抓包，再使用`wir
 
 <!-- https://www.likecs.com/show-305428643.html -->
 
-NFSv4.1引入了一个很大很大的设计：session（会话）。`EXCHANGE_ID`取代了`SETCLIENTID`，`CREATE_SESSION`取代了`SETCLIENTID_CONFIRM`。
+NFSv4.1引入了一个很大很大的设计: session（会话）。`EXCHANGE_ID`取代了`SETCLIENTID`，`CREATE_SESSION`取代了`SETCLIENTID_CONFIRM`。
 
 [rfc8881](https://www.rfc-editor.org/rfc/rfc8881)的“2.10.1. Motivation and Overview”（动机和概述）一节提到session是为了解决以下问题:
 
@@ -132,7 +132,7 @@ NFSv4.1引入了一个很大很大的设计：session（会话）。`EXCHANGE_ID
 - 通过多个网络路径的有限trunking支持。
 - 对于完全安全的操作需要机器凭据。
 
-每个客户端有多个session，session可以连接不同的server。每个session有一个或两个通道：正向通道（fore channel）和反向通道（backchannel）。每个通道有多个连接(connection)，每个连接类型可以不同。
+每个客户端有多个session，session可以连接不同的server。每个session有一个或两个通道: 正向通道（fore channel）和反向通道（backchannel）。每个通道有多个连接(connection)，每个连接类型可以不同。
 
 session trunking: 是指将多个connection关联到同一个session，这些connection可以具有不同的目标和/或源网络地址。当两个连接的目标网络地址（server地址）相同时，server必须支持此类session trunking。当目标网络地址不同时，server可以在`EXCHANGE_ID`操作返回的数据中指示对session trunking的支持。client和server都可以有多个网络interface，connection的源地址和目标地址都可以不一样，如果connection属于同一组client和server就可以用于session trunking。
 
@@ -226,8 +226,8 @@ nfs_end_delegation_return
 ```
 
 <!-- 网上查到的，不确定是否正确
-挂载选项`nolock`：这是默认选项，在客户端加锁，不能保证多个客户端之间的数据不发生冲突。和其他文件系统的加锁过程一样。
-挂载选项`lock`：在服务端加锁，能够保证所有客户端访问同一文件不发生冲突。这里只介绍服务端锁。
+挂载选项`nolock`: 这是默认选项，在客户端加锁，不能保证多个客户端之间的数据不发生冲突。和其他文件系统的加锁过程一样。
+挂载选项`lock`: 在服务端加锁，能够保证所有客户端访问同一文件不发生冲突。这里只介绍服务端锁。
 -->
 
 nfsv2和nfsv3使用NLM（Network Lock Manager）协议实现文件锁。`lock / nolock`挂载选项仅针对nfsv2和nfsv3，未指定时，默认`lock`选项。
@@ -343,5 +343,5 @@ NFSv4通过PUTROOTFH请求获取根节点的⽂件句柄
 
 `nfs_end_delegation_return()`
 
-Clients和Storage Devices传输数据时需要使用专门的存储协议。目前RFC定义了三种存储协议：file
+Clients和Storage Devices传输数据时需要使用专门的存储协议。目前RFC定义了三种存储协议: file
 layout(RFC5661)、block layout(RFC5663)、object layout(RFC5664)

@@ -94,8 +94,8 @@ vim 0000-cover-letter.patch
 - 163邮箱配置: 默认情况下，163邮箱只能在网页和网易邮箱大师登录。如果要用git通过163邮箱发送邮件则需要对163邮箱进行配置。在[pc端网页](mail.163.com)登录163邮箱，点击“设置 --> POP3/SMTP/IMAP”，开启SMTP服务，会弹出授权密码窗口，记下这个授权密码（也可以在下方新增授权密码或删除）。
 - foxmail邮箱（qq邮箱）配置: 在[pc端网页](https://mail.qq.com/)登录foxmail邮箱，点击"Settings -> Third-party Services -> IMAP/SMTP", 点击"Generate Authorization Code"生成在`.gitconfig`和[thunderbird](https://www.thunderbird.net)中登录的密码。
 - 腾讯企业邮箱配置: 登录[腾讯企业邮箱](https://exmail.qq.com/login)个人账号（不是管理员），左上角“设置”，然后“邮箱绑定 -> 客户端专用密码 -> 生成新密码“，注意要记住这个密码，只会显示一次，忘记了就要重新生成密码。thunderbird中登录时的配置:
-  - 收件服务器：协议IMAP，主机名：imap.exmail.qq.com，端口：993（或不填），连接安全性：自动检测。
-  - 发件服务器：主机名：smtp.exmail.qq.com，端口：465（或不填），连接安全性：自动检测。
+  - 收件服务器: 协议IMAP，主机名: imap.exmail.qq.com，端口: 993（或不填），连接安全性: 自动检测。
+  - 发件服务器: 主机名: smtp.exmail.qq.com，端口: 465（或不填），连接安全性: 自动检测。
 
 ## thunderbird邮件客户端
 

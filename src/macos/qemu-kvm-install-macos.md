@@ -36,7 +36,7 @@ sudo emerge -a qemu python:3.4 pip # for Gentoo
 ```sh
 ./jumpstart.sh --catalina
 ```
-> 注意：如果已经下载了`BaseSystem.img`，则可以跳过此步骤。 如果你具有`BaseSystem.dmg`，则需要使用dmg2img工具进行转换。
+> 注意: 如果已经下载了`BaseSystem.img`，则可以跳过此步骤。 如果你具有`BaseSystem.dmg`，则需要使用dmg2img工具进行转换。
 
 # 第2步
 
@@ -52,7 +52,7 @@ qemu-img create -f qcow2 MyDisk.qcow2 64G
     -drive id=SystemDisk,if=none,file=MyDisk.qcow2 \
     -device ide-hd,bus=sata.4,drive=SystemDisk \
 ```
-> 注意：如果你运行在headless system (如 Cloud providers),，则需要加 `-nographic` ， 要支持VNC需要加`-vnc：0 -k en-us` 。
+> 注意: 如果你运行在headless system (如 Cloud providers),，则需要加 `-nographic` ， 要支持VNC需要加`-vnc: 0 -k en-us` 。
 
 然后运行`basic.sh`来启动机器并安装macOS。 请记住首先在“磁盘工具”中进行分区！
 

@@ -2,13 +2,13 @@
 
 # 自由软件
 
-高晓松有句话：这个世界不只有眼前的苟且，还有诗与远方。这在自由软件之父 理查德·马修·斯托曼 身上真正做到了，我们先来看看这位自由软件之父的光辉事迹。
+高晓松有句话: 这个世界不只有眼前的苟且，还有诗与远方。这在自由软件之父 理查德·马修·斯托曼 身上真正做到了，我们先来看看这位自由软件之父的光辉事迹。
 
 ## 自由软件之父
 
 先上一段维基百科上对他的简介:
 
-> 理查德·马修·斯托曼（英语：Richard Matthew Stallman，简称rms，有时也用大写的RMS，1953年3月16日—），美国程序员，自由软件活动家。他发起自由软件运动，倡导软件用户能够对软件自由进行使用、学习、共享和修改，确保了这些软件被称作自由软件。斯托曼发起了GNU项目，并成立了自由软件基金会。他开发了GCC、GDB、GNU Emacs，同时编写了GNU通用公共许可协议。
+> 理查德·马修·斯托曼（英语: Richard Matthew Stallman，简称rms，有时也用大写的RMS，1953年3月16日—），美国程序员，自由软件活动家。他发起自由软件运动，倡导软件用户能够对软件自由进行使用、学习、共享和修改，确保了这些软件被称作自由软件。斯托曼发起了GNU项目，并成立了自由软件基金会。他开发了GCC、GDB、GNU Emacs，同时编写了GNU通用公共许可协议。
 
 接触过编程的朋友应该都用过GCC和GDB这两大必不可少的工具，但也许会有朋友以前没了解过这是他开发的，当然他开发的软件数不胜数<!-- public begin -->，比如我使用的相对比较小众但功能极其强大的Emacs编辑器<!-- public end -->。
 
@@ -24,15 +24,15 @@
 
 有意思的是，斯托曼用的一台电脑是中国龙芯芯片的江苏龙梦电脑，这台电脑甚至于在BIOS层级都完全是自由软件。
 
-更多关于这位自由软件之父的有趣故事，可以看他的个人自传《Free as in Freedom: Richard Stallman's Crusade for Free Software》（中文翻译：[《若为自由故》](https://book.douban.com/subject/26314527/)）。
+更多关于这位自由软件之父的有趣故事，可以看他的个人自传《Free as in Freedom: Richard Stallman's Crusade for Free Software》（中文翻译: [《若为自由故》](https://book.douban.com/subject/26314527/)）。
 
 ## GNU计划
 
 GNU这个名字其实挺有意思的，GNU is Not Unix，是一个递归缩写，这是黑客文化中的一种幽默。1983年9月27日由理查德·斯托曼在麻省理工学院公开发起。这项计划的目标很崇高，就是创建一套完全自由的操作系统，称为GNU，从名字我们可以知道，就是要创建 Unix 的替代品。
 
-我们再来看自由软件的定义：一类可以不受限制地自由使用、复制、研究、修改和分发的，尊重使用者自由的软件。这里要强调的一个词是“不受限制”，使用自由软件的人可以随便修改源代码，但要遵守一定的自由软件许可协议。自由软件许可协议有很多，比如BSD和MIT等宽松自由软件许可证，比如GPL这种Copyleft许可证。
+我们再来看自由软件的定义: 一类可以不受限制地自由使用、复制、研究、修改和分发的，尊重使用者自由的软件。这里要强调的一个词是“不受限制”，使用自由软件的人可以随便修改源代码，但要遵守一定的自由软件许可协议。自由软件许可协议有很多，比如BSD和MIT等宽松自由软件许可证，比如GPL这种Copyleft许可证。
 
-这里我们重点说一下GPL协议，为什么呢，因为我们要学习的Linux内核就是采用的GPL协议，全称是GNU General Public License，中文名称是GNU通用公共许可协议。GPL是一个Copyleft许可证，什么是Copyleft呢，其实这个概念很有意思，就是针对copyright，copyright就是是著作权，俗称版权。维基百科上有一句话可以很好的解释Copyleft的概念：允许他人任意的修改散布作品，惟其散布及修改的行为和作法，亦限定以Copyleft的方式行之。翻译一下也就是你可以随便修改和传播我的代码，但你修改过的代码也要允许其他人修改和传播。
+这里我们重点说一下GPL协议，为什么呢，因为我们要学习的Linux内核就是采用的GPL协议，全称是GNU General Public License，中文名称是GNU通用公共许可协议。GPL是一个Copyleft许可证，什么是Copyleft呢，其实这个概念很有意思，就是针对copyright，copyright就是是著作权，俗称版权。维基百科上有一句话可以很好的解释Copyleft的概念: 允许他人任意的修改散布作品，惟其散布及修改的行为和作法，亦限定以Copyleft的方式行之。翻译一下也就是你可以随便修改和传播我的代码，但你修改过的代码也要允许其他人修改和传播。
 
 然后还要说一点，就是自由软件也是可以收费，可以商业化的，举个例子吧，比如红帽公司的Linux发行版就要收费，但他们的收费形式是通过提供技术服务，就是客户使用他们的发行版遇到问题了，红帽公司就有偿的帮助他们解决问题。
 
@@ -60,9 +60,9 @@ Linux内核刚发布时，使用的就是Minix文件系统，现在2024年的Lin
 
 ## 宏内核和微内核
 
-我们要学习的Linux内核是宏内核，也叫集成式内核、单体式内核，就是很多功能都放在内核中。除了Linux内核外，宏内核的操作系统还有：传统Unix内核（BSD、Solaris），类Unix系统的内核（FreeBSD、OpenBSD、NetBSD、LynxOS、Syllable Desktop），磁盘操作系统Disk Operating System（DR-DOS、MS-DOS、Microsoft Windows 9x系列（95、98、98SE、Me）、FreeDOS），Mac OS（从最初版到Mac OS 8.6版），OpenVMS，XTS-400。
+我们要学习的Linux内核是宏内核，也叫集成式内核、单体式内核，就是很多功能都放在内核中。除了Linux内核外，宏内核的操作系统还有: 传统Unix内核（BSD、Solaris），类Unix系统的内核（FreeBSD、OpenBSD、NetBSD、LynxOS、Syllable Desktop），磁盘操作系统Disk Operating System（DR-DOS、MS-DOS、Microsoft Windows 9x系列（95、98、98SE、Me）、FreeDOS），Mac OS（从最初版到Mac OS 8.6版），OpenVMS，XTS-400。
 
-刚刚说到的Minix和GNU计划的Hurd是微内核，提倡内核中的功能尽可能的少，只保留一些最核心的功能，其他的功能都放到用户空间中，是特殊的用户进程。其他的微内核的操作系统还有：QNX（在黑莓手机BlackBerry 10系统中被采用），L4微内核系列。
+刚刚说到的Minix和GNU计划的Hurd是微内核，提倡内核中的功能尽可能的少，只保留一些最核心的功能，其他的功能都放到用户空间中，是特殊的用户进程。其他的微内核的操作系统还有: QNX（在黑莓手机BlackBerry 10系统中被采用），L4微内核系列。
 
 需要注意的是，微软Windows系统和苹果电脑的Mac OS X虽然说自己使用的是微内核架构，但为了追求性能，将很多功能放到了内核空间，实际上这已经违反了微内核的基本设计原则，更像是宏内核的设计方式，所以一般被称为混合内核。
 
@@ -78,21 +78,21 @@ POSIX标准的目的是为了在各种Unix操作系统上定位API（应用程�
 
 先上维基百科的一段描述:
 
-> 林纳斯·贝内迪克特·托瓦兹（瑞典语：Linus Benedict Torvalds，瑞典语：[ˈliːn.ɵs ˈtuːr.valds]，1969年12月28日—），生于芬兰赫尔辛基市，拥有美国国籍，Linux内核的最早作者，随后发起了这个开源项目，担任Linux内核的首要架构师与项目协调者，是当今世界最著名的电脑程序员、黑客之一。他还发起了开源项目Git，并为主要的开发者。
+> 林纳斯·贝内迪克特·托瓦兹（瑞典语: Linus Benedict Torvalds，瑞典语: [ˈliːn.ɵs ˈtuːr.valds]，1969年12月28日—），生于芬兰赫尔辛基市，拥有美国国籍，Linux内核的最早作者，随后发起了这个开源项目，担任Linux内核的首要架构师与项目协调者，是当今世界最著名的电脑程序员、黑客之一。他还发起了开源项目Git，并为主要的开发者。
 
-如果你在网上搜索“世上最厉害的程序员”，你绝对会发现林纳斯在其中。在他开发的众多软件之中，有两个软件最为著名，就是接下来我们要学习的Linux内核和git。其中git几乎现在的每一个程序员一定会用到的代码管理工具。他有句名言：Talk is cheap, show me the code，翻译过来就是，别逼逼那么多，有种给我看你的代码。从这句话可以看出，在他的带领下，Linux内核社区以技术说话，所以在Linux内核社区你可以和世上最顶尖的程序员交流技术，是不是有点小心动。
+如果你在网上搜索“世上最厉害的程序员”，你绝对会发现林纳斯在其中。在他开发的众多软件之中，有两个软件最为著名，就是接下来我们要学习的Linux内核和git。其中git几乎现在的每一个程序员一定会用到的代码管理工具。他有句名言: Talk is cheap, show me the code，翻译过来就是，别逼逼那么多，有种给我看你的代码。从这句话可以看出，在他的带领下，Linux内核社区以技术说话，所以在Linux内核社区你可以和世上最顶尖的程序员交流技术，是不是有点小心动。
 
-林纳斯在11岁时时就开始写程序，1989年进入大学的第二年去当兵，期间买了安德鲁·斯图尔特·塔能鲍姆所著的教科书《操作系统：设计与实现》（Operating Systems: Design and Implementation，ISBN 0-13-637331-3）及Minix源代码，开始研究操作系统。
+林纳斯在11岁时时就开始写程序，1989年进入大学的第二年去当兵，期间买了安德鲁·斯图尔特·塔能鲍姆所著的教科书《操作系统: 设计与实现》（Operating Systems: Design and Implementation，ISBN 0-13-637331-3）及Minix源代码，开始研究操作系统。
 
 接下来说几件关于他的有趣故事<!-- public begin -->。直接从维基百科上copy过来吧<!-- public end -->:
 
-> 托瓦兹坚持开放源代码信念，并对微软等对手的FUD战略大为不满。例如，在一封回应微软资深副总裁克瑞格·蒙迪批评开放源代码运动破坏了知识产权的电子邮件中，托瓦兹写道：“我不知道蒙迪是否听说过艾萨克·牛顿爵士？他不仅因为创立了经典物理学而出名，也还因为说过这样一句话而闻名于世：‘我之所以能够看得更远，是因为我站在巨人肩膀上的缘故。’”托瓦兹又说道：“我宁愿听牛顿的也不愿听蒙迪的。他（牛顿）虽然死了快300年了，却也没有让房间这样地臭气熏天。”<!-- public begin -->陈孝松注：<!-- public end -->需要说明一下，微软现在已经拥抱Linux了，甚至有了自己的GNU/Linux发行版了。
+> 托瓦兹坚持开放源代码信念，并对微软等对手的FUD战略大为不满。例如，在一封回应微软资深副总裁克瑞格·蒙迪批评开放源代码运动破坏了知识产权的电子邮件中，托瓦兹写道: “我不知道蒙迪是否听说过艾萨克·牛顿爵士？他不仅因为创立了经典物理学而出名，也还因为说过这样一句话而闻名于世: ‘我之所以能够看得更远，是因为我站在巨人肩膀上的缘故。’”托瓦兹又说道: “我宁愿听牛顿的也不愿听蒙迪的。他（牛顿）虽然死了快300年了，却也没有让房间这样地臭气熏天。”<!-- public begin -->陈孝松注: <!-- public end -->需要说明一下，微软现在已经拥抱Linux了，甚至有了自己的GNU/Linux发行版了。
 
 > 林纳斯在网上邮件列表中也以火暴的脾气著称。例如，有一次与人争论Git为何不使用C++开发时与对方用“放屁”（原文为“bullshit”、“BS”）互骂。他更曾以“一群自慰的猴子”（原文为“OpenBSD crowd is a bunch of masturbating monkeys”）来称呼OpenBSD团队，因为林纳斯认为软件一般性的错误比安全漏洞来的要多，而信息安全人士因为找到漏洞而成为英雄，而忽略了一般性软件错误的修补，并认为OpenBSD团队过度重视安全性忽略其他部分。
 
-> 2012年6月14日，托瓦兹在出席芬兰的阿尔托大学所主办的一次活动时称Nvidia是他所接触过的“最烂的公司”（the worst company）和 “最麻烦的公司”（the worst trouble spot），因为Nvidia一直没有针对Linux平台发布任何官方的Optimus支持，随后托瓦兹当众对着镜头竖起了中指，说“去你妈的NVIDIA！”（So, Nvidia, fuck you!）。<!-- public begin -->陈孝松注：<!-- public end -->这句话还真让这家公司做出改变了，现在英伟达开源了不少驱动，林纳斯对英伟达举大拇指了。
+> 2012年6月14日，托瓦兹在出席芬兰的阿尔托大学所主办的一次活动时称Nvidia是他所接触过的“最烂的公司”（the worst company）和 “最麻烦的公司”（the worst trouble spot），因为Nvidia一直没有针对Linux平台发布任何官方的Optimus支持，随后托瓦兹当众对着镜头竖起了中指，说“去你妈的NVIDIA！”（So, Nvidia, fuck you!）。<!-- public begin -->陈孝松注: <!-- public end -->这句话还真让这家公司做出改变了，现在英伟达开源了不少驱动，林纳斯对英伟达举大拇指了。
 
-更多的林纳斯的有趣故事，可以查看他的个人自传：[《只是为了好玩》](https://book.douban.com/subject/25930025/)。
+更多的林纳斯的有趣故事，可以查看他的个人自传: [《只是为了好玩》](https://book.douban.com/subject/25930025/)。
 
 ## Linux内核的历史
 
@@ -110,17 +110,17 @@ POSIX标准的目的是为了在各种Unix操作系统上定位API（应用程�
 
 首先是Debian系，Debian及其派生发行版使用deb软件包格式，并使用dpkg及其前端作为软件包管理器。
 
-- [Debian](https://www.debian.org/)：Debian计划是由伊恩·默多克在1993年发起的，在1993年9月15日发布Debian 0.01版，第一个稳定版本在1996年发布。<!-- public begin -->我内核测试验证的虚拟机用的就是Debian。<!-- public end -->
-- [Ubuntu](https://cn.ubuntu.com/)：然后得说一下在桌面Linux发行版中使用人数比较多的Ubuntu发行版，是Canonical有限公司基于Debian开发的，但和Debian不同的地方是他的目的是开发更加友好的桌面。Ubuntu每6个月发布一个版本，每年的4月和10月，长期支持（LTS）版本每两年发布一次（如Ubuntu 22.04）。普通版本只支持9个月，LTS版本一般支持5年。<!-- public begin -->我编译代码的环境用的就是Ubuntu。<!-- public end -->
-- [银河麒麟桌面系统](https://product.kylinos.cn/productCase/171/36)：银河麒麟最初是Ubuntu Kylin的商业版本，现在已有自己的根社区[openKylin](https://www.openkylin.top/index-cn.html)，当前在国内使用人数比较多。
+- [Debian](https://www.debian.org/): Debian计划是由伊恩·默多克在1993年发起的，在1993年9月15日发布Debian 0.01版，第一个稳定版本在1996年发布。<!-- public begin -->我内核测试验证的虚拟机用的就是Debian。<!-- public end -->
+- [Ubuntu](https://cn.ubuntu.com/): 然后得说一下在桌面Linux发行版中使用人数比较多的Ubuntu发行版，是Canonical有限公司基于Debian开发的，但和Debian不同的地方是他的目的是开发更加友好的桌面。Ubuntu每6个月发布一个版本，每年的4月和10月，长期支持（LTS）版本每两年发布一次（如Ubuntu 22.04）。普通版本只支持9个月，LTS版本一般支持5年。<!-- public begin -->我编译代码的环境用的就是Ubuntu。<!-- public end -->
+- [银河麒麟桌面系统](https://product.kylinos.cn/productCase/171/36): 银河麒麟最初是Ubuntu Kylin的商业版本，现在已有自己的根社区[openKylin](https://www.openkylin.top/index-cn.html)，当前在国内使用人数比较多。
 
 接着介绍一下Red Hat系，使用RPM格式软件包。
 
-- [Red Hat Enterprise Linux](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)：红帽公司发行，Red Hat 1.0版本在1995年5月发行，从Red Hat 9.0版本（2003-03-31）之后不再开发桌面版，开始专注服务器版本Red Hat Enterprise Linux（刚开始是基于 Red Hat Linux）。Red Hat Enterprise Linux 4 （2005-02-15）之后基于社区的Fedora，从 Red Hat Enterprise Linux 9 （2022-05-18）之后基于CentOS Stream和Fedora。
-- [Fedora](https://fedoraproject.org/)：社群开发、红帽公司赞助，约6个月发布新版本。
-- [CentOS](https://www.centos.org/)：来自于Red Hat Enterprise Linux（RHEL）依照开放源代码规定发布的源代码所编译而成，不包含闭源代码的软件，2014年与红帽公司合作，2020年红帽终止CentOS，采用CentOS Stream。
-- [Rocky Linux](https://rockylinux.org/)：CentOS的创始人在CentOS终止后创建的，继续CentOS的目标。首个正式版本8.4在2021年6月21日发布。
-- [openEuler](https://www.openeuler.org/zh/)：2019 年12月31日社区成立，版本发布周期和Ubuntu一样，只是换成了每年的3月和6月。参与度最高的有华为、麒麟软件等公司。
+- [Red Hat Enterprise Linux](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux): 红帽公司发行，Red Hat 1.0版本在1995年5月发行，从Red Hat 9.0版本（2003-03-31）之后不再开发桌面版，开始专注服务器版本Red Hat Enterprise Linux（刚开始是基于 Red Hat Linux）。Red Hat Enterprise Linux 4 （2005-02-15）之后基于社区的Fedora，从 Red Hat Enterprise Linux 9 （2022-05-18）之后基于CentOS Stream和Fedora。
+- [Fedora](https://fedoraproject.org/): 社群开发、红帽公司赞助，约6个月发布新版本。
+- [CentOS](https://www.centos.org/): 来自于Red Hat Enterprise Linux（RHEL）依照开放源代码规定发布的源代码所编译而成，不包含闭源代码的软件，2014年与红帽公司合作，2020年红帽终止CentOS，采用CentOS Stream。
+- [Rocky Linux](https://rockylinux.org/): CentOS的创始人在CentOS终止后创建的，继续CentOS的目标。首个正式版本8.4在2021年6月21日发布。
+- [openEuler](https://www.openeuler.org/zh/): 2019 年12月31日社区成立，版本发布周期和Ubuntu一样，只是换成了每年的3月和6月。参与度最高的有华为、麒麟软件等公司。
 
 <!-- ing begin -->
 # Linux内核的就业

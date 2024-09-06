@@ -195,7 +195,7 @@ find fs/smb/client -type f -exec sed -i 's/struct cifs_ace/struct smb_ace/g' {} 
 
 ```c
 /*
- * 注意：如果传递了 cfile，这里会释放对它的引用。所以请确保在从此函数返回后不要再次使用 cfile。
+ * 注意: 如果传递了 cfile，这里会释放对它的引用。所以请确保在从此函数返回后不要再次使用 cfile。
  * 如果传递了 @out_iov 和 @out_buftype，请确保它们都足够大（>= 3）以容纳所有复合响应。调用方也负责使用 free_rsp_buf() 来释放它们。
  */
 smb2_compound_op

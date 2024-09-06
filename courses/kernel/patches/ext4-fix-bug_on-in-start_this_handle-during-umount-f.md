@@ -120,7 +120,7 @@ echo 1 > /sys/fs/ext4/sda/trigger_fs_error
 
 # 代码流程
 
-修复补丁：[`b98535d09179 ext4: fix bug_on in start_this_handle during umount filesystem`](https://lore.kernel.org/all/20220322012419.725457-1-yebin10@huawei.com/)
+修复补丁: [`b98535d09179 ext4: fix bug_on in start_this_handle during umount filesystem`](https://lore.kernel.org/all/20220322012419.725457-1-yebin10@huawei.com/)
 
 ```c
 mount

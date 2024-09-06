@@ -24,7 +24,7 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 ```sh
 # 要翻墙才能访问
 wsl.exe --list --online
-# 默认安装的位置：C:\Users\%username%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu22.04LTS_79rhkp1fndgsc
+# 默认安装的位置: C:\Users\%username%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu22.04LTS_79rhkp1fndgsc
 wsl.exe --install Ubuntu-22.04
 # win11
 wsl.exe --install -d Ubuntu-22.04

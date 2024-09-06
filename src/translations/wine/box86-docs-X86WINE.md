@@ -2,9 +2,9 @@
 
 # 安装 Wine（和 winetricks）
 
-_TwisterOS 用户：Wine、winetricks 和 Box86 已经安装在 TwisterOS 中。您不需要安装任何东西。_
+_TwisterOS 用户: Wine、winetricks 和 Box86 已经安装在 TwisterOS 中。您不需要安装任何东西。_
 
-_树莓派用户：Wine 需要一个 3G/1G 的分配内存内核。树莓派 4 的 Raspberry Pi OS 已经具有 3G/1G 的内核，并且可以与 Wine 一起使用，但是 **Pi 3B+ 和之前的型号具有 2G/2G 的内核，需要自定义编译的 3G/1G 内核才能使 Wine 工作。**_
+_树莓派用户: Wine 需要一个 3G/1G 的分配内存内核。树莓派 4 的 Raspberry Pi OS 已经具有 3G/1G 的内核，并且可以与 Wine 一起使用，但是 **Pi 3B+ 和之前的型号具有 2G/2G 的内核，需要自定义编译的 3G/1G 内核才能使 Wine 工作。**_
 
 请查看下面的安装步骤（在 [示例](#examples) 部分）。
 
@@ -154,7 +154,7 @@ cd ~/Downloads && wget https://raw.githubusercontent.com/Winetricks/winetricks/m
 sudo chmod +x winetricks && sudo mv winetricks /usr/local/bin/                                       # Install
 ```
 
-每当我们运行winetricks时，我们必须告诉Box86抑制其信息横幅，否则winetricks会崩溃。可以使用BOX86_NOBANNER=1环境变量在调用winetricks之前抑制Box86的信息横幅（例如：`BOX86_NOBANNER=1 winetricks`）。
+每当我们运行winetricks时，我们必须告诉Box86抑制其信息横幅，否则winetricks会崩溃。可以使用BOX86_NOBANNER=1环境变量在调用winetricks之前抑制Box86的信息横幅（例如: `BOX86_NOBANNER=1 winetricks`）。
 
 如果apt为winetricks安装了桌面菜单快捷方式（或者您自己创建了winetricks的桌面快捷方式），则可能需要编辑该快捷方式以包含Box86的BOX86_NOBANNER=1环境变量。使用您喜欢的文本编辑器，编辑`/usr/share/applications/winetricks.desktop`，并将`Exec=winetricks --gui`更改为`Exec=env BOX86_NOBANNER=1 winetricks --gui`。
 
@@ -165,7 +165,7 @@ sudo chmod +x winetricks && sudo mv winetricks /usr/local/bin/                  
 
 `BOX86_NOBANNER=1 winetricks -q corefonts vcrun2010 dotnet20sp1`
 
-该命令将静默安装三个软件包：Windows核心字体、VC++ 2010运行库和.NET 2.0 SP1。 `-q` 是“安静/静默安装”的命令。
+该命令将静默安装三个软件包: Windows核心字体、VC++ 2010运行库和.NET 2.0 SP1。 `-q` 是“安静/静默安装”的命令。
 
 每当我们运行winetricks时，我们必须通过键入`BOX86_NOBANNER=1`来抑制Box86的横幅，以防止winetricks崩溃。调用Box86的日志功能（例如`BOX86_LOG=1`）也会导致winetricks崩溃。（如果需要Box86日志记录，我们可以修补winetricks以避免这些崩溃 - 请参阅*故障排除*部分）。
 

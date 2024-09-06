@@ -105,7 +105,7 @@ struct nfs_server {
                                                    ctime 和 mtime 属性的子集 */
         u32                     acl_bitmask;    /* V4 位掩码，表示此文件系统上支持的 ACEs */
         u32                     fh_expire_type; /* V4 位掩码，表示此文件系统的文件句柄过期类型 */
-        struct pnfs_layoutdriver_type  *pnfs_curr_ld; /* 活动布局驱动，有 3 种：block layout、file layout、object layout */
+        struct pnfs_layoutdriver_type  *pnfs_curr_ld; /* 活动布局驱动，有 3 种: block layout、file layout、object layout */
         struct rpc_wait_queue   roc_rpcwaitq;   // rpc 任务等待队列
         void                    *pnfs_ld_data;  /* 每个挂载点的数据 */
 
@@ -377,8 +377,8 @@ struct nfs_inode {
                          * 这是用于 NFSv3 readdir 操作的 cookie 验证器
                          */
                         __be32          cookieverf[NFS_DIR_VERIFIER_SIZE];
-                        /* 读操作：正在进行的 sillydelete RPC 调用 */
-                        /* 写操作：rmdir */
+                        /* 读操作: 正在进行的 sillydelete RPC 调用 */
+                        /* 写操作: rmdir */
                         struct rw_semaphore     rmdir_sem;
                 };
                 /* 常规文件 */

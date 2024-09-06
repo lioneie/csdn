@@ -145,7 +145,7 @@ kdevops 工作流是一种目标工作环境，你可以在其中运行不同的
 
 ## kdevops 共享工作流
 
-* [kdevops 示例工作流：运行 make linux](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-make-linux.md)
+* [kdevops 示例工作流: 运行 make linux](https://github.com/linux-kdevops/kdevops/tree/main/docs/kdevops-make-linux.md)
 
 ## kdevops 可能专用的工作流
 
@@ -195,7 +195,7 @@ kdevops 已开始让用户/开发人员推送测试结果。这不仅仅是收�
 
 # 关于 kdevops 或相关内容的视频演示
 
-  * [2023 年 5 月 10 日 kdevops：fstests 和 blktests 测试自动化的进展](https://www.youtube.com/watch?v=aC4gb0r9Hho&ab_channel=TheLinuxFoundation)
+  * [2023 年 5 月 10 日 kdevops: fstests 和 blktests 测试自动化的进展](https://www.youtube.com/watch?v=aC4gb0r9Hho&ab_channel=TheLinuxFoundation)
     * [LWN 对此演讲的报道](https://lwn.net/Articles/937830/)
     * 对请求存储失败的跟进
     * [fstests 结果](https://github.com/linux-kdevops/kdevops/tree/main/workflows/fstests/results/)
@@ -231,7 +231,7 @@ kdevops 已开始让用户/开发人员推送测试结果。这不仅仅是收�
     * 演示一些稳定的 XFS 维护者如何使用 kdevops 使用本地虚拟化解决方案或云解决方案测试 XFS
     * 演示动态 Kconfig 生成以支持 PCIe 直通
   * [2022 - LSFMM - 运行 fstests 和 blktests 的挑战](https://youtu.be/9PYjRYbc-Ms)
-  * [2020 - SUSE Labs 会议 - kdevops：将 devops 引入内核开发](https://youtu.be/-1KnphkTgNg)
+  * [2020 - SUSE Labs 会议 - kdevops: 将 devops 引入内核开发](https://youtu.be/-1KnphkTgNg)
 
 # kdevops 的内部机制
 

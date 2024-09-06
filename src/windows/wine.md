@@ -42,7 +42,7 @@ sudo apt install -y wine
 
 ## 运行`exe`程序
 
-可以尝试下载并直接运行免安装的[putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)，x86_64架构下执行`wine putty-x86_64.exe`（下载x86_64版本），aarch64架构下执行`wine64 putty-arm64.exe`（下载arm64版本）。第一次运行时会提示: “Wine未找到到（两个到是什么鬼）用于支持.NET应用的wine-mono组件。Wine可以自动并下载安装该组件。注意：推荐您安装为发行版定制的软件包。具体请参看 https://wiki.winehq.org/Mono 。“点击”安装“。
+可以尝试下载并直接运行免安装的[putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)，x86_64架构下执行`wine putty-x86_64.exe`（下载x86_64版本），aarch64架构下执行`wine64 putty-arm64.exe`（下载arm64版本）。第一次运行时会提示: “Wine未找到到（两个到是什么鬼）用于支持.NET应用的wine-mono组件。Wine可以自动并下载安装该组件。注意: 推荐您安装为发行版定制的软件包。具体请参看 https://wiki.winehq.org/Mono 。“点击”安装“。
 
 x86_64下安装并运行[微信](https://pc.weixin.qq.com/?lang=en_US)，注意c盘的位置在`${HOME}/.wine/drive_c/`，`wine WeChatSetup.exe`安装后，先进入`cd "${HOME}/.wine/drive_c/Program Files/Tencent/WeChat/[3.9.9.43]"`（有空格），再运行`wine WeChat.exe`。
 
@@ -75,7 +75,7 @@ sudo apt-get install -y flex bison gettext
 sudo apt install -y libpcsclite-dev # x86_64下没用，还是报 libpcsclite not found, smart cards won't be supported.
 sudo apt install -y libwayland-dev # 安装了还是报 Wayland 32-bit development files not found, the Wayland driver won't be supported.
 
-## opengl，用 glxinfo | grep "OpenGL" 能看到输出，但安装完后还是会有告警信息：No OpenGL library found on this system. OpenGL and Direct3D won't be supported.
+## opengl，用 glxinfo | grep "OpenGL" 能看到输出，但安装完后还是会有告警信息: No OpenGL library found on this system. OpenGL and Direct3D won't be supported.
 ### 所以opengl的告警应该和以下软件无关，而是和i386相关的软件中的某个相关（不确定是哪个）
 ### sudo apt-get install -y mesa-utils libglu1-mesa-dev freeglut3 freeglut3-dev
 ```

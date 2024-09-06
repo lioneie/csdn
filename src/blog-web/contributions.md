@@ -14,7 +14,7 @@ Linux内核是我现在的工作，更是我的兴趣和信仰（自由软件）
 
 [点击查看具体的代码: chenxiaosong.com/openharmony](https://chenxiaosong.com/openharmony)
 
-OpenHarmony是华为“鸿蒙操作系统”的底座，包含：华为捐献的“鸿蒙操作系统”的基础能力 和 其他参与者的贡献。
+OpenHarmony是华为“鸿蒙操作系统”的底座，包含: 华为捐献的“鸿蒙操作系统”的基础能力 和 其他参与者的贡献。
 
 华为的HarmonyOS（鸿蒙操作系统）与OpenHarmony的关系，相当于谷歌的Android（安卓系统）与AOSP(Android Open Source Project)的关系。
 

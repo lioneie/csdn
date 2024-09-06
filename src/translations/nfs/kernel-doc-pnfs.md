@@ -41,11 +41,11 @@ lseg 维护一个额外的引用，该引用对应 NFS_LSEG_VALID 位，并将�
 ## layout drivers
 
 ```
-PNFS 使用被称为布局驱动程序的东西。STD 定义了四种基本的布局类型："文件"、"对象"、"块" 和 "flexfiles"。对于每种类型都有一个布局驱动程序，并带有一个通用的函数向量表，由 nfs 客户端 pnfs 核心调用来实现不同的布局类型。
+PNFS 使用被称为布局驱动程序的东西。STD 定义了四种基本的布局类型: "文件"、"对象"、"块" 和 "flexfiles"。对于每种类型都有一个布局驱动程序，并带有一个通用的函数向量表，由 nfs 客户端 pnfs 核心调用来实现不同的布局类型。
 
-文件布局驱动程序代码位于：fs/nfs/filelayout/.. 目录
-块布局驱动程序代码位于：fs/nfs/blocklayout/.. 目录
-Flexfiles 布局驱动程序代码位于：fs/nfs/flexfilelayout/.. 目录
+文件布局驱动程序代码位于: fs/nfs/filelayout/.. 目录
+块布局驱动程序代码位于: fs/nfs/blocklayout/.. 目录
+Flexfiles 布局驱动程序代码位于: fs/nfs/flexfilelayout/.. 目录
 ```
 
 ## blocks-layout setup

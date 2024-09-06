@@ -40,7 +40,7 @@ general测试失败:
 
 接下来我们看看general Nroff测试为什么失败。
 
-general测试包含几种：Small Compile， Tbl， Nroff，Large Compile，Four simultaneous large compiles，Makefile。
+general测试包含几种: Small Compile， Tbl， Nroff，Large Compile，Four simultaneous large compiles，Makefile。
 
 报错信息如下:
 ```sh

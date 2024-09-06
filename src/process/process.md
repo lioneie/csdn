@@ -18,10 +18,10 @@ Linux采用了一颗红黑树（对于多核调度，实际上每一个核有一
 
 请阅读2.6.34内核`kernel/sched_fair.c`中的下列结构体或函数:
 
-调度器实体结构：`struct sched_entity`
+调度器实体结构: `struct sched_entity`
 
-虚拟时间记账：`update_curr、__update_curr`
+虚拟时间记账: `update_curr、__update_curr`
 
-进程选择：`pick_next_entity、enqueuer_entity、dequeuer_entity`
+进程选择: `pick_next_entity、enqueuer_entity、dequeuer_entity`
 
-调度器入口：`pick_next_task`
+调度器入口: `pick_next_task`

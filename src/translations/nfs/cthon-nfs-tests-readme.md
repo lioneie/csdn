@@ -30,7 +30,7 @@ Testitems	getopt.c	special/	unixdos.h
 
 根据脚本tests.init中找到的参数配置测试。它包含由各种Makefiles和shell脚本使用的命令和参数的各种定义。应检查此文件，然后可能对其进行修改以正确匹配您的系统。特别是，应检查并正确设置“MOUNTCMD”、“UMOUNTCMD”、“PATH”、“CFLAGS”和“LIBS”的值。有几组建议的值可作为可能的起点。
 
-Makefiles中包含两个特殊目标：copy和dist。命令“make copy DESTDIR="path"”，其中"path"是目录的绝对名称，将导致已编译的测试被复制到“path”。命令“make dist DESTDIR="path"”，其中"path"是目录的绝对名称，将测试源代码复制到“path”。在制作这两个目标时，必须在make命令行上指定DESTDIR。
+Makefiles中包含两个特殊目标: copy和dist。命令“make copy DESTDIR="path"”，其中"path"是目录的绝对名称，将导致已编译的测试被复制到“path”。命令“make dist DESTDIR="path"”，其中"path"是目录的绝对名称，将测试源代码复制到“path”。在制作这两个目标时，必须在make命令行上指定DESTDIR。
 
 可能需要修改程序以便在您的计算机上进行编译。如果是这样，请告诉我们，以便我们可以将它们合并到我们的发布中。
 
@@ -40,7 +40,7 @@ Makefiles中包含两个特殊目标：copy和dist。命令“make copy DESTDIR=
 # 如何运行测试套件
 
 ```
-有两种运行测试的方式：使用服务器shell脚本或挂载、自行运行测试，然后卸载。我们建议您使用服务器脚本来运行测试。
+有两种运行测试的方式: 使用服务器shell脚本或挂载、自行运行测试，然后卸载。我们建议您使用服务器脚本来运行测试。
 ```
 
 ## 服务器脚本
@@ -70,7 +70,7 @@ server_name - 您要测试的服务器。这是唯一必需的参数。
 
 测试程序在mntpoint目录中创建一个子目录，名称为'hostname'.test，（其中'hostname'是您运行测试的机器的名称）。如果使用服务器脚本，尽管可以在使用runtests直接运行时覆盖它，但此名称无法覆盖。
 
-示例：（客户端机器为eddie）
+示例: （客户端机器为eddie）
 
 eddie％server -o hard,intr,rw slartibartfarst
 在路径/mnt.slartibartfast/eddie.test上启动测试 [y/n]？y
@@ -111,7 +111,7 @@ test-directory - 测试程序在客户端上创建的测试目录的名称。run
 # 如何在Connectathon运行测试套件
 
 ```
-应按以下顺序运行测试：basic、general和special。在尝试其他测试之前，应完全通过基本测试。
+应按以下顺序运行测试: basic、general和special。在尝试其他测试之前，应完全通过基本测试。
 
 NFS测试套件应分为三个阶段运行:
 
@@ -274,7 +274,7 @@ test7b: link
 
 test8: symlink和readlink
 
-注意：并非所有操作系统都支持symlink和readlink。如果在test8期间返回errno EOPNOTSUPP，则将此测试视为通过。对于不支持S_IFLNK的客户端，将不会尝试此测试。
+注意: 并非所有操作系统都支持symlink和readlink。如果在test8期间返回errno EOPNOTSUPP，则将此测试视为通过。对于不支持S_IFLNK的客户端，将不会尝试此测试。
 
 此程序更改目录到测试目录（chdir和/或mkdir）并创建10个符号链接（symlink）。读取（readlink）并获取每个符号链接的统计信息（lstat），然后删除它们（unlink）。标记的错误有:
 

@@ -42,14 +42,14 @@ static int __kprobes handler_pre(struct kprobe *p, struct pt_regs *regs)
 	struct file *file;
 	struct dir_context *ctx;
 	struct dentry *tmp;
-// x86_64函数参数用到的寄存器：RDI, RSI, RDX, RCX, R8, R9
+// x86_64函数参数用到的寄存器: RDI, RSI, RDX, RCX, R8, R9
 #ifdef CONFIG_X86
 	file = (struct file *)regs->di;
 	ctx = (struct dir_context *)regs->si;
 	pr_info("<%s> p->addr = 0x%p, ip = %lx, flags = 0x%lx\n",
 		p->symbol_name, p->addr, regs->ip, regs->flags);
 #endif
-// aarch64函数参数用到的寄存器：X0 ~ X7
+// aarch64函数参数用到的寄存器: X0 ~ X7
 #ifdef CONFIG_ARM64
 	file = (struct file *)regs->regs[0];;
 	ctx = (struct dir_context *)regs->regs[1];;

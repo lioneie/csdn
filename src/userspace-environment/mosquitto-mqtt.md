@@ -6,15 +6,15 @@
 
 安装mosquitto: `sudo dnf install mosquitto -y`
 
-开启mosquitto服务：`sudo systemctl start mosquitto`
+开启mosquitto服务: `sudo systemctl start mosquitto`
 
-关闭mosquitto服务：`sudo systemctl stop mosquitto`
+关闭mosquitto服务: `sudo systemctl stop mosquitto`
 
-查看mosquitto状态：`sudo systemctl status mosquitto`
+查看mosquitto状态: `sudo systemctl status mosquitto`
 
-开机启动服务：`sudo systemctl enable mosquitto`
+开机启动服务: `sudo systemctl enable mosquitto`
 
-> 注意：有些系统上mosquitto-clients还需要另外安装（如ubuntu，`sudo apt install mosquitto-clients -y`）。
+> 注意: 有些系统上mosquitto-clients还需要另外安装（如ubuntu，`sudo apt install mosquitto-clients -y`）。
 
 # 订阅消息
 

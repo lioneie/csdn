@@ -32,7 +32,7 @@ pNFS是第一个NFSv4小版本的一部分。这个空间用于跟踪和分享Li
 ## 提交错误
 
 - linux-nfs.org Bugzilla - "NFSv4.1相关错误"组成员可读/写访问
-  - 使用关键词："NFSv4.1"和"pNFS"。
+  - 使用关键词: "NFSv4.1"和"pNFS"。
   - "NFSv4.1相关错误"组用于跟踪我们的错误。您需要在bugzilla上拥有用户帐户，然后发送电子邮件给Trond将您添加到该组。
 
 ## 设计笔记
@@ -58,7 +58,7 @@ pNFS原型设计
 
 有两种安装启用 pNFS 的内核的方法。可以使用 yum 仓库或者直接下载。
 
-具体内容请查看原网页（陈孝松注：我们测试是用最新的内核，肯定包含了pNFS功能，所以可以暂不用管这些内容）。
+具体内容请查看原网页（陈孝松注: 我们测试是用最新的内核，肯定包含了pNFS功能，所以可以暂不用管这些内容）。
 
 ## Target and blkmapd setup for block layout client
 
@@ -66,7 +66,7 @@ pNFS原型设计
 
 您需要 pnfs 版本的 nfs-utils。如果您已经添加了 pnfs yum 仓库，只需执行 "yum update" 即可获取此软件包。您还可以从 http://steved.fedorapeople.org/repos/pnfs 下载 rpm，或者从 git 源代码树 git://git.linux-nfs.org/projects/bhalevy/pnfs-nfs-utils.git 构建它。
 
-从版本 1.2.5 开始，标准的 nfs-utils 软件包包含了对 pNFS 的支持，包括块布局客户端，但您应用这个补丁以防止日志被垃圾填满：0001-remove-pretty_sig.patch
+从版本 1.2.5 开始，标准的 nfs-utils 软件包包含了对 pNFS 的支持，包括块布局客户端，但您应用这个补丁以防止日志被垃圾填满: 0001-remove-pretty_sig.patch
 
 您需要在服务器上设置 iSCSI 目标，并根据本地政策设置任何登录或权限所需的操作。具体操作步骤取决于服务器。
 
@@ -189,7 +189,7 @@ blkmapd: dm_device_create: 11 pnfs_vol_1 253:1
 
 格式化块设备为 xfs 文件系统，使用 "pnfs" 导出选项导出它，并启动 nfs 服务器，并按照下面的第二个警告创建一个 `/sbin/nfsd-recall-failed`。
 
-在客户端上：启动 `blkmap` 守护进程。（在 Fedora 上：`systemctl enable nfs-blkmap` 和 `systemctl start nfs-blkmap`）。然后使用至少 4.1 版本的 nfs 进行挂载。
+在客户端上: 启动 `blkmap` 守护进程。（在 Fedora 上: `systemctl enable nfs-blkmap` 和 `systemctl start nfs-blkmap`）。然后使用至少 4.1 版本的 nfs 进行挂载。
 
 客户端将通过直接读取或写入块设备而不是将 NFS 读取和写入发送到服务器来执行对普通文件的读取和写入。如果您可以在 `/proc/self/mountstats` 中看到 LAYOUTGET 调用，则可能正在工作。
 
@@ -208,9 +208,9 @@ blkmapd: dm_device_create: 11 pnfs_vol_1 253:1
 
 ### Accessing a storage system with pNFS
 
-#### 步骤0：从PNFS开发Git树中获取pNFS内核，并在所有涉及的服务器上进行安装。
+#### 步骤0: 从PNFS开发Git树中获取pNFS内核，并在所有涉及的服务器上进行安装。
 
-#### 步骤1：设置NFSv4服务器
+#### 步骤1: 设置NFSv4服务器
 
 1. 
 
@@ -219,7 +219,7 @@ blkmapd: dm_device_create: 11 pnfs_vol_1 253:1
 /export  *(rw,sync,fsid=0,insecure,no_subtree_check)
 ```
 
-注意：从2.6.32-rc1版本开始，需要使用“pnfs”导出选项。
+注意: 从2.6.32-rc1版本开始，需要使用“pnfs”导出选项。
 ```sh
 /export  *(rw,sync,fsid=0,insecure,no_subtree_check,pnfs)
 ```
@@ -256,19 +256,19 @@ rpc.nfsd 8
 exportfs -r
 ```
 
-#### 第二步：在客户端加载布局驱动
+#### 第二步: 在客户端加载布局驱动
 
 ```sh
 modprobe nfs_layout_nfsv41_files
 ```
 
-#### 第三步：挂载pNFS文件系统。
+#### 第三步: 挂载pNFS文件系统。
 
 在pnfs客户端:
 ```sh
 mount -t nfs4 -o minorversion=1 <mds_server>:/ /mnt/pnfs
 
-注意：每个文件系统都有自己选择MDS的方式。确保只挂载MDS而不是DS。
+注意: 每个文件系统都有自己选择MDS的方式。确保只挂载MDS而不是DS。
 ```
 
 ### 调试帮助
@@ -282,7 +282,7 @@ echo 32767 > /proc/sys/sunrpc/nfs_debug
 
 [原网页](https://linux-nfs.org/wiki/index.php?title=Configuring_pNFS/spnfsd)。
 
-注意：spnfs已经从git://linux-nfs.org/~bhalevy/linux-pnfs.git pnfs-all-3.2中删除。
+注意: spnfs已经从git://linux-nfs.org/~bhalevy/linux-pnfs.git pnfs-all-3.2中删除。
 
 ## What is pNFS ?
 
@@ -290,16 +290,16 @@ pNFS是NFSv4.1提供的新功能，也称为Parallel NFS。Parallel NFS（pNFS�
 
 Parallel NFS具有多种直接访问数据的方式。目前，提供了三种“布局”:
 
-- LAYOUT4_FILE：跨多个NFS服务器进行条带化
-- LAYOUT4_BLOCK_VOLUME：允许客户端按块设备中存储的方式访问数据
-- LAYOUT4_OSD2_OBJECTS：基于OSD2协议。
+- LAYOUT4_FILE: 跨多个NFS服务器进行条带化
+- LAYOUT4_BLOCK_VOLUME: 允许客户端按块设备中存储的方式访问数据
+- LAYOUT4_OSD2_OBJECTS: 基于OSD2协议。
 
 NFSv4.1和pNFS由以下RFC描述:
 
-- RFC5661：网络文件系统（NFS）版本4.1协议
-- RFC5662：网络文件系统（NFS）版本4.1，外部数据表示标准（XDR）描述
-- RFC5663：并行NFS（pNFS）块/卷布局
-- RFC5664：基于对象的并行NFS（pNFS）操作
+- RFC5661: 网络文件系统（NFS）版本4.1协议
+- RFC5662: 网络文件系统（NFS）版本4.1，外部数据表示标准（XDR）描述
+- RFC5663: 并行NFS（pNFS）块/卷布局
+- RFC5664: 基于对象的并行NFS（pNFS）操作
 
 ## What is spNFS ?
 
@@ -309,7 +309,7 @@ spNFS是一个简单的pNFS LAYOUT4_FILE服务器实现，它使用独立的NFS�
 
 这份文档描述了如何使用3台机器设置一个基本的pNFS/LAYOUT4_FILE测试配置，使用服务器端的spNFS。
 
-（警告：截至2011年2月，spNFS代码大部分未维护；我们不再推荐使用。）
+（警告: 截至2011年2月，spNFS代码大部分未维护；我们不再推荐使用。）
 
 我使用的机器是:
 
@@ -451,11 +451,11 @@ nfsds:/       /spnfs/XX.YY.ZZ.B   nfs4    minorversion=1        0 0
 # mount -t nfs4 -o minorversion=1 nfsmds:/ /mnt
 ```
 
-警告：在进行任何读/写操作之前，请确保NFSv4的宽限期已经过去。通常，在nfs服务启动后需要90秒。
+警告: 在进行任何读/写操作之前，请确保NFSv4的宽限期已经过去。通常，在nfs服务启动后需要90秒。
 
 #### Basic test
 
-第一个测试非常简单：在客户端上，我向文件写入50个字节:
+第一个测试非常简单: 在客户端上，我向文件写入50个字节:
 ```sh
  # echo "jljlkjljjhkjhkhkjhkjhkjhkjhkjhkjhkjhkjhkjhkjhkjhk" > ./myfile
  # ls -i ./myfile
@@ -518,11 +518,11 @@ nfsds:/       /spnfs/XX.YY.ZZ.B   nfs4    minorversion=1        0 0
 
 ## block-based projects
 
-Rick McNeal，LSI Logic，发布了：http://git.linux-nfs.org/?p=rmcneal/linux-pnfs.git;a=summary 和 http://git.linux-nfs.org/?p=rmcneal/ctl.git;a=summary
+Rick McNeal，LSI Logic，发布了: http://git.linux-nfs.org/?p=rmcneal/linux-pnfs.git;a=summary 和 http://git.linux-nfs.org/?p=rmcneal/ctl.git;a=summary
 
 基于spnfs基础设施实现基于块的pNFS MDS。计划将其合并到pnfs树中，一旦我们有了一些最基本的文档，描述如何设置服务器。
 
-Rick McNeal说：“我想我应该介入并谈谈关于块布局工作的事情。pNFS服务器可以运行在任何愿意提供inode到块映射函数的文件系统上。由于客户端被期望具有与服务器相同的对存储的块级访问，因此不会给存储设备增加额外的负载。
+Rick McNeal说: “我想我应该介入并谈谈关于块布局工作的事情。pNFS服务器可以运行在任何愿意提供inode到块映射函数的文件系统上。由于客户端被期望具有与服务器相同的对存储的块级访问，因此不会给存储设备增加额外的负载。
 
 [1] 还有几个其他部分，但问题的核心是需要将inode映射到`devid/extent_list`。”
 
@@ -534,4 +534,4 @@ Rick McNeal说：“我想我应该介入并谈谈关于块布局工作的事情
 
 基于对象的文件系统，部分用作pNFS后端。Exofs目前已合并，并支持nfs导出。打算支持跨多个OSD的镜像和raid0。当前状态不确定。
 
-Benny Halevy在2009年2月15日表示：“我们对对象后端的计划是将exofs（扩展对象文件系统）导出到pNFS上。Exofs是内核驻留的，使用OSD进行持久存储。目前它支持单个OSD，对多个OSD的支持已经在路线图上。关于集群化，pNFS over exofs的架构是集中的，因此有一个单独的MDS运行文件系统代码的单个实例，并且有多个OSD，文件系统管理器和客户端都在与之通信。”
+Benny Halevy在2009年2月15日表示: “我们对对象后端的计划是将exofs（扩展对象文件系统）导出到pNFS上。Exofs是内核驻留的，使用OSD进行持久存储。目前它支持单个OSD，对多个OSD的支持已经在路线图上。关于集群化，pNFS over exofs的架构是集中的，因此有一个单独的MDS运行文件系统代码的单个实例，并且有多个OSD，文件系统管理器和客户端都在与之通信。”

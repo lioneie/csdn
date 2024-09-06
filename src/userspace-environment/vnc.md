@@ -15,7 +15,7 @@ virt-install --virt-type kvm --name kylin-sp1-210528 --vcpus=4 --ram 4096 --cdro
 
 Ubuntu 服务端 `Settings -> Sharing -> Screen Sharing -> 启用旧式vnc协议 -> 打开远程控制`。
 
-在客户端`Remmina`输入：`sonvhi-XPS-13-9305.local`(`hostname.local`)或 ip, 注意前面不能有`vnc://`，连接后点击`切换绽放模式`。
+在客户端`Remmina`输入: `sonvhi-XPS-13-9305.local`(`hostname.local`)或 ip, 注意前面不能有`vnc://`，连接后点击`切换绽放模式`。
 
 ## macOS
 

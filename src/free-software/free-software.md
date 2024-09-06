@@ -2,7 +2,7 @@
 
 # 自由软件之父
 
-我的精神偶像：**理查德·马修·斯托曼**（**Richard Matthew Stallman, RMS**）。
+我的精神偶像: **理查德·马修·斯托曼**（**Richard Matthew Stallman, RMS**）。
 
 他曾经说过:
 
@@ -12,70 +12,70 @@ Linux内核源码使用的GPL协议就是他提出的。
 
 斯托曼过着简朴的生活。他没有自己的汽车，住在租来的房子里，也没有结婚没有孩子（哦不对，他有孩子，叫“自由软件运动”），因为他觉得那样会变成挣钱的奴隶。
 
-> 斯托曼传记：《Free as in Freedom: Richard Stallman's Crusade for Free Software》（中文翻译：[《若为自由故》](https://book.douban.com/subject/26314527/)）
+> 斯托曼传记: 《Free as in Freedom: Richard Stallman's Crusade for Free Software》（中文翻译: [《若为自由故》](https://book.douban.com/subject/26314527/)）
 
-自由软件基金会网站：[https://www.fsf.org/](https://www.fsf.org/)。
+自由软件基金会网站: [https://www.fsf.org/](https://www.fsf.org/)。
 
-GNU网站：[http://www.gnu.org/](http://www.gnu.org/)。
+GNU网站: [http://www.gnu.org/](http://www.gnu.org/)。
 
 # Linux系统
 
-我的技术偶像：**林纳斯·本纳第克特·托瓦兹**（**Linus Benedict Torvalds**）。
+我的技术偶像: **林纳斯·本纳第克特·托瓦兹**（**Linus Benedict Torvalds**）。
 
-> 林纳斯自传：[《只是为了好玩》](https://book.douban.com/subject/25930025/)。
+> 林纳斯自传: [《只是为了好玩》](https://book.douban.com/subject/25930025/)。
 
-Linux内核源码地址：[https://github.com/torvalds/linux](https://github.com/torvalds/linux)。
+Linux内核源码地址: [https://github.com/torvalds/linux](https://github.com/torvalds/linux)。
 
-我用的Linux桌面发行版是[Ubuntu](https://ubuntu.com/), 基于[Debian](https://www.debian.org/), Ubuntu的源码：[https://code.launchpad.net/ubuntu](https://code.launchpad.net/ubuntu)。
+我用的Linux桌面发行版是[Ubuntu](https://ubuntu.com/), 基于[Debian](https://www.debian.org/), Ubuntu的源码: [https://code.launchpad.net/ubuntu](https://code.launchpad.net/ubuntu)。
 
-曾经也用过[Fedora](https://fedoraproject.org/)，Fedora Commons源码：[https://github.com/fcrepo/fcrepo](https://github.com/fcrepo/fcrepo)。Fedora 2021年使用的图形桌面环境是[GNOME](https://www.gnome.org/)。
+曾经也用过[Fedora](https://fedoraproject.org/)，Fedora Commons源码: [https://github.com/fcrepo/fcrepo](https://github.com/fcrepo/fcrepo)。Fedora 2021年使用的图形桌面环境是[GNOME](https://www.gnome.org/)。
 
-# 虚拟机：QEMU/KVM
+# 虚拟机: QEMU/KVM
 
-Virtual Machine Manager：[https://virt-manager.org/](https://virt-manager.org/)。
+Virtual Machine Manager: [https://virt-manager.org/](https://virt-manager.org/)。
 
 KVM为Linux内核的模块。
 
-QEMU：[https://www.qemu.org/](https://www.qemu.org/)。
+QEMU: [https://www.qemu.org/](https://www.qemu.org/)。
 
 [QEMU/KVM安装macOS系统](https://chenxiaosong.com/src/macos/qemu-kvm-install-macos.html)。
 
-# 编辑器：emacs
+# 编辑器: emacs
 
-[emacs](http://www.gnu.org/software/emacs/)是我用的最多的编辑器，尤其是浏览Linux内核源码时，配合[gtags](https://www.gnu.org/software/global/)（安装：`sudo apt install global -y`），简直完美。
+[emacs](http://www.gnu.org/software/emacs/)是我用的最多的编辑器，尤其是浏览Linux内核源码时，配合[gtags](https://www.gnu.org/software/global/)（安装: `sudo apt install global -y`），简直完美。
 
-源码：[http://savannah.gnu.org/projects/emacs/](http://savannah.gnu.org/projects/emacs/)。
+源码: [http://savannah.gnu.org/projects/emacs/](http://savannah.gnu.org/projects/emacs/)。
 
-# 编辑器：vim
+# 编辑器: vim
 
 世上两大编辑器（[vim](https://www.vim.org/)和[emacs](http://www.gnu.org/software/emacs/)）之一。
 
-github源码：[https://github.com/vim/vim](https://github.com/vim/vim)。
+github源码: [https://github.com/vim/vim](https://github.com/vim/vim)。
 
 我主要开发语言为C语言，使用的vim插件有[ctags](http://ctags.sourceforge.net/)和[cscope](http://cscope.sourceforge.net/)。当然，现在更多的是使用emacs和gtags浏览Linux内核代码。
 
-# 浏览器：Firefox
+# 浏览器: Firefox
 
 [Firefox](https://www.mozilla.org/en-US/firefox/)是一个由[Mozilla](https://www.mozilla.org/en-US/)开发的自由及开放源代码的网页浏览器。
 
-源码地址（github上没有）：[https://hg.mozilla.org/mozilla-central/](https://hg.mozilla.org/mozilla-central/)。
+源码地址（github上没有）: [https://hg.mozilla.org/mozilla-central/](https://hg.mozilla.org/mozilla-central/)。
 
-# 浏览器：Chromium
+# 浏览器: Chromium
 
 按理说Firefox更加的“自由”，但Firefox现在真的做得不怎么好用，越来越多人用户转为选择使用Google Chrome或基于 Chromium 的浏览器（如Microsoft Edge、Opera、Brave、Vivaldi等）。
 
-Chromium源码：[https://chromium.googlesource.com/chromium/src.git](https://chromium.googlesource.com/chromium/src.git)。
+Chromium源码: [https://chromium.googlesource.com/chromium/src.git](https://chromium.googlesource.com/chromium/src.git)。
 
-# Office办公软件：LibreOffice
+# Office办公软件: LibreOffice
 
 LibreOffice Writer（文本）、LibreOffice Calc（表格）、LibreOffice Impress（ppt）、LibreOffice Draw（画图）。
 
-官网：[https://www.libreoffice.org/](https://www.libreoffice.org/)。
+官网: [https://www.libreoffice.org/](https://www.libreoffice.org/)。
 
-源码地址：[https://github.com/LibreOffice/core](https://github.com/LibreOffice/core)。
+源码地址: [https://github.com/LibreOffice/core](https://github.com/LibreOffice/core)。
 
 # vscode编辑器
 
-[vscode](https://code.visualstudio.com/)的源码：[https://github.com/microsoft/vscode](https://github.com/microsoft/vscode)。
+[vscode](https://code.visualstudio.com/)的源码: [https://github.com/microsoft/vscode](https://github.com/microsoft/vscode)。
 
 另外非vscode官方的能在浏览器中使用的[code-server](https://github.com/coder/code-server)也非常好用。

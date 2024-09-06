@@ -105,7 +105,7 @@ ssh反向隧道还可以用于内网穿透，比如把内网linux的mysql端口�
 ```shell
 # ssh -R <公网服务器IP>:<公网端口>:localhost:<MySQL端口> <公网服务器用户名>@<公网服务器IP>
 ssh -R chenxiaosong.com:22222:localhost:3306 root@chenxiaosong.com
-ssh -N -R 22222:localhost:3306 root@chenxiaosong.com # -M：启用控制台功能, -N：不执行远程命令
+ssh -N -R 22222:localhost:3306 root@chenxiaosong.com # -M: 启用控制台功能, -N: 不执行远程命令
 # ssh -N -R 远程端口1:目标主机1:目标端口1 -R 远程端口2:目标主机2:目标端口2 用户名@远程主机
 ssh -N -R 3306:localhost:3306 -R 6379:localhost:6379 -R 5001:localhost:5001 -R 5002:localhost:5002 root@chenxiaosong.com # 多个映射
 ```

@@ -242,8 +242,8 @@ cd /sys/kernel/debug/tracing/
 cat available_filter_functions
 echo 1 > tracing_on
 
-# x86_64函数参数用到的寄存器：RDI, RSI, RDX, RCX, R8, R9
-# aarch64函数参数用到的寄存器：X0 ~ X7
+# x86_64函数参数用到的寄存器: RDI, RSI, RDX, RCX, R8, R9
+# aarch64函数参数用到的寄存器: X0 ~ X7
 # f_mode 在 file 结构体中的偏移为 20, x32代表32位（4字节），注意 rdi 寄存器要写成 di
 echo 'p:p_ext2_readdir ext2_readdir f_mode=+20(%di):x32' >> kprobe_events
 echo 1 > events/kprobes/p_ext2_readdir/enable
@@ -520,10 +520,10 @@ crash> sys
 ```sh
 crash> bt # 查看崩溃瞬间正在运行的进程的内核栈
 crash> bt <pid> # 查看指定pid进程的栈
-# -F[F]：类似于 -f，不同之处在于当适用时以符号方式显示堆栈数据；如果堆栈数据引用了 slab cache 对象，将在方括号内显示 slab cache 的名称；在 ia64 架构上，将以符号方式替代参数寄存器的内容。如果输入 -F 两次，并且堆栈数据引用了 slab cache 对象，将同时显示地址和 slab cache 的名称在方括号中。
+# -F[F]: 类似于 -f，不同之处在于当适用时以符号方式显示堆栈数据；如果堆栈数据引用了 slab cache 对象，将在方括号内显示 slab cache 的名称；在 ia64 架构上，将以符号方式替代参数寄存器的内容。如果输入 -F 两次，并且堆栈数据引用了 slab cache 对象，将同时显示地址和 slab cache 的名称在方括号中。
 crash> bt -F
 crash> bt -FF
-# -f：显示堆栈帧中包含的所有数据；此选项可用于确定传递给每个函数的参数；在 ia64 架构上，将显示参数寄存器的内容。
+# -f: 显示堆栈帧中包含的所有数据；此选项可用于确定传递给每个函数的参数；在 ia64 架构上，将显示参数寄存器的内容。
 crash> bt -f
 # 其他选项:
 -t: 显示文本符号。
@@ -796,7 +796,7 @@ crash> dis -l ext2_readdir
 0xffffffff81796a9e <ext2_readdir+126>:  movq   $0x2,0x40
 ```
 
-`x86_64`下整数参数使用的寄存器依次为：`RDI，RSI，RDX，RCX，R8，R9`，要注意的是栈中的寄存器值可能已经经过运算，所以这些寄存器不能直接对应函数参数，要分析汇编。
+`x86_64`下整数参数使用的寄存器依次为: `RDI，RSI，RDX，RCX，R8，R9`，要注意的是栈中的寄存器值可能已经经过运算，所以这些寄存器不能直接对应函数参数，要分析汇编。
 
 先看第一个参数，本来是寄存器`rdi`，但和`rdi`的值被`mov    0x18(%r15),%rdi`改变了，所以这个寄存器的值已经不是函数刚传入时的参数，那要怎么找到第一个参数的值呢？我们看到`mov    %rdi,%r12`把值赋给了`r12`寄存器，而之后`r12`寄存器的值没有被覆盖，所以`r12`就是第一个参数的值，就是`R12: ffff888006899200`，和前面我们在栈中找到的slab cache `[ffff888006899200:filp]`的值一样。
 

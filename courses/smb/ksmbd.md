@@ -12,7 +12,7 @@
   - Durable handle v1,v2: 未支持。耐久句柄是一种特殊的文件句柄，主要应对临时的客户端网络中断。
   - Persistent handle: 未支持。持久句柄，不仅应对客户端的网络中断，还能在服务器端的重大故障后保持有效。
   - SMB2 notify: 未支持。向客户端发送文件系统变化的通知消息。
-  - DCE/RPC support: 部分支持。分散式运算环境/远端呼叫系统（英文全称：Distributed Computing Environment / Remote Procedure Calls），一些必要的调用（如NetShareEnumAll、NetServerGetInfo、SAMR、LSARPC）由ksmbd.mountd通过netlink接口处理。目前正在调查通过upcall与Samba工具和库进行额外集成的可能性，以支持额外的DCE/RPC管理调用（以及未来对Witness协议的支持等）。
+  - DCE/RPC support: 部分支持。分散式运算环境/远端呼叫系统（英文全称: Distributed Computing Environment / Remote Procedure Calls），一些必要的调用（如NetShareEnumAll、NetServerGetInfo、SAMR、LSARPC）由ksmbd.mountd通过netlink接口处理。目前正在调查通过upcall与Samba工具和库进行额外集成的可能性，以支持额外的DCE/RPC管理调用（以及未来对Witness协议的支持等）。
   - ksmbd/nfsd interoperability: 未支持。和nfsd的互操作性，这个特性ksmbd要支持包括租约（Leases）、通知（Notify）、ACL（访问控制列表）和共享模式（Share modes）。
   - SMB3.1.1 Compression: 未支持。压缩，减少网络带宽的使用，提高数据传输效率。
   - SMB3.1.1 over QUIC: 未支持。QUIC（Quick UDP Internet Connections）。

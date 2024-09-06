@@ -22,7 +22,7 @@ SSH服务器需要配置为允许root登录和使用公钥认证（在 `/etc/ssh
 
 ### FTP和telnet设置
 
-FTP压力测试和telnet服务器测试需要设置环境变量 `RHOST`（远程机器）、`RUSER`（远程用户）和 `PASSWD`（远程密码）。注意：对于其他测试，`RHOST` 将意味着两个主机配置。
+FTP压力测试和telnet服务器测试需要设置环境变量 `RHOST`（远程机器）、`RUSER`（远程用户）和 `PASSWD`（远程密码）。注意: 对于其他测试，`RHOST` 将意味着两个主机配置。
 
 如果 `RUSER` 设置为 `root`，则需要执行以下步骤之一:
 
@@ -41,7 +41,7 @@ HTTP压力测试需要配置并运行Web服务器（Apache2、Nginx等）。
 
 ### NFS设置
 
-NFS测试需要运行NFS服务器，请启用并启动 `nfs-server.service`（Debian/Ubuntu和openSUSE/SLES：`nfs-kernel-server` 包，其他发行版：`nfs-server` 包）。
+NFS测试需要运行NFS服务器，请启用并启动 `nfs-server.service`（Debian/Ubuntu和openSUSE/SLES: `nfs-kernel-server` 包，其他发行版: `nfs-server` 包）。
 
 没有检测服务是否正在运行，测试将在没有警告的情况下简单失败。
 

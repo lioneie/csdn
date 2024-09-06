@@ -80,7 +80,7 @@ struct cifsInodeInfo {
         bool can_cache_brlcks;          // 是否可以缓存字节范围锁
         struct list_head llist;         /* 该 inode 持有的锁列表 */                                  
         /*                                                                                      
-         * 注意：有些代码路径会两次调用 down_read(lock_sem)，所以                             
+         * 注意: 有些代码路径会两次调用 down_read(lock_sem)，所以                             
          * 我们必须始终使用 cifs_down_write() 而不是 down_write()                         
          * 来避免此信号量的死锁。                                               
          */                                                                                     
