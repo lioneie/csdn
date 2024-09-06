@@ -7,6 +7,7 @@ html_path=${dst_path}/html
 . ${src_path}/src/blog-web/array.sh
 
 init_begin() {
+    rm -rf ${tmp_html_path}
     mkdir -p ${tmp_html_path}
     bash ${src_path}/courses/courses.sh
 }
