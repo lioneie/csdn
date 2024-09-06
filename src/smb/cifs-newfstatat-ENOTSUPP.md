@@ -4,7 +4,7 @@
 
 5.4内核。
 
-挂载参数：
+挂载参数:
 ```sh
 # 'LAPTOP-OBA5M86D F' 是包含空格的目录名
 //127.0.0.1/LAPTOP-OBA5M86D F on /media/LAPTOP-OBA5M86D F type cifs (rw,relatime,sync,vers=2.1,cache=strict,username=vagrant-3234,uid=0,noforceuid,gid=0,noforcegid,addr=127.0.0.1,file_mode=0777,dir_mode=0777,iocharset=utf8,soft,nounix,mapposix,noperm,rsize=1048576,wsize=1048576,bsize=1048576,echo_interval=2,actimeo=2)
@@ -12,7 +12,7 @@
 //127.0.0.1/media-root-365C-B654 on /media/media-root-365C-B654 type cifs (rw,relatime,sync,vers=2.1,cache=strict,username=vagrant-3236,uid=0,noforceuid,gid=0,noforcegid,addr=127.0.0.1,file_mode=0777,dir_mode=0777,iocharset=utf8,soft,nounix,mapposix,noperm,rsize=1048576,wsize=1048576,bsize=1048576,echo_interval=2,actimeo=2)
 ```
 
-`dmesg` 日志：
+`dmesg` 日志:
 ```sh
 [16634.819041] CIFS VFS: \\127.0.0.1 cifs_put_smb_ses: Session Logoff failure rc=-78
 ...
@@ -23,7 +23,7 @@
 
 # `strace`调试
 
-使用`strace -o strace.out -f -v -s 4096 ls /media/media-root-365C-B654`得到以下日志：
+使用`strace -o strace.out -f -v -s 4096 ls /media/media-root-365C-B654`得到以下日志:
 ```sh
 # 偶尔会报错 (Host is down)
  79 241573 newfstatat(AT_FDCWD, "/media/media-root-365C-B654", 0x5587298b58, 0) = -1 ENOTSUPP (Unknown error 524)
@@ -44,7 +44,7 @@ make -j`nproc`
 insmod ./kretprobe_smb.ko func="compound_send_recv" # compound_send_recv可替换为其他函数名
 ```
 
-尝试跟踪这几个返回`-ENOTSUPP`的函数：
+尝试跟踪这几个返回`-ENOTSUPP`的函数:
 ```c
 cifs_enable_signing
 cifs_writev_requeue
@@ -57,7 +57,7 @@ wait_for_compound_request // 无法直接跟踪，可以跟踪 compound_send_rec
 
 发现返回`-ENOTSUPP`的是`wait_for_compound_request()`函数。
 
-替换为主线内核，得到如下日志：
+替换为主线内核，得到如下日志:
 ```sh
 [ 7296.825123] CPU: 2 PID: 51185 Comm: ls Kdump: loaded Tainted: G           OE      6.10.0+ #1
 [ 7296.825133] Hardware name: RDO OpenStack Compute, BIOS 0.0.0 02/06/2015
@@ -100,7 +100,7 @@ strace -o strace.out -f -v -s 4096 ls /mnt
 
 [相关补丁](https://chenxiaosong.com/courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)。
 
-执行`ls /mnt`时，返回`-ENOTSUPP`错误的一个流程：
+执行`ls /mnt`时，返回`-ENOTSUPP`错误的一个流程:
 ```c
 statx
   vfs_statx

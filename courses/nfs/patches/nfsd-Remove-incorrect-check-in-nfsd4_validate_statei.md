@@ -1,4 +1,4 @@
-[`600df3856f0b nfsd: Remove incorrect check in nfsd4_validate_stateid`](https://lore.kernel.org/all/20230718123837.124780-1-trondmy@kernel.org/)邮件及回复的邮件写了：
+[`600df3856f0b nfsd: Remove incorrect check in nfsd4_validate_stateid`](https://lore.kernel.org/all/20230718123837.124780-1-trondmy@kernel.org/)邮件及回复的邮件写了:
 
 - Trond Myklebust: 如果客户端正在调用 TEST_STATEID，那是因为发生了某个事件，需要对所有状态标识进行有效性检查，并在已被撤销的状态标识上调用 FREE_STATEID。在这种情况下，要么该状态标识存在于与该 nfs4_client 关联的状态标识列表中（此时应该进行测试），要么不存在。没有其他需要考虑的条件。
 - Jeff Layton: 我不太明白。这是在修复一个实际的 bug 吗？虽然承认这段代码似乎是不必要的，但移除它似乎不会导致用户可见的行为变化。我是否漏掉了什么？
@@ -10,11 +10,11 @@
 
 引入问题的补丁是[7df302f75ee2 NFSD: TEST_STATEID should not return NFS4ERR_STALE_STATEID](https://lore.kernel.org/all/20120529175556.4472.63375.stgit@lebasque.1015granger.net/)。
 
-邮件中提到[Bug 2176575 点击查看中文翻译](https://chenxiaosong.com/src/translations/nfs/bugzilla-redhat-bug-2176575.html)中的以下描述似乎和[《4.19 nfs lazy umount 后无法挂载的问题》](https://chenxiaosong.com/src/nfs/4.19-nfs-mount-hung.html)遇到的问题相关：
+邮件中提到[Bug 2176575 点击查看中文翻译](https://chenxiaosong.com/src/translations/nfs/bugzilla-redhat-bug-2176575.html)中的以下描述似乎和[《4.19 nfs lazy umount 后无法挂载的问题》](https://chenxiaosong.com/src/nfs/4.19-nfs-mount-hung.html)遇到的问题相关:
 
 > 在机器保持开启的状态下执行 umount -l / 和重新挂载同一文件系统似乎并没有改善情况。一旦发生这种情况，似乎无法停止它，即使通过重新启动服务器也不行。重新启动客户端可以很自然地修复问题。
 
-TODO: 以下两句话，实在不知道怎么理解：
+TODO: 以下两句话，实在不知道怎么理解:
 
 > 如果服务器设置了 SEQUENCEID 标志之一 SEQ4_STATUS_EXPIRED_SOME_STATE_REVOKED 或 SEQ4_STATUS_ADMIN_STATE_REVOKED，也会发生这种情况。
 >

@@ -10,9 +10,9 @@
 
 # 使用
 
-首先，安装桥接工具、`iptables`和`dnsmasq`：
+首先，安装桥接工具、`iptables`和`dnsmasq`:
 
-在Fedora上：
+在Fedora上:
 ```sh
 yum install bridge-utils iptables dnsmasq
 apt install bridge-utils iptables dnsmasq -y # 陈孝松注

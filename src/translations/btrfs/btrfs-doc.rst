@@ -13,13 +13,13 @@ BTRFS 是一个为 Linux 设计的现代写时复制（Copy on Write，COW）文
 
 `Introduction.rst <https://github.com/kdave/btrfs-progs/blob/devel/Documentation/Introduction.rst>`_翻译时文件的最新提交是``9aafb384cb324f78b0a6f676fb179cf7bbe0b744 btrfs-progs: docs: cross references, ioctl updates``。
 
-BTRFS 是一个为 Linux 设计的现代写时复制（Copy on Write，COW）文件系统，旨在实现先进功能的同时，重点关注容错性、修复以及简易管理。其主要特点和优势包括：
+BTRFS 是一个为 Linux 设计的现代写时复制（Copy on Write，COW）文件系统，旨在实现先进功能的同时，重点关注容错性、修复以及简易管理。其主要特点和优势包括:
 
 *  不进行完整文件复制的快照功能
 *  内置的卷管理，支持软件基础的 RAID 0、RAID 1、RAID 10 等
 *  自我修复 - 数据和元数据的校验和，自动检测静默数据损坏
 
-特性概览：
+特性概览:
 
 *  基于范围的文件存储
 *  2的64次方字节 == 16 EiB：由于 Linux VFS 的实际限制为 8 EiB，故实际文件大小有限制
@@ -29,7 +29,7 @@ BTRFS 是一个为 Linux 设计的现代写时复制（Copy on Write，COW）文
 *  可写快照、只读快照、子卷（分离的内部文件系统根）支持
 *  数据和元数据的校验和（crc32c、xxhash、sha256、blake2b）
 *  压缩（ZLIB、LZO、ZSTD）及其启发式方法
-*  集成的多设备支持：
+*  集成的多设备支持:
 
     * 文件分片（类似 RAID0）
     * 文件镜像（类似 RAID1，最多 4 份拷贝）
@@ -63,7 +63,7 @@ BTRFS 是一个为 Linux 设计的现代写时复制（Copy on Write，COW）文
 
 **该表基于最新发布的 Linux 内核：6.6**
 
-每个功能的列反映了以下实现方式的状态：
+每个功能的列反映了以下实现方式的状态:
 
 | *稳定性* - 实现的完整性，用例覆盖
 | *性能* - 在达到内在限制之前可以改进多少

@@ -35,7 +35,7 @@ agf_longest 14556, counted 14846 in ag 0
 
 代表AG0中空闲块数量不对。
 
-再解析镜像：
+再解析镜像:
 ```sh
 xfs_db -r dm.img 
 xfs_db> agf 0
@@ -52,13 +52,13 @@ fdblocks = 36891964 # 超级块中存放的所有AG的空闲块总和
 ```
 -->
 
-查看日志：
+查看日志:
 ```sh
 xfs_logprint -n dm.img > xfs_logprint-n-log.txt # 不尝试解释日志数据，只解释日志头信息。
 xfs_logprint dm.img > xfs_logprint-log.txt # 解释日志数据和日志头信息
 ```
 
-[xfs_logprint-log.txt](https://gitee.com/chenxiaosonggitee/tmp/blob/master/xfs/xfs-shutdown-fs/xfs_logprint-log.txt)中有如下日志：
+[xfs_logprint-log.txt](https://gitee.com/chenxiaosonggitee/tmp/blob/master/xfs/xfs-shutdown-fs/xfs_logprint-log.txt)中有如下日志:
 ```sh
 cycle: 230651	version: 2		lsn: 230651,154624	tail_lsn: 230651,147968
 length of Log Record: 258048	prev offset: 154112		num ops: 69
@@ -73,7 +73,7 @@ level BNO: 2  CNT: 2
 1st: 0  last: 5  cnt: 6  freeblks: 4111777  longest: 14846
 ```
 
-[xfs_logprint-n-log.txt](https://gitee.com/chenxiaosonggitee/tmp/blob/master/xfs/xfs-shutdown-fs/xfs_logprint-n-log.txt)中有如下日志：
+[xfs_logprint-n-log.txt](https://gitee.com/chenxiaosonggitee/tmp/blob/master/xfs/xfs-shutdown-fs/xfs_logprint-n-log.txt)中有如下日志:
 ```sh
 cycle: 230651	version: 2		lsn: 230651,154624	tail_lsn: 230651,147968
 length of Log Record: 258048	prev offset: 154112		num ops: 69
@@ -98,7 +98,7 @@ Oper (20): tid: 60e70d0f  len: 128  clientid: TRANS  flags: none
 
 `tail_lsn: 230651,147968`代表包含未提交缓冲区的第一个日志记录的日志序列号，`lsn: 230651,154624`大于`tail_lsn`，暂时不能说明这条记录对应的io完成函数已经被调用。
 
-再看之后的记录：
+再看之后的记录:
 ```sh
 cycle: 230651	version: 2		lsn: 230651,253952	tail_lsn: 230651,239616
 length of Log Record: 258048	prev offset: 253440		num ops: 71
@@ -108,7 +108,7 @@ h_size: 262144
 
 这条记录的`tail_lsn: 230651,239616`大于前面分析的`lsn: 230651,154624`，说明前面分析的记录对应的io已经完成返回。
 
-再查看AG0最近一次写入的`lsn`：
+再查看AG0最近一次写入的`lsn`:
 ```sh
 xfs_db -r dm.img
 xfs_db> agf 0
@@ -119,13 +119,13 @@ lsn = 0x383dc00078a00
 `lsn = 0x383dc00078a00 = (0x383dc, 0x00078a00) = (230364, 494080)`
 
 
-再看之后AGF相关的记录：
+再看之后AGF相关的记录:
 ```sh
 grep -r "0x58 0x41 0x47 0x46 0x00 0x00 0x00 0x01 0x00 0x00 0x00 0x00" xfs_logprint-n-log.txt --line-number
 ```
 
 <!--
-分别在以下各行号的位置，对应的`tail_lsn`分别为：
+分别在以下各行号的位置，对应的`tail_lsn`分别为:
 ```sh
 48263  lsn: 230650,371712	tail_lsn: 230650,293888
 52116  lsn: 230650,386560	tail_lsn: 230650,293888
@@ -156,7 +156,7 @@ grep -r "0x58 0x41 0x47 0x46 0x00 0x00 0x00 0x01 0x00 0x00 0x00 0x00" xfs_logpri
 ```
 -->
 
-查看AG1的信息：
+查看AG1的信息:
 ```sh
 xfs_db> agf 1
 xfs_db> p 

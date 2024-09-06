@@ -2,7 +2,7 @@
 
 # kdevops
 
-kdevops 的主 git 仓库是：
+kdevops 的主 git 仓库是:
 
   * https://github.com/linux-kdevops/kdevops
 
@@ -24,7 +24,7 @@ kdevops [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/li
 
 ### 只需 4 条命令即可开始内核黑客攻击
 
-配置 kdevops 使用裸金属、云或本地 vm 解决方案，选择你喜欢的发行版，启用 Linux 内核工作流，选择目标 git 树，并在仅 4 条命令中运行新编译的 Linux git 树：
+配置 kdevops 使用裸金属、云或本地 vm 解决方案，选择你喜欢的发行版，启用 Linux 内核工作流，选择目标 git 树，并在仅 4 条命令中运行新编译的 Linux git 树:
 
   * `make menuconfig`
   * `make`
@@ -32,13 +32,13 @@ kdevops [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/li
   * `make linux`
   * `make linux HOSTS="kdevops-xfs-crc kdevops-xfs-reflink"` 例如，如果你只想将上面的命令限制为列出的两个主机
 
-要卸载所有节点上的 "6.6.0-rc2" 内核：
+要卸载所有节点上的 "6.6.0-rc2" 内核:
 
   * `make linux-uninstall KVER="6.6.0-rc2"`
 
 ### 只需 2 条命令即可开始运行 fstests
 
-要测试内核与 fstests，例如，如果你启用了 fstests 工作流，你可以只运行：
+要测试内核与 fstests，例如，如果你启用了 fstests 工作流，你可以只运行:
 
   * `make fstests`
   * `make fstests-baseline`
@@ -48,7 +48,7 @@ kdevops [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/li
 
 ### 只需 2 条命令即可开始运行 blktests
 
-要测试内核与 blktests，例如，如果你启用了 blktests 工作流，你可以只运行：
+要测试内核与 blktests，例如，如果你启用了 blktests 工作流，你可以只运行:
 
   * `make blktests`
   * `make blktests-baseline`
@@ -58,7 +58,7 @@ kdevops [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/li
 
 ### 只需 2 条命令即可开始测试 NFS
 
-要测试内核的 nfs 服务器与 pynfs 测试套件，启用 pynfs 工作流，然后运行：
+要测试内核的 nfs 服务器与 pynfs 测试套件，启用 pynfs 工作流，然后运行:
 
   * `make pynfs`
   * `make pynfs-baseline`
@@ -67,7 +67,7 @@ kdevops [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/li
 
 ### 只需 2 条命令即可开始运行 git 回归套件
 
-要使用 git 回归套件测试内核，启用 gitr 工作流，然后运行：
+要使用 git 回归套件测试内核，启用 gitr 工作流，然后运行:
 
   * `make gitr`
   * `make gitr-baseline`
@@ -76,7 +76,7 @@ kdevops [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/li
 
 ### 只需 2 条命令即可开始运行 ltp 套件
 
-要使用 ltp 套件测试内核，启用 ltp 工作流，然后运行：
+要使用 ltp 套件测试内核，启用 ltp 工作流，然后运行:
 
   * `make ltp`
   * `make ltp-baseline`
@@ -85,7 +85,7 @@ kdevops [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/li
 
 ### 只需 2 条命令即可开始运行 nfstest 套件
 
-要使用 nfstest 套件测试内核，启用 nfstest 工作流，然后运行：
+要使用 nfstest 套件测试内核，启用 nfstest 工作流，然后运行:
 
   * `make nfstest`
   * `make nfstest-baseline`
@@ -94,12 +94,12 @@ kdevops [PCIe 直通](https://github.com/linux-kdevops/kdevops/tree/main/docs/li
 
 ### 以并行方式运行一些内核自测
 
-kdevops 支持以并行方式运行 Linux 内核自测，这非常简单：
+kdevops 支持以并行方式运行 Linux 内核自测，这非常简单:
 
   * `make selftests`
   * `make selftests-baseline`
 
-你也可以运行特定测试：
+你也可以运行特定测试:
 
   * `make selftests-firmware`
   * `make selftests-kmod`
@@ -117,7 +117,7 @@ kdevops 支持以并行方式运行 Linux 内核自测，这非常简单：
 
 ## kdevops 在 Discord 上
 
-我们有一个公共聊天服务器，目前我们使用 discord：
+我们有一个公共聊天服务器，目前我们使用 discord:
 
   * https://bit.ly/linux-kdevops-chat
 
@@ -129,7 +129,7 @@ kdevops 支持以并行方式运行 Linux 内核自测，这非常简单：
 
 最好将 kdevops 视为你的目标工作流的阶段。首先你需要启动系统。你可以使用裸金属主机、云解决方案或生成本地虚拟化客户机。
 
-kdevops 的使用阶段可以分为：
+kdevops 的使用阶段可以分为:
 
   * 启动
   * 使系统易于访问，并安装通用开发者首选项
@@ -177,7 +177,7 @@ kdevops 工作流是一种目标工作环境，你可以在其中运行不同的
 
 kdevops 支持其自己的内核持续集成支持，以便让 Linux 开发人员和 Linux 发行版能够跟踪任何支持的 kdevops 工作流中的问题，并能够在检测到新回归时进行识别。但需要注意的是，kdevops 的 kernel-ci 仅在少数工作流中实现，例如 fstests 和 blktests。为了支持 kernel-ci，困难的一部分是确定基线是什么，并且能够以 kdevops 风格轻松地执行 `git diff` 并以每个回归一行的方式读取回归。这需要一些时间和工作。因此，其他一些工作流还不支持 kernel-ci。
 
-相关文档如下：
+相关文档如下:
 
   * [kdevops kernel-ci](https://github.com/linux-kdevops/kdevops/tree/main/docs/kernel-ci/README.md)
 
@@ -210,7 +210,7 @@ kdevops 已开始让用户/开发人员推送测试结果。这不仅仅是收�
     * 微软正在评估是否为我们提供信用支持
     * SUSE 可以帮助测试，但不能让人们登录
     * 与 patchwork 的令人兴奋的未来集成，我们可以从 eBPF 社区及其 patchwork 使用和测试中学习！
-  * [2023 - 日常内核开发 kdevops 修复 bug 的演示](https://youtu.be/CfGX51a_Fq0) 涵盖以下主题：
+  * [2023 - 日常内核开发 kdevops 修复 bug 的演示](https://youtu.be/CfGX51a_Fq0) 涵盖以下主题:
     * 设置 kdevops 以使用 Linux git 树的镜像
     * 在主机 kdevops linux 目录上使用 git 远程
     * 研究并修复上游的一个真实世界内核问题的示例
@@ -221,7 +221,7 @@ kdevops 已开始让用户/开发人员推送测试结果。这不仅仅是收�
     * 使用 virsh 控制台访问来宾控制台
     * 访问控制台以选择启动时的内核
     * 对未来 v2 补丁系列的小改动的示例
-  * [2023 - 实时 kdevops 演示](https://youtu.be/FSY3BMHUyJc) 涵盖以下主题：
+  * [2023 - 实时 kdevops 演示](https://youtu.be/FSY3BMHUyJc) 涵盖以下主题:
     * 使用 AWS 和支持 [16k 原子写入](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/storage-twp.html) 的 ARM64 NVMe 驱动器的示例
     * 演示如何使用基于 linux-next 的自定义任意新 Linux 内核分支开始测试
     * 演示如何开始使用 linux-next 测试 btrfs

@@ -8,12 +8,12 @@
 
 # `gio`替换成`sudo mount`
 
-重命名原始的`gio`文件：
+重命名原始的`gio`文件:
 ```sh
 sudo mv /usr/bin/gio /usr/bin/gio-origin
 ```
 
-新建`/usr/bin/gio`脚本：
+新建`/usr/bin/gio`脚本:
 ```sh
 ORIGIN_OPTIONS=$@ # 全部的参数
 
@@ -29,24 +29,24 @@ else
 fi
 ```
 
-让`/usr/bin/gio`脚本可执行：
+让`/usr/bin/gio`脚本可执行:
 ```sh
 sudo chmod 777 /usr/bin/gio
 ```
 
 # `umount`替换成`sudo umount`
 
-重命名原始的`umount`文件：
+重命名原始的`umount`文件:
 ```sh
 sudo mv /usr/bin/umount /usr/bin/umount-origin
 ```
 
-新建`/usr/bin/umount`脚本：
+新建`/usr/bin/umount`脚本:
 ```sh
 sudo umount-origin $@
 ```
 
-让`/usr/bin/umount`脚本可执行：
+让`/usr/bin/umount`脚本可执行:
 ```sh
 sudo chmod 777 /usr/bin/umount
 ```

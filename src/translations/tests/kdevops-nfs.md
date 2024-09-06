@@ -26,7 +26,7 @@ kdevops 支持测试 NFS。它可以与 kdevops 配置的 NFS 服务器或与 kd
 
 要使用 pynfs 测试套件测试内核的 NFS 服务器，请在配置 kdevops 时启用“Target workflows”菜单下的 pynfs 工作流程。
 
-完成所有选择后，使用常规的 make 目标启动您的 kdevops 环境。例如：
+完成所有选择后，使用常规的 make 目标启动您的 kdevops 环境。例如:
 
   * `make`
   * `make bringup`
@@ -40,7 +40,7 @@ kdevops 支持测试 NFS。它可以与 kdevops 配置的 NFS 服务器或与 kd
 
 要使用 NFS 运行 fstests 套件，请在“Target workflows”菜单下启用 fstests 工作流程。“Configure and run fstests”菜单将会出现。
 
-在此菜单下，选择“nfs”作为“待测试的目标文件系统类型”。“Configure how to test nfs”子菜单可让您选择要测试的 NFS 版本。每个 NFS 版本都在其自己的目标节点中进行测试，以便测试可以并行运行。然后使用：
+在此菜单下，选择“nfs”作为“待测试的目标文件系统类型”。“Configure how to test nfs”子菜单可让您选择要测试的 NFS 版本。每个 NFS 版本都在其自己的目标节点中进行测试，以便测试可以并行运行。然后使用:
 
   * `make`
   * `make bringup`
@@ -54,7 +54,7 @@ kdevops 支持测试 NFS。它可以与 kdevops 配置的 NFS 服务器或与 kd
 
 要使用 NFS 运行 git 回归测试套件，请在“Target workflows”菜单下启用 gitr 工作流程。“Configure and run the git regression suite”菜单将会出现。
 
-在此菜单下，选择“nfs”作为“待测试的目标文件系统类型”。“Configure how to test nfs”子菜单可让您选择要测试的 NFS 版本。每个 NFS 版本都在其自己的目标节点中进行测试，以便测试可以并行运行。然后使用：
+在此菜单下，选择“nfs”作为“待测试的目标文件系统类型”。“Configure how to test nfs”子菜单可让您选择要测试的 NFS 版本。每个 NFS 版本都在其自己的目标节点中进行测试，以便测试可以并行运行。然后使用:
 
   * `make`
   * `make bringup`
@@ -70,7 +70,7 @@ nfstest 套件仅适用于 NFS 文件系统。
 
 要运行 nfstest 套件，请在“Target workflows”菜单下启用 nfstest 工作流程。“Configure and run the nfstest suite”菜单将会出现。
 
-在此菜单下，您可以选择要运行的测试组。每个测试组在其自己的目标节点中运行，以便测试可以并行运行。然后使用：
+在此菜单下，您可以选择要运行的测试组。每个测试组在其自己的目标节点中运行，以便测试可以并行运行。然后使用:
 
   * `make`
   * `make bringup`
@@ -84,7 +84,7 @@ nfstest 套件仅适用于 NFS 文件系统。
 
 要运行 ltp 套件，请在“Target workflows”菜单下启用 ltp 工作流程。“Configure and run the ltp suite”菜单将会出现。
 
-在此菜单下，您可以选择要运行的测试组。每个测试组在其自己的目标节点中运行，以便测试可以并行运行。然后使用：
+在此菜单下，您可以选择要运行的测试组。每个测试组在其自己的目标节点中运行，以便测试可以并行运行。然后使用:
 
   * `make`
   * `make bringup`

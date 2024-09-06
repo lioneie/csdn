@@ -9,13 +9,13 @@
 
 ## x86_64
 
-x86_64下使能32位架构：
+x86_64下使能32位架构:
 ```sh
 sudo dpkg --add-architecture i386
 sudo apt-get update -y
 ```
 
-x86_64参考[Ubuntu WineHQ Repository - WineHQ Wiki](https://wiki.winehq.org/Ubuntu)，有些网络可能安装不了，可以尝试换个网络（也有可能是服务器出了问题，稍后再试试）：
+x86_64参考[Ubuntu WineHQ Repository - WineHQ Wiki](https://wiki.winehq.org/Ubuntu)，有些网络可能安装不了，可以尝试换个网络（也有可能是服务器出了问题，稍后再试试）:
 ```sh
 sudo mkdir -pm755 /etc/apt/keyrings
 sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
@@ -29,13 +29,13 @@ sudo apt install --install-recommends winehq-stable -y
 
 ## aarch64
 
-aarch64下使能32位架构：
+aarch64下使能32位架构:
 ```sh
 sudo dpkg --add-architecture armhf
 sudo apt-get update -y
 ```
 
-aarch64用如下命令安装：
+aarch64用如下命令安装:
 ```sh
 sudo apt install -y wine
 ```
@@ -57,7 +57,7 @@ x86_64下安装并运行[微信](https://pc.weixin.qq.com/?lang=en_US)，注意c
 
 ## 公共依赖软件
 
-首先安装[Building Wine - WineHQ Wiki](https://wiki.winehq.org/Building_Wine)中`Satisfying Build Dependencies`一节提到的依赖，其中ubuntu安装debian一列的软件：
+首先安装[Building Wine - WineHQ Wiki](https://wiki.winehq.org/Building_Wine)中`Satisfying Build Dependencies`一节提到的依赖，其中ubuntu安装debian一列的软件:
 ```sh
 # Generally necessary
 sudo apt install -y gcc-mingw-w64 libasound2-dev libpulse-dev libdbus-1-dev libfontconfig-dev libfreetype-dev libgnutls28-dev libgl-dev libunwind-dev libx11-dev libxcomposite-dev libxcursor-dev libxfixes-dev libxi-dev libxrandr-dev libxrender-dev libxext-dev
@@ -68,7 +68,7 @@ sudo apt install -y libcapi20-dev libcups2-dev libgphoto2-dev libsane-dev libkrb
 ```
 注意以上命令只是我自己整理方便后续部署时查阅，如果你安装的话最好查看网页，因为我不确定是否会新增一些依赖，毕竟wine软件在不断的发展。
 
-上面的开发依赖软件安装后，运行`./configure`后还是会报错或警告，根据报错或警告信息继续安装以下软件：
+上面的开发依赖软件安装后，运行`./configure`后还是会报错或警告，根据报错或警告信息继续安装以下软件:
 ```sh
 # 报错
 sudo apt-get install -y flex bison gettext
@@ -117,7 +117,7 @@ sudo apt install -y clang lld
 
 ## 编译
 
-再运行以下命令编译安装：
+再运行以下命令编译安装:
 ```sh
 git clone https://gitlab.winehq.org/wine/wine.git wine-dirs/wine-source
 mkdir wine-dirs/wine64-build/ -p
@@ -169,7 +169,7 @@ sudo apt-get install -y libasound2:arm64 libc6:arm64 libglib2.0-0:arm64 libgphot
 # sudo apt-get install -y libldap-2.4-2:arm64 libjpeg62-turbo:arm64 # ubuntu下找不到
 ```
 
-在`x86_64`的机器上编译好`wine`后，复制到`aarch64`的家目录下，然后执行以下命令：
+在`x86_64`的机器上编译好`wine`后，复制到`aarch64`的家目录下，然后执行以下命令:
 ```sh
 # 安装符号链接
 sudo rm /usr/local/bin/wine /usr/local/bin/wine64 /usr/local/bin/wineboot /usr/local/bin/winecfg /usr/local/bin/wineserver
@@ -181,7 +181,7 @@ sudo ln -s ${PWD}/wine/bin/wineserver /usr/local/bin/wineserver
 sudo chmod +x /usr/local/bin/wine /usr/local/bin/wine64 /usr/local/bin/wineboot /usr/local/bin/winecfg /usr/local/bin/wineserver
 ```
 
-这时就可以运行`x86_64`架构下的`exe`程序：
+这时就可以运行`x86_64`架构下的`exe`程序:
 ```sh
 which wine64 # 输出 /usr/local/bin/wine64
 box64 wine64 --version # wine-9.6-73-g30a70548796

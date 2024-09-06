@@ -21,7 +21,7 @@ apt install nginx -y
 
 将[`nginx-config`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/blog-web/nginx-config)复制到`/etc/nginx/sites-enabled/default`，具体的配置选项的解释请查看配置文件的具体内容。
 
-重启nginx服务：
+重启nginx服务:
 ```sh
 service nginx restart # 在docker中
 sudo systemctl restart nginx
@@ -31,7 +31,7 @@ sudo systemctl restart nginx
 
 pandoc用于将markdown或rst（ReStructuredText）格式文件转换成html。
 
-安装：
+安装:
 ```sh
 apt-get install pandoc -y
 ```
@@ -65,9 +65,9 @@ wkhtmltopdf --enable-internal-links --enable-external-links https://chenxiaosong
 
 ### `pandoc`
 
-`man pandoc`中关于pdf的内容如下：
+`man pandoc`中关于pdf的内容如下:
 ```
-要生成PDF，请指定一个带有.pdf扩展名的输出文件：
+要生成PDF，请指定一个带有.pdf扩展名的输出文件:
 
        pandoc test.txt -o test.pdf
 
@@ -80,25 +80,25 @@ wkhtmltopdf --enable-internal-links --enable-external-links https://chenxiaosong
 使用LaTeX时，需要以下包（它们包含在所有最近版本的TeX Live中）：amsfonts、amsmath、lm、unicode-math、ifxetex、ifluatex、listings（如果使用--listings选项）、fancyvrb、longtable、booktabs、graphicx（如果文档包含图片）、hyperref、xcolor、ulem、geometry（设置geometry变量）、setspace（使用linestretch）、以及babel（使用lang）。使用xelatex或lualatex作为PDF引擎需要fontspec。xelatex使用polyglossia（使用lang）、xecjk和bidi（设置dir变量）。如果设置了mathspec变量，xelatex将使用mathspec而不是unicode-math。如果可用，upquote和microtype包将被使用，如果csquotes变量或元数据字段设置为true，csquotes包将用于排版。natbib、biblatex、bibtex和biber包可以选择性地用于引用渲染。以下包如果存在，将用于提高输出质量，但pandoc不要求它们必须存在：upquote（用于直引号在verbatim环境中）、microtype（用于更好的间距调整）、parskip（用于更好的段间距）、xurl（用于更好的URL换行）、bookmark（用于更好的PDF书签）、以及footnotehyper或footnote（允许表格中的脚注）。
 ```
 
-默认用的是`--pdf-engine pdflatex`，也可以指定其他的`--pdf-engine`，如果未安装，会提示以下内容，根据文档安装所需的软件：
+默认用的是`--pdf-engine pdflatex`，也可以指定其他的`--pdf-engine`，如果未安装，会提示以下内容，根据文档安装所需的软件:
 ```
 pdflatex not found. Please select a different --pdf-engine or install pdflatex -- see also /usr/share/doc/pandoc/README.Debian
 ```
 
-安装`texlive-xetex`相关软件：
+安装`texlive-xetex`相关软件:
 ```sh
 sudo apt install texlive-xetex texlive-lang-chinese -y
 fc-list :lang=zh # 查看支持中文的字体
 ```
 
-这时就可以转换了：
+这时就可以转换了:
 ```sh
 pandoc test.html --pdf-engine=xelatex -V CJKmainfont="AR PL UKai CN" -o test.pdf --metadata encoding=gbk --number-sections --css https://chenxiaosong.com/stylesheet.css
 ```
 
 但`xelatex`字体好像有点小问题，感兴趣的朋友可以再研究一下。
 
-还可以调用`wkhtmltopdf`：
+还可以调用`wkhtmltopdf`:
 ```sh
 pandoc test.html --pdf-engine=wkhtmltopdf -o test.pdf
 ```

@@ -46,7 +46,7 @@ index 1a1d1f881037..d886be3d301e 100644
 
 # 用户态程序
 
-`ioctl.c`文件：
+`ioctl.c`文件:
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,7 +80,7 @@ int main() {
 }
 ```
 
-`setxattr.c`文件：
+`setxattr.c`文件:
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -145,7 +145,7 @@ sleep 1
 
 构造复现后，顺便导出vmcore解析一下玩玩。
 
-`dmesg`日志：
+`dmesg`日志:
 ```sh
 [   87.104528] BUG: kernel NULL pointer dereference, address: 000000000000002a
 [   87.107238] #PF: supervisor read access in kernel mode
@@ -176,14 +176,14 @@ sleep 1
 [   87.188301]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
 ```
 
-解析崩在哪一行：
+解析崩在哪一行:
 ```sh
 ./scripts/faddr2line build/vmlinux xfs_getbmap+0x17c/0x7d0
 xfs_getbmap+0x17c/0x7d0:
 xfs_getbmap at fs/xfs/xfs_bmap_util.c:491
 ```
 
-查看`if_format`在`struct xfs_ifork`中的偏移量：
+查看`if_format`在`struct xfs_ifork`中的偏移量:
 ```sh
 crash> struct xfs_ifork -ox
 struct xfs_ifork {

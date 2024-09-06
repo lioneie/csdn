@@ -10,21 +10,21 @@
 
 grub的配置文件：[src/userspace-environment/boot-efi-EFI](https://gitee.com/chenxiaosonggitee/blog/tree/master/src/userspace-environment/boot-efi-EFI)，在操作系统中的路径为`/boot/efi/EFI/{ubuntu,centos}/grub.cfg`。
 
-centos9 grub设置：
+centos9 grub设置:
 ```sh
 blkid # 打印 uuid
 vim /boot/efi/EFI/centos/grub.cfg # 更改 uuid, set prefix=($dev)/ 后接正确的路径
 grub2-mkconfig -o /boot/grub2/grub.cfg # centos9使用的是grub2
 ```
 
-ubuntu22.04 grub设置，修改配置`/boot/efi/EFI/ubuntu/grub.cfg`：
+ubuntu22.04 grub设置，修改配置`/boot/efi/EFI/ubuntu/grub.cfg`:
 ```sh
 search.fs_uuid 22bac2d6-b556-4158-8244-fba87a8a34c3 root # 用 blkid 查看 uuid
 set prefix=($root)'/boot/grub'
 configfile $prefix/grub.cfg
 ```
 
-更改启动界面选择系统的超时时间：
+更改启动界面选择系统的超时时间:
 ```sh
 vim /etc/default/grub # GRUB_TIMEOUT=5
 ```
@@ -35,7 +35,7 @@ vim /etc/default/grub # GRUB_TIMEOUT=5
 
 Linux内核开发相关的环境请查看[《Linux内核课程》](https://chenxiaosong.com/courses/kernel/kernel.html)。
 
-常用的软件安装：
+常用的软件安装:
 ```sh
 apt install sudo -y # docker需要安装sudo
 apt install bash-completion -y # docker 中git不会自动补全
@@ -66,7 +66,7 @@ strings /lib/x86_64-linux-gnu/libc.so.6 |grep GLIBC_ # 查看glibc的版本，do
 sudo apt install libc6-i386 libgl1:i386 -y # for steam
 ```
 
-默认`poweroff`和`reboot`等命令可以以非root权限运行，容易误操作，这些命令都软链接到`/bin/systemctl`, 可以用以下命令修改权限：
+默认`poweroff`和`reboot`等命令可以以非root权限运行，容易误操作，这些命令都软链接到`/bin/systemctl`, 可以用以下命令修改权限:
 ```sh
 sudo chmod 700 /bin/systemctl
 ```
@@ -76,18 +76,18 @@ sudo chmod 700 /bin/systemctl
 sudo hostnamectl set-hostname Threadripper-Ubuntu2204
 ```
 
-新建或删除用户：
+新建或删除用户:
 ```sh
 sudo useradd -s /bin/bash -d /home/test -m test # 新建用户test
 sudo userdel -r test # 删除用户test，-r选项代表同时删除用户的家目录和相关文件
 ```
 
-ssh密码输入界面要很久才出现的解决办法,修改`/etc/ssh/ssh_config`文件：
+ssh密码输入界面要很久才出现的解决办法,修改`/etc/ssh/ssh_config`文件:
 ```sh
 GSSAPIAuthentication no # GSSAPI 通常用于支持 Kerberos 认证，提供一种安全且无缝的认证方式
 ```
 
-如果没有挂载`/tmp`目录，可以修改`/etc/fstab`文件：
+如果没有挂载`/tmp`目录，可以修改`/etc/fstab`文件:
 ```sh
 # defaults: 使用默认的挂载选项。
 # noatime: 不更新文件的访问时间戳。
@@ -98,7 +98,7 @@ GSSAPIAuthentication no # GSSAPI 通常用于支持 Kerberos 认证，提供一�
 tmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,mode=1777,size=20G 0 0
 ```
 
-如果内存比较小，可以添加swap：
+如果内存比较小，可以添加swap:
 ```sh
 sudo fallocate -l 4G /swapfile
 sudo chmod 600 /swapfile
@@ -109,12 +109,12 @@ sudo swapon -s
 sudo vi /etc/fstab # 在/etc/fstab最后一行添加 /swapfile  none  swap  sw  0  0
 ```
 
-shell界面路径名显示绝对路径，想换成只显示最后一个路径名分量, `~/.bashrc`文件修改以下变量：
+shell界面路径名显示绝对路径，想换成只显示最后一个路径名分量, `~/.bashrc`文件修改以下变量:
 ```sh
 PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W\$ '
 ```
 
-通过`sudo apt install ./xxxx.deb -y`安装的软件，卸载用以下命令：
+通过`sudo apt install ./xxxx.deb -y`安装的软件，卸载用以下命令:
 ```sh
 sudo apt list --installed | grep wkhtmltox
 sudo apt purge wkhtmltox -y
@@ -124,7 +124,7 @@ sudo apt purge wkhtmltox -y
 
 centos的开发软件生态比ubuntu还是稍微差一些，尤其是桌面系统。
 
-常用软件安装：
+常用软件安装:
 ```shell
 sudo dnf groupinstall "development tools" -y # 编译常用软件
 sudo dnf install qemu-kvm virt-manager libvirt -y # 虚拟机相关软件
@@ -148,7 +148,7 @@ sudo hostnamectl set-hostname Threadripper-CentOS9
 sudo vim /etc/selinux/config # centos9 改成 SELINUX=disabled
 ```
 
-自动挂载磁盘，修改配置文件`/etc/fstab`，添加：
+自动挂载磁盘，修改配置文件`/etc/fstab`，添加:
 ```sh
 # 最后２个参数（0 0）的意义: dump, fsck
 UUID=b7aa1308-f57e-4f28-834c-c463237a8383 /home/sonvhi/sonvhi/   ext4    errors=remount-ro    0       0
@@ -158,7 +158,7 @@ UUID=b7aa1308-f57e-4f28-834c-c463237a8383 /home/sonvhi/sonvhi/   ext4    errors=
 
 fedora更新太频繁了，不稳定，不建议用作开发的系统。
 
-安装软件：
+安装软件:
 ```shell
 sudo dnf groupinstall "Development Tools" -y
 sudo yum install openssl dwarves zstd ncurses-devel -y # 内核编译所需
@@ -168,12 +168,12 @@ sudo yum install openssl dwarves zstd ncurses-devel -y # 内核编译所需
 
 从[Operating system images](https://www.raspberrypi.com/software/operating-systems/#raspberry-pi-os-64-bit)下载“Raspberry Pi OS with desktop and recommended software”。
 
-向SD卡烧录系统：
+向SD卡烧录系统:
 ```sh
 sudo dd bs=4M if=解压之后的img of=/dev/sdb
 ```
 
-图形界面的树莓派系统的常用软件安装：
+图形界面的树莓派系统的常用软件安装:
 ```sh
 # 解决git无法显示中文
 git config --global core.quotepath false
@@ -193,7 +193,7 @@ sudo apt install emacs -y
 sudo apt install vim-gtk3 -y
 ```
 
-含代理服务器选项，chrome浏览器启动命令：
+含代理服务器选项，chrome浏览器启动命令:
 ```sh
 chromium-browser --proxy-server="https=127.0.0.1:1080;http=127.0.0.1:1080;ftp=127.0.0.1:1080"
 ```
@@ -202,7 +202,7 @@ chromium-browser --proxy-server="https=127.0.0.1:1080;http=127.0.0.1:1080;ftp=12
 
 <!-- 公司内网，服务器版本: https://172.30.13.199/release/Release/build/os/ISO/, 桌面版本: https://builder.kylin.com/ -->
 
-填写[产品试用申请](https://www.kylinos.cn/support/trial.html)，以下是各个版本的下载地址：
+填写[产品试用申请](https://www.kylinos.cn/support/trial.html)，以下是各个版本的下载地址:
 
 - [Kylin-Server-V10-SP3-General-Release-2303-X86_64.iso](https://distro-images.kylinos.cn:8802/web_pungi/download/share/vYTMm38Pkaq0KRGzg9pBsWf2c16FUwJL/)
 - [Kylin-Server-V10-SP3-2403-Release-20240426-arm64.iso](https://iso.kylinos.cn/web_pungi/download/cdn/ni3tIfZoEKLDglszRXvh9WymuwOT5r6M/)，[Kylin-Server-V10-SP3-General-Release-2303-ARM64.iso](https://distro-images.kylinos.cn:8802/web_pungi/download/share/yYdlHoRzAre1mFPK9s3NviID4Lg5w6MW/)

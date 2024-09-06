@@ -38,7 +38,7 @@ CFS 维护一个时间排序的红黑树，所有可运行的任务按 p->se.vru
 CFS 的一些特性
 ==================
 
-CFS 使用纳秒粒度计费，并且不依赖于任何 jiffies 或其他 HZ 细节。因此，CFS 调度器没有以前调度器那样的“时间片”概念，并且没有任何启发式方法。只有一个中央可调参数（你必须开启 CONFIG_SCHED_DEBUG）：
+CFS 使用纳秒粒度计费，并且不依赖于任何 jiffies 或其他 HZ 细节。因此，CFS 调度器没有以前调度器那样的“时间片”概念，并且没有任何启发式方法。只有一个中央可调参数（你必须开启 CONFIG_SCHED_DEBUG）:
 
    /sys/kernel/debug/sched/base_slice_ns
 
@@ -56,7 +56,7 @@ SMP 负载均衡已重新设计/规范化：负载均衡代码中的运行队列
 调度策略
 ===========
 
-CFS 实现了三种调度策略：
+CFS 实现了三种调度策略:
 
   - SCHED_NORMAL（传统上称为 SCHED_OTHER）：用于常规任务的调度策略。
 
@@ -81,7 +81,7 @@ sched/rt.c 以比以前的普通调度器更简单的方式实现了 SCHED_FIFO 
 
 调度类通过 sched_class 结构实现，该结构包含的钩子函数必须在发生有趣事件时调用。
 
-以下是钩子函数的（部分）列表：
+以下是钩子函数的（部分）列表:
 
  - enqueue_task(...)
 
@@ -127,7 +127,7 @@ CONFIG_FAIR_GROUP_SCHED 允许对 CFS（即 SCHED_NORMAL 和 SCHED_BATCH）任�
 
    这些选项需要定义 CONFIG_CGROUPS，并允许管理员使用“cgroup”伪文件系统创建任意任务组。有关此文件系统的更多信息，请参见 Documentation/admin-guide/cgroup-v1/cgroups.rst。
 
-当定义了 CONFIG_FAIR_GROUP_SCHED 时，会为使用伪文件系统创建的每个组创建一个“cpu.shares”文件。请参见下面的示例步骤，以使用“cgroups”伪文件系统创建任务组并修改其 CPU 份额：
+当定义了 CONFIG_FAIR_GROUP_SCHED 时，会为使用伪文件系统创建的每个组创建一个“cpu.shares”文件。请参见下面的示例步骤，以使用“cgroups”伪文件系统创建任务组并修改其 CPU 份额:
 
 	# mount -t tmpfs cgroup_root /sys/fs/cgroup
 	# mkdir /sys/fs/cgroup/cpu

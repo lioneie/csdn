@@ -9,7 +9,7 @@ rpc最主要功能指定每个功能对应的端口，固定111端口监听clien
 -->
 # sunrpc和nfs
 
-client端通过nfs操作存储设备经过的路径如下图所示：
+client端通过nfs操作存储设备经过的路径如下图所示:
 ```sh
      client                      server
  +------------+              +------------+
@@ -46,7 +46,7 @@ client端通过nfs操作存储设备经过的路径如下图所示：
                +------------+ 6.            
 ```
 
-我们再来看一下OSI七层模型和TCP/IP四层模型中SunRPC的位置：
+我们再来看一下OSI七层模型和TCP/IP四层模型中SunRPC的位置:
 ```sh
       OSI                TCP/IP
   +------------+      +------------+
@@ -77,14 +77,14 @@ sunrpc之下的tcp层和ip层已经大概率的保证了数据的可靠性，sun
 
 # rfc协议
 
-SunRPC有以下几个版本，你们一定和我一样在心里骂制定标准的人，为什么会有3个version 2，就不能命名成version 3和4？我们查阅时只需要选择[最新版本rfc5531](https://www.rfc-editor.org/rfc/rfc5531)：
+SunRPC有以下几个版本，你们一定和我一样在心里骂制定标准的人，为什么会有3个version 2，就不能命名成version 3和4？我们查阅时只需要选择[最新版本rfc5531](https://www.rfc-editor.org/rfc/rfc5531):
 
 - [rfc1050, April 1988,  RPC: Remote Procedure Call Protocol Specification](https://www.rfc-editor.org/rfc/rfc1050)
 - [rfc1057, June 1988,   RPC: Remote Procedure Call Protocol Specification Version 2](https://www.rfc-editor.org/rfc/rfc1057)
 - [rfc1831, August 1995, RPC: Remote Procedure Call Protocol Specification Version 2](https://www.rfc-editor.org/rfc/rfc1831)
 - [rfc5531, May 2009,    RPC: Remote Procedure Call Protocol Specification Version 2](https://www.rfc-editor.org/rfc/rfc5531)
 
-nfs的rfc协议文档有以下几个版本：
+nfs的rfc协议文档有以下几个版本:
 
 - [rfc1094, March 1989,    NFS: Network File System Protocol Specification](https://www.rfc-editor.org/rfc/rfc1094)
 - [rfc1813, June 1995,     NFS Version 3 Protocol Specification](https://www.rfc-editor.org/rfc/rfc1813)

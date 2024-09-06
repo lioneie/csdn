@@ -1,4 +1,4 @@
-4.19 syzkaller报如下错误：
+4.19 syzkaller报如下错误:
 ```sh
 [  414.798168][  3] blkdev_get: 3 callbacks suppressed
 [  414.798185][  3] VFS: Open an write opened block device exclusively loop5 [20044 syz-executor.5].

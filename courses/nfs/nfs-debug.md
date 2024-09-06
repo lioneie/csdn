@@ -19,7 +19,7 @@ dprintk(fmt, ...)
     printk(KERN_DEFAULT fmt, ##__VA_ARGS__);
 ```
 
-以下是打开全部日志的命令，注意这将会打印大量日志，请先把`/var/log/messages*`复制保存到其他位置，避免错误日志被覆盖：
+以下是打开全部日志的命令，注意这将会打印大量日志，请先把`/var/log/messages*`复制保存到其他位置，避免错误日志被覆盖:
 ```sh
 echo 0xFFFF > /proc/sys/sunrpc/nfs_debug # NFSDBG_ALL
 echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL
@@ -27,7 +27,7 @@ echo 0x7FFF > /proc/sys/sunrpc/nfsd_debug # NFSDDBG_ALL
 echo 0x7fff > /proc/sys/sunrpc/nlm_debug # NLMDBG_ALL
 ```
 
-如果你缩小了定位的范围，可以只打开某些日志：
+如果你缩小了定位的范围，可以只打开某些日志:
 ```sh
 echo 0x0008 > /proc/sys/sunrpc/nfs_debug # NFSDBG_PAGECACHE
 echo 0x0040 > /proc/sys/sunrpc/rpc_debug # RPCDBG_SCHED
@@ -37,14 +37,14 @@ echo 0x0008 > /proc/sys/sunrpc/nlm_debug # NLMDBG_SVCLOCK
 
 # tcpdump抓包
 
-既然nfs涉及到网络，定位问题肯定也少不了网络抓包，甚至在绝大多数情况下，网络抓包能够比日志提供更有用更直观的信息，使用`tcpdump`工具抓包：
+既然nfs涉及到网络，定位问题肯定也少不了网络抓包，甚至在绝大多数情况下，网络抓包能够比日志提供更有用更直观的信息，使用`tcpdump`工具抓包:
 ```sh
 # --interface: 指定要监听的网络接口，any表示所有的网络接口
 # --buffer-size: 默认4KB, 单位 KB, 20480 代表 20MB。buffer大一点可以防止抓包数据丢失
 tcpdump --interface=<网络接口> --buffer-size=20480 -w out.cap
 ```
 
-当数据量比较大时，有时会发生抓包数据丢失。配置网络参数，把参数调大可以防止抓包数据丢失：
+当数据量比较大时，有时会发生抓包数据丢失。配置网络参数，把参数调大可以防止抓包数据丢失:
 ```sh
 sysctl -a | grep net.core.rmem # 查看配置
 sysctl net.core.rmem_default=xxx
@@ -59,18 +59,18 @@ sysctl net.core.rmem_max=xxx
 
 请注意，在`umount`之前，务必收集好需要的调试信息，因为很多问题可能一年半载也只会出现那么一次。
 
-`umount <挂载点>`命令如果报错`device is busy`之类的信息，说明挂载点正在使用，可以使用以下命令查看使用挂载点的进程：
+`umount <挂载点>`命令如果报错`device is busy`之类的信息，说明挂载点正在使用，可以使用以下命令查看使用挂载点的进程:
 ```sh
 lsof | grep <挂载点>
 fuser -m <挂载点>
 ```
 
-如果找到的使用挂载点的进程非常重要，kill这些进程会导致重大问题，可以使用以下命令延迟卸载，会导致挂载点在后台被卸载，而不会强制终止进程：
+如果找到的使用挂载点的进程非常重要，kill这些进程会导致重大问题，可以使用以下命令延迟卸载，会导致挂载点在后台被卸载，而不会强制终止进程:
 ```sh
 umount --lazy <挂载点>
 ```
 
-如果找到的使用挂载点的进程没有那么重要，建议还是kill掉这些进程再卸载，这样才能更彻底的恢复环境：
+如果找到的使用挂载点的进程没有那么重要，建议还是kill掉这些进程再卸载，这样才能更彻底的恢复环境:
 ```sh
 kill -SIGKILL <进程号>
 umount <挂载点>
@@ -78,7 +78,7 @@ umount <挂载点>
 
 # 导出vmcore
 
-在生产环境下，如果必须要快速恢复环境，且这个环境是可以接受重启系统，就可以尝试手动导出vmcore，vmcore中的信息有时对分析问题很有帮助：
+在生产环境下，如果必须要快速恢复环境，且这个环境是可以接受重启系统，就可以尝试手动导出vmcore，vmcore中的信息有时对分析问题很有帮助:
 ```sh
 echo 1 > /proc/sys/kernel/sysrq
 echo c > /proc/sysrq-trigger
@@ -92,17 +92,17 @@ echo c > /proc/sysrq-trigger
 
 但在某些情况下，无法挂载时，可以尝试使用大于1024的非特权端口挂载，这对排查问题很有帮助。
 
-首先，server端的`/etc/exports`文件中对导出路径增加`insecure`选项，如：
+首先，server端的`/etc/exports`文件中对导出路径增加`insecure`选项，如:
 ```sh
 /tmp/ *(rw,no_root_squash,fsid=0,insecure)
 ```
 
-重启server端服务：
+重启server端服务:
 ```sh
 systemctl restart nfs-server.service
 ```
 
-这时client端可以使用所有范围的端口挂载，默认情况下还是使用小于1024的端口，而大于1024的端口要指定挂载选项`noresvport`：
+这时client端可以使用所有范围的端口挂载，默认情况下还是使用小于1024的端口，而大于1024的端口要指定挂载选项`noresvport`:
 ```sh
 mount -t nfs -o noresvport ${server_ip}:/ /mnt
 ```

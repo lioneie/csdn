@@ -33,7 +33,7 @@ Linux下，客户端 xtightvncviewer, 服务端 tightvncserver。服务端 tight
 
 通过iso文件安装Linux发行版时，要么在物理机上安装，要么在virt-manager上安装，如果我们想在没有图形界面的server环境上用命令行安装一个图形界面发行版，可以使用qemu+vnc来实现。下面我们以麒麟系统桌面发行版安装为例说明qemu+vnc的安装过程。
 
-首先挂载iso文件，并把文件复制出来：
+首先挂载iso文件，并把文件复制出来:
 ```sh
 mkdir mnt
 sudo mount Kylin-Desktop-V10-SP1-General-Release-2303-X86_64.iso mnt -o loop
@@ -42,7 +42,7 @@ cp mnt/. tmp/ -rf
 sudo umount mnt
 ```
 
-创建qcow2文件，并运行虚拟机：
+创建qcow2文件，并运行虚拟机:
 ```sh
 qemu-img create -f qcow2 Kylin-Desktop-V10-SP1-General-Release-2303-X86_64.qcow2 512G
 qemu-system-x86_64 \
@@ -60,7 +60,7 @@ qemu-system-x86_64 \
 
 vnc客户端可以使用ubuntu自带的Remmina（当然也可以使用其他vnc客户端），连接`${server_ip}:5901`，端口`5901`是由`-vnc :1`决定的（`5900 + 1`）。macOS要使用[appstore安装的Remote Ripple](https://remoteripple.com/download/)，好像无法使用macOS自带的vnc客户端。
 
-安装完成后，再运行：
+安装完成后，再运行:
 ```sh
 qemu-system-x86_64 \
 -enable-kvm \

@@ -3,7 +3,7 @@ https://i-m.dev/posts/20200313-143737.html
 
 配置: https://github.com/google/syzkaller/blob/master/pkg/mgrconfig/config.go
 
-复现：
+复现:
 ```shell
 ./syz-execprog -executor=./syz-executor -repeat=0 -procs=16 -cover=0 ./log0
 ```
@@ -24,7 +24,7 @@ CONFIG_E1000E_HWTS=y
 CONFIG_BINFMT_MISC=y
 ```
 -->
-参考：
+参考:
 
 - [syzkaller源码](https://github.com/google/syzkaller)
 - [syzkaller文档翻译](https://chenxiaosong.com/src/translations/tests/syzkaller.html)
@@ -39,20 +39,20 @@ export GOROOT=`pwd`/go
 export PATH=$GOROOT/bin:$PATH
 ```
 
-编译`syzkaller`源码：
+编译`syzkaller`源码:
 ```sh
 git clone https://github.com/google/syzkaller
 cd syzkaller
 make # 编译结果在 bin/
 ```
 
-安装软件：
+安装软件:
 ```sh
 sudo apt update
 sudo apt install make gcc flex bison libncurses-dev libelf-dev libssl-dev -y
 ```
 
-内核[x86_64-config](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)文件还要打开以下配置：
+内核[x86_64-config](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)文件还要打开以下配置:
 ```sh
 # Debug info for symbolization.
 CONFIG_DEBUG_INFO_DWARF4=y
@@ -77,12 +77,12 @@ chmod +x create-image.sh
 
 为了加快下载速度，然后将`create-image.sh`中的`DEBOOTSTRAP_PARAMS="--keyring /usr/share/keyrings/debian-archive-removed-keys.gpg $DEBOOTSTRAP_PARAMS`后面的链接修改成`https://repo.huaweicloud.com/debian/`。但有些网络下也不会加快太多，可以想办法访问国外网络进行下载。
 
-再运行脚本生成`bullseye.img`：
+再运行脚本生成`bullseye.img`:
 ```sh
 ./create-image.sh
 ```
 
-生成`bullseye.img`后，用以下脚本启动测试一下：
+生成`bullseye.img`后，用以下脚本启动测试一下:
 ```sh
 qemu-system-x86_64 \
     -m 2G \
@@ -96,7 +96,7 @@ qemu-system-x86_64 \
     -nographic \
 ```
 
-确保能远程登录：
+确保能远程登录:
 ```sh
 ssh -i bullseye.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localhost
 ```
@@ -105,7 +105,7 @@ ssh -i bullseye.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localhost
 
 # 运行
 
-到syzkaller源码目录下，创建`my.cfg`文件如下：
+到syzkaller源码目录下，创建`my.cfg`文件如下:
 ```sh
 {
     "target": "linux/amd64",
@@ -129,13 +129,13 @@ ssh -i bullseye.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localhost
 }
 ```
 
-运行：
+运行:
 ```sh
 mkdir workdir
 ./bin/syz-manager -config=my.cfg
 ```
 
-这时就能通过网页查看测试结果。如果你是在docker中运行syzkaller，想在加一台电脑上访问网页，可以在宿主机中安装nginx，并在nginx配置文件`/etc/nginx/sites-enabled/default`中添加以下内容，`172.17.0.3`是docker的ip：
+这时就能通过网页查看测试结果。如果你是在docker中运行syzkaller，想在加一台电脑上访问网页，可以在宿主机中安装nginx，并在nginx配置文件`/etc/nginx/sites-enabled/default`中添加以下内容，`172.17.0.3`是docker的ip:
 ```sh
 server {
         listen 56741;
@@ -172,7 +172,7 @@ index 50e45bc7c4d8..ee7962ca777d 100644
                 return error;
 ```
 
-到syzkaller源码目录下，`my.cfg`文件修改成如下，增加`enable_syscalls`，只测试`chmod`：
+到syzkaller源码目录下，`my.cfg`文件修改成如下，增加`enable_syscalls`，只测试`chmod`:
 ```sh
 {
     "target": "linux/amd64",
@@ -196,7 +196,7 @@ index 50e45bc7c4d8..ee7962ca777d 100644
 }
 ```
 
-运行：
+运行:
 ```sh
 mkdir workdir
 ./bin/syz-manager -config=my.cfg

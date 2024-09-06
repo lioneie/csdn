@@ -14,7 +14,7 @@ https://mp.weixin.qq.com/s/dWPWuDtxQBM9Z_GXwKe0KQ
 
 进程提供两种虚拟机制: 虚拟处理器和虚拟内存。
 
-在调试加打印时，我们经常会使用到`current->comm`和`current->pid`来获取进程名和进程id，如`if (!strcmp(current->comm, "cat")`，其中的`current`宏定义在x86架构的实现如下：
+在调试加打印时，我们经常会使用到`current->comm`和`current->pid`来获取进程名和进程id，如`if (!strcmp(current->comm, "cat")`，其中的`current`宏定义在x86架构的实现如下:
 ```c
 // arch/x86/include/asm/current.h
 #define current get_current()
@@ -39,7 +39,7 @@ struct pcpu_hot {
 
 用结构体`struct task_struct`来描述进程，这个结构体很大，请查看<!-- private begin -->`task_struct.c`<!-- private end --><!-- public begin -->[`src/task_struct.c`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/task_struct.c)<!-- public end -->。
 
-其中`__state`可以是以下值，通过`set_current_state(state_value)`来设置：
+其中`__state`可以是以下值，通过`set_current_state(state_value)`来设置:
 
 - `TASK_RUNNING`: 进程可执行，要么正在执行，要么在等待队列中等待执行。
 - `TASK_INTERRUPTIBLE`: 进程正在休眠，当某些条件满足时唤醒，接收到信号可被唤醒。
@@ -47,7 +47,7 @@ struct pcpu_hot {
 - `__TASK_STOPPED`: 进程停止执行，没有投入运行也不能投入运行，接收到`SIGSTOP`、`SIGTSTP`、`SIGTTIN`、`SIGTTOU`信号时进入这个状态，在调试期间接收到任何信号也进入这个状态。
 - `__TASK_TRACED`: 被其他进程跟踪，如通过`ptrace`调试。
 
-`exit_state`退出状态可以是以下值：
+`exit_state`退出状态可以是以下值:
 
 - `EXIT_ZOMBIE`: 进程已经终止，但其状态尚未被父进程读取，进程描述符仍然存在。
 - `EXIT_DEAD`: 进程状态已经被父进程读取，系统正在进行最终清理，进程描述符尚未完全释放。
@@ -55,7 +55,7 @@ struct pcpu_hot {
 
 用`set_current_state(state_value)`设置进程状态。
 
-在系统启动的最后阶段启动pid这`1`的`init`进程，其他进程都是这个进程的后代，通过`current->parent`获得当前进程的父进程，当前进程的子进程用如下代码遍历：
+在系统启动的最后阶段启动pid这`1`的`init`进程，其他进程都是这个进程的后代，通过`current->parent`获得当前进程的父进程，当前进程的子进程用如下代码遍历:
 ```c
 
 struct list_head *list;
@@ -67,7 +67,7 @@ list_for_each(list, &current->children) {
 }
 ```
 
-遍历祖先，直到`init`进程：
+遍历祖先，直到`init`进程:
 ```c
 struct task_struct *task;
 for (task = current; task != &init_task; task = task->parent) {
@@ -75,7 +75,7 @@ for (task = current; task != &init_task; task = task->parent) {
 }
 ```
 
-从`tasks`成员获取前一个和后一个进程：
+从`tasks`成员获取前一个和后一个进程:
 ```c
 list_entry(task->tasks.next, struct task_struct, tasks) // 后一个，next_task(p)宏定义
 list_entry(task->tasks.prev, struct task_struct, tasks) // 前一个
@@ -87,7 +87,7 @@ list_entry(task->tasks.prev, struct task_struct, tasks) // 前一个
 
 进程的创建包含`fork()`（或`vfork`）和`exec`（`execve()`和`execveat()`）。
 
-其中`fork`相关流程如下：
+其中`fork`相关流程如下:
 ```c
 // fork()适合大多数创建子进程的场景，尤其是当子进程需要在执行exec()之前做更多操作时（如文件描述符重定向、环境变量设置等）
 // 会为子进程分配一个新的地址空间，并将父进程的地址空间内容复制到子进程中
@@ -145,7 +145,7 @@ ps -e -o pid,ppid,cmd | grep fork
 
 ## 创建线程
 
-线程是和其他进程共享某些资源（如地址空间等）的进程，创建线程：
+线程是和其他进程共享某些资源（如地址空间等）的进程，创建线程:
 ```c
 // 共享: 地址空间、文件系统资源、文件描述符、信号处理程序
 clone(CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND, 0)
@@ -187,7 +187,7 @@ clone(CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND, 0)
 #define CLONE_INTO_CGROUP 0x200000000ULL /* 在具有相应权限的情况下克隆到特定的 cgroup 中。 */
 
 /*
- * 克隆标志与 CSIGNAL 交叉，因此只能与 unshare 和 clone3 系统调用一起使用：
+ * 克隆标志与 CSIGNAL 交叉，因此只能与 unshare 和 clone3 系统调用一起使用:
  */
 #define CLONE_NEWTIME	0x00000080	/* 新的时间命名空间 */
 ```
@@ -196,7 +196,7 @@ clone(CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND, 0)
 
 独立运行在内核空间的进程叫内核线程（kernel thread），和普通的用户进程的区别是没有独立的地址空间，也就是`task_struct`中的`mm`成员设置为`NULL`（可使用前一个用户空间进程的`mm`，用`active_mm`指向），所有内核线程都是`kthreadd`内核线程的后代。
 
-创建新的内核线程：
+创建新的内核线程:
 ```c
 /**
  * kthread_create - 在当前节点上创建一个内核线程，处于不可运行状态，要通过wake_up_process()唤醒
@@ -225,7 +225,7 @@ clone(CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND, 0)
 int wake_up_process(struct task_struct *p)
 ```
 
-也可以调用以下函数创建内核线程并立刻运行：
+也可以调用以下函数创建内核线程并立刻运行:
 ```c
 /**
  * kthread_run - 创建并唤醒一个线程。简单的调用了kthread_create()和wake_up_process()
@@ -239,14 +239,14 @@ int wake_up_process(struct task_struct *p)
 #define kthread_run(threadfn, data, namefmt, ...)
 ```
 
-`threadfn()`一直运行直到调用`do_exit()`退出，或内核其他部分调用以下函数退出：
+`threadfn()`一直运行直到调用`do_exit()`退出，或内核其他部分调用以下函数退出:
 ```c
 /**
  * kthread_stop - 停止由 kthread_create() 创建的线程。
  * @k: 由 kthread_create() 创建的线程。
  *
  * 设置 @k 线程的 kthread_should_stop() 返回 true，唤醒它，并等待其退出。
- * 这也可以在 kthread_create() 之后调用，而不是调用 wake_up_process()：
+ * 这也可以在 kthread_create() 之后调用，而不是调用 wake_up_process():
  * 线程将会退出而不调用 threadfn()。
  *
  * 如果 threadfn() 可能会自己调用 kthread_exit()，则调用者必须确保
@@ -282,7 +282,7 @@ process scheduler，简称为scheduler，翻译为进程调度器，有些中文
 
 进程分为I/O消耗型和处理器消耗型。I/O消耗型进程大部分时间都在提交I/O请求或等待I/O请求（如键盘输入、网络I/O等），经常处于可运行状态，但运行时间很短。处理器消耗型进程刚好相反，大部分时间都在执行代码，没有被抢占就一直运行，不经常运行，但一旦运行时间比较长，如执行大量数学计算的程序。当然，也可能出现某个程序在不同时间段属于不同类型的情况。
 
-Linux采用两种优先级范围：
+Linux采用两种优先级范围:
 
 - nice值: -20 ~ +19，默认为0，nice代表对其他进程的友好程度，nice值越高优先级越低，有些操作系统的nice值代表分配给进程的时间片的绝对值，Linux内核的nice值代表时间片的比例。使用命令`ps -el`输出的`NI`一列就是nice值。
 - 实时优先级: 0 ~ 99，任何实时进程的优先级都高于普通进程，实时优先级与nice优先级处于互不相交的两个范畴。使用命令`ps -eo state,uid,pid,ppid,rtprio,time,comm,nice`输出的`RTPRIO`一列就是实时优先级，如果是`-`就代表不是实时进程。
@@ -313,7 +313,7 @@ SYSCALL_DEFINE1(nice, int, increment)
 - 双核或多核cpu系统，运行 `./nice 20`，子进程nice值高，但父子进程计数值几乎相等。因为父子进程不共享同一cpu，分别在不同cpu上同时运行。
 
 
-`/usr/include/pthread.h`或`/usr/aarch64-linux-gnu/include/pthread.h`头文件中POSIX线程调度相关的函数：
+`/usr/include/pthread.h`或`/usr/aarch64-linux-gnu/include/pthread.h`头文件中POSIX线程调度相关的函数:
 
 ```c
 pthread_attr_setschedpolicy
@@ -371,7 +371,7 @@ pthread_attr_setinheritsched
 struct rq {
 -->
 
-CFS相关的函数流程如下：
+CFS相关的函数流程如下:
 ```c
 schedule
   __schedule
@@ -399,7 +399,7 @@ Linux内核有两种实时调度策略: `SCHED_FIFO`和`SCHED_RR`，这两种调
 **动态优先级**=max(100 , min(静态优先级 - bonus + 5) , 139))，I/O消耗型进程bonus为正
 -->
 
-**内核2.4**版本的简陋的**O(n)**调度算法,进程数量多时，调度效率非常低：
+**内核2.4**版本的简陋的**O(n)**调度算法,进程数量多时，调度效率非常低:
 
 ```c
 for (系统中的每个进程) {
@@ -426,7 +426,7 @@ struct {
 进程从活跃数组移动到过期数组前，已经重新计算好了时间片，本质就是采用**分散计算时间片**的方法。当活跃进程数组中没有进程时，只需要交换两个数组的指针，原来的过期数组变为活跃数组。因此只需要**依次遍历**位图的第一位，找到第一个置位，对应的进程链表上的所有进程都是优先级最高的，选取链表头的进程来执行即可。
 
 <!--
-请阅读2.6.11内核`linux/kernel/sched.c`中的下列函数：
+请阅读2.6.11内核`linux/kernel/sched.c`中的下列函数:
 
 时间片分配：`task_timeslice`
 
@@ -453,7 +453,7 @@ CFS使用红黑树（Red-Black Tree）数据结构来管理就绪队列中的任
 
 `struct task_struct`中有一个`struct sched_entity`类型的成员`se`。`struct sched_entity`的`vruntime`变量表示进程的虚拟运行时间（virtual runtime），这个值的计算是经过了所有可运行进程总数的标准化（被加权），可以帮助逼近CFS模型所追求的"理想多任务处理器"。
 
-函数调用流程如下：
+函数调用流程如下:
 ```c
 update_process_times
   scheduler_tick
@@ -465,7 +465,7 @@ update_process_times
 
 ## 进程选择
 
-CFS选择下一个运行进程时，会选择虚拟运行时间最小的进程。CFS使用红黑树来管理可运行进程队列，挑选下一个任务的流程如下：
+CFS选择下一个运行进程时，会选择虚拟运行时间最小的进程。CFS使用红黑树来管理可运行进程队列，挑选下一个任务的流程如下:
 ```c
 schedule
   __schedule
@@ -476,7 +476,7 @@ schedule
             pick_next_entity
 ```
 
-向红黑树中加入进程发生在进程变为可运行状态（被唤醒）或创建进程时，流程如下：
+向红黑树中加入进程发生在进程变为可运行状态（被唤醒）或创建进程时，流程如下:
 ```c
 activate_task
   enqueue_task
@@ -489,7 +489,7 @@ activate_task
               root->rb_leftmost = node
 ```
 
-从红黑树中删除进程发生在进程变为不可进行或进程终结时，流程如下：
+从红黑树中删除进程发生在进程变为不可进行或进程终结时，流程如下:
 ```c
 pick_next_task_fair
   set_next_entity
@@ -526,7 +526,7 @@ CFS已经在v6.6被EEVDF (Earliest Eligible Virtual Deadline First，最早可�
 
 <!-- private end -->
 
-挑选下一个任务的流程如下：
+挑选下一个任务的流程如下:
 ```c
 schedule
   __schedule
@@ -543,7 +543,7 @@ schedule
 
 内核用`wait_queue_entry`表示等待队列，静态创建可以用`DECLARE_WAITQUEUE()`，动态创建可以用`init_waitqueue_head()`。
 
-休眠操作如下：
+休眠操作如下:
 ```c
 // wq 是等待队列
 DEFINE_WAIT(wait); // 或者用 init_wait()
@@ -597,7 +597,7 @@ remove_wait_queue(&group->notification_waitq, &wait);
 
 Brain Fuck Scheduler, 脑残调度器，由澳洲麻醉师康恩·科里瓦斯所撰写，是O(n)调度器，但在桌面交互式应用场景性能很好。科里瓦斯并没有打算将BFS应用在 mainline Linux，[而是以补丁来维护这套源代码](http://ck.kolivas.org/patches/5.0/5.12/5.12-ck1/)。
 
-直接附上维斯百科对他的介绍吧：
+直接附上维斯百科对他的介绍吧:
 
 > 康恩·科里瓦斯（英语：Con Kolivas）是一名澳洲麻醉师。闲暇时，他曾是Linux内核的开发者之一，在排程器上贡献许多程式码。
 

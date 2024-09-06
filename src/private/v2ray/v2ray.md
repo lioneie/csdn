@@ -10,7 +10,7 @@ v2ray的github项目为[v2ray-core](https://github.com/v2fly/v2ray-core)。
 
 # v2ray服务器安装与配置
 
-可以使用以下命令安装：
+可以使用以下命令安装:
 
 ```shell
 bash <(curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
@@ -29,13 +29,13 @@ bash <(curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/ins
 ...
 ```
 
-修改完配置文件后，需要重启v2ray服务：
+修改完配置文件后，需要重启v2ray服务:
 
 ```shell
 sudo systemctl restart v2ray
 ```
 
-如果启动v2ray服务时报错，检查 `v2ray.service`文件：
+如果启动v2ray服务时报错，检查 `v2ray.service`文件:
 
 ```shell
 [Service]
@@ -45,7 +45,7 @@ User=sonvhi # 修改成当前用户名
 
 # linux系统客户端安装与配置
 
-可以使用以下命令安装：
+可以使用以下命令安装:
 
 ```shell
 bash <(curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
@@ -53,7 +53,7 @@ bash <(curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/ins
 
 也可以在[项目的Releases](https://github.com/v2fly/v2ray-core/releases)界面选择一个版本下载Linux的安装包, 如[v2ray-linux-64.zip-v5.4.1](https://github.com/v2fly/v2ray-core/releases/download/v5.4.1/v2ray-linux-64.zip)。
 
-将`/usr/local/etc/config.json`的内容替换成[config_client.json](https://github.com/v2fly/v2ray-examples/blob/master/VMess-Websocket/config_client.json)中的内容，并修改以下内容：
+将`/usr/local/etc/config.json`的内容替换成[config_client.json](https://github.com/v2fly/v2ray-examples/blob/master/VMess-Websocket/config_client.json)中的内容，并修改以下内容:
 
 ```json
 ...
@@ -64,7 +64,7 @@ bash <(curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/ins
 ...
 ```
 
-修改完配置文件后，需要重启v2ray服务：
+修改完配置文件后，需要重启v2ray服务:
 
 ```sh
 sudo systemctl restart v2ray
@@ -76,7 +76,7 @@ sudo systemctl restart v2ray
 
 在[项目的Releases](https://github.com/v2fly/v2ray-core/releases)界面选择一个版本下载macOS的安装包, 如[v2ray-macos-arm64-v8a.zip-v5.4.1](https://github.com/v2fly/v2ray-core/releases/download/v5.4.1/v2ray-macos-arm64-v8a.zip)。
 
-解压后将`config.json`的内容替换成[config_client.json](https://github.com/v2fly/v2ray-examples/blob/master/VMess-Websocket/config_client.json)中的内容，并修改以下内容：
+解压后将`config.json`的内容替换成[config_client.json](https://github.com/v2fly/v2ray-examples/blob/master/VMess-Websocket/config_client.json)中的内容，并修改以下内容:
 ```json
 ...
  "port": 12345,	// 如果出现突然无法访问或不稳定，可以尝试修改端口
@@ -86,7 +86,7 @@ sudo systemctl restart v2ray
 ...
 ```
 
-修改完配置文件后，打开terminal，在解压的文件夹下执行以下命令：
+修改完配置文件后，打开terminal，在解压的文件夹下执行以下命令:
 
 ```shell
 ./v2ray run
@@ -104,7 +104,7 @@ sudo systemctl restart v2ray
 
 在[项目的Releases](https://github.com/v2fly/v2ray-core/releases)界面选择一个版本下载Windows的安装包, 如[v2ray-windows-64-v8a.zip-v5.4.1](https://github.com/v2fly/v2ray-core/releases/download/v5.4.1/v2ray-windows-64.zip)
 
-解压后将`config.json`的内容替换成[config_client.json](https://github.com/v2fly/v2ray-examples/blob/master/VMess-Websocket/config_client.json)中的内容，并修改以下内容：
+解压后将`config.json`的内容替换成[config_client.json](https://github.com/v2fly/v2ray-examples/blob/master/VMess-Websocket/config_client.json)中的内容，并修改以下内容:
 ```json
 ...
  "port": 12345,	// 如果出现突然无法访问或不稳定，可以尝试修改端口
@@ -114,7 +114,7 @@ sudo systemctl restart v2ray
 ...
 ```
 
-修改完配置文件后，打开windows的`cmd`程序，在解压的文件夹下执行以下命令：
+修改完配置文件后，打开windows的`cmd`程序，在解压的文件夹下执行以下命令:
 
 ```shell
 .\v2ray run

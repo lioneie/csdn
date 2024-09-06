@@ -17,7 +17,7 @@ pNFS是第一个NFSv4小版本的一部分。这个空间用于跟踪和分享Li
 
 从4.0版本开始，上游服务器包含pNFS块支持。请参阅PNFS块服务器设置以获取说明。
 
-以下说明适用于过时的原型：
+以下说明适用于过时的原型:
 
 - pNFS设置说明 - 基本的pNFS设置说明。
 - GFS2设置注意事项 - cluster3，2.6.27内核
@@ -70,22 +70,22 @@ pNFS原型设计
 
 您需要在服务器上设置 iSCSI 目标，并根据本地政策设置任何登录或权限所需的操作。具体操作步骤取决于服务器。
 
-为了便于调试，您应该降低挂起任务的超时时间：
+为了便于调试，您应该降低挂起任务的超时时间:
 ```sh
 sysctl -w kernel.hung_task_timeout_secs=10
 ```
 
-现在连接到您的 iSCSI 目标，类似于：
+现在连接到您的 iSCSI 目标，类似于:
 ```sh
 iscsiadm -m discovery -t sendtargets -p <iscsi-server> -l
 ```
 
-然后启动块布局服务，它会加载内核模块并启动 blkmapd：
+然后启动块布局服务，它会加载内核模块并启动 blkmapd:
 ```sh
 service blkmapd restart
 ```
 
-如果您收到错误消息 "blkmapd: unrecognized service"，可能是缺少初始化文件。您可以从 CITI pnfs 网站安装它：
+如果您收到错误消息 "blkmapd: unrecognized service"，可能是缺少初始化文件。您可以从 CITI pnfs 网站安装它:
 ```sh
 wget -O /etc/rc.d/init.d/blkmapd http://www.citi.umich.edu/projects/nfsv4/pnfs/block/download/rh-init.txt
 chmod +x /etc/rc.d/init.d/blkmapd
@@ -93,7 +93,7 @@ chmod +x /etc/rc.d/init.d/blkmapd
 
 ## Mount Filesystem
 
-在挂载服务器时使用 `-o minorversion=1` 挂载选项，类似于：
+在挂载服务器时使用 `-o minorversion=1` 挂载选项，类似于:
 ```sh
 mount -t nfs4 -o minorversion=1 <server>:/export  /mnt
 ```
@@ -123,7 +123,7 @@ iscsiadm -m node -U all
 
 如果您正在使用文件或对象布局，请跳过此部分。如果您正在使用 iSCSI 目标的块布局，请按照以下说明操作。
 
-如果这对您没有用，请按照以下步骤查找问题。首先确保您的 iSCSI 目标已经被挂载。对于每个目标设备，在 `/var/log/messages` 中应该看到类似以下内容：
+如果这对您没有用，请按照以下步骤查找问题。首先确保您的 iSCSI 目标已经被挂载。对于每个目标设备，在 `/var/log/messages` 中应该看到类似以下内容:
 ```sh
 Mar  7 09:46:34 rhcl1 kernel: scsi 7:0:0:15: Direct-Access     DGC      RAID 5           0326 PQ: 0 ANSI: 4
 Mar  7 09:46:34 rhcl1 kernel: sd 7:0:0:15: Attached scsi generic sg32 type 0
@@ -134,7 +134,7 @@ Mar  7 09:46:37 rhcl1 kernel: sdq: unknown partition table
 Mar  7 09:46:38 rhcl1 kernel: sd 7:0:0:15: [sdq] Attached SCSI disk
 ```
 
-您还应该在 `/sys/block` 目录中看到块设备：
+您还应该在 `/sys/block` 目录中看到块设备:
 ```sh
 pdsi7# ls /sys/block
 loop0  loop6  ram11  ram3  ram9  sdae  sdak  sdaq  sdb  sdh  sdn  sdt  sdz
@@ -145,19 +145,19 @@ loop4  ram1   ram15  ram7  sdac  sdai  sdao  sdau  sdf  sdl  sdr  sdx
 loop5  ram10  ram2   ram8  sdad  sdaj  sdap  sdav  sdg  sdm  sds  sdy
 ```
 
-接下来加载内核模块：
+接下来加载内核模块:
 ```sh
 modprobe blocklayoutdriver
 pdsi7# modprobe blocklayoutdriver
 pdsi7#
 ```
 
-现在以前台模式运行守护进程：
+现在以前台模式运行守护进程:
 ```sh
 pdsi7# /usr/sbin/blkmapd -f
 ```
 
-最后，运行您的挂载命令，并验证您是否有一个 pnfs 挂载（参见上面的“Mount Filesystem”和“Generate Traffic”）。守护进程在发现您的设备时应该打印一些消息：
+最后，运行您的挂载命令，并验证您是否有一个 pnfs 挂载（参见上面的“Mount Filesystem”和“Generate Traffic”）。守护进程在发现您的设备时应该打印一些消息:
 ```sh
 pdsi7# /usr/sbin/blkmapd -f
 blkmapd: process_deviceinfo: 12 vols
@@ -181,7 +181,7 @@ blkmapd: dm_device_create: 11 pnfs_vol_1 253:1
 
 最近将基于块布局的 pNFS 服务器合并到了 Linux 内核中。使用时需要谨慎，参见下面的警告。
 
-要使用它，您需要：
+要使用它，您需要:
 
 - 至少版本为 4.0 的内核，配置了 CONFIG_NFSD_PNFS，
 - 在服务器上同样较新的 nfs-utils（截至本文撰写时尚未正式发布；至少需要 steved 的 git 树中的 c08f1382e5609bc686c3df95ff1e267804b37a61 版本），以及
@@ -193,7 +193,7 @@ blkmapd: dm_device_create: 11 pnfs_vol_1 253:1
 
 客户端将通过直接读取或写入块设备而不是将 NFS 读取和写入发送到服务器来执行对普通文件的读取和写入。如果您可以在 `/proc/self/mountstats` 中看到 LAYOUTGET 调用，则可能正在工作。
 
-警告：
+警告:
 
 - 客户端通过查看块设备的内容来确定要写入的块设备。如果客户端还可以访问相同文件系统的快照，可能会选择错误。这可能会损坏您的数据。
 - 服务器需要能够在需要时撤销客户端对数据的直接访问，例如，多个客户端需要同时访问的情况。如果客户端对正常的 NFS 回调请求无响应，服务器必须能够强制切断客户端的访问。为使此工作正常运行，您必须提供一个 `/sbin/nfsd-recall-failed` 脚本，它知道如何切断客户端的访问。详细信息请参阅 [`Documentation/filesystems/nfs/pnfs-block-server.txt`](https://git.linux-nfs.org/?p=bfields/linux.git;a=blob;f=Documentation/filesystems/nfs/pnfs-block-server.txt;h=2143673cf1544bfc18502b8e0e4ee469234e7aae;hb=c517d838eb7d07bbe9507871fab3931deccff539)。如果未能执行此操作，可能会再次损坏您的数据。
@@ -224,7 +224,7 @@ blkmapd: dm_device_create: 11 pnfs_vol_1 253:1
 /export  *(rw,sync,fsid=0,insecure,no_subtree_check,pnfs)
 ```
 
-在`pnfs`导出选项公开发布之前，请从以下地址构建和安装`exportfs、rpc.mountd、rpc.nfsd`，以及可选的`nfsstat`：
+在`pnfs`导出选项公开发布之前，请从以下地址构建和安装`exportfs、rpc.mountd、rpc.nfsd`，以及可选的`nfsstat`:
 ```sh
 git://linux-nfs.org/~bhalevy/pnfs-nfs-utils.git
 
@@ -237,7 +237,7 @@ cp utils/nfsstat/nfsstat /usr/sbin/nfsstat
 
 2. 
 
-告诉元数据服务器数据服务器的IP地址：
+告诉元数据服务器数据服务器的IP地址:
 ```sh
 echo "/dev/sdc:192.168.0.1,192.168.0.2" >/proc/fs/nfsd/pnfs_dlm_device
 ```
@@ -264,7 +264,7 @@ modprobe nfs_layout_nfsv41_files
 
 #### 第三步：挂载pNFS文件系统。
 
-在pnfs客户端：
+在pnfs客户端:
 ```sh
 mount -t nfs4 -o minorversion=1 <mds_server>:/ /mnt/pnfs
 
@@ -273,7 +273,7 @@ mount -t nfs4 -o minorversion=1 <mds_server>:/ /mnt/pnfs
 
 ### 调试帮助
 
-nfs 调试：
+nfs 调试:
 ```sh
 echo 32767 > /proc/sys/sunrpc/nfsd_debug
 echo 32767 > /proc/sys/sunrpc/nfs_debug
@@ -288,13 +288,13 @@ echo 32767 > /proc/sys/sunrpc/nfs_debug
 
 pNFS是NFSv4.1提供的新功能，也称为Parallel NFS。Parallel NFS（pNFS）扩展了网络文件共享版本4（NFSv4），允许客户端直接访问由NFSv4服务器使用的存储上的文件数据。这种绕过服务器进行数据访问的能力可以提高性能和并行性，但需要额外的客户端功能来进行数据访问，其中一些取决于所使用的存储类别。
 
-Parallel NFS具有多种直接访问数据的方式。目前，提供了三种“布局”：
+Parallel NFS具有多种直接访问数据的方式。目前，提供了三种“布局”:
 
 - LAYOUT4_FILE：跨多个NFS服务器进行条带化
 - LAYOUT4_BLOCK_VOLUME：允许客户端按块设备中存储的方式访问数据
 - LAYOUT4_OSD2_OBJECTS：基于OSD2协议。
 
-NFSv4.1和pNFS由以下RFC描述：
+NFSv4.1和pNFS由以下RFC描述:
 
 - RFC5661：网络文件系统（NFS）版本4.1协议
 - RFC5662：网络文件系统（NFS）版本4.1，外部数据表示标准（XDR）描述
@@ -311,7 +311,7 @@ spNFS是一个简单的pNFS LAYOUT4_FILE服务器实现，它使用独立的NFS�
 
 （警告：截至2011年2月，spNFS代码大部分未维护；我们不再推荐使用。）
 
-我使用的机器是：
+我使用的机器是:
 
 - nfsmds，IP地址= XX.YY.ZZ.A，用作元数据服务器
 - nfsds，IP地址= XX.YY.ZZ.B，用作数据服务器
@@ -365,7 +365,7 @@ CONFIG_PNFS_FILE_LAYOUT=m
  # ./configure --prefix=/usr && make && make install
 ```
 
-但是您必须确保已安装以下产品（所有节点都使用Fedora 12安装）：
+但是您必须确保已安装以下产品（所有节点都使用Fedora 12安装）:
 
 - libtirpc + libtirpc-dev
 - tcp_wrappers + tcp_wrapper-libs + tcp_wrappers-devel
@@ -376,7 +376,7 @@ CONFIG_PNFS_FILE_LAYOUT=m
 
 你会发现它们都是rpm包，但是libnfsidmap不是。对于这个包，您需要获取最新版本，进行编译和安装（不要忘记指定“./configure --prefix=/usr”）。您可以从nfs-utils-lib-devel-1.1.4-8或更高版本获取它。
 
-基本上，类似以下命令的命令应该可以完成所有必需的工作（以Fedora 15为例）：
+基本上，类似以下命令的命令应该可以完成所有必需的工作（以Fedora 15为例）:
 ```sh
  # yum install libtirpc{,-devel} tcp_wrappers{,-devel} libevent{,-devel} libnfsidmap{,-devel} openldap-devel \
                libgssglue{,-devel} krb5-devel libblkid{,-devel} device-mapper-devel libcap{,-devel}
@@ -392,7 +392,7 @@ MDS应该能够挂载DS并在其上具有root访问权限。它运行一个用�
 
 数据服务器只是一个普通的NFSv4.1服务器。重要的是，元数据服务器必须具有对其的root访问权限，以防止由于EPERM错误导致的奇怪行为。
 
-数据服务器的`/etc/exports`在nfsds上将如下所示：
+数据服务器的`/etc/exports`在nfsds上将如下所示:
 ```sh
 /export/spnfs  *(rw,sync,fsid=0,insecure,no_subtree_check,pnfs,no_root_squash)
 ```
@@ -401,12 +401,12 @@ MDS应该能够挂载DS并在其上具有root访问权限。它运行一个用�
 
 MDS是DS的客户端，并运行spnfsd。它也是启用了pNFS的NFSv4.1服务器。
 
-spnfsd配置分两步进行：
+spnfsd配置分两步进行:
 
 - 将MDS配置为DS的客户端
 - 编写`/etc/spnfsd.conf`文件
 
-在MDS上，/etc/fstab应包含以下行：
+在MDS上，/etc/fstab应包含以下行:
 ```sh
 nfsds:/       /spnfs/XX.YY.ZZ.B   nfs4    minorversion=1        0 0
 ```
@@ -446,7 +446,7 @@ nfsds:/       /spnfs/XX.YY.ZZ.B   nfs4    minorversion=1        0 0
 
 （在2.6.26之前的内核中被称为nfslayoutdriver）
 
-然后，您可以在客户端上挂载MDS：
+然后，您可以在客户端上挂载MDS:
 ```sh
 # mount -t nfs4 -o minorversion=1 nfsmds:/ /mnt
 ```
@@ -455,7 +455,7 @@ nfsds:/       /spnfs/XX.YY.ZZ.B   nfs4    minorversion=1        0 0
 
 #### Basic test
 
-第一个测试非常简单：在客户端上，我向文件写入50个字节：
+第一个测试非常简单：在客户端上，我向文件写入50个字节:
 ```sh
  # echo "jljlkjljjhkjhkhkjhkjhkjhkjhkjhkjhkjhkjhkjhkjhkjhk" > ./myfile
  # ls -i ./myfile

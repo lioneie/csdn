@@ -14,13 +14,13 @@
 
 ghostwriter是跨平台的，在Linux、macOS、Windows下都能运行，这里我只介绍Fedora（Linux）下的编译运行，其他平台请参考[README.md](https://github.com/KDE/ghostwriter/blob/master/README.md)。
 
-先安装Fedora下编译所需的软件：
+先安装Fedora下编译所需的软件:
 
 ```shell
 sudo dnf install qt-devel qt5-qtbase-devel qt5-qtsvg-devel qt5-qtmultimedia-devel qt5-qtwebengine-devel hunspell-devel qt5-linguist -y
 ```
 
-在[源码](https://github.com/KDE/ghostwriter)目录下编译：
+在[源码](https://github.com/KDE/ghostwriter)目录下编译:
 ```shell
 qmake-qt5
 make
@@ -28,7 +28,7 @@ make
 # make install
 ```
 
-运行软件：
+运行软件:
 ```shell
 cd build/release/
 ./ghostwriter
@@ -42,7 +42,7 @@ cd build/release/
 
 现在把这个缺陷介绍一下，也希望各位朋友能和我一起完善ghostwriter。
 
-导致这个缺陷的[commit](https://github.com/KDE/ghostwriter/commit/795de8ba2b3717e23543170c40f2dd2379530a33)：
+导致这个缺陷的[commit](https://github.com/KDE/ghostwriter/commit/795de8ba2b3717e23543170c40f2dd2379530a33):
 
 ```c
 // src/cmarkgfmapi.cpp
@@ -50,7 +50,7 @@ cd build/release/
 +    cmark_parser_feed(parser, text.toUtf8().data(), text.length());
 ```
 
-定位到这个原因后，我修改成如下代码：
+定位到这个原因后，我修改成如下代码:
 
 ```c
 // src/cmarkgfmapi.cpp

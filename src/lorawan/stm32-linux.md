@@ -12,19 +12,19 @@
 
 参考文件[development-environment.md](https://github.com/Lora-net/LoRaMac-node/blob/master/doc/development-environment.md)。
 
-先安装开发必备软件：
+先安装开发必备软件:
 
 ```sh
 sudo apt install build-essential -y
 ```
 
-安装GNU ARM-Toolchain，或源码安装（参考[网站](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm)）：
+安装GNU ARM-Toolchain，或源码安装（参考[网站](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm)）:
 
 ```sh
 sudo apt install gcc-arm-none-eabi -y
 ```
 
-安装OpenOCD，或源码安装（参考[网站](http://openocd.org/getting-openocd/)）：
+安装OpenOCD，或源码安装（参考[网站](http://openocd.org/getting-openocd/)）:
 
 ```sh
 sudo apt-get install openocd -y
@@ -34,14 +34,14 @@ sudo apt-get install openocd -y
 
 参考文件[development-environment.md](https://github.com/Lora-net/LoRaMac-node/blob/master/doc/development-environment.md)。
 
-在项目的顶层目录下，创建build文件夹并进入：
+在项目的顶层目录下，创建build文件夹并进入:
 
 ```sh
 mkdir build
 cd build
 ```
 
-生成makefile文件：
+生成makefile文件:
 
 ```sh
 cmake -DCMAKE_TOOLCHAIN_FILE="cmake/toolchain-arm-none-eabi.cmake" ..
@@ -55,7 +55,7 @@ STM32L073的cmake文件为[cmake/stm32l0.cmake](https://github.com/Lora-net/LoRa
 
 参考文件[development-environment.md](https://github.com/Lora-net/LoRaMac-node/blob/master/doc/development-environment.md)。
 
-运行openocd软件（注意这个窗口不能关闭）：
+运行openocd软件（注意这个窗口不能关闭）:
 
 ```sh
 openocd -f interface/stlink-v2-1.cfg  -f target/stm32l0.cfg
@@ -63,7 +63,7 @@ openocd -f interface/stlink-v2-1.cfg  -f target/stm32l0.cfg
 
 `interface/stlink-v2-1.cfg`（stlink配置文件）和`target/stm32l0.cfg`（芯片平台配置文件）都位于`/usr/share/openocd/scripts`目录下。
 
-运行gdb：
+运行gdb:
 
 ```sh
 arm-none-eabi-gdb src/apps/LoRaMac/LoRaMac-classA

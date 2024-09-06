@@ -1,4 +1,4 @@
-请求处理过程：
+请求处理过程:
 ```c
 // 请求是struct smb_rqst *rqst->rq_iov, 回复是struct kvec *resp_iov
 compound_send_recv
@@ -19,7 +19,7 @@ compound_send_recv
     buf = (char *)midQ[i]->resp_buf
 ```
 
-回复处理过程：
+回复处理过程:
 ```c
 kthread
   cifs_demultiplex_thread
@@ -37,7 +37,7 @@ kthread
             list_del_init(&mid->qhead)
 ```
 
-打开文件处理过程：
+打开文件处理过程:
 ```c
 // vfs的流程
 openat
@@ -63,7 +63,7 @@ atomic_open
           cifs_send_recv
 ```
 
-读文件处理过程：
+读文件处理过程:
 ```c
 read_pages
   netfs_readahead
@@ -82,7 +82,7 @@ kthread
     smb2_readv_callback // mids[i]->callback
 ```
 
-写文件处理过程：
+写文件处理过程:
 ```c
 do_writepages
   netfs_writepages

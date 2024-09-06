@@ -4,7 +4,7 @@
 
 但X86的段机制还是值得学习的。
 
-段选择符segment selector字段：
+段选择符segment selector字段:
 ```sh
  15          3  2 1 0
 +-------------+--+---+
@@ -14,7 +14,7 @@ TI = Table indicator 表指示器
 RPL = requestor privilege level 请求者特权级
 ```
 
-通过**段选择符**(segment selector)找到描述符表中的**段描述符**(segment descriptor)：
+通过**段选择符**(segment selector)找到描述符表中的**段描述符**(segment descriptor):
 ```sh
         descriptor
           table                         segment 
@@ -49,7 +49,7 @@ Linux的权限管理等都交由**分页机制**来完成
 
 # Linux分页
 
-线性地址(linear address）：
+线性地址(linear address）:
 ```sh
    +-------------+----------------+-------------+--------------+-------------+
    | global dir  |  upper dir     |  middle dir |     table    |     offset  |

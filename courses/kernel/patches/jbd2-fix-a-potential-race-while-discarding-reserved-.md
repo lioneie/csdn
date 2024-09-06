@@ -170,7 +170,7 @@ du -c file -h
 
 ## 常规文件, journal 模式
 
-c程序：
+c程序:
 ```c
 #include <stdio.h>
 #include <errno.h>
@@ -219,7 +219,7 @@ mount -o remount,abort /mnt
 
 ## 常规文件, order 模式
 
-c程序：
+c程序:
 ```c
 #include <stdio.h>
 #include <errno.h>

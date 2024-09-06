@@ -1,10 +1,10 @@
 # 简介
 
-根据[内核仓库文档Documentation/filesystems/btrfs.rst](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/filesystems/btrfs.rst)中描述的：
+根据[内核仓库文档Documentation/filesystems/btrfs.rst](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/filesystems/btrfs.rst)中描述的:
 ```sh
 Btrfs是一个针对Linux的写时复制文件系统，旨在实现先进功能的同时注重容错性、修复和易管理性。由多家公司联合开发，根据GPL许可证授权，并向任何人开放贡献。
 
-Btrfs的主要特性包括：
+Btrfs的主要特性包括:
 
 基于范围的文件存储（最大文件大小为2^64）
 对小文件进行高效的空间打包
@@ -27,7 +27,7 @@ Trim/discard
 分区模式
 读/写元数据验证
 在线调整大小（收缩、增长）
-有关更多信息，请参阅文档网站或维基：
+有关更多信息，请参阅文档网站或维基:
 
 https://btrfs.readthedocs.io
 

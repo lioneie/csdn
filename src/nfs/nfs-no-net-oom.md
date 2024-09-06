@@ -2,7 +2,7 @@
 
 nfs环境搭建请参考[《nfs环境》](https://chenxiaosong.com/courses/nfs/nfs-environment.html)。
 
-构造nfs断网不断写文件导致oom的场景：
+构造nfs断网不断写文件导致oom的场景:
 ```sh
 systemctl stop nfs-server # 客户端可用，服务端不可用
 
@@ -17,7 +17,7 @@ done
 
 `free -h`命令统计内存，只看到`used`不断增加。
 
-`qemu`虚拟机中导出`vmcore`的方法请参考[《内核调试方法》](https://chenxiaosong.com/courses/kernel/kernel-debug.html)，虚拟机导出`vmcore`对比，用`crash`解析，可以看出有大幅增加的只有`USED`：
+`qemu`虚拟机中导出`vmcore`的方法请参考[《内核调试方法》](https://chenxiaosong.com/courses/kernel/kernel-debug.html)，虚拟机导出`vmcore`对比，用`crash`解析，可以看出有大幅增加的只有`USED`:
 ```sh
 # nfs刚挂载时
 crash> kmem -i

@@ -2,7 +2,7 @@
 ```
 在管理客户端断开连接时，NFSD会关闭并替换backchannel的rpc_clnt。
 
-如果在关闭backchannel的rpc_clnt时有回调操作挂起，目前nfsd4_run_cb_work()会直接丢弃该回调。但这里有多种情况需要处理：
+如果在关闭backchannel的rpc_clnt时有回调操作挂起，目前nfsd4_run_cb_work()会直接丢弃该回调。但这里有多种情况需要处理:
 - 客户端的租约正在销毁。抛弃该回调。
 - 客户端断开连接。它可能会强制重新传输CB操作，或者由于其他原因断开连接。当客户端重新连接时，重新安排CB进行重新传输。
 

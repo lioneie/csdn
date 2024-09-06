@@ -22,7 +22,7 @@
 
 最初，syzkaller 是为 Linux 内核模糊测试开发的，但现在它正在扩展以支持其他操作系统内核。
 目前大部分文档与 [Linux](https://github.com/google/syzkaller/blob/master/docs/linux/setup.md) 内核相关。
-对于其他操作系统内核，请参阅：
+对于其他操作系统内核，请参阅:
 [Darwin/XNU](https://github.com/google/syzkaller/blob/master/docs/darwin/README.md)，
 [FreeBSD](https://github.com/google/syzkaller/blob/master/docs/freebsd/README.md)，
 [Fuchsia](https://github.com/google/syzkaller/blob/master/docs/fuchsia/README.md)，
@@ -52,7 +52,7 @@
 
 通用的 Linux 内核模糊测试设置说明请参见[这里](https://github.com/google/syzkaller/blob/master/docs/linux/setup.md)。
 
-其他内核的设置请参见：
+其他内核的设置请参见:
 [FreeBSD](https://github.com/google/syzkaller/blob/master/docs/freebsd/README.md)，
 [Darwin/XNU](https://github.com/google/syzkaller/blob/master/docs/darwin/README.md)，
 [Fuchsia](https://github.com/google/syzkaller/blob/master/docs/fuchsia/README.md)，
@@ -61,7 +61,7 @@
 [Windows](https://github.com/google/syzkaller/blob/master/docs/windows/README.md)。
 
 按照这些说明操作后，你应该能够运行 `syz-manager`，看到它执行程序，并能够访问暴露在 `http://127.0.0.1:56741`（或你在 manager 配置中指定的其他地址）的统计信息。
-如果一切正常，典型的执行日志应如下所示：
+如果一切正常，典型的执行日志应如下所示:
 ```sh
 $ ./bin/syz-manager -config=my.cfg
 2017/06/14 16:39:05 loading corpus...
@@ -90,7 +90,7 @@ $ ./bin/syz-manager -config=my.cfg
 
 关于如何使用 syzkaller 进行 Linux 内核模糊测试的通用说明如下所示[below](#install)。
 
-特定虚拟机类型或内核架构的说明可以在以下页面找到：
+特定虚拟机类型或内核架构的说明可以在以下页面找到:
 
 - [设置：Ubuntu 主机，QEMU 虚拟机，x86-64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md)
 - [设置：Linux 主机，QEMU 虚拟机，arm64 内核](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm64-kernel.md)
@@ -103,7 +103,7 @@ $ ./bin/syz-manager -config=my.cfg
 
 ## install
 
-使用 syzkaller 需要以下组件：
+使用 syzkaller 需要以下组件:
 
  - Go 编译器和 syzkaller 本身
  - 支持覆盖率的 C 编译器
@@ -116,7 +116,7 @@ $ ./bin/syz-manager -config=my.cfg
 
 `syzkaller` 是用 [Go](https://golang.org) 编写的，构建需要 `Go 1.21+` 工具链。
 通常我们旨在支持 Go 的两个最新版本。
-可以通过以下方式安装工具链：
+可以通过以下方式安装工具链:
 ```sh
 wget https://dl.google.com/go/go1.21.4.linux-amd64.tar.gz
 tar -xf go1.21.4.linux-amd64.tar.gz
@@ -126,7 +126,7 @@ export PATH=$GOROOT/bin:$PATH
 
 请参阅 [Go: 下载和安装](https://golang.org/doc/install) 以了解其他选项。
 
-下载和构建 `syzkaller`：
+下载和构建 `syzkaller`:
 ```sh
 git clone https://github.com/google/syzkaller
 cd syzkaller
@@ -163,7 +163,7 @@ Syzkaller 在工作虚拟机或物理设备上执行内核模糊测试。
 这些工作环境被称为虚拟机（VM）。
 开箱即用的 syzkaller 支持 QEMU、kvmtool 和 GCE 虚拟机、安卓设备和 Odroid C2 板。
 
-以下是 syzkaller 虚拟机的一般要求：
+以下是 syzkaller 虚拟机的一般要求:
 
  - 模糊测试进程与外界通信，因此虚拟机镜像需要包含网络支持。
  - 模糊测试进程的程序文件通过 SSH 传输到虚拟机中，因此虚拟机镜像需要运行 SSH 服务器。
@@ -181,7 +181,7 @@ Syzkaller 在工作虚拟机或物理设备上执行内核模糊测试。
 
     解决方案：将您的用户添加到 `kvm` 组（`sudo usermod -a -G kvm` 并重新登录）。
 
-* QEMU 崩溃，错误信息为：
+* QEMU 崩溃，错误信息为:
 
     ```
     qemu-system-x86_64: error: failed to set MSR 0x48b to 0x159ff00000000
@@ -199,7 +199,7 @@ Syzkaller 在工作虚拟机或物理设备上执行内核模糊测试。
 
 ## 安装先决条件
 
-命令：
+命令:
 ```sh
 sudo apt update
 sudo apt install make gcc flex bison libncurses-dev libelf-dev libssl-dev
@@ -211,7 +211,7 @@ sudo apt install make gcc flex bison libncurses-dev libelf-dev libssl-dev
 
 >**Ubuntu 20.04 LTS**: 你可以忽略本节。GCC 已经是最新的版本。
 
-命令：
+命令:
 ```sh
 ls $GCC/bin/
 # Sample output:
@@ -225,7 +225,7 @@ ls $GCC/bin/
 
 ### 检出 Linux 内核源码
 
-命令：
+命令:
 ```sh
 git clone --branch v6.2 git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git $KERNEL
 ```
@@ -234,7 +234,7 @@ git clone --branch v6.2 git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/l
 
 ### 生成默认配置
 
-命令：
+命令:
 ```sh
 cd $KERNEL
 make defconfig
@@ -243,7 +243,7 @@ make kvm_guest.config
 
 或者如果你想指定一个编译器。
 
-命令：
+命令:
 ``` bash
 cd $KERNEL
 make CC="$GCC/bin/gcc" defconfig
@@ -253,7 +253,7 @@ make CC="$GCC/bin/gcc" kvm_guest.config
 ### 启用必需的配置选项
 
 根据[kernel_configs.md](https://github.com/google/syzkaller/blob/master/docs/linux/kernel_configs.md)中的描述，启用内核配置选项以支持syzkaller。
-不需要全部启用，但至少需要如下配置：
+不需要全部启用，但至少需要如下配置:
 ``` make
 # Coverage collection.
 CONFIG_KCOV=y
@@ -272,21 +272,21 @@ CONFIG_SECURITYFS=y
 
 编辑`.config`文件并手动启用这些选项（或者如果你更喜欢，可以通过`make menuconfig`完成）。
 
-由于启用这些选项会导致更多的子选项可用，我们需要重新生成配置：
+由于启用这些选项会导致更多的子选项可用，我们需要重新生成配置:
 
-命令：
+命令:
 ``` bash
 make olddefconfig
 ```
 
 或者如果你想指定一个编译器。
 
-命令：
+命令:
 ``` bash
 make CC="$GCC/bin/gcc" olddefconfig
 ```
 
-你可能还希望禁用可预测的网络接口命名机制。这可以在syzkaller配置中禁用（详细信息请参见[troubleshooting.md](https://github.com/google/syzkaller/blob/master/docs/linux/troubleshooting.md)），或者通过更新以下内核配置参数来实现：
+你可能还希望禁用可预测的网络接口命名机制。这可以在syzkaller配置中禁用（详细信息请参见[troubleshooting.md](https://github.com/google/syzkaller/blob/master/docs/linux/troubleshooting.md)），或者通过更新以下内核配置参数来实现:
 
 ``` make
 CONFIG_CMDLINE_BOOL=y
@@ -295,21 +295,21 @@ CONFIG_CMDLINE="net.ifnames=0"
 
 ### Build the Kernel
 
-命令：
+命令:
 ``` bash
 make -j`nproc`
 ```
 
 或者如果你想指定一个编译器。
 
-命令：
+命令:
 ``` bash
 make CC="$GCC/bin/gcc" -j`nproc`
 ```
 
-现在你应该有`vmlinux`（内核二进制文件）和`bzImage`（压缩内核镜像）：
+现在你应该有`vmlinux`（内核二进制文件）和`bzImage`（压缩内核镜像）:
 
-命令：
+命令:
 ``` bash
 ls $KERNEL/vmlinux
 # sample output - $KERNEL/vmlinux
@@ -321,7 +321,7 @@ ls $KERNEL/arch/x86/boot/bzImage
 
 ### Install debootstrap
 
-命令：
+命令:
 ``` bash
 sudo apt install debootstrap
 ```
@@ -330,7 +330,7 @@ sudo apt install debootstrap
 
 创建一个包含最小必要软件包集的Debian Bullseye Linux镜像。
 
-命令：
+命令:
 ``` bash
 mkdir $IMAGE
 cd $IMAGE/
@@ -345,23 +345,23 @@ chmod +x create-image.sh
 
 要创建不同版本的 Debian 映像（例如 buster、stretch、sid），请指定 `--distribution` 选项。
 
-命令：
+命令:
 ``` bash
 ./create-image.sh --distribution buster
 ```
 
 ### 映像额外工具
 
-有时在虚拟机中拥有一些额外的软件包和工具是有用的，即使它们不是运行 syzkaller 所必需的。要安装我们认为有用的一组工具，请执行以下操作（请随意编辑脚本中的工具列表）：
+有时在虚拟机中拥有一些额外的软件包和工具是有用的，即使它们不是运行 syzkaller 所必需的。要安装我们认为有用的一组工具，请执行以下操作（请随意编辑脚本中的工具列表）:
 
-命令：
+命令:
 ``` bash
 ./create-image.sh --feature full
 ```
 
-要安装 perf（不需要运行 syzkaller；需要 `$KERNEL` 指向内核源代码）：
+要安装 perf（不需要运行 syzkaller；需要 `$KERNEL` 指向内核源代码）:
 
-命令：
+命令:
 ``` bash
 ./create-image.sh --add-perf
 ```
@@ -372,7 +372,7 @@ chmod +x create-image.sh
 
 ### Install QEMU
 
-命令：
+命令:
 ``` bash
 sudo apt install qemu-system-x86
 ```
@@ -381,7 +381,7 @@ sudo apt install qemu-system-x86
 
 确保内核启动并且 `sshd` 启动。
 
-命令：
+命令:
 ``` bash
 qemu-system-x86_64 \
 	-m 2G \
@@ -418,7 +418,7 @@ Booting the kernel.
 
 之后，你应该能够在另一个终端中 ssh 到 QEMU 实例。
 
-命令：
+命令:
 ``` bash
 ssh -i $IMAGE/bullseye.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localhost
 ```
@@ -427,9 +427,9 @@ ssh -i $IMAGE/bullseye.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localh
 
 如果出现 "too many tries" 错误，可能是 ssh 在传递显式传递的 `-i` 密钥之前传递了默认密钥。添加选项 `-o "IdentitiesOnly yes"`。
 
-要终止正在运行的 QEMU 实例，按 `Ctrl+A` 然后 `X` 或运行：
+要终止正在运行的 QEMU 实例，按 `Ctrl+A` 然后 `X` 或运行:
 
-命令：
+命令:
 ``` bash
 kill $(cat vm.pid)
 ```
@@ -461,7 +461,7 @@ kill $(cat vm.pid)
 }
 ```
 
-运行 syzkaller 管理器：
+运行 syzkaller 管理器:
 
 ``` bash
 mkdir workdir
@@ -479,7 +479,7 @@ mkdir workdir
 
 ## 运行
 
-启动 `syz-manager` 进程，命令如下：
+启动 `syz-manager` 进程，命令如下:
 ```
 ./bin/syz-manager -config my.cfg
 ```

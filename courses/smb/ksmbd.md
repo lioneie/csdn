@@ -6,7 +6,7 @@
 
 # 现状
 
-- [开发进度](https://github.com/torvalds/linux/blob/master/Documentation/filesystems/smb/ksmbd.rst#ksmbd-feature-status)。以下是待实现或待完善的功能：
+- [开发进度](https://github.com/torvalds/linux/blob/master/Documentation/filesystems/smb/ksmbd.rst#ksmbd-feature-status)。以下是待实现或待完善的功能:
   - SMB3 Multi-channel: 部分支持。多通道，计划将来实现重播/重试机制。
   - ACLs: 部分支持。Access Control List (访问控制列表)，仅支持DACL，SACL（审计）计划在未来实现。对于所有权（SID），ksmbd生成随机的子身份验证值（然后存储到磁盘），并使用从inode获取的uid/gid作为本地域SID的RID。目前的ACL实现仅限于独立服务器，不支持作为域成员运行。正在与Samba工具进行集成，以便将来支持作为域成员运行。
   - Durable handle v1,v2: 未支持。耐久句柄是一种特殊的文件句柄，主要应对临时的客户端网络中断。
@@ -19,7 +19,7 @@
   - Signing/Encryption over RDMA: 未支持。通过RDMA（Remote Direct Memory Access，远程直接内存访问）进行签名和加密。
   - SMB3.1.1 GMAC signing support: 未支持。Galois message authentication code mode, 伽罗瓦消息验证码，是一种基于 AES（Advanced Encryption Standard）的认证算法。
 - 使用指导文档较全。
-- cve漏洞暂时较多：
+- cve漏洞暂时较多:
   - 9.8分[CVE-2022-47939](https://nvd.nist.gov/vuln/detail/cve-2022-47939)
   - 9.8分[CVE-2023-32254](https://nvd.nist.gov/vuln/detail/CVE-2023-32254)
   - 9.0分[CVE-2023-32250](https://nvd.nist.gov/vuln/detail/CVE-2023-32250)
@@ -49,7 +49,7 @@ sudo make install
 
 以上是使用`autotools`编译，如果要使用`meson`编译，查看[ksmbd-tools README](https://chenxiaosong.com/src/translations/smb/ksmbd-tools-readme.html)。
 
-用户操作：
+用户操作:
 <!--
 ```sh
 # 以下3个命令是很早以前的命令

@@ -8,13 +8,13 @@
 
 配置文件 `~/.vimrc` ，可以参考[我的配置文件](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/linux-config/config-files/vimrc)
 
-加载其他的.vimrc，在~/.vimrc中加入以下内容：
+加载其他的.vimrc，在~/.vimrc中加入以下内容:
 
 `auto bufread      vim打开时所在的路径      so         .vimrc的路径/.vimrc` 
 
 ## vim快捷键
 
-多文件查找：
+多文件查找:
 
 ```
 :help vimgrep		（查看帮助文档）
@@ -28,7 +28,7 @@
 :cw		（打开quickfix窗口）
 ```
 
-多文件替换：
+多文件替换:
 
 ```
 :args **/**				（打开当前目录和子目录下的所有文件）
@@ -40,7 +40,7 @@
 :argdo %s/old/new/gc | update	（old替换成new，需要确认，update表示自动保存）
 ```
 
-查找：
+查找:
 
 ```
 *  	向后查找单词
@@ -49,7 +49,7 @@
 /\<word\>	匹配头尾向后查找（向前查找用?）
 ```
 
-替换：
+替换:
 
 ```
 :%s/old/new/gc
@@ -62,7 +62,7 @@
 m为$时表示最后一行
 ```
 
-跳转（cscope提供的跳转快捷键查看cscope章节）：
+跳转（cscope提供的跳转快捷键查看cscope章节）:
 
 ```
 ctrl加]	ctags提供的跳转定义
@@ -74,7 +74,7 @@ ctrl加o	后退跳转
 ctrl加i	前进跳转
 ```
 
-文件回车符设置：
+文件回车符设置:
 
 ```
 :set ff?	（查看文件的回车符类型）
@@ -82,14 +82,14 @@ ctrl加i	前进跳转
 :set ff=dos		（设置为dos回车符）
 ```
 
-折叠：
+折叠:
 
 ```
 zc zC zm zM	折叠
 zo zO zr zR	展开
 ```
 
-可视：
+可视:
 
 ```
 v	小写v按字符选择可视范围
@@ -98,7 +98,7 @@ ctrl+v	块选择可视范围
 多行插入	ctrl+v按块选择多行然后按下大写i
 ```
 
-其他操作：
+其他操作:
 
 ```
 撤销行	大写U
@@ -277,5 +277,5 @@ redo: C-g 后 再 C-/
 evil 配置: M-x customize-group RET evil RET， 参考: https://evil.readthedocs.io/en/latest/settings.html
 ```
 
-待确认的功能：
+待确认的功能:
 1. 临时切换成 tab键 插入空格，以及空格个数: 暂时通过复制上一行的方式来实现

@@ -3,7 +3,7 @@
 # Connectathon NFS测试套件简介
 
 ```
-这些目录包含可用于测试NFS协议实现的程序。测试在UNIX客户端和测试服务器和客户端功能上运行（有关在DOS和Windows上运行的信息，请参见READWIN.txt）。测试分为三组：
+这些目录包含可用于测试NFS协议实现的程序。测试在UNIX客户端和测试服务器和客户端功能上运行（有关在DOS和Windows上运行的信息，请参见READWIN.txt）。测试分为三组:
 
 	basic   - 基本文件系统操作测试
 	general - 一般文件系统测试
@@ -19,7 +19,7 @@ Naperville, IL.  60563。
 # 准备运行测试套件
 
 ```
-为了准备在您的计算机上运行测试套件，请更改到最高级别的测试套件目录（它应该与包含此README文件的目录相同），根据您所在的平台编辑tests.init，并键入“make”以编译测试程序。如果您不确定是否在正确的目录中，请键入“ls -CF”，您应该看到以下文件和目录：
+为了准备在您的计算机上运行测试套件，请更改到最高级别的测试套件目录（它应该与包含此README文件的目录相同），根据您所在的平台编辑tests.init，并键入“make”以编译测试程序。如果您不确定是否在正确的目录中，请键入“ls -CF”，您应该看到以下文件和目录:
 
 Makefile	basic/		lock/		tests.h
 README		domount.c	runtests	tests.init
@@ -52,13 +52,13 @@ Makefiles中包含两个特殊目标：copy和dist。命令“make copy DESTDIR=
 
 server [-a|-b|-g|-s|-l] [-f|-t] [-n] [-o mnt_options] [-p server_path] [-m mntpoint] [-N numpasses] server_name
 
--a|-b|-g|-s|-l      - 将传递给runtests脚本。此参数是可选的。默认值从初始化文件tests.init中读取。变量TEST包含此参数。此参数选择要运行的测试：
+-a|-b|-g|-s|-l      - 将传递给runtests脚本。此参数是可选的。默认值从初始化文件tests.init中读取。变量TEST包含此参数。此参数选择要运行的测试:
     -a	运行基本、一般、特殊和锁定测试
     -b	仅运行基本测试
     -g	仅运行一般测试
     -s	仅运行特殊测试
     -l	仅运行锁定测试
--f|-t	    - 将传递给runtests脚本。此参数是可选的。默认值从初始化文件tests.init中读取。变量TESTARG包含此参数。此参数选择如何运行基本测试：
+-f|-t	    - 将传递给runtests脚本。此参数是可选的。默认值从初始化文件tests.init中读取。变量TESTARG包含此参数。此参数选择如何运行基本测试:
     -f	快速功能测试
     -t	带有计时的扩展测试模式
 -n	    - 不执行mkdir和rmdir操作以创建和销毁测试目录。
@@ -113,7 +113,7 @@ test-directory - 测试程序在客户端上创建的测试目录的名称。run
 ```
 应按以下顺序运行测试：basic、general和special。在尝试其他测试之前，应完全通过基本测试。
 
-NFS测试套件应分为三个阶段运行：
+NFS测试套件应分为三个阶段运行:
 
 第一阶段 - 在本地运行测试程序。
 
@@ -159,7 +159,7 @@ test4a: getattr和lookup
 
 test5: 读和写
 
-此程序更改目录到测试目录（chdir和/或mkdir），然后：
+此程序更改目录到测试目录（chdir和/或mkdir），然后:
 
 1) 创建文件（creat）
 2) 获取文件状态（fstat）
@@ -179,7 +179,7 @@ test5a: 写
 
 此测试存在，但不作为测试套件的一部分调用。您可以编辑basic目录中的runtests，以便调用此测试。
 
-此程序更改目录到测试目录（chdir和/或mkdir），然后：
+此程序更改目录到测试目录（chdir和/或mkdir），然后:
 
 1) 创建文件（creat）
 2) 获取文件状态（fstat）
@@ -201,7 +201,7 @@ test5b: 读
 
 test6: readdir
 
-此程序更改目录到测试目录（chdir和/或mkdir），并创建200个文件（creat）。打开当前目录（opendir），找到开头（rewinddir），并循环读取目录（readdir），直到找到结尾。标记的错误有：
+此程序更改目录到测试目录（chdir和/或mkdir），并创建200个文件（creat）。打开当前目录（opendir），找到开头（rewinddir），并循环读取目录（readdir），直到找到结尾。标记的错误有:
 
 1) 没有"."
 2) 没有".."
@@ -214,13 +214,13 @@ test6: readdir
 
 test7: link和rename
 
-此程序更改目录到测试目录（chdir和/或mkdir）并创建十个文件。对于这些文件的每一个，文件被重命名（rename），并为新旧名称都检索文件统计信息（stat）。标记的错误有：
+此程序更改目录到测试目录（chdir和/或mkdir）并创建十个文件。对于这些文件的每一个，文件被重命名（rename），并为新旧名称都检索文件统计信息（stat）。标记的错误有:
 
 1) 旧文件仍然存在
 2) 新文件不存在（无法stat）
 3) 新文件的链接数不等于一
 
-然后尝试将新文件链接到其旧名称（link），并再次检索文件统计信息（stat）。如果出现错误，则标记：
+然后尝试将新文件链接到其旧名称（link），并再次检索文件统计信息（stat）。如果出现错误，则标记:
 
 1) 无法链接
 2) 在链接后无法检索新文件的统计信息
@@ -228,7 +228,7 @@ test7: link和rename
 4) 在链接后无法检索旧文件的统计信息
 5) 旧文件的链接数不等于两
 
-然后删除新文件（unlink），并检索旧文件的文件统计信息（stat）。如果出现错误，则标记：
+然后删除新文件（unlink），并检索旧文件的文件统计信息（stat）。如果出现错误，则标记:
 
 1) 在取消链接后无法检索旧文件的统计信息
 2) 旧文件的链接数不等于一
@@ -241,7 +241,7 @@ test7a: rename
 
 此测试存在，但不作为测试套件的一部分调用。您可以编辑basic目录中的runtests，以便调用此测试。
 
-此程序更改目录到测试目录（chdir和/或mkdir）并创建十个文件。对于这些文件的每一个，文件被重命名（rename），并为新旧名称都检索文件统计信息（stat）。标记的错误有：
+此程序更改目录到测试目录（chdir和/或mkdir）并创建十个文件。对于这些文件的每一个，文件被重命名（rename），并为新旧名称都检索文件统计信息（stat）。标记的错误有:
 
 1) 旧文件仍然存在
 2) 新文件不存在（无法stat）
@@ -257,13 +257,13 @@ test7b: link
 
 此测试存在，但不作为测试套件的一部分调用。您可以编辑basic目录中的runtests，以便调用此测试。
 
-此程序更改目录到测试目录（chdir和/或mkdir）并创建十个文件。为这些文件的每一个都执行链接（link），并检索新旧文件的文件统计信息（stat）。如果出现错误，则标记：
+此程序更改目录到测试目录（chdir和/或mkdir）并创建十个文件。为这些文件的每一个都执行链接（link），并检索新旧文件的文件统计信息（stat）。如果出现错误，则标记:
 
 1) 无法链接
 2) 在链接后无法检索任一文件的统计信息
 3) 任一文件的链接数不等于两
 
-接下来取消链接新文件（unlink）。如果出现错误，则标记：
+接下来取消链接新文件（unlink）。如果出现错误，则标记:
 
 1) 在取消链接后无法检索旧文件的统计信息
 2) 旧文件的链接数不等于一
@@ -276,7 +276,7 @@ test8: symlink和readlink
 
 注意：并非所有操作系统都支持symlink和readlink。如果在test8期间返回errno EOPNOTSUPP，则将此测试视为通过。对于不支持S_IFLNK的客户端，将不会尝试此测试。
 
-此程序更改目录到测试目录（chdir和/或mkdir）并创建10个符号链接（symlink）。读取（readlink）并获取每个符号链接的统计信息（lstat），然后删除它们（unlink）。标记的错误有：
+此程序更改目录到测试目录（chdir和/或mkdir）并创建10个符号链接（symlink）。读取（readlink）并获取每个符号链接的统计信息（lstat），然后删除它们（unlink）。标记的错误有:
 
 1) 不支持的功能
 2) 无法获取统计信息（lstat失败）
@@ -303,7 +303,7 @@ test9: statfs
 ```
 special目录设置为测试过去出现的特殊问题。这些测试旨在提供建议，注意事项。虽然不要求通过这些测试，但强烈建议这样做。
 
-这些测试尝试：
+这些测试尝试:
 
     检查正确的打开/取消链接操作
     检查正确的打开/重命名操作
@@ -337,7 +337,7 @@ lock目录包含一个测试程序，可用于测试内核文件和记录锁定�
 有关在DOS或Windows下运行测试的信息，请参见READWIN.txt。
 ```
 
-2004年的更改包括以下内容：
+2004年的更改包括以下内容:
 
 1. 修复lock/tlock.c，以便在何时使用stdarg和何时使用varargs方面保持一致；由Samuel Sha <sam@austin.ibm.com>报告。
 
@@ -363,14 +363,14 @@ lock目录包含一个测试程序，可用于测试内核文件和记录锁定�
 
 12. 用于基本测试的"make lint"目标现在包括subr.c。
 
-13. 对special/bigfile2的改进：
+13. 对special/bigfile2的改进:
     - 错误消息现在打印完整的低阶字（来自Mike Mackovitch <macko@apple.com>。
     - 使用O_SYNC打开了测试文件，以便立即检测到问题。
 
 14. 修复special/op_chmod，使其使用CHMOD_NONE而不是0。来自Pascal Schmidt <der.eremit@email.de>。
 
 
-2003年的更改包括以下内容：
+2003年的更改包括以下内容:
 
 1. 来自Brian Love <blove@rlmsoftware.com>和Brian McEntire <brianm@fsg1.nws.noaa.gov>的HPUX修复。
 
@@ -385,7 +385,7 @@ lock目录包含一个测试程序，可用于测试内核文件和记录锁定�
 6. 一般测试已经修复，使用了测试附带的"stat"程序，而不是任何系统的"stat"程序。
 
 
-2002年的更改包括以下内容：
+2002年的更改包括以下内容:
 
 1. 特殊测试更好地识别了何时指定了NFS版本2（基于Jay Weber <jweber@mail.thatnet.net>的补丁）。
 
@@ -404,7 +404,7 @@ lock目录包含一个测试程序，可用于测试内核文件和记录锁定�
 8. 从Jay Weber <jweber@mail.thatnet.net>获取的Linux配置信息进行了更新。
 
 
-2001年的更改包括以下内容：
+2001年的更改包括以下内容:
 
 1. 为顶级"server"和"runtests"脚本添加了"-N numpasses"选项。
 

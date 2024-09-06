@@ -4,13 +4,13 @@
 
 # 用户态server搭建
 
-安装用户态工具：
+安装用户态工具:
 ```sh
 apt-get install samba -y # debian
 dnf install samba -y # fedora
 ```
 
-用户操作（优先用`pdbedit`而不是`smbpasswd`）：
+用户操作（优先用`pdbedit`而不是`smbpasswd`）:
 ```sh
 pdbedit -L # 查看cifs用户
 pdbedit -Lw # -w: 使用旧版的 smbpasswd 格式显示
@@ -25,7 +25,7 @@ smbpasswd root # 修改密码，不显示密码
 smbpasswd -n root # 设置成没密码, 但挂载时好像还是需要密码，以后再看为什么吧
 ```
 
-编辑[`/etc/samba/smb.conf`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/smb/smb.conf)配置文件（不区分大小写），具体参数用法查看`man 5 smb.conf`：
+编辑[`/etc/samba/smb.conf`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/smb/smb.conf)配置文件（不区分大小写），具体参数用法查看`man 5 smb.conf`:
 ```sh
 [global]
 # 注意注释要单独一行，不能加在配置内容后面
@@ -63,7 +63,7 @@ pam password change = yes
 
 文档查看`/usr/share/doc/samba*`。
 
-如果windows和macOS客户端无法访问Linux的文件夹，Linux可能需要再进行以下步骤：
+如果windows和macOS客户端无法访问Linux的文件夹，Linux可能需要再进行以下步骤:
 ```sh
 sudo firewall-cmd --permanent --add-service=samba	#（允许samba服务）
 sudo firewall-cmd --permanent --add-service=samba-dc	#（允许samba-dc服务，可能不需要操作）
@@ -80,14 +80,14 @@ sudo systemctl restart smb.service		#（重启samba服务）
 
 ## Linux客户端
 
-安装所需工具：
+安装所需工具:
 ```sh
 apt install cifs-utils -y # 安装 cifs 客户端, 否则无法挂载
 dnf install cifs-utils -y # fedora
 apt install smbclient -y # 查询服务器共享了哪些目录
 ```
 
-测试：
+测试:
 ```sh
 smbclient -L //127.0.0.1 -U root
 smbclient //127.0.0.1/TEST -U root # 然后用help查看帮助，ftp的语法
@@ -95,7 +95,7 @@ nmblookup -U 192.168.53.209 netbios_name
 nmblookup -S netbios_name
 ```
 
-挂载命令：
+挂载命令:
 ```shell
 getsebool -a | grep samba
 setsebool -P samba_enable_home_dirs=1

@@ -24,10 +24,10 @@ SSH服务器需要配置为允许root登录和使用公钥认证（在 `/etc/ssh
 
 FTP压力测试和telnet服务器测试需要设置环境变量 `RHOST`（远程机器）、`RUSER`（远程用户）和 `PASSWD`（远程密码）。注意：对于其他测试，`RHOST` 将意味着两个主机配置。
 
-如果 `RUSER` 设置为 `root`，则需要执行以下步骤之一：
+如果 `RUSER` 设置为 `root`，则需要执行以下步骤之一:
 
 - 在 `/etc/ftpusers`（或 `/etc/vsftpd.ftpusers`）中，注释包含 "root" 字符串的行。此文件列出了所有不能在当前系统上进行ftp访问的用户。
-- 如果不想执行前一步骤，则在 `/root/.netrc` 中添加以下条目：
+- 如果不想执行前一步骤，则在 `/root/.netrc` 中添加以下条目:
 
 ```
 machine <remote_server_name>
@@ -53,7 +53,7 @@ TI-RPC（或glibc旧版Sun RPC）测试需要运行rpcbind（或旧版发行版�
 
 安装LTP测试套件（请参阅INSTALL）。在两个主机配置的情况下，LTP需要安装在完全相同的位置，并且在*两个*客户端和服务器机器上设置 `LTPROOT` 和 `PATH` 环境变量。这是必需的，因为某些测试期望在特定位置找到服务器文件。
 
-例如，默认前缀 `/opt/ltp` 的示例：
+例如，默认前缀 `/opt/ltp` 的示例:
 
 ```sh
 export LTPROOT="/opt/ltp"; export PATH="$LTPROOT/testcases/bin:$PATH"
@@ -61,7 +61,7 @@ export LTPROOT="/opt/ltp"; export PATH="$LTPROOT/testcases/bin:$PATH"
 
 ## 运行测试
 
-网络测试通过运行 network.sh 脚本执行：
+网络测试通过运行 network.sh 脚本执行:
 
 ```sh
 TEST_VARS ./network.sh OPTIONS

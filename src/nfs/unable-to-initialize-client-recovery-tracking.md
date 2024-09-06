@@ -2,14 +2,14 @@
 
 用主线内核(`7033999ecd7b`)测试nfs，发现当server端重启服务`systemctl restart nfs-server`，client端再读写文件会卡一会儿，5.10内核没有这个现象。
 
-5.10内核server端重启服务，有如下打印：
+5.10内核server端重启服务，有如下打印:
 ```sh
 [   97.616435] nfsd: last server has exited, flushing export cache
 [   98.763518] NFSD: Using UMH upcall client tracking operations.
 [   98.765527] NFSD: starting 90-second grace period (net f0000098)
 ```
 
-主线内核server端重启服务，有如下打印：
+主线内核server端重启服务，有如下打印:
 ```sh
 [   64.637398] NFSD: Unable to initialize client recovery tracking! (-110)
 [   64.639536] NFSD: starting 90-second grace period (net f0000000)
@@ -17,7 +17,7 @@
 
 # 测试
 
-复现命令如下：
+复现命令如下:
 ```sh
 # 以下命令如果没有特别强调，默认是client端的命令
 
@@ -60,7 +60,7 @@ server端用主线，client端用5.10，有问题；server端用5.10，client端
 
 虽然问题出在server端，但我们还是先分析一下client端的代码，看看为什么读写文件会卡一会儿。
 
-加调试打印信息：
+加调试打印信息:
 ```sh
 --- a/fs/nfs/nfs4proc.c
 +++ b/fs/nfs/nfs4proc.c
@@ -74,7 +74,7 @@ server端用主线，client端用5.10，有问题；server端用5.10，client端
                 goto out_retry;
 ```
 
-测试打印结果如下：
+测试打印结果如下:
 ```sh
 root@syzkaller:~# time echo something > /mnt/file &
 [1] 547
@@ -95,7 +95,7 @@ user    0m0.000s
 sys     0m0.024s
 ```
 
-server重启服务后，client打开文件时server端不断返回`NFS4ERR_GRACE`错误，代码流程如下：
+server重启服务后，client打开文件时server端不断返回`NFS4ERR_GRACE`错误，代码流程如下:
 ```c
 openat
   do_sys_open
@@ -128,20 +128,20 @@ openat
 
 下面我们再分析server端的问题。
 
-首先看一下重启服务时的报错信息。前面说过，5.10内核server端重启服务，有如下打印：
+首先看一下重启服务时的报错信息。前面说过，5.10内核server端重启服务，有如下打印:
 ```sh
 [   97.616435] nfsd: last server has exited, flushing export cache
 [   98.763518] NFSD: Using UMH upcall client tracking operations.
 [   98.765527] NFSD: starting 90-second grace period (net f0000098)
 ```
 
-主线内核server端重启服务，有如下错误打印：
+主线内核server端重启服务，有如下错误打印:
 ```sh
 [   64.637398] NFSD: Unable to initialize client recovery tracking! (-110)
 [   64.639536] NFSD: starting 90-second grace period (net f0000000)
 ```
 
-主线内核打开`CONFIG_NFSD_LEGACY_CLIENT_TRACKING`配置，没有问题，重启server端服务打印以下日志：
+主线内核打开`CONFIG_NFSD_LEGACY_CLIENT_TRACKING`配置，没有问题，重启server端服务打印以下日志:
 ```sh
 [  122.050050] NFSD: Using UMH upcall client tracking operations.
 [  122.074438] NFSD: Using UMH upcall client tracking operations.
@@ -175,7 +175,7 @@ write
 laundromat_main
 ```
 
-下面分析client端请求打开文件时，server为什么会返回错误`NFS4ERR_GRACE`：
+下面分析client端请求打开文件时，server为什么会返回错误`NFS4ERR_GRACE`:
 ```c
 nfsd
   svc_recv

@@ -147,14 +147,14 @@ v1->v2:
 ## [`[5/8] ext4: rename two functions with 'check'`](https://patchwork.ozlabs.org/project/linux-ext4/patch/20230323140517.1070239-6-yanaijie@huawei.com/)
 
 ```
-统一函数命名风格是一项良好的代码维护实践。你可以将所有函数命名风格调整为一致的形式，比如将以下风格统一为一种：
+统一函数命名风格是一项良好的代码维护实践。你可以将所有函数命名风格调整为一致的形式，比如将以下风格统一为一种:
 
 ext4_check_quota_consistency
 ext4_check_test_dummy_encryption
 ext4_check_opt_consistency
 ext4_check_descriptors
 ext4_check_feature_compatibility
-或者：
+或者:
 
 ext4_geometry_check
 ext4_journal_data_mode_check

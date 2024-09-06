@@ -28,7 +28,7 @@ Patchwork实例位于：https://patchwork.ozlabs.org/project/ltp/list/
 
 # Quick guide to running the tests
 
-如果你已经安装了git、autoconf、automake、m4、pkgconf/pkg-config、libc头文件、Linux内核头文件以及其他常见的开发包（请参阅INSTALL和ci/*.sh），那么以下步骤很可能会成功：
+如果你已经安装了git、autoconf、automake、m4、pkgconf/pkg-config、libc头文件、Linux内核头文件以及其他常见的开发包（请参阅INSTALL和ci/*.sh），那么以下步骤很可能会成功:
 ```sh
 $ git clone https://github.com/linux-test-project/ltp.git
 $ cd ltp
@@ -42,14 +42,14 @@ $ ./configure
 
 ## Shortcut to running a single test
 
-如果你只需要执行单个测试，实际上无需编译整个LTP。如果你想运行一个系统调用的测试用例，以下步骤应该可以正常工作：
+如果你只需要执行单个测试，实际上无需编译整个LTP。如果你想运行一个系统调用的测试用例，以下步骤应该可以正常工作:
 ```sh
 $ cd testcases/kernel/syscalls/foo
 $ make
 $ PATH=$PATH:$PWD ./foo01
 ```
 
-Shell测试用例稍微复杂一些，因为它们需要一个shell库的路径以及已编译的二进制助手的路径，但一般来说以下步骤应该可以正常工作：
+Shell测试用例稍微复杂一些，因为它们需要一个shell库的路径以及已编译的二进制助手的路径，但一般来说以下步骤应该可以正常工作:
 ```sh
 $ cd testcases/lib
 $ make
@@ -57,7 +57,7 @@ $ cd ../commands/foo
 $ PATH=$PATH:$PWD:$PWD/../../lib/ ./foo01.sh
 ```
 
-Open Posix Testsuite有自己的构建系统，需要先生成Makefile，然后在子目录中进行编译也应该可以工作：
+Open Posix Testsuite有自己的构建系统，需要先生成Makefile，然后在子目录中进行编译也应该可以工作:
 ```sh
 $ cd testcases/open_posix_testsuite/
 $ make generate-makefiles
@@ -94,39 +94,39 @@ $ ./runltp
 
 请注意，许多测试用例需要以root用户身份执行。
 
-要运行特定的测试套件：
+要运行特定的测试套件:
 ```sh
 $ ./runltp -f syscalls
 ```
 
-要运行所有名称中带有madvise的测试：
+要运行所有名称中带有madvise的测试:
 ```sh
 $ ./runltp -f syscalls -s madvise
 ```
 
-另请参阅：
+另请参阅:
 ```sh
 $ ./runltp --help
 ```
 
 测试套件（例如syscalls）在runtest目录中定义。每个文件包含一个简单格式的测试用例列表，详见doc/ltp-run-files.txt。
 
-每个测试用例都有自己的可执行文件或脚本，可以直接执行：
+每个测试用例都有自己的可执行文件或脚本，可以直接执行:
 ```sh
 $ testcases/bin/abort01
 ```
 
-有些测试用例需要参数：
+有些测试用例需要参数:
 ```sh
 $ testcases/bin/mesgq_nstest -m none
 ```
 
-绝大多数测试用例都支持-h（帮助）选项：
+绝大多数测试用例都支持-h（帮助）选项:
 ```sh
 $ testcases/bin/ioctl01 -h
 ```
 
-许多测试需要设置特定的环境变量：
+许多测试需要设置特定的环境变量:
 ```sh
 $ LTPROOT=/opt/ltp PATH="$PATH:$LTPROOT/testcases/bin" testcases/bin/wc01.sh
 ```
@@ -147,7 +147,7 @@ $ LTPROOT=/opt/ltp PATH="$PATH:$LTPROOT/testcases/bin" testcases/bin/wc01.sh
 
 有一个可以与Docker或Podman一起使用的Containerfile。目前它可以构建Alpine和OpenSUSE镜像。
 
-可以使用类似以下命令构建容器：
+可以使用类似以下命令构建容器:
 ```sh
 $ podman build -t tumbleweed/ltp \
        --build-arg PREFIX=registry.opensuse.org/opensuse/ \
@@ -157,7 +157,7 @@ $ podman build -t tumbleweed/ltp \
 
 或者只需执行 `podman build .`，它将创建一个Alpine容器。
 
-容器中包含了Kirk在 `/opt/kirk` 中。因此，以下命令将运行一些测试：
+容器中包含了Kirk在 `/opt/kirk` 中。因此，以下命令将运行一些测试:
 ```sh
 $ podman run -it --rm tumbleweed/ltp:latest
 $ cd /opt/kirk && ./kirk -f ltp -r syscalls
@@ -171,17 +171,17 @@ SUSE还发布了一个较小的LTP容器，不基于Containerfile。
 
 # Developers corner
 
-在开始之前，你应该阅读以下文档：
+在开始之前，你应该阅读以下文档:
 
 - doc/Test-Writing-Guidelines.asciidoc
 - doc/Build-System.asciidoc
 - doc/LTP-Library-API-Writing-Guidelines.asciidoc
 
-还有一个逐步教程：
+还有一个逐步教程:
 
 - doc/C-Test-Case-Tutorial.asciidoc
 
-如果有任何未涵盖的内容，请不要犹豫在LTP邮件列表上提问。还请注意这些文档可以在线访问：
+如果有任何未涵盖的内容，请不要犹豫在LTP邮件列表上提问。还请注意这些文档可以在线访问:
 
 - https://github.com/linux-test-project/ltp/wiki/Test-Writing-Guidelines
 - https://github.com/linux-test-project/ltp/wiki/LTP-Library-API-Writing-Guidelines

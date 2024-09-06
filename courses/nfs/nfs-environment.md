@@ -2,7 +2,7 @@
 
 ## 步骤
 
-nfs server安装所需软件：
+nfs server安装所需软件:
 ```sh
 apt-get install nfs-kernel-server -y # debian
 dnf install nfs-utils -y # openeuler
@@ -15,7 +15,7 @@ nfs server编辑`exportfs`的配置文件`/etc/exports`，配置选项的含义�
 /tmp/s_scratch *(rw,no_root_squash,fsid=2)
 ```
 
-或者使用以下命令，具体用法查看`man 8 exportfs`：
+或者使用以下命令，具体用法查看`man 8 exportfs`:
 ```sh
 exportfs -i -o fsid=148252,no_root_squash,rw *:/tmp/s_test # 添加
 exportfs -u *:/tmp/s_test # 删除
@@ -25,13 +25,13 @@ exportfs -u *:/tmp/s_test # 删除
 
 ## 软件和配置文件
 
-`/etc/exports`的配置格式如下：
+`/etc/exports`的配置格式如下:
 ```sh
 # 注意不能使用 192.168.122.* 而要使用 192.168.122.0/24
 # [分享出去的目录]   [ip/(权限)]             [主机名]         [通配符]
 tmp              192.168.122.0/24(ro)   localhost(rw)   *.chenxiaosong.com(ro,sync)
 ```
-详细的配置查看`man 5 exports`，下面介绍几个常用的：
+详细的配置查看`man 5 exports`，下面介绍几个常用的:
 
 - `rw`可读可写，`ro`只读。
 - `sync`写入磁盘，`async`先存放在内存中。
@@ -41,12 +41,12 @@ tmp              192.168.122.0/24(ro)   localhost(rw)   *.chenxiaosong.com(ro,sy
 - `nohide`和`crossmnt`: 仅针对v2和v3.
 - `fsid=num|root|uuid`: 文件系统标识。
 
-用以下命令查看开了哪些端口：
+用以下命令查看开了哪些端口:
 ```sh
 netstat -tulnp| grep -E '(rpc|nfs)'
 ```
 
-以下命令查看rpc状态：
+以下命令查看rpc状态:
 ```sh
 # -p: 针对ip
 rpcinfo -p localhost
@@ -54,7 +54,7 @@ rpcinfo -p localhost
 rpcinfo -t localhost nfs # nfs程序检查软件版本信息（tcp）
 ```
 
-以下命令查看或操作分享的目录：
+以下命令查看或操作分享的目录:
 ```sh
 showmount -e localhost # 查看
 exportfs # 查看
@@ -63,20 +63,20 @@ exportfs -arv # 重新分享
 exportfs -auv # 全部删除
 ```
 
-还有两个文件：
+还有两个文件:
 
 - `/var/lib/nfs/etab`: 记录`/etc/exports`配置文件或`exportfs`命令分享出来的目录权限配置值。
 - `/var/lib/nfs/xtab`和`/var/lib/nfs/rmtab`: 记录客户端数据。
 
 # nfs client环境
 
-nfs client安装所需软件：
+nfs client安装所需软件:
 ```sh
 apt-get install nfs-common -y # debian
 dnf install nfs-utils -y # openeuler
 ```
 
-nfs client挂载（更多挂载选项可以通过命令`man 5 nfs`查看）：
+nfs client挂载（更多挂载选项可以通过命令`man 5 nfs`查看）:
 ```sh
 # nfsv4的根路径是/tmp/，源路径填写相对路径 /s_test 或 s_test
 mount -t nfs -o vers=4.0 ${server_ip}:/s_test /mnt
@@ -88,12 +88,12 @@ mount -t nfs -o vers=3 ${server_ip}:/tmp/s_test /mnt
 mount -t nfs -o vers=2 ${server_ip}:/tmp/s_test /mnt
 ```
 
-如果nfs server的exportfs的配置文件`/etc/exports`如下，没有`fsid`选项：
+如果nfs server的exportfs的配置文件`/etc/exports`如下，没有`fsid`选项:
 ```sh
 /tmp/s_test/ *(rw,no_root_squash)
 ```
 
-这时nfsv4的根路径就是`/`，nfs client挂载nfsv4的命令如下：
+这时nfsv4的根路径就是`/`，nfs client挂载nfsv4的命令如下:
 ```sh
 mount -t nfs -o vers=4.0 ${server_ip}:/tmp/s_test /mnt # 或 tmp/s_test
 ```

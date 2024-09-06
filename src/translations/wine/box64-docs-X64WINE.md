@@ -12,7 +12,7 @@
 
 ## 概述
 
-安装 Wine64 和 Wine for Box64 & Box86 的一般步骤是：
+安装 Wine64 和 Wine for Box64 & Box86 的一般步骤是:
 
  - 下载您希望安装的 Wine 版本的所有安装文件
  - 将安装文件解压缩或 dpkg 到一个文件夹中
@@ -149,25 +149,25 @@ sudo chmod +x winetricks && sudo mv winetricks /usr/local/bin/                  
 
 ## 示例命令
 
-创建一个 64 位的 wineprefix：
+创建一个 64 位的 wineprefix:
 
 `wine64 wineboot` 或 `wine wineboot`（wineprefix 被创建在 `~/.wine/`）
 
 `WINEPREFIX="$HOME/prefix64" wine wineboot`（wineprefix 被创建在 `~/prefix64/`） _注意：您需要在每个命令之前调用 `WINEPREFIX="$HOME/prefix64"` 来使用这个 wineprefix。_
 
-创建一个 32 位的 wineprefix：
+创建一个 32 位的 wineprefix:
 
 `WINEARCH=win32 wine wineboot`（wineprefix 被创建在 `~/.wine/`）
 
-强制退出 wine：
+强制退出 wine:
 
 `wineserver -k`
 
-运行 Wine 配置：
+运行 Wine 配置:
 
 `winecfg`
 
-使用 winetricks：
+使用 winetricks:
 
 `winetricks -q corefonts vcrun2010 dotnet20sp1`  
 

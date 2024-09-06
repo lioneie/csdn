@@ -1,6 +1,6 @@
 # 邮件内容
 
-[`2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()`](https://lore.kernel.org/all/20191023214318.9350-1-trond.myklebust@hammerspace.com/) 邮件：
+[`2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()`](https://lore.kernel.org/all/20191023214318.9350-1-trond.myklebust@hammerspace.com/) 邮件:
 
 - Trond Myklebust: 当我们销毁客户端租约并调用 `nfsd4_shutdown_callback()` 时，我们必须确保在所有未完成的回调终止并释放它们的有效负载之前不返回。
 - J. Bruce Fields: 这太好了，谢谢！我们从 Red Hat 用户那里看到了我相当确定是相同的 bug。我认为我的盲区是假设 rpc 任务不会在 `rpc_shutdown_client()` 之后继续存在。然而，它导致了 xfstests 的运行挂起，我还没有弄清楚原因。我会在今天下午花些时间进行研究，并告诉你我找到的东西。
@@ -73,7 +73,7 @@ __destroy_client
 ```
 
 <!--
-调试：
+调试:
 ```c
 // 重启服务 systemctl restart nfs-server
 nfsd_svc

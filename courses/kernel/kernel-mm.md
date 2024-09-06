@@ -14,7 +14,7 @@ address  +------------+ address  +--------+ address
          +------------+          +--------+
 ```
 
-三种地址介绍：
+三种地址介绍:
 
 - 逻辑地址（logical address）: 由段（segment）和偏移量（offset或displacement）组成。RISC（Reduced Instruction Set Computers）体系结构（如ARM）分段支持有限，在某些支持段的CISC（Complex Instruction Set Computers）体系结构如x86（x86无法绕过分段），Linux内核中，所有的段（如：用户代码段、用户数据段、内核代码段、内核数据段）都从0地址开始，偏移量就是线性地址的大小，所以逻辑地址和线性地址是一毛一样的。<!-- public begin -->对x86汇编感兴趣的话可以参考小甲鱼老师的[【8086汇编入门】《零基础入门学习汇编语言》](https://www.bilibili.com/video/BV1Rs411c7HG/?spm_id_from=333.999.0.0&vd_source=b3241359025e41f053e9e1b071acb6f8)。<!-- public end -->
 - 线性地址（linear address）: 又叫虚拟地址（virtual address），是连续的地址。在32位系统中，用户空间通常占用前3GB的线性地址空间，内核空间通常占用3GB~4GB的线性地址空间。在64位系统中，用户空间和内核空间占用更大的范围，具体的范围取决于内核的配置和架构。
@@ -61,7 +61,7 @@ address  +------------+ address  +--------+ address
 
 ## `struct page`
 
-系统中的每个物理页面都用`struct page`描述：
+系统中的每个物理页面都用`struct page`描述:
 ```c
 struct page {
         unsigned long flags;            /* 原子标志，其中一些可能被异步更新 */
@@ -92,7 +92,7 @@ struct page {
 
 #ifdef CONFIG_KMSAN
         /*
-        * 此页面的 KMSAN 元数据：
+        * 此页面的 KMSAN 元数据:
         *  - 影子页面：每个位表示原始页面对应位是否已初始化（0）或未初始化（1）；
         *  - 原始页面：每 4 个字节包含一个栈追踪的 ID，用于指示未初始化值的创建位置。
         */
@@ -106,7 +106,7 @@ struct page {
 } _struct_page_alignment;
 ```
 
-`flags`字段里的每一位定义在`enum pageflags`。在内核代码中，我们经常看到类似`SetPageError`、`PagePrivate`的函数，但总是找不到定义，这是因为这些函数是通过宏定义生成的。宏定义是对`enum pageflags`中的每个值进行宏展开，这里列出设置和检测的宏定义：
+`flags`字段里的每一位定义在`enum pageflags`。在内核代码中，我们经常看到类似`SetPageError`、`PagePrivate`的函数，但总是找不到定义，这是因为这些函数是通过宏定义生成的。宏定义是对`enum pageflags`中的每个值进行宏展开，这里列出设置和检测的宏定义:
 ```c
 // 检测
 #define TESTPAGEFLAG(uname, lname, policy)                       
@@ -127,7 +127,7 @@ static __always_inline void SetPage##uname(struct page *page)
 
 ## 两个`union`
 
-我们再把`struct page`结构体中的两个`union`单独拎出来讲：
+我们再把`struct page`结构体中的两个`union`单独拎出来讲:
 ```c
 /*
  * 这个联合体中有五个字（20/40字节）可用。
@@ -328,7 +328,7 @@ struct folio {
 
 物理内存在逻辑上分为三级结构: 节点（在NUMA系统中，Non-Uniform Memory Access，非统一内存访问，可查看`pg_data_t`），区，页。
 
-内核使用区（zone）对相似特性的页进行分组，描述的是物理内存。定义在`include/linux/mmzone.h`：
+内核使用区（zone）对相似特性的页进行分组，描述的是物理内存。定义在`include/linux/mmzone.h`:
 ```c
 enum zone_type {
         /*
@@ -360,7 +360,7 @@ enum zone_type {
         * ZONE_MOVABLE 类似于 ZONE_NORMAL，不同之处在于它包含可移动页面，
         * 下面描述了几个例外情况。ZONE_MOVABLE 的主要用途是增加内存下线/卸载
         * 成功的可能性，并局部限制不可移动的分配 - 例如，增加 THP(Transparent Huge Pages， 透明大页)/大页的数量。
-        * 值得注意的特殊情况包括：
+        * 值得注意的特殊情况包括:
         *
         * 1. 锁定页面：（长期）锁定可移动页面可能会实质上使这些页面变得不可移动。
         *    因此，我们不允许在 ZONE_MOVABLE 中长期锁定页面。当页面被锁定并出现错误时，
@@ -400,7 +400,7 @@ enum zone_type {
 
 内存区域的划分取决于体系结构，有些体系结构上所有的内存都是`ZONE_NORMAL`。
 
-32位`x86`：
+32位`x86`:
 
 - `ZONE_DMA`范围是`0~16M`。
 - `ZONE_NORMAL`的范围是`16~896M`。
@@ -458,15 +458,15 @@ struct zone {
         /* zone_start_pfn == zone_start_paddr >> PAGE_SHIFT */
         unsigned long           zone_start_pfn;
         /*
-        * spanned_pages 是该区域所跨越的总页数，包括空洞，计算公式为：
+        * spanned_pages 是该区域所跨越的总页数，包括空洞，计算公式为:
         *      spanned_pages = zone_end_pfn - zone_start_pfn;
         *
-        * present_pages 是该区域内存在的物理页，计算公式为：
+        * present_pages 是该区域内存在的物理页，计算公式为:
         *      present_pages = spanned_pages - absent_pages(空洞中的页数);
         *
         * present_early_pages 是自启动早期以来该区域内存在的内存页，不包括热插拔内存。
         *
-        * managed_pages 是由伙伴系统管理的存在页，计算公式为（reserved_pages 包括由 bootmem 分配器分配的页）：
+        * managed_pages 是由伙伴系统管理的存在页，计算公式为（reserved_pages 包括由 bootmem 分配器分配的页）:
         *      managed_pages = present_pages - reserved_pages;
         *
         * cma_pages 是分配给 CMA 使用的存在页（MIGRATE_CMA）。
@@ -475,7 +475,7 @@ struct zone {
         * (present_pages - managed_pages) 来找出未管理的页。而 managed_pages
         * 应该被页分配器和虚拟内存扫描器用来计算各种水印和阈值。
         *
-        * 锁定规则：
+        * 锁定规则:
         *
         * zone_start_pfn 和 spanned_pages 受 span_seqlock 保护。
         * 这是一个 seqlock，因为它必须在 zone->lock 外部读取，
@@ -578,7 +578,7 @@ struct zone {
 
 ## 函数接口
 
-分配页：
+分配页:
 ```c
 // 分配 2^order 个连续物理page，返回值是第一个page的指针
 struct page *alloc_pages(gfp_t gfp_mask, unsigned int order)
@@ -594,7 +594,7 @@ __get_free_page(gfp_mask)
 unsigned long get_zeroed_page(gfp_t gfp_mask)
 ```
 
-释放页：
+释放页:
 ```c
 // 传入page指针
 void __free_pages(struct page *page, unsigned int order)
@@ -604,7 +604,7 @@ void free_pages(unsigned long addr, unsigned int order)
 free_page(addr)
 ```
 
-分配以字节为单位的内存：
+分配以字节为单位的内存:
 ```c
 // 物理地址是连续的，一般是硬件设备要用到
 void *kmalloc(size_t size, gfp_t gfp)
@@ -618,7 +618,7 @@ void vfree(const void *addr)
 
 ## `gfp_t`
 
-在`include/linux/gfp_types.h`中的解释：
+在`include/linux/gfp_types.h`中的解释:
 ```c
 /* typedef 在 include/linux/types.h 中，但我们希望将文档放在这里 */     
 #if 0                                                                  
@@ -651,7 +651,7 @@ typedef unsigned int __bitwise gfp_t;
  * %__GFP_ZERO 成功时返回已清零的页。
  * 
  * %__GFP_ZEROTAGS 如果内存本身被清零（通过 __GFP_ZERO 或 init_on_alloc，
- * 前提是未设置 __GFP_SKIP_ZERO ），则在分配时清零内存标签。此标志用于优化：
+ * 前提是未设置 __GFP_SKIP_ZERO ），则在分配时清零内存标签。此标志用于优化:
  * 在清零内存的同时设置内存标签对性能的额外影响最小。
  * 
  * %__GFP_SKIP_KASAN 使 KASAN 在页分配时跳过取消标记。用于用户空间和 vmalloc 页；
@@ -878,7 +878,7 @@ typedef unsigned int __bitwise gfp_t;
 
 slab的字面意思是指“板”或“平板”。一个高速缓存包含多个slab，slab由一个或多个物理上连续的页组成，每个slab包含被缓存的数据结构。
 
-高速缓存使用结构体`struct kmem_cache`表示，其中包含多个`struct kmem_cache_node`对象，这个结构体中有3个重要的成员：
+高速缓存使用结构体`struct kmem_cache`表示，其中包含多个`struct kmem_cache_node`对象，这个结构体中有3个重要的成员:
 ```c
 struct kmem_cache_node {
         ...
@@ -889,7 +889,7 @@ struct kmem_cache_node {
 };
 ```
 
-这3个链表包含高速缓存中的所有slab，`struct slab`用于描述每个slab：
+这3个链表包含高速缓存中的所有slab，`struct slab`用于描述每个slab:
 ```c
 /* 重用 struct page 中的位 */
 struct slab {
@@ -955,7 +955,7 @@ struct slab {
 };
 ```
 
-slab分配器的接口：
+slab分配器的接口:
 ```c
 /**
  * kmem_cache_create - 创建一个缓存。可能休眠，不能在中断上下文中使用
@@ -1006,7 +1006,7 @@ Linux内核曾经有过slob分配器，已经移除了，具体请查看[`remove
 
 # 高端内存
 
-用`struct page *alloc_pages(gfp_t gfp_mask, unsigned int order)`分配的page，如果指定了`__GFP_HIGHMEM`，就没有逻辑地址，如果是映射到内核地址空间，可以使用：
+用`struct page *alloc_pages(gfp_t gfp_mask, unsigned int order)`分配的page，如果指定了`__GFP_HIGHMEM`，就没有逻辑地址，如果是映射到内核地址空间，可以使用:
 ```c
 // 高端内存就建立永久映射，可能休眠
 void *kmap(struct page *page)
@@ -1014,7 +1014,7 @@ void *kmap(struct page *page)
 void kunmap(struct page *page)
 ```
 
-当不能休眠时，使用临时映射（原子映射）：
+当不能休眠时，使用临时映射（原子映射）:
 ```c
 // 建立临时映射，禁止内核抢占
 void *kmap_atomic(struct page *page)
@@ -1051,7 +1051,7 @@ put_cpu(); // 激活内核抢占
 
 ## 新的接口
 
-编译时创建，注意不能在动态插入的模块中使用：
+编译时创建，注意不能在动态插入的模块中使用:
 ```c
 // 定义
 DEFINE_PER_CPU(type, name)
@@ -1065,7 +1065,7 @@ put_cpu_var(name)
 per_cpu(name, cpunum)++
 ```
 
-动态创建：
+动态创建:
 ```c
 // 调用__alloc_percpu实现
 alloc_percpu(type) // __alloc_percpu(sizeof(type), __alignof__(type))
@@ -1239,7 +1239,7 @@ struct mm_struct {
 #ifdef CONFIG_MEMCG
                 /*
                  * "owner" 指向被视为此 mm 的规范用户/所有者的任务。必须同时满足以下
-                 * 条件才能更改它：
+                 * 条件才能更改它:
                  *
                  * current == mm->owner
                  * current->mm != mm
@@ -1332,7 +1332,7 @@ struct mm_struct {
 
 ## 相关函数
 
-进程创建时：
+进程创建时:
 ```c
 fork
   copy_mm
@@ -1392,10 +1392,10 @@ struct vm_area_struct {
 
 #ifdef CONFIG_PER_VMA_LOCK
         /*
-         * 只能在同时持有以下两者时写入（使用 WRITE_ONCE()）：
+         * 只能在同时持有以下两者时写入（使用 WRITE_ONCE()）:
          *  - mmap_lock（写模式）
          *  - vm_lock->lock（写模式）
-         * 在持有以下任一时可以可靠读取：
+         * 在持有以下任一时可以可靠读取:
          *  - mmap_lock（读或写模式）
          *  - vm_lock->lock（读或写模式）
          * 可以在不持有任何锁时不可靠地读取（使用 READ_ONCE()），
@@ -1462,7 +1462,7 @@ struct vm_area_struct {
 } __randomize_layout;
 ```
 
-常见的段（这里的"段"英文是"section"）：
+常见的段（这里的"段"英文是"section"）:
 
 - TEXT段：程序代码段，`vm_flags`字段为`VM_EXEC`和`VM_READ`，`vm_file`字段不为`NULL`。
 - DATA段：静态初始化的数据，所以有初值的全局变量（不为0）和static变量在data区。`vm_flags`为`VM_READ`和`VM_WRITE`。
@@ -1470,7 +1470,7 @@ struct vm_area_struct {
 
 ## VMA操作
 
-`vm_area_struct`中的`vm_ops`字段：
+`vm_area_struct`中的`vm_ops`字段:
 ```c
 /*
  * 这些是虚拟内存管理函数 - 打开一个区域、关闭和取消映射它
@@ -1546,7 +1546,7 @@ struct vm_operations_struct {
 
 ## 查看内存区域
 
-我们看一个最简单的程序`test.c`：
+我们看一个最简单的程序`test.c`:
 ```c
 #include <stdio.h>
 
@@ -1559,13 +1559,13 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-然后编译运行：
+然后编译运行:
 ```sh
 gcc -o test test.c
 ./test & # 后台运行，会打印出进程号
 ```
 
-查看内存区域：
+查看内存区域:
 ```sh
 cat /proc/2985/maps
 00400000-00401000 r--p 00000000 fd:02 806031960                          /root/test
@@ -1592,7 +1592,7 @@ cat /proc/2985/maps
 ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
 ```
 
-还可以用更方便阅读的形式输出：
+还可以用更方便阅读的形式输出:
 ```sh
 pmap 2985
 3090:   ./test
@@ -1694,7 +1694,7 @@ SYSCALL_DEFINE2(munmap, unsigned long, addr, size_t, len)
 
 ## 页表
 
-应用程序操作的是虚拟内存，但处理器操作的是物理内存。举个例子，32位x86 PAE模式下（Physical Address Extension，物理地址扩展，32位线性地址可以访问64G物理内存，处理器管脚36个），Linux内核使用三级页表完成地址转换：
+应用程序操作的是虚拟内存，但处理器操作的是物理内存。举个例子，32位x86 PAE模式下（Physical Address Extension，物理地址扩展，32位线性地址可以访问64G物理内存，处理器管脚36个），Linux内核使用三级页表完成地址转换:
 
 - 顶级页表 - 页全局目录: PGD，Page Global Directory，`pgd_t`类型的数组。
 - 二级页表 - 页中间目录: PMD，Page Middle Directory，`pmd_t`类型的数组。
@@ -1725,7 +1725,7 @@ struct free_area {
 
 访问磁盘的速度要远低于访问内存的速度。
 
-缓存策略有三种：
+缓存策略有三种:
 
 - 不缓存，直接写到磁盘，同时让缓存中的数据失效。
 - Write Through，写操作同时更新内存缓存和磁盘。

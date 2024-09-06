@@ -16,7 +16,7 @@ done
 
 # 内存消耗
 
-`free -h`对比：
+`free -h`对比:
 ```sh
 # tmpfs刚挂载时
                total        used        free      shared  buff/cache   available
@@ -31,7 +31,7 @@ Mem:           3.8Gi       3.6Gi        71Mi       2.9Gi       3.2Gi       169Mi
 
 总内存`3.8G`，通过`crash`的命令`kmem -i`对比看出，发生oom时，大幅增加的内存有`USED`（增加约`3.33G`）和`CACHED`（增加约`2.76G`），小幅增加的有`SLAB`（增加约`660M`）。
 
-mainline刚挂载tmpfs时：
+mainline刚挂载tmpfs时:
 ```sh
 free -h
                total        used        free      shared  buff/cache   available
@@ -59,7 +59,7 @@ crash> kmem -i
     COMMITTED   235188     918.7 MB   47% of TOTAL LIMIT
 ```
 
-mainline快oom时：
+mainline快oom时:
 ```sh
 free -h
                total        used        free      shared  buff/cache   available
@@ -87,7 +87,7 @@ crash> kmem -i
     COMMITTED   775490         3 GB  155% of TOTAL LIMIT
 ```
 
-4.19刚挂载tmpfs时：
+4.19刚挂载tmpfs时:
 ```sh
 free -h
               total        used        free      shared  buff/cache   available
@@ -115,7 +115,7 @@ crash> kmem -i
     COMMITTED   251344     981.8 MB   49% of TOTAL LIMIT
 ```
 
-4.19快oom时：
+4.19快oom时:
 ```sh
 free -h
               total        used        free      shared  buff/cache   available

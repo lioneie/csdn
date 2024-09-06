@@ -16,7 +16,7 @@ sched_ext 是一个调度器类，其行为可以通过一组 BPF 程序来定�
 切换到和切换自 sched_ext
 ===============================
 
-``CONFIG_SCHED_CLASS_EXT`` 是启用 sched_ext 的配置选项，而 ``tools/sched_ext`` 包含示例调度器。使用 sched_ext 应启用以下配置选项：
+``CONFIG_SCHED_CLASS_EXT`` 是启用 sched_ext 的配置选项，而 ``tools/sched_ext`` 包含示例调度器。使用 sched_ext 应启用以下配置选项:
 
 .. code-block:: none
 
@@ -51,7 +51,7 @@ sched_ext 是一个调度器类，其行为可以通过一组 BPF 程序来定�
     local=17 global=72
     ^CEXIT: BPF scheduler unregistered
 
-可以通过以下方式确定 BPF 调度器的当前状态：
+可以通过以下方式确定 BPF 调度器的当前状态:
 
 .. code-block:: none
 
@@ -60,7 +60,7 @@ sched_ext 是一个调度器类，其行为可以通过一组 BPF 程序来定�
     # cat /sys/kernel/sched_ext/root/ops
     simple
 
-``tools/sched_ext/scx_show_state.py`` 是一个 drgn 脚本，显示更详细的信息：
+``tools/sched_ext/scx_show_state.py`` 是一个 drgn 脚本，显示更详细的信息:
 
 .. code-block:: none
 
@@ -73,7 +73,7 @@ sched_ext 是一个调度器类，其行为可以通过一组 BPF 程序来定�
     bypass_depth  : 0
     nr_rejected   : 0
 
-如果设置了 ``CONFIG_SCHED_DEBUG``，可以通过以下方式确定给定任务是否在 sched_ext 上：
+如果设置了 ``CONFIG_SCHED_DEBUG``，可以通过以下方式确定给定任务是否在 sched_ext 上:
 
 .. code-block:: none
 
@@ -166,7 +166,7 @@ CPU 始终从其本地 DSQ 中执行任务。一个任务被“分发”到一�
 
    请注意，调度器核心会忽略无效的 CPU 选择，例如，如果它超出了任务的允许 cpumask。
 
-2. 一旦目标 CPU 被选择，``ops.enqueue()`` 会被调用（除非任务是直接从 ``ops.select_cpu()`` 分发的）。``ops.enqueue()`` 可以做出以下决定：
+2. 一旦目标 CPU 被选择，``ops.enqueue()`` 会被调用（除非任务是直接从 ``ops.select_cpu()`` 分发的）。``ops.enqueue()`` 可以做出以下决定:
 
    * 通过调用 ``scx_bpf_dispatch()`` 将任务立即分发到全局或本地 DSQ，分别为 ``SCX_DSQ_GLOBAL`` 或 ``SCX_DSQ_LOCAL``。
 
@@ -180,7 +180,7 @@ CPU 始终从其本地 DSQ 中执行任务。一个任务被“分发”到一�
 
    * ``scx_bpf_consume()`` 将任务从指定的非本地 DSQ 转移到调度 DSQ。此函数不能在持有任何 BPF 锁的情况下调用。``scx_bpf_consume()`` 在尝试消费指定 DSQ 之前，会刷新待处理的调度任务。
 
-4. 在 ``ops.dispatch()`` 返回后，如果本地 DSQ 中有任务，CPU 运行第一个。如果为空，执行以下步骤：
+4. 在 ``ops.dispatch()`` 返回后，如果本地 DSQ 中有任务，CPU 运行第一个。如果为空，执行以下步骤:
 
    * 尝试消费全局 DSQ。如果成功，运行任务。
 

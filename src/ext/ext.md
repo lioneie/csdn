@@ -1,6 +1,6 @@
 # 支持长文件名
 
-补丁为[`0001-ext2-support-long-file-name.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/ext/0001-ext2-support-long-file-name.patch)。打开`CONFIG_BLK_DEV_LOOP`配置，用以下命令测试：
+补丁为[`0001-ext2-support-long-file-name.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/ext/0001-ext2-support-long-file-name.patch)。打开`CONFIG_BLK_DEV_LOOP`配置，用以下命令测试:
 ```sh
 fallocate -l 100M image
 mkfs.ext2 -F image

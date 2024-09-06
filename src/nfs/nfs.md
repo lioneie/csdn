@@ -2,13 +2,13 @@
 
 # NFS和SunRPC
 
-先看一下维基百科对NFS的定义：
+先看一下维基百科对NFS的定义:
 
 > 网络文件系统（英语：Network File System，缩写作 NFS）是一种分布式文件系统，力求客户端主机可以访问服务器端文件，并且其过程与访问本地存储时一样，它由昇阳电脑（已被甲骨文公司收购）开发，于1984年发布。
 >
 > 它基于开放网路运算远端程序呼叫（ONC RPC，又被称为Sun ONC 或 Sun RPC）系统：一个开放、标准的RFC系统，任何人或组织都可以依据标准实现它。
 
-再看一下SunRPC的定义：
+再看一下SunRPC的定义:
 
 > 开放网路运算远端程序呼叫（英语：Open Network Computing Remote Procedure Call，缩写为ONC RPC），一种被广泛应用的远端程序呼叫（RPC）系统，是一种属于应用层的协议堆叠，底层为TCP/IP协议。开放网路运算（ONC）最早源自于昇阳电脑（Sun），是网路文件系统计划的一部份，因此它经常也被称为Sun ONC 或 Sun RPC。现今在多数类UNIX系统上都实作了这套系统，微软公司也以Windows Services for UNIX在他们产品上提供ONC RPC的支援。2009年，昇阳电脑以标准三条款的BSD许可证释出这套系统。2010年，收购了昇阳电脑的甲骨文公司确认了这套软体BSD许可证的有效性与适用范围。
 
@@ -24,7 +24,7 @@
 | NFSv4.2 | [rfc7862](https://www.rfc-editor.org/rfc/rfc7862.html) [翻译](https://chenxiaosong.com/src/translations/nfs/rfc7862-nfsv4.2.html) | November 2016 | 104 |
 -->
 
-nfs各个版本的区别：
+nfs各个版本的区别:
 
 - NFSv2: 实现基本的功能，有很多的限制，如：读写最大长度限制8192字节，文件句柄长度固定32字节，只支持同步写。
 - NFSv3: 取消了一些限制，如：文件句柄长度最大64字节，支持服务器异步写。增加ACCESS请求检查用户的访问权限。
@@ -36,13 +36,13 @@ nfs各个版本的区别：
 
 我们先来看一下client端如果只告诉server端一个inode号会发生什么。
 
-nfs server端的`/etc/exports`文件如下：
+nfs server端的`/etc/exports`文件如下:
 ```sh
 /export/sda *(rw,no_root_squash,fsid=0)
 /export/sda/sdb *(rw,no_root_squash,fsid=1)
 ```
 
-nfs server端以下命令执行后，`/export/sda/file`和`/export/sda/sdb/file`的inode号相同都是12（通过命令`stat file`查看）：
+nfs server端以下命令执行后，`/export/sda/file`和`/export/sda/sdb/file`的inode号相同都是12（通过命令`stat file`查看）:
 ```sh
 mkfs.ext4 -b 4096 -F /dev/sda
 mkfs.ext4 -b 4096 -F /dev/sdb
@@ -56,7 +56,7 @@ mount -t ext4 /dev/sdb /export/sda/sdb
 touch /export/sda/sdb/file
 ```
 
-nfs client挂载命令：
+nfs client挂载命令:
 ```sh
 mount -t nfs -o vers=4.1 ${server_ip}:/ /mnt
 ```
@@ -87,7 +87,7 @@ struct knfsd_fh {
 };                                                                            
 ```
 
-server端生成文件句柄的流程是：
+server端生成文件句柄的流程是:
 ```c
 // 将当前文件句柄设置为根文件系统
 nfsd4_putrootfh
@@ -125,7 +125,7 @@ nfs client查看文件的`filehandle`，可以用`tcpdump`抓包，再使用`wir
 
 NFSv4.1引入了一个很大很大的设计：session（会话）。`EXCHANGE_ID`取代了`SETCLIENTID`，`CREATE_SESSION`取代了`SETCLIENTID_CONFIRM`。
 
-[rfc8881](https://www.rfc-editor.org/rfc/rfc8881)的“2.10.1. Motivation and Overview”（动机和概述）一节提到session是为了解决以下问题：
+[rfc8881](https://www.rfc-editor.org/rfc/rfc8881)的“2.10.1. Motivation and Overview”（动机和概述）一节提到session是为了解决以下问题:
 
 - 不支持“Exactly Once Semantics（精确一次语义）”（EOS）。这包括通过服务器故障和恢复对 EOS 的支持不足。
 - 有限的回调支持，包括不支持通过防火墙发送回调以及正常请求和回调之间的竞争。
@@ -144,7 +144,7 @@ todo: Exactly Once Semantics 和 Server Callback Races 的内容有待补充。
 
 delegation机制: 当nfs client1打开一个文件时，如果RPC反向通道可用，nfs server就会颁发一个凭证，nfs client1读写文件就不用发起`GETATTR`请求。当另一个client2也访问这个文件时，server就先回收client1的凭证，再响应client2的请求。之后，就和nfsv2和nfsv3一样读写之前要发起`GETATTR`请求。
 
-回收delegation的过程如下：
+回收delegation的过程如下:
 ```sh
                                 +---------+
                                 |         |
@@ -168,7 +168,7 @@ delegation机制: 当nfs client1打开一个文件时，如果RPC反向通道可
 
 客户端delegation的数据结构为`struct nfs_delegation`，服务端的数据结构为`struct nfs4_delegation`。delegation类型`enum open_delegation_type4`。
 
-server创建delegation的流程：
+server创建delegation的流程:
 ```c
 nfsd4_open
   nfsd4_process_open2
@@ -181,7 +181,7 @@ nfsd4_open
 
 server回收delegation的操作是`NFSPROC4_CLNT_CB_RECALL`（操作处理函数定义在`nfs4_cb_procedures`），处理client发过来的请求的函数是`nfsd4_delegreturn`。
 
-client端相关的流程：
+client端相关的流程:
 ```c
 // 由_nfs4_open_and_get_state -> _nfs4_proc_open发起
 rpc_async_schedule
@@ -218,7 +218,7 @@ nfs_end_delegation_return
 
 # nfs文件锁
 
-使用命令`man 5 nfs`查看`lock / nolock`挂载选项翻译如下：
+使用命令`man 5 nfs`查看`lock / nolock`挂载选项翻译如下:
 ```sh
 选择是否使用NLM（Network Lock Manager）侧边协议在服务器上对文件进行加锁。如果未指定任何选项（或指定了lock选项），则在此挂载点上使用NLM锁定。当使用nolock选项时，应用程序可以锁定文件，但此类锁定仅对在同一客户端上运行的其他应用程序提供排除效果。远程应用程序不受这些锁的影响。
 
@@ -234,7 +234,7 @@ nfsv2和nfsv3使用NLM（Network Lock Manager）协议实现文件锁。`lock / 
 
 nfsv4实现了文件锁，不需要NLM协议。`lock / nolock`挂载选项对nfsv4似乎不起作用。
 
-锁定文件使用的命令是：
+锁定文件使用的命令是:
 ```sh
 # -n, --nonblock: 如果无法获得锁，不会阻塞，而是立即返回非零退出状态。
 # -e, --exclusive: 获取排他锁（写锁）。
@@ -242,7 +242,7 @@ nfsv4实现了文件锁，不需要NLM协议。`lock / nolock`挂载选项对nfs
 flock -n /mnt/file -c 'echo "get file lock success"'
 ```
 
-代码处理流程如下：
+代码处理流程如下:
 ```c
 // 加锁
 SYSCALL_DEFINE2(flock, ...
@@ -262,13 +262,13 @@ fput
                 nfs4_proc_lock
 ```
 
-`nfs4_proc_lock`的第二个参数`int cmd`有3种选项：
+`nfs4_proc_lock`的第二个参数`int cmd`有3种选项:
 
 - F_GETLK: 查询文件锁
 - F_SETLK: 设置文件锁，如果冲突就退出
 - F_SETLKW: 设置文件锁，如果冲突就等待，直到成功
 
-文件锁相关的请求：
+文件锁相关的请求:
 
 - NFSPROC4_CLNT_LOCK: 加锁
 - NFSPROC4_CLNT_LOCKT: 查询
@@ -280,7 +280,7 @@ fput
 # todo
 
 - `exportfs`: 解析结果`/var/lib/nfs/etab`
-- `rpc.nfsd`：
+- `rpc.nfsd`:
 - `rpc.mountd`: 
   - 开启MOUNT服务（NFS4不需要），请求server基本信息（主要是根节点的文件句柄）
   - 解析`/var/lib/nfs/etab`
@@ -296,7 +296,7 @@ nfsv3锁功能需要NLM
 - `lookupcache`
 - `fsc`: fscache，数据保存到客户端磁盘，只读或修改不频繁
 
-读：
+读:
 ```c
 nfs_file_read
   nfs_file_direct_read // dio
@@ -316,7 +316,7 @@ radix树
 
 `struct nfs_openargs nfs_openres nfs_open_confirmargs nfs_open_confirmres nfs4_opendata`
 
-server和 client：
+server和 client:
 
 - `nfs4_openowner nfs4_state_owner`
 - `nfs4_ol_stateid nfs4_state`

@@ -2,7 +2,7 @@
 
 下载[chenxiaosonggithub/strace](https://gitee.com/chenxiaosonggitee/strace)，这个仓库是在[strace/strace](https://github.com/strace/strace)的基础上修改而来，添加了一个补丁[fault-inject: inject memory allocate failed error](https://gitee.com/chenxiaosonggitee/strace/commit/b196eb9fd65f2801c7c72f2c5ef1230e5734769e)。
 
-编译命令如下：
+编译命令如下:
 ```sh
 ./bootstrap
 mkdir build && cd build
@@ -16,7 +16,7 @@ make
 
 # 测试
 
-这里说一个我个人通过strace内存分配失败故障注入发现的一个bug，使用的脚本是：
+这里说一个我个人通过strace内存分配失败故障注入发现的一个bug，使用的脚本是:
 ```sh
 for i in `seq 1 100000`
 do

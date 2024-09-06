@@ -2,7 +2,7 @@
 
 从 App Store 下载 macOS 安装程序(注意只能下载最新的)，或者从 Hackintosh 网站之类的网站下载。
 
-使用以下命令：
+使用以下命令:
 ```shell
 # 从“应用程序”中复制到“macOS-Ventura.app”
 # 具体大小可以查看 macOS-Ventura.app/Contents/SharedSupport/SharedSupport.dmg的大小，比这个文件稍微大一些
@@ -55,7 +55,7 @@ No analytics data has been sent yet (nor will any be during this install run).
     https://docs.brew.sh
 ```
 
-根据提示添加加到环境变量PATH中：
+根据提示添加加到环境变量PATH中:
 ```sh
 (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/sonvhi/.zprofile
 ```
@@ -67,7 +67,7 @@ No analytics data has been sent yet (nor will any be during this install run).
 brew install qemu
 ```
 
-有以下提示信息：
+有以下提示信息:
 ```sh
 ==> Installing qemu
 ==> Pouring qemu--8.2.1.arm64_ventura.bottle.tar.gz

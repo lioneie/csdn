@@ -1,4 +1,4 @@
-`lock.c`文件如下：
+`lock.c`文件如下:
 ```c
 #include <fcntl.h>
 #include <unistd.h>

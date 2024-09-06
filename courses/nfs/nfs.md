@@ -2,7 +2,7 @@
 
 [点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://chenxiaosong.com/bili/nfs)。
 
-参考网站：
+参考网站:
 
 - [鸟哥的Linux私房菜 简体 - "NFS服务器"章节](http://cn.linux.vbird.org/linux_server/#part3)
 - [鸟哥的Linux私房菜 繁体 - "NFS伺服器"](https://linux.vbird.org/linux_server/centos6/0330nfs.php)

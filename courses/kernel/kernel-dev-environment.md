@@ -4,7 +4,7 @@
 
 # 安装Linux发行版
 
-安装Linux发行版，你可以选择以下几种方式：
+安装Linux发行版，你可以选择以下几种方式:
 
 - 在物理机上直接安装安装Linux发行版。这是工作时比较推荐的一种安装方法，可以最大程度的利用硬件资源。
 - 在容器（如docker）中安装Linux发行版。这种方式也能最大程度的利用硬件资源，还能快速恢复开发环境。
@@ -25,7 +25,7 @@
 
 Linux发行版很多，我们选择一个使用人数相对较多的[Ubuntu发行版](https://ubuntu.com/)。[x86_64的ubuntu22.04](https://releases.ubuntu.com/22.04/)，[arm64的ubuntu22.04](http://cdimage.ubuntu.com/jammy/daily-live/current/)下载。[x86_64的ubuntu20.04](https://releases.ubuntu.com/20.04/)，[arm64的ubuntu20.04](https://ftpmirror.your.org/pub/ubuntu/cdimage/focal/daily-live/current/)
 
-安装内核编译和测试所需软件：
+安装内核编译和测试所需软件:
 ```sh
 sudo apt install git -y # 代码管理工具
 sudo apt install build-essential -y # 编译所需的常用软件，如gcc等
@@ -36,7 +36,7 @@ sudo apt-get install libelf-dev libssl-dev libncurses-dev -y # 内核源码编�
 sudo apt install zstd -y
 ```
 
-交叉编译所需软件：
+交叉编译所需软件:
 ```sh
 sudo apt-get install u-boot-tools -y
 sudo apt install gcc-9-aarch64-linux-gnu -y # 指定版本的交叉编译软件
@@ -54,7 +54,7 @@ ln -s /usr/bin/aarch64-linux-gnu-gcc-9 /usr/bin/aarch64-linux-gnu-gcc # 指向�
 
 参考[中文翻译QEMU Documentation/Networking/NAT](https://chenxiaosong.com/src/translations/qemu/qemu-networking-nat.html)。
 
-qemu命令行的网络参数修改成（`model`和`macaddr`可以自己指定）：
+qemu命令行的网络参数修改成（`model`和`macaddr`可以自己指定）:
 ```sh
 -net tap \
 -net nic,model=virtio,macaddr=00:11:22:33:44:01 \
@@ -64,7 +64,7 @@ qemu命令行的网络参数修改成（`model`和`macaddr`可以自己指定）
 
 ### 桥接模式（TODO）
 
-宿主机中桥接模式配置：
+宿主机中桥接模式配置:
 ```sh
 apt install bridge-utils -y # brctl命令
 brctl addbr br0
@@ -77,7 +77,7 @@ route add default gw 172.17.0.1
 sysctl net.ipv4.ip_forward=1 # 或 echo 1 > /proc/sys/net/ipv4/ip_forward
 ```
 
-虚拟机中：
+虚拟机中:
 ```sh
 ip addr add 172.17.0.3/16 dev ens2
 # ip addr del dev ens2 172.17.0.3/16 # 删除ip
@@ -103,7 +103,7 @@ curl -fsSL https://code-server.dev/install.sh | sh
 ```
 
 <!--
-安装成功后，输出以下日志：
+安装成功后，输出以下日志:
 ```sh
 Ubuntu 22.04.2 LTS
 Installing v4.11.0 of the amd64 deb package from GitHub.
@@ -132,14 +132,14 @@ Deploy code-server for your team with Coder: https://github.com/coder/coder
 
 或者下载[对应系统的安装包](https://github.com/coder/code-server/releases)。
 
-设置开机启动：
+设置开机启动:
 ```sh
 sudo systemctl enable --now code-server@$USER
 ```
 
 配置文件是`${HOME}/.config/code-server/config.yaml`，当不需要密码时修改成`auth: none`。
 
-修改完配置后，需要再重启服务：
+修改完配置后，需要再重启服务:
 ```sh
 sudo systemctl restart code-server@$USER
 ```
@@ -151,7 +151,7 @@ sudo systemctl restart code-server@$USER
 注意，和vscode客户端不一样，vscode server装插件时有些插件无法搜索到，这时就需要在[vscode网站](https://marketplace.visualstudio.com/vscode)上下载`.vsix`文件，手动安装。
 
 <!-- public begin -->
-常用插件：
+常用插件:
 <!-- public end -->
 
 - C语言（尤其是内核代码）推荐使用插件[C/C++ GNU Global](https://marketplace.visualstudio.com/items?itemName=jaycetyle.vscode-gnu-global)。使用命令`sudo apt install global -y`安装gtags插件，Linux内核代码使用命令`make gtags`生成索引文件。
@@ -177,12 +177,12 @@ https://github.com/KDAB/codebrowser
 这里我们不介绍git的一般用法，仅介绍一些特殊用法。
 
 <!-- public begin -->
-查看帮助文档`man 1 git log`：
+查看帮助文档`man 1 git log`:
 ```sh
        -L<start>,<end>:<file>, -L:<funcname>:<file>
            跟踪给定 <start>,<end> 或函数名正则表达式 <funcname> 所定义的行范围的演变，位于 <file> 内。您不可以提供任何路径规范限定符。目前此功能仅限于从单个修订版本开始的遍历，即您只能提供零个或一个正面修订参数，<start> 和 <end>（或 <funcname>）必须存在于起始修订版本中。您可以多次指定此选项。隐含--patch。可以使用 --no-patch 抑制补丁输出，但当前尚未实现其他差异格式（即 --raw、--numstat、--shortstat、--dirstat、--summary、--name-only、--name-status、--check）。
 
-           <start> 和 <end> 可以采用以下形式之一：
+           <start> 和 <end> 可以采用以下形式之一:
 
            •   数字
 
@@ -200,12 +200,12 @@ https://github.com/KDAB/codebrowser
 ```
 <!-- public end -->
 
-以内核主线代码[fs/namespace.c](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/namespace.c?id=8f6f76a6a29f)文件为例，查看`do_new_mount`函数：
+以内核主线代码[fs/namespace.c](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/namespace.c?id=8f6f76a6a29f)文件为例，查看`do_new_mount`函数:
 ```sh
 git log -L:do_new_mount:fs/namespace.c
 ```
 
-我们发现列出的却是`do_new_mount_fc`的修改记录，因为`do_new_mount_fc`包含字符串`do_new_mount`，又在`do_new_mount()`函数前面，解决方法是在`do_new_mount`后面再加个`\(`：
+我们发现列出的却是`do_new_mount_fc`的修改记录，因为`do_new_mount_fc`包含字符串`do_new_mount`，又在`do_new_mount()`函数前面，解决方法是在`do_new_mount`后面再加个`\(`:
 ```sh
 git log -L:do_new_mount\(:fs/namespace.c
 ```
@@ -215,7 +215,7 @@ git log -L:do_new_mount\(:fs/namespace.c
 git name-rev <commit>
 ```
 
-如果我们有两个github账号，两个账号不能在网站上添加同一个ssh key，这时我们就要再生成一个ssh key，还要将ssh私钥添加到ssh代理：
+如果我们有两个github账号，两个账号不能在网站上添加同一个ssh key，这时我们就要再生成一个ssh key，还要将ssh私钥添加到ssh代理:
 ```sh
 ssh-keygen -t ed25519-sk -C "YOUR_EMAIL" # 生成新的key
 eval "$(ssh-agent -s)" # 启动 SSH 代理
@@ -228,7 +228,7 @@ git cherry-pick <commit1>..<commitN> # 不包含commit1
 ```
 
 <!-- public begin -->
-如果多个commit中包含有Merge的commit，直接cherry-pick多个会报错`error: 提交 xxxx 是一个合并提交但未提供 -m 选项`，可以把`git log --oneline`的输出放到文件`commits.txt`中，把Merge相关的commit删除，并删除掉每行的后面的commit信息，每行只保留commit号，然后用以下脚本`cherry-pick`（各位朋友如果有什么更好的方法请一定要联系告诉我）：
+如果多个commit中包含有Merge的commit，直接cherry-pick多个会报错`error: 提交 xxxx 是一个合并提交但未提供 -m 选项`，可以把`git log --oneline`的输出放到文件`commits.txt`中，把Merge相关的commit删除，并删除掉每行的后面的commit信息，每行只保留commit号，然后用以下脚本`cherry-pick`（各位朋友如果有什么更好的方法请一定要联系告诉我）:
 ```sh
 # tac 从最后一行开始 cherry-pick
 tac commits.txt | while IFS= read -r commit; do
@@ -244,7 +244,7 @@ echo "全部合并成功"
 ```
 <!-- public end -->
 
-`git cherry-pick`或`git am`合补丁时如果有冲突，在解决完冲突后，在`commit`信息中在`Conflicts:`后列出冲突文件，如：
+`git cherry-pick`或`git am`合补丁时如果有冲突，在解决完冲突后，在`commit`信息中在`Conflicts:`后列出冲突文件，如:
 ```sh
 Conflicts:
         include/linux/sunrpc/clnt.h
@@ -254,7 +254,7 @@ Conflicts:
 
 ## 获取代码
 
-用git下载内核代码，仓库链接可以点击[内核网站](https://kernel.org/)上对应版本的`[browse] -> summary`查看，我们下载[mainline](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)版本的代码：
+用git下载内核代码，仓库链接可以点击[内核网站](https://kernel.org/)上对应版本的`[browse] -> summary`查看，我们下载[mainline](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)版本的代码:
 ```sh
 git clone https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git # 国内使用googlesource仓库链接比较快
 ```
@@ -263,7 +263,7 @@ git clone https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linu
 
 ## 编译步骤
 
-建议新建一个`build`目录，把所有的编译输出存放在这个目录下，注意<!-- public begin -->[`.config`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)<!-- public end --><!-- private begin -->`src/x86_64/config`<!-- private end -->文件复制到`build/.config`。`.config`配置文件至少要打开以下配置（建议通过`make O=build menuconfig`命令修改）：
+建议新建一个`build`目录，把所有的编译输出存放在这个目录下，注意<!-- public begin -->[`.config`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)<!-- public end --><!-- private begin -->`src/x86_64/config`<!-- private end -->文件复制到`build/.config`。`.config`配置文件至少要打开以下配置（建议通过`make O=build menuconfig`命令修改）:
 ```sh
 CONFIG_EXT4_FS
 CONFIG_XFS_FS
@@ -282,7 +282,7 @@ cp /home/sonvhi/chenxiaosong/code/tmp/configs/x86_64-config build/.config
 ```
 <!-- public end -->
 
-编译和安装命令如下：
+编译和安装命令如下:
 ```sh
 make O=build menuconfig # 交互式地配置内核的编译选项
 make O=build olddefconfig -j`nproc`
@@ -293,7 +293,7 @@ mkdir -p build/boot && make O=build install INSTALL_PATH=boot -j`nproc`
 make O=build modules_install INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=mod -j`nproc`
 ```
 
-在`x86_64`下，如果是交叉编译其他架构，`ARCH`的值为`arch/`目录下相应的架构，编译命令是：
+在`x86_64`下，如果是交叉编译其他架构，`ARCH`的值为`arch/`目录下相应的架构，编译命令是:
 ```sh
 make ARCH=i386 O=build bzImage # x86 32bit
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-  O=build zImage # armel, arm eabi(embeded abi) little endian, 传参数用普通寄存器
@@ -318,7 +318,7 @@ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- O=build Image
 
 把`build/mod/lib/modules/xxx/`复制到待测环境上的`/lib/modules/`路径，把`build/boot/`目录下的文件复制到待测环境上的`/boot/`路径下。
 
-生成`initrd.img`，其中`xxx`为内核版本：
+生成`initrd.img`，其中`xxx`为内核版本:
 ```sh
 # centos
 mkinitrd /boot/initrd.img-xxx xxx
@@ -350,7 +350,7 @@ QEMU：quick emulation，高速度、跨平台的开源模拟器，能模拟x86�
 
 注意riscv64架构的镜像，可以直接下载[ubuntu2204](https://ubuntu.com/download/risc-v)（选择[QEMU emulator]），[使用文档](https://wiki.ubuntu.com/RISC-V/QEMU?_gl=1*5kle2i*_gcl_au*MTE0MzIzMjgyMi4xNzE3NTA4NjU1&_ga=2.54580847.51388592.1718933588-66008337.1718933588)。
 
-生成raw格式镜像后，再执行以下命令转换成占用空间更小的qcow2格式：
+生成raw格式镜像后，再执行以下命令转换成占用空间更小的qcow2格式:
 ```sh
 # -p 显示进度， -f 源镜像格式， -O 转换后的格式， 后面再紧接的是：源文件名称，转换后的文件名称
 qemu-img convert -p -f raw -O qcow2 image.raw image.qcow2
@@ -373,7 +373,7 @@ file image.qcow2 # 查看文件的格式
 qemu-img create -F qcow2 -b /path/image.qcow2 -f qcow2 /path/image2.qcow2 #  -F 源文件格式
 ```
 
-iso安装发行版本后，默认是`/dev/vda1`（`-device virtio-scsi-pci`）挂载到根路径`/`，如果要重新制作成`/dev/vda`挂载到根分区`/`，可以把qcow2文件里的内容复制出来，qcow2格式镜像的挂载：
+iso安装发行版本后，默认是`/dev/vda1`（`-device virtio-scsi-pci`）挂载到根路径`/`，如果要重新制作成`/dev/vda`挂载到根分区`/`，可以把qcow2文件里的内容复制出来，qcow2格式镜像的挂载:
 ```sh
 sudo apt-get install qemu-utils -y # 要先安装工具软件
 sudo modprobe nbd max_part=8 # 加载nbd模块
@@ -385,12 +385,12 @@ sudo qemu-nbd --disconnect /dev/nbd0 # 断开连接
 sudo modprobe -r nbd # 移除模块
 ```
 
-当然也可以把qcow2转换成raw格式，然后把raw格式文件里的内容复制出来：
+当然也可以把qcow2转换成raw格式，然后把raw格式文件里的内容复制出来:
 ```sh
 qemu-img convert -p -f qcow2 -O raw image.qcow2 image.raw
 ```
 
-ubuntu24.04报错`dmesg`中`virtio_net virtio0 enp0s1: renamed from eth0`，解决办法：
+ubuntu24.04报错`dmesg`中`virtio_net virtio0 enp0s1: renamed from eth0`，解决办法:
 ```sh
 sudo vim /etc/netplan/50-cloud-init.yaml # 把网络接口名改成enp0s1
 sudo netplan apply
@@ -400,7 +400,7 @@ sudo netplan apply
 
 关于各个Linux发行版怎么安装qemu，可以参考[qemu官网](https://www.qemu.org/download/#linux)的介绍，下面主要介绍一下源码的安装方式，源码安装方式可以使用qemu的最新特性。
 
-先安装Ubuntu编译qemu所需的软件：
+先安装Ubuntu编译qemu所需的软件:
 ```sh
 # ubuntu 22.04
 sudo apt-get install libattr1-dev libcap-ng-dev -y
@@ -412,7 +412,7 @@ pip install tomli
 ```
 
 <!-- public begin -->
-CentOS发行版安装编译qemu所需的软件：
+CentOS发行版安装编译qemu所需的软件:
 ```sh
 sudo dnf install glib2-devel -y
 sudo dnf install iasl -y
@@ -436,7 +436,7 @@ make
 ```
 <!-- public end -->
 
-再下载编译qemu：
+再下载编译qemu:
 ```sh
 git clone https://gitlab.com/qemu-project/qemu.git
 cd qemu
@@ -450,7 +450,7 @@ make -j`nproc`
 
 ## qemu配置
 
-非root用户没有权限的解决办法：
+非root用户没有权限的解决办法:
 ```sh
 # 源码安装的
 sudo chown root libexec/qemu-bridge-helper
@@ -464,7 +464,7 @@ sudo usermod -aG kvm $USER
 su - $USER # 或退出shell重新登录, 但在tmux中不起作用
 ```
 
-允许使用`virbr0`网络接口：
+允许使用`virbr0`网络接口:
 ```sh
 # 源码安装的
 mkdir -p etc/qemu
@@ -474,7 +474,7 @@ sudo mkdir -p /etc/qemu/
 sudo vim /etc/qemu/bridge.conf # 添加 allow virbr0
 ```
 
-修改`virbr0`网段：
+修改`virbr0`网段:
 ```sh
 virsh net-list # 查看网络情况
 virsh net-edit default # 编辑
@@ -484,7 +484,7 @@ virsh net-start default
 
 ## qemu运行qcow2镜像
 
-制作好的Ubuntu虚拟机镜像<!-- public begin -->（从百度网盘中下载的）<!-- public end -->中的`${HOME}/qemu-kernel/start.sh`脚本中每个选项的可选值可以使用以下命令查看：
+制作好的Ubuntu虚拟机镜像<!-- public begin -->（从百度网盘中下载的）<!-- public end -->中的`${HOME}/qemu-kernel/start.sh`脚本中每个选项的可选值可以使用以下命令查看:
 ```sh
 qemu-system-aarch64 -cpu ?
 qemu-system-x86_64 -machine ?
@@ -496,7 +496,7 @@ qemu-system-x86_64 -machine ?
 
 qemu启动后，按快捷键`ctrl+a c`（先按`ctrl+a`松开后再按`c`）再输入`quit`强制退出qemu，但不建议强制退出。
 
-在系统启动界面登录进去后（而不是以ssh登录），默认的窗口大小不会自动调整，需要手动调整：
+在系统启动界面登录进去后（而不是以ssh登录），默认的窗口大小不会自动调整，需要手动调整:
 ```sh
 stty size # 可以先在其他窗口查看大小
 echo "stty rows 54 cols 229" > stty.sh
@@ -513,7 +513,7 @@ PermitEmptyPasswords yes
 ```
 
 <!-- public begin -->
-曾经使用过fedora发行版，这里记录一下fedora的一些笔记。进入fedora虚拟机后：
+曾经使用过fedora发行版，这里记录一下fedora的一些笔记。进入fedora虚拟机后:
 ```sh
 # fedora 启动的时候等待: A start job is running for /dev/zram0，解决办法：删除 zram 的配置文件
 mv /usr/lib/systemd/zram-generator.conf /usr/lib/systemd/zram-generator.conf.bak
@@ -536,14 +536,14 @@ sudo dnf update vim-common vim-minimal -y
 
 这里只介绍`x86_64`下的qemu+gdb调试，其他cpu架构以此类推，只需要做些小改动。
 
-如果是其他cpu架构，要安装：
+如果是其他cpu架构，要安装:
 ```sh
 sudo apt install gdb-multiarch -y
 ```
 
 ## 编译选项和补丁
 
-首先确保修改以下配置：
+首先确保修改以下配置:
 ```sh
 CONFIG_DEBUG_SECTION_MISMATCH=y # 防止内联
 CONFIG_DEBUG_INFO=y # 调试信息
@@ -560,7 +560,7 @@ CONFIG_RANDOMIZE_BASE = n # 关闭地址随机化
 
 ## QEMU命令选项
 
-qemu启动虚拟机时，要添加以下几个选项：
+qemu启动虚拟机时，要添加以下几个选项:
 ```sh
 -append "nokaslr ..." # 防止地址随机化，编译内核时关闭配置 CONFIG_RANDOMIZE_BASE
 -S # 挂起 gdbserver
@@ -572,18 +572,18 @@ qemu启动虚拟机时，要添加以下几个选项：
 
 ## GDB命令
 
-启动GDB：
+启动GDB:
 ```sh
 gdb build/vmlinux
 ```
 
-如果是其他架构：
+如果是其他架构:
 ```sh
 gdb --tui build/vmlinux # --tui: Use a terminal user interface.
 (gdb) set architecture aarch64
 ```
 
-进入GDB界面后：
+进入GDB界面后:
 ```sh
 (gdb) target remote:5555 # 对应qemu命令中的-gdb tcp::5555
 (gdb) b func_name # 普通断点
@@ -596,7 +596,7 @@ gdb命令的用法和用户态程序的调试大同小异。
 
 使用内核提供的[GDB辅助调试功能](https://www.kernel.org/doc/Documentation/dev-tools/gdb-kernel-debugging.rst)可以更方便的调试内核（如打印断点处的进程名和进程id等）。
 
-内核最新版本（2024.04）使用以下命令开启GDB辅助调试功能，注意最新版本编译出的脚本无法调试4.19和5.10的代码：
+内核最新版本（2024.04）使用以下命令开启GDB辅助调试功能，注意最新版本编译出的脚本无法调试4.19和5.10的代码:
 ```sh
 echo "set auto-load safe-path /" > ~/.gdbinit # 设置自动加载共享库文件的安全路径
 echo "source ${HOME}/.gdb-linux/vmlinux-gdb.py" >> ~/.gdbinit
@@ -609,7 +609,7 @@ sed -i '/sys.path.insert/s/^/# /' ${HOME}/.gdb-linux/vmlinux-gdb.py # 将sys.pat
 sed -i '/sys.path.insert/a\sys.path.insert(0, "'${HOME}'/.gdb-linux")' ${HOME}/.gdb-linux/vmlinux-gdb.py # 插入 sys.path.insert(0, "${HOME}/.gdb-linux")
 ```
 
-内核5.10使用以下命令开启GDB辅助调试功能，也可以调试内核4.19代码，但无法调试内核最新的代码：
+内核5.10使用以下命令开启GDB辅助调试功能，也可以调试内核4.19代码，但无法调试内核最新的代码:
 ```sh
 echo "set auto-load safe-path /" > ~/.gdbinit # 设置自动加载共享库文件的安全路径
 echo "source ${HOME}/.gdb-linux-5.10/vmlinux-gdb.py" >> ~/.gdbinit
@@ -622,7 +622,7 @@ sed -i '/sys.path.insert/s/^/# /' ${HOME}/.gdb-linux-5.10/vmlinux-gdb.py # 将sy
 sed -i '/sys.path.insert/a\sys.path.insert(0, "'${HOME}'/.gdb-linux-5.10")' ${HOME}/.gdb-linux-5.10/vmlinux-gdb.py # 插入 sys.path.insert(0, "${HOME}/.gdb-linux-5.10")
 ```
 
-重新启动GDB就可以使用GDB辅助调试功能：
+重新启动GDB就可以使用GDB辅助调试功能:
 ```sh
 (gdb) apropos lx # 查看有哪些命令
 (gdb) p $lx_current().pid # 打印断点所在进程的进程id
@@ -644,7 +644,7 @@ struct cifsFileInfo {
 };
 ```
 
-想要确定`tlink`的偏移，可以使用以下命令：
+想要确定`tlink`的偏移，可以使用以下命令:
 ```sh
 gdb ./cifs.ko # ko文件或vmlinux
 (gdb) p &((struct cifsFileInfo *)0)->tlink
@@ -660,13 +660,13 @@ gdb ./cifs.ko # ko文件或vmlinux
 
 使用`gdb vmlinux`启动gdb后，如果调用到ko模块里的代码，这时候就不能直接对ko模块的代码进行打断点之类的操作，因为找不到对应的符号。
 
-这时就要把符号加入进来。首先，查看被调试的qemu虚拟机中的各个段地址：
+这时就要把符号加入进来。首先，查看被调试的qemu虚拟机中的各个段地址:
 ```sh
 cd /sys/module/ext4/sections/ # ext4 为模块名
 cat .text .data .bss # 输出各个段地址
 ```
 
-在gdb窗口中加载ko文件：
+在gdb窗口中加载ko文件:
 ```sh
 add-symbol-file <ko文件位置> <text段地址> -s .data <data段地址> -s .bss <bss段地址>
 ```

@@ -10,7 +10,7 @@
 
 你可以从多个地方（包括Wine下载服务器）下载Wine源代码的tarball，但是如果你计划进行任何实际的测试或开发工作，你会想要使用git。有关更多信息和一些有用的提示，请参阅Git Wine教程和Source Code维基页面。
 
-要获取wine源代码，只需输入以下命令，并将最后的目录路径替换为你想要下载源代码树的任何文件夹：
+要获取wine源代码，只需输入以下命令，并将最后的目录路径替换为你想要下载源代码树的任何文件夹:
 ```sh
 git clone https://gitlab.winehq.org/wine/wine.git ~/wine-dirs/wine-source
 ```
@@ -29,13 +29,13 @@ git clone https://gitlab.winehq.org/wine/wine.git ~/wine-dirs/wine-source
 
 表格请查看[原网页](https://wiki.winehq.org/Building_Wine)。
 
-在使用包管理器之后，确定你仍然需要哪些依赖项的最可靠方法是从 Wine 的源代码目录开始构建过程，并运行配置脚本：
+在使用包管理器之后，确定你仍然需要哪些依赖项的最可靠方法是从 Wine 的源代码目录开始构建过程，并运行配置脚本:
 
 ```sh
 ./configure --options
 ```
 
-（或者在一个独立的构建目录中，但关于这一点在下一节会详细介绍）：
+（或者在一个独立的构建目录中，但关于这一点在下一节会详细介绍）:
 
 ```sh
 relative-path/to-wine-source/configure --options
@@ -55,7 +55,7 @@ Glib2 和 gstreamer 在 32 位和 64 位系统上有不同的头文件，因此�
 
 一旦你安装了所有的依赖项，只要为你定制的 Wine 构建提供一个独立的 Wine 前缀，你就应该可以在官方仓库版本的 Wine 旁边（从构建目录内）运行它，而不会发生冲突。
 
-如果你宁愿卸载你的发行版上的 Wine 版本，那么在卸载后你有几种选择：
+如果你宁愿卸载你的发行版上的 Wine 版本，那么在卸载后你有几种选择:
 
 - 只是保留依赖项。这样做的主要问题是你的包管理器可能会将它们标记为不必要的、孤立的、自动可移除的等。
 - 通过你的包管理器将依赖项标记为手动安装。这种方法只有在以后想要从系统中完全移除 Wine 及其依赖项时才会出问题；类似 autoremove 这样的命令不会卸载标记为手动安装的包。
@@ -67,14 +67,14 @@ Glib2 和 gstreamer 在 32 位和 64 位系统上有不同的头文件，因此�
 
 如果你只是想在常见硬件上与 64 位发行版一起构建 Wine，那么很可能你想要一个 WoW64 构建。
 
-在安装了所有构建要求之后：
+在安装了所有构建要求之后:
 
 - 进入你想要在其中构建 Wine 的任何目录。
 - 然后，从你的 Wine 源代码目录中调用配置脚本。
 - 之后，在你的构建目录中运行 make。
 - 如果 make 成功完成，你可以使用 make install 将 Wine 安装到你的系统中。
 
-在命令行上：
+在命令行上:
 ```sh
 cd ~/wine-dirs/wine-build/
 ../wine-source/configure
@@ -86,7 +86,7 @@ make install
 
 ## 配置选项
 
-如果你在一个 64 位系统上，要构建一个 64 位的 Wine，你只需要在运行上面的命令时，在 configure 脚本中传递 --enable-win64：
+如果你在一个 64 位系统上，要构建一个 64 位的 Wine，你只需要在运行上面的命令时，在 configure 脚本中传递 --enable-win64:
 
 ```sh
 ../wine-source/configure --enable-win64
@@ -110,7 +110,7 @@ configure 脚本有一个帮助标志 (-h)，列出了所有相关的选项和�
 
 也许你有一款那种（极具优势的）固态硬盘，你想知道在你的固态硬盘上编译是否有所帮助。在互联网上搜索会得到不同的意见。如果你确实看到了改善，它们可能会微不足道，主要来自于对源文件的更快读取时间（处理器性能是编译器的主要瓶颈）。同时，虽然不像以前那样成为问题，但固态硬盘在耗尽之前只能进行固定数量的写操作。如果你真的想要，有办法让你的编译器从 SSD 中读取源代码，将临时构建文件写入硬盘上的一个目录（甚至是 RAM），甚至将完成的程序移回 SSD（看看单独构建目录是多么酷？）
 
-如果你会反复从源代码构建，而不是寻找固态硬盘来加速编译时间，请考虑安装 ccache。即使使用 make，它也提供了更复杂的缓存功能，可以在不同的目录之间共享。对于第一次构建时的一点小时间损失，它可以显著缩短编译时间。除非你使用了另一个编译器的包装器（这会使事情变得更加复杂），你只需要将 CC 环境变量设置为从 ccache 调用你的编译器，这也可以在调用 configure 脚本时针对你的 Wine 构建进行特殊设置。例如，如果你使用的是 GCC：
+如果你会反复从源代码构建，而不是寻找固态硬盘来加速编译时间，请考虑安装 ccache。即使使用 make，它也提供了更复杂的缓存功能，可以在不同的目录之间共享。对于第一次构建时的一点小时间损失，它可以显著缩短编译时间。除非你使用了另一个编译器的包装器（这会使事情变得更加复杂），你只需要将 CC 环境变量设置为从 ccache 调用你的编译器，这也可以在调用 configure 脚本时针对你的 Wine 构建进行特殊设置。例如，如果你使用的是 GCC:
 
 ```sh
 ../wine-source/configure CC="ccache gcc" CROSSCC="ccache i686-w64-mingw32-gcc" #your usual configure options
@@ -118,7 +118,7 @@ configure 脚本有一个帮助标志 (-h)，列出了所有相关的选项和�
 
 请确保对于 64 位构建，用 x86_64 替换 i686。如果你有一个多核处理器，make 命令有一些你可能喜欢的标志。
 
-- `-j` 标志告诉 make 尝试在不同的核心上以最大并行性运行独立的命令；另一个形式 -jN 将启动最多 N 个并行命令：
+- `-j` 标志告诉 make 尝试在不同的核心上以最大并行性运行独立的命令；另一个形式 -jN 将启动最多 N 个并行命令:
 ```sh
 make -j5
 ```
@@ -155,25 +155,25 @@ make -j5
 
 这种技术（也称为操作系统级虚拟化）通过在文件系统的不同部分之间进行强烈隔离，同时通过共享内核空间的文件和进程来节省资源。虽然它们不能包含完全不同的平台，但你甚至可以在单独的容器中理论上运行不同的发行版，只要它们都与相同的内核兼容（尽管通常需要进行一些调整）。容器的另一个主要优点是它们相对简单易用，比完整的虚拟机要简单得多。
 
-例如，要在基于 Debian 的系统上安装 LXC（Linux 容器）并创建一个 32 位容器：
+例如，要在基于 Debian 的系统上安装 LXC（Linux 容器）并创建一个 32 位容器:
 
 - 首先安装 lxc 软件包
 - 从 i386 Ubuntu 模板创建一个容器，使用现有的用户名和密码，并将你的主目录绑定安装到容器中
 - 然后启动容器
 
-在命令行中，操作看起来可能是这样的：
+在命令行中，操作看起来可能是这样的:
 ```sh
 sudo apt-get install lxc
 sudo lxc-create -t ubuntu -n my32bitbox -- --bindhome $LOGNAME -a i386
 sudo lxc-start -n my32bitbox
 ```
 
-如果你的容器与主机具有相同的用户空间，你还可以在启动容器之前从主机复制 apt 配置。否则，你可能需要在容器内部手动编辑这些文件：
+如果你的容器与主机具有相同的用户空间，你还可以在启动容器之前从主机复制 apt 配置。否则，你可能需要在容器内部手动编辑这些文件:
 ```sh
 sudo cp -R /etc/apt /var/lib/lxc/my32bitbox/rootfs/etc
 ```
 
-另外，如果启动容器时没有自动出现登录提示符，只需启动第二个终端，然后附加到容器并使用你的普通凭据登录：
+另外，如果启动容器时没有自动出现登录提示符，只需启动第二个终端，然后附加到容器并使用你的普通凭据登录:
 ```sh
 sudo lxc-attach -n my32bitbox
 login
@@ -183,7 +183,7 @@ login
 
 也许容器的主要缺点是它们通常需要为每个容器创建一个全新的用户空间镜像。只要你有一台典型的计算机和稳定的宽带互联网访问，获取系统镜像不应该成为问题。容器可能会出现的另一个问题，特别是如果你只是在一台 PC 或笔记本电脑上，是低级进程是如何由主机处理的。如果你需要安装软件包，设置诸如 Wi-Fi 等东西可能需要一些工作。
 
-流行的容器软件：
+流行的容器软件:
 
 - LXC（Linux 容器）
 - Solaris/OpenIndiana Zones
@@ -196,7 +196,7 @@ chroot（来自“change root”）是处理这个问题的经典方式。事实
 
 chroot 有点低级，并且像大多数低级的东西一样，它可能是一把双刃剑……非常灵活，但有时不太容易使用。这就是一个帮助管理和配置系统上所有 chroot 的程序（比如 schroot）真正方便的地方。除了允许普通用户进行 chroot 访问和简单的配置文件外，schroot 还会自动为您绑定挂载主机环境中的某些目录（默认包括 $HOME……非常方便）。
 
-在 Ubuntu 系统上，你可以使用 schroot 和 debootstrap 来安装一个用于构建 32 位 wine 的 chroot，步骤如下：
+在 Ubuntu 系统上，你可以使用 schroot 和 debootstrap 来安装一个用于构建 32 位 wine 的 chroot，步骤如下:
 
 1. 安装 schroot 和 debootstrap 软件包
 2. 创建一个 schroot 配置文件
@@ -204,13 +204,13 @@ chroot 有点低级，并且像大多数低级的东西一样，它可能是一�
 4. 设置 chroot 的 APT 仓库并进入 chroot
 5. 安装一些基本的包，debootstrap 跳过了这些
 
-在命令行上，步骤 1 看起来像这样：
+在命令行上，步骤 1 看起来像这样:
 ```sh
 sudo apt-get install schroot debootstrap
 sudo nano (或其他编辑器) /etc/schroot/chroot.d/ubuntu_i386.conf
 ```
 
-步骤 2 中的 schroot 配置文件应该如下所示（替换你在主机系统上的用户名、首选 chroot 目录等）：
+步骤 2 中的 schroot 配置文件应该如下所示（替换你在主机系统上的用户名、首选 chroot 目录等）:
 ```sh
 [ubuntu_i386]
 description=Ubuntu Release 32-Bit
@@ -221,7 +221,7 @@ type=directory
 users=your_username
 ```
 
-步骤 3 - 5 继续在命令行上进行：
+步骤 3 - 5 继续在命令行上进行:
 ```sh
 sudo mkdir -p /srv/chroot/ubuntu_i386
 sudo debootstrap --variant=buildd --arch=i386 vivid (或其他发行版) /srv/chroot/ubuntu_i386 http://archive.ubuntu.com/ubuntu/
@@ -246,7 +246,7 @@ sudo apt-get install software-properties-common
 
 即使你可以在虚拟机中构建和运行 Wine，请不要报告你发现的错误，除非你在本机平台上也见到了它们。如果没有来自本机系统的数据，我们就只能默认假设该错误是由虚拟机引入的。不过，在构建和运行 Wine 可以是调试虚拟机软件本身的非常有效的方法。
 
-流行的平台虚拟化软件：
+流行的平台虚拟化软件:
 
 - KVM/QEMU
 - Xen
@@ -261,12 +261,12 @@ sudo apt-get install software-properties-common
 
 64 位 Wine 已经可以在一些操作系统上运行，但如果你想帮助将 Wine 移植到另一个 AMD64 平台，我们将非常乐意得到你的帮助。
 
-好消息是，一旦你已经准备好编译 32 位和 64 位 Wine 的依赖关系，你已经完成了艰难的部分。如果你通过多库或者（在未来的某个幸福的日子）通过多架构共同安装了所有依赖关系，你只需要遵循两个简单的步骤：
+好消息是，一旦你已经准备好编译 32 位和 64 位 Wine 的依赖关系，你已经完成了艰难的部分。如果你通过多库或者（在未来的某个幸福的日子）通过多架构共同安装了所有依赖关系，你只需要遵循两个简单的步骤:
 
 - 首先在一个独立的构建目录中，使用 --enable-win64 配置标志编译 64 位版本的 Wine
 - 然后，在下一个构建目录中编译 32 位版本时，通过使用 --with-wine64= 和相对路径将 configure 指向 64 位构建目录
 
-在命令行上执行：
+在命令行上执行:
 ```sh
 cd ~/wine-dirs/wine64-build/
 ../wine-source/configure --enable-win64
@@ -285,13 +285,13 @@ PKG_CONFIG_PATH 应该指向 32 位 pkgconfig 文件的位置，可能是 /usr/l
 
 如果你使用的是 GCC，你至少需要 v4.4 版本来编译 64 位 Wine，因为较早版本缺少 __builtin_ms_va_list 的支持。出于同样的原因，你至少需要 Clang 的 v3.7.1 版本。
 
-如果你需要使用容器或 chroot，你需要注意一些复杂性。最终，它们只是需要你花费更多时间编译。主要区别在于，在编译了 64 位 Wine 之后，你需要两次编译 32 位版本，每次都使用不同的配置：
+如果你需要使用容器或 chroot，你需要注意一些复杂性。最终，它们只是需要你花费更多时间编译。主要区别在于，在编译了 64 位 Wine 之后，你需要两次编译 32 位版本，每次都使用不同的配置:
 
 - 进入你的 32 位 chroot 或容器（参见上面关于设置 chroot 或容器的说明）
 - 进行完全正常的 32 位 Wine 构建
 - 在 chroot 中进行第二次 32 位构建，使用你的 64 位构建以及第一次 32 位构建的工具
 
-在命令行上执行：
+在命令行上执行:
 ```sh
 schroot -c chroot_i386 -u 你的用户名 ... 或者
 sudo lxc-start -n my32bitbox
@@ -349,12 +349,12 @@ Wine 默认在从源代码构建时包含了自己独特的调试器（winedbg�
 
 要使用更强大的工具，你实际构建 wine 的主要变化在于你需要禁用一些编译器优化，主要是消除调用堆栈中的操作。这会在运行时造成性能损失，但为内存检查器提供了更全面的实际发生情况。
 
-如果你使用的是 GCC >= v4.8 或 Clang >= v4.0，则可以通过传递 -Og 标志指示编译器优化调试数据，而不是速度或大小：
+如果你使用的是 GCC >= v4.8 或 Clang >= v4.0，则可以通过传递 -Og 标志指示编译器优化调试数据，而不是速度或大小:
 ```sh
 ../wine-source/configure CFLAGS="-Og" CROSSCFLAGS="-Og"
 ```
 
-如果你使用的是较旧的编译器，或者出于其他原因想要选择特定标志，以下是你更有效地进行调试所需的主要标志：
+如果你使用的是较旧的编译器，或者出于其他原因想要选择特定标志，以下是你更有效地进行调试所需的主要标志:
 
 - -g 生成调试符号（构建 wine 时的默认设置）
 - -O1 仅启用更保守的优化
@@ -366,12 +366,12 @@ Wine 默认在从源代码构建时包含了自己独特的调试器（winedbg�
 
 另一类可以在构建时使用的工具是用于 C/C++ 的内存检查器。其中一些（例如 AddressSanitizer）是作为编译器的特性实现的，而另一些（例如 Valgrind）是单独的套件。大多数这些工具不应需要任何配置，只需要在编译之前安装在你的系统上。
 
-如果系统上安装了 Valgrind，则构建过程应该会自动在 wine 中包含 Valgrind 注释。如果你想双重检查，请在配置构建目录后使用 grep 查找 include/config.h 中的 Valgrind 变量：
+如果系统上安装了 Valgrind，则构建过程应该会自动在 wine 中包含 Valgrind 注释。如果你想双重检查，请在配置构建目录后使用 grep 查找 include/config.h 中的 Valgrind 变量:
 ```sh
 grep VALGRIND include/config.h
 ```
 
-这应该会返回两行，其中包含 Valgrind 标志：
+这应该会返回两行，其中包含 Valgrind 标志:
 ```sh
 #define HAVE_VALGRIND_MEMCHECK_H 1
 #define HAVE_VALGRIND_VALGRIND_H 1
@@ -383,7 +383,7 @@ Valgrind 可以使用这些注释来确定运行在 Wine 上的 Windows 应用�
 
 有关实际使用 Valgrind 和对 wine 源代码的有用补丁的更多信息，请参阅 Wine and Valgrind。
 
-要使用 AddressSanitizer，它自从 Clang v3.1 和 GCC v4.8 起就已经成为了一部分，你只需要将 -fsanitize=address 标志传递给编译器和链接器。要通过 wine 的 configure 脚本执行此操作，使用 CFLAGS 和 LDFLAGS 变量：
+要使用 AddressSanitizer，它自从 Clang v3.1 和 GCC v4.8 起就已经成为了一部分，你只需要将 -fsanitize=address 标志传递给编译器和链接器。要通过 wine 的 configure 脚本执行此操作，使用 CFLAGS 和 LDFLAGS 变量:
 ```sh
 ../wine-source/configure CFLAGS="-Og -fsanitize=address -other-flags" LDFLAGS="-fsanitize=address -lasan -lpthread"
 ```

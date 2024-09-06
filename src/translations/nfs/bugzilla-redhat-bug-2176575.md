@@ -7,12 +7,12 @@
 ```
 我们有一个连接到 Synology 最新的 NFS 服务器的 f37 客户端（内核版本为 6.1.14-200.fc37.x86_64），通过 nfs4 连接。间歇性地，会出现一种情况，其中客户端的速度急剧下降。正常的 NFS 操作是瞬时的，但当出现这种情况时，普通的 ls 操作可能需要几秒钟，Firefox 的启动需要 30 秒。
 
-mount 命令报告的激活选项如下：
+mount 命令报告的激活选项如下:
 (rw,relatime,vers=4.1,rsize=131072,wsize=131072,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=192.168.1.1,local_lock=none,addr=192.168.1.21)
 
 同一服务器的其他客户端在同一时间没有受到影响。在受影响的客户端、其他客户端或服务器上没有同时发生的诊断信息。因此，很难确定这种情况开始的时间点。
 
-在内核上运行 "perf top" 显示了这种异常：
+在内核上运行 "perf top" 显示了这种异常:
 Samples: 6M of event 'cycles', 4000 Hz, Event count (approx.): 38276948048 lost: 0/0 drop: 0/0
 Overhead  Shared Object                                   Symbol
   49.85%  [kernel]                                        [k] nfs_server_reap_expired_delegations    
@@ -96,7 +96,7 @@ Fedora 38 内核版本 6.3.8-200 并不能解决这个问题。一旦问题发�
 
 ```
 我本来打算说没有，因为客户端没有记录任何东西。
-然而！另一个同行的NFS客户端（不是192.168.1.1），继续正常运行，通过dmesg输出了有关NFS服务器的以下信息：
+然而！另一个同行的NFS客户端（不是192.168.1.1），继续正常运行，通过dmesg输出了有关NFS服务器的以下信息:
 
 [379489.954753] NFS: server HOSTNAME error: fileid changed
 fsid 0:60: expected fileid 0x9fbe8fe, got 0x9fbe903
@@ -113,7 +113,7 @@ fsid 0:60: expected fileid 0x9fbee69, got 0x9fbee6a
 [384159.931317] NFS: server HOSTNAME error: fileid changed
 fsid 0:60: expected fileid 0x9fbfd6d, got 0x9fbfd6e
 
-而NFS服务器的dmesg显示了以下信息：
+而NFS服务器的dmesg显示了以下信息:
 
 [4259331.428885] nfsd4_validate_stateid: 443 callbacks suppressed
 [4259331.434869] NFSD: client 192.168.1.1 testing state ID with incorrect client ID
@@ -180,7 +180,7 @@ fsid 0:60: expected fileid 0x9fbfd6d, got 0x9fbfd6e
 # 评论14: Benjamin Coddington 2023-08-04 15:28:57 UTC
 
 ```
-我认为有一个服务器的错误可能会导致这个问题，但我一直无法找到客户端在实践中触发它的方法：
+我认为有一个服务器的错误可能会导致这个问题，但我一直无法找到客户端在实践中触发它的方法:
 https://lore.kernel.org/linux-nfs/c0fe2b35900938943048340ef70fc12282fe1af8.1691160604.git.bcodding@redhat.com/T/#u
 
 非常希望能够查看客户端能够进入这种状态的网络抓包。在另一个报告的这个问题中（bug 2217103），客户端有75,000个委托和多个网络分区，但我们无法检查服务器的状态或查看在网络上发生了什么以导致这种情况。

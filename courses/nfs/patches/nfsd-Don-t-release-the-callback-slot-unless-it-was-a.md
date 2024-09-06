@@ -1,4 +1,4 @@
-[`e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held`](https://lore.kernel.org/all/20190405155437.5545-1-trond.myklebust@hammerspace.com/)：
+[`e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held`](https://lore.kernel.org/all/20190405155437.5545-1-trond.myklebust@hammerspace.com/):
 ```
 nfsd: 只有在实际持有回调槽时才释放它
 

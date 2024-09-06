@@ -6,7 +6,7 @@
 
 Linux内核有一个官方网站[The Linux Kernel Archives](https://kernel.org/)，在这个网站上可以获取Linux内核源码以及[其他相关源码](https://git.kernel.org/)。
 
-Linux内核社区主要以邮件交流为主，以下是一些常用的网站：
+Linux内核社区主要以邮件交流为主，以下是一些常用的网站:
 
 - [邮件列表](https://lore.kernel.org/): 在这里获取社区的最新动态。
 - [按模块划分的patchwork](https://patchwork.kernel.org/): 补丁的邮件都会在这里归档。
@@ -19,7 +19,7 @@ Linux内核社区主要以邮件交流为主，以下是一些常用的网站：
 
 我们以社区最近的一个LTS（longterm support，长期维护版本）v6.6的代码来讲接下来的课程。
 
-内核源码树根目录每个文件夹的描述如下（按字母顺序）：
+内核源码树根目录每个文件夹的描述如下（按字母顺序）:
 
 - `arch`: architecture的缩写，体系结构相关。我们着重介绍`arch/x86/`和`arch/arm64/`，在每个体系结构目录下，`boot/`是启动相关，`configs/`是配置相关，`include/`头文件相关，`mm/`内存管理相关，等等。
 - `block`: 块设备IO层相关。
@@ -46,7 +46,7 @@ Linux内核社区主要以邮件交流为主，以下是一些常用的网站：
 - `usr`: 早期的用户空间代码（`initramfs`），比如有打包和压缩用的`cpio`等。注意，`usr`的全称是`Unix System Resources`，不是`user`，不是`user`，不是`user`。为什么要强调不是`user`呢，因为有太多太多的人读成了`user`，咱们专业点，读成`u, s, r`，一个单词一个单词的读。
 - `virt`: 虚拟化相关，如`kvm`。
 
-上面是文件夹，接下来介绍根目录下的文件：
+上面是文件夹，接下来介绍根目录下的文件:
 
 - `COPYING`: 许可证。
 - `CREDITS`: 贡献者。
@@ -66,7 +66,7 @@ Linux内核社区主要以邮件交流为主，以下是一些常用的网站：
 
 注意commit message每行长度不超过 72 个字符。
 
-`git commit`命令之后，使用以下命令会生成补丁文件：
+`git commit`命令之后，使用以下命令会生成补丁文件:
 ```shell
 # -1 表示最后一次commit，
 git format-patch -1
@@ -93,7 +93,7 @@ vim 0000-cover-letter.patch
 
 - 163邮箱配置: 默认情况下，163邮箱只能在网页和网易邮箱大师登录。如果要用git通过163邮箱发送邮件则需要对163邮箱进行配置。在[pc端网页](mail.163.com)登录163邮箱，点击“设置 --> POP3/SMTP/IMAP”，开启SMTP服务，会弹出授权密码窗口，记下这个授权密码（也可以在下方新增授权密码或删除）。
 - foxmail邮箱（qq邮箱）配置: 在[pc端网页](https://mail.qq.com/)登录foxmail邮箱，点击"Settings -> Third-party Services -> IMAP/SMTP", 点击"Generate Authorization Code"生成在`.gitconfig`和[thunderbird](https://www.thunderbird.net)中登录的密码。
-- 腾讯企业邮箱配置: 登录[腾讯企业邮箱](https://exmail.qq.com/login)个人账号（不是管理员），左上角“设置”，然后“邮箱绑定 -> 客户端专用密码 -> 生成新密码“，注意要记住这个密码，只会显示一次，忘记了就要重新生成密码。thunderbird中登录时的配置：
+- 腾讯企业邮箱配置: 登录[腾讯企业邮箱](https://exmail.qq.com/login)个人账号（不是管理员），左上角“设置”，然后“邮箱绑定 -> 客户端专用密码 -> 生成新密码“，注意要记住这个密码，只会显示一次，忘记了就要重新生成密码。thunderbird中登录时的配置:
   - 收件服务器：协议IMAP，主机名：imap.exmail.qq.com，端口：993（或不填），连接安全性：自动检测。
   - 发件服务器：主机名：smtp.exmail.qq.com，端口：465（或不填），连接安全性：自动检测。
 
@@ -109,12 +109,12 @@ thunderbird有个快捷键`k`，会忽略话题，不小心按下后邮件就会
 
 ## git发送邮件
 
-安装软件：
+安装软件:
 ```sh
 sudo apt install git-email -y
 ```
 
-163邮箱`~/.gitconfig`：
+163邮箱`~/.gitconfig`:
 ```sh
 [sendemail]
 	from = your_name@163.com
@@ -125,7 +125,7 @@ sudo apt install git-email -y
 	smtpserverport = 994 
 ```
 
-foxmail(qq)邮箱`~/.gitconfig`：
+foxmail(qq)邮箱`~/.gitconfig`:
 ```sh
 [sendemail]
         from = your_name@foxmail.com
@@ -135,7 +135,7 @@ foxmail(qq)邮箱`~/.gitconfig`：
         smtppass = 此处填写qq邮箱的授权密码
 ```
 
-腾讯企业邮箱`~/.gitconfig`：
+腾讯企业邮箱`~/.gitconfig`:
 ```sh
 [sendemail]
         from = your_name@your_name.com
@@ -146,11 +146,11 @@ foxmail(qq)邮箱`~/.gitconfig`：
         smtpserverport = 465
 ```
 
-获取maintainer邮箱：
+获取maintainer邮箱:
 ```shell
 ./scripts/get_maintainer.pl file1.patch
 ```
-发送邮件：
+发送邮件:
 ```shell
 # --to是主送，--cc是抄送
 git send-email --to=to1@example.com,to2@example.com --cc=cc1@example.com,cc2@example.com file1.patch file2.patch

@@ -1,6 +1,6 @@
 # radix tree
 
-数据结构如下：
+数据结构如下:
 ```c
 struct radix_tree_root {                     
         spinlock_t              xa_lock;     
@@ -9,7 +9,7 @@ struct radix_tree_root {
 };                                           
 ```
 
-函数接口：
+函数接口:
 ```c
 /**
  * radix_tree_delete_item - 从基数树中删除一个条目
@@ -29,7 +29,7 @@ void *radix_tree_delete_item(struct radix_tree_root *root,
 
 IDR（ID Radix Tree）是一种数据结构，用于管理小范围的整数 ID 到指针的映射。IDR 提供了一种高效的方式来分配和管理整数 ID，特别适用于需要快速分配和查找 ID 的场景。
 
-数据结构：
+数据结构:
 ```c
 struct idr {                             
         struct radix_tree_root  idr_rt;  
@@ -38,7 +38,7 @@ struct idr {
 };                                       
 ```
 
-函数接口：
+函数接口:
 ```c
 /**
  * idr_alloc_u32() - 分配一个 ID。

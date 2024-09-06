@@ -15,7 +15,7 @@ nfsd 中的 NFSv4 minorversion 1 (NFSv4.1) 实现基于 RFC 5661。
 
 下表摘自 NFSv4.1 文档，列出了在 minor version 1 中强制实现的操作（REQ）、可选操作（OPT）和 NFSv4.0 操作（MNI）。第一列表示 linux 服务器实现尚未支持的操作。
 
-可选功能及其缩写如下：
+可选功能及其缩写如下:
 
 - **pNFS**	Parallel NFS
 - **FDELG**	File Delegations
@@ -208,25 +208,25 @@ nfsd 中的 NFSv4 minorversion 1 (NFSv4.1) 实现基于 RFC 5661。
 ## Implementation notes:
 
 ```
-SSV：
+SSV:
 规范声称这是强制性的，但我们实际上不知道任何实现，所以我们现在忽略它。服务器在 EXCHANGE_ID 上返回 NFS4ERR_ENCR_ALG_UNSUPP，这应该是面向未来的。
 
-后通道上的 GSS：
+后通道上的 GSS:
 同样，理论上是强制性的，但没有广泛实现（特别是当前的 Linux 客户端不请求它）。我们在 CREATE_SESSION 上返回 NFS4ERR_ENCR_ALG_UNSUPP。
 
-DELEGPURGE：
+DELEGPURGE:
 仅对支持 CLAIM_DELEGATE_PREV 和/或 CLAIM_DELEG_PREV_FH 的服务器是强制性的（这允许客户端在重启后保留委托）。因此，我们目前不需要实现它。
 
-EXCHANGE_ID：
+EXCHANGE_ID:
 忽略实现 ID。
 
-CREATE_SESSION：
+CREATE_SESSION:
 忽略后通道属性。
 
-SEQUENCE：
+SEQUENCE:
 不支持动态槽表重新协商（可选）。
 
-非标准复合限制：
+非标准复合限制:
 不支持会话前通道 RPC 复合，该复合要求同时具有 ca_maxrequestsize 请求和 ca_maxresponsesize 响应，因此我们可能无法履行在 CREATE_SESSION 前通道协商中做出的承诺。
 
 另见：http://wiki.linux-nfs.org/wiki/index.php/Server_4.0_and_4.1_issues。

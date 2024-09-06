@@ -16,7 +16,7 @@ macOS和KVM的新手？ 请看[the FAQs](https://github.com/foxlet/macOS-Simple-
 
 # 准备
 
-你将需要一个具有`qemu`（3.1或更高版本），`python3`，`pip`和KVM模块已启用的Linux系统。 **不需要** Mac电脑。 不同发行版的一些安装命令（本人用的是Fedora）：
+你将需要一个具有`qemu`（3.1或更高版本），`python3`，`pip`和KVM模块已启用的Linux系统。 **不需要** Mac电脑。 不同发行版的一些安装命令（本人用的是Fedora）:
 
 ```sh
 sudo apt-get install qemu-system qemu-utils python3 python3-pip  # for Ubuntu, Debian, Mint, and PopOS.
@@ -31,7 +31,7 @@ sudo emerge -a qemu python:3.4 pip # for Gentoo
 
 # 第1步
 
-运行`jumpstart.sh`脚本下载macOS的安装介质（需要连接互联网）。 默认安装使用Catalina，但是你可以通过添加`--high-sierra`，`--mojave`或`--catalina`来选择要获取的版本。 例如：
+运行`jumpstart.sh`脚本下载macOS的安装介质（需要连接互联网）。 默认安装使用Catalina，但是你可以通过添加`--high-sierra`，`--mojave`或`--catalina`来选择要获取的版本。 例如:
 
 ```sh
 ./jumpstart.sh --catalina
@@ -40,13 +40,13 @@ sudo emerge -a qemu python:3.4 pip # for Gentoo
 
 # 第2步
 
-使用`qemu-img`创建一个空硬盘，根据你的需要修改名称和硬盘大小：
+使用`qemu-img`创建一个空硬盘，根据你的需要修改名称和硬盘大小:
 
 ```sh
 qemu-img create -f qcow2 MyDisk.qcow2 64G
 ```
 
-将以下内容添加到`basic.sh`脚本的末尾：
+将以下内容添加到`basic.sh`脚本的末尾:
 
 ```sh
     -drive id=SystemDisk,if=none,file=MyDisk.qcow2 \

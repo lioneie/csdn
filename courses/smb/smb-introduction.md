@@ -9,14 +9,14 @@ NFS只能在Unix-Like系统间使用，CIFS（Common Internet File System）只�
 
 SMB基于NetBIOS（Network Basic Input/Output System），最初IBM提出的NetBIOS是无法跨路由的，使用NetBIOS over TCP/IP技术就可以跨路由使用SMB。
 
-NetBIOS协议如下：
+NetBIOS协议如下:
 
 - [RFC1001, CONCEPTS AND METHODS](https://www.rfc-editor.org/rfc/rfc1001)
 - [RFC1002, DETAILED SPECIFICATIONS](https://www.rfc-editor.org/rfc/rfc1002)
 
 # SMB各版本比较
 
-smb的协议文档有以下几个版本：
+smb的协议文档有以下几个版本:
 
 - [10/1/2020, [MS-CIFS]: Common Internet File System (CIFS) Protocol](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-cifs)
 - [6/25/2021, [MS-SMB]: Server Message Block (SMB) Protocol](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-smb)

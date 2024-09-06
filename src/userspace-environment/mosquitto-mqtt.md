@@ -18,7 +18,7 @@
 
 # 订阅消息
 
-使用以下命令订阅消息：
+使用以下命令订阅消息:
 
 `sudo mosquitto_sub -t "#" -h localhost`
 
@@ -26,7 +26,7 @@
 
 # 发布消息
 
-使用以下命令发布消息：
+使用以下命令发布消息:
 
 `sudo mosquitto_pub -t "topic" -m "message" -h localhost`
 
@@ -34,30 +34,30 @@
 
 # MQTT账号密码
 
-编辑配置文件 `sudo vim /etc/mosquitto/mosquitto.conf`，在文件末尾添加以下内容：
+编辑配置文件 `sudo vim /etc/mosquitto/mosquitto.conf`，在文件末尾添加以下内容:
 
 ```sh
 allow_anonymous false # 不能匿名访问
 password_file /etc/mosquitto/pwfile # 存放密码的文件
 ```
 
-第一次新建MQTT账号（**带有选项-c**）：
+第一次新建MQTT账号（**带有选项-c**）:
 
 `sudo mosquitto_passwd -c /etc/mosquitto/pwfile 账号名`
 
-增加MQTT账号（**无选项-c**）：
+增加MQTT账号（**无选项-c**）:
 
 `sudo mosquitto_passwd /etc/mosquitto/pwfile 账号名`
 
-最后重启mosquitto服务：
+最后重启mosquitto服务:
 
 `sudo systemctl restart mosquitto`
 
-订阅消息的命令要修改成：
+订阅消息的命令要修改成:
 
 `sudo mosquitto_sub -t "#" -h localhost -u 账号名 -P 密码`
 
-发布消息的命令要修改成：
+发布消息的命令要修改成:
 
 `sudo mosquitto_pub -t "topic" -m "message" -h localhost -u 账号名 -P 密码`
 

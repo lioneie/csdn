@@ -6,7 +6,7 @@ tmp_courses_path=/tmp/blog
 
 . ${src_path}/blog/src/blog-web/common-lib.sh
 
-# 每一行代表：
+# 每一行代表:
 #    是否生成目录
 #    是否添加签名
 #    源文件，markdown或rst文件相对路径

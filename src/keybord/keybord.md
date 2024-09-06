@@ -20,7 +20,7 @@ xmodmap是Linux桌面系统用于更改键位分布的软件，具体查看[《L
 
 # windows autohotkey
 
-windows上更改键位可以使用[autohotkey](https://www.autohotkey.com/)，有两个版本：
+windows上更改键位可以使用[autohotkey](https://www.autohotkey.com/)，有两个版本:
 
 - [按键列表v1](https://wyagd001.github.io/zh-cn/docs/KeyList.htm)
 - [按键列表v2](https://wyagd001.github.io/v2/docs/KeyList.htm)

@@ -1,6 +1,6 @@
 # 环境
 
-下载[dkruchinin/cthon-nfs-tests](https://github.com/dkruchinin/cthon-nfs-tests)代码，编辑文件`tests.init`，只需以下几个变量，其他都可以删除：
+下载[dkruchinin/cthon-nfs-tests](https://github.com/dkruchinin/cthon-nfs-tests)代码，编辑文件`tests.init`，只需以下几个变量，其他都可以删除:
 ```sh
 CC=cc
 CFLAGS=`echo -DLINUX`
@@ -8,7 +8,7 @@ LOCKTESTS=tlock
 PATH=${PATH}:.
 ```
 
-然后执行编译命令：
+然后执行编译命令:
 ```sh
 make -j16
 ```
@@ -17,19 +17,19 @@ make -j16
 
 # 测试
 
-挂载：
+挂载:
 ```sh
 mount -t nfs -o vers=4.2 ${server_ip}:/s_test /mnt
 ```
 
-basic, special, lock测试都测试成功：
+basic, special, lock测试都测试成功:
 ```sh
 ./runtests -b -f /mnt/test
 ./runtests -s -f /mnt/test
 ./runtests -l -f /mnt/test
 ```
 
-general测试失败：
+general测试失败:
 ```sh
 ./runtests -g -f /mnt/test
 ```
@@ -42,7 +42,7 @@ general测试失败：
 
 general测试包含几种：Small Compile， Tbl， Nroff，Large Compile，Four simultaneous large compiles，Makefile。
 
-报错信息如下：
+报错信息如下:
 ```sh
 ...
 Small Compile
@@ -56,7 +56,7 @@ Nroff
 general tests failed
 ```
 
-查看`nroff.time`的内容：
+查看`nroff.time`的内容:
 ```sh
 warning: file 'nroff.in', around line 52:                                      
   table wider than line width                                                  
@@ -69,7 +69,7 @@ warning: file 'nroff.in', around line 52:
 0inputs+24outputs (0major+1253minor)pagefaults 0swaps                          
 ```
 
-再对比Small Compile测试的输出文件`smcomp.time`：
+再对比Small Compile测试的输出文件`smcomp.time`:
 ```sh
 0.03user 0.30system 0:00.38elapsed 88%CPU (0avgtext+0avgdata 20608maxresident)k
 0inputs+96outputs (0major+5662minor)pagefaults 0swaps
@@ -78,13 +78,13 @@ warning: file 'nroff.in', around line 52:
 0inputs+96outputs (0major+5660minor)pagefaults 0swaps
 ```
 
-对比发现`nroff.time`文件多了一些警告，而其他内容都差不多：
+对比发现`nroff.time`文件多了一些警告，而其他内容都差不多:
 ```sh
 warning: file 'nroff.in', around line 52:                                      
   table wider than line width    
 ```
 
-看到这里，我们大概知道原因了，猜测是一些额外的输出没有过滤掉，我们做个实验，`general/runtests.wrk`文件修改以下内容，把77，78行注释掉：
+看到这里，我们大概知道原因了，猜测是一些额外的输出没有过滤掉，我们做个实验，`general/runtests.wrk`文件修改以下内容，把77，78行注释掉:
 ```sh
 74 set -e
 75 # Filter excessive noise from GNU tbl.  Should be harmless for other
@@ -95,7 +95,7 @@ warning: file 'nroff.in', around line 52:
 80 set +e
 ```
 
-我们发现Tbl测试也失败了，查看`/mnt/test/tbl.time`文件，多了以下内容：
+我们发现Tbl测试也失败了，查看`/mnt/test/tbl.time`文件，多了以下内容:
 ```sh
 tbl:nroff.in:47: excess data entry '_' discarded
 tbl:nroff.in:51: excess data entry '_' discarded
@@ -103,13 +103,13 @@ tbl:nroff.in:51: excess data entry '_' discarded
 
 # 修改方案
 
-因此，要想让Nroff测试通过，只需要把`nroff.time`文件的警告过滤掉就可以：
+因此，要想让Nroff测试通过，只需要把`nroff.time`文件的警告过滤掉就可以:
 ```sh
 warning: file 'nroff.in', around line 52:                                      
   table wider than line width        
 ```
 
-只需修改`general/runtests.wrk`文件：
+只需修改`general/runtests.wrk`文件:
 ```sh
 diff --git a/general/runtests.wrk b/general/runtests.wrk
 index 5efc091..04dae8e 100644
@@ -125,7 +125,7 @@ index 5efc091..04dae8e 100644
  set +e
 ```
 
-现在，执行`./runtests -g -f /mnt/test`命令你就能看到很漂亮的输出：
+现在，执行`./runtests -g -f /mnt/test`命令你就能看到很漂亮的输出:
 ```sh
 GENERAL TESTS: directory /mnt/test
 cd /mnt/test; rm -f Makefile runtests runtests.wrk *.sh *.c mkdummy rmdummy nroff.in makefile.tst

@@ -11,7 +11,7 @@
 2. 执行`dd`命令非常非常慢
 ```
 
-复现程序：
+复现程序:
 ```sh
         nfs server            |       nfs client
  -----------------------------|---------------------------------------------
@@ -31,7 +31,7 @@
 
 # 原因分析
 
-空间不足时执行 `dd`，返回错误 `-ENOSPC`，没有清除 `wb_err` 中的错误：
+空间不足时执行 `dd`，返回错误 `-ENOSPC`，没有清除 `wb_err` 中的错误:
 ```c
 filp_close
   nfs4_file_flush
@@ -59,7 +59,7 @@ rpc_async_release
               set_bit(..., &mapping->flags); // 在 flags 中记录错误，现已经被 nfs maintainer 删除
 ```
 
-空间释放后执行 `dd`, 上一次执行 `dd` 时的错误还没清除，导致变成了同步写，速度非常非常慢，即使空间足够还是报错空间不足：
+空间释放后执行 `dd`, 上一次执行 `dd` 时的错误还没清除，导致变成了同步写，速度非常非常慢，即使空间足够还是报错空间不足:
 ```c
 write
   ksys_write
@@ -98,7 +98,7 @@ filp_close
 
 [NFS: return more nuanced writeback errors in nfs_file_write()](https://patchwork.kernel.org/project/linux-nfs/patch/20220401034409.256770-2-chenxiaosong2@huawei.com/)
 
-回退 [6c984083ec24 ("NFS: Use of mapping_set_error() results in spurious errors")](https://lore.kernel.org/all/20220215230518.24923-1-trondmy@kernel.org/)，并且在 `write` 中返回更详细的错误：
+回退 [6c984083ec24 ("NFS: Use of mapping_set_error() results in spurious errors")](https://lore.kernel.org/all/20220215230518.24923-1-trondmy@kernel.org/)，并且在 `write` 中返回更详细的错误:
 ```c
 rpc_async_release
   rpc_free_task
@@ -134,7 +134,7 @@ nfs_file_write
 
 [NFS: nfs{,4}_file_flush() return correct writeback errors](https://patchwork.kernel.org/project/linux-nfs/patch/20220401034409.256770-3-chenxiaosong2@huawei.com/)
 
-只有在 `nfs_wb_all` 有新错误产生的情况下，才尝试返回更详细的错误：
+只有在 `nfs_wb_all` 有新错误产生的情况下，才尝试返回更详细的错误:
 ```c
 nfs_file_flush
   // nfs_wb_all 执行期间如果有新的错误产生，才尝试返回更详细的错误，否则返回0
@@ -148,7 +148,7 @@ nfs_file_flush
 [Revert "nfs: nfs_file_write() should check for writeback errors"](https://patchwork.kernel.org/project/linux-nfs/patch/20220401034409.256770-4-chenxiaosong2@huawei.com/)
 
 回退问题补丁 "nfs: nfs_file_write() should check for writeback errors"
-问题补丁存在的问题：
+问题补丁存在的问题:
 ```c
 write
   ksys_write
@@ -176,7 +176,7 @@ write
 
 [NFS: Don't report ENOSPC write errors twice](https://patchwork.kernel.org/project/linux-nfs/patch/20220411213346.762302-4-trondmy@kernel.org/)
 
-存在的问题：
+存在的问题:
 ```
 1. 没解决空间释放后执行 dd 报错的问题
 2. async write 清除 wb_err
@@ -273,7 +273,7 @@ orangefs_flush
 
 第一次没有回答，马上发了第2版。
 
-第二次没有正面回答：
+第二次没有正面回答:
 ```
 I understand all that. The point you appear to be missing is that this
 is in fact in agreement with the documented behaviour in the write(2)

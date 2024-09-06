@@ -4,12 +4,12 @@
 
 ## ubuntu
 
-编译相关软件包：
+编译相关软件包:
 ```sh
 sudo apt install build-essential -y
 ```
 
-安装`kernel-debuginfo`软件包（必须要是ubuntu server才能找到对应内核版本的软件包），参考[Debug symbol packages](https://ubuntu.com/server/docs/debug-symbol-packages)，如果安装时下载很慢，[也可以在仓库先下载好](http://ddebs.ubuntu.com/pool/main/l/linux/)，放到`/var/cache/apt/archives/partial/`目录再安装：
+安装`kernel-debuginfo`软件包（必须要是ubuntu server才能找到对应内核版本的软件包），参考[Debug symbol packages](https://ubuntu.com/server/docs/debug-symbol-packages)，如果安装时下载很慢，[也可以在仓库先下载好](http://ddebs.ubuntu.com/pool/main/l/linux/)，放到`/var/cache/apt/archives/partial/`目录再安装:
 ```sh
 sudo apt install ubuntu-dbgsym-keyring -y
 
@@ -22,7 +22,7 @@ sudo apt-get update -y
 sudo apt install linux-image-`uname -r`-dbgsym -y
 ```
 
-或者[先下载`ddeb`文件](http://ddebs.ubuntu.com/pool/main/l/linux/)，然后：
+或者[先下载`ddeb`文件](http://ddebs.ubuntu.com/pool/main/l/linux/)，然后:
 ```sh
 sudo dpkg -i xxx.ddeb
 ```
@@ -32,7 +32,7 @@ sudo dpkg -i xxx.ddeb
 cp /usr/lib/debug/boot/vmlinux-`uname -r` /usr/lib/modules/`uname -r`/build/vmlinux
 ```
 
-安装内核源码：
+安装内核源码:
 ```sh
 apt search linux-source # 查看版本信息
 apt install linux-source -y
@@ -42,17 +42,17 @@ tar xvf linux-source-5.15.0.tar.bz2
 
 ## fedora
 
-编译相关软件包：
+编译相关软件包:
 ```sh
 sudo dnf groupinstall "Development Tools" -y # 这里安装的 kernel-devel 对应的内核版本可能不一致
 ```
 
-安装`kernel-debuginfo`软件包：
+安装`kernel-debuginfo`软件包:
 ```sh
 sudo dnf --enablerepo=fedora-debuginfo install kernel-debuginfo
 ```
 
-安装`kernel-devel`软件包：
+安装`kernel-devel`软件包:
 ```sh
 sudo dnf install kernel-devel-`uname -r` -y #  kernel-headers-`uname -r` 可能会找不到
 ```
@@ -62,7 +62,7 @@ sudo dnf install kernel-devel-`uname -r` -y #  kernel-headers-`uname -r` 可能�
 cp /usr/lib/debug/lib/modules/`uname -r`/vmlinux /usr/lib/modules/`uname -r`/build/
 ```
 
-下载内核源码：
+下载内核源码:
 ```sh
 # 如果下载太慢，可以先在其他地方下载好
 wget https://kojipkgs.fedoraproject.org/packages/kernel/6.8.5/301.fc40/src/kernel-6.8.5-301.fc40.src.rpm
@@ -115,7 +115,7 @@ CONFIG_PREEMPT_TRACER=y
 CONFIG_DYNAMIC_FTRACE=y
 ```
 
-`/sys/kernel/debug/tracing/`目录下的常见tracer和event如下：
+`/sys/kernel/debug/tracing/`目录下的常见tracer和event如下:
 
 - `available_tracers`: 支持的跟踪器。
 - `available_events`: 支持的事件。
@@ -157,7 +157,7 @@ echo 0 > tracing_on
 cat trace_pipe | less
 ```
 
-还可以指定要跟踪和不跟踪的函数，需要打开配置`CONFIG_DYNAMIC_FTRACE`：
+还可以指定要跟踪和不跟踪的函数，需要打开配置`CONFIG_DYNAMIC_FTRACE`:
 ```sh
 echo func1 func2 > set_ftrace_filter # 要跟踪的函数
 echo func3 func4 > set_ftrace_notrace # 不跟踪的函数
@@ -168,7 +168,7 @@ echo > set_ftrace_notrace # 清空
 
 ## `tracepoint`
 
-比如我们要打开`ext2_dio_read_iter()`函数的`ext2_dio_read_begin`的tracepoint：
+比如我们要打开`ext2_dio_read_iter()`函数的`ext2_dio_read_begin`的tracepoint:
 ```sh
 cd /sys/kernel/debug/tracing/
 echo nop > current_tracer
@@ -187,7 +187,7 @@ dd if=/mnt/file-in of=~/file-out iflag=direct bs=512 count=1 # bs不能随意指
 cat trace_pipe
 ```
 
-到相应`tracepoint`的目录下，设置跟踪条件：
+到相应`tracepoint`的目录下，设置跟踪条件:
 ```sh
 cd /sys/kernel/debug/tracing/
 cd events/ext2/ext2_dio_read_begin
@@ -235,7 +235,7 @@ cat trace_pipe | less
 
 ## `kprobe trace`
 
-kprobe的使用如下：
+kprobe的使用如下:
 ```sh
 cd /sys/kernel/debug/tracing/
 # 可以用 kprobe 跟踪的函数
@@ -276,7 +276,7 @@ cat trace_pipe
 - [使用printk记录消息](https://www.kernel.org/doc/html/latest/translations/zh_CN/core-api/printk-basics.html)
 - [如何获得正确的printk格式占位符](https://www.kernel.org/doc/html/latest/translations/zh_CN/core-api/printk-formats.html)
 
-8个打印等级：
+8个打印等级:
 ```c
 #define KERN_EMERG      KERN_SOH "0"    /* 系统不可用 */              
 #define KERN_ALERT      KERN_SOH "1"    /* 需要立刻处理 */
@@ -290,7 +290,7 @@ cat trace_pipe
 
 默认配置是等级高于`CONFIG_CONSOLE_LOGLEVEL_DEFAULT`会打印，qemu启动时可以指定`append="... loglevel=8`。
 
-`/proc/sys/kernel/printk`文件中的内容含义如下：
+`/proc/sys/kernel/printk`文件中的内容含义如下:
 ```c
 int console_printk[4] = {                                             
         CONSOLE_LOGLEVEL_DEFAULT,       /* 控制台输出等级 */        
@@ -318,7 +318,7 @@ echo -n '*ext4* -p' > control # 关闭文件路径中包含ext4的打印
 echo -n '+p' > control # 所有打印
 ```
 
-系统启动相关的代码（如`smpboot`），需要在启动时传递参数：
+系统启动相关的代码（如`smpboot`），需要在启动时传递参数:
 ```sh
 # p: 打开
 # f: 函数名
@@ -328,7 +328,7 @@ echo -n '+p' > control # 所有打印
 qemu-system-x86_64 -append "... smpboot.dyndbg=+plftm"
 ```
 
-也可以修改子系统的`Makefile`，添加以下内容：
+也可以修改子系统的`Makefile`，添加以下内容:
 ```sh
 ccflags-y += -DDEBUG
 ccflags-y += -DVERBOSE_DEBUG
@@ -340,7 +340,7 @@ ccflags-y += -DVERBOSE_DEBUG
 
 ## 源码安装crash
 
-如果内核版本不是最新的（比如4.19或5.10等），那么发行版的包管理器安装的crash就可以用，但如果内核版本是最新的，可能就需要通过源码安装crash：
+如果内核版本不是最新的（比如4.19或5.10等），那么发行版的包管理器安装的crash就可以用，但如果内核版本是最新的，可能就需要通过源码安装crash:
 ```sh
 git clone https://github.com/crash-utility/crash.git
 sudo apt-get install autoconf automake libtool texinfo -y
@@ -353,24 +353,24 @@ make -j64 # 如果下载gdb很慢，可以先在其他地方先下载好（如 h
 
 以fedora40为例。
 
-安装工具：
+安装工具:
 ```sh
 sudo dnf install kexec-tools -y
 sudo dnf install crash -y
 ```
 
-修改`/etc/default/grub`文件，在`GRUB_CMDLINE_LINUX=`一行的最后添加以下内容：
+修改`/etc/default/grub`文件，在`GRUB_CMDLINE_LINUX=`一行的最后添加以下内容:
 ```sh
 GRUB_CMDLINE_LINUX="... crashkernel=512M" # 根据内存大小来决定
 ```
 
-然后重新生成grub配置：
+然后重新生成grub配置:
 ```sh
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 sudo reboot # 重启才会生效
 ```
 
-开启kdump服务：
+开启kdump服务:
 ```sh
 sudo systemctl enable kdump.service # 设置成开机启动
 sudo systemctl start kdump.service # 启动
@@ -379,7 +379,7 @@ sudo systemctl status kdump.service # 查看状态
 
 如果系统有问题发生崩溃，会在`/var/crash`目录下生成`vmcore`文件。
 
-为了验证kdump功能是否可用，我们可以手动触发：
+为了验证kdump功能是否可用，我们可以手动触发:
 ```sh
 sudo su root
 echo 1 > /proc/sys/kernel/sysrq
@@ -395,7 +395,7 @@ crash /var/crash/${ip}-${date-time}/vmcore /usr/lib/debug/lib/modules/`uname -r`
 
 以ubuntu24.04为例。
 
-安装工具：
+安装工具:
 ```sh
 sudo apt-get update -y
 sudo apt install linux-crashdump -y
@@ -410,24 +410,24 @@ make O=build -j8
 ```
 -->
 
-修改`/etc/default/grub`文件，在`GRUB_CMDLINE_LINUX=`一行的最后添加以下内容：
+修改`/etc/default/grub`文件，在`GRUB_CMDLINE_LINUX=`一行的最后添加以下内容:
 ```sh
 GRUB_CMDLINE_LINUX="... crashkernel=512M" # 根据内存大小来决定
 ```
 
-然后重新生成grub配置：
+然后重新生成grub配置:
 ```sh
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 注意ubuntu server（如ubuntu22.04.4）的`/boot/grub/grub.cfg`中的`crashkernel`后的值是`512M-:192M`，要删掉后面的`-:192M`，否则无法生成`vmcore`。
 
-再重启系统：
+再重启系统:
 ```sh
 sudo reboot # 重启才会生效
 ```
 
-开启kdump服务：
+开启kdump服务:
 ```sh
 sudo systemctl enable kdump-tools.service # 设置成开机启动
 sudo systemctl start kdump-tools.service # 启动
@@ -436,7 +436,7 @@ sudo systemctl status kdump-tools.service # 查看状态
 
 如果系统有问题发生崩溃，会在`/var/crash`目录下生成`vmcore`文件。
 
-为了验证kdump功能是否可用，我们可以手动触发：
+为了验证kdump功能是否可用，我们可以手动触发:
 ```sh
 sudo su root
 echo 1 > /proc/sys/kernel/sysrq
@@ -454,20 +454,20 @@ crash /var/crash/${date-time}/dump.${date-time} /usr/lib/debug/boot/vmlinux-`una
 
 qemu启动的命令行最好指定`-append "nokaslr ..."`。
 
-在qemu环境中运行，不需要安装`kdump`工具。有些发行版默认发生oops时不会panic，需要修改配置（注意这样修改重启后会还原）：
+在qemu环境中运行，不需要安装`kdump`工具。有些发行版默认发生oops时不会panic，需要修改配置（注意这样修改重启后会还原）:
 ```sh
 echo 1 > /proc/sys/kernel/panic_on_oops # 注意不能用 vim 编辑
 cat /proc/sys/kernel/panic_on_oops # 确认是否生效
 echo 3000 > /proc/sys/kernel/panic # panic之后多久重启
 ```
 
-按`ctrl + a c`打开QEMU控制台，使用以下命令导出vmcore：
+按`ctrl + a c`打开QEMU控制台，使用以下命令导出vmcore:
 ```sh
 (qemu) dump-guest-memory /your_path/vmcore
 (qemu) dump-guest-memory -z /your_path/vmcore # 压缩
 ```
 
-除了panic时导出vmcore，还可以手动触发导出vmcore，这在一些场景下收集信息非常有用：
+除了panic时导出vmcore，还可以手动触发导出vmcore，这在一些场景下收集信息非常有用:
 ```sh
 # 这个命令启用了 Magic SysRq 键。Magic SysRq 键提供了一组能够直接与内核进行交互的调试和故障排除功能。
 # 当启用 Magic SysRq 后，您可以使用 Magic SysRq 键与其他键组合来触发特定的操作
@@ -477,12 +477,12 @@ echo 1 > /proc/sys/kernel/sysrq
 echo c > /proc/sysrq-trigger
 ```
 
-`x86_64`启动`crash`：
+`x86_64`启动`crash`:
 ```sh
 crash vmlinux vmcore
 ```
 
-`aarch64`启动`crash`要特殊处理：
+`aarch64`启动`crash`要特殊处理:
 ```sh
 # 先启动gdb打印变量值
 (gdb) target remote:5555
@@ -490,7 +490,7 @@ crash vmlinux vmcore
 crash vmlinux vmcore -m vabits_actual=48 -m kimage_voffset=0xffff80003fe00000
 ```
 
-加载ko模块：
+加载ko模块:
 ```sh
 crash> help mod # 帮助命令
 crash> mod -s <module name> <ko path> # 加载
@@ -511,7 +511,7 @@ crash> help # 查看支持的所有命令
 crash> help bt # 查看具体命令（bt）的用法
 ```
 
-`sys`命令查看系统信息：
+`sys`命令查看系统信息:
 ```sh
 crash> sys
 ```
@@ -525,7 +525,7 @@ crash> bt -F
 crash> bt -FF
 # -f：显示堆栈帧中包含的所有数据；此选项可用于确定传递给每个函数的参数；在 ia64 架构上，将显示参数寄存器的内容。
 crash> bt -f
-# 其他选项：
+# 其他选项:
 -t: 显示文本符号。
 -l: 显示文件名、行号。
 ```
@@ -545,14 +545,14 @@ crash> mod -d <module name> # 删除
 crash> mod -S # 从某个特定目录加载所有模块，默认从/lib/modules/`uname -r` 目录
 ```
 
-`sym`命令（解析符号信息）：
+`sym`命令（解析符号信息）:
 ```sh
 crash> sym -l # 相当于查看 System.map
 crash> sym -m ubifs # 查看某个内核模块
 crash> sym -q ext2 # 查看包含ext2字符串的符号信息
 ```
 
-`rd`命令用于读取内存地址的值：
+`rd`命令用于读取内存地址的值:
 ```sh
 # -p: 物理地址
 # -u: 用户空间虚拟地址
@@ -564,7 +564,7 @@ crash> sym -q ext2 # 查看包含ext2字符串的符号信息
 crash> rd 0xffff888005462800 20 # 读20个值
 ```
 
-`struct`命令：
+`struct`命令:
 ```sh
 crash> struct ext2_inode # 显示结构体定义
 crash> struct ext2_inode -o # 偏移
@@ -572,7 +572,7 @@ crash> struct ext2_inode ffff88800dc59820 # 解析值
 crash> struct ext2_inode.i_mtime ffff88800dc59820 # 某个成员的值
 ```
 
-`p`命令：
+`p`命令:
 ```sh
 crash> p jiffies
 crash> p ext2_readdir # 输出函数符号地址
@@ -580,7 +580,7 @@ crash> p irq_stat # percpu变量，定义在 arch/x86/kernel/irq.c 中
 crash> p irq_stat:0 # cpu 0
 ```
 
-`irq`中断相关信息：
+`irq`中断相关信息:
 ```sh
 # -a: 中断亲和性
 # -s: 系统中断信息
@@ -589,12 +589,12 @@ crash> irq 0 # 第0个中断
 crash> irq -b # 下半部
 ```
 
-`task`命令显示`struct task_struct`和`struct thread_info`的内容：
+`task`命令显示`struct task_struct`和`struct thread_info`的内容:
 ```sh
 crash> task -x # 16进制
 ```
 
-`vm`命令显示进程地址空间：
+`vm`命令显示进程地址空间:
 ```sh
 # -p: 虚拟地址和物理地址
 # -m: mm_struct
@@ -605,7 +605,7 @@ crash> vm # 崩溃瞬间进程
 crash> vm 575 # 指定pid
 ```
 
-`kmem`显示内存信息：
+`kmem`显示内存信息:
 ```sh
 crash> kmem -i # 系统内存使用情况
 crash> kmem -s # slab使用情况
@@ -616,7 +616,7 @@ crash> kmem -p # page
 crash> kmem -g # page flag
 ```
 
-`list`命令：
+`list`命令:
 ```sh
 crash> list super_blocks
 # -s: 链表成员
@@ -627,7 +627,7 @@ crash> list -h 0xffff888005462800 | wc -l # 链表长度
 
 ## 例子1
 
-构造一个空指针访问的场景：
+构造一个空指针访问的场景:
 ```sh
 diff --git a/fs/ext2/dir.c b/fs/ext2/dir.c
 index b335f17f682f..01893352b0bb 100644
@@ -646,7 +646,7 @@ index b335f17f682f..01893352b0bb 100644
 
 ### 查看崩溃在哪一行
 
-可以使用内核仓库的脚本`scripts/faddr2line`：
+可以使用内核仓库的脚本`scripts/faddr2line`:
 ```sh
 # 查看内核日志
 crash> dmesg | less
@@ -663,7 +663,7 @@ RIP: 0010:ext2_readdir+0x7e/0x310
 ext2_readdir at fs/ext2/dir.c:270
 ```
 
-也可以在`crash`中反汇编查看：
+也可以在`crash`中反汇编查看:
 ```sh
 # 查看崩溃的栈
 crash> bt
@@ -710,7 +710,7 @@ crash> bt -FF
 ...
 ```
 
-我们先看`[ffff88800eda3ce8:ext2_inode_cache]`，注意这个并不是`struct ext2_inode_info`的指针的地址，用以下命令：
+我们先看`[ffff88800eda3ce8:ext2_inode_cache]`，注意这个并不是`struct ext2_inode_info`的指针的地址，用以下命令:
 ```sh
 crash> kmem ffff88800eda3ce8
 CACHE             OBJSIZE  ALLOCATED     TOTAL  SLABS  SSIZE  NAME
@@ -719,7 +719,7 @@ CACHE             OBJSIZE  ALLOCATED     TOTAL  SLABS  SSIZE  NAME
   [ffff88800eda3c30]
 ```
 
-`struct ext2_inode_info`的地址是`ffff88800eda3c30`，`[ALLOCATED]`代表已分配，那么`ffff88800eda3ce8:ext2_inode_cache`的地址是什么结构体的呢，我们查看`struct ext2_inode_info`结构体：
+`struct ext2_inode_info`的地址是`ffff88800eda3c30`，`[ALLOCATED]`代表已分配，那么`ffff88800eda3ce8:ext2_inode_cache`的地址是什么结构体的呢，我们查看`struct ext2_inode_info`结构体:
 ```sh
 crash> struct ext2_inode_info ffff88800eda3c30 -ox
 struct ext2_inode_info {
@@ -732,7 +732,7 @@ SIZE: 0x350
 
 所以`ffff88800eda3ce8`是`struct inode`的指针地址。
 
-再看`[ffff888006899200:filp]`：
+再看`[ffff888006899200:filp]`:
 ```sh
 crash> kmem ffff888006899200
 ...
@@ -744,7 +744,7 @@ crash> kmem ffff888006899200
 
 ### 分析汇编
 
-查看栈中寄存器的信息：
+查看栈中寄存器的信息:
 ```sh
 crash> bt
 ...
@@ -819,13 +819,13 @@ crash> dis -l ext2_readdir
 
 基于`kprobe`，典型的应用是列出前几个调用次数最多的系统调用。
 
-安装：
+安装:
 ```sh
 sudo apt install systemtap -y
 sudo dnf install systemtap -y
 ```
 
-写一个最简单的`hello-world.stp`文件，进行测试：
+写一个最简单的`hello-world.stp`文件，进行测试:
 ```sh
 probe begin
 {
@@ -836,7 +836,7 @@ probe begin
 
 fedora要安装`kernel-debuginfo`和`kernel-devel`（对应内核版本）。ubuntu要安装`kernel-debuginfo`软件包。
 
-运行：
+运行:
 ```sh
 stap hello-world.stp
 hello world
@@ -870,7 +870,7 @@ stap -l 'kernel.function("sched*")' # 编译到vmlinux中的函数
 stap -l 'module("xfs").function("xfs*")' # xfs模块的函数
 ```
 
-`test.stp`文件：
+`test.stp`文件:
 ```sh
 # 如果xfs编译到vmlinux中，'module("xfs")'要换成'kernel'
 probe module("xfs").function("xfs_file_read_iter").call {
@@ -882,7 +882,7 @@ probe module("xfs").function("xfs_file_read_iter").return {
 }
 ```
 
-测试命令：
+测试命令:
 ```sh
 fallocate -l 300M image
 mkfs.xfs -f image
@@ -896,7 +896,7 @@ cat /mnt/file
 
 ## 编译
 
-在内核编译环境上，在内核代码目录下：
+在内核编译环境上，在内核代码目录下:
 ```sh
 # 根据 make 命令报错提示安装
 sudo apt install -y libtraceevent-dev

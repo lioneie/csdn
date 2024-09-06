@@ -35,7 +35,7 @@ fi
 
 # 修改成不需要密码
 
-`/etc/passwd`修改成：
+`/etc/passwd`修改成:
 ```sh
 root::0:0:Super User:/root:/bin/bash
 ```
@@ -46,7 +46,7 @@ root::0:0:Super User:/root:/bin/bash
 
 在 linux 仓库中执行 `make dtbs` 生成 dtb 文件
 
-ubuntu2204宿主机中创建网络：
+ubuntu2204宿主机中创建网络:
 ```sh
 sudo apt install bridge-utils -y # brctl命令
 sudo apt-get install uml-utilities -y # tunctl 命令， centos９没有
@@ -85,7 +85,7 @@ riscv64架构的镜像，可以直接下载[ubuntu2204](https://ubuntu.com/downl
 qemu-system-riscv64 -netdev ? # 宿主机中查看可用的netdev backend类型
 ```
 
-虚拟机中修改配置：
+虚拟机中修改配置:
 ```sh
 systemctl status systemd-modules-load.service # 查看systemd-modules-load服务状态
 # 删除systemd-modules-load服务，怕万一后续有用，只做重命名
@@ -97,7 +97,7 @@ vim /etc/fstab # 删除 LABEL=UEFI 一行
 
 # openeuler
 
-[openEuler 22.03 LTS SP2（或更新的版本）](https://www.openeuler.org/en/download/?version=openEuler%2022.03%20LTS%20SP2)，Scenario选择“cloud computing”，下载`qcow2.xz`，解压：
+[openEuler 22.03 LTS SP2（或更新的版本）](https://www.openeuler.org/en/download/?version=openEuler%2022.03%20LTS%20SP2)，Scenario选择“cloud computing”，下载`qcow2.xz`，解压:
 ```sh
 xz -d openEuler-22.03-LTS-SP2-x86_64.qcow2.xz
 ```
@@ -110,7 +110,7 @@ qemu启动参数需要做一些小修改 `-append "... root=/dev/vda2 ..."`。
 
 # virt-manager
 
-串口打印：
+串口打印:
 ```sh
 virsh list # 找到虚拟机名称
 virsh console <虚拟机名称>

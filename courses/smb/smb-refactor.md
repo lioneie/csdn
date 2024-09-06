@@ -16,7 +16,7 @@
 
 重构补丁还未完成，但发了一些这个函数的bugfix补丁，请查看[`[PATCH v2 00/12] smb: fix some bugs, move duplicate definitions to common header file, and some small cleanups`](https://lore.kernel.org/all/20240822082101.391272-1-chenxiaosong@chenxiaosong.com/)，以及2023年时发过的这个函数的一个bugfix补丁[`624b445544f ksmbd: fix possible refcount leak in smb2_open()`](https://patchwork.kernel.org/project/cifs-client/patch/20230302135804.2583061-1-chenxiaosong2@huawei.com/)。
 
-先整理一下函数流程。`smb2_open()`框架流程：
+先整理一下函数流程。`smb2_open()`框架流程:
 ```c
   ksmbd_override_fsids
   ksmbd_vfs_getattr
@@ -38,7 +38,7 @@ err_out2:
   // 最后的错误处理
 ```
 
-更具体的代码流程：
+更具体的代码流程:
 ```c
 kthread
   worker_thread
@@ -151,7 +151,7 @@ smb2_open
 - [`fs/ksmbd/smbstatus.h`的修改历史](https://github.com/torvalds/linux/commits/38c8a9a52082579090e34c033d439ed2cd1a462d/fs/ksmbd/smbstatus.h?browsing_rename_history=true&new_path=fs/smb/server/smbstatus.h&original_branch=master)
 - [`fs/cifsd/smbstatus.h`的修改历史](https://github.com/torvalds/linux/commits/1a93084b9a89818aec0ac7b59a5a51f2112bf203/fs/cifsd/smbstatus.h?browsing_rename_history=true&new_path=fs/smb/server/smbstatus.h&original_branch=master)
 
-`e2f34481b24d cifsd: add server-side procedures for SMB3`的`fs/cifsd/smbstatus.h`和最新的`fs/smb/server/smbstatus.h`只有以下不同：
+`e2f34481b24d cifsd: add server-side procedures for SMB3`的`fs/cifsd/smbstatus.h`和最新的`fs/smb/server/smbstatus.h`只有以下不同:
 ```sh
 @@ -1,6 +1,6 @@
  /* SPDX-License-Identifier: LGPL-2.1+ */
@@ -165,7 +165,7 @@ smb2_open
 
 ## 最新代码对比
 
-在vim下，`fs/smb/server/smbstatus.h`先做两组替换`:%s/\t\\\n\t/ /g`和`:%s/ \\\n\t/ /g`，然后再和`fs/smb/client/smb2status.h`对比，有以下不同：
+在vim下，`fs/smb/server/smbstatus.h`先做两组替换`:%s/\t\\\n\t/ /g`和`:%s/ \\\n\t/ /g`，然后再和`fs/smb/client/smb2status.h`对比，有以下不同:
 ```sh
 # 这俩是client端的
 +#define STATUS_SERVER_UNAVAILABLE cpu_to_le32(0xC0000466)

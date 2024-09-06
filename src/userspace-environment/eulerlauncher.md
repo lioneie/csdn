@@ -18,7 +18,7 @@ sudo visudo # 将%admin ALL=(ALL) ALL替换为 %admin ALL=(ALL) NOPASSWD: ALL
 sudo vim /Library/Application\ Support/org.openeuler.eulerlauncher/eulerlauncher.conf
 ```
 
-配置文件内容如下：
+配置文件内容如下:
 ```sh
 [default]
 log_dir = /Users/sonvhi/chenxiaosong/tmp/eulerlauncher.log # 日志文件位置(xxx.log)
@@ -32,7 +32,7 @@ cpu_num = 4 # 配置虚拟机的CPU个数
 memory = 2048 # 配置虚拟机的内存大小，单位为M，M1用户请勿配置超过2048
 ```
 
-在应用程序中找到`EulerLauncher.app`，单击启动程序（可能要在设置的隐私与安全中点击允许打开）。然后用命令行：
+在应用程序中找到`EulerLauncher.app`，单击启动程序（可能要在设置的隐私与安全中点击允许打开）。然后用命令行:
 ```sh
 eulerlauncher images # 获取可用镜像列表
 eulerlauncher download-image 22.03-LTS # 异步下载镜像

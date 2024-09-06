@@ -2,7 +2,7 @@
 
 # ntfs
 
-ntfs是只读文件系统，挂载步骤：
+ntfs是只读文件系统，挂载步骤:
 ```sh
 apt install ntfs-3g -y # mkfs.ntfs
 fdisk /dev/sda # 新建分区 /dev/sda1
@@ -33,7 +33,7 @@ chown root file # 报错Operation not permitted，vfat无法修改文件权限
 
 # ntfs3
 
-ntfs3是可读可写文件系统。挂载时指定`ntfs3`：
+ntfs3是可读可写文件系统。挂载时指定`ntfs3`:
 ```sh
 mount -t ntfs3 -o umask=124,uid=1000,gid=1000 /dev/sda1 /mnt
 ```

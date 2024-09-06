@@ -2,18 +2,18 @@
 
 # 使用
 
-虚拟机启动时，不能使用4k盘，qemu启动命令`logical_block_size`和`physical_block_size`参数要使用512：
+虚拟机启动时，不能使用4k盘，qemu启动命令`logical_block_size`和`physical_block_size`参数要使用512:
 ```sh
 -drive file=1,if=none,format=raw,cache=writeback,file.locking=off,id=dd_1 \
 -device scsi-hd,drive=dd_1,id=disk_1,logical_block_size=512,physical_block_size=512 \
 ```
 
-格式化磁盘，具体的选项使用`man mkfs.minix`查看：
+格式化磁盘，具体的选项使用`man mkfs.minix`查看:
 ```sh
 mkfs.minix -3 /dev/sda
 ```
 
-挂载文件系统：
+挂载文件系统:
 ```sh
 mount -t minix /dev/sda /mnt
 ```
@@ -26,7 +26,7 @@ mount -t minix /dev/sda /mnt
 
 当我们使用`touch`命令创建一个4095字节长度的文件时，会执行到`minix_lookup`函数。而当创建一个4096字节长度的文件时，不会执行到`minix_lookup`函数，说明在`vfs`已经拦截了。
 
-调试的补丁为[`0001-debug-long-filename.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/filesystem/0001-debug-long-filename.patch)，相关代码流程如下：
+调试的补丁为[`0001-debug-long-filename.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/filesystem/0001-debug-long-filename.patch)，相关代码流程如下:
 ```c
 openat
   do_sys_open

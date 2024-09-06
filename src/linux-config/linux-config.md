@@ -26,7 +26,7 @@ Linux下一切皆文件，所有的配置选项也都是文件。
 
 当没有配置时，无法进行git的提交。
 
-配置名字和邮箱：
+配置名字和邮箱:
 ```shell
 git config --global user.name "ChenXiaoSong"
 git config --global user.email "chenxiaosongemail@foxmail.com"
@@ -46,7 +46,7 @@ xmodmap .origin_xmodmap.txt # 还原，需要点时间
 xmodmap .xmodmap.txt
 ```
 
-帮助命令：
+帮助命令:
 ```shell
 xmodmap -h
 xmodmap -pm # 打印修饰键
@@ -69,7 +69,7 @@ xmodmap -pke # 除修饰键外的其他键
 
 Tmux（缩写自"Terminal Multiplexer"）是一个在命令行界面下运行的终端复用工具，我主要是用tmux的会话附加和分离功能，在一个Tmux会话中分离，然后重新附加，这意味着可以从一个终端窗口断开，然后在另一个终端窗口中继续工作，或者甚至在断开后重新连接。
 
-安装：
+安装:
 ```sh
 sudo apt update -y
 sudo apt install tmux -y

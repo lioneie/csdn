@@ -16,7 +16,7 @@ Linux采用了一颗红黑树（对于多核调度，实际上每一个核有一
 
 红黑树操作的算法复杂度最大为O(lgn)
 
-请阅读2.6.34内核`kernel/sched_fair.c`中的下列结构体或函数：
+请阅读2.6.34内核`kernel/sched_fair.c`中的下列结构体或函数:
 
 调度器实体结构：`struct sched_entity`
 

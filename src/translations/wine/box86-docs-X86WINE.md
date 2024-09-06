@@ -161,7 +161,7 @@ sudo chmod +x winetricks && sudo mv winetricks /usr/local/bin/                  
 
 ## 示例命令
 
-以下是一个使用box86运行winetricks命令的示例：
+以下是一个使用box86运行winetricks命令的示例:
 
 `BOX86_NOBANNER=1 winetricks -q corefonts vcrun2010 dotnet20sp1`
 

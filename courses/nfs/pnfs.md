@@ -13,7 +13,7 @@
 
 ## 有没有详细的pNFS环境搭建指导文档?
 
-[Chuck Lever 回复内容](https://lore.kernel.org/all/08BB98A6-FA14-4551-B977-8BC4029DB0E1@oracle.com/)翻译如下：
+[Chuck Lever 回复内容](https://lore.kernel.org/all/08BB98A6-FA14-4551-B977-8BC4029DB0E1@oracle.com/)翻译如下:
 ```
 我不知道除了你这里列出的文档以外，还有没有其他最新的文档。
 
@@ -43,7 +43,7 @@ af043aa iscsi: Provision a target node to host iSCSI LUNs
 
 ## 除了block layout外，nfs server有没计划实现其他的layout?
 
-[Chuck Lever 回复内容](https://lore.kernel.org/all/1D4505F5-1923-4E7B-A12B-F1E05308914C@oracle.com/)翻译如下：
+[Chuck Lever 回复内容](https://lore.kernel.org/all/1D4505F5-1923-4E7B-A12B-F1E05308914C@oracle.com/)翻译如下:
 ```
 object layout类型已经被弃用。如果我没记错的话，Linux NFS 客户端几年前就移除了对该类型的支持。服务器端也不计划支持它。
 
@@ -67,7 +67,7 @@ NFS 服务器有一个玩具级的 flexfile layout实现，仅仅是一个概念
 
 # 简介
 
-pNFS的网络结构图如下：
+pNFS的网络结构图如下:
 ```sh
 +---------+                                          
 | +---------+

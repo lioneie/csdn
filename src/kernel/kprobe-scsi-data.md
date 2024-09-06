@@ -4,7 +4,7 @@
 
 存储盘数据读写过程中，发现个别存储盘发生了几个字节的数据错误，从应用层一直定位到block层，最终确定数据错误是发生在存储盘的驱动，存储盘的驱动已经不属于内核领域了，驱动问题怎么解决我们不讨论，这里只说block层是怎么确定没问题的。
 
-测试过程是：
+测试过程是:
 
 1. 往存储盘的特定位置写文件。
 2. 清除缓存。
@@ -30,7 +30,7 @@ echo 3 > /proc/sys/vm/drop_caches
 
 [`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/kernel/Makefile)。
 
-再把`file`文件内容变成正确的，再查看内核日志：
+再把`file`文件内容变成正确的，再查看内核日志:
 ```sh
 dd if=3rd-right of=/dev/sda2 bs=1 seek=184557568 count=4096 # 写第3个正确的页，45056 * 4096 + 8192
 dd if=file-expect of=/dev/sda2 bs=4096 seek=45056 count=10240 # 或把 file 重置, 全部正确

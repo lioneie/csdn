@@ -20,7 +20,7 @@
 
 （hackbench 也没有显示出增强树和一般更昂贵的选择有损失，事实上在这里显示了一些小幅度的提升）
 
-hackbench 负载 + cyclictest --policy 其他结果：
+hackbench 负载 + cyclictest --policy 其他结果:
 
                         EEVDF                    CFS
 
@@ -48,7 +48,7 @@ hackbench 负载 + cyclictest --policy 其他结果：
 
 这是 EEVDF 补丁的最新版本 [1]。
 
-自上次以来有很多变化；最显著的变化是它现在完全取代了 CFS，并使用基于滞后（lag）的迁移放置策略。较小的变化包括：
+自上次以来有很多变化；最显著的变化是它现在完全取代了 CFS，并使用基于滞后（lag）的迁移放置策略。较小的变化包括:
 
 对 avg_vruntime 使用了 scale_load_down()；我测量的最大差值约为 44 位，基于系统/cgroup 的内核构建。
 修复了一些重新加权/ cgroup 放置问题。
@@ -84,7 +84,7 @@ PLACE_BONUS 补丁严重搞乱了像 hackbench 和 latency-nice 之类的东西�
 
 最后一个补丁实现了使用 sched_attr::sched_runtime 的替代方案，但尚未经过测试。
 
-基础补丁 [1-11] 的 Diffstat：
+基础补丁 [1-11] 的 Diffstat:
 
  include/linux/rbtree_augmented.h |   26 +
  include/linux/sched.h            |    7 +-
@@ -149,7 +149,7 @@ sched/fair: 实现类似 EEVDF 的调度策略
 
 具体来说，EEVDF 在树的左半部分执行类似 EDF（最早截止时间优先）的调度——这些实体是需要被服务的。由于这是一个虚拟时间调度器，所以截止时间也是在虚拟时间内，这也是允许超额订阅的原因。
 
-EEVDF 有两个参数：
+EEVDF 有两个参数:
 
 权重，或时间斜率：与以前一样，映射到 nice 值上。
 

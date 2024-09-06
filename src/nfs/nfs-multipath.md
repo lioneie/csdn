@@ -4,7 +4,7 @@
 
 [Multiple network connections for a single NFS mount.](https://patchwork.kernel.org/project/linux-nfs/cover/155917564898.3988.6096672032831115016.stgit@noble.brown/)
 
-cover-letter翻译：
+cover-letter翻译:
 ```
 这个补丁集基于git://git.linux-nfs.org/projects/trondmy/nfs-2.6.git 的multipath_tcp分支中的补丁。
 
@@ -15,7 +15,7 @@ cover-letter翻译：
 
 正如我在其中一个补丁中所解释的那样，我理解的是并行硬件通常通过分发流而不是数据包来利用，这避免了在流中传递数据包时的无序传递。因此，需要多个流来利用并行硬件。
 
-此补丁集的早期版本于2017年4月发布，Chuck提出了两个问题：
+此补丁集的早期版本于2017年4月发布，Chuck提出了两个问题:
 1/ mountstats仅报告一个挂载的一个xprt
 2/ 会话建立需要在单个xprt上进行，因为在建立会话之前不能将其他xprt绑定到会话。
 我已经添加了解决这些问题的补丁，并且还在debugfs信息中添加了额外的xprt。
@@ -63,7 +63,7 @@ cat /proc/self/mountstats | less
 
 [do not collapse trunkable transports](https://patchwork.kernel.org/project/linux-nfs/cover/20210827183719.41057-1-olga.kornievskaia@gmail.com/)
 
-cover-letter翻译：
+cover-letter翻译:
 ```
 这个补丁系列的目标是允许新的挂载（即nfsv4.1+支持会话干线的服务器）到相同的服务器，但到不同的网络地址使用与这些挂载相关联的连接，同时仍然使用相同的客户端结构。
 
@@ -131,7 +131,7 @@ mount
 
 编译前打开配置`CONFIG_ENFS=y`
 
-挂载选项解析流程：
+挂载选项解析流程:
 ```c
 nfs_parse_mount_options
   enfs_check_mount_parse_info

@@ -1,4 +1,4 @@
-现在有3台电脑：
+现在有3台电脑:
 ```
 1. 局域网电脑 private-server
 2. 有公网ip的服务器 public-server
@@ -31,7 +31,7 @@
 
 # 安装
 
-首先在private-server上安装autossh：
+首先在private-server上安装autossh:
 ```sh
 # https://www.harding.motd.ca/autossh/ # centos9源码安装, 没法通过包管理器安装
 
@@ -53,12 +53,12 @@ systemctl restart sshd # 重启ssh
 
 在private-server上执行[`link.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/ssh-reverse/link.sh)脚本将[`src/ssh-reverse/ssh-reverse.service`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/ssh-reverse/ssh-reverse.service)链接到`/lib/systemd/system/ssh-reverse.service`。
 
-private-server 在`/etc/bashrc`或`/etc/bash.bashrc`(通过`/etc/profile`查看到底是哪个文件)中添加：
+private-server 在`/etc/bashrc`或`/etc/bash.bashrc`(通过`/etc/profile`查看到底是哪个文件)中添加:
 ```shell
 AUTOSSH_POLL=60
 ```
 
-然后在private-server上执行以下操作：
+然后在private-server上执行以下操作:
 ```sh
 sudo -i # 切换成 root, 因为开机运行 ssh-reverse 是 root 用户
 ssh-keygen # 生成ssh key
@@ -70,7 +70,7 @@ sudo systemctl enable ssh-reverse # 开机启动
 sudo systemctl restart ssh-reverse # 重启服务
 ```
 
-在public-server上查看是否在监听某些端口：
+在public-server上查看是否在监听某些端口:
 ```sh
 # -t: 显示 TCP 端口信息。
 # -u: 显示 UDP 端口信息。
@@ -80,7 +80,7 @@ sudo systemctl restart ssh-reverse # 重启服务
 netstat -tunpl | grep 8888
 ```
 
-这时private-client就可以直接访问private-server了：
+这时private-client就可以直接访问private-server了:
 ```sh
 ssh -p 55555 sonvhi@hz.chenxiaosong.com
 ```
@@ -89,7 +89,7 @@ ssh -p 55555 sonvhi@hz.chenxiaosong.com
 
 有时会因为网络波动出现无法远程连接，可以在private-server上使用脚本监测，当监测到无法连接时，重启服务。
 
-执行以下命令，运行[src/ssh-reverse/monitor-ssh.sh](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/ssh-reverse/monitor-ssh.sh)脚本：
+执行以下命令，运行[src/ssh-reverse/monitor-ssh.sh](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/ssh-reverse/monitor-ssh.sh)脚本:
 ```sh
 mkdir -p /home/sonvhi/chenxiaosong/monitor-ssh
 # 因为要不断写日志，所以挂载一个tmpfs，避免写入磁盘，否则会降低磁盘寿命
@@ -101,7 +101,7 @@ bash monitor-ssh.sh &
 
 # 内网穿透
 
-ssh反向隧道还可以用于内网穿透，比如把内网linux的mysql端口暴露到公网上：
+ssh反向隧道还可以用于内网穿透，比如把内网linux的mysql端口暴露到公网上:
 ```shell
 # ssh -R <公网服务器IP>:<公网端口>:localhost:<MySQL端口> <公网服务器用户名>@<公网服务器IP>
 ssh -R chenxiaosong.com:22222:localhost:3306 root@chenxiaosong.com

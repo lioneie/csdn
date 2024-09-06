@@ -4,30 +4,30 @@
 
 我们先来看一下什么是文件系统？我们买电脑时，肯定会配一块硬盘（现在一般是固态硬盘），硬盘是用来存储数据资料的。比如要存储一句话:"我爱操作系统"，一个汉字占用2个字节，存储这一句话要占用12个字节（不包括结束符），我们可以用2种方法来存储。第一种方法是从硬盘第一个字节开始存储，前两个字节存储"我"，第三四个字节存储"爱"，以此类推。第二种方法是先创建一个文件，在这个文件里存储这句话，我们打开硬盘时，只需要找到这个文件的位置，就能找到这句话。第一种方法数据管理起来很不方便，所以一般都用第二种方法，第二种方法管理数据的规则就称为文件系统。
 
-文件系统可以分为3类：
+文件系统可以分为3类:
 
 - 磁盘文件系统，如ext2、ext4、xfs、ntfs等。
 - 网络文件系统，如nfs、cifs等。
 - 特殊文件系统，如procfs、sysfs等。
 
-我们来实际操作一下，虚拟机中的`${HOME}/qemu-kernel/start.sh`文件中增加以下内容（如果已有就不用增加）：
+我们来实际操作一下，虚拟机中的`${HOME}/qemu-kernel/start.sh`文件中增加以下内容（如果已有就不用增加）:
 ```sh
 -drive file=1,if=none,format=raw,cache=writeback,file.locking=off,id=dd_1 \
 -device scsi-hd,drive=dd_1,id=disk_1,logical_block_size=512,physical_block_size=512 \
 ```
 
-然后在`${HOME}/qemu-kernel/`目录下创建一个文件：
+然后在`${HOME}/qemu-kernel/`目录下创建一个文件:
 ```sh
 fallocate -l 1G 1
 ```
 
-进入虚拟机后，可以使用上面提到的第一种方法，直接从磁盘的第一个字节开始存：
+进入虚拟机后，可以使用上面提到的第一种方法，直接从磁盘的第一个字节开始存:
 ```sh
 echo "我爱操作系统" > /dev/sda
 cat /dev/sda # 从磁盘的第一个字节开始输出
 ```
 
-也可以用上面提到的第二种方法，也就是我们要学的文件系统：
+也可以用上面提到的第二种方法，也就是我们要学的文件系统:
 ```sh
 mkfs.ext4 -F /dev/sda # 格式化文件系统
 mount -t ext4 /dev/sda /mnt # 把磁盘挂载到某个目录
@@ -185,7 +185,7 @@ struct super_block {
 } __randomize_layout;
 ```
 
-超级块对象通过`alloc_super()`函数创建和初始化，具体的文件系统如ext2文件系统的流程如下：
+超级块对象通过`alloc_super()`函数创建和初始化，具体的文件系统如ext2文件系统的流程如下:
 ```c
 mount // 系统调用
   do_mount
@@ -273,7 +273,7 @@ struct inode {
         /* 统计数据，不在路径遍历中访问 */
         unsigned long           i_ino; // 索引节点号
         /*
-         * 文件系统只能直接读取 i_nlink。它们应该使用以下函数进行修改：
+         * 文件系统只能直接读取 i_nlink。它们应该使用以下函数进行修改:
          *
          *    (set|clear|inc|drop)_nlink
          *    inode_(inc|dec)_link_count
@@ -450,13 +450,13 @@ struct dentry {
 } __randomize_layout;
 ```
 
-目录项有3种状态：
+目录项有3种状态:
 
 - 被使用：`d_inode`不为空，`d_count()`大于等于`1`
 - 未被使用：`d_inode`不为空，`d_count()`为`0`，注意曾经可能使用过
 - 无效状态：`d_inode`为空
 
-目录项缓存有3种：
+目录项缓存有3种:
 
 - "被使用的"目录项链表：`inode->i_dentry`链表，一个`inode`可能有多个链接，一个`inode`可能有多个`dentry`
 - "Least Recently Used 最近最少使用"链表：`d_lru`链表，包含未被使用和无效状态的`dentry`
@@ -803,7 +803,7 @@ struct mnt_namespace {
         struct ns_common        ns;
         struct mount *  root; // 根目录的挂载点
         /*
-         * 对 .list 的遍历和修改受以下任意一种方式保护：
+         * 对 .list 的遍历和修改受以下任意一种方式保护:
          * - 获取 namespace_sem 的写锁，或
          * - 获取 namespace_sem 的读锁并获取 .ns_lock
          */
@@ -836,7 +836,7 @@ struct ucounts {
 
 调试补丁为<!-- public begin -->[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-vfs.patch)<!-- public end --><!-- private begin -->`src/0001-debug-vfs.patch`<!-- private end -->，看其中的`debug_inode_nlink()`函数。
 
-在ext2文件系统下测试：
+在ext2文件系统下测试:
 ```sh
 fallocate -l 100M image
 mkfs.ext2 -F image
@@ -853,7 +853,7 @@ mkdir dir # 只有创建文件夹i_nlink才会增加，创建文件不会
 ls # 这时目录的i_nlink为4
 ```
 
-对文件创建硬链接时`ln file link`，增加`inode->i_nlink`的流程如下：
+对文件创建硬链接时`ln file link`，增加`inode->i_nlink`的流程如下:
 ```c
 linkat // 系统调用
   do_linkat
@@ -864,7 +864,7 @@ linkat // 系统调用
             inode->__i_nlink++
 ```
 
-不能对目录创建硬链接。在目录`dir1`下创建`dir2`文件夹，父目录`dir1`的`inode->i_nlink`增加的流程如下：
+不能对目录创建硬链接。在目录`dir1`下创建`dir2`文件夹，父目录`dir1`的`inode->i_nlink`增加的流程如下:
 ```c
 mkdir // 系统调用
   do_mkdirat
@@ -906,7 +906,7 @@ mount
 
 英文全称Extended file system，翻译为扩展文件系统。Linux内核最开始用的是minix文件系统，直到1992年4月，Rémy Card开发了ext文件系统，采用Unix文件系统（UFS）的元数据结构，在linux内核0.96c版中引入。设计上参考了BSD的快速文件系统（Fast File System，简称FFS）。1993年1月0.99版本中ext2合入内核，     2001年11月2.4.15版本中ext3合入内核，2006年10月10日2.6.19版本中ext4合入内核。
 
-相关文档网站：
+相关文档网站:
 
 - [内核仓库ext2文档](https://www.kernel.org/doc/html/latest/filesystems/ext2.html)
 - [ext4 wiki](https://ext4.wiki.kernel.org/index.php/Main_Page)
@@ -921,14 +921,14 @@ mount
 |  ----    | ----         | ---     | ---         | ---      | --- |
 | 1个块    | k个块         |  1个块 |     1个块       | n个块   | m个块 |
 
-启动扇区和块组：
+启动扇区和块组:
 
 | 启动块 | 块组0 | 块组1 | ... | 块组n |
 | ---   | ---  | ---   | --- | ---  |
 
 对于超级块的存储，ext2的采用了稀疏超级块（sparse superblock）技术，超级块只存储到块组0、块组1和其他ID可以表示为3、5、7的幂的块组中，也就是0、1、3、5、7、9、25、49...
 
-块组中内容的解释：
+块组中内容的解释:
 
 - 超级块：存储文件系统自身元数据
 - 组描述符：包含所有块组的状态
@@ -1114,7 +1114,7 @@ struct ext2_xattr_entry {
 
 ### 各种文件类型的存储
 
-文件类型如下：
+文件类型如下:
 ```c
 #define FT_UNKNOWN      0 // 未知
 #define FT_REG_FILE     1 // 常规文件
@@ -1134,7 +1134,7 @@ struct ext2_xattr_entry {
 
 符号链接名小于60个字符就放到`struct ext2_inode`的`i_block`数组中（15个4字节），如果大于60个字符就存到单独数据块中。
 
-最后重点讲一下目录的存储，数据块包含`ext2_dir_entry_2`结构：
+最后重点讲一下目录的存储，数据块包含`ext2_dir_entry_2`结构:
 ```c
 /*
  * 目录项的新版本。由于EXT2结构以英特尔字节顺序存储，并且name_len字段永远不可能大于255个字符，因此可以安全地将额外的一个字节重新分配给file_type字段。
@@ -1194,7 +1194,7 @@ struct ext2_dir_entry_2 {
 
 ## 内存数据结构
 
-磁盘和内存数据结构的关系如下，动态缓存指文件关闭或数据块被删除后页框回收算法从高速缓存中删除数据：
+磁盘和内存数据结构的关系如下，动态缓存指文件关闭或数据块被删除后页框回收算法从高速缓存中删除数据:
 
 - 超级块：磁盘`ext2_super_block`，内存`ext2_sb_info`，总是缓存
 - 组描述符：磁盘和内存都是`ext2_group_desc`，总是缓存
@@ -1204,7 +1204,7 @@ struct ext2_dir_entry_2 {
 
 ### 超级块
 
-VFS的`struct super_block`中的`s_fs_info`指向`struct ext2_sb_info`类型的结构：
+VFS的`struct super_block`中的`s_fs_info`指向`struct ext2_sb_info`类型的结构:
 ```c
 /*
  * 第二扩展文件系统的内存中超级块数据 */
@@ -1261,7 +1261,7 @@ struct ext2_sb_info {
 };
 ```
 
-各个数据结构之间的关系如下图：
+各个数据结构之间的关系如下图:
 ```sh
                                    ext2 partition
                                        +-------+----------+----------+----------+
@@ -1397,7 +1397,7 @@ ext2不经过页缓存直接写调用`ext2_file_write_iter() -> ext2_dio_write_i
 
 `mkfs.ext2 /dev/sda`相当于`mke2fs -t 2 -b 1024 -m 5`，块大小默认`1024`字节，保留块百分比默认`5%`，每`8192`字节设置一个索引节点，`lost+found`目录放丢失和找到的缺陷块。
 
-我们举个例子，一个比较小的磁盘（也可以打开内核配置`CONFIG_BLK_DEV_LOOP`然后对文件执行同样的操作），执行完以下命令：
+我们举个例子，一个比较小的磁盘（也可以打开内核配置`CONFIG_BLK_DEV_LOOP`然后对文件执行同样的操作），执行完以下命令:
 <!--
 ```sh
 # od选项：以十六进制格式，每行输出一个字节，并且每个字节都输出其地址，具体查看命令 man 1 od
@@ -1410,7 +1410,7 @@ dd if=/dev/sda of=image bs=1K count=8412
 vim image # 然后输入 :%!xxd，当然也可以使用其他编辑器打开查看二进制数据
 ```
 
-其中执行`mkfs.ext2`输出以下日志：
+其中执行`mkfs.ext2`输出以下日志:
 ```sh
 mke2fs 1.46.2 (28-Feb-2021)
 Discarding device blocks: done                            
@@ -1424,7 +1424,7 @@ Writing inode tables: done
 Writing superblocks and filesystem accounting information: done
 ```
 
-通过`debugfs image`，然后输入`stats`查看到有2个块组（如果磁盘大小减小成`8411KB`，则只用1个块组）：
+通过`debugfs image`，然后输入`stats`查看到有2个块组（如果磁盘大小减小成`8411KB`，则只用1个块组）:
 ```sh
 Filesystem volume name:   <none>
 Last mounted on:          <not available>
@@ -1471,7 +1471,7 @@ Directories:              2
            51 free blocks, 1056 free inodes, 0 used directories
 ```
 
-默认1个块大小`1024(0x400)`字节，每个块的内容如下：
+默认1个块大小`1024(0x400)`字节，每个块的内容如下:
 
 - 第0个块: `0~0x400`为引导块（启动块）
 - 第1个块: `0x400~0x800`为超级块（`gdb`打印`p sizeof(struct ext2_super_block)`的值为`1024`），超级块固定1个块
@@ -1490,7 +1490,7 @@ Directories:              2
 <!-- `defrag.ext2` `dumpesfs` -->
 <!-- https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/managing_file_systems/comparison-of-tools-used-with-ext4-and-xfs_getting-started-with-an-ext4-file-system -->
 
-最后再介绍几个ext文件系统相关的用户态工具：
+最后再介绍几个ext文件系统相关的用户态工具:
 
 - `mke2fs`: 用于建立ext2文件系统，ext2文件系统直接使用`mkfs.ext2`（相当于`mke2fs -t 2`），ext4直接使用`mkfs.ext4`。具体用法查看`man 8 mke2fs`。
 - `e2fsck`: 用于检查使用 ext2 文件系统的 partition 是否正常工作，对于ext2文件系统可以直接使用`fsck.ext2`命令，ext4直接使用`fsck.ext4`。具体用法查看`man 8 e2fsck`。
@@ -1524,7 +1524,7 @@ Directories:              2
   - 常规文件`ext2_file_operations`。
   - 目录`ext2_dir_operations`。
   - 其他类型查看`init_special_inode()`函数。
-7. 实现各种类型文件的`address_space`操作方法：
+7. 实现各种类型文件的`address_space`操作方法:
   - 常规文件`ext2_aops`和`ext2_dax_aops`。
   - 目录，ext2没定义目录相关的操作，nfs为`nfs_dir_aops`。
   - 其他类型，如块设备`def_blk_aops`。
@@ -1538,14 +1538,14 @@ Directories:              2
 
 ext2不是日志（journal）文件系统，文件系统的状态存放在`struct ext2_super_block`结构体的`s_state`字段中，如果不等于`EXT2_VALID_FS`，说明没有正常卸载，`e2fsck`要检查所有磁盘数据结构，文件数和目录数很多、或者磁盘很大，一致性检查要花费非常久的时间。
 
-ext4是日志文件系统，对文件系统的高级修改分两步：
+ext4是日志文件系统，对文件系统的高级修改分两步:
 
 - 把待写块的副本存放在journal中。
 - 当发往journal的I/O数据传送完成时（数据提交到日志），块就被写入fs。
 
 当发往fs的I/O数据传送终止时（把数据提交给fs），日志的块副本被丢弃。
 
-`e2fsck`检查时，有两种情况：
+`e2fsck`检查时，有两种情况:
 
 - 提交到日志之前系统故障发生。高级修改的块副本要么从日志中丢失，要么是不完整的，忽略。
 - 提交到日志之后系统故障发生。块的副本有效，`e2fsck`写入fs。
@@ -1554,13 +1554,13 @@ ext4是日志文件系统，对文件系统的高级修改分两步：
 
 ext文件系统有6种元数据：超级块，块组描述符，索引节点，间接块，数据块位图块，索引节点位图块。
 
-有3种不同的日志模式：
+有3种不同的日志模式:
 
 - journal: 所有数据和元数据的改变都被记入日志，最安全最慢。
 - ordered: 只有元数据的改变才被记入日志，数据在元数据之前写入磁盘，默认的日志模式。
 - writeback: 只有元数据的改变才被记入日志，不保证数据在元数据之前写入磁盘，速度最快。
 
-ext4本身不处理日志，而是利用日志块设备（journal block device, JBD2）。ext4和jbd2之间的交互基于3个基本单元：
+ext4本身不处理日志，而是利用日志块设备（journal block device, JBD2）。ext4和jbd2之间的交互基于3个基本单元:
 
 - 日志记录: 描述一个磁盘块的一次更新。由低级操作所修改的整个`buffer`组成，直接操作`buffer`和`buffer_head`，在日志内部表现为普通的数据块或元数据。
 - 原子操作处理: 一次高级修改对应的日志记录，修改文件系统的每个系统调用都引起一次单独的原子操作处理。
