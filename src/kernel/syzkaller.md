@@ -1,7 +1,7 @@
 <!--
 https://i-m.dev/posts/20200313-143737.html
 
-配置： https://github.com/google/syzkaller/blob/master/pkg/mgrconfig/config.go
+配置: https://github.com/google/syzkaller/blob/master/pkg/mgrconfig/config.go
 
 复现：
 ```shell

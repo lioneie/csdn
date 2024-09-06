@@ -99,7 +99,7 @@ nmblookup -S netbios_name
 ```shell
 getsebool -a | grep samba
 setsebool -P samba_enable_home_dirs=1
-# 选项： password=密码，iocharset=本机编码（如big5、utf8、cp950），codepage=远程主机编码
+# 选项: password=密码，iocharset=本机编码（如big5、utf8、cp950），codepage=远程主机编码
 mount -t cifs -o username=root,vers=1.0,cifsacl //localhost/TEST /mnt
 mount -t cifs -o username=root,mfsymlinks,vers=2.0,cifsacl,nocase //localhost/TEST /mnt
 mount -t cifs -o username=root,mfsymlinks,vers=2.1 //localhost/TEST /mnt

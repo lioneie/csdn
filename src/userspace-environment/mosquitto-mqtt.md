@@ -4,7 +4,7 @@
 
 # 安装
 
-安装mosquitto： `sudo dnf install mosquitto -y`
+安装mosquitto: `sudo dnf install mosquitto -y`
 
 开启mosquitto服务：`sudo systemctl start mosquitto`
 

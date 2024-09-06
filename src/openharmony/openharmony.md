@@ -284,7 +284,7 @@ ninja
 ninja install # 运行 example 可以不安装
 
 mkdir -p /mnt/cloud_dir
-# gdb调试： ./example/passthrough_ll -o source=/tmp /mnt/cloud_dir -d
+# gdb调试: ./example/passthrough_ll -o source=/tmp /mnt/cloud_dir -d
 gdb ./example/passthrough_ll
 (gdb) set args -o source=/tmp /mnt/cloud_dir -d # 设置运行选项
 (gdb) b lo_lookup

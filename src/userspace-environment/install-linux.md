@@ -52,7 +52,7 @@ sudo apt install gcc-arm-linux-gnueabi gcc-arm-linux-gnueabihf -y # arm32的交�
 sudo apt install gcc-riscv64-linux-gnu -y # riscv交叉编译软件
 sudo apt install exfat-utils -y # exfat文件系统所需的工具
 
-# 安装查看tcpdump工具收集的网络包的wireshark： https://launchpad.net/~wireshark-dev/+archive/ubuntu/stable
+# 安装查看tcpdump工具收集的网络包的wireshark: https://launchpad.net/~wireshark-dev/+archive/ubuntu/stable
 sudo add-apt-repository ppa:wireshark-dev/stable
 sudo apt update
 sudo apt install wireshark -y
@@ -150,7 +150,7 @@ sudo vim /etc/selinux/config # centos9 改成 SELINUX=disabled
 
 自动挂载磁盘，修改配置文件`/etc/fstab`，添加：
 ```sh
-# 最后２个参数（0 0）的意义： dump, fsck
+# 最后２个参数（0 0）的意义: dump, fsck
 UUID=b7aa1308-f57e-4f28-834c-c463237a8383 /home/sonvhi/sonvhi/   ext4    errors=remount-ro    0       0
 ```
 
@@ -200,7 +200,7 @@ chromium-browser --proxy-server="https=127.0.0.1:1080;http=127.0.0.1:1080;ftp=12
 
 # 麒麟系统
 
-<!-- 公司内网，服务器版本： https://172.30.13.199/release/Release/build/os/ISO/, 桌面版本： https://builder.kylin.com/ -->
+<!-- 公司内网，服务器版本: https://172.30.13.199/release/Release/build/os/ISO/, 桌面版本: https://builder.kylin.com/ -->
 
 填写[产品试用申请](https://www.kylinos.cn/support/trial.html)，以下是各个版本的下载地址：
 

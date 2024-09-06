@@ -307,7 +307,7 @@ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- O=build Image
 如果你要更方便的使用一些调试的功能，就要加一些额外的补丁。
 
 - 降低编译优化等级，默认的内核编译优化等级太高，用GDB调试时不太方便，有些函数语句被优化了，无法打断点，这时就要降低编译优化等级。做好的虚拟机中已经打上了降低编译优化等级的补丁。<!-- public begin -->比如`x86_64`架构下可以在[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)目录下选择对应版本的补丁，更多详细的内容请查看GDB调试相关的章节。<!-- public end -->
-- `dump_stack()`输出的栈全是问号的解决办法。如果你使用`dump_stack()`输出的栈全是问号，可以 revert 补丁 `f1d9a2abff66 x86/unwind/orc: Don't skip the first frame for inactive tasks`。主线已经有补丁做了 revert： `230db82413c0 x86/unwind/orc: Fix unreliable stack dump with gcov`。
+- `dump_stack()`输出的栈全是问号的解决办法。如果你使用`dump_stack()`输出的栈全是问号，可以 revert 补丁 `f1d9a2abff66 x86/unwind/orc: Don't skip the first frame for inactive tasks`。主线已经有补丁做了 revert: `230db82413c0 x86/unwind/orc: Fix unreliable stack dump with gcov`。
 <!-- public begin -->
 - 肯定还有一些其他有用的补丁，后面再补充哈。
 <!-- public end -->
@@ -515,7 +515,7 @@ PermitEmptyPasswords yes
 <!-- public begin -->
 曾经使用过fedora发行版，这里记录一下fedora的一些笔记。进入fedora虚拟机后：
 ```sh
-# fedora 启动的时候等待： A start job is running for /dev/zram0，解决办法：删除 zram 的配置文件
+# fedora 启动的时候等待: A start job is running for /dev/zram0，解决办法：删除 zram 的配置文件
 mv /usr/lib/systemd/zram-generator.conf /usr/lib/systemd/zram-generator.conf.bak
 # fedora26 安装 vim 前，先升级
 sudo dnf update vim-common vim-minimal -y

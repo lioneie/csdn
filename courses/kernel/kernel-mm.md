@@ -1083,7 +1083,7 @@ void __percpu *__alloc_percpu(size_t size, size_t align)
  *                                   
  * 释放每CPU区域 @ptr。            
  *                                   
- * 上下文：                          
+ * 上下文:                          
  * 可以从原子上下文中调用。
  */                                  
 void free_percpu(void __percpu *ptr) 
@@ -1434,7 +1434,7 @@ struct vm_area_struct {
         /* 处理该结构体的函数指针。 */
         const struct vm_operations_struct *vm_ops;
 
-        /* 我们后备存储的信息： */
+        /* 我们后备存储的信息: */
         unsigned long vm_pgoff;  /* 在 PAGE_SIZE 单位内的 vm_file 偏移 */
         struct file *vm_file;      /* 我们映射的文件（可以为 NULL）。 */
         void *vm_private_data;    /* 曾经是 vm_pte（共享内存） */

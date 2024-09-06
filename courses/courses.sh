@@ -30,7 +30,7 @@ add_common() {
 
 kernel_files() {
     local common_file=${src_path}/courses/kernel/common.md
-    # 每一行代表： 是否在开头添加公共内容 文件相对路径
+    # 每一行代表: 是否在开头添加公共内容 文件相对路径
     local array=(
         0 courses/kernel/kernel.md
         1 courses/kernel/kernel-introduction.md
@@ -49,7 +49,7 @@ kernel_files() {
 
 nfs_files() {
     local common_file=${src_path}/courses/nfs/common.md
-    # 每一行代表： 是否在开头添加公共内容 文件相对路径
+    # 每一行代表: 是否在开头添加公共内容 文件相对路径
     local array=(
         0 courses/nfs/nfs.md
         1 courses/nfs/nfs-introduction.md
@@ -67,7 +67,7 @@ nfs_files() {
 
 smb_files() {
     local common_file=${src_path}/courses/smb/common.md
-    # 每一行代表： 是否在开头添加公共内容 文件相对路径
+    # 每一行代表: 是否在开头添加公共内容 文件相对路径
     local array=(
         0 courses/smb/smb.md
         1 courses/smb/smb-introduction.md

@@ -1331,7 +1331,7 @@ struct ext2_inode_info {
 
         /*
          * truncate_mutex 用于将 ext2_truncate() 与 ext2_getblock() 串行化。
-         * 它还保护 inode 的预留数据结构的内部： ext2_reserve_window 和
+         * 它还保护 inode 的预留数据结构的内部: ext2_reserve_window 和
          * ext2_reserve_window_node。
          */
         struct mutex truncate_mutex;

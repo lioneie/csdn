@@ -25,7 +25,7 @@ Linux内核社区主要以邮件交流为主，以下是一些常用的网站：
 - `block`: 块设备IO层相关。
 - `certs`: 认证相关。
 - `crypto`: 加密API，加密、散列、压缩、校验等算法。
-- `Documentation`: 文档，要多看，很有用。也可以看在线文档： https://www.kernel.org/doc/html/latest/
+- `Documentation`: 文档，要多看，很有用。也可以看在线文档: https://www.kernel.org/doc/html/latest/
 - `drivers`: 设备驱动程序相关。
 - `fs`: 文件系统相关。我们主要介绍`fs/`目录下VFS（虚拟文件系统）相关的，还会介绍几个具体的文件系统，如`fs/ext2/`、`fs/xfs/`、`fs/proc/`、`fs/sysfs/`等，当然具体的文件系统不会介绍得很详细，只说一个大概，主要还是以VFS的讲解为主。
 - `include`: 内核头文件相关。

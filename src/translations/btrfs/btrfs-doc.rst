@@ -82,7 +82,7 @@ BTRFS 是一个为 Linux 设计的现代写时复制（Copy on Write，COW）文
 
 `man-index.rst <https://github.com/kdave/btrfs-progs/blob/devel/Documentation/man-index.rst>`_翻译时文件的最新提交是``ee801c07d785760d2ec818d0cb9223211256fc28 btrfs-progs: docs: drop indices from pages``。
 
-请查看： https://btrfs.readthedocs.io/en/latest/man-index.html 。
+请查看: https://btrfs.readthedocs.io/en/latest/man-index.html 。
 
 管理
 ==============
@@ -97,7 +97,7 @@ BTRFS 文件系统的主要管理工具是 :doc:`btrfs`。
 
 TODO: 翻译日期 Fri Dec 22 10:16:52 2023 +0000
 
-挂载选项翻译出来没太大意义，请查看： https://btrfs.readthedocs.io/en/latest/Administration.html#mount-options 。
+挂载选项翻译出来没太大意义，请查看: https://btrfs.readthedocs.io/en/latest/Administration.html#mount-options 。
 
 启动加载程序
 -----------

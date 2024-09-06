@@ -2540,7 +2540,7 @@ Chapter 15. Interprocess Communication / 进程间通信 533
 15.11 Client-Server Properties / 客户进程-服务器进程属性 585
 15.12 Summary / 小结 587
 Exercises / 习题 587
-Chapter 16. Network IPC： Sockets / 网络IPC：套接字 589
+Chapter 16. Network IPC: Sockets / 网络IPC：套接字 589
 16.1 Introduction / 引言 589
 16.2 Socket Descriptors / 套接字描述符 590
 16.3 Addressing / 寻址 593

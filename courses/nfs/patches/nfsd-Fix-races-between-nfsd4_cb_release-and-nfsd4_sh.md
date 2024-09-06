@@ -7,7 +7,7 @@
 - Trond Myklebust: 这是发生在版本2还是版本1？在版本1中，`__destroy_client()` 中肯定存在挂起问题，我认为在版本2中已经修复的引用计数泄漏。
 - J. Bruce Fields: 我以为我正在运行版本2，让我仔细检查一下...
 - J. Bruce Fields: 是的，在版本2上我在 `generic/013` 测试中遇到了挂起的情况。我快速检查了一下日志，没有看到有趣的信息，除此之外我还没有进行详细的调查。
-- J. Bruce Fields： 通过运行 `./check -nfs generic/013` 可以重现。在Wireshark中看到的最后一条信息是一个异步的COPY调用和回复。这意味着可能正在尝试执行 CB_OFFLOAD。嗯。
+- J. Bruce Fields: 通过运行 `./check -nfs generic/013` 可以重现。在Wireshark中看到的最后一条信息是一个异步的COPY调用和回复。这意味着可能正在尝试执行 CB_OFFLOAD。嗯。
 - J. Bruce Fields: [哦，我认为它只需要以下的更改。](https://lore.kernel.org/all/20191107222712.GB10806@fieldses.org/)
 - J. Bruce Fields: 应用如下更改，其中一部分更改拆分为单独的补丁（因为这是我注意到这个 bug 的方式）。
 - J. Bruce Fields: [哎呀，这次记得附上补丁了。--b.](https://lore.kernel.org/all/20191108175228.GB758@fieldses.org/)

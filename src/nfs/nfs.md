@@ -113,9 +113,9 @@ nfs client查看文件的`filehandle`，可以用`tcpdump`抓包，再使用`wir
 
 客户端相关的信息保存在`struct nfs_client`和`struct nfs4_client`中。client初始化clientid的函数为`nfs4_init_clientid()`和`nfs41_init_clientid()`。
 
-`SETCLIENTID`请求： client端编码解码函数为`nfs4_xdr_enc_setclientid()`和`nfs4_xdr_dec_setclientid()`。server端处理函数是`nfsd4_setclientid()`，编码解码函数为`nfsd4_encode_setclientid()`和`nfsd4_decode_setclientid()`。
+`SETCLIENTID`请求: client端编码解码函数为`nfs4_xdr_enc_setclientid()`和`nfs4_xdr_dec_setclientid()`。server端处理函数是`nfsd4_setclientid()`，编码解码函数为`nfsd4_encode_setclientid()`和`nfsd4_decode_setclientid()`。
 
-`SETCLIENTID_CONFIRM`请求： client端编码解码函数为`nfs4_xdr_enc_setclientid_confirm()`和`nfs4_xdr_dec_setclientid_confirm()`。server端处理函数是`nfsd4_setclientid_confirm(),`，编码解码函数为`nfsd4_encode_noop()`和`nfsd4_decode_setclientid_confirm()`。
+`SETCLIENTID_CONFIRM`请求: client端编码解码函数为`nfs4_xdr_enc_setclientid_confirm()`和`nfs4_xdr_dec_setclientid_confirm()`。server端处理函数是`nfsd4_setclientid_confirm(),`，编码解码函数为`nfsd4_encode_noop()`和`nfsd4_decode_setclientid_confirm()`。
 
 在nfs client发起`SETCLIENTID`请求时，会创建一个RPC反向通道，nfs client是反向通道的服务器端。server端反向通道相关信息存储在`struct nfs4_cb_conn`,server端发起的callback请求(rpc请求)用`struct nfsd4_callback`表示。`nfsd4_setclientid() -> gen_callback()`填充`struct nfs4_cb_conn`，`nfsd4_setclientid_confirm() -> nfsd4_probe_callback()`创建反向通道，`nfsd4_run_cb_work() -> nfsd4_process_cb_update()`创建rpc客户端。
 
@@ -142,7 +142,7 @@ todo: Exactly Once Semantics 和 Server Callback Races 的内容有待补充。
 
 # delegation机制
 
-delegation机制： 当nfs client1打开一个文件时，如果RPC反向通道可用，nfs server就会颁发一个凭证，nfs client1读写文件就不用发起`GETATTR`请求。当另一个client2也访问这个文件时，server就先回收client1的凭证，再响应client2的请求。之后，就和nfsv2和nfsv3一样读写之前要发起`GETATTR`请求。
+delegation机制: 当nfs client1打开一个文件时，如果RPC反向通道可用，nfs server就会颁发一个凭证，nfs client1读写文件就不用发起`GETATTR`请求。当另一个client2也访问这个文件时，server就先回收client1的凭证，再响应client2的请求。之后，就和nfsv2和nfsv3一样读写之前要发起`GETATTR`请求。
 
 回收delegation的过程如下：
 ```sh

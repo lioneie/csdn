@@ -42,7 +42,7 @@ sudo apt install -y wine
 
 ## 运行`exe`程序
 
-可以尝试下载并直接运行免安装的[putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)，x86_64架构下执行`wine putty-x86_64.exe`（下载x86_64版本），aarch64架构下执行`wine64 putty-arm64.exe`（下载arm64版本）。第一次运行时会提示： “Wine未找到到（两个到是什么鬼）用于支持.NET应用的wine-mono组件。Wine可以自动并下载安装该组件。注意：推荐您安装为发行版定制的软件包。具体请参看 https://wiki.winehq.org/Mono 。“点击”安装“。
+可以尝试下载并直接运行免安装的[putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)，x86_64架构下执行`wine putty-x86_64.exe`（下载x86_64版本），aarch64架构下执行`wine64 putty-arm64.exe`（下载arm64版本）。第一次运行时会提示: “Wine未找到到（两个到是什么鬼）用于支持.NET应用的wine-mono组件。Wine可以自动并下载安装该组件。注意：推荐您安装为发行版定制的软件包。具体请参看 https://wiki.winehq.org/Mono 。“点击”安装“。
 
 x86_64下安装并运行[微信](https://pc.weixin.qq.com/?lang=en_US)，注意c盘的位置在`${HOME}/.wine/drive_c/`，`wine WeChatSetup.exe`安装后，先进入`cd "${HOME}/.wine/drive_c/Program Files/Tencent/WeChat/[3.9.9.43]"`（有空格），再运行`wine WeChat.exe`。
 
