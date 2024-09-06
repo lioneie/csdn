@@ -347,7 +347,7 @@ pthread_attr_setinheritsched
 /*
  * 调度策略
  */
-#define SCHED_NORMAL            0    // 普通调度策略，如CFS以及被淘汰的O(n)和O(1)
+#define SCHED_NORMAL            0    // 普通调度策略
 #define SCHED_FIFO              1    // 先入先出调度策略，运行时间比较短的进程
 #define SCHED_RR                2    // 轮转调度策略，运行时间比较长的进程
 #define SCHED_BATCH             3    // 批处理调度策略，cpu消耗型进程
@@ -446,6 +446,12 @@ CFS使用红黑树（Red-Black Tree）数据结构来管理就绪队列中的任
 前面我们说过，CFS下进程是否投入运行取决于处理器时间使用比。我们看一个例子，在只有一个cpu的电脑上，系统运行了2个进程，一个是vim（I/O消耗型），一个是gcc（处理器消耗型），如果nice值相同，CFS承诺给这两个进程各50%的cpu使用比，但vim更多的时间在等待用户输入，所以vim肯定用不到50%的cpu使用比，而gcc肯定用到超过50%的cpu使用比。所以，当我们输入字符唤醒vim时，CFS发现vim的cpu使用更少，所以想兑现完全公平的承诺，立刻抢占gcc，让vim投入运行，我们输入完字符后，vim却还是不贪心只使用了一丢丢cpu就继续睡了。
 
 进程所获得的处理器时间由这个进程和所有可运行进程nice值的相对差值决定的，nice值对应的是处理器使用比。
+
+CFS实现了三种调度策略:
+
+- `SCHED_NORMAL`（传统上称为 `SCHED_OTHER`）: 用于常规任务的调度策略。
+- `SCHED_BATCH`: 不会像常规任务那样频繁抢占，从而允许任务运行更长时间并更好地利用缓存，但代价是降低交互性。这非常适合批处理作业。
+- `SCHED_IDLE`: 这比 `nice 19` 更弱，但它不是一个真正的空闲定时器调度器，以避免出现会导致机器死锁的优先级反转问题。
 
 因为`v6.6`已经合入了EEVDF调度器相关的补丁集，所以要看CFS的代码实现，要回退到稍早的版本`git checkout v6.5`。具体代码实现请查看`DEFINE_SCHED_CLASS(fair)`。
 
