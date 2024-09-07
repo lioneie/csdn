@@ -26,7 +26,7 @@
 
 浏览代码的编辑器每个人都有自己的喜好，就像我用的是小众的emacs，也有很多人用vim和vscode。
 
-如果你还没选好用什么编辑器，我个人建议使用code-server（vscode的浏览器版），可以查看视频[005-内核代码浏览和编译](https://www.bilibili.com/video/BV1zC41177gg/?spm_id_from=333.999.0.0)，博客查看[内核开发环境](https://chenxiaosong.com/courses/kernel/kernel-dev-environment.html)。
+如果你还没选好用什么编辑器，我个人建议使用code-server（vscode的浏览器版），可以查看视频[005-内核代码浏览和编译](https://www.bilibili.com/video/BV1zC41177gg/)，博客查看[内核开发环境](https://chenxiaosong.com/courses/kernel/kernel-dev-environment.html)。
 
 当然，自己用得称手的兵器才是好兵器，别人的建议也只是建议，还是得根据自己的习惯选择最适合自己的编辑器工具。
 
