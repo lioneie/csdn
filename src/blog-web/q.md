@@ -22,6 +22,14 @@
 
 搭建网站的开源框架有很多，我的网站是比较简陋的，只能浏览网页，暂时没做后台管理系统，想快速搭建一个类似的简陋网站参考视频[《搭建个人主页-局域网》](https://www.bilibili.com/video/BV14z421z7Mb/)和[《搭建个人主页-公网》](https://www.bilibili.com/video/BV1Tm421579v/)，博客文章是[《如何拥有个人域名的网站和邮箱》](https://chenxiaosong.com/src/blog-web/blog-web.html)。
 
+# 内核代码浏览用什么编辑器？
+
+浏览代码的编辑器每个人都有自己的喜好，就像我用的是小众的emacs，也有很多人用vim和vscode。
+
+如果你还没选好用什么编辑器，我个人建议使用code-server（vscode的浏览器版），可以查看视频[005-内核代码浏览和编译](https://www.bilibili.com/video/BV1zC41177gg/?spm_id_from=333.999.0.0)，博客查看[内核开发环境](https://chenxiaosong.com/courses/kernel/kernel-dev-environment.html)。
+
+当然，自己用得称手的兵器才是好兵器，别人的建议也只是建议，还是得根据自己的习惯选择最适合自己的编辑器工具。
+
 # 64位内存结构和64位内存映射方式？
 
 这个问题还在整理中，有以下几点:
