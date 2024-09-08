@@ -46,6 +46,8 @@
 
 [kernel doc: admin-guide/cifs/introduction.rst](https://chenxiaosong.com/src/translations/smb/kernel-doc-cifs-introduction.html)
 
+[kernel doc: admin-guide/cifs/todo.rst](https://chenxiaosong.com/src/translations/smb/kernel-doc-cifs-todo.html)
+
 # btrfs
 
 [BTRFS documentation](https://chenxiaosong.com/src/translations/btrfs/btrfs-doc.html)

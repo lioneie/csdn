@@ -184,6 +184,7 @@ array=(
         1 1 src/translations/smb/ksmbd-kernel-doc.md ~ "KSMBD kernel doc"
         1 1 src/translations/smb/ksmbd-tools-readme.md ~ "ksmbd-tools README"
         1 1 src/translations/smb/kernel-doc-cifs-introduction.rst ~ "kernel doc: admin-guide/cifs/introduction.rst"
+        1 1 src/translations/smb/kernel-doc-cifs-todo.rst ~ "kernel doc: admin-guide/cifs/todo.rst"
         # btrfs
         1 1 src/translations/btrfs/btrfs-doc.rst ~ "BTRFS documentation"
         # xfs
