@@ -183,6 +183,7 @@ array=(
         1 1 src/translations/smb/ms-smb2.md ~ "[MS-SMB2]: Server Message Block (SMB) Protocol Versions 2 and 3"
         1 1 src/translations/smb/ksmbd-kernel-doc.md ~ "KSMBD kernel doc"
         1 1 src/translations/smb/ksmbd-tools-readme.md ~ "ksmbd-tools README"
+        1 1 src/translations/smb/kernel-doc-cifs-introduction.rst ~ "kernel doc: admin-guide/cifs/introduction.rst"
         # btrfs
         1 1 src/translations/btrfs/btrfs-doc.rst ~ "BTRFS documentation"
         # xfs

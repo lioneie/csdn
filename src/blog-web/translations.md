@@ -44,6 +44,8 @@
 
 [ksmbd-tools README](https://chenxiaosong.com/src/translations/smb/ksmbd-tools-readme.html)
 
+[kernel doc: admin-guide/cifs/introduction.rst](https://chenxiaosong.com/src/translations/smb/kernel-doc-cifs-introduction.rst)
+
 # btrfs
 
 [BTRFS documentation](https://chenxiaosong.com/src/translations/btrfs/btrfs-doc.html)
