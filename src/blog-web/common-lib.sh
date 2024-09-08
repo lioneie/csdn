@@ -70,6 +70,10 @@ create_html() {
             # 在<header之后插入sign.html整个文件
             sed -i -e '/<header/r '${tmp_html_path}'/sign.html' ${dst_file}
         fi
+
+        # cd ${src_path}
+        # git log -1 --format=%ad --date=iso ${ifile}
+        # cd -
     done
 }
 
