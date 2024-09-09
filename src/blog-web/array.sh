@@ -84,6 +84,8 @@ array=(
                 "3e2910c7e23b NFS: Improve warning message when locks are lost."
             1 1 courses/nfs/patches/nfsd-Remove-incorrect-check-in-nfsd4_validate_statei.md ~
                 "600df3856f0b nfsd: Remove incorrect check in nfsd4_validate_stateid"
+        1 1 courses/nfs/nfs-issues.md ${tmp_courses_path} "nfs问题分析"
+            1 1 courses/nfs/issues/nfs-clients-same-hostname-clientid-expire.md ~ "多个NFS客户端使用相同的hostname导致clientid过期"
     0 1 courses/smb/smb.md ${tmp_courses_path} "smb文件系统"
         1 1 courses/smb/smb-introduction.md ${tmp_courses_path} "smb简介"
         1 1 courses/smb/smb-environment.md ${tmp_courses_path} "smb环境"
