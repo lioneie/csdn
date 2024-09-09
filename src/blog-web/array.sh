@@ -158,6 +158,7 @@ array=(
     1 1 src/free-software/free-software.md ~ "自由软件介绍"
     1 1 src/lorawan/stm32-linux.md ~ "STM32 Linux开发环境"
     1 1 src/health/tooth-clean.md ~ "牙齿护理"
+    1 1 src/game/black-myth-wukong.md ~ "黑神话：悟空"
     # 翻译
         # kernel
         1 1 src/translations/kernel/sched-design-CFS.rst ~ "CFS Scheduler"

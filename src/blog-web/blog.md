@@ -120,6 +120,8 @@
 
 [牙齿护理](https://chenxiaosong.com/src/health/tooth-clean.html)
 
+[黑神话：悟空](https://chenxiaosong.com/src/game/black-myth-wukong.html)
+
 # 翻译
 
 [点击查看翻译文章](https://chenxiaosong.com/src/blog-web/translations.html)
