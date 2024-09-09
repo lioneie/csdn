@@ -43,7 +43,6 @@ kernel_files() {
         1 courses/kernel/kernel-process.md
         1 courses/kernel/kernel-bpf.md
         1 courses/kernel/kernel-patches.md
-        1 courses/kernel/kernel-issues.md
     )
     add_common array[@] ${common_file}
 }
@@ -62,6 +61,7 @@ nfs_files() {
         1 courses/nfs/nfs-filehandle.md
         1 courses/nfs/nfs-debug.md
         1 courses/nfs/nfs-patches.md
+        1 courses/nfs/nfs-issues.md
     )
     add_common array[@] ${common_file}
 }
