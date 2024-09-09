@@ -46,8 +46,6 @@
 
 [Connectathon NFS tests](https://chenxiaosong.com/src/nfs/cthon-nfs-tests.html)
 
-[4.19 nfs没实现iterate_shared导致的遍历目录无法并发问题](https://chenxiaosong.com/src/nfs/4.19-nfs-no-iterate_shared.html)
-
 [重启nfs server后client打开文件卡顿很长时间的问题](https://chenxiaosong.com/src/nfs/unable-to-initialize-client-recovery-tracking.html)
 
 [4.19 ltp nfs测试失败问题](https://chenxiaosong.com/src/nfs/4.19-ltp-nfs-fail.html)
