@@ -32,7 +32,7 @@
 
 # NFS（网络文件系统）
 
-[4.19 nfs_updatepage空指针解引用问题](https://chenxiaosong.com/src/nfs/4.19-null-ptr-deref-in-nfs_updatepage.html)
+[4.19 nfs_updatepage空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.html)
 
 [4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/src/nfs/4.19-null-ptr-deref-in-nfs_readpage_async.html)
 

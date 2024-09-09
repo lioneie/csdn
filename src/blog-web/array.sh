@@ -116,7 +116,7 @@ array=(
     1 1 src/kernel/gio-to-mount.md ~ "gio执行慢的临时解决办法"
     1 1 src/kernel/syzkaller.md ~ "syzkaller - 内核模糊测试工具"
     # nfs
-    1 1 src/nfs/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage空指针解引用问题'
+    1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage空指针解引用问题'
     1 1 src/nfs/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async空指针解引用问题'
     1 1 src/nfs/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md ~ "aarch64架构 4.19 nfs_readpage_async空指针解引用问题"
     1 1 src/nfs/4.19-rdma-not-supported.md ~ "4.19 rdma协议不支持的问题"
