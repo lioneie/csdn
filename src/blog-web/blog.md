@@ -34,8 +34,6 @@
 
 [4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/src/nfs/4.19-null-ptr-deref-in-nfs_readpage_async.html)
 
-[aarch64架构 4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/src/nfs/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.html)
-
 [4.19 rdma协议不支持的问题](https://chenxiaosong.com/src/nfs/4.19-rdma-not-supported.html)
 
 [4.19 nfs lazy umount 后无法挂载的问题](https://chenxiaosong.com/src/nfs/4.19-nfs-mount-hung.html)
