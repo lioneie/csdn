@@ -16,6 +16,8 @@
 
 # Linux内核
 
+[点击查看Linux内核课程（持续更新中）](https://chenxiaosong.com/courses/kernel/kernel.html)
+
 [QEMU/KVM环境搭建与使用](https://chenxiaosong.com/src/kernel-environment/kernel-qemu-kvm.html)
 
 [strace内存分配失败故障注入](https://chenxiaosong.com/src/strace-fault-inject/strace-fault-inject.html)
@@ -32,6 +34,8 @@
 
 # NFS（网络文件系统）
 
+[点击查看nfs文件系统课程（持续更新中）](https://chenxiaosong.com/courses/nfs/nfs.html)
+
 [4.19 rdma协议不支持的问题](https://chenxiaosong.com/src/nfs/4.19-rdma-not-supported.html)
 
 [4.19 nfs lazy umount 后无法挂载的问题](https://chenxiaosong.com/src/nfs/4.19-nfs-mount-hung.html)
@@ -45,6 +49,8 @@
 [nfs断网导致oom的问题](https://chenxiaosong.com/src/nfs/nfs-no-net-oom.html)
 
 # SMB(CIFS)文件系统
+
+[点击查看smb文件系统课程（持续更新中）](https://chenxiaosong.com/courses/smb/smb.html)
 
 [4.19 cifs_reconnect空指针解引用问题](https://chenxiaosong.com/src/smb/4.19-null-ptr-deref-in-cifs_reconnect.html)
 
