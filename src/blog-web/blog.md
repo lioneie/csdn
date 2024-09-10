@@ -36,8 +36,6 @@
 
 [4.19 nfs lazy umount 后无法挂载的问题](https://chenxiaosong.com/src/nfs/4.19-nfs-mount-hung.html)
 
-[4.19 nfs4_put_stid报warning紧接着panic的问题](https://chenxiaosong.com/src/nfs/4.19-warning-in-nfs4_put_stid-and-panic.html)
-
 [Connectathon NFS tests](https://chenxiaosong.com/src/nfs/cthon-nfs-tests.html)
 
 [重启nfs server后client打开文件卡顿很长时间的问题](https://chenxiaosong.com/src/nfs/unable-to-initialize-client-recovery-tracking.html)

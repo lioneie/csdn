@@ -90,6 +90,7 @@ array=(
             1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage空指针解引用问题'
             1 1 courses/nfs/issues/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md ~ "aarch64架构 4.19 nfs_readpage_async空指针解引用问题"
             1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async空指针解引用问题'
+            1 1 courses/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid报warning紧接着panic的问题"
     0 1 courses/smb/smb.md ${tmp_courses_path} "smb文件系统"
         1 1 courses/smb/smb-introduction.md ${tmp_courses_path} "smb简介"
         1 1 courses/smb/smb-environment.md ${tmp_courses_path} "smb环境"
@@ -122,7 +123,6 @@ array=(
     # nfs
     1 1 src/nfs/4.19-rdma-not-supported.md ~ "4.19 rdma协议不支持的问题"
     1 1 src/nfs/4.19-nfs-mount-hung.md ~ "4.19 nfs lazy umount 后无法挂载的问题"
-    1 1 src/nfs/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid报warning紧接着panic的问题"
     1 1 src/nfs/cthon-nfs-tests.md ~ "Connectathon NFS tests"
     1 1 src/nfs/unable-to-initialize-client-recovery-tracking.md ~ "重启nfs server后client打开文件卡顿很长时间的问题"
     1 1 src/nfs/4.19-ltp-nfs-fail.md ~ "4.19 ltp nfs测试失败问题"

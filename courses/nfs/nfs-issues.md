@@ -9,3 +9,5 @@
 [aarch64架构 4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.html)
 
 [4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-nfs_readpage_async.html)
+
+[4.19 nfs4_put_stid报warning紧接着panic的问题](https://chenxiaosong.com/courses/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.html)
