@@ -1,3 +1,5 @@
+[点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://www.bilibili.com/video/BV19s421T7ws/)。
+
 在Linux操作系统要运行Windows的`exe`程序，可以使用`wine`，还能跨cpu运行呢。
 
 # 运行环境
