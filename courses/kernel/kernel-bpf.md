@@ -103,7 +103,7 @@ kretprobe:filemap_read_folio
 ```
 
 ```sh
-backtrace test.bt &
+bpftrace test.bt &
 mkfs.ext2 -F image
 mount image /mnt
 echo something > /mnt/file
