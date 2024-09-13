@@ -125,13 +125,13 @@ remove_public() {
 }
 
 add_or_sub_header() {
-    input_file=$1
-    output_file=$2
-    is_add=$3 # true有增加，false为减少
+    local input_file=$1
+    local output_file=$2
+    local is_add=$3 # true有增加，false为减少
 
     rm ${output_file}
 
-    is_code=false
+    local is_code=false
     while IFS= read -r line; do
         if [[ $line == '```'* ]]; then
             if [[ $is_code == true ]]; then
