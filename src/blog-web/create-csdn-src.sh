@@ -46,6 +46,8 @@ create_csdn_src() {
             ofile="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
         fi
 
+        # 以上内容和common-lib.sh中的create_html()一样
+
         local dst_file=${dst_path}/${ifile} # 输出文件
         local dst_dir="$(dirname "${dst_file}")" # 输出文件所在的文件夹
         if [ ! -d "${dst_dir}" ]; then
