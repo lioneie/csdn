@@ -124,3 +124,49 @@ remove_public() {
     remove_comments $1 true
 }
 
+add_or_sub_header() {
+    input_file=$1
+    output_file=$2
+    is_add=$3 # true有增加，false为减少
+
+    rm ${output_file}
+
+    is_code=false
+    while IFS= read -r line; do
+        if [[ $line == '```'* ]]; then
+            if [[ $is_code == true ]]; then
+                is_code=false
+            else
+                is_code=true
+            fi
+        fi
+
+        if [[ $is_code == false && $line == '#'* ]]; then
+            if [[ $is_add == false && $line == '# '* ]]; then
+                continue # 如果减少的是一级标题，则删除这一行
+            fi
+            if [[ $is_add == true ]]; then
+                echo "#$line" >> ${output_file}
+            else
+                echo ${line:1} >> ${output_file}
+            fi
+        else
+            echo "$line" >> ${output_file}
+        fi
+    done < "$input_file"
+}
+
+# 将标题增加一级
+add_header_sharp() {
+    input_file=$1
+    output_file=$2
+    add_or_sub_header ${input_file} ${output_file} true
+}
+
+# 将标题减少一级
+sub_header_sharp() {
+    input_file=$1
+    output_file=$2
+    add_or_sub_header ${input_file} ${output_file} false
+}
+
