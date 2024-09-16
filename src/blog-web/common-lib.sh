@@ -180,6 +180,7 @@ create_src_for_header() {
     local file_name=${common_file}
     mkdir ${dir_name}
     echo "create dir ${dir_name}"
+    local header_index=0
     while IFS= read -r line; do
         if [[ ${line} == '```'* ]]; then
             if [[ ${is_code} == true ]]; then
@@ -194,9 +195,10 @@ create_src_for_header() {
             is_header=true # 是标题
         fi
         if [[ ${is_header} == true && ${line} == '# '* ]]; then
+            header_index=$((header_index + 1))
             begin_header=true # 开始第一个标题
             file_name=$(echo "${line:2}" | tr -d '[:space:][:punct:]') # 删除空格和标点
-            file_name=${dir_name}/${file_name}.txt
+            file_name=${dir_name}/${header_index}.${file_name}.txt
             cat ${common_file} >> ${file_name}
             continue
         fi
