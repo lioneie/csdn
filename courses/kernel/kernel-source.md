@@ -12,7 +12,7 @@ Linux内核社区主要以邮件交流为主，以下是一些常用的网站:
 - [按模块划分的patchwork](https://patchwork.kernel.org/): 补丁的邮件都会在这里归档。
 - [bugzilla](https://bugzilla.kernel.org/): 上面有很多未解决的bug，想在社区提补丁可以在这上面找问题。
 - [syzbot](https://syzkaller.appspot.com/upstream): [谷歌的syzkaller](https://github.com/google/syzkaller)模糊测试跑出来的bug，想在社区提补丁也可以在这上面找问题。
-- [kernelnewbies](https://kernelnewbies.org/): 适合内核初学者看的黑客。
+- [kernelnewbies](https://kernelnewbies.org/): 适合内核初学者看的网站。
 - [LWN.net](https://lwn.net/): Linux新闻周刊。
 
 # 内核源码树
