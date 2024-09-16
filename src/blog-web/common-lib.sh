@@ -52,6 +52,9 @@ create_html() {
             src_file=${ipath_prefix}/${ifile}
             ofile="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
         fi
+
+        # 以上内容如果修改了，还要修改create-csdn-src.sh中的create_csdn_src()
+
         local dst_file=${tmp_html_path}/${ofile} # 拼接生成html文件名
         local dst_dir="$(dirname "${dst_file}")" # html文件所在的文件夹
         if [ ! -d "${dst_dir}" ]; then
