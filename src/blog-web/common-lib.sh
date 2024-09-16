@@ -170,3 +170,40 @@ sub_header_sharp() {
     add_or_sub_header ${input_file} ${output_file} false
 }
 
+create_src_for_header() {
+    input_file=$1
+
+    local is_code=false
+    local begin_header=false # 是否开始第一个标题
+    local dir_name=${input_file}.dir
+    local common_file=${dir_name}/common.md
+    local file_name=${common_file}
+    mkdir ${dir_name}
+    echo "create dir ${dir_name}"
+    while IFS= read -r line; do
+        if [[ ${line} == '```'* ]]; then
+            if [[ ${is_code} == true ]]; then
+                is_code=false
+            else
+                is_code=true
+            fi
+        fi
+
+        local is_header=false # 这一行是否标题
+        if [[ ${is_code} == false && ${line} == '#'* ]]; then
+            is_header=true # 是标题
+        fi
+        if [[ ${is_header} == true && ${line} == '# '* ]]; then
+            begin_header=true # 开始第一个标题
+            file_name=$(echo "${line:2}" | tr -d '[:space:][:punct:]') # 删除空格和标点
+            file_name=${dir_name}/${file_name}.txt
+            cat ${common_file} >> ${file_name}
+            continue
+        fi
+        if [[ ${is_header} == true ]]; then # 肯定不是第一个标题
+            echo ${line:1} >> ${file_name}
+        else
+            echo "${line}" >> ${file_name}
+        fi
+    done < "${input_file}"
+}
