@@ -1,3 +1,5 @@
+[点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://www.bilibili.com/video/BV1bs4peuEai/)。
+
 现在有3台电脑:
 ```
 1. 局域网电脑 private-server
@@ -77,12 +79,12 @@ sudo systemctl restart ssh-reverse # 重启服务
 # -l: 仅显示正在监听的端口。
 # -n: 显示数值格式的端口号，而不是尝试解析服务名称。
 # -p: 显示PID/Program
-netstat -tunpl | grep 8888
+netstat -tunpl | grep 5555
 ```
 
 这时private-client就可以直接访问private-server了:
 ```sh
-ssh -p 55555 sonvhi@hz.chenxiaosong.com
+ssh -p 55555 sonvhi@chenxiaosong.com
 ```
 
 # 监听

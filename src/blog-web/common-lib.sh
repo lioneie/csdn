@@ -52,6 +52,9 @@ create_html() {
             src_file=${ipath_prefix}/${ifile}
             ofile="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
         fi
+
+        # 以上内容如果修改了，还要修改create-csdn-src.sh中的create_csdn_src()
+
         local dst_file=${tmp_html_path}/${ofile} # 拼接生成html文件名
         local dst_dir="$(dirname "${dst_file}")" # html文件所在的文件夹
         if [ ! -d "${dst_dir}" ]; then
@@ -124,3 +127,88 @@ remove_public() {
     remove_comments $1 true
 }
 
+add_or_sub_header() {
+    local input_file=$1
+    local output_file=$2
+    local is_add=$3 # true有增加，false为减少
+
+    rm ${output_file}
+
+    local is_code=false
+    while IFS= read -r line; do
+        if [[ $line == '```'* ]]; then
+            if [[ $is_code == true ]]; then
+                is_code=false
+            else
+                is_code=true
+            fi
+        fi
+
+        if [[ $is_code == false && $line == '#'* ]]; then
+            if [[ $is_add == false && $line == '# '* ]]; then
+                continue # 如果减少的是一级标题，则删除这一行
+            fi
+            if [[ $is_add == true ]]; then
+                echo "#$line" >> ${output_file}
+            else
+                echo ${line:1} >> ${output_file}
+            fi
+        else
+            echo "$line" >> ${output_file}
+        fi
+    done < "$input_file"
+}
+
+# 将标题增加一级
+add_header_sharp() {
+    input_file=$1
+    output_file=$2
+    add_or_sub_header ${input_file} ${output_file} true
+}
+
+# 将标题减少一级
+sub_header_sharp() {
+    input_file=$1
+    output_file=$2
+    add_or_sub_header ${input_file} ${output_file} false
+}
+
+create_src_for_header() {
+    input_file=$1
+
+    local is_code=false
+    local begin_header=false # 是否开始第一个标题
+    local dir_name=${input_file}.dir
+    local common_file=${dir_name}/common.md
+    local file_name=${common_file}
+    mkdir ${dir_name}
+    echo "create dir ${dir_name}"
+    local header_index=0
+    while IFS= read -r line; do
+        if [[ ${line} == '```'* ]]; then
+            if [[ ${is_code} == true ]]; then
+                is_code=false
+            else
+                is_code=true
+            fi
+        fi
+
+        local is_header=false # 这一行是否标题
+        if [[ ${is_code} == false && ${line} == '#'* ]]; then
+            is_header=true # 是标题
+        fi
+        if [[ ${is_header} == true && ${line} == '# '* ]]; then
+            header_index=$((header_index + 1))
+            begin_header=true # 开始第一个标题
+            file_name=$(echo "${line:2}" | tr -d '[:space:][:punct:]') # 删除空格和标点
+            file_name=${dir_name}/${header_index}.${file_name}.txt
+            cat ${common_file} >> ${file_name}
+            continue
+        fi
+        if [[ ${is_header} == true ]]; then # 肯定不是第一个标题
+            echo ${line:1} >> ${file_name}
+        else
+            echo "${line}" >> ${file_name}
+        fi
+    done < "${input_file}"
+}

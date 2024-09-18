@@ -979,14 +979,14 @@ sudo make install -j`nproc` # 二进制安装到 /usr/local/bin/，工具安装/
 
 `test.bt`:
 ```sh
-kprobe:filemap_read_folio
+kprobe:ext2_read_folio
 {
         @start[tid] = nsecs;
         printf("kprobe\n");
         print(kstack());
 }
 
-kretprobe:filemap_read_folio
+kretprobe:ext2_read_folio
 {
         $us = (nsecs - @start[tid]) / 100;
         printf("kretprobe, duration %d\n", $us);
@@ -996,7 +996,7 @@ kretprobe:filemap_read_folio
 ```
 
 ```sh
-backtrace test.bt &
+bpftrace test.bt &
 mkfs.ext2 -F image
 mount image /mnt
 echo something > /mnt/file
