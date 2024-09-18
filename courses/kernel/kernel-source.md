@@ -62,7 +62,7 @@ Linux内核社区主要以邮件交流为主，以下是一些常用的网站:
 
 你可以通过[bugzilla](https://bugzilla.kernel.org/)或[syzbot](https://syzkaller.appspot.com/upstream)发现内核bug，也可以通过阅读内核代码发现bug或进行重构。<!-- public begin -->或者可以用[`calc-func-lines.sh`脚本](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/scripts/calc-func-lines.sh)<!-- public end --><!-- private begin -->或者可以用`src/scripts/calc-func-lines.sh`脚本<!-- private end -->找到长函数（不容易阅读）进行重构。
 
-可以参考内核仓库中的补丁<!-- public begin -->，比如[我提交的补丁](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/?qt=grep&q=chenxiaosong)<!-- public end -->。修改代码时要参考[Linux内核代码风格](https://www.kernel.org/doc/html/latest/translations/zh_CN/process/coding-style.html#cn-codingstyle)。
+可以参考内核仓库中的补丁<!-- public begin -->，比如[我提交的补丁](https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/?qt=grep&q=chenxiaosong)<!-- public end -->。修改代码时要参考[Linux内核代码风格](https://www.kernel.org/doc/html/latest/translations/zh_CN/process/coding-style.html#cn-codingstyle)。
 
 注意commit message每行长度不超过 72 个字符。
 
