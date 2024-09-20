@@ -3,6 +3,8 @@ dst_path=/var/www
 tmp_html_path=${dst_path}/html-tmp
 html_path=${dst_path}/html
 
+is_public_ip=$1
+
 . ${src_path}/src/blog-web/common-lib.sh
 . ${src_path}/src/blog-web/array.sh
 
@@ -28,7 +30,7 @@ copy_public_files() {
 }
 
 init_begin
-create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path}
+create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path} ${is_public_ip}
 create_html ${src_path} ${tmp_html_path}
 copy_secret_repository
 copy_public_files

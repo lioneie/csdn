@@ -6,6 +6,7 @@ pandoc_common_options="--to html --standalone --metadata encoding=gbk --number-s
 create_sign() {
     local src_file=$1
     local tmp_html_path=$2
+    local is_public_ip=$3
 
     local html_title="签名"
     local dst_file=${tmp_html_path}/sign.html
@@ -14,6 +15,9 @@ create_sign() {
     # 先去除sign.html文件中其他内容
     sed -i '/<\/header>/,/<\/body>/!d' ${tmp_html_path}/sign.html # 只保留</header>到</body>的内容
     sed -i '1d;$d' ${tmp_html_path}/sign.html # 删除第一行和最后一行
+    if [[ ${is_public_ip} == true ]]; then
+        sed -i '/replace_with_public_ip_or_delete_this_line/d' ${tmp_html_path}/sign.html
+    fi
 }
 
 # 要定义数组array

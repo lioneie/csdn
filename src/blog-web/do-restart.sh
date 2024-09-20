@@ -31,6 +31,8 @@ replace_lan_ip() {
         find ${dst_path}/ -type f -exec sed -i 's/https:\/\/'${lan_ip}'/http:\/\/'${lan_ip}'/g' {} +
         # 邮箱替换回来
         find ${dst_path}/ -type f -exec sed -i 's/@'${lan_ip}'/@chenxiaosong.com/g' {} +
+        # 局域网时签名中有主页网址
+        find ${dst_path}/ -type f -exec sed -i 's/replace_with_public_ip_or_delete_this_line/chenxiaosong.com/g' {} +
     fi
 }
 
@@ -40,7 +42,7 @@ restart_all() {
     fi
     echo "recreate html, restart service"
     copy_config
-    bash ${src_path}/blog/src/blog-web/create-html.sh
+    bash ${src_path}/blog/src/blog-web/create-html.sh ${is_public_ip}
     replace_lan_ip
     iptables -F # 根据情况决定是否要清空防火墙规则
     service nginx restart # 重启nginx服务，docker中不支持systemd
