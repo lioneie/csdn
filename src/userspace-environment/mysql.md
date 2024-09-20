@@ -18,3 +18,17 @@ net start mysql # 结束mysqld进程后，只需要执行此命令，不需要�
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';
 mysql> FLUSH PRIVILEGES; # 重新加载了权限表，以确保当前任何更改用户或权限的操作都会立即生效
 ```
+
+以下是[YiShaAdmin](https://github.com/liukuo362573/YiShaAdmin/tree/YiShaAdmin-Net6)的一些操作。
+
+常见操作：
+
+```shell
+mysql> show databases;
+mysql> create DATABASE yishaadmin;
+mysql> use yishaadmin;
+mysql> SELECT DATABASE(); # 查看当前选择的数据库
+mysql> source D:/chenxiaosong/code/YiShaAdmin/Document/DatabaseScript/mysql.sql;
+mysql> source D:/chenxiaosong/code/YiShaAdmin/Document/DatabaseScript/mysql_data.sql;
+mysql> show tables;
+```
