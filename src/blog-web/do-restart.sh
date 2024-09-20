@@ -31,7 +31,7 @@ replace_lan_ip() {
         find ${dst_path}/ -type f -exec sed -i 's/https:\/\/'${lan_ip}'/http:\/\/'${lan_ip}'/g' {} +
         # 邮箱替换回来
         find ${dst_path}/ -type f -exec sed -i 's/@'${lan_ip}'/@chenxiaosong.com/g' {} +
-        # 局域网时签名中有主页网址
+        # 局域网时签名中有公网主页网址
         find ${dst_path}/ -type f -exec sed -i 's/replace_with_public_ip_or_delete_this_line/chenxiaosong.com/g' {} +
     fi
 }
