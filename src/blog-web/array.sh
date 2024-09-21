@@ -91,6 +91,7 @@ array=(
             1 1 courses/nfs/issues/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md ~ "aarch64架构 4.19 nfs_readpage_async空指针解引用问题"
             1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async空指针解引用问题'
             1 1 courses/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid报warning紧接着panic的问题"
+            1 1 courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.md ~ "4.19 __nfs3_proc_setacls空指针解引用问题"
     0 1 courses/smb/smb.md ${tmp_courses_path} "smb文件系统"
         1 1 courses/smb/smb-introduction.md ${tmp_courses_path} "smb简介"
         1 1 courses/smb/smb-environment.md ${tmp_courses_path} "smb环境"
