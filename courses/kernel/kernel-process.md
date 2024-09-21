@@ -623,3 +623,32 @@ Brain Fuck Scheduler, 脑残调度器，由澳洲麻醉师康恩·科里瓦斯�
 <!-- private end -->
 
 代码位于内核仓库的`tools/sched_ext/`目录下。
+
+# 硬实时
+
+```sh
+commit baeb9a7d8b60b021d907127509c44507539c15e5
+Merge: 2004cef11ea07 2638e4e6b1823
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri Sep 20 06:04:27 2024 +0200
+
+    Merge tag 'sched-rt-2024-09-17' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+
+    Pull RT enablement from Thomas Gleixner:
+     "在支持的架构上启用PREEMPT_RT：
+      经过二十年的开发，我们终于达到了在主线内核中启用PREEMPT_RT支持的阶段。
+      所有先决条件已经合并，因此在支持的架构ARM64、RISCV和X86（32/64位）上启用它。"
+
+    * tag 'sched-rt-2024-09-17' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip:
+      riscv: Allow to enable PREEMPT_RT.
+      arm64: Allow to enable PREEMPT_RT.
+      x86: Allow to enable PREEMPT_RT.
+```
+
+[`[PATCH 0/3] Allow to enable PREEMPT_RT.`](https://lore.kernel.org/all/20240906111841.562402-1-bigeasy@linutronix.de/):
+
+- [`d2d6422f8bd17 [PATCH 1/3] x86: Allow to enable PREEMPT_RT.`](https://lore.kernel.org/all/20240906111841.562402-2-bigeasy@linutronix.de/)
+- [`d8fccd9ca5f90 [PATCH 2/3] arm64: Allow to enable PREEMPT_RT.`](https://lore.kernel.org/all/20240906111841.562402-3-bigeasy@linutronix.de/)
+- [`2638e4e6b1823 [PATCH 3/3] riscv: Allow to enable PREEMPT_RT.`](https://lore.kernel.org/all/20240906111841.562402-4-bigeasy@linutronix.de/)
+
+[`[PATCH printk v6 00/17] add threaded printing + the rest`](https://lore.kernel.org/all/20240904120536.115780-1-john.ogness@linutronix.de/)
