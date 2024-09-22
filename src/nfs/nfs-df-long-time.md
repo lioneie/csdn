@@ -18,3 +18,18 @@ dorado和netapp当nfs server，使用nfsv3挂载，停止任何操作等待10min
   - 异常关闭：当一方收到一个不期望的包（例如，连接已经关闭或不存在的连接）时，会发送RST包来通知对方重置连接。
   - 拒绝连接：当服务器收到一个连接请求（SYN），但不愿意或不能接受该请求时，可以发送RST包给客户端，以表明连接被拒绝。
   - 错误处理：在一些错误情况下，例如应用程序崩溃或无法处理接收到的数据，TCP栈可以发送RST包来重置连接。
+
+# 日志分析
+
+打开日志开关，复现后抓取日志:
+```sh
+echo 0xFFFF > /proc/sys/sunrpc/nfs_debug # NFSDBG_ALL
+echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL
+```
+
+复现后抓到以下日志:
+```sh
+[504147.999833] RPC: 24902 call_start nfs4 proc GETATTR (sync)
+...
+[504188.043341] RPC: 24905 call_start nfs4 proc STATFS (sync)
+```
