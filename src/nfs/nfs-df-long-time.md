@@ -21,6 +21,8 @@ dorado和netapp当nfs server，使用nfsv3挂载，停止任何操作等待10min
 
 # 日志分析
 
+## nfsv4
+
 打开日志开关，复现后抓取日志:
 ```sh
 echo 0xFFFF > /proc/sys/sunrpc/nfs_debug # NFSDBG_ALL
@@ -29,7 +31,42 @@ echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL
 
 复现后抓到以下日志:
 ```sh
-[504147.999833] RPC: 24902 call_start nfs4 proc GETATTR (sync)
-...
-[504188.043341] RPC: 24905 call_start nfs4 proc STATFS (sync)
+[509287.484234] RPC: 25155 call_start nfs4 proc GETATTR (sync)
+[509287.486186] decode_attr_type: type=040000
+[509287.486189] decode_attr_change: change attribute=7413717318535264640
+[509287.486191] decode_attr_size: file size=4096
+[509287.486193] decode_attr_fsid: fsid=(0x1e0/0x0)
+[509287.486195] decode_attr_fileid: fileid=65
+[509287.486197] decode_attr_fs_locations: fs_locations done, error = 0
+[509287.486199] decode_attr_mode: file mode=0755
+[509287.486201] decode_attr_nlink: nlink=3
+[509307.511394] decode_attr_owner: uid=0
+[509327.534150] decode_attr_group: gid=0
+[509327.534154] decode_attr_rdev: rdev=(0x0:0x0)
+[509327.534156] decode_attr_space_used: space used=4096
+[509327.534159] decode_attr_time_access: atime=1726140575
+[509327.534161] decode_attr_time_metadata: ctime=1726140575
+[509327.534163] decode_attr_time_modify: mtime=1726140575
+[509327.534165] decode_attr_mounted_on_fileid: fileid=65
+[509327.534592] RPC: 25158 call_start nfs4 proc STATFS (sync)
+[509327.537215] decode_attr_files_avail: files avail=2516582400
+[509327.537217] decode_attr_files_free: files free=2516582400
+[509327.537219] decode_attr_files_total: files total=2516582400
+[509327.537221] decode_attr_space_avail: space avail=515395936256
+[509327.537223] decode_attr_space_free: space free=515395936256
+[509327.537225] decode_attr_space_total: space total=515396075520
+```
+
+## nfsv3
+
+```sh
+[510403.908320] RPC:   275 xprt_connect_status: retrying
+[510403.908323] RPC:   275 call_connect_status (status -104)
+[510403.908326] RPC:   275 sleep_on(queue "delayq" time 4805072524)
+[510403.908332] RPC:   275 added to queue 000000000db4bcdb "delayq"
+[510403.908334] RPC:       wake_up_first(000000008c3c84d4 "xprt_sending")
+[510403.908336] RPC:   275 setting alarm for 3000 ms
+[510403.908338] RPC:   275 sync task going to sleep
+[510406.968250] RPC:   275 timeout
+[510406.968273] RPC:   275 __rpc_wake_up_task (now 4805075584)
 ```
