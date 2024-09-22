@@ -4,6 +4,19 @@ dorado和netapp当nfs server，使用nfsv3挂载，停止任何操作等待10min
 
 # `tcpdump`抓包
 
+## nfsv4
+
+- 5.752516: GETATTR Call
+- 5.754274: GETATTR Reply
+  - Attr mask[0]: 0x0010011a (Type, Change, Size, FSID, FileId)
+  - Attr mask[1]: 0x00b0a23a (Mode, NumLinks, Owner, Owner_Group, RawDev, Space_Used, Time_Access, Time_Metadata, Time_Modify, Mounted_on_FileId)
+- 45.802934: GETATTR Call
+- 45.805379: GETATTR Replay
+  - Attr mask[0]: 0x00e00000 (Files_Avail, Files_Free, Files_Total)
+  - Attr mask[1]: 0x00001c00 (Space_Avail, Space_Free, Space_Total)
+
+## nfsv3
+
 - 2351.124940: SYN
 - 2351.125149: SYN-ACK
 - 2351.125167: RST
