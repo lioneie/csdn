@@ -70,6 +70,8 @@ echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL
 [509327.537225] decode_attr_space_total: space total=515396075520
 ```
 
+`GETATTR`回复数据解码在`decode_getfattr_attrs()`函数中，`decode_attr_owner()`过了`20s`才解码，`decode_attr_group()`以后面的解码函数过了`40s`秒。
+
 ## nfsv3
 
 ```sh
@@ -83,3 +85,5 @@ echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL
 [510406.968250] RPC:   275 timeout
 [510406.968273] RPC:   275 __rpc_wake_up_task (now 4805075584)
 ```
+
+`call_connect_status()`函数中`task->tk_status`错误码为`-ECONNRESET`。
