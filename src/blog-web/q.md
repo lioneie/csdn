@@ -22,6 +22,10 @@
 
 搭建网站的开源框架有很多，我的网站是比较简陋的，只能浏览网页，暂时没做后台管理系统，想快速搭建一个类似的简陋网站参考视频[《搭建个人主页-局域网》](https://www.bilibili.com/video/BV14z421z7Mb/)和[《搭建个人主页-公网》](https://www.bilibili.com/video/BV1Tm421579v/)，博客文章是[《如何拥有个人域名的网站和邮箱》](https://chenxiaosong.com/src/blog-web/blog-web.html)。
 
+# 怎么往内核社区发补丁？
+
+请查看[《贡献内核社区》](https://www.bilibili.com/video/BV1eT421977p/)，博客文章[《内核源码介绍》](https://chenxiaosong.com/courses/kernel/kernel-source.html)。
+
 # 内核代码浏览用什么编辑器？
 
 浏览代码的编辑器每个人都有自己的喜好，就像我用的是小众的emacs，也有很多人用vim和vscode。
