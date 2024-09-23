@@ -25,3 +25,5 @@
 [`3e2910c7e23b NFS: Improve warning message when locks are lost.`](https://chenxiaosong.com/courses/nfs/patches/NFS-Improve-warning-message-when-locks-are-lost.html)
 
 [`600df3856f0b nfsd: Remove incorrect check in nfsd4_validate_stateid`](https://chenxiaosong.com/courses/nfs/patches/nfsd-Remove-incorrect-check-in-nfsd4_validate_statei.html)
+
+[`patchset: nfs_instantiate() might succeed leaving dentry negative unhashed`](https://chenxiaosong.com/courses/nfs/patches/patchset-nfs_instantiate-might-succeed-leaving-dentry-negative-unhashed.html)
