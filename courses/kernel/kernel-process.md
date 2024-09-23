@@ -626,6 +626,29 @@ Brain Fuck Scheduler, 脑残调度器，由澳洲麻醉师康恩·科里瓦斯�
 
 # 硬实时
 
+维基百科上对实时操作系统的一些描述:
+
+> 实时操作系统（Real-time operating system, RTOS），又称即时操作系统，它会按照排序执行、管理系统资源，并为开发应用程序提供一致的基础。
+
+> 实时操作系统与一般的操作系统相比，最大的特色就是“实时性”，如果有一个任务需要执行，实时操作系统会马上（在较短时间内）执行该任务，不会有较长的延时。这种特性保证了各个任务的及时执行。
+
+> 设计实时操作系统的首要目标不是高的吞吐量，而是保证任务在特定时间内完成，因此衡量一个实时操作系统坚固性的重要指标，是系统从接收一个任务，到完成该任务所需的时间，其时间的变化称为抖动。可以依抖动将实时操作系统分为两种：硬实时操作系统及软实时操作系统，硬实时操作系统比软实时操作系统有更少的抖动：
+
+> - 硬实时操作系统必须使任务在确定的时间内完成。
+> - 软实时操作系统能让绝大多数任务在确定时间内完成。
+
+> 实时操作系统与一般的操作系统有着不同的调度算法。普通的操作系统的调度器对于线程优先级等方面的处理更加灵活；而实时操作系统追求最小的中断延时和线程切换延时。
+
+> PREEMPT_RT 是一组针对 Linux 内核的补丁，旨在实现硬实时和软实时计算功能，而微软 Windows 仍然是软实时内核。2024 年 9 月 20 日，PREEMPT_RT 在支持的架构 x86、x86_64、RISC-V 和 ARM64 上被完全合并并在主线 Linux 中启用。
+
+> PREEMPT_RT 补丁集自 2005 年起开始开发。在 2021 年，抢占核心的锁定代码已被合并。
+
+> 自 2023 年 2 月起，Canonical 已经开始发布实时版本的 Ubuntu Pro，个人和小规模商业使用可以免费在最多 5 台机器上运行。实时内核可以通过启用过程添加到各种现有的 Ubuntu 版本中。这些内核包含了 PREEMPT_RT 补丁集并提供长期支持。
+
+> MontaVista Software 自 2000 年初以来一直发布包含 PREEMPT_RT 补丁集的实时 Linux 发行版。MontaVista 目前的主要嵌入式 Linux 产品 CGX 将实时抢占作为标准功能。
+
+> 在 2024 年 9 月的欧洲开源峰会上，Linus Torvalds 宣布 PREEMPT_RT 已被接受到主线 Linux 内核中，此前经过了与 printk 内核日志功能相关的长期开发难题。
+
 ```sh
 commit baeb9a7d8b60b021d907127509c44507539c15e5
 Merge: 2004cef11ea07 2638e4e6b1823
@@ -646,9 +669,46 @@ Date:   Fri Sep 20 06:04:27 2024 +0200
 ```
 
 [`[PATCH 0/3] Allow to enable PREEMPT_RT.`](https://lore.kernel.org/all/20240906111841.562402-1-bigeasy@linutronix.de/):
+```
+printk 相关的补丁已经合并到 linux-next，这是 PREEMPT_RT 的最后一个已知障碍。RT 队列中还有针对 8250 UART 的“原子控制台”功能，但这还没有进入 linux-next。这意味着“传统控制台”行为，即在紧急情况下无法从原子上下文中打印。目前，8250 UART 驱动程序是唯一提供“原子控制台”支持的驱动程序。
 
-- [`d2d6422f8bd17 [PATCH 1/3] x86: Allow to enable PREEMPT_RT.`](https://lore.kernel.org/all/20240906111841.562402-2-bigeasy@linutronix.de/)
-- [`d8fccd9ca5f90 [PATCH 2/3] arm64: Allow to enable PREEMPT_RT.`](https://lore.kernel.org/all/20240906111841.562402-3-bigeasy@linutronix.de/)
-- [`2638e4e6b1823 [PATCH 3/3] riscv: Allow to enable PREEMPT_RT.`](https://lore.kernel.org/all/20240906111841.562402-4-bigeasy@linutronix.de/)
+随着 printk 相关补丁的合并，PREEMPT_RT 可以在 X86、ARM64 和 Risc-V 上启用。这三个架构多年来都合并了所需的变更，目前我手头上没有影响这些架构的关键更改。
 
-[`[PATCH printk v6 00/17] add threaded printing + the rest`](https://lore.kernel.org/all/20240904120536.115780-1-john.ogness@linutronix.de/)
+ARM 和 POWERPC 还有一些关键补丁需要完成，我已经不太清楚 MIPS 的进展了。
+```
+
+[`[PATCH printk v6 00/17] add threaded printing + the rest`](https://lore.kernel.org/all/20240904120536.115780-1-john.ogness@linutronix.de/):
+```
+你好，
+
+这是实现线程化控制台打印和一些其他小功能（例如 nbcon 控制台的 proc 和 sysfs 识别）的第六版系列补丁。第五版可在[0]处找到。
+
+关于 nbcon 控制台的动机，请参考最初第一版的封面信[1]。
+
+该系列补丁提供了 printk 重构的剩余部分。其他组件要么已经合并到主线，要么目前在 linux-next 中。特别是这个系列实现了以下功能：
+
+- 为每个 nbcon 控制台实现专用打印线程。
+  
+- 为 PREEMPT_RT 强制线程化传统控制台。
+  
+- 为与控制台相关的 proc 和 sysfs 文件实现 nbcon 支持。
+  
+- 提供了一个新帮助函数 `nbcon_reacquire_nobuf()`，允许 nbcon 控制台驱动重新获取所有权。
+
+请注意，这个系列**不**提供 nbcon 控制台驱动程序。这将在后续系列中提供。
+
+以下是自第五版以来的更改：
+
+- 在 `nbcon_kthreads_wake()` 中，跳过 `!CON_NBCON` 控制台。
+
+- 在 `console_flush_all()` 中，如果 `ft.nbcon_atomic == true`，同样跳过 nbcon 控制台，并改进了注释解释原因。
+
+- 在 `legacy_kthread_should_wakeup()` 中，如果 `ft.nbcon_atomic == true`，同样跳过 nbcon 控制台，并改进了注释解释原因。
+
+John Ogness
+
+[0] https://lore.kernel.org/lkml/20240830152916.10136-1-john.ogness@linutronix.de
+
+[1] https://lore.kernel.org/lkml/20230302195618.156940-1-john.ogness@linutronix.de
+```
+
