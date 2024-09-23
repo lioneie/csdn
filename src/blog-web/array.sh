@@ -85,7 +85,7 @@ array=(
             1 1 courses/nfs/patches/nfsd-Remove-incorrect-check-in-nfsd4_validate_statei.md ~
                 "600df3856f0b nfsd: Remove incorrect check in nfsd4_validate_stateid"
             1 1 courses/nfs/patches/patchset-nfs_instantiate-might-succeed-leaving-dentry-negative-unhashed.md ~
-                patchset: nfs_instantiate() might succeed leaving dentry negative unhashed"
+                "patchset: nfs_instantiate() might succeed leaving dentry negative unhashed"
         1 1 courses/nfs/nfs-issues.md ${tmp_courses_path} "nfs问题分析"
             1 1 courses/nfs/issues/nfs-clients-same-hostname-clientid-expire.md ~ "多个NFS客户端使用相同的hostname导致clientid过期"
             1 1 courses/nfs/issues/4.19-nfs-no-iterate_shared.md ~ "nfs没实现iterate_shared导致的遍历目录无法并发问题"
