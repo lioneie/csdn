@@ -2,6 +2,13 @@
 
 dorado和netapp当nfs server，使用nfsv3挂载，停止任何操作等待10min以上，再执行`df -h`命令偶现执行时间超3s。使用nfsv4挂载，在一定条件下必现`df -h`命令执行时间超过40s。
 
+挂载参数如下:
+```sh
+xx.xx.xx.xx:/export on /mnt/nfsv3 type nfs (rw,relatime,vers=3,rsize=65536,wsize=65536,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=xx.xx.xx.xx,mountvers=3,mountport=635,mountproto=udp,local_lock=none,addr=xx.xx.xx.xx)
+
+xx.xx.xx.xx:/export on /mnt/nfsv41 type nfs4 (rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=xx.xx.xx.xx,local_lock=none,addr=xx.xx.xx.xx)
+```
+
 # `tcpdump`抓包
 
 ## nfsv4
@@ -72,6 +79,60 @@ echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL
 
 `GETATTR`回复数据解码在`decode_getfattr_attrs()`函数中，`decode_attr_owner()`过了`20s`才解码，`decode_attr_group()`以后面的解码函数过了`40s`秒。
 
+抓取内核栈:
+```sh
+cat /proc/36787/stack
+[<0>] call_usermodehelper_exec+0x13d/0x170
+[<0>] call_sbin_request_key+0x2bc/0x380
+[<0>] request_key_and_link+0x4fd/0x660
+[<0>] request_key+0x3c/0x90
+[<0>] nfs_idmap_get_key+0xac/0x1c0 [nfsv4]
+[<0>] nfs_idmap_lookup_id+0x30/0x80 [nfsv4]
+[<0>] nfs_map_name_to_uid+0x6a/0x110 [nfsv4]
+[<0>] decode_getfattr_attrs+0xfb2/0x1730 [nfsv4]
+[<0>] decode_getfattr_generic.constprop.118+0xe2/0x130 [nfsv4]
+[<0>] nfs4_xdr_dec_getattr+0x9a/0xb0 [nfsv4]
+[<0>] rpcauth_unwrap_resp+0xd0/0xe0 [sunrpc]
+[<0>] call_decode+0x153/0x850 [sunrpc]
+[<0>] __rpc_execute+0x7f/0x3f0 [sunrpc]
+[<0>] rpc_run_task+0x109/0x150 [sunrpc]
+[<0>] nfs4_call_sync_sequence+0x64/0xa0 [nfsv4]
+[<0>] _nfs4_proc_getattr+0x116/0x140 [nfsv4]
+[<0>] nfs4_proc_getattr+0x7a/0x110 [nfsv4]
+[<0>] __nfs_revalidate_inode+0xff/0x330 [nfs]
+[<0>] nfs_getattr+0x141/0x2d0 [nfs]
+[<0>] vfs_statx+0x89/0xe0
+[<0>] __do_sys_newstat+0x39/0x70
+[<0>] do_syscall_64+0x5f/0x240
+[<0>] entry_SYSCALL_64_after_hwframe+0x5c/0xc1
+
+cat /proc/36787/stack
+[<0>] call_usermodehelper_exec+0x13d/0x170
+[<0>] call_sbin_request_key+0x2bc/0x380
+[<0>] request_key_and_link+0x4fd/0x660
+[<0>] request_key+0x3c/0x90
+[<0>] nfs_idmap_get_key+0xac/0x1c0 [nfsv4]
+[<0>] nfs_idmap_lookup_id+0x30/0x80 [nfsv4]
+[<0>] nfs_map_group_to_gid+0x6a/0x110 [nfsv4]
+[<0>] decode_getfattr_attrs+0x105f/0x1730 [nfsv4]
+[<0>] decode_getfattr_generic.constprop.118+0xe2/0x130 [nfsv4]
+[<0>] nfs4_xdr_dec_getattr+0x9a/0xb0 [nfsv4]
+[<0>] rpcauth_unwrap_resp+0xd0/0xe0 [sunrpc]
+[<0>] call_decode+0x153/0x850 [sunrpc]
+[<0>] __rpc_execute+0x7f/0x3f0 [sunrpc]
+[<0>] rpc_run_task+0x109/0x150 [sunrpc]
+[<0>] nfs4_call_sync_sequence+0x64/0xa0 [nfsv4]
+[<0>] _nfs4_proc_getattr+0x116/0x140 [nfsv4]
+[<0>] nfs4_proc_getattr+0x7a/0x110 [nfsv4]
+[<0>] __nfs_revalidate_inode+0xff/0x330 [nfs]
+[<0>] nfs_getattr+0x141/0x2d0 [nfs]
+[<0>] vfs_statx+0x89/0xe0
+[<0>] __do_sys_newstat+0x39/0x70
+[<0>] do_syscall_64+0x5f/0x240
+[<0>] entry_SYSCALL_64_after_hwframe+0x5c/0xc1
+[root@kylin10sp3-2 20240920]# 
+```
+
 ## nfsv3
 
 ```sh
@@ -87,3 +148,4 @@ echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL
 ```
 
 `call_connect_status()`函数中`task->tk_status`错误码为`-ECONNRESET`。
+
