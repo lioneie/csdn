@@ -85,3 +85,7 @@
 # systemtap
 
 [systemtap README](https://chenxiaosong.com/src/translations/systemtap/systemtap-readme.html)
+
+# doc-guide
+
+[doc-guide/kernel-doc.rst](https://chenxiaosong.com/src/translations/doc-guide/kernel-doc.html)
