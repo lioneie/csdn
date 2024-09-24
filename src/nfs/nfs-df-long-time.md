@@ -161,6 +161,34 @@ call_usermodehelper_exec at kernel/umh.c:614
 
 `call_connect_status()`函数中`task->tk_status`错误码为`-ECONNRESET`。
 
+# 调试
+
+```sh
+cd /sys/kernel/debug/tracing/
+# 可以用 kprobe 跟踪的函数
+cat available_filter_functions | grep nfs_map_name_to_uid
+echo 1 > tracing_on
+# x86_64函数参数用到的寄存器: RDI, RSI, RDX, RCX, R8, R9
+echo 'p:p_nfs_map_name_to_uid nfs_map_name_to_uid name=+0(%si):string' >> kprobe_events
+echo 1 > events/kprobes/p_nfs_map_name_to_uid/enable
+echo stacktrace > events/kprobes/p_nfs_map_name_to_uid/trigger
+echo '!stacktrace' > events/kprobes/p_nfs_map_name_to_uid/trigger
+echo 0 > events/kprobes/p_nfs_map_name_to_uid/enable
+echo '-:p_nfs_map_name_to_uid' >> kprobe_events
+
+cd /sys/kernel/debug/tracing/
+echo nop > current_tracer
+echo 1 > tracing_on
+cat available_events | grep nfs4_map_name_to_uid
+cat available_events | grep nfs4_map_group_to_gid
+echo nfs4:nfs4_map_name_to_uid >> set_event
+echo nfs4:nfs4_map_group_to_gid >> set_event
+# echo > set_event # 清空
+
+echo 0 > trace # 清除trace信息
+cat trace_pipe
+```
+
 # 代码分析
 
 ## nfsv4
