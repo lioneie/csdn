@@ -9,6 +9,11 @@ xx.xx.xx.xx:/export on /mnt/nfsv3 type nfs (rw,relatime,vers=3,rsize=65536,wsize
 xx.xx.xx.xx:/export on /mnt/nfsv41 type nfs4 (rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=xx.xx.xx.xx,local_lock=none,addr=xx.xx.xx.xx)
 ```
 
+准备`debuginfo`:
+```sh
+rpm2cpio kernel-debuginfo-4.19.90-89.15.v2401.ky10.x86_64.rpm | cpio -div
+```
+
 # `tcpdump`抓包
 
 ## nfsv4
@@ -130,8 +135,15 @@ cat /proc/36787/stack
 [<0>] __do_sys_newstat+0x39/0x70
 [<0>] do_syscall_64+0x5f/0x240
 [<0>] entry_SYSCALL_64_after_hwframe+0x5c/0xc1
-[root@kylin10sp3-2 20240920]# 
 ```
+
+```sh
+scripts/faddr2line usr/lib/debug/lib/modules/4.19.90-89.15.v2401.ky10.x86_64/vmlinux call_usermodehelper_exec+0x13d/0x170
+call_usermodehelper_exec+0x13d/0x170:
+call_usermodehelper_exec at kernel/umh.c:614
+```
+
+睡眠发生在`call_usermodehelper_exec()`中的`wait_for_completion(&done);`。
 
 ## nfsv3
 
@@ -149,3 +161,41 @@ cat /proc/36787/stack
 
 `call_connect_status()`函数中`task->tk_status`错误码为`-ECONNRESET`。
 
+# 代码分析
+
+## nfsv4
+
+```c
+newstat
+  vfs_statx
+    nfs_getattr
+      __nfs_revalidate_inode
+        nfs4_proc_getattr
+          _nfs4_proc_getattr
+            nfs4_call_sync_sequence
+              rpc_run_task
+                __rpc_execute
+                  call_decode
+                    rpcauth_unwrap_resp
+                      nfs4_xdr_dec_getattr
+                        decode_getfattr_generic.constprop.118
+                          decode_getfattr_attrs
+                            decode_attr_owner
+                              nfs_map_name_to_uid
+                                nfs_idmap_lookup_id
+                                  nfs_idmap_get_key
+                                    request_key
+                                      request_key_and_link
+                                        call_sbin_request_key
+                                          call_usermodehelper_exec
+                                            wait_for_completion(&done);
+                            decode_attr_group
+                              nfs_map_group_to_gid
+                                nfs_idmap_lookup_id
+                                  nfs_idmap_get_key
+                                    request_key
+                                      request_key_and_link
+                                        call_sbin_request_key
+                                          call_usermodehelper_exec
+                                            wait_for_completion(&done);
+```

@@ -130,6 +130,7 @@ array=(
     1 1 src/nfs/unable-to-initialize-client-recovery-tracking.md ~ "重启nfs server后client打开文件卡顿很长时间的问题"
     1 1 src/nfs/4.19-ltp-nfs-fail.md ~ "4.19 ltp nfs测试失败问题"
     1 1 src/nfs/nfs-no-net-oom.md ~ "nfs断网导致oom的问题"
+    1 1 src/nfs/nfs-df-long-time.md ~ "nfs df命令执行时间长的问题"
     # smb(cifs)
     1 1 src/smb/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect空指针解引用问题"
     1 1 src/smb/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat报错ENOTSUPP"
