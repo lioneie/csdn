@@ -22,14 +22,6 @@
 
 # [Parallel NFS (pNFS)](https://chenxiaosong.com/courses/nfs/pnfs.html)
 
-<!--
-# [nfs server (nfsd)](https://chenxiaosong.com/courses/nfs/nfsd.html)
-
-# [nfs Procedures和Operations](https://chenxiaosong.com/courses/nfs/nfs-procedures.html)
-
-# [nfs文件句柄](https://chenxiaosong.com/courses/nfs/nfs-filehandle.html)
--->
-
 # [nfs调试方法](https://chenxiaosong.com/courses/nfs/nfs-debug.html)
 
 # [nfs补丁分析](https://chenxiaosong.com/courses/nfs/nfs-patches.html)

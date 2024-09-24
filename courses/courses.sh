@@ -56,9 +56,6 @@ nfs_files() {
         1 courses/nfs/nfs-environment.md
         1 courses/nfs/nfs-client-struct.md
         1 courses/nfs/pnfs.md
-        1 courses/nfs/nfsd.md
-        1 courses/nfs/nfs-procedures.md
-        1 courses/nfs/nfs-filehandle.md
         1 courses/nfs/nfs-debug.md
         1 courses/nfs/nfs-patches.md
         1 courses/nfs/nfs-issues.md

@@ -57,9 +57,6 @@ array=(
         1 1 courses/nfs/nfs-environment.md ${tmp_courses_path} "nfs环境"
         1 1 courses/nfs/nfs-client-struct.md ${tmp_courses_path} "nfs client数据结构"
         1 1 courses/nfs/pnfs.md ${tmp_courses_path} "Parallel NFS (pNFS)"
-        1 1 courses/nfs/nfsd.md ${tmp_courses_path} "nfs server (nfsd)"
-        1 1 courses/nfs/nfs-procedures.md ${tmp_courses_path} "nfs Procedures和Operations"
-        1 1 courses/nfs/nfs-filehandle.md ${tmp_courses_path} "nfs文件句柄"
         1 1 courses/nfs/nfs-debug.md ${tmp_courses_path} "nfs调试方法"
         1 1 courses/nfs/nfs-patches.md ${tmp_courses_path} "nfs补丁分析"
             # 我写的补丁
