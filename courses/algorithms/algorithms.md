@@ -9,3 +9,5 @@
 点击下面的标题跳转。
 
 # [动态规划](https://chenxiaosong.com/courses/algorithms/dynamic-programming.html)
+
+# [排序算法](https://chenxiaosong.com/courses/algorithms/sort.html)
