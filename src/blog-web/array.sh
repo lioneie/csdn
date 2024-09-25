@@ -182,6 +182,7 @@ array=(
         1 1 src/translations/nfs/kernel-doc-nfs41-server.md ~ "kernel doc: NFSv4.1 Server Implementation"
         1 1 src/translations/nfs/kernel-doc-pnfs-block-server.md ~ "kernel doc: pNFS block layout server user guide"
         1 1 src/translations/nfs/kernel-doc-pnfs-scsi-server.md ~ "kernel doc: pNFS SCSI layout server user guide"
+        1 1 src/translations/nfs/kernel-doc-nfs-idmapper.rst ~ "kernel doc: NFS ID Mapper"
         # smb
         1 1 src/translations/smb/ms-smb.md ~ "[MS-SMB]: Server Message Block (SMB) Protocol"
         1 1 src/translations/smb/ms-smb2.md ~ "[MS-SMB2]: Server Message Block (SMB) Protocol Versions 2 and 3"

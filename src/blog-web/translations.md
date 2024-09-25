@@ -34,6 +34,8 @@
 
 [kernel doc: pNFS SCSI layout server user guide](https://chenxiaosong.com/src/translations/nfs/kernel-doc-pnfs-scsi-server.html)
 
+[kernel doc: NFS ID Mapper](https://chenxiaosong.com/src/translations/nfs/kernel-doc-nfs-idmapper.html)
+
 # smb
 
 [[MS-SMB]: Server Message Block (SMB) Protocol](https://chenxiaosong.com/src/translations/smb/ms-smb.html)
