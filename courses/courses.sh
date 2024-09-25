@@ -79,9 +79,21 @@ smb_files() {
     add_common array[@] ${common_file}
 }
 
+algorithms_files() {
+    local common_file=${src_path}/courses/algorithms/common.md
+    # 每一行代表: 是否在开头添加公共内容 文件相对路径
+    local array=(
+        0 courses/algorithms/algorithms.md
+        1 courses/algorithms/dynamic-programming.md
+        1 courses/algorithms/sort.md
+    )
+    add_common array[@] ${common_file}
+}
+
 rm -rf ${dst_path}
 mkdir ${dst_path} -p
 kernel_files
 nfs_files
 smb_files
+algorithms_files
 remove_private ${dst_path}

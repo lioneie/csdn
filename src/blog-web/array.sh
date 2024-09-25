@@ -111,9 +111,9 @@ array=(
                 "69ccf040acdd smb: client: fix potential UAF in is_valid_oplock_break()"
             1 1 courses/smb/patches/smb3-fix-problem-with-null-cifs-super-block-with-pre.md ~
                 "87f93d82e0952 smb3: fix problem with null cifs super block with previous patch"
-    0 1 courses/algorithms/algorithms.md ~ "算法"
-        1 1 courses/algorithms/dynamic-programming.md ~ "动态规划"
-        1 1 courses/algorithms/sort.md ~ "排序算法"
+    0 1 courses/algorithms/algorithms.md ${tmp_courses_path} "算法"
+        1 1 courses/algorithms/dynamic-programming.md ${tmp_courses_path} "动态规划"
+        1 1 courses/algorithms/sort.md ${tmp_courses_path} "排序算法"
     1 1 courses/book-contents.md ~ "书籍目录"
     # Linux内核
     1 1 src/kernel-environment/kernel-qemu-kvm.md ~ "QEMU/KVM环境搭建与使用"

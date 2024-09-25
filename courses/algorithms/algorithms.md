@@ -4,6 +4,8 @@
 
 用到的书籍的电子版，可以[点击这里下载](https://chenxiaosong.com/baidunetdisk)，仅作为学习用途，有需要的话建议购买纸质书。
 
+[点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://www.bilibili.com/video/BV1cNxueQEmn/)。
+
 持续更新中。。。
 
 点击下面的标题跳转。
