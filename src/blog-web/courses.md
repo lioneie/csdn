@@ -14,6 +14,10 @@
 
 [点击查看smb文件系统课程（持续更新中）](https://chenxiaosong.com/courses/smb/smb.html)
 
+# 算法课程
+
+[点击查看算法课程（持续更新中）](https://chenxiaosong.com/courses/algorithms/algorithms.html)
+
 # 未分类的一些视频
 
 除了上面成体系的课程外，还录了一些其他视频，统一放到了哔哩哔哩bilibili的一个合集中。
