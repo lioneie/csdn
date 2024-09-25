@@ -164,6 +164,12 @@ call_usermodehelper_exec at kernel/umh.c:614
 # 调试
 
 ```sh
+echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
+echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
+mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none 192.168.53.40:/s_test /mnt
+```
+
+```sh
 cd /sys/kernel/debug/tracing/
 # 可以用 kprobe 跟踪的函数
 cat available_filter_functions | grep nfs_map_name_to_uid
@@ -209,7 +215,7 @@ newstat
                         decode_getfattr_generic.constprop.118
                           decode_getfattr_attrs
                             decode_attr_owner
-                              nfs_map_name_to_uid
+                              nfs_map_name_to_uid // error=0 id=0 name=root@localdomain
                                 nfs_idmap_lookup_id
                                   nfs_idmap_get_key
                                     request_key
@@ -218,7 +224,7 @@ newstat
                                           call_usermodehelper_exec
                                             wait_for_completion(&done);
                             decode_attr_group
-                              nfs_map_group_to_gid
+                              nfs_map_group_to_gid // error=0 id=0 name=root@localdomain
                                 nfs_idmap_lookup_id
                                   nfs_idmap_get_key
                                     request_key
