@@ -99,3 +99,27 @@ NFSv4反向通道的Operations定义在`include/linux/nfs4.h`中的`enum nfs_cb_
           |   file   |                   |   file   |
           +----------+                   +----------+
 ```
+
+# idmap
+
+启用idmap:
+```sh
+echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
+echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
+```
+
+server端`/etc/idmapd.conf`文件配置:
+```sh
+[General]
+
+Verbosity = 0
+Pipefs-Directory = /run/rpc_pipefs
+# set your own domain here, if it differs from FQDN minus hostname
+# 修改成其他值，客户端nfs_map_name_to_uid和nfs_map_group_to_gid函数中的id不为0
+Domain = localdomain
+
+[Mapping]
+
+Nobody-User = nobody
+Nobody-Group = nogroup
+```
