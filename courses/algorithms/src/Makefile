@@ -1,9 +1,15 @@
-all:
-	gcc -o cut-rod-memoized cut-rod-memoized.c
-	gcc -o cut-rod-bottom-up cut-rod-bottom-up.c
-	gcc -o quick-sort quick-sort.c
+CC = gcc
+CFLAGS = -Wall
+
+# 查找所有的 .c 文件
+SOURCES = $(wildcard *.c)
+# 生成对应的可执行文件名
+EXECUTABLES = $(SOURCES:.c=)
+
+all: $(EXECUTABLES)
+
+%: %.c
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm cut-rod-memoized
-	rm cut-rod-bottom-up
-	rm quick-sort
+	rm -f $(EXECUTABLES)
