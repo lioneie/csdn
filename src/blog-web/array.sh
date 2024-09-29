@@ -186,6 +186,7 @@ array=(
         1 1 src/translations/nfs/kernel-doc-pnfs-block-server.md ~ "kernel doc: pNFS block layout server user guide"
         1 1 src/translations/nfs/kernel-doc-pnfs-scsi-server.md ~ "kernel doc: pNFS SCSI layout server user guide"
         1 1 src/translations/nfs/kernel-doc-nfs-idmapper.rst ~ "kernel doc: NFS ID Mapper"
+        1 1 src/translations/nfs/man-nfsidmap.md ~ "nfs idmap相关man手册"
         # smb
         1 1 src/translations/smb/ms-smb.md ~ "[MS-SMB]: Server Message Block (SMB) Protocol"
         1 1 src/translations/smb/ms-smb2.md ~ "[MS-SMB2]: Server Message Block (SMB) Protocol Versions 2 and 3"

@@ -36,6 +36,8 @@
 
 [kernel doc: NFS ID Mapper](https://chenxiaosong.com/src/translations/nfs/kernel-doc-nfs-idmapper.html)
 
+[nfs idmap相关man手册](https://chenxiaosong.com/src/translations/nfs/man-nfsidmap.html)
+
 # smb
 
 [[MS-SMB]: Server Message Block (SMB) Protocol](https://chenxiaosong.com/src/translations/smb/ms-smb.html)
