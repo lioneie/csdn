@@ -44,7 +44,7 @@ static int partition(int *array, int begin, int end)
 	swap(&array[rand_idx], &array[end]);
 	int left = begin;
 	for (int right = begin; right < end; right++) {
-		if (array[right] < array[end]) {
+		if (array[right] <= array[end]) { // 这里也可以是 <
 			swap(&array[left], &array[right]);
 			left++;
 		}
