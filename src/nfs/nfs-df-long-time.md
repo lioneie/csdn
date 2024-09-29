@@ -183,6 +183,39 @@ echo 0 > events/kprobes/p_nfs_map_name_to_uid/enable
 echo '-:p_nfs_map_name_to_uid' >> kprobe_events
 
 cd /sys/kernel/debug/tracing/
+# 可以用 kprobe 跟踪的函数
+cat available_filter_functions | grep call_usermodehelper_exec
+echo 1 > tracing_on
+echo 'p:p_call_usermodehelper_exec call_usermodehelper_exec' >> kprobe_events
+echo 1 > events/kprobes/p_call_usermodehelper_exec/enable
+echo stacktrace > events/kprobes/p_call_usermodehelper_exec/trigger
+echo '!stacktrace' > events/kprobes/p_call_usermodehelper_exec/trigger
+echo 0 > events/kprobes/p_call_usermodehelper_exec/enable
+echo '-:p_call_usermodehelper_exec' >> kprobe_events
+
+cd /sys/kernel/debug/tracing/
+# 可以用 kprobe 跟踪的函数
+cat available_filter_functions | grep call_sbin_request_key
+echo 1 > tracing_on
+echo 'p:p_call_sbin_request_key call_sbin_request_key' >> kprobe_events
+echo 1 > events/kprobes/p_call_sbin_request_key/enable
+echo stacktrace > events/kprobes/p_call_sbin_request_key/trigger
+echo '!stacktrace' > events/kprobes/p_call_sbin_request_key/trigger
+echo 0 > events/kprobes/p_call_sbin_request_key/enable
+echo '-:p_call_sbin_request_key' >> kprobe_events
+
+cd /sys/kernel/debug/tracing/
+# 可以用 kprobe 跟踪的函数
+cat available_filter_functions | grep request_key_and_link
+echo 1 > tracing_on
+echo 'p:p_request_key_and_link request_key_and_link' >> kprobe_events
+echo 1 > events/kprobes/p_request_key_and_link/enable
+echo stacktrace > events/kprobes/p_request_key_and_link/trigger
+echo '!stacktrace' > events/kprobes/p_request_key_and_link/trigger
+echo 0 > events/kprobes/p_request_key_and_link/enable
+echo '-:p_request_key_and_link' >> kprobe_events
+
+cd /sys/kernel/debug/tracing/
 echo nop > current_tracer
 echo 1 > tracing_on
 cat available_events | grep nfs4_map_name_to_uid
@@ -220,9 +253,12 @@ newstat
                                   nfs_idmap_get_key
                                     request_key
                                       request_key_and_link
-                                        call_sbin_request_key
-                                          call_usermodehelper_exec
-                                            wait_for_completion(&done);
+                                        construct_key_and_link
+                                          construct_key
+                                            call_sbin_request_key
+                                              call_usermodehelper_keys
+                                                call_usermodehelper_exec
+                                                  wait_for_completion(&done);
                             decode_attr_group
                               nfs_map_group_to_gid // error=0 id=0 name=root@localdomain
                                 nfs_idmap_lookup_id
