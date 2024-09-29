@@ -41,16 +41,19 @@ static int rand_range(int min, int max)
 static int partition(int *array, int begin, int end)
 {
 	int rand_idx = rand_range(begin, end);
-	swap(&array[rand_idx], &array[end]);
+	swap(&array[rand_idx], &array[end]); // 随机选一个放在最后面
+	int mid_val = array[end]; // 根据这个值把数组分成两半
 	int left = begin;
 	for (int right = begin; right < end; right++) {
-		if (array[right] <= array[end]) { // 这里也可以是 <
+		// [begin,left]: <= mid_val
+		// (left,right): > mid_val
+		if (array[right] <= mid_val) { // 这里也可以是 <
 			swap(&array[left], &array[right]);
 			left++;
 		}
 	}
-	swap(&array[end], &array[left]);
-	return left;
+	swap(&array[end], &array[left]); // 把mid_val放在中间
+	return left; // mid_val对应的下标
 }
 
 /**
