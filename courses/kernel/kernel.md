@@ -26,6 +26,8 @@
 
 # [进程管理和调度](https://chenxiaosong.com/courses/kernel/kernel-process.html)
 
+# [中断](https://chenxiaosong.com/courses/kernel/kernel-interrupts.html)
+
 # [BPF](https://chenxiaosong.com/courses/kernel/kernel-bpf.html)
 
 # [内核补丁分析](https://chenxiaosong.com/courses/kernel/kernel-patches.html)

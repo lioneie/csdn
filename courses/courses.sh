@@ -43,6 +43,7 @@ kernel_files() {
         1 courses/kernel/kernel-process.md
         1 courses/kernel/kernel-bpf.md
         1 courses/kernel/kernel-patches.md
+        1 courses/kernel/kernel-interrupts.md
     )
     add_common array[@] ${common_file}
 }
