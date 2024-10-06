@@ -299,7 +299,7 @@ call_read_iter
 
 ## 中断控制
 
-控制中断系统是为了提供同步，通过禁止中断，可以确保某个中断处理程序不会抢占当前代码，还可以禁止内核抢占，但不能防止其他cpu的并发访问，禁止中断只能防止其他中断处理程序的并发访问。
+控制中断系统是为了提供同步，通过禁止中断，可以确保某个中断处理程序不会抢占当前代码，还可以禁止内核抢占，但不能防止其他cpu的并发访问，禁止中断只能防止其他中断处理程序的并发访问。多个中断处理程序共享的中断线，不能用这些接口禁止中断。
 
 禁止和激活当前处理器的本地中断，可以在中断上下文和进程上下文中使用:
 ```c
@@ -314,14 +314,32 @@ local_irq_save(flags); // 禁止中断
 local_irq_restore(flags); // 中断恢复到原来的状态
 ```
 
-禁止（屏幕掉，masking out）指定中断线:
+禁止（屏幕掉，masking out）指定中断线，可以在中断上下文和进程上下文中使用:
 ```c
 // 禁止所有处理器指定的中断线，等待当前中断处理程序执行完
 void disable_irq(unsigned int irq)
 // 禁止所有处理器指定的中断线，不会等待当前中断处理程序执行完
 void disable_irq_nosync(unsigned int irq)
-// 激活所有处理器指定的中断线
+// 激活所有处理器指定的中断线，嵌套时最后一次调用enable_irq时才真正激活中断线
 void enable_irq(unsigned int irq)
 // 等待特定的中断处理程序的退出
 void synchronize_irq(unsigned int irq)
+```
+
+查询中断系统的状态:
+```c
+// 本地cpu上的中断系统被禁止返回非0，否则返回0
+irqs_disabled()
+/*
+ * 宏用于检索当前执行上下文：
+ *
+ * in_nmi()		- 我们处于 NMI 上下文，Non-Maskable Interrupt 非屏蔽中断，一种高优先级中断，通常用于处理紧急事件，如硬件故障或性能监控
+ * in_hardirq()		- 我们处于硬 IRQ 上下文
+ * in_serving_softirq()	- 我们处于 softirq 上下文
+ * in_task()		- 我们处于任务上下文
+ */
+#define in_nmi()		(nmi_count())
+#define in_hardirq()		(hardirq_count())
+#define in_serving_softirq()	(softirq_count() & SOFTIRQ_OFFSET)
+#define in_task()		(!(in_nmi() | in_hardirq() | in_serving_softirq()))
 ```
