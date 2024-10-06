@@ -297,3 +297,31 @@ call_read_iter
       show_interrupts
 ```
 
+## 中断控制
+
+控制中断系统是为了提供同步，通过禁止中断，可以确保某个中断处理程序不会抢占当前代码，还可以禁止内核抢占，但不能防止其他cpu的并发访问，禁止中断只能防止其他中断处理程序的并发访问。
+
+禁止和激活当前处理器的本地中断，可以在中断上下文和进程上下文中使用:
+```c
+local_irq_disable(); // 禁止当前cpu本地中断
+local_irq_enable(); // 激活当前cpu本地中断
+```
+
+激活时恢复到原来的状态，可以在中断上下文和进程上下文中使用:
+```c
+unsigned long flags;
+local_irq_save(flags); // 禁止中断
+local_irq_restore(flags); // 中断恢复到原来的状态
+```
+
+禁止（屏幕掉，masking out）指定中断线:
+```c
+// 禁止所有处理器指定的中断线，等待当前中断处理程序执行完
+void disable_irq(unsigned int irq)
+// 禁止所有处理器指定的中断线，不会等待当前中断处理程序执行完
+void disable_irq_nosync(unsigned int irq)
+// 激活所有处理器指定的中断线
+void enable_irq(unsigned int irq)
+// 等待特定的中断处理程序的退出
+void synchronize_irq(unsigned int irq)
+```
