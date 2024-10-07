@@ -357,8 +357,66 @@ irqs_disabled()
 
 - 已经废弃的BH: 接口简单，提供一个静态创建的链表，每个BH在全局范围内同步，永远不允许两个BH同时执行，有性能瓶颈。在v2.5放弃。
 - 已经废弃的任务队列（task queues）: 当时是用来取代BH的，定义一组队列，每个队列包含一个由等待调用的函数组成的链表，对性能要求较高的子系统（如网络）不能胜任。在v2.5放弃。
-- 软中断（softirq）: 静态定义的下半部接口，有32个，可以在所有cpu上同时执行，即使类型相同也可以。对性能要求较高的场景（如网络）使用软中断。
+- 软中断（softirq）: 静态定义的下半部接口，可以在所有cpu上同时执行，即使类型相同也可以。对性能要求较高的场景（如网络）使用软中断。
 - tasklet: 基于软中断实现的灵活性强、动态创建的下半部实现机制，不同类型的tasklet可以在不同cpu上同时执行。
 - 工作队列（work queues）: 取代任务队列，在进程上下文中执行。
 - 内核定时器: 这个不属于下半部机制，但如果需要在确定的时间点运行某个操作，可以尝试使用定时器。
+
+软中断和tasklet处于中断上下文中（所以不能休眠），工作队列处于进程上下文中。
+
+# 软中断
+
+软中断（softirq）使用得比较少，网络和scsi子系统直接使用了软中断，内核定时器和tasklet都是基于软中断的。一个软中断不会抢占另一个软中断，软中断只能被中断处理程序抢占，软中断处理程序执行时当前cpu上的软中断被禁止，但其他软中断可以（相同类型的软中断也可以）在其他cpu上同时执行，所以要有严格的锁保护。
+
+用以下结构表示:
+```c
+/* softirq 掩码和活动字段已移动到 irq_cpustat_t 中
+ * asm/hardirq.h 以获得更好的缓存使用。  KAO
+ */
+struct softirq_action
+{
+	void	(*action)(struct softirq_action *);
+};
+```
+
+定义含有`NR_SOFTIRQS`个软中断的数组，目前`HI_SOFTIRQ`优先级最高，`RCU_SOFTIRQ`优先级最低:
+```c
+static struct softirq_action softirq_vec[NR_SOFTIRQS]
+```
+
+待处理的软中断在以下地方被检查和执行:
+
+- 硬件中断代码处返回时。
+- `ksoftirqd`内核线程中。
+- 显式检查和执行待处理软中断的代码中，如网络子系统。
+
+软中断处理程序的一个例子是:
+```c
+void net_tx_action(struct softirq_action *h)
+```
+
+注册软中断处理程序:
+```c
+open_softirq(NET_TX_SOFTIRQ, net_tx_action);
+```
+
+在`__do_softirq()`中调用软中断处理程序:
+```c
+__u32 pending = local_softirq_pending(); // 读取待处理的位图
+set_softirq_pending(0); // 将位图清0
+while ((softirq_bit = ffs(pending))) {
+        h = softirq_vec;
+        h->action(h);
+        h++;
+        pending >>= softirq_bit; // 找到下一个待处理的位
+}
+```
+
+触发软中断:
+```c
+// 会禁止中断，然后恢复原来的状态
+raise_softirq(TIMER_SOFTIRQ);
+// 如果中断已经被禁止，用这个函数会优化性能
+raise_softirq_irqoff(NET_TX_SOFTIRQ);
+```
 
