@@ -360,6 +360,7 @@ irqs_disabled()
 - 软中断（softirq）: 静态定义的下半部接口，可以在所有cpu上同时执行，即使类型相同也可以。对性能要求较高的场景（如网络）使用软中断。
 - tasklet: 基于软中断实现的灵活性强、动态创建的下半部实现机制，不同类型的tasklet可以在不同cpu上同时执行。
 - 工作队列（work queues）: 取代任务队列，在进程上下文中执行。
+- threaded_irq: TODO
 - 内核定时器: 这个不属于下半部机制，但如果需要在确定的时间点运行某个操作，可以尝试使用定时器。
 
 软中断和tasklet处于中断上下文中（所以不能休眠），工作队列处于进程上下文中。
@@ -420,3 +421,37 @@ raise_softirq(TIMER_SOFTIRQ);
 raise_softirq_irqoff(NET_TX_SOFTIRQ);
 ```
 
+# tasklet
+
+tasklet是用软中断实现的下半部机制（`HI_SOFTIRQ`和`TASKLET_SOFTIRQ`），注意名字中虽然有task，但和进程（任务）没有任何关系。
+
+```c
+/* Tasklets --- BH的多线程类比。
+
+   此API已弃用。请考虑使用线程IRQ：
+   https://lore.kernel.org/lkml/20200716081538.2sivhkj4hcyrusem@linutronix.de
+
+   与通用softirqs的主要区别：tasklet   同时只在一个CPU上运行。
+
+   与BH的主要区别：不同的tasklet
+   可以在不同的CPU上同时运行。
+
+   属性：
+   * 如果调用tasklet_schedule()，则保证该tasklet将在此后至少在某个CPU上执行一次。
+   * 如果tasklet已经被调度，但其执行尚未开始，它将仅执行一次。
+   * 如果该tasklet已在另一个CPU上运行（或从tasklet本身调用调度），它将被重新调度以便稍后执行。
+   * tasklet在自身方面是严格序列化的，但不与其他tasklet序列化。如果客户端需要某种任务间同步，则需使用自旋锁。
+ */
+struct tasklet_struct
+{
+	struct tasklet_struct *next;
+	unsigned long state; // TASKLET_STATE_SCHED或TASKLET_STATE_RUN
+	atomic_t count; // 引用计数
+	bool use_callback;
+	union {
+		void (*func)(unsigned long data); // 处理函数
+		void (*callback)(struct tasklet_struct *t);
+	};
+	unsigned long data; // 处理函数的参数
+};
+```
