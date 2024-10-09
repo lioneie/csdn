@@ -28,6 +28,8 @@
 
 # [中断](https://chenxiaosong.com/courses/kernel/kernel-interrupts.html)
 
+# [系统调用](https://chenxiaosong.com/courses/kernel/kernel-system-calls.html)
+
 # [BPF](https://chenxiaosong.com/courses/kernel/kernel-bpf.html)
 
 # [内核补丁分析](https://chenxiaosong.com/courses/kernel/kernel-patches.html)
