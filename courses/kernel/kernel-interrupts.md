@@ -617,26 +617,26 @@ int request_threaded_irq(unsigned int irq, irq_handler_t handler,
                          const char *devname, void *dev_id)
 
 /**
- *	devm_request_threaded_irq - 为受管设备分配中断线
- *	@dev: 请求中断的设备
- *	@irq: 要分配的中断线
- *	@handler: 当 IRQ 发生时调用的函数，如果 handler 为 NULL 且 thread_fn != NULL，
+ *      devm_request_threaded_irq - 为受管设备分配中断线
+ *      @dev: 请求中断的设备
+ *      @irq: 要分配的中断线
+ *      @handler: 当 IRQ 发生时调用的函数，如果 handler 为 NULL 且 thread_fn != NULL，
  *            则安装默认的主要处理程序 irq_default_primary_handler。
- *	@thread_fn: 在线程中断上下文中调用的函数。如果设备在 @handler 中处理所有内容，则为 NULL
- *	@irqflags: 中断类型标志
- *	@devname: 设备的 ASCII 名称，如果为 NULL，则使用 dev_name(dev)
- *	@dev_id: 传递回处理程序函数的 cookie
+ *      @thread_fn: 在线程中断上下文中调用的函数。如果设备在 @handler 中处理所有内容，则为 NULL
+ *      @irqflags: 中断类型标志
+ *      @devname: 设备的 ASCII 名称，如果为 NULL，则使用 dev_name(dev)
+ *      @dev_id: 传递回处理程序函数的 cookie
  *
- *	除了额外的 @dev 参数外，此函数接受相同的参数并执行与
- *	request_threaded_irq() 相同的功能。使用此函数请求的 IRQ 将在
- *	驱动程序卸载时自动释放。
+ *      除了额外的 @dev 参数外，此函数接受相同的参数并执行与
+ *      request_threaded_irq() 相同的功能。使用此函数请求的 IRQ 将在
+ *      驱动程序卸载时自动释放。
  *
- *	如果使用此函数分配的 IRQ 需要单独释放，则必须使用 devm_free_irq()。
+ *      如果使用此函数分配的 IRQ 需要单独释放，则必须使用 devm_free_irq()。
  */
 // 类似垃圾回收机制，不需要调用free_irq()
 // 请参考补丁[at86rf230: use devm_request_irq](https://lore.kernel.org/all/1398359358-11085-5-git-send-email-alex.aring@gmail.com/)
 int devm_request_threaded_irq(struct device *dev, unsigned int irq,
-			      irq_handler_t handler, irq_handler_t thread_fn,
-			      unsigned long irqflags, const char *devname,
-			      void *dev_id)
+                              irq_handler_t handler, irq_handler_t thread_fn,
+                              unsigned long irqflags, const char *devname,
+                              void *dev_id)
 ```
