@@ -45,50 +45,11 @@ static inline int __must_check
 request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
             const char *name, void *dev)
 
-/**
- *      request_threaded_irq - 分配一个中断线
- *      @irq: 要分配的中断线
- *      @handler: 当 IRQ 发生时调用的函数。
- *                线程中断的主要处理程序。
- *                如果 handler 为 NULL 且 thread_fn != NULL
- *                则安装默认的主要处理程序。
- *      @thread_fn: 从 irq 处理程序线程调用的函数
- *                  如果为 NULL，则不创建 irq 线程
- *      @irqflags: 中断类型标志
- *      @devname: 声明设备的 ASCII 名称
- *      @dev_id: 传递回处理函数的 cookie
- *
- *      此调用分配中断资源并启用
- *      中断线和 IRQ 处理。从此
- *      调用后，您的处理函数可能会被调用。由于
- *      您的处理函数必须清除主板引发的任何中断，
- *      因此您必须小心初始化硬件
- *      并以正确的顺序设置中断处理程序。
- *
- *      如果您想为设备设置线程化的 irq 处理程序，
- *      则需要提供 @handler 和 @thread_fn。@handler 仍然
- *      在硬中断上下文中被调用，并且必须检查
- *      中断是否来自设备。如果是，则需要禁用设备上的
- *      中断并返回 IRQ_WAKE_THREAD，这将唤醒处理程序线程并运行
- *      @thread_fn。此分离处理程序设计对于支持
- *      共享中断是必要的。
- *
- *      Dev_id 必须全局唯一。通常使用设备数据结构的
- *      地址作为 cookie。由于处理程序接收此值，
- *      因此使用它是有意义的。
- *
- *      如果您的中断是共享的，则必须传递一个非 NULL dev_id，
- *      因为在释放中断时需要此值。
- *
- *      标志：
- *
- *      IRQF_SHARED             中断是共享的
- *      IRQF_TRIGGER_*          指定活动边缘或电平
- *      IRQF_ONESHOT            在掩蔽中断线的情况下运行 thread_fn
- */
-int request_threaded_irq(unsigned int irq, irq_handler_t handler,
-                         irq_handler_t thread_fn, unsigned long irqflags,
-                         const char *devname, void *dev_id)
+// 类似垃圾回收机制，不需要调用free_irq()
+// 请参考补丁[at86rf230: use devm_request_irq](https://lore.kernel.org/all/1398359358-11085-5-git-send-email-alex.aring@gmail.com/)
+static inline int __must_check
+devm_request_irq(struct device *dev, unsigned int irq, irq_handler_t handler,
+                 unsigned long irqflags, const char *devname, void *dev_id)
 ```
 
 `irq_handler_t handler`参数的的定义如下:
@@ -333,15 +294,15 @@ irqs_disabled()
 /*
  * 宏用于检索当前执行上下文：
  *
- * in_nmi()		- 我们处于 NMI 上下文，Non-Maskable Interrupt 非屏蔽中断，一种高优先级中断，通常用于处理紧急事件，如硬件故障或性能监控
- * in_hardirq()		- 我们处于硬 IRQ 上下文
- * in_serving_softirq()	- 我们处于 softirq 上下文
- * in_task()		- 我们处于任务上下文
+ * in_nmi()             - 我们处于 NMI 上下文，Non-Maskable Interrupt 非屏蔽中断，一种高优先级中断，通常用于处理紧急事件，如硬件故障或性能监控
+ * in_hardirq()         - 我们处于硬 IRQ 上下文
+ * in_serving_softirq() - 我们处于 softirq 上下文
+ * in_task()            - 我们处于任务上下文
  */
-#define in_nmi()		(nmi_count())
-#define in_hardirq()		(hardirq_count())
-#define in_serving_softirq()	(softirq_count() & SOFTIRQ_OFFSET)
-#define in_task()		(!(in_nmi() | in_hardirq() | in_serving_softirq()))
+#define in_nmi()                (nmi_count())
+#define in_hardirq()            (hardirq_count())
+#define in_serving_softirq()    (softirq_count() & SOFTIRQ_OFFSET)
+#define in_task()               (!(in_nmi() | in_hardirq() | in_serving_softirq()))
 ```
 
 # 下半部
@@ -360,10 +321,10 @@ irqs_disabled()
 - 软中断（softirq）: 静态定义的下半部接口，可以在所有cpu上同时执行，即使类型相同也可以。对性能要求较高的场景（如网络）使用软中断。
 - tasklet: 基于软中断实现的灵活性强、动态创建的下半部实现机制，不同类型的tasklet可以在不同cpu上同时执行。
 - 工作队列（work queues）: 取代任务队列，在进程上下文中执行。
-- threaded_irq: TODO
+- `threaded_irq`: 除了中断处理函数执行完，还会执行一个进程上下文的函数。
 - 内核定时器: 这个不属于下半部机制，但如果需要在确定的时间点运行某个操作，可以尝试使用定时器。
 
-软中断和tasklet处于中断上下文中（所以不能休眠），工作队列处于进程上下文中。
+软中断和tasklet处于中断上下文中（所以不能休眠），工作队列和`threaded_irq`处于进程上下文中。
 
 # 软中断
 
@@ -376,7 +337,7 @@ irqs_disabled()
  */
 struct softirq_action
 {
-	void	(*action)(struct softirq_action *);
+        void    (*action)(struct softirq_action *);
 };
 ```
 
@@ -421,6 +382,15 @@ raise_softirq(TIMER_SOFTIRQ);
 raise_softirq_irqoff(NET_TX_SOFTIRQ);
 ```
 
+内核中不会立刻处理重新触发的软中断，大量软中断出现时，内核会唤醒每个处理器上的`ksoftirqd/n`（`n`是处理器编号）来处理，这些线程优先级最低（`nice`值是`19`），具体请查看`struct smp_hotplug_thread softirq_threads`。
+
+禁止和激活本地处理器的软中断和tasklet（tasklet基于软中断）用以下函数，可以嵌套使用:
+```c
+void local_bh_disable(void)
+// 嵌套使用时最后一个local_bh_enable激活下半部
+void local_bh_enable(void)
+```
+
 # tasklet
 
 tasklet是用软中断实现的下半部机制（`HI_SOFTIRQ`和`TASKLET_SOFTIRQ`），注意名字中虽然有task，但和进程（任务）没有任何关系。
@@ -444,14 +414,229 @@ tasklet是用软中断实现的下半部机制（`HI_SOFTIRQ`和`TASKLET_SOFTIRQ
  */
 struct tasklet_struct
 {
-	struct tasklet_struct *next;
-	unsigned long state; // TASKLET_STATE_SCHED或TASKLET_STATE_RUN
-	atomic_t count; // 引用计数
-	bool use_callback;
-	union {
-		void (*func)(unsigned long data); // 处理函数
-		void (*callback)(struct tasklet_struct *t);
-	};
-	unsigned long data; // 处理函数的参数
+        struct tasklet_struct *next;
+        unsigned long state; // TASKLET_STATE_SCHED或TASKLET_STATE_RUN
+        atomic_t count; // 引用计数
+        bool use_callback;
+        union {
+                void (*func)(unsigned long data); // 处理函数
+                void (*callback)(struct tasklet_struct *t);
+        };
+        unsigned long data; // 处理函数的参数
 };
+```
+
+已调度的tasklet存放在下面两个链表:
+```c
+static DEFINE_PER_CPU(struct tasklet_head, tasklet_vec);
+static DEFINE_PER_CPU(struct tasklet_head, tasklet_hi_vec);
+```
+
+由`tasklet_schedule()`（对应`TASKLET_SOFTIRQ`）和`tasklet_hi_schedule()`（对应`HI_SOFTIRQ`）调度，处理程序是`tasklet_action()`和`tasklet_hi_action()`。
+
+静态创建tasklet:
+```c
+// .count初始化为0，激活状态
+static DECLARE_TASKLET(fst_tx_task, fst_process_tx_work_q);
+// .count初始化为1，禁止状态
+static DECLARE_TASKLET_DISABLED(keyboard_tasklet, kbd_bh);
+```
+
+动态创建tasklet:
+```c
+tasklet_init(&ic->i_send_tasklet, rds_ib_tasklet_fn_send,
+             (unsigned long)ic);
+```
+
+tasklet处理函数的一个例子:
+```c
+static void rds_ib_tasklet_fn_send(unsigned long data)
+```
+
+禁止或激活tasklet:
+```c
+void tasklet_disable(struct tasklet_struct *t)
+// tasklet_disable_nosync不太安全，一般不用
+void tasklet_disable_nosync(struct tasklet_struct *t)
+// DECLARE_TASKLET_DISABLED创建的，也得用tasklet_enable激活
+void tasklet_enable(struct tasklet_struct *t)
+// 从挂起的队列中移去已调度的tasklet，先等待tasklet执行完成再移去，只能在进程上下文中使用（会休眠）
+void tasklet_kill(struct tasklet_struct *t)
+```
+
+# 工作队列
+
+工作队列（work queue）把工作交给内核线程执行，在进程上下文中，允许重新调度和休眠。
+
+工作队列子系统提供了默认的工作者线程（worker thread），在`workqueue_init_early()`中创建了`system_wq`等工作队列，如果需要任务也可以创建自己的工作者列队，用以下结构表示:
+```c
+/*
+ * 外部可见的工作队列。它将发出的工作项通过其 pool_workqueues 转发到适当的 worker_pool。
+ */
+struct workqueue_struct {
+        struct list_head        pwqs;           /* WR: 此工作队列的所有 pwqs */
+        struct list_head        list;           /* PR: 所有工作队列的列表 */
+
+        struct mutex            mutex;          /* 保护此工作队列 */
+        int                     work_color;     /* WQ: 当前工作颜色 */
+        int                     flush_color;    /* WQ: 当前刷新颜色 */
+        atomic_t                nr_pwqs_to_flush; /* 刷新进行中 */
+        struct wq_flusher       *first_flusher; /* WQ: 第一个刷新器 */
+        struct list_head        flusher_queue;  /* WQ: 刷新等待者 */
+        struct list_head        flusher_overflow; /* WQ: 刷新溢出列表 */
+
+        struct list_head        maydays;        /* MD: 请求救援的 pwqs */
+        struct worker           *rescuer;       /* MD: 救援工作者 */
+
+        int                     nr_drainers;    /* WQ: 排空进行中 */
+        int                     saved_max_active; /* WQ: 保存的 pwq max_active */
+
+        struct workqueue_attrs  *unbound_attrs; /* PW: 仅用于无绑定的工作队列 */
+        struct pool_workqueue   *dfl_pwq;       /* PW: 仅用于无绑定的工作队列 */
+
+#ifdef CONFIG_SYSFS
+        struct wq_device        *wq_dev;        /* I: 用于 sysfs 接口 */
+#endif
+#ifdef CONFIG_LOCKDEP
+        char                    *lock_name;
+        struct lock_class_key   key;
+        struct lockdep_map      lockdep_map;
+#endif
+        char                    name[WQ_NAME_LEN]; /* I: 工作队列名称 */
+
+        /*
+         * workqueue_struct 的销毁是 RCU 保护的，以允许在不获取 wq_pool_mutex 的情况下遍历
+         * 工作队列列表。这用于从 sysrq 转储所有工作队列。
+         */
+        struct rcu_head         rcu;
+
+        /* 在命令发出期间使用的热点字段，按缓存行对齐 */
+        unsigned int            flags ____cacheline_aligned; /* WQ: WQ_* 标志 */
+        struct pool_workqueue __percpu __rcu **cpu_pwq; /* I: 每 CPU 的 pwqs */
+};
+```
+
+所有的工作者线程都要执行`worker_thread()`，初始化后死循环并开始休眠，当有操作插入到队列中，线程唤醒执行。表示工作的数据结构如下:
+```c
+struct work_struct {
+        atomic_long_t data;
+        struct list_head entry;
+        work_func_t func;
+#ifdef CONFIG_LOCKDEP
+        struct lockdep_map lockdep_map;
+#endif
+};
+```
+
+在`worker_thread()`中用`worker_pool *pool`的`worklist`链表连接。
+
+创建推后的工作:
+```c
+// 编译时静态创建
+DECLARE_WORK(p9_poll_work, p9_poll_workfn);
+// 运行时动态创建
+INIT_WORK(&priv->tx_onestep_tstamp, enetc_tx_onestep_tstamp);
+```
+
+工作队列处理函数的一个例子是:
+```c
+void p9_poll_workfn(struct work_struct *work)
+```
+
+工作队列处理函数由工作者线程执行，运行在进程上下文中，但不能访问用户空间，因为内核线程在用户空间没有相关的内存映射（系统调用时内核代表用户空间进程运行，会映射用户空间内存）。
+
+使用默认的工作队列进行调度:
+```c
+bool schedule_work(struct work_struct *work)
+// 经过一段时间再执行
+bool schedule_delayed_work(struct delayed_work *dwork, unsigned long delay)
+```
+
+刷新工作队列和取消延迟执行的工作:
+```c
+// 直到队列中所有对象执行完成，注意不会取消延迟执行的工作
+flush_scheduled_work()
+// 取消延迟执行的工作
+bool cancel_delayed_work(struct delayed_work *dwork)
+```
+
+创建新的工作队列:
+```c
+create_workqueue(name)
+// 创建工作
+bool queue_work(struct workqueue_struct *wq, struct work_struct *work)
+// 经过一段时间再执行
+bool queue_delayed_work(struct workqueue_struct *wq, struct delayed_work *dwork, unsigned long delay)
+// 刷新指定的工作队列
+flush_workqueue(wq)
+```
+
+# `threaded_irq`
+
+以下两个函数中，`handler`函数执行于中断上下文，`thread_fn`函数执行于内核线程（进程上下文），如果`handler`函数返回`IRQ_WAKE_THREAD`，`thread_fn`函数会被执行
+
+```c
+/**
+ *      request_threaded_irq - 分配一个中断线
+ *      @irq: 要分配的中断线
+ *      @handler: 当 IRQ 发生时调用的函数。
+ *                线程中断的主要处理程序。
+ *                如果 handler 为 NULL 且 thread_fn != NULL，
+ *                则安装默认的主要处理程序 irq_default_primary_handler。
+ *      @thread_fn: 从 irq 处理程序线程中调用的函数
+ *                  如果为 NULL，则不创建 irq 线程
+ *      @irqflags: 中断类型标志
+ *      @devname: 设备的 ASCII 名称
+ *      @dev_id: 传递回处理程序函数的 cookie
+ *
+ *      此调用分配中断资源并启用中断线和 IRQ 处理。从此调用开始，
+ *      您的处理程序函数可能会被调用。由于您的处理程序函数必须清除
+ *      电路板引发的任何中断，因此您必须注意初始化硬件并按照正确的
+ *      顺序设置中断处理程序。
+ *
+ *      如果您想为设备设置线程化 irq 处理程序，则需要提供 @handler 和 
+ *      @thread_fn。@handler 仍在硬中断上下文中调用，并且必须检查中断
+ *      是否来自该设备。如果是，它需要禁用设备上的中断并返回 
+ *      IRQ_WAKE_THREAD，这将唤醒处理程序线程并运行 @thread_fn。
+ *      这种分离的处理程序设计是支持共享中断所必需的。
+ *
+ *      dev_id 必须是全局唯一的。通常使用设备数据结构的地址作为 cookie。
+ *      由于处理程序接收此值，因此使用它是有意义的。
+ *
+ *      如果您的中断是共享的，您必须传递非 NULL dev_id，因为这在释放
+ *      中断时是必需的。
+ *
+ *      标志：
+ *
+ *      IRQF_SHARED             中断是共享的
+ *      IRQF_TRIGGER_*          指定活动边缘或电平
+ *      IRQF_ONESHOT            运行 thread_fn 时屏蔽中断线
+ */
+int request_threaded_irq(unsigned int irq, irq_handler_t handler,
+                         irq_handler_t thread_fn, unsigned long irqflags,
+                         const char *devname, void *dev_id)
+
+/**
+ *	devm_request_threaded_irq - 为受管设备分配中断线
+ *	@dev: 请求中断的设备
+ *	@irq: 要分配的中断线
+ *	@handler: 当 IRQ 发生时调用的函数，如果 handler 为 NULL 且 thread_fn != NULL，
+ *            则安装默认的主要处理程序 irq_default_primary_handler。
+ *	@thread_fn: 在线程中断上下文中调用的函数。如果设备在 @handler 中处理所有内容，则为 NULL
+ *	@irqflags: 中断类型标志
+ *	@devname: 设备的 ASCII 名称，如果为 NULL，则使用 dev_name(dev)
+ *	@dev_id: 传递回处理程序函数的 cookie
+ *
+ *	除了额外的 @dev 参数外，此函数接受相同的参数并执行与
+ *	request_threaded_irq() 相同的功能。使用此函数请求的 IRQ 将在
+ *	驱动程序卸载时自动释放。
+ *
+ *	如果使用此函数分配的 IRQ 需要单独释放，则必须使用 devm_free_irq()。
+ */
+// 类似垃圾回收机制，不需要调用free_irq()
+// 请参考补丁[at86rf230: use devm_request_irq](https://lore.kernel.org/all/1398359358-11085-5-git-send-email-alex.aring@gmail.com/)
+int devm_request_threaded_irq(struct device *dev, unsigned int irq,
+			      irq_handler_t handler, irq_handler_t thread_fn,
+			      unsigned long irqflags, const char *devname,
+			      void *dev_id)
 ```
