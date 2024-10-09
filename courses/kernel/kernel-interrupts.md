@@ -573,7 +573,7 @@ flush_workqueue(wq)
 
 ## `threaded_irq`
 
-以下两个函数中，`handler`函数执行于中断上下文，`thread_fn`函数执行于内核线程（进程上下文），如果`handler`函数返回`IRQ_WAKE_THREAD`，`thread_fn`函数会被执行
+以下两个函数中，`handler`函数执行于中断上下文，`thread_fn`函数执行于内核线程（进程上下文），如果`handler`函数返回`IRQ_WAKE_THREAD`，`thread_fn`函数会被执行。
 
 ```c
 /**
@@ -610,7 +610,7 @@ flush_workqueue(wq)
  *
  *      IRQF_SHARED             中断是共享的
  *      IRQF_TRIGGER_*          指定活动边缘或电平
- *      IRQF_ONESHOT            运行 thread_fn 时屏蔽中断线
+ *      IRQF_ONESHOT            运行 thread_fn 时屏蔽中断线，thread_fn执行后重新使能中断线
  */
 int request_threaded_irq(unsigned int irq, irq_handler_t handler,
                          irq_handler_t thread_fn, unsigned long irqflags,
