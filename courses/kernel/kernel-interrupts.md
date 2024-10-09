@@ -322,11 +322,11 @@ irqs_disabled()
 - tasklet: 基于软中断实现的灵活性强、动态创建的下半部实现机制，不同类型的tasklet可以在不同cpu上同时执行。
 - 工作队列（work queues）: 取代任务队列，在进程上下文中执行。
 - `threaded_irq`: 除了中断处理函数执行完，还会执行一个进程上下文的函数。
-- 内核定时器: 这个不属于下半部机制，但如果需要在确定的时间点运行某个操作，可以尝试使用定时器。
+- 内核定时器: 也是软中断的一种（`TIMER_SOFTIRQ`），如果需要在确定的时间点运行某个操作，可以尝试使用定时器。
 
 软中断和tasklet处于中断上下文中（所以不能休眠），工作队列和`threaded_irq`处于进程上下文中。
 
-# 软中断
+## 软中断
 
 软中断（softirq）使用得比较少，网络和scsi子系统直接使用了软中断，内核定时器和tasklet都是基于软中断的。一个软中断不会抢占另一个软中断，软中断只能被中断处理程序抢占，软中断处理程序执行时当前cpu上的软中断被禁止，但其他软中断可以（相同类型的软中断也可以）在其他cpu上同时执行，所以要有严格的锁保护。
 
@@ -391,7 +391,7 @@ void local_bh_disable(void)
 void local_bh_enable(void)
 ```
 
-# tasklet
+## tasklet
 
 tasklet是用软中断实现的下半部机制（`HI_SOFTIRQ`和`TASKLET_SOFTIRQ`），注意名字中虽然有task，但和进程（任务）没有任何关系。
 
@@ -464,7 +464,7 @@ void tasklet_enable(struct tasklet_struct *t)
 void tasklet_kill(struct tasklet_struct *t)
 ```
 
-# 工作队列
+## 工作队列
 
 工作队列（work queue）把工作交给内核线程执行，在进程上下文中，允许重新调度和休眠。
 
@@ -571,7 +571,7 @@ bool queue_delayed_work(struct workqueue_struct *wq, struct delayed_work *dwork,
 flush_workqueue(wq)
 ```
 
-# `threaded_irq`
+## `threaded_irq`
 
 以下两个函数中，`handler`函数执行于中断上下文，`thread_fn`函数执行于内核线程（进程上下文），如果`handler`函数返回`IRQ_WAKE_THREAD`，`thread_fn`函数会被执行
 
