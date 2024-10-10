@@ -28,7 +28,7 @@
 
 # [中断](https://chenxiaosong.com/courses/kernel/kernel-interrupts.html)
 
-# [系统调用](https://chenxiaosong.com/courses/kernel/kernel-system-calls.html)
+# [系统调用](https://chenxiaosong.com/courses/kernel/kernel-syscall.html)
 
 # [BPF](https://chenxiaosong.com/courses/kernel/kernel-bpf.html)
 
