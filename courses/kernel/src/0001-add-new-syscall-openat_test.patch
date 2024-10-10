@@ -1,0 +1,84 @@
+From a60c3f654ec5bc766c6dbf0bc200710baf42d956 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Date: Thu, 10 Oct 2024 04:19:08 +0000
+Subject: [PATCH] add new syscall openat_test
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+---
+ arch/x86/entry/syscalls/syscall_32.tbl | 1 +
+ arch/x86/entry/syscalls/syscall_64.tbl | 1 +
+ fs/open.c                              | 6 ++++++
+ include/linux/syscalls.h               | 1 +
+ include/uapi/asm-generic/unistd.h      | 5 ++++-
+ 5 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 534c74b14fab..b7eb11a1671f 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -468,3 +468,4 @@
+ 460	i386	lsm_set_self_attr	sys_lsm_set_self_attr
+ 461	i386	lsm_list_modules	sys_lsm_list_modules
+ 462	i386	mseal 			sys_mseal
++463	i386	openat_test		sys_openat_test
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index 7093ee21c0d1..c77a1ad8c54d 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -386,6 +386,7 @@
+ 460	common	lsm_set_self_attr	sys_lsm_set_self_attr
+ 461	common	lsm_list_modules	sys_lsm_list_modules
+ 462 	common  mseal			sys_mseal
++463	common	openat_test		sys_openat_test
+ 
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+diff --git a/fs/open.c b/fs/open.c
+index acaeb3e25c88..aed24c428302 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -1446,6 +1446,12 @@ SYSCALL_DEFINE4(openat, int, dfd, const char __user *, filename, int, flags,
+ 	return do_sys_open(dfd, filename, flags, mode);
+ }
+ 
++SYSCALL_DEFINE1(openat_test, int, data)
++{
++	printk("openat_test syscall, data: %d\n", data);
++	return 5555;
++}
++
+ SYSCALL_DEFINE4(openat2, int, dfd, const char __user *, filename,
+ 		struct open_how __user *, how, size_t, usize)
+ {
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 5758104921e6..ba16d562c80e 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -440,6 +440,7 @@ asmlinkage long sys_fchownat(int dfd, const char __user *filename, uid_t user,
+ asmlinkage long sys_fchown(unsigned int fd, uid_t user, gid_t group);
+ asmlinkage long sys_openat(int dfd, const char __user *filename, int flags,
+ 			   umode_t mode);
++asmlinkage long sys_openat_test(int data);
+ asmlinkage long sys_openat2(int dfd, const char __user *filename,
+ 			    struct open_how __user *how, size_t size);
+ asmlinkage long sys_close(unsigned int fd);
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 5bf6148cac2b..1b6d056825da 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -841,8 +841,11 @@ __SYSCALL(__NR_lsm_list_modules, sys_lsm_list_modules)
+ #define __NR_mseal 462
+ __SYSCALL(__NR_mseal, sys_mseal)
+ 
++#define __NR_openat_test 463
++__SYSCALL(__NR_openat_test, sys_openat_test)
++
+ #undef __NR_syscalls
+-#define __NR_syscalls 463
++#define __NR_syscalls 464
+ 
+ /*
+  * 32 bit systems traditionally used different
+-- 
+2.34.1
+
