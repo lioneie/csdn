@@ -77,36 +77,50 @@ static void max_heapify(int *array, int heap_size, int i)
 	}
 }
 
-static int __attribute__((unused)) top(int *array)
+// maximum()
+static int top(int *array)
 {
 	return array[0];
 }
 
-static void push(int *array, int *size, int x)
+// heap_increase_key(), 将数组中下标为i的元素的值增加到k
+static void increase_to_k(int *array, int i, int k)
 {
-	int i;
-	array[*size] = x;
-	(*size)++;
-	i = (*size) - 1;
-	while (i > 0 && array[parent(i)] < array[i]) {
-		swap(&array[parent(i)], &array[i]);
-		i = parent(i);
+	int p = parent(i);
+	array[i] = k;
+	while (i > 0 && array[p] < array[i]) {
+		swap(&array[p], &array[i]); // 把更大的上移
+		i = p;
+		p = parent(i);
 	}
 }
 
-static void pop(int *array, int *size)
+// insert()
+static void push(int *array, int *size, int x)
 {
+	int i = *size;
+	(*size)++;
+	array[i] = INT_MIN; // 负无穷;
+	increase_to_k(array, i, x);
+}
+
+// extract_max()
+static int pop(int *array, int *size)
+{
+	int ret = top(array);
 	array[0] = array[(*size)-1]; // 把最后一个数 放到第一个
 	*size = (*size)-1;
 	max_heapify(array, *size, 0);
+	return ret;
 }
 
-static void print(int *array, int size)
+static void print(char *str, int *array, int size)
 {
+	printf("%10s", str);
 	for (int i = 0; i < size; i++) {
 		printf(" %d", array[i]);
 	}
-	printf("\n\r");
+	printf("\n");
 }
 
 int main(int argc, char **argv)
@@ -115,19 +129,19 @@ int main(int argc, char **argv)
 	int size = 4;
 
 	max_heapify(array, size, 0);
-	print(array, size);
+	print("init: ", array, size);
 
 	push(array, &size, 9);
-	print(array, size);
+	print("push 9: ", array, size);
 
 	push(array, &size, 3);
-	print(array, size);
+	print("push 3: ", array, size);
 
 	pop(array, &size);
-	print(array, size);
+	print("pop: ", array, size);
 
 	pop(array, &size);
-	print(array, size);
+	print("pop: ", array, size);
 
 	return 0;
 }
