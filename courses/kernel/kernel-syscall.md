@@ -14,7 +14,7 @@ int main ()
 
     fp = fopen("file_not_exist.txt", "r");
     if (fp == NULL) {
-        perror("Error: "); // 会追加字符串 ": No such file or directory"
+        perror("Error"); // 会追加字符串 ": No such file or directory"
         return(-1);
     }
     fclose(fp);
