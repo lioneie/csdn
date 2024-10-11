@@ -26,7 +26,7 @@ array=(
         1 1 courses/kernel/kernel-debug.md ${tmp_courses_path} "内核调试方法"
         1 1 courses/kernel/kernel-mm.md ${tmp_courses_path} "内存管理"
         1 1 courses/kernel/kernel-process.md ${tmp_courses_path} "进程管理和调度"
-        1 1 courses/kernel/kernel-interrupts.md ${tmp_courses_path} "中断"
+        1 1 courses/kernel/kernel-interrupt.md ${tmp_courses_path} "中断"
         1 1 courses/kernel/kernel-syscall.md ${tmp_courses_path} "系统调用"
         1 1 courses/kernel/kernel-bpf.md ${tmp_courses_path} "BPF"
         1 1 courses/kernel/kernel-patches.md ${tmp_courses_path} "内核补丁分析"

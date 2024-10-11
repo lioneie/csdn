@@ -26,7 +26,7 @@
 
 # [进程管理和调度](https://chenxiaosong.com/courses/kernel/kernel-process.html)
 
-# [中断](https://chenxiaosong.com/courses/kernel/kernel-interrupts.html)
+# [中断](https://chenxiaosong.com/courses/kernel/kernel-interrupt.html)
 
 # [系统调用](https://chenxiaosong.com/courses/kernel/kernel-syscall.html)
 
