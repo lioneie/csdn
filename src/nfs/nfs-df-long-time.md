@@ -215,6 +215,7 @@ echo '!stacktrace' > events/kprobes/p_request_key_and_link/trigger
 echo 0 > events/kprobes/p_request_key_and_link/enable
 echo '-:p_request_key_and_link' >> kprobe_events
 
+# tracepoint
 cd /sys/kernel/debug/tracing/
 echo nop > current_tracer
 echo 1 > tracing_on
@@ -251,14 +252,15 @@ newstat
                               nfs_map_name_to_uid // error=0 id=0 name=root@localdomain
                                 nfs_idmap_lookup_id
                                   nfs_idmap_get_key
-                                    request_key
-                                      request_key_and_link
-                                        construct_key_and_link
-                                          construct_key
-                                            call_sbin_request_key
-                                              call_usermodehelper_keys
-                                                call_usermodehelper_exec
-                                                  wait_for_completion(&done);
+                                    nfs_idmap_request_key
+                                      request_key(key_type_id_resolver)
+                                        request_key_and_link(type=key_type_id_resolver)
+                                          construct_key_and_link // 开始密钥构建
+                                            construct_key // 调用用户空间进行密钥构造，程序失败被忽略，优先考虑密钥状态。
+                                              call_sbin_request_key // 请求用户空间完成密钥的构造，执行 "/sbin/request-key <op> <key> <uid> <gid> <keyring> <keyring> <keyring>"
+                                                call_usermodehelper_keys
+                                                  call_usermodehelper_exec
+                                                    wait_for_completion(&done);
                             decode_attr_group
                               nfs_map_group_to_gid // error=0 id=0 name=root@localdomain
                                 nfs_idmap_lookup_id
@@ -268,4 +270,50 @@ newstat
                                         call_sbin_request_key
                                           call_usermodehelper_exec
                                             wait_for_completion(&done);
+```
+
+```c
+/**                                                                            
+ * request_key - 请求一个密钥并等待构建完成                       
+ * @type: 密钥的类型。                                                         
+ * @description: 密钥的可搜索描述。                        
+ * @callout_info: 传递给实例化回调的数据（或NULL）。      
+ *                                                                             
+ * 与request_key_and_link()相似，但如果找到密钥，它不会将返回的密钥添加到keyring中，新的密钥总是在用户的配额中分配，
+ * callout_info必须是一个以NUL结尾的字符串，且不能传递任何辅助数据。                                                                  
+ *                                                                             
+ * 此外，它将像wait_for_key_construction()一样工作，等待处于构建中的密钥完成，等待期间不能被中断。   
+ */
+struct key *request_key(struct key_type *type,   
+                        const char *description, 
+                        const char *callout_info)
+/**                                                                                
+ * request_key_and_link - 请求一个密钥并将其缓存到keyring中。                 
+ * @type: 我们需要的密钥类型。                                                 
+ * @description: 密钥的可搜索描述。                            
+ * @callout_info: 传递给实例化回调的数据（或NULL）。          
+ * @callout_len: callout_info的长度。                                       
+ * @aux: 实例化回调的辅助数据。                                            
+ * @dest_keyring: 用于缓存密钥的位置。                                          
+ * @flags: 传递给key_alloc()的标志。                                                   
+ *                                                                                 
+ * 在进程的keyring中搜索符合指定条件的密钥，如果找到，将返回该密钥并增加其使用计数。否则，    
+ * 如果callout_info不为NULL，则会分配一个密钥，并请求某些服务（可能在用户空间中）来实例化它。                        
+ *                                                                                 
+ * 如果成功找到或创建，密钥将被链接到提供的目标keyring中。                                                     
+ *                                                                                 
+ * 如果成功，返回一个指向密钥的指针；如果找到的密钥不可访问、为负、已撤销或已过期，则返回
+ * -EACCES、-ENOKEY、-EKEYREVOKED或-EKEYEXPIRED；如果未找到密钥且未提供@callout_info，则返回-ENOKEY；  
+ * 如果没有足够的密钥配额来创建新密钥，则返回-EDQUOT；如果没有足够的内存，则返回-ENOMEM。                                              
+ *                                                                                 
+ * 如果返回的密钥是新创建的，则它可能仍处于构建中，应使用wait_for_key_construction()来等待完成。    
+ */                                                                                
+struct key *request_key_and_link(struct key_type *type,                            
+                                 const char *description,                          
+                                 const void *callout_info,                         
+                                 size_t callout_len,                               
+                                 void *aux,                                        
+                                 struct key *dest_keyring,                         
+                                 unsigned long flags)
+
 ```
