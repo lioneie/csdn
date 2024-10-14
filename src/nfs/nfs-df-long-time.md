@@ -163,11 +163,15 @@ call_usermodehelper_exec at kernel/umh.c:614
 
 # 调试
 
+## 挂载
+
 ```sh
 echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
 echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
 mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none 192.168.53.40:/s_test /mnt
 ```
+
+## kprobe trace
 
 ```sh
 cd /sys/kernel/debug/tracing/
@@ -214,7 +218,11 @@ echo stacktrace > events/kprobes/p_request_key_and_link/trigger
 echo '!stacktrace' > events/kprobes/p_request_key_and_link/trigger
 echo 0 > events/kprobes/p_request_key_and_link/enable
 echo '-:p_request_key_and_link' >> kprobe_events
+```
 
+## tracepoint
+
+```sh
 # tracepoint
 cd /sys/kernel/debug/tracing/
 echo nop > current_tracer
@@ -228,6 +236,10 @@ echo nfs4:nfs4_map_group_to_gid >> set_event
 echo 0 > trace # 清除trace信息
 cat trace_pipe
 ```
+
+## kprobe module
+
+源码[`kprobe-df-long-time.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/nfs/kprobe-df-long-time.c)，修改[`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/nfs/Makefile)中`KDIR`路径后编译运行。
 
 # 代码分析
 
