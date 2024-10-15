@@ -12,6 +12,8 @@ client会发送两个`GETATTR`请求，第一个`GETATTR`请求以下内容:
 - `Attr mask[0]: 0x00e00000 (Files_Avail, Files_Free, Files_Total)`
 - `Attr mask[1]: 0x00001c00 (Space_Avail, Space_Free, Space_Total)`
 
+执行`df`命令后，再执行`echo 3 > /proc/sys/vm/drop_caches`后立刻执行`df`命令，不会执行到`__nfs_revalidate_inode()`。
+
 # 网络超时
 
 ```sh
