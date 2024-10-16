@@ -163,12 +163,14 @@ call_usermodehelper_exec at kernel/umh.c:614
 
 # 调试
 
-## 挂载
+## 测试命令
 
 ```sh
 echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
 echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
 mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none 192.168.53.40:/s_test /mnt
+touch /mnt/file
+ls /mnt/file
 ```
 
 ## kprobe trace
@@ -185,39 +187,6 @@ echo stacktrace > events/kprobes/p_nfs_map_name_to_uid/trigger
 echo '!stacktrace' > events/kprobes/p_nfs_map_name_to_uid/trigger
 echo 0 > events/kprobes/p_nfs_map_name_to_uid/enable
 echo '-:p_nfs_map_name_to_uid' >> kprobe_events
-
-cd /sys/kernel/debug/tracing/
-# 可以用 kprobe 跟踪的函数
-cat available_filter_functions | grep call_usermodehelper_exec
-echo 1 > tracing_on
-echo 'p:p_call_usermodehelper_exec call_usermodehelper_exec' >> kprobe_events
-echo 1 > events/kprobes/p_call_usermodehelper_exec/enable
-echo stacktrace > events/kprobes/p_call_usermodehelper_exec/trigger
-echo '!stacktrace' > events/kprobes/p_call_usermodehelper_exec/trigger
-echo 0 > events/kprobes/p_call_usermodehelper_exec/enable
-echo '-:p_call_usermodehelper_exec' >> kprobe_events
-
-cd /sys/kernel/debug/tracing/
-# 可以用 kprobe 跟踪的函数
-cat available_filter_functions | grep call_sbin_request_key
-echo 1 > tracing_on
-echo 'p:p_call_sbin_request_key call_sbin_request_key' >> kprobe_events
-echo 1 > events/kprobes/p_call_sbin_request_key/enable
-echo stacktrace > events/kprobes/p_call_sbin_request_key/trigger
-echo '!stacktrace' > events/kprobes/p_call_sbin_request_key/trigger
-echo 0 > events/kprobes/p_call_sbin_request_key/enable
-echo '-:p_call_sbin_request_key' >> kprobe_events
-
-cd /sys/kernel/debug/tracing/
-# 可以用 kprobe 跟踪的函数
-cat available_filter_functions | grep request_key_and_link
-echo 1 > tracing_on
-echo 'p:p_request_key_and_link request_key_and_link' >> kprobe_events
-echo 1 > events/kprobes/p_request_key_and_link/enable
-echo stacktrace > events/kprobes/p_request_key_and_link/trigger
-echo '!stacktrace' > events/kprobes/p_request_key_and_link/trigger
-echo 0 > events/kprobes/p_request_key_and_link/enable
-echo '-:p_request_key_and_link' >> kprobe_events
 ```
 
 ## tracepoint
@@ -240,6 +209,26 @@ cat trace_pipe
 ## kprobe module
 
 源码[`kprobe-df-long-time.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/nfs/kprobe-df-long-time.c)，修改[`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/nfs/Makefile)中`KDIR`路径后编译运行。
+
+现场环境中:
+```sh
+[711334.420054] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:626115642, uid:0, gid:0, keyring:515291944, keyring:0, keyring:620716518
+[711334.424225] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:44305564, uid:0, gid:0, keyring:515291944, keyring:0, keyring:620716518
+```
+
+## 虚拟机环境
+
+kprobe module打印如下:
+```sh
+[  998.700832] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:216577440, uid:0, gid:0, keyring:744331010, keyring:0, keyring:493558208
+[  998.850977] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:243125691, uid:0, gid:0, keyring:744331010, keyring:0, keyring:493558208
+```
+
+```sh
+# /sbin/request-key参数中的第一个keyring
+keyctl list 744331010
+keyctl clear 744331010
+```
 
 # 代码分析
 
