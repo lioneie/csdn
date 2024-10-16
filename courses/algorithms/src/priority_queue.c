@@ -77,6 +77,19 @@ static void max_heapify(int *array, int heap_size, int i)
 	}
 }
 
+/**
+ * build_max_heap() - 建最大堆
+ * @array: 数组
+ * @size: 数组大小
+ * Return: None
+ */
+static void build_max_heap(int *array, int size)
+{
+	int heap_size = size;
+	for (int i = parent(size); i >= 0; i--)
+		max_heapify(array, heap_size, i);
+}
+
 // maximum()
 static int top(int *array)
 {
@@ -125,10 +138,10 @@ static void print(char *str, int *array, int size)
 
 int main(int argc, char **argv)
 {
-	int array[ARRAY_MAX_LENGTH] = {4, 7, 8, 6};
+	int array[ARRAY_MAX_LENGTH] = {4, 7, 6, 8};
 	int size = 4;
 
-	max_heapify(array, size, 0);
+	build_max_heap(array, size);
 	print("init: ", array, size);
 
 	push(array, &size, 9);
