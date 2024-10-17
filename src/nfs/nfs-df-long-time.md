@@ -169,8 +169,6 @@ call_usermodehelper_exec at kernel/umh.c:614
 echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
 echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
 mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none 192.168.53.40:/s_test /mnt
-touch /mnt/file
-ls /mnt/file
 ```
 
 ## kprobe trace
@@ -225,9 +223,13 @@ kprobe module打印如下:
 ```
 
 ```sh
+touch /mnt/file
+echo 3 > /proc/sys/vm/drop_caches
+ls /mnt/file
 # /sbin/request-key参数中的第一个keyring
 keyctl list 744331010
 keyctl clear 744331010
+domainname localdomain
 ```
 
 # 代码分析
