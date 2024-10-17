@@ -12,12 +12,18 @@
 ```sh
 #!/bin/bash
 
+INTERFACE_NAME=eth0
+
 # 启动 `stat /mnt` 命令，并获取它的PID
 stat /mnt &
 STAT_PID=$!
 
+tcpdump --interface=$INTERFACE_NAME --buffer-size=20480 -w out.cap &
+TCPDUMP_PID=$!
 # 使用 `sleep 1` 等待一秒钟
 sleep 1
+
+kill -9 $TCPDUMP_PID
 
 # 检查 `stat /mnt` 是否仍在运行
 if ps -p $STAT_PID > /dev/null; then
@@ -25,6 +31,7 @@ if ps -p $STAT_PID > /dev/null; then
     # 如果仍在运行，输出该进程的内核栈
     cat /proc/$STAT_PID/stack
 else
+    rm out.cap
     echo "stat /mnt 正常完成。"
 fi
 ```
@@ -46,6 +53,8 @@ fi
 
 ## bpftrace脚本
 
+没用上，但这里也记录一下。
+
 ```sh
 kprobe:nfs3_proc_getattr
 {
@@ -59,3 +68,7 @@ kretprobe:nfs3_proc_getattr
         delete(@start[tid]);
 }
 ```
+
+# 结论
+
+抓包数据显示，`FSSTAT`请求的回复超过1秒。
