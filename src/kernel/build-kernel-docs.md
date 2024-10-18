@@ -71,18 +71,17 @@ make[1]: 进入目录“/kernel/code/path/build”
   PARSE   include/uapi/linux/lirc.h
 Using alabaster theme
 Error: Cannot open file ../fs/netfs/io.c
-/kernel/code/path/Documentation/admin-guide/media/ipu3.rst:592: WARNING: 脚注 [#] 没有被引用过。 [ref.footnote]
-/kernel/code/path/Documentation/admin-guide/media/ipu3.rst:598: WARNING: 脚注 [#] 没有被引用过。 [ref.footnote]
-/kernel/code/path/Documentation/block/ublk.rst:324: WARNING: 脚注 [#] 没有被引用过。 [ref.footnote]
-WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.1.3 ../fs/netfs/io.c' failed with return code 1
-/kernel/code/path/Documentation/driver-api/usb/usb:164: ../drivers/usb/core/message.c:968: WARNING: 重复的 C 声明，已经在 driver-api/usb/gadget:804 处声明。
-声明为“.. c:function:: int usb_string (struct usb_device *dev, int index, char *buf, size_t size)”。
-/kernel/code/path/Documentation/gpu/drm-kms:360: ../drivers/gpu/drm/drm_fourcc.c:344: WARNING: 重复的 C 声明，已经在 gpu/drm-kms:39 处声明。
-声明为“.. c:function:: const struct drm_format_info * drm_format_info (u32 format)”。
-/kernel/code/path/Documentation/gpu/drm-kms:476: ../drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: 重复的 C 声明，已经在 gpu/drm-kms:49 处声明。
-声明为“.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)”。
-/kernel/code/path/Documentation/gpu/drm-uapi:434: ../drivers/gpu/drm/drm_ioctl.c:875: WARNING: 重复的 C 声明，已经在 gpu/drm-uapi:70 处声明。
-声明为“.. c:function:: bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)”。
-/kernel/code/path/Documentation/power/video.rst:213: WARNING: 脚注 [#] 没有被引用过。 [ref.footnote]
-/kernel/code/path/Documentation/trace/debugging.rst: WARNING: 文档没有加入到任何目录树中
+WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-version 4.3.2 ../fs/netfs/io.c' failed with return code 1
+/kernel/code/path/Documentation/driver-api/usb/usb:164: ../drivers/usb/core/message.c:968: WARNING: Duplicate C declaration, also defined at driver-api/usb/gadget:804.
+Declaration is '.. c:function:: int usb_string (struct usb_device *dev, int index, char *buf, size_t size)'.
+/kernel/code/path/Documentation/driver-api/usb/usb.rst:968: WARNING: Duplicate C declaration, also defined at driver-api/usb/gadget:804.
+Declaration is '.. c:struct:: usb_string'.
+/kernel/code/path/Documentation/gpu/drm-kms:360: ../drivers/gpu/drm/drm_fourcc.c:344: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:39.
+Declaration is '.. c:function:: const struct drm_format_info * drm_format_info (u32 format)'.
+/kernel/code/path/Documentation/gpu/drm-kms:476: ../drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:49.
+Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'.
+/kernel/code/path/Documentation/gpu/drm-uapi:434: ../drivers/gpu/drm/drm_ioctl.c:875: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:70.
+Declaration is '.. c:function:: bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'.
+/kernel/code/path/Documentation/trace/debugging.rst: WARNING: document isn't included in any toctree
 make[1]: 离开目录“/kernel/code/path/build”
+```
