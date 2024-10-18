@@ -178,7 +178,7 @@ https://github.com/KDAB/codebrowser
 
 <!-- public begin -->
 查看帮助文档`man 1 git log`:
-```sh
+```
        -L<start>,<end>:<file>, -L:<funcname>:<file>
            跟踪给定 <start>,<end> 或函数名正则表达式 <funcname> 所定义的行范围的演变，位于 <file> 内。您不可以提供任何路径规范限定符。目前此功能仅限于从单个修订版本开始的遍历，即您只能提供零个或一个正面修订参数，<start> 和 <end>（或 <funcname>）必须存在于起始修订版本中。您可以多次指定此选项。隐含--patch。可以使用 --no-patch 抑制补丁输出，但当前尚未实现其他差异格式（即 --raw、--numstat、--shortstat、--dirstat、--summary、--name-only、--name-status、--check）。
 
@@ -248,6 +248,19 @@ echo "全部合并成功"
 ```sh
 Conflicts:
         include/linux/sunrpc/clnt.h
+```
+
+查看帮助文档`man git format-patch`:
+```
+--stat[=<width>[,<name-width>[,<count>]]]
+           生成一个 diffstat。默认情况下，文件名部分将使用尽可能多的空间，其余部分用于图形部分。最大宽度默认为终端宽度，如果未连接终端则为 80 列，可以通过 <width> 覆盖。文件名部分的宽度可以通过在逗号后提供另一个宽度 <name-width> 来限制。图形部分的宽度可以通过使用 --stat-graph-width=<width> 来限制（影响所有生成统计图的命令），或通过设置 diff.statGraphWidth=<width>（不影响 git format-patch）。通过提供第三个参数 <count>，可以限制输出到前 <count> 行，如果有更多行，则以 ... 结尾。
+
+           这些参数也可以单独设置，使用 --stat-width=<width>、--stat-name-width=<name-width> 和 --stat-count=<count>。
+```
+
+如果文件名较长，可以用以下命令让补丁中的路径显示完整:
+```sh
+git format-patch -3 --cover-letter --stat=300,200
 ```
 
 # 代码编译
