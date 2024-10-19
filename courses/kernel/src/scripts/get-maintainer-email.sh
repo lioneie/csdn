@@ -174,7 +174,10 @@ test() {
 	iter_str "${output_str}"
 }
 
-pattern=$1
-parse_pattern "$pattern"
+for arg in "$@"; do
+	echo "${arg}"
+	parse_pattern "${arg}"
+done
+
 # test
 print_result
