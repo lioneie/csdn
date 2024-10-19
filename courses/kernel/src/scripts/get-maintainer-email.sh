@@ -7,7 +7,7 @@ unknown_emails=()
 
 # 0: 已存在数组中，1: 不存在数组中
 is_exist() {
-	local array=("${!1}")
+	local -n array=$1
 	local target_item=$2
 
 	for item in "${array[@]}"; do
@@ -19,8 +19,8 @@ is_exist() {
 }
 
 iter_types() {
-	local types_array=("${!1}")
-	local emails_array=("${!2}")
+	local -n types_array=$1
+	local -n emails_array=$2
 	local str=$3
 	# echo ${types_array[@]}
 	echo ${str}
@@ -28,7 +28,7 @@ iter_types() {
 	for type_name in "${types_array[@]}"; do
 		echo ${str} | grep -E ${type_name} > /dev/null 2>&1
 		if [[ $? == 0 ]]; then
-			is_exist emails_array[@] ${email}
+			is_exist emails_array ${email}
 			if [[ $? == 0 ]]; then
 				return 0
 			fi
@@ -42,7 +42,7 @@ iter_types() {
 
 parse_emails() {
 	local str=$1
-	iter_types to_types[@] to_emails[@] "${str}"
+	iter_types to_types to_emails "${str}"
 }
 
 pattern=$1
