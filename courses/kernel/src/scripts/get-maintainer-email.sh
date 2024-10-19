@@ -1,3 +1,8 @@
+# 用法:
+#   1. get-maintainer-email.sh 000\*
+#   2. get-maintainer-email.sh '000*'
+#   3. get-maintainer-email.sh "000*"
+
 to_types=('maintainer' 'reviewer' 'supporter' 'commit_signer')
 cc_types=('open list' 'moderated list')
 
@@ -24,7 +29,7 @@ iter_types() {
 	local str=$3
 	# echo ${types_array[@]}
 	echo ${str}
-	local email=$(echo ${str} | awk '{print $1}')
+	local email=$(echo ${str} | awk '{print $1}') # 提取邮箱
 	for type_name in "${types_array[@]}"; do
 		echo ${str} | grep -E ${type_name} > /dev/null 2>&1
 		if [[ $? == 0 ]]; then
@@ -40,29 +45,59 @@ iter_types() {
 	echo "unknown: ${email}"
 }
 
+# 传入的字符串格式: corbet@lwn.net (maintainer:DOCUMENTATION)
 parse_emails() {
 	local str=$1
 	iter_types to_types to_emails "${str}"
 }
 
-pattern=$1
-echo "pattern: $pattern"
+parse_pattern() {
+	local pattern=$1
+	echo "pattern: $pattern"
+	for file in $pattern; do
+		if [[ ${file} == '0000-cover-letter.patch' ]]; then
+			continue
+		fi
+		local cmd="./scripts/get_maintainer.pl ${file}"
+		local output_str=$(${cmd})
+		echo ${cmd}
+		# echo "${output_str}"
+		echo "${output_str}" | while IFS= read -r line; do
+			local line=$(echo ${line} | sed 's/.* <//') # ' <'之前的部分删除
+			line=$(echo ${line} | sed 's/>//g') # 删除'>'字符
+			# echo "line: ${line}"
+			parse_emails "${line}"
+		done
+	done
+}
 
-for file in $pattern; do
-	if [[ ${file} == '0000-cover-letter.patch' ]]; then
-		continue
-	fi
-	cmd="./scripts/get_maintainer.pl ${file}"
-	output_str=$(${cmd})
-	echo ${cmd}
+test_str=$(cat <<EOF
+Steve French <sfrench@samba.org> (supporter:COMMON INTERNET FILE SYSTEM CLIENT (CIFS and SMB3))
+Paulo Alcantara <pc@manguebit.com> (reviewer:COMMON INTERNET FILE SYSTEM CLIENT (CIFS and SMB3))
+Ronnie Sahlberg <ronniesahlberg@gmail.com> (reviewer:COMMON INTERNET FILE SYSTEM CLIENT (CIFS and SMB3))
+Shyam Prasad N <sprasad@microsoft.com> (reviewer:COMMON INTERNET FILE SYSTEM CLIENT (CIFS and SMB3))
+Tom Talpey <tom@talpey.com> (reviewer:COMMON INTERNET FILE SYSTEM CLIENT (CIFS and SMB3))
+Bharath SM <bharathsm@microsoft.com> (reviewer:COMMON INTERNET FILE SYSTEM CLIENT (CIFS and SMB3))
+linux-cifs@vger.kernel.org (open list:COMMON INTERNET FILE SYSTEM CLIENT (CIFS and SMB3))
+samba-technical@lists.samba.org (moderated list:COMMON INTERNET FILE SYSTEM CLIENT (CIFS and SMB3))
+linux-kernel@vger.kernel.org (open list)
+EOF
+)
+
+test() {
+	local output_str=${test_str}
 	# echo "${output_str}"
 	echo "${output_str}" | while IFS= read -r line; do
-		line=$(echo ${line} | sed 's/.* <//') # ' <'之前的部分删除
+		local line=$(echo ${line} | sed 's/.* <//') # ' <'之前的部分删除
 		line=$(echo ${line} | sed 's/>//g') # 删除'>'字符
 		# echo "line: ${line}"
 		parse_emails "${line}"
 	done
-done
+}
+
+pattern=$1
+# parse_pattern "$pattern"
+test
 
 # echo "git send-email --to=${to_emails[@]}"
 
