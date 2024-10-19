@@ -51,6 +51,16 @@ parse_emails() {
 	iter_types to_types to_emails "${str}"
 }
 
+iter_str() {
+	local output_str=$1
+	echo "${output_str}" | while IFS= read -r line; do
+		local line=$(echo ${line} | sed 's/.* <//') # ' <'之前的部分删除
+		line=$(echo ${line} | sed 's/>//g') # 删除'>'字符
+		# echo "line: ${line}"
+		parse_emails "${line}"
+	done
+}
+
 parse_pattern() {
 	local pattern=$1
 	echo "pattern: $pattern"
@@ -62,12 +72,7 @@ parse_pattern() {
 		local output_str=$(${cmd})
 		echo ${cmd}
 		# echo "${output_str}"
-		echo "${output_str}" | while IFS= read -r line; do
-			local line=$(echo ${line} | sed 's/.* <//') # ' <'之前的部分删除
-			line=$(echo ${line} | sed 's/>//g') # 删除'>'字符
-			# echo "line: ${line}"
-			parse_emails "${line}"
-		done
+		iter_str "${output_str}"
 	done
 }
 
@@ -87,17 +92,12 @@ EOF
 test() {
 	local output_str=${test_str}
 	# echo "${output_str}"
-	echo "${output_str}" | while IFS= read -r line; do
-		local line=$(echo ${line} | sed 's/.* <//') # ' <'之前的部分删除
-		line=$(echo ${line} | sed 's/>//g') # 删除'>'字符
-		# echo "line: ${line}"
-		parse_emails "${line}"
-	done
+	iter_str "${output_str}"
 }
 
 pattern=$1
-# parse_pattern "$pattern"
-test
+parse_pattern "$pattern"
+# test
 
 # echo "git send-email --to=${to_emails[@]}"
 
