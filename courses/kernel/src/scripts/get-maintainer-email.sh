@@ -81,12 +81,12 @@ parse_emails() {
 
 iter_str() {
 	local output_str=$1
-	echo "${output_str}" | while IFS= read -r line; do
+	while IFS= read -r line; do
 		local line=$(echo ${line} | sed 's/.* <//') # ' <'之前的部分删除
 		line=$(echo ${line} | sed 's/>//g') # 删除'>'字符
 		# echo "line: ${line}"
 		parse_emails "${line}"
-	done
+	done <<< "${output_str}"
 	echo "debug to_emails: ${to_emails[@]}"
 }
 
