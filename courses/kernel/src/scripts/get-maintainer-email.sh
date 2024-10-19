@@ -3,7 +3,7 @@
 #   2. get-maintainer-email.sh '000*'
 #   3. get-maintainer-email.sh "000*"
 
-to_types=('maintainer' 'reviewer' 'supporter' 'commit_signer')
+to_types=('maintainer' 'reviewer' 'supporter' 'commit_signer' 'blamed_fixes')
 cc_types=('open list' 'moderated list')
 
 except_emails=('samba-technical@lists.samba.org' 'chenxiaosong@kylinos.cn' 'chenxiaosong@chenxiaosong.com')
@@ -78,7 +78,7 @@ add_to_array() {
 		if [[ $? == 0 ]]; then
 			is_email_exist ${email}
 			if [[ $? == 0 ]]; then
-				echo "${email} already exist"
+				# echo "${email} already exist"
 				return 0
 			fi
 			# echo "${type_name}: ${email}"
@@ -144,12 +144,14 @@ print_result() {
 	done
 	emails_str="${emails_str:0:${#emails_str}-1}" # 去掉最后的逗号
 
+	echo
 	echo "git send-email ${emails_str}"
 
 	local unknown_str="unknown emails:"
 	for email in "${unknown_emails[@]}"; do
 		unknown_str+=" ${email}"
 	done
+	echo
 	echo "${unknown_str}"
 }
 
