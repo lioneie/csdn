@@ -2,6 +2,7 @@
 #   1. get-maintainer-email.sh 000\*
 #   2. get-maintainer-email.sh '000*'
 #   3. get-maintainer-email.sh "000*"
+#   4. get-maintainer-email.sh "000*" fs/nfs fs/nfsd fs/nfs_common
 
 to_types=('maintainer' 'reviewer' 'supporter' 'commit_signer' 'blamed_fixes')
 cc_types=('open list' 'moderated list')
