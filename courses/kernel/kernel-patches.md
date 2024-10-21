@@ -22,7 +22,7 @@
 
 [`1b513f613731e ntfs: fix BUG_ON in ntfs_lookup_inode_by_name()`](https://lore.kernel.org/all/20220809064730.2316892-1-chenxiaosong2@huawei.com/)
 
-[`38c9c22a85aee ntfs: fix use-after-free in ntfs_ucsncmp()`](https://lore.kernel.org/all/20220709064511.3304299-1-chenxiaosong2@huawei.com/)
+[CVE-2023-26607](https://nvd.nist.gov/vuln/detail/CVE-2023-26607): [`38c9c22a85aee ntfs: fix use-after-free in ntfs_ucsncmp()`](https://lore.kernel.org/all/20220709064511.3304299-1-chenxiaosong2@huawei.com/)（还有其他人的修复补丁）
 
 # 调度
 

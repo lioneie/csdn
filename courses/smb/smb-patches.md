@@ -10,7 +10,7 @@
 
 [`2186a116538a7 smb/server: fix return value of smb2_open()`](https://lore.kernel.org/all/20240822082101.391272-2-chenxiaosong@chenxiaosong.com/)
 
-[`4e8771a3666c8 smb/server: fix potential null-ptr-deref of lease_ctx_info in smb2_open()`](https://lore.kernel.org/all/20240822082101.391272-3-chenxiaosong@chenxiaosong.com/)
+[CVE-2024-46742](https://nvd.nist.gov/vuln/detail/CVE-2024-46742): [`4e8771a3666c8 smb/server: fix potential null-ptr-deref of lease_ctx_info in smb2_open()`](https://lore.kernel.org/all/20240822082101.391272-3-chenxiaosong@chenxiaosong.com/)
 
 [`2b058acecf56f cifs: return the more nuanced writeback error on close()`](https://lore.kernel.org/all/20220518145649.2487377-1-chenxiaosong2@huawei.com/)
 
