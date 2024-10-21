@@ -59,7 +59,7 @@ is_except_email() {
 #   - 已存在某个数组中
 #   - 例外的邮箱
 # 1: 未添加到数组中
-add_to_array() {
+add_email_array() {
 	local -n types_array=$1
 	local -n emails_array=$2
 	local str=$3
@@ -92,14 +92,14 @@ add_to_array() {
 }
 
 # 传入的字符串格式: corbet@lwn.net (maintainer:DOCUMENTATION)
-parse_emails() {
+parse_line() {
 	local str=$1
 	local email=$(echo ${str} | awk '{print $1}') # 提取邮箱
-	add_to_array to_types to_emails "${str}"
+	add_email_array to_types to_emails "${str}"
 	if [[ $? == 0 ]]; then
 		return
 	fi
-	add_to_array cc_types cc_emails "${str}"
+	add_email_array cc_types cc_emails "${str}"
 	if [[ $? == 0 ]]; then
 		return
 	fi
@@ -107,13 +107,13 @@ parse_emails() {
 	unknown_emails+=(${email})
 }
 
-iter_str() {
+parse_cmd_output() {
 	local output_str=$1
 	while IFS= read -r line; do
 		local line=$(echo ${line} | sed 's/.* <//') # ' <'之前的部分删除
 		line=$(echo ${line} | sed 's/> / /g') # 删除'>'字符
 		# echo "line: ${line}"
-		parse_emails "${line}"
+		parse_line "${line}"
 	done <<< "${output_str}"
 }
 
@@ -128,7 +128,7 @@ parse_pattern() {
 		local output_str=$(${cmd})
 		echo ${cmd}
 		# echo "${output_str}"
-		iter_str "${output_str}"
+		parse_cmd_output "${output_str}"
 	done
 }
 
@@ -156,6 +156,13 @@ print_result() {
 	echo "${unknown_str}"
 }
 
+iter_pattern() {
+	for arg in "$@"; do
+		# echo "${arg}"
+		parse_pattern "${arg}"
+	done
+}
+
 test_str=$(cat <<EOF
 this is name <1@test.com> (maintainer:MODULE ONE (A and B))
 this is name <2@test.com> (supporter:MODULE ONE (A and B))
@@ -172,13 +179,9 @@ EOF
 test() {
 	local output_str=${test_str}
 	# echo "${output_str}"
-	iter_str "${output_str}"
+	parse_cmd_output "${output_str}"
 }
 
-for arg in "$@"; do
-	echo "${arg}"
-	parse_pattern "${arg}"
-done
-
+iter_pattern "$@"
 # test
 print_result
