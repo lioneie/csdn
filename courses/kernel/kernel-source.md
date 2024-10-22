@@ -155,3 +155,8 @@ foxmail(qq)邮箱`~/.gitconfig`:
 # --to是主送，--cc是抄送
 git send-email --to=to1@example.com,to2@example.com --cc=cc1@example.com,cc2@example.com file1.patch file2.patch
 ```
+
+可以使用脚本[`get-maintainer-email.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/scripts/get-maintainer-email.sh)来获取邮箱:
+```sh
+bash get-maintainer-email.sh fs/nfs/ fs/nfsd 1aee9158bc97 fs/nfs_common
+```
