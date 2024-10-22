@@ -501,14 +501,16 @@ struct worker
 struct worker_pool
 ```
 
-在`worker_thread()`中用`worker_pool *pool`的`worklist`链表连接。
+`struct work_struct`对象在`worker_thread()`中用`worker_pool *pool`的`worklist`链表连接。
 
 创建推后的工作:
 ```c
 // 编译时静态创建
 DECLARE_WORK(p9_poll_work, p9_poll_workfn);
+DECLARE_DELAYED_WORK(name, func)
 // 运行时动态创建
 INIT_WORK(&priv->tx_onestep_tstamp, enetc_tx_onestep_tstamp);
+INIT_DELAYED_WORK(_work, _func)
 ```
 
 工作队列处理函数的一个例子是:
@@ -536,7 +538,7 @@ bool cancel_delayed_work(struct delayed_work *dwork)
 创建新的工作队列:
 ```c
 create_workqueue(name)
-// 创建工作
+// 调度执行工作, include/linux/workqueue.h
 bool queue_work(struct workqueue_struct *wq, struct work_struct *work)
 // 经过一段时间再执行
 bool queue_delayed_work(struct workqueue_struct *wq, struct delayed_work *dwork, unsigned long delay)
