@@ -2,7 +2,7 @@ obj-m += kprobe-df-long-time.o
 
 CROSS_COMPILE=''
 
-KDIR := /home/linux/code/linux/build
+KDIR := /home/sonvhi/chenxiaosong/code/x86_64-linux/build
 
 all:
 	make -C ${KDIR} M=`pwd`

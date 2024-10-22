@@ -37,8 +37,10 @@ static int __kprobes handler_pre(struct kprobe *p, struct pt_regs *regs)
 #ifdef CONFIG_ARM64
 	argv = (char **)regs->regs[1];;
 #endif
-	pr_info("<%s> %s op:%s, key:%s, uid:%s, gid:%s, keyring:%s, keyring:%s, keyring:%s\n",
-		p->symbol_name, argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
+	if (argv) {
+		pr_info("<%s> %s op:%s, key:%s, uid:%s, gid:%s, keyring:%s, keyring:%s, keyring:%s\n",
+			p->symbol_name, argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
+	}
 
 	return 0;
 }
