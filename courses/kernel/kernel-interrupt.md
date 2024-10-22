@@ -45,6 +45,7 @@ static inline int __must_check
 request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
             const char *name, void *dev)
 
+// devm: managed device
 // 类似垃圾回收机制，不需要调用free_irq()
 // 请参考补丁[at86rf230: use devm_request_irq](https://lore.kernel.org/all/1398359358-11085-5-git-send-email-alex.aring@gmail.com/)
 static inline int __must_check
@@ -608,6 +609,7 @@ int request_threaded_irq(unsigned int irq, irq_handler_t handler,
  *
  *      如果使用此函数分配的 IRQ 需要单独释放，则必须使用 devm_free_irq()。
  */
+// devm: managed device
 // 类似垃圾回收机制，不需要调用free_irq()
 // 请参考补丁[at86rf230: use devm_request_irq](https://lore.kernel.org/all/1398359358-11085-5-git-send-email-alex.aring@gmail.com/)
 int devm_request_threaded_irq(struct device *dev, unsigned int irq,
