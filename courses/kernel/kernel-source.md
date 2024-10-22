@@ -158,5 +158,6 @@ git send-email --to=to1@example.com,to2@example.com --cc=cc1@example.com,cc2@exa
 
 可以使用脚本[`get-maintainer-email.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/scripts/get-maintainer-email.sh)来获取邮箱:
 ```sh
-bash get-maintainer-email.sh fs/nfs/ fs/nfsd 1aee9158bc97 fs/nfs_common
+git format-patch -1 1aee9158bc97
+bash get-maintainer-email.sh fs/nfs/ fs/nfsd fs/nfs_common 0001-nfsd-lock_rename-needs-both-directories-to-live-on-t.patch
 ```
