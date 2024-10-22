@@ -473,47 +473,7 @@ void tasklet_kill(struct tasklet_struct *t)
 /*
  * 外部可见的工作队列。它将发出的工作项通过其 pool_workqueues 转发到适当的 worker_pool。
  */
-struct workqueue_struct {
-        struct list_head        pwqs;           /* WR: 此工作队列的所有 pwqs */
-        struct list_head        list;           /* PR: 所有工作队列的列表 */
-
-        struct mutex            mutex;          /* 保护此工作队列 */
-        int                     work_color;     /* WQ: 当前工作颜色 */
-        int                     flush_color;    /* WQ: 当前刷新颜色 */
-        atomic_t                nr_pwqs_to_flush; /* 刷新进行中 */
-        struct wq_flusher       *first_flusher; /* WQ: 第一个刷新器 */
-        struct list_head        flusher_queue;  /* WQ: 刷新等待者 */
-        struct list_head        flusher_overflow; /* WQ: 刷新溢出列表 */
-
-        struct list_head        maydays;        /* MD: 请求救援的 pwqs */
-        struct worker           *rescuer;       /* MD: 救援工作者 */
-
-        int                     nr_drainers;    /* WQ: 排空进行中 */
-        int                     saved_max_active; /* WQ: 保存的 pwq max_active */
-
-        struct workqueue_attrs  *unbound_attrs; /* PW: 仅用于无绑定的工作队列 */
-        struct pool_workqueue   *dfl_pwq;       /* PW: 仅用于无绑定的工作队列 */
-
-#ifdef CONFIG_SYSFS
-        struct wq_device        *wq_dev;        /* I: 用于 sysfs 接口 */
-#endif
-#ifdef CONFIG_LOCKDEP
-        char                    *lock_name;
-        struct lock_class_key   key;
-        struct lockdep_map      lockdep_map;
-#endif
-        char                    name[WQ_NAME_LEN]; /* I: 工作队列名称 */
-
-        /*
-         * workqueue_struct 的销毁是 RCU 保护的，以允许在不获取 wq_pool_mutex 的情况下遍历
-         * 工作队列列表。这用于从 sysrq 转储所有工作队列。
-         */
-        struct rcu_head         rcu;
-
-        /* 在命令发出期间使用的热点字段，按缓存行对齐 */
-        unsigned int            flags ____cacheline_aligned; /* WQ: WQ_* 标志 */
-        struct pool_workqueue __percpu __rcu **cpu_pwq; /* I: 每 CPU 的 pwqs */
-};
+struct workqueue_struct
 ```
 
 所有的工作者线程都要执行`worker_thread()`，初始化后死循环并开始休眠，当有操作插入到队列中，线程唤醒执行。表示工作的数据结构如下:
@@ -526,6 +486,19 @@ struct work_struct {
         struct lockdep_map lockdep_map;
 #endif
 };
+```
+
+还有以下几个相关的结构体:
+```c
+/*
+ * 做实际繁重工作的可怜家伙。所有在职工人要么担任经理角色，要么在空闲列表中，或在忙碌哈希中。
+ * 有关锁注释（L、I、X...）的详细信息，请参阅 workqueue.c。
+ *
+ * 仅在工作队列和异步中使用。
+ */
+struct worker
+
+struct worker_pool
 ```
 
 在`worker_thread()`中用`worker_pool *pool`的`worklist`链表连接。
