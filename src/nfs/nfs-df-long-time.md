@@ -309,7 +309,7 @@ cat << EOF > main.c
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-    char command[256] = "strace -o /root/strace.out -f -v -s 4096 /sbin/request-key";
+    char command[256] = "strace -o /root/strace.out -f -v -s 4096 -tt /sbin/request-key";
 
     // 拼接参数
     for (int i = 1; i < argc; i++) {
