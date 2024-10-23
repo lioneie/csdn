@@ -309,11 +309,17 @@ int main(int argc, char *argv[]) {
     // 执行命令
     int result = system(command);
     printf("result: %d\n", result);
+
+    FILE *file = fopen("/root/command.txt", "w");  // 打开文件，写入模式
+    fprintf(file, "%s\n", command);  // 使用 fprintf 写入字符串
+    // 或者使用 fputs(file, command);
+    fclose(file);  // 关闭文件
+
     return result;
 }
 EOF
 
-mv /sbin/request-key /sbin/request-key-origin
+# mv /sbin/request-key /sbin/request-key-origin
 gcc main.c -o /sbin/request-key
 /sbin/request-key create 883219074 0 0 78314096 0 453981511
 ```
