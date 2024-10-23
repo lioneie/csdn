@@ -324,6 +324,12 @@ gcc main.c -o /sbin/request-key
 /sbin/request-key create 883219074 0 0 78314096 0 453981511
 ```
 
+读取内核栈:
+```sh
+pid=$(tail -n 1 strace.out | cut -d ' ' -f 1)
+cat /proc/${pid}/stack
+```
+
 # 代码分析
 
 ## nfsv4
