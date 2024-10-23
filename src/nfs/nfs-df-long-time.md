@@ -208,14 +208,14 @@ domainname localdomain
 
 `/etc/hosts` 新添加以下两行，默认127.0.0.1的配置不删除:
 ```sh
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 101.226.141.58 qyapi.weixin.qq.com
 101.89.47.18 api.weixin.qq.com
 ```
 
 `/etc/resolv.conf`:
 ```sh
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 nameserver 114.114.114.114
 nameserver 8.8.8.8
 ```
@@ -290,7 +290,7 @@ domainname localdomain
         } else if (ret == -EINPROGRESS) {
 ```
 
-创建测试程序（不能用脚本）:
+创建测试程序（不能是脚本，会报`ENOEXEC`错误）:
 ```sh
 cat << EOF > main.c
 #include <stdlib.h>
