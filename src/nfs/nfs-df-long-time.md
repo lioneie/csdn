@@ -163,14 +163,6 @@ call_usermodehelper_exec at kernel/umh.c:614
 
 # 调试
 
-## 测试命令
-
-```sh
-echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
-echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
-mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none 192.168.53.40:/s_test /mnt
-```
-
 ## kprobe trace
 
 ```sh
@@ -208,13 +200,39 @@ cat trace_pipe
 
 源码[`kprobe-df-long-time.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/nfs/kprobe-df-long-time.c)，修改[`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/nfs/Makefile)中`KDIR`路径后编译运行。
 
-现场环境中:
+## 现场复现的client环境
+
+```sh
+domainname localdomain
+```
+
+`/etc/hosts` 新添加以下两行，默认127.0.0.1的配置不删除:
+```sh
+101.226.141.58 qyapi.weixin.qq.com
+101.89.47.18 api.weixin.qq.com
+```
+
+`/etc/resolv.conf`:
+```sh
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+nameserver 114.114.114.114
+nameserver 8.8.8.8
+```
+
+kprobe module打印如下:
 ```sh
 [711334.420054] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:626115642, uid:0, gid:0, keyring:515291944, keyring:0, keyring:620716518
 [711334.424225] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:44305564, uid:0, gid:0, keyring:515291944, keyring:0, keyring:620716518
 ```
 
 ## 虚拟机环境
+
+```sh
+echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
+echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
+mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none 192.168.53.40:/s_test /mnt
+```
 
 kprobe module打印如下:
 ```sh
@@ -230,6 +248,69 @@ ls /mnt/file
 keyctl list 744331010
 keyctl clear 744331010
 domainname localdomain
+```
+
+## `request-key`调试
+
+内核做以下修改:
+```c
+diff --git a/security/keys/request_key.c b/security/keys/request_key.c
+index a7673ad86d18..37ebff315922 100644
+--- a/security/keys/request_key.c
++++ b/security/keys/request_key.c
+@@ -16,6 +16,7 @@
+ #include <net/net_namespace.h>
+ #include "internal.h"
+ #include <keys/request_key_auth-type.h>
++#include <linux/delay.h>
+ 
+ #define key_negative_timeout   60      /* default timeout on a negative key's existence */
+ 
+@@ -117,7 +118,7 @@ static int call_usermodehelper_keys(const char *path, char **argv, char **envp,
+  */
+ static int call_sbin_request_key(struct key *authkey, void *aux)
+ {
+-       static char const request_key[] = "/sbin/request-key";
++       static char const request_key[] = "/sbin/request-key-test";
+        struct request_key_auth *rka = get_request_key_auth(authkey);
+        const struct cred *cred = current_cred();
+        key_serial_t prkey, sskey;
+@@ -193,9 +194,13 @@ static int call_sbin_request_key(struct key *authkey, void *aux)
+        argv[i] = NULL;
+ 
+        /* do it */
++
++       printk(" %s %s %s %s %s %s %s %s\n",
++              argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
++       // mdelay(20*1000);
+        ret = call_usermodehelper_keys(request_key, argv, envp, keyring,
+                                       UMH_WAIT_PROC);
+-       kdebug("usermode -> 0x%x", ret);
++       printk("usermode -> 0x%x\n", ret);
+        if (ret >= 0) {
+                /* ret is the exit/wait code */
+                if (test_bit(KEY_FLAG_USER_CONSTRUCT, &key->flags) ||
+@@ -519,7 +524,7 @@ static struct key *construct_key_and_link(struct keyring_search_context *ctx,
+                ret = construct_key(key, callout_info, callout_len, aux,
+                                    dest_keyring);
+                if (ret < 0) {
+-                       kdebug("cons failed");
++                       printk("cons failed\n");
+                        goto construction_failed;
+                }
+        } else if (ret == -EINPROGRESS) {
+```
+
+创建测试程序（不能用脚本）:
+```sh
+cat << EOF > main.c
+int main()
+{
+        return 0; // 可以修改这里的返回值调试
+}
+EOF
+
+gcc main.c -o /sbin/request-key-test
 ```
 
 # 代码分析
