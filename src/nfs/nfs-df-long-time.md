@@ -304,13 +304,28 @@ index a7673ad86d18..37ebff315922 100644
 创建测试程序（不能用脚本）:
 ```sh
 cat << EOF > main.c
-int main()
-{
-        return 0; // 可以修改这里的返回值调试
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc, char *argv[]) {
+    char command[256] = "strace -o /root/strace.out -f -v -s 4096 /sbin/request-key";
+
+    // 拼接参数
+    for (int i = 1; i < argc; i++) {
+        sprintf(command + strlen(command), " %s", argv[i]);
+    }
+    printf("command: %s\n", command);
+
+    // 执行命令
+    int result = system(command);
+    printf("result: %d\n", result);
+    return 0;
 }
 EOF
 
 gcc main.c -o /sbin/request-key-test
+/sbin/request-key-test create 883219074 0 0 78314096 0 453981511
 ```
 
 # 代码分析
