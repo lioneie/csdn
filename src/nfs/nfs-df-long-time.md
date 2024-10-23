@@ -254,8 +254,6 @@ domainname localdomain
 
 内核做以下修改:
 ```c
-diff --git a/security/keys/request_key.c b/security/keys/request_key.c
-index a7673ad86d18..37ebff315922 100644
 --- a/security/keys/request_key.c
 +++ b/security/keys/request_key.c
 @@ -16,6 +16,7 @@
@@ -266,15 +264,6 @@ index a7673ad86d18..37ebff315922 100644
  
  #define key_negative_timeout   60      /* default timeout on a negative key's existence */
  
-@@ -117,7 +118,7 @@ static int call_usermodehelper_keys(const char *path, char **argv, char **envp,
-  */
- static int call_sbin_request_key(struct key *authkey, void *aux)
- {
--       static char const request_key[] = "/sbin/request-key";
-+       static char const request_key[] = "/sbin/request-key-test";
-        struct request_key_auth *rka = get_request_key_auth(authkey);
-        const struct cred *cred = current_cred();
-        key_serial_t prkey, sskey;
 @@ -193,9 +194,13 @@ static int call_sbin_request_key(struct key *authkey, void *aux)
         argv[i] = NULL;
  
@@ -309,7 +298,7 @@ cat << EOF > main.c
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-    char command[256] = "strace -o /root/strace.out -f -v -s 4096 -tt /sbin/request-key";
+    char command[256] = "strace -o /root/strace.out -f -v -s 4096 -tt /sbin/request-key-origin";
 
     // 拼接参数
     for (int i = 1; i < argc; i++) {
@@ -324,8 +313,9 @@ int main(int argc, char *argv[]) {
 }
 EOF
 
-gcc main.c -o /sbin/request-key-test
-/sbin/request-key-test create 883219074 0 0 78314096 0 453981511
+mv /sbin/request-key /sbin/request-key-origin
+gcc main.c -o /sbin/request-key
+/sbin/request-key create 883219074 0 0 78314096 0 453981511
 ```
 
 # 代码分析
