@@ -1,6 +1,6 @@
 [OpenHarmony](https://www.openharmony.cn/mainPlay)是华为“鸿蒙操作系统”的底座，包含: 华为捐献的“鸿蒙操作系统”的基础能力 和 其他参与者的贡献。
 
-华为的HarmonyOS（鸿蒙操作系统）与OpenHarmony的关系，相当于谷歌的Android（安卓系统）与AOSP(Android Open Source Project)的关系。
+华为的HarmonyOS（鸿蒙操作系统）与OpenHarmony的关系，相当于谷歌的Android（安卓系统）与AOSP(Android Open Source Project)的关系。2024年10月22日，华为原生鸿蒙HarmonyOS NEXT正式发布，目前鸿蒙内核暂未开源。
 
 主要从事开发**端云协同**功能，也就是端设备（如手机、智能设备等）与云端（云服务、云计算资源）之间的协同工作和通信，工作内容有 **内核hmdfs（鸿蒙分布式文件系统）** 、 **fuse（用户态文件系统）** 和 **媒体库** 等开发。
 
