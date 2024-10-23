@@ -320,7 +320,7 @@ int main(int argc, char *argv[]) {
     // 执行命令
     int result = system(command);
     printf("result: %d\n", result);
-    return 0;
+    return result;
 }
 EOF
 
