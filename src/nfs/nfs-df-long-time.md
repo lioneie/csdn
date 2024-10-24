@@ -269,10 +269,12 @@ int main(int argc, char *argv[]) {
 }
 EOF
 
-# mv /sbin/request-key /sbin/request-key-origin
+# mv /sbin/request-key /sbin/request-key-origin # 程序重命名，只需要开始时执行一次
 gcc main.c -o /sbin/request-key
-/sbin/request-key create 883219074 0 0 78314096 0 453981511
+# /sbin/request-key create 883219074 0 0 78314096 0 453981511 # 测试命令
 ```
+
+执行`df`命令后，`request-key`程序的所有系统调用在文件`/root/strace.out`中。
 
 读取内核栈:
 ```sh
@@ -331,6 +333,8 @@ strace日志如下:
 4014  20:02:40.195745 close(3)          = 0
 4014  20:02:40.195964 close(4)          = 0
 ```
+
+可以看出在dns解析时连接dns服务器花了40s。
 
 ## 虚拟机环境
 
