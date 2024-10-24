@@ -251,3 +251,7 @@ sudo apt-get install -y libasound2:arm64 libc6:arm64 libglib2.0-0:arm64 libgphot
 # sudo apt-get install -y libjpeg62-turbo:arm64 # ubuntu下找不到
 ```
 -->
+
+# wine-ce
+
+https://gitee.com/wine-ce
