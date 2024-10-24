@@ -29,12 +29,14 @@ rpm2cpio kernel-debuginfo-4.19.90-89.15.v2401.ky10.x86_64.rpm | cpio -div
 
 ## nfsv3
 
-- 2351.124940: SYN
-- 2351.125149: SYN-ACK
-- 2351.125167: RST
-- 2354.176234: SYN
-- 2354.176450: SYN-ACK
-- 2354.176487: SYN
+- 2351.124940: client -> server, SYN
+- 2351.125149: server -> client, SYN-ACK
+- 2351.125167: client -> server, RST
+- 2354.176234: client -> server, SYN
+- 2354.176450: server -> client, SYN-ACK
+- 2354.176487: client -> server, ACK
+
+这些数据包类型的解释如下:
 
 - SYN: 客户端向服务器发送一个SYN（同步）包，表示请求建立连接。这个包中包含客户端的初始序列号。
 - SYN-ACK: 服务器收到SYN包后，返回一个SYN-ACK（同步-确认）包，表示同意建立连接，并且确认客户端的序列号。这个包中包含服务器的初始序列号。
@@ -161,7 +163,7 @@ call_usermodehelper_exec at kernel/umh.c:614
 
 `call_connect_status()`函数中`task->tk_status`错误码为`-ECONNRESET`。
 
-# 调试
+# nfsv4调试
 
 ## kprobe trace
 
@@ -288,7 +290,7 @@ cat /proc/${pid}/stack
 domainname localdomain
 ```
 
-`/etc/hosts` 新添加以下的后面两行，前面默认的配置不删除:
+`/etc/hosts`（经过排除，这个不影响复现） 新添加以下的后面两行，前面默认的配置不删除:
 ```sh
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
@@ -334,7 +336,7 @@ strace日志如下:
 4014  20:02:40.195964 close(4)          = 0
 ```
 
-可以看出在dns解析时连接dns服务器花了40s。
+可以看出在dns解析时连接dns服务器花了20s。
 
 ## 虚拟机环境
 
@@ -348,21 +350,13 @@ mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,p
 domainname localdomain
 ```
 
-`/etc/hosts` 新添加以下的后面两行，前面默认的配置不删除:
-```sh
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-101.227.143.58 qyapi.weixin.qq.com
-101.100.77.18 api.weixin.qq.com
-```
-
 `/etc/resolv.conf`文件内容替换为：
 ```sh
 nameserver 115.119.114.114
 nameserver 8.8.9.9
 ```
 
-但很有可能会被 NetworkManager 工具或`systemd-resolved.service`服务在下一次启动时覆盖掉`/etc/resolv.conf`，我们要做的就是禁止服务来更改本文件:
+但很有可能会被 NetworkManager 工具或`systemd-resolved.service`服务在下一次启动时覆盖掉`/etc/resolv.conf`，禁止服务更改文件:
 ```sh
 sudo cp /etc/resolv.conf ./
 sudo rm -rf /etc/resolv.conf
@@ -384,6 +378,12 @@ ls /mnt/file
 # /sbin/request-key参数中的第一个keyring
 keyctl list 744331010
 keyctl clear 744331010
+```
+
+# nfsv3调试
+
+```sh
+mount -t nfs -o rw,relatime,vers=3,rsize=65536,wsize=65536,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountvers=3,mountport=635,mountproto=udp,local_lock=none 192.168.53.209:/tmp/s_test /mnt
 ```
 
 # 代码分析
@@ -487,3 +487,7 @@ nfsv4在启用idmap的情况下，在解析`GETATTR`回复报文的`owner`和`gr
 - 网络连接互联网（解决根因）
 - 禁用nfs idmap
 - 禁用dns服务
+
+## nfsv3
+
+tcp层的`RST`报文和nfs无关，具体原因待定位。
