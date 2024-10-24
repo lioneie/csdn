@@ -45,6 +45,7 @@ kernel_files() {
         1 courses/kernel/kernel-patches.md
         1 courses/kernel/kernel-interrupt.md
         1 courses/kernel/kernel-syscall.md
+        1 courses/kernel/kernel-timer.md
     )
     add_common array[@] ${common_file}
 }
