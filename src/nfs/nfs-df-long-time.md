@@ -200,56 +200,6 @@ cat trace_pipe
 
 源码[`kprobe-df-long-time.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/nfs/kprobe-df-long-time.c)，修改[`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/nfs/Makefile)中`KDIR`路径后编译运行。
 
-## 现场复现的client环境
-
-```sh
-domainname localdomain
-```
-
-`/etc/hosts` 新添加以下两行，默认127.0.0.1的配置不删除:
-```sh
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-101.226.141.58 qyapi.weixin.qq.com
-101.89.47.18 api.weixin.qq.com
-```
-
-`/etc/resolv.conf`:
-```sh
-nameserver 114.114.114.114
-nameserver 8.8.8.8
-```
-
-kprobe module打印如下:
-```sh
-[711334.420054] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:626115642, uid:0, gid:0, keyring:515291944, keyring:0, keyring:620716518
-[711334.424225] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:44305564, uid:0, gid:0, keyring:515291944, keyring:0, keyring:620716518
-```
-
-## 虚拟机环境
-
-```sh
-echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
-echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
-mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none 192.168.53.40:/s_test /mnt
-```
-
-kprobe module打印如下:
-```sh
-[  998.700832] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:216577440, uid:0, gid:0, keyring:744331010, keyring:0, keyring:493558208
-[  998.850977] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:243125691, uid:0, gid:0, keyring:744331010, keyring:0, keyring:493558208
-```
-
-```sh
-touch /mnt/file
-echo 3 > /proc/sys/vm/drop_caches
-ls /mnt/file
-# /sbin/request-key参数中的第一个keyring
-keyctl list 744331010
-keyctl clear 744331010
-domainname localdomain
-```
-
 ## `request-key`调试
 
 内核做以下修改:
@@ -330,6 +280,108 @@ pid=$(tail -n 1 strace.out | cut -d ' ' -f 1)
 cat /proc/${pid}/stack
 ```
 
+## 现场复现的client环境
+
+```sh
+domainname localdomain
+```
+
+`/etc/hosts` 新添加以下的后面两行，前面默认的配置不删除:
+```sh
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+# 101.226.141.58 qyapi.weixin.qq.com
+# 101.89.47.18 api.weixin.qq.com
+101.227.143.58 qyapi.weixin.qq.com
+101.100.77.18 api.weixin.qq.com
+```
+
+`/etc/resolv.conf`:
+```sh
+# nameserver 114.114.114.114
+# nameserver 8.8.8.8
+nameserver 115.119.114.114
+nameserver 8.8.9.9
+```
+
+kprobe module打印如下:
+```sh
+[711334.420054] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:626115642, uid:0, gid:0, keyring:515291944, keyring:0, keyring:620716518
+[711334.424225] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:44305564, uid:0, gid:0, keyring:515291944, keyring:0, keyring:620716518
+```
+
+strace日志如下:
+```sh
+4014  20:02:20.175808 socket(AF_INET, SOCK_DGRAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 3
+4014  20:02:20.175944 connect(3, {sa_family=AF_INET, sin_port=htons(53), sin_addr=inet_addr("114.114.114.114")}, 16) = 0
+4014  20:02:20.176123 poll([{fd=3, events=POLLOUT}], 1, 0) = 1 ([{fd=3, revents=POLLOUT}])
+4014  20:02:20.176231 sendto(3, "\264#\1\0\0\1\0\0\0\0\0\0\vkylin2403-2\0\0\1\0\1", 29, MSG_NOSIGNAL, NULL, 0) = 29
+4014  20:02:20.176388 poll([{fd=3, events=POLLIN}], 1, 5000) = 0 (Timeout)
+4014  20:02:25.181729 socket(AF_INET, SOCK_DGRAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 4
+4014  20:02:25.181933 connect(4, {sa_family=AF_INET, sin_port=htons(53), sin_addr=inet_addr("8.8.8.8")}, 16) = 0
+4014  20:02:25.182130 poll([{fd=4, events=POLLOUT}], 1, 0) = 1 ([{fd=4, revents=POLLOUT}])
+4014  20:02:25.182334 sendto(4, "\264#\1\0\0\1\0\0\0\0\0\0\vkylin2403-2\0\0\1\0\1", 29, MSG_NOSIGNAL, NULL, 0) = 29
+4014  20:02:25.182558 poll([{fd=4, events=POLLIN}], 1, 5000) = 0 (Timeout)
+4014  20:02:30.187737 poll([{fd=3, events=POLLOUT}], 1, 0) = 1 ([{fd=3, revents=POLLOUT}])
+4014  20:02:30.187942 sendto(3, "\264#\1\0\0\1\0\0\0\0\0\0\vkylin2403-2\0\0\1\0\1", 29, MSG_NOSIGNAL, NULL, 0) = 29
+4014  20:02:30.188136 poll([{fd=3, events=POLLIN}], 1, 5000) = 0 (Timeout)
+4014  20:02:35.192739 poll([{fd=4, events=POLLOUT}], 1, 0) = 1 ([{fd=4, revents=POLLOUT}])
+4014  20:02:35.192975 sendto(4, "\264#\1\0\0\1\0\0\0\0\0\0\vkylin2403-2\0\0\1\0\1", 29, MSG_NOSIGNAL, NULL, 0) = 29
+4014  20:02:35.193137 poll([{fd=4, events=POLLIN}], 1, 5000) = 0 (Timeout)
+4014  20:02:40.195745 close(3)          = 0
+4014  20:02:40.195964 close(4)          = 0
+```
+
+## 虚拟机环境
+
+```sh
+echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
+echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
+mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none 192.168.53.40:/s_test /mnt
+```
+
+```sh
+domainname localdomain
+```
+
+`/etc/hosts` 新添加以下的后面两行，前面默认的配置不删除:
+```sh
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+101.227.143.58 qyapi.weixin.qq.com
+101.100.77.18 api.weixin.qq.com
+```
+
+`/etc/resolv.conf`文件内容替换为：
+```sh
+nameserver 115.119.114.114
+nameserver 8.8.9.9
+```
+
+但很有可能会被 NetworkManager 工具或`systemd-resolved.service`服务在下一次启动时覆盖掉`/etc/resolv.conf`，我们要做的就是禁止服务来更改本文件:
+```sh
+sudo cp /etc/resolv.conf ./
+sudo rm -rf /etc/resolv.conf
+sudo cp ./resolv.conf /etc/resolv.conf
+sudo chattr +i /etc/resolv.conf
+sudo rm ./resolv.conf
+```
+
+kprobe module打印如下:
+```sh
+[  998.700832] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:216577440, uid:0, gid:0, keyring:744331010, keyring:0, keyring:493558208
+[  998.850977] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:243125691, uid:0, gid:0, keyring:744331010, keyring:0, keyring:493558208
+```
+
+```sh
+touch /mnt/file
+echo 3 > /proc/sys/vm/drop_caches
+ls /mnt/file
+# /sbin/request-key参数中的第一个keyring
+keyctl list 744331010
+keyctl clear 744331010
+```
+
 # 代码分析
 
 ## nfsv4
@@ -361,6 +413,7 @@ newstat
                                               call_sbin_request_key // 请求用户空间完成密钥的构造，执行 "/sbin/request-key <op> <key> <uid> <gid> <keyring> <keyring> <keyring>"
                                                 call_usermodehelper_keys
                                                   call_usermodehelper_exec
+                                                    // 等待用户态命令执行完成，卡在了连接dns服务器上，因为客户环境上与互联网不通
                                                     wait_for_completion(&done);
                             decode_attr_group
                               nfs_map_group_to_gid // error=0 id=0 name=root@localdomain
@@ -418,3 +471,7 @@ struct key *request_key_and_link(struct key_type *type,
                                  unsigned long flags)
 
 ```
+
+#　结论
+
+nfsv4在启用idmap的情况下，在解析`GETATTR`回复报文的`owner`和`group`时，会调用用户态程序`request-key`，`request-key`会再调用到`nfsidmap`程序，紧接着触发一个域名解析，由于现场环境与互联网不通，所以连接dns的两个ip时20秒超时，解析`owner`和`group`共花了40s，所以在现场现场环境中`df`命令的执行时间花了40s。
