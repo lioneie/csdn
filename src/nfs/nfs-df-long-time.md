@@ -474,4 +474,12 @@ struct key *request_key_and_link(struct key_type *type,
 
 #　结论
 
+## nfsv4
+
 nfsv4在启用idmap的情况下，在解析`GETATTR`回复报文的`owner`和`group`时，会调用用户态程序`request-key`，`request-key`会再调用到`nfsidmap`程序，紧接着触发一个域名解析，由于现场环境与互联网不通，所以连接dns的两个ip时20秒超时，解析`owner`和`group`共花了40s，所以在现场现场环境中`df`命令的执行时间花了40s。
+
+可通过以下几种方案解决或规避:
+
+- 网络连接互联网（解决根因）
+- 禁用nfs idmap
+- 禁用dns服务
