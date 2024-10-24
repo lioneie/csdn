@@ -254,4 +254,6 @@ sudo apt-get install -y libasound2:arm64 libc6:arm64 libglib2.0-0:arm64 libgphot
 
 # wine-ce
 
-https://gitee.com/wine-ce
+- [gitee仓库](https://gitee.com/wine-ce)
+- [b站视频](https://www.bilibili.com/video/BV1gv4y1578t/)
+- [浅谈二进制翻译软件架构](https://www.bilibili.com/opus/781135473404805193)
