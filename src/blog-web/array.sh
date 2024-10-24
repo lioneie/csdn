@@ -61,6 +61,7 @@ array=(
         1 1 courses/nfs/pnfs.md ${tmp_courses_path} "Parallel NFS (pNFS)"
         1 1 courses/nfs/nfs-debug.md ${tmp_courses_path} "nfs调试方法"
         1 1 courses/nfs/nfs-patches.md ${tmp_courses_path} "nfs补丁分析"
+        1 1 courses/nfs/nfs-others.md ${tmp_courses_path} "nfs未分类的内容"
             # 我写的补丁
             1 1 courses/nfs/patches/CVE-2022-24448.md ~ "CVE-2022-24448"
             1 1 courses/nfs/patches/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
@@ -103,6 +104,7 @@ array=(
         1 1 courses/smb/smb-debug.md ${tmp_courses_path} "smb调试方法"
         1 1 courses/smb/smb-patches.md ${tmp_courses_path} "smb补丁分析"
         1 1 courses/smb/smb-refactor.md ${tmp_courses_path} "smb代码重构"
+        1 1 courses/smb/smb-others.md ${tmp_courses_path} "smb未分类的内容"
             # 我写的补丁
             1 1 courses/smb/patches/cifs-fix-use-after-free-on-the-link-name.md ~
                 "542228db2f28f cifs: fix use-after-free on the link name"

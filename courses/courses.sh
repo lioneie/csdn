@@ -61,6 +61,7 @@ nfs_files() {
         1 courses/nfs/nfs-debug.md
         1 courses/nfs/nfs-patches.md
         1 courses/nfs/nfs-issues.md
+        1 courses/nfs/nfs-others.md
     )
     add_common array[@] ${common_file}
 }
@@ -77,6 +78,7 @@ smb_files() {
         1 courses/smb/smb-debug.md
         1 courses/smb/smb-patches.md
         1 courses/smb/smb-refactor.md
+        1 courses/smb/smb-others.md
     )
     add_common array[@] ${common_file}
 }
