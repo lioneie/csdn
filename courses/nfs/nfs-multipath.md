@@ -1,3 +1,22 @@
+# openeuler nfs+
+
+- [NFS多路径用户指南](https://docs.openeuler.org/zh/docs/23.03/docs/NfsMultipath/NFS%E5%A4%9A%E8%B7%AF%E5%BE%84.html)（[文档源码](https://gitee.com/openeuler/docs/tree/stable2-23.03/docs/zh/docs/NfsMultipath)）
+- [pull request](https://gitee.com/src-openeuler/kernel/pulls?assignee_id=&author_id=&label_ids=&label_text=&milestone_id=&priority=&project_id=src-openeuler%2Fkernel&project_type=&scope=&search=enfs&single_label_id=&single_label_text=&sort=closed_at+desc&status=merged&target_project=&tester_id=)
+- [补丁文件](https://gitee.com/src-openeuler/kernel/tree/openEuler-20.03-LTS-SP4)。
+
+可以使用脚本[`create-enfs-patchset.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/create-enfs-patchset.sh)生成完整的补丁文件。
+
+编译前打开配置`CONFIG_ENFS=y`。
+
+挂载选项解析流程:
+```c
+nfs_parse_mount_options
+  enfs_check_mount_parse_info
+    nfs_multipath_parse_options
+      nfs_multipath_parse_ip_list
+        nfs_multipath_parse_ip_list_inter
+```
+
 # 主线代码对多路径的支持
 
 ## `nconnect`挂载选项
@@ -122,21 +141,3 @@ mount
                           rpc_clnt_add_xprt
                             rpc_clnt_test_and_add_xprt
 ```
-
-# openeuler nfs+
-
-[NFS多路径用户指南](https://docs.openeuler.org/zh/docs/23.03/docs/NfsMultipath/NFS%E5%A4%9A%E8%B7%AF%E5%BE%84.html)（[文档源码](https://gitee.com/openeuler/docs/tree/stable2-23.03/docs/zh/docs/NfsMultipath)）。
-
-[pull request](https://gitee.com/src-openeuler/kernel/pulls?assignee_id=&author_id=&label_ids=&label_text=&milestone_id=&priority=&project_id=src-openeuler%2Fkernel&project_type=&scope=&search=enfs&single_label_id=&single_label_text=&sort=closed_at+desc&status=merged&target_project=&tester_id=)，[补丁文件](https://gitee.com/src-openeuler/kernel/tree/openEuler-20.03-LTS-SP4)。
-
-编译前打开配置`CONFIG_ENFS=y`
-
-挂载选项解析流程:
-```c
-nfs_parse_mount_options
-  enfs_check_mount_parse_info
-    nfs_multipath_parse_options
-      nfs_multipath_parse_ip_list
-        nfs_multipath_parse_ip_list_inter
-```
-
