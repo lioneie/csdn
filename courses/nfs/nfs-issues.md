@@ -13,3 +13,5 @@
 [4.19 nfs4_put_stid报warning紧接着panic的问题](https://chenxiaosong.com/courses/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.html)
 
 [4.19 __nfs3_proc_setacls空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.html)
+
+[nfs df命令执行时间长的问题](https://chenxiaosong.com/courses/nfs/issues/nfs-df-long-time.html)

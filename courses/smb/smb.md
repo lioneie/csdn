@@ -28,3 +28,5 @@
 # [smb补丁分析](https://chenxiaosong.com/courses/smb/smb-patches.html)
 
 # [smb代码重构](https://chenxiaosong.com/courses/smb/smb-refactor.html)
+
+# [smb未分类的内容](https://chenxiaosong.com/courses/smb/smb-others.html)

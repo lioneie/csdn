@@ -29,12 +29,14 @@ rpm2cpio kernel-debuginfo-4.19.90-89.15.v2401.ky10.x86_64.rpm | cpio -div
 
 ## nfsv3
 
-- 2351.124940: SYN
-- 2351.125149: SYN-ACK
-- 2351.125167: RST
-- 2354.176234: SYN
-- 2354.176450: SYN-ACK
-- 2354.176487: SYN
+- 2351.124940: client -> server, SYN
+- 2351.125149: server -> client, SYN-ACK
+- 2351.125167: client -> server, RST
+- 2354.176234: client -> server, SYN
+- 2354.176450: server -> client, SYN-ACK
+- 2354.176487: client -> server, ACK
+
+这些数据包类型的解释如下:
 
 - SYN: 客户端向服务器发送一个SYN（同步）包，表示请求建立连接。这个包中包含客户端的初始序列号。
 - SYN-ACK: 服务器收到SYN包后，返回一个SYN-ACK（同步-确认）包，表示同意建立连接，并且确认客户端的序列号。这个包中包含服务器的初始序列号。
@@ -161,15 +163,7 @@ call_usermodehelper_exec at kernel/umh.c:614
 
 `call_connect_status()`函数中`task->tk_status`错误码为`-ECONNRESET`。
 
-# 调试
-
-## 测试命令
-
-```sh
-echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
-echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
-mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none 192.168.53.40:/s_test /mnt
-```
+# nfsv4调试
 
 ## kprobe trace
 
@@ -208,13 +202,168 @@ cat trace_pipe
 
 源码[`kprobe-df-long-time.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/nfs/kprobe-df-long-time.c)，修改[`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/nfs/Makefile)中`KDIR`路径后编译运行。
 
-现场环境中:
+## `request-key`调试
+
+内核做以下修改:
+```c
+--- a/security/keys/request_key.c
++++ b/security/keys/request_key.c
+@@ -16,6 +16,7 @@
+ #include <net/net_namespace.h>
+ #include "internal.h"
+ #include <keys/request_key_auth-type.h>
++#include <linux/delay.h>
+ 
+ #define key_negative_timeout   60      /* default timeout on a negative key's existence */
+ 
+@@ -193,9 +194,13 @@ static int call_sbin_request_key(struct key *authkey, void *aux)
+        argv[i] = NULL;
+ 
+        /* do it */
++
++       printk(" %s %s %s %s %s %s %s %s\n",
++              argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
++       // mdelay(20*1000);
+        ret = call_usermodehelper_keys(request_key, argv, envp, keyring,
+                                       UMH_WAIT_PROC);
+-       kdebug("usermode -> 0x%x", ret);
++       printk("usermode -> 0x%x\n", ret);
+        if (ret >= 0) {
+                /* ret is the exit/wait code */
+                if (test_bit(KEY_FLAG_USER_CONSTRUCT, &key->flags) ||
+@@ -519,7 +524,7 @@ static struct key *construct_key_and_link(struct keyring_search_context *ctx,
+                ret = construct_key(key, callout_info, callout_len, aux,
+                                    dest_keyring);
+                if (ret < 0) {
+-                       kdebug("cons failed");
++                       printk("cons failed\n");
+                        goto construction_failed;
+                }
+        } else if (ret == -EINPROGRESS) {
+```
+
+创建测试程序（不能是脚本，会报`ENOEXEC`错误）:
+```sh
+cat << EOF > main.c
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc, char *argv[]) {
+    char command[256] = "strace -o /root/strace.out -f -v -s 4096 -tt /sbin/request-key-origin";
+
+    // 拼接参数
+    for (int i = 1; i < argc; i++) {
+        sprintf(command + strlen(command), " %s", argv[i]);
+    }
+    printf("command: %s\n", command);
+
+    // 执行命令
+    int result = system(command);
+    printf("result: %d\n", result);
+
+    FILE *file = fopen("/root/command.txt", "w");  // 打开文件，写入模式
+    fprintf(file, "%s\n", command);  // 使用 fprintf 写入字符串
+    // 或者使用 fputs(file, command);
+    fclose(file);  // 关闭文件
+
+    return result;
+}
+EOF
+
+# mv /sbin/request-key /sbin/request-key-origin # 程序重命名，只需要开始时执行一次
+gcc main.c -o /sbin/request-key
+# /sbin/request-key create 883219074 0 0 78314096 0 453981511 # 测试命令
+```
+
+执行`df`命令后，`request-key`程序的所有系统调用在文件`/root/strace.out`中。
+
+读取内核栈:
+```sh
+pid=$(tail -n 1 strace.out | cut -d ' ' -f 1)
+cat /proc/${pid}/stack
+```
+
+## 现场复现的client环境
+
+```sh
+domainname localdomain
+```
+
+`/etc/hosts`（经过排除，这个不影响复现） 新添加以下的后面两行，前面默认的配置不删除:
+```sh
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+# 101.226.141.58 qyapi.weixin.qq.com
+# 101.89.47.18 api.weixin.qq.com
+101.227.143.58 qyapi.weixin.qq.com
+101.100.77.18 api.weixin.qq.com
+```
+
+`/etc/resolv.conf`:
+```sh
+# nameserver 114.114.114.114
+# nameserver 8.8.8.8
+nameserver 115.119.114.114
+nameserver 8.8.9.9
+```
+
+kprobe module打印如下:
 ```sh
 [711334.420054] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:626115642, uid:0, gid:0, keyring:515291944, keyring:0, keyring:620716518
 [711334.424225] handler_pre: <call_usermodehelper_setup> /sbin/request-key op:create, key:44305564, uid:0, gid:0, keyring:515291944, keyring:0, keyring:620716518
 ```
 
+strace日志如下:
+```sh
+4014  20:02:20.175808 socket(AF_INET, SOCK_DGRAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 3
+4014  20:02:20.175944 connect(3, {sa_family=AF_INET, sin_port=htons(53), sin_addr=inet_addr("114.114.114.114")}, 16) = 0
+4014  20:02:20.176123 poll([{fd=3, events=POLLOUT}], 1, 0) = 1 ([{fd=3, revents=POLLOUT}])
+4014  20:02:20.176231 sendto(3, "\264#\1\0\0\1\0\0\0\0\0\0\vkylin2403-2\0\0\1\0\1", 29, MSG_NOSIGNAL, NULL, 0) = 29
+4014  20:02:20.176388 poll([{fd=3, events=POLLIN}], 1, 5000) = 0 (Timeout)
+4014  20:02:25.181729 socket(AF_INET, SOCK_DGRAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 4
+4014  20:02:25.181933 connect(4, {sa_family=AF_INET, sin_port=htons(53), sin_addr=inet_addr("8.8.8.8")}, 16) = 0
+4014  20:02:25.182130 poll([{fd=4, events=POLLOUT}], 1, 0) = 1 ([{fd=4, revents=POLLOUT}])
+4014  20:02:25.182334 sendto(4, "\264#\1\0\0\1\0\0\0\0\0\0\vkylin2403-2\0\0\1\0\1", 29, MSG_NOSIGNAL, NULL, 0) = 29
+4014  20:02:25.182558 poll([{fd=4, events=POLLIN}], 1, 5000) = 0 (Timeout)
+4014  20:02:30.187737 poll([{fd=3, events=POLLOUT}], 1, 0) = 1 ([{fd=3, revents=POLLOUT}])
+4014  20:02:30.187942 sendto(3, "\264#\1\0\0\1\0\0\0\0\0\0\vkylin2403-2\0\0\1\0\1", 29, MSG_NOSIGNAL, NULL, 0) = 29
+4014  20:02:30.188136 poll([{fd=3, events=POLLIN}], 1, 5000) = 0 (Timeout)
+4014  20:02:35.192739 poll([{fd=4, events=POLLOUT}], 1, 0) = 1 ([{fd=4, revents=POLLOUT}])
+4014  20:02:35.192975 sendto(4, "\264#\1\0\0\1\0\0\0\0\0\0\vkylin2403-2\0\0\1\0\1", 29, MSG_NOSIGNAL, NULL, 0) = 29
+4014  20:02:35.193137 poll([{fd=4, events=POLLIN}], 1, 5000) = 0 (Timeout)
+4014  20:02:40.195745 close(3)          = 0
+4014  20:02:40.195964 close(4)          = 0
+```
+
+可以看出在dns解析时连接dns服务器花了20s。
+
 ## 虚拟机环境
+
+```sh
+echo N > /sys/module/nfsd/parameters/nfs4_disable_idmapping # server，默认为Y
+echo N > /sys/module/nfs/parameters/nfs4_disable_idmapping # client，默认为Y
+mount -t nfs -o rw,relatime,vers=4.1,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none 192.168.53.40:/s_test /mnt
+```
+
+```sh
+domainname localdomain
+```
+
+`/etc/resolv.conf`文件内容替换为：
+```sh
+nameserver 115.119.114.114
+nameserver 8.8.9.9
+```
+
+但很有可能会被 NetworkManager 工具或`systemd-resolved.service`服务在下一次启动时覆盖掉`/etc/resolv.conf`，禁止服务更改文件:
+```sh
+sudo cp /etc/resolv.conf ./
+sudo rm -rf /etc/resolv.conf
+sudo cp ./resolv.conf /etc/resolv.conf
+sudo chattr +i /etc/resolv.conf
+sudo rm ./resolv.conf
+```
 
 kprobe module打印如下:
 ```sh
@@ -229,7 +378,12 @@ ls /mnt/file
 # /sbin/request-key参数中的第一个keyring
 keyctl list 744331010
 keyctl clear 744331010
-domainname localdomain
+```
+
+# nfsv3调试
+
+```sh
+mount -t nfs -o rw,relatime,vers=3,rsize=65536,wsize=65536,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountvers=3,mountport=635,mountproto=udp,local_lock=none 192.168.53.209:/tmp/s_test /mnt
 ```
 
 # 代码分析
@@ -263,6 +417,7 @@ newstat
                                               call_sbin_request_key // 请求用户空间完成密钥的构造，执行 "/sbin/request-key <op> <key> <uid> <gid> <keyring> <keyring> <keyring>"
                                                 call_usermodehelper_keys
                                                   call_usermodehelper_exec
+                                                    // 等待用户态命令执行完成，卡在了连接dns服务器上，因为客户环境上与互联网不通
                                                     wait_for_completion(&done);
                             decode_attr_group
                               nfs_map_group_to_gid // error=0 id=0 name=root@localdomain
@@ -320,3 +475,19 @@ struct key *request_key_and_link(struct key_type *type,
                                  unsigned long flags)
 
 ```
+
+# 结论
+
+## nfsv4
+
+nfsv4在启用idmap的情况下，在解析`GETATTR`回复报文的`owner`和`group`时，会调用用户态程序`request-key`，`request-key`会再调用到`nfsidmap`程序，紧接着触发一个域名解析，由于现场环境与互联网不通，所以连接dns的两个ip时20秒超时，解析`owner`和`group`共花了40s，所以在现场现场环境中`df`命令的执行时间花了40s。
+
+可通过以下几种方案解决或规避:
+
+- 网络连接互联网（解决根因）
+- 禁用nfs idmap
+- 禁用dns服务
+
+## nfsv3
+
+tcp层的`RST`报文和nfs无关，具体原因待定位。

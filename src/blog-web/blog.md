@@ -46,8 +46,6 @@
 
 [nfs断网导致oom的问题](https://chenxiaosong.com/src/nfs/nfs-no-net-oom.html)
 
-[nfs df命令执行时间长的问题](https://chenxiaosong.com/src/nfs/nfs-df-long-time.html)
-
 # SMB(CIFS)文件系统
 
 [点击查看smb文件系统课程（持续更新中）](https://chenxiaosong.com/courses/smb/smb.html)
