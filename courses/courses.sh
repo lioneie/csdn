@@ -63,6 +63,7 @@ nfs_files() {
         1 courses/nfs/nfs-patches.md
         1 courses/nfs/nfs-issues.md
         1 courses/nfs/nfs-others.md
+        1 courses/nfs/nfs-multipath.md
     )
     add_common array[@] ${common_file}
 }

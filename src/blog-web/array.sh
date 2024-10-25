@@ -61,6 +61,7 @@ array=(
         1 1 courses/nfs/nfs-client-struct.md ${tmp_courses_path} "nfs client数据结构"
         1 1 courses/nfs/pnfs.md ${tmp_courses_path} "Parallel NFS (pNFS)"
         1 1 courses/nfs/nfs-debug.md ${tmp_courses_path} "nfs调试方法"
+        1 1 courses/nfs/nfs-multipath.md ${tmp_courses_path} "nfs多路径"
         1 1 courses/nfs/nfs-patches.md ${tmp_courses_path} "nfs补丁分析"
         1 1 courses/nfs/nfs-others.md ${tmp_courses_path} "nfs未分类的内容"
             # 我写的补丁
