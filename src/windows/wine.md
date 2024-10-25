@@ -257,3 +257,4 @@ sudo apt-get install -y libasound2:arm64 libc6:arm64 libglib2.0-0:arm64 libgphot
 - [gitee仓库](https://gitee.com/wine-ce)
 - [b站视频](https://www.bilibili.com/video/BV1gv4y1578t/)
 - [浅谈二进制翻译软件架构](https://www.bilibili.com/opus/781135473404805193)
+- [b站: ARM转译x86项目Wine-CE测试(作者: 我梦见了电子羊)](https://www.bilibili.com/video/BV1ps4y1G7YZ/)
