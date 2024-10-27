@@ -27,6 +27,20 @@ su - $USER # 或退出shell重新登录, 但在tmux中不起作用
 
 # 镜像和容器
 
+点击[阿里云镜像加速器](https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors)，登录阿里云账号，按照网页提示操作。我试了，好像没什么卵用。
+
+配置代理:
+```sh
+sudo mkdir /etc/systemd/system/docker.service.d/
+sudo tee /etc/systemd/system/docker.service.d/http-proxy.conf <<-'EOF'
+[Service]
+Environment="HTTP_PROXY=http://172.17.0.1:1081/"
+Environment="HTTPS_PROXY=http://172.17.0.1:1081/"
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
 以下是一些常用命令:
 ```sh
 docker pull ubuntu:22.04 # 下载镜像
