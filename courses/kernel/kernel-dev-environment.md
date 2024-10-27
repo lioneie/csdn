@@ -315,6 +315,8 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build Image
 make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- O=build Image
 ```
 
+老版本（如v5.17）编译如果报错`FAILED: load BTF from vmlinux: Invalid argument`，可以尝试关闭`CONFIG_DEBUG_INFO_BTF`配置。
+
 ## 一些额外的补丁
 
 如果你要更方便的使用一些调试的功能，就要加一些额外的补丁。
