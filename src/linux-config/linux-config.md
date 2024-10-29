@@ -83,6 +83,8 @@ sudo apt install tmux -y
 
 具体请查看[`.tmux.conf`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/linux-config/config-files/tmux.conf)。
 
+要查看终端的所有输出，可以使用`tmux copy-mode`。
+
 # .vimrc
 
 vim就是方便小巧，是Linux下最常用的编辑器了，以前我挺喜欢用的，现在我更多的是用emacs看代码。
