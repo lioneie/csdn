@@ -1041,4 +1041,9 @@ make -j`nproc`
 # 交叉编译用 aarch64-linux-gnu-objdump
 
 ```
+
+# `strace`
+
+`strace -o strace.out -f -v -s 4096 bash -c 'echo something > /mnt/file'`
+
 <!-- ing end -->
