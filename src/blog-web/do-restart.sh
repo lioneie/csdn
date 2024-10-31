@@ -22,17 +22,10 @@ copy_config() {
     fi
 }
 
-replace_lan_ip() {
+restart_private() {
     # 部署在局域网
     if [ ${is_public_ip} = false ]; then
-        bash ${src_path}/private-blog/scripts/create-html.sh
-        find ${dst_path}/ -type f -exec sed -i 's/chenxiaosong.com/'${lan_ip}'/g' {} +
-        # 局域网用http，不用https
-        find ${dst_path}/ -type f -exec sed -i 's/https:\/\/'${lan_ip}'/http:\/\/'${lan_ip}'/g' {} +
-        # 邮箱替换回来
-        find ${dst_path}/ -type f -exec sed -i 's/@'${lan_ip}'/@chenxiaosong.com/g' {} +
-        # 局域网时签名中有公网主页网址
-        find ${dst_path}/ -type f -exec sed -i 's/replace_with_public_ip_or_delete_this_line/chenxiaosong.com/g' {} +
+        bash ${src_path}/private-blog/scripts/create-html.sh ${lan_ip}
     fi
 }
 
@@ -42,8 +35,8 @@ restart_all() {
     fi
     echo "recreate html, restart service"
     copy_config
-    bash ${src_path}/blog/src/blog-web/create-html.sh ${is_public_ip}
-    replace_lan_ip
+    bash ${src_path}/blog/src/blog-web/create-html.sh ${is_public_ip} ${lan_ip}
+    restart_private
     iptables -F # 根据情况决定是否要清空防火墙规则
     service nginx restart # 重启nginx服务，docker中不支持systemd
 }

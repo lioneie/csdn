@@ -1,6 +1,5 @@
 - 作者: 陈孝松
 - [主页: chenxiaosong.com](https://chenxiaosong.com/)
-- [公网主页: replace_with_public_ip_or_delete_this_line](https://replace_with_public_ip_or_delete_this_line/)
 - [哔哩哔哩: 陈孝松](https://chenxiaosong.com/bili)
 - [课程: chenxiaosong.com/courses](https://chenxiaosong.com/courses.html)
 - [博客: chenxiaosong.com/blog](https://chenxiaosong.com/blog.html)

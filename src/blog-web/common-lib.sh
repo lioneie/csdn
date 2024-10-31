@@ -3,20 +3,34 @@
 # --toc: 这个选项指示 pandoc 生成一个包含文档目录（Table of Contents，目录）的 HTML 输出。TOC 将包括文档中的章节和子章节的链接，以帮助读者导航文档。
 pandoc_common_options="--to html --standalone --metadata encoding=gbk --number-sections --css https://chenxiaosong.com/stylesheet.css"
 
+replace_with_lan_ip() {
+    dst_file=$1
+    lan_ip=$2
+
+    sed -i 's/chenxiaosong.com/'${lan_ip}'/g' ${dst_file}
+    # 局域网用http，不用https
+    sed -i 's/https:\/\/'${lan_ip}'/http:\/\/'${lan_ip}'/g' ${dst_file}
+    # 邮箱替换回来
+    sed -i 's/@'${lan_ip}'/@chenxiaosong.com/g' ${dst_file}
+}
+
 create_sign() {
     local src_file=$1
     local tmp_html_path=$2
     local is_public_ip=$3
+    local lan_ip=$4
 
     local html_title="签名"
     local dst_file=${tmp_html_path}/sign.html
     local from_format="--from markdown"
     pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_common_options}
     # 先去除sign.html文件中其他内容
-    sed -i '/<\/header>/,/<\/body>/!d' ${tmp_html_path}/sign.html # 只保留</header>到</body>的内容
-    sed -i '1d;$d' ${tmp_html_path}/sign.html # 删除第一行和最后一行
-    if [[ ${is_public_ip} == true ]]; then
-        sed -i '/replace_with_public_ip_or_delete_this_line/d' ${tmp_html_path}/sign.html
+    sed -i '/<\/header>/,/<\/body>/!d' ${dst_file} # 只保留</header>到</body>的内容
+    sed -i '1d;$d' ${dst_file} # 删除第一行和最后一行
+    replace_with_lan_ip ${dst_file} ${lan_ip}
+    if [[ ${is_public_ip} == false ]]; then
+        # 在<ul>之后插入公网主页
+        sed -i -e '/<ul>/a<li><a href="https://chenxiaosong.com/">公网主页: chenxiaosong.com</a></li>' ${dst_file}
     fi
 }
 
@@ -32,10 +46,11 @@ create_sign() {
 #        4. 绝对路径的目录，代表源文件路径前缀，这时目的文件和上面的情况3一样
 #    网页标题
 create_html() {
-    # local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ${src_path} ${tmp_html_path}
+    # local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ...
     local src_path=$1
     local tmp_html_path=$2
     local sign_path=$3
+    local lan_ip=$4
 
     local element_count="${#array[@]}" # 总个数
     local count_per_line=5
@@ -74,6 +89,7 @@ create_html() {
         fi
         echo "create ${ofile}"
         pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
+        replace_with_lan_ip ${dst_file} ${lan_ip}
         if [[ ${is_sign} == 1 ]]; then
             # 在<header之后插入sign.html整个文件
             sed -i -e '/<header/r '${sign_path}'/sign.html' ${dst_file}

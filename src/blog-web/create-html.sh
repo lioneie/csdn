@@ -5,6 +5,7 @@ html_path=${dst_path}/html
 sign_path=${tmp_html_path}
 
 is_public_ip=$1
+lan_ip=$2
 
 . ${src_path}/src/blog-web/common-lib.sh
 . ${src_path}/src/blog-web/array.sh
@@ -31,8 +32,8 @@ copy_public_files() {
 }
 
 init_begin
-create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path} ${is_public_ip}
-create_html ${src_path} ${tmp_html_path} ${sign_path}
+create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path} ${is_public_ip} ${lan_ip}
+create_html ${src_path} ${tmp_html_path} ${sign_path} ${lan_ip}
 copy_secret_repository
 copy_public_files
 change_perm ${tmp_html_path}

@@ -41,7 +41,7 @@ __create_csdn_src() {
 
     echo '[建议点击这里查看个人主页上的最新原文](https://chenxiaosong.com/'${ofile}')' >> ${dst_file}
     echo >> ${dst_file}
-    cat ${src_path}/src/blog-web/sign.md | grep -v replace_with_public_ip_or_delete_this_line >> ${dst_file}
+    cat ${src_path}/src/blog-web/sign.md >> ${dst_file}
     echo >> ${dst_file}
     cat ${src_file} >> ${dst_file}
 
