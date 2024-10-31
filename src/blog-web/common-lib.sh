@@ -35,6 +35,7 @@ create_html() {
     # local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ${src_path} ${tmp_html_path}
     local src_path=$1
     local tmp_html_path=$2
+    local sign_path=$3
 
     local element_count="${#array[@]}" # 总个数
     local count_per_line=5
@@ -75,7 +76,7 @@ create_html() {
         pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
         if [[ ${is_sign} == 1 ]]; then
             # 在<header之后插入sign.html整个文件
-            sed -i -e '/<header/r '${tmp_html_path}'/sign.html' ${dst_file}
+            sed -i -e '/<header/r '${sign_path}'/sign.html' ${dst_file}
         fi
 
         # cd ${src_path}

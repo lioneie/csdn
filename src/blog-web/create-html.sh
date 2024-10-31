@@ -2,6 +2,7 @@ src_path=/home/sonvhi/chenxiaosong/code/blog # 替换为你的仓库路径
 dst_path=/var/www
 tmp_html_path=${dst_path}/html-tmp
 html_path=${dst_path}/html
+sign_path=${tmp_html_path}
 
 is_public_ip=$1
 
@@ -31,7 +32,7 @@ copy_public_files() {
 
 init_begin
 create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path} ${is_public_ip}
-create_html ${src_path} ${tmp_html_path}
+create_html ${src_path} ${tmp_html_path} ${sign_path}
 copy_secret_repository
 copy_public_files
 change_perm ${tmp_html_path}
