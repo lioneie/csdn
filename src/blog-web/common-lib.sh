@@ -27,8 +27,9 @@ create_sign() {
     # 先去除sign.html文件中其他内容
     sed -i '/<\/header>/,/<\/body>/!d' ${dst_file} # 只保留</header>到</body>的内容
     sed -i '1d;$d' ${dst_file} # 删除第一行和最后一行
-    replace_with_lan_ip ${dst_file} ${lan_ip}
+    # 局域网的处理
     if [[ ${is_public_ip} == false ]]; then
+        replace_with_lan_ip ${dst_file} ${lan_ip}
         # 在<ul>之后插入公网主页
         sed -i -e '/<ul>/a<li><a href="https://chenxiaosong.com/">公网主页: chenxiaosong.com</a></li>' ${dst_file}
     fi
@@ -50,7 +51,8 @@ create_html() {
     local src_path=$1
     local tmp_html_path=$2
     local sign_path=$3
-    local lan_ip=$4
+    local is_public_ip=$4
+    local lan_ip=$5
 
     local element_count="${#array[@]}" # 总个数
     local count_per_line=5
@@ -89,7 +91,10 @@ create_html() {
         fi
         echo "create ${ofile}"
         pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
-        replace_with_lan_ip ${dst_file} ${lan_ip}
+        # 局域网的处理
+        if [[ ${is_public_ip} == false ]]; then
+            replace_with_lan_ip ${dst_file} ${lan_ip}
+        fi
         if [[ ${is_sign} == 1 ]]; then
             # 在<header之后插入sign.html整个文件
             sed -i -e '/<header/r '${sign_path}'/sign.html' ${dst_file}

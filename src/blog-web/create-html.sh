@@ -33,7 +33,7 @@ copy_public_files() {
 
 init_begin
 create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path} ${is_public_ip} ${lan_ip}
-create_html ${src_path} ${tmp_html_path} ${sign_path} ${lan_ip}
+create_html ${src_path} ${tmp_html_path} ${sign_path} ${is_public_ip} ${lan_ip}
 copy_secret_repository
 copy_public_files
 change_perm ${tmp_html_path}
