@@ -57,7 +57,6 @@ create_html() {
     local element_count="${#array[@]}" # 总个数
     local count_per_line=5
     for ((index=0; index<${element_count}; index=$((index + ${count_per_line})))); do
-    {
         local is_toc=${array[${index}]}
         local is_sign=${array[${index}+1]}
         local ifile=${array[${index}+2]}
@@ -104,9 +103,7 @@ create_html() {
         # cd ${src_path}
         # git log -1 --format=%ad --date=iso ${ifile}
         # cd -
-    } &
     done
-    wait # 等待所有后台任务完成
 }
 
 change_perm() {
