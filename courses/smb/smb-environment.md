@@ -44,6 +44,7 @@ pam password change = yes
     # directory mask = 0700
     # valid users = sonvhi
     # available = yes
+    # guest ok = no
     comment = xfstests test dir
     path = /tmp/s_test
     public = yes
