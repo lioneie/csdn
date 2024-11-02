@@ -321,7 +321,7 @@ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- O=build Image
 
 参考[简介 — The Linux Kernel documentation](https://www.kernel.org/doc/html/latest/translations/zh_CN/doc-guide/sphinx.html)。
 
-如果你的环境还没安装依赖软件，运行`make O=build SPHINXOPTS=-v htmldocs`后可能报以下错误:
+如果你的环境还没安装依赖软件，运行``make O=build SPHINXOPTS=-v htmldocs -j`nproc` ``后可能报以下错误:
 ```sh
 Documentation/Makefile:41: 找不到 'sphinx-build' 命令。请确保已安装 Sphinx 并在 PATH 中，或设置 SPHINXBUILD make 变量以指向 'sphinx-build' 可执行文件的完整路径。
 
@@ -374,7 +374,7 @@ sudo apt-get install python3-sphinx -y
 
 再次编译:
 ```sh
-make O=build SPHINXOPTS=-v htmldocs # -v 获得更详细的输出。
+make O=build SPHINXOPTS=-v htmldocs -j`nproc` # -v 获得更详细的输出。
 # make O=build cleandocs # 删除生成的文档
 ```
 
