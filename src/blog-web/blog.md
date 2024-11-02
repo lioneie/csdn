@@ -12,8 +12,6 @@
 
 # Linux内核
 
-[Linux内核文档编译](https://chenxiaosong.com/src/kernel/build-kernel-docs.html)
-
 [点击查看Linux内核课程（持续更新中）](https://chenxiaosong.com/courses/kernel/kernel.html)
 
 [QEMU/KVM环境搭建与使用](https://chenxiaosong.com/src/kernel-environment/kernel-qemu-kvm.html)

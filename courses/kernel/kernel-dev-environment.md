@@ -317,6 +317,67 @@ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- O=build Image
 
 老版本（如v5.17）编译如果报错`FAILED: load BTF from vmlinux: Invalid argument`，可以尝试关闭`CONFIG_DEBUG_INFO_BTF`配置。
 
+## 内核文档编译
+
+参考[简介 — The Linux Kernel documentation](https://www.kernel.org/doc/html/latest/translations/zh_CN/doc-guide/sphinx.html)。
+
+如果你的环境还没安装依赖软件，运行`make O=build SPHINXOPTS=-v htmldocs`后可能报以下错误:
+```sh
+Documentation/Makefile:41: 找不到 'sphinx-build' 命令。请确保已安装 Sphinx 并在 PATH 中，或设置 SPHINXBUILD make 变量以指向 'sphinx-build' 可执行文件的完整路径。
+
+检测到的操作系统：DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=22.04
+DISTRIB_CODENAME=jammy
+DISTRIB_DESCRIPTION="Ubuntu 22.04.2 LTS"。
+警告：最好安装 "convert"。
+警告：最好安装 "dot"。
+警告：最好安装 "dvipng"。
+错误：请安装 "ensurepip"，否则构建将无法工作。
+警告：最好安装 "fonts-noto-cjk"。
+警告：最好安装 "latexmk"。
+警告：最好安装 "rsvg-convert"。
+警告：最好安装 "texlive-lang-chinese"。
+警告：最好安装 "xelatex"。
+你应该运行：
+
+        sudo apt-get install imagemagick graphviz dvipng python3-venv fonts-noto-cjk latexmk librsvg2-bin texlive-lang-chinese texlive-xetex
+
+Sphinx 需要通过以下方式安装：
+1) 通过 pip/pypi：
+
+        /usr/bin/python3 -m venv sphinx_2.4.4
+        . sphinx_2.4.4/bin/activate
+        pip install -r ./Documentation/sphinx/requirements.txt
+
+    如果你想退出虚拟环境，可以使用：
+        deactivate
+
+2) 作为包安装：
+
+        sudo apt-get install python3-sphinx
+
+    请注意，Sphinx >= 3.0 会在同名用于多个类型（函数、结构、枚举等）时产生误报警告。这是已知的 Sphinx 错误。更多详情，请查看：
+        https://github.com/sphinx-doc/sphinx/pull/8313
+
+由于缺少 2 个必需依赖项，无法构建，位于 ./scripts/sphinx-pre-install 第 997 行。
+
+make[2]: *** [Documentation/Makefile:43：htmldocs] 错误 2
+make[1]: *** [/home/linux/code/linux/Makefile:1692：htmldocs] 错误 2
+make: *** [Makefile:234：__sub-make] 错误 2
+```
+
+根据提示安装所需软件:
+```sh
+sudo apt-get install imagemagick graphviz dvipng python3-venv fonts-noto-cjk latexmk librsvg2-bin texlive-lang-chinese texlive-xetex -y
+sudo apt-get install python3-sphinx -y
+```
+
+再次编译:
+```sh
+make O=build SPHINXOPTS=-v htmldocs # -v 获得更详细的输出。
+# make O=build cleandocs # 删除生成的文档
+```
+
 ## 一些额外的补丁
 
 如果你要更方便的使用一些调试的功能，就要加一些额外的补丁。

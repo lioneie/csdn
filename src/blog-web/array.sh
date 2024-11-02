@@ -124,7 +124,6 @@ array=(
         1 1 courses/algorithms/sort.md ${tmp_courses_path} "排序算法"
     1 1 courses/book-contents.md ~ "书籍目录"
     # Linux内核
-    1 1 src/kernel/build-kernel-docs.md ~ "Linux内核文档编译"
     1 1 src/kernel-environment/kernel-qemu-kvm.md ~ "QEMU/KVM环境搭建与使用"
     1 1 src/strace-fault-inject/strace-fault-inject.md ~ "strace内存分配失败故障注入"
     1 1 src/kernel/openeuler-sysmonitor.md ~ "openEuler的sysmonitor"
