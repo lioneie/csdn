@@ -30,6 +30,8 @@ create_sign() {
     # 局域网的处理
     if [[ ${is_public_ip} == false ]]; then
         replace_with_lan_ip ${dst_file} ${lan_ip}
+        # 内网主页
+        sed -i 's/主页/内网主页/g' ${dst_file}
         # 在<ul>之后插入公网主页
         sed -i -e '/<ul>/a<li><a href="https://chenxiaosong.com/">公网主页: chenxiaosong.com</a></li>' ${dst_file}
     fi
