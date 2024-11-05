@@ -45,11 +45,6 @@ sudo apt-get install fuse -y # v2ray的Linux桌面版本 V2Ray-Desktop-v2.4.0-li
 sudo apt install tmux -y # Tmux（缩写自"Terminal Multiplexer"）是一个在命令行界面下运行的终端复用工具，我主要是用tmux的会话附加和分离功能
 sudo apt install lxterminal -y # 这玩意儿比ubuntu默认的terminal更好用，是树莓派系统上默认的terminal
 
-sudo apt install binutils-aarch64-linux-gnu -y # aarch64-linux-gnu-addr2line 等工具
-sudo apt install gcc-aarch64-linux-gnu -y # aarch64-linux-gnu-gcc
-
-sudo apt install gcc-arm-linux-gnueabi gcc-arm-linux-gnueabihf -y # arm32的交叉编译软件
-sudo apt install gcc-riscv64-linux-gnu -y # riscv交叉编译软件
 sudo apt install exfat-utils -y # exfat文件系统所需的工具
 
 # 安装查看tcpdump工具收集的网络包的wireshark: https://launchpad.net/~wireshark-dev/+archive/ubuntu/stable

@@ -39,8 +39,16 @@ sudo apt install zstd -y
 交叉编译所需软件:
 ```sh
 sudo apt-get install u-boot-tools -y
+sudo apt install binutils-aarch64-linux-gnu -y # aarch64-linux-gnu-addr2line 等工具
+sudo apt install gcc-aarch64-linux-gnu -y # aarch64-linux-gnu-gcc
+sudo apt install gcc-arm-linux-gnueabi gcc-arm-linux-gnueabihf -y # arm32的交叉编译软件
+sudo apt install gcc-riscv64-linux-gnu -y # riscv交叉编译软件
+```
+
+特定版本的交叉编译软件:
+```sh
 sudo apt install gcc-9-aarch64-linux-gnu -y # 指定版本的交叉编译软件
-mv /usr/bin/aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc.bak # 原来指向其他版本
+mv /usr/bin/aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc.bak # 原来的版本重命名
 ln -s /usr/bin/aarch64-linux-gnu-gcc-9 /usr/bin/aarch64-linux-gnu-gcc # 指向特定版本
 ```
 <!-- TODO: 源码安装crash, emacs -->
