@@ -323,7 +323,7 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build Image
 make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- O=build Image
 ```
 
-也可以在一个仓库下同时编译多个体系结构，如:
+也可以在一个仓库下编译多个体系结构，如:
 <!-- public begin -->
 ```sh
 rm x86_64-build -rf && mkdir x86_64-build
