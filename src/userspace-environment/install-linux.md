@@ -38,7 +38,7 @@ Linux内核开发相关的环境请查看[《Linux内核课程》](https://chenx
 常用的软件安装:
 ```sh
 apt install sudo -y # docker需要安装sudo
-apt install bash-completion -y # docker 中git不会自动补全, 要执行 source /usr/share/bash-completion/completions/git
+apt install bash-completion -y # docker 中git不会自动补全, 要执行 source /usr/share/bash-completion/completions/git（一般放到.bash_profile中）
 sudo apt install openssh-server -y # 默认桌面版本ubuntu不会安装ssh server
 sudo apt install ibus*wubi* -y # 安装五笔，要重启才可用
 sudo apt-get install fuse -y # v2ray的Linux桌面版本 V2Ray-Desktop-v2.4.0-linux-x86_64.AppImage 无法运行
