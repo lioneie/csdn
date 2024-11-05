@@ -14,9 +14,11 @@
 
 在Fedora上:
 ```sh
-yum install bridge-utils iptables dnsmasq
-apt install bridge-utils iptables dnsmasq -y # 陈孝松注
+yum install bridge-utils iptables dnsmasq net-tools -y # 陈孝松修改，添加net-tools
+apt install bridge-utils iptables dnsmasq net-tools -y # 陈孝松添加
 ```
+
+注意要安装`net-tools`，否则虚拟机启动无法获取ip。
 
 将`qemu-ifup`脚本从此wiki复制到`/etc/qemu-ifup`，并确保该文件具有执行权限。
 ```sh
