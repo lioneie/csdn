@@ -299,13 +299,13 @@ CONFIG_BINFMT_MISC
 <!-- public begin -->
 ```sh
 rm build -rf && mkdir build
-cp /home/sonvhi/chenxiaosong/code/tmp/configs/x86_64-config build/.config
+cp ../tmp/configs/x86_64-config build/.config
 ```
 <!-- public end -->
 
 编译和安装命令如下:
 ```sh
-make O=build menuconfig # 交互式地配置内核的编译选项
+make O=build menuconfig # 交互式地配置内核的编译选项，.config文件放在build目录下
 make O=build olddefconfig -j`nproc`
 make O=build bzImage -j`nproc` # x86_64
 make O=build Image -j`nproc` # aarch64，比如2020年末之后的arm芯片的苹果电脑上vmware fusion安装的ubuntu
@@ -321,6 +321,22 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-  O=build zImage # armel, arm eabi
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=build zImage # armhf, arm eabi(embeded abi) little endian hard float, 传参数用fpu的寄存器，浮点运算性能更高
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build Image
 make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- O=build Image
+```
+
+也可以在一个仓库下同时编译多个体系结构，如:
+<!-- public begin -->
+```sh
+rm x86_64-build -rf && mkdir x86_64-build
+cp ../tmp/configs/x86_64-config x86_64-build/.config
+rm aarch64-build -rf && mkdir aarch64-build
+cp ../tmp/configs/aarch64-config aarch64-build/.config
+```
+<!-- public end -->
+```sh
+make O=x86_64-build menuconfig
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=aarch64-build menuconfig
+make O=x86_64-build bzImage -j`nproc`
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=aarch64-build Image -j`nproc`
 ```
 
 老版本（如v5.17）编译如果报错`FAILED: load BTF from vmlinux: Invalid argument`，可以尝试关闭`CONFIG_DEBUG_INFO_BTF`配置。
