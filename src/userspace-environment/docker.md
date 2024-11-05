@@ -4,7 +4,7 @@
 
 参考[Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
-安装步骤如下:
+ubuntu环境安装docker步骤如下:
 ```sh
 sudo apt-get remove docker docker-engine docker.io containerd runc -y
 sudo apt-get update -y
@@ -16,16 +16,32 @@ sudo apt-get update -y
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 ```
 
-配置docker权限:
+# 配置docker权限
+
+查看是否有`docker`组:
 ```sh
-sudo cat /etc/group | grep docker # 如果没有则创建 sudo groupadd docker
+sudo cat /etc/group | grep docker
+```
+
+如果没有则创建，如果有就不需要创建:
+```sh
+sudo groupadd docker
+```
+
+查看当前用户是否在组中:
+```sh
 groups | grep docker
-# sudo gpasswd -a sonvhi docker # 或者使用usermod
-sudo usermod -aG docker $USER
+```
+
+如果没有则添加到组中:
+```sh
+sudo usermod -aG docker $USER # 或者使用 sudo gpasswd -a sonvhi docker
 su - $USER # 或退出shell重新登录, 但在tmux中不起作用
 ```
 
 # 镜像和容器
+
+## 镜像加速和代理
 
 点击[阿里云镜像加速器](https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors)，登录阿里云账号，按照网页提示操作。我试了，好像没什么卵用。
 
@@ -40,6 +56,8 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
+
+## 常用命令
 
 以下是一些常用命令:
 ```sh
@@ -59,16 +77,20 @@ docker exec -it xxxxxxxx bash # 启动bash，退出bash后不会导致容器停�
 docker run ... # 根据镜像启动容器
 ```
 
-执行命令后立刻删除容器:
+执行`gcc`命令后立刻删除容器:
 ```sh
+# --rm 命令执行完后删除容器
 docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp workspace-ubuntu:22.04 /bin/gcc -v
 ```
 
-后台运行，停止后删除容器:
+后台运行，停止后会立即删除容器:
 ```sh
+# --rm 停止容器后会删除容器
 docker run --name rm-workspace --hostname rm-workspace --rm -itd -v /home/sonvhi/chenxiaosong:/home/sonvhi/chenxiaosong -w /home/sonvhi/chenxiaosong workspace-ubuntu:22.04 bash
 docker exec -it rm-workspace bash # 启动bash，退出bash后不会导致容器停止
 ```
+
+## 更新镜像
 
 当要把一个容器保存成镜像时，执行以下命令:
 ```sh
@@ -84,6 +106,8 @@ docker image ls # 查看镜像是否删除成功
 cat workspace-ubuntu\:22.04.tar | docker import - workspace-ubuntu\:22.04 # 导入镜像
 ```
 
+## 中文支持
+
 docker中的ubuntu2204默认不支持中文，需要安装某些软件:
 ```shell
 apt install -y language-pack-zh-hans
@@ -94,6 +118,8 @@ echo "export LANGUAGE=zh_CN:zh" >> ~/.bashrc
 echo "export LC_ALL=zh_CN.UTF-8" >> ~/.bashrc
 source ~/.bashrc
 ```
+
+## ssh登录
 
 ubuntu中默认不能以root登录，作如下更改:
 ```shell
@@ -107,7 +133,7 @@ vim /etc/ssh/sshd_config # PermitRootLogin prohibit-password 改为 PermitRootLo
 service ssh restart # docker 中不能使用 systemctl 启动 ssh
 ```
 
-# macos
+# macos环境
 
 macos的docker要想与宿主机通信，要进行端口映射，启动时要加选项`-p 8888:8888`，macos下用docker我个人只是为了看代码（使用code-server）。
 
