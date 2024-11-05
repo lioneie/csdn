@@ -17,8 +17,6 @@ replace_with_lan_ip() {
 create_sign() {
     local src_file=$1
     local tmp_html_path=$2
-    local is_public_ip=$3
-    local lan_ip=$4
 
     local html_title="签名"
     local dst_file=${tmp_html_path}/sign.html
@@ -27,14 +25,6 @@ create_sign() {
     # 先去除sign.html文件中其他内容
     sed -i '/<\/header>/,/<\/body>/!d' ${dst_file} # 只保留</header>到</body>的内容
     sed -i '1d;$d' ${dst_file} # 删除第一行和最后一行
-    # 局域网的处理
-    if [[ ${is_public_ip} == false ]]; then
-        replace_with_lan_ip ${dst_file} ${lan_ip}
-        # 内网主页
-        sed -i 's/主页/内网主页/g' ${dst_file}
-        # 在<ul>之后插入公网主页
-        sed -i -e '/<ul>/a<li><a href="https://chenxiaosong.com/">公网主页: chenxiaosong.com</a></li>' ${dst_file}
-    fi
 }
 
 # 要定义数组array

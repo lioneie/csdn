@@ -31,8 +31,24 @@ copy_public_files() {
     cp ${src_path}/src/blog-web/stylesheet.css ${tmp_html_path}/
 }
 
+# 局域网签名
+update_lan_sign() {
+    local sign_file=${tmp_html_path}/sign.html
+    # 局域网的处理
+    if [[ ${is_public_ip} == false ]]; then
+        replace_with_lan_ip ${sign_file} ${lan_ip}
+        # 内网主页
+        sed -i 's/主页/内网主页/g' ${sign_file}
+        # 在<ul>之后插入公网主页
+        sed -i -e '/<ul>/a<li><a href="https://chenxiaosong.com/">公网主页: chenxiaosong.com</a></li>' ${sign_file}
+        # 私有仓库的脚本更改签名
+        bash ${src_path}/../private-blog/scripts/update-sign.sh ${sign_file}
+    fi
+}
+
 init_begin
-create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path} ${is_public_ip} ${lan_ip}
+create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path}
+update_lan_sign
 create_html ${src_path} ${tmp_html_path} ${sign_path} ${is_public_ip} ${lan_ip}
 copy_secret_repository
 copy_public_files
