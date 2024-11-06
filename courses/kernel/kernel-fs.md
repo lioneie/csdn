@@ -1566,3 +1566,10 @@ ext4本身不处理日志，而是利用日志块设备（journal block device, 
 - 原子操作处理: 一次高级修改对应的日志记录，修改文件系统的每个系统调用都引起一次单独的原子操作处理。
 - 事务: 包括几个原子操作处理。
 <!-- ing end -->
+
+<!-- public begin -->
+# procfs
+
+全称process data filesystem, 翻译为进程数据文件系统，一般挂载到`/proc`目录，也可以挂载到其他目录。
+
+<!-- public end -->
