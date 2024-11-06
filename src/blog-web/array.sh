@@ -156,7 +156,7 @@ array=(
     1 1 src/userspace-environment/install-linux.md ~ "Linux环境安装与配置"
     1 1 src/linux-config/linux-config.md ~ "Linux配置文件"
     1 1 src/ssh-reverse/ssh-reverse.md ~ "反向ssh和内网穿透"
-    1 1 src/userspace-environment/docker.md ~ "Docker安装与使用"
+    1 1 src/docker/docker.md ~ "Docker安装与使用"
     1 1 src/macos/qemu-kvm-install-macos.md ~ "QEMU/KVM安装macOS系统"
     1 1 src/userspace-environment/ghostwriter-makdown.md ~ "ghostwriter: 一款makdown编辑器"
     1 1 src/userspace-environment/mosquitto-mqtt.md ~ "使用mosquitto搭建MQTT服务器"
