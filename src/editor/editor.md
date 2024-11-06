@@ -125,7 +125,7 @@ ctrl+v	块选择可视范围
 
 ## cscope
 
-安装cscope: `sudo apt install cscope -y`，但有很多bug，建议使用[源码](https://gitee.com/chenxiaosonggitee/cscope)安装，安装说明参考[README.chenxiaosong](https://gitee.com/chenxiaosonggitee/cscope/blob/configure.chenxiaosong/README.chenxiaosong)，修复了一些bug以及[更改快捷键](https://gitee.com/chenxiaosonggitee/cscope/commit/79948bf67ed54e449d40f28d35b18eba9c3269d1)。
+安装cscope: `sudo apt install cscope -y`，但有很多bug，建议使用[源码](https://sourceforge.net/p/cscope/cscope/ci/master/tree/)安装，安装说明参考[README.chenxiaosong](https://gitee.com/chenxiaosonggitee/cscope/blob/configure.chenxiaosong/README.chenxiaosong)，修复了一些bug以及[更改快捷键](https://gitee.com/chenxiaosonggitee/cscope/commit/79948bf67ed54e449d40f28d35b18eba9c3269d1)。
 
 将脚本文件[cscope_maps.vim](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/editor/cscope_maps.vim)放到`~/.vim/plugin/`路径下，即可使用快捷键（快捷键种类查看 `:cs help`），如`:cs find s word`查找word引用可使用快捷键`ctrl加\加s`（按顺序依次按3个键）。
 
