@@ -90,6 +90,8 @@ docker run --name rm-workspace --hostname rm-workspace --rm -itd -v /home/sonvhi
 docker exec -it rm-workspace bash # 启动bash，退出bash后不会导致容器停止
 ```
 
+启动脚本[`start.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/docker/start.sh)。
+
 ## 更新镜像
 
 当要把一个容器保存成镜像时，执行以下命令:
@@ -105,6 +107,8 @@ docker image rm workspace-ubuntu:22.04 # 删除镜像
 docker image ls # 查看镜像是否删除成功
 cat workspace-ubuntu\:22.04.tar | docker import - workspace-ubuntu\:22.04 # 导入镜像
 ```
+
+脚本[`update-image.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/docker/update-image.sh)。
 
 ## 中文支持
 
