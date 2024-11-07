@@ -12,7 +12,7 @@ https://github.com/namjaejeon/ksmbd/blob/master/Makefile
 
 ## 独立模块编译
 
-修改[`Makefile`](https://gitee.com/chenxiaosonggitee/myfs/blob/master/Makefile)文件中的`KDIR`变量对应内核仓库的路径，在[代码仓库](https://gitee.com/chenxiaosonggitee/myfs)执行以下命令:
+修改[`Makefile`](https://gitee.com/chenxiaosonggitee/myfs/blob/master/Makefile)文件中的`KDIR`变量对应Linux内核仓库的路径，然后在[`myfs`代码仓库](https://gitee.com/chenxiaosonggitee/myfs)执行以下命令:
 ```sh
 make # 生成 myfs.ko
 # make clean # 清理编译生成的文件
@@ -20,7 +20,7 @@ make # 生成 myfs.ko
 
 ## 作为内核一部分编译
 
-到内核仓库打上补丁[`0001-add-support-for-myfs.patch`](https://gitee.com/chenxiaosonggitee/myfs/blob/master/0001-add-support-for-myfs.patch)，再把[整个代码仓库目录`myfs`](https://gitee.com/chenxiaosonggitee/myfs)复制到内核仓库的`fs`目录下。
+到Linux内核仓库打上补丁[`0001-add-support-for-myfs.patch`](https://gitee.com/chenxiaosonggitee/myfs/blob/master/0001-add-support-for-myfs.patch)，再把[整个代码仓库目录`myfs`](https://gitee.com/chenxiaosonggitee/myfs)复制到Linux内核仓库的`fs`目录下。
 
 然后到内核仓库中执行以下命令:
 ```sh
