@@ -17,6 +17,7 @@ array=(
     1 1 src/blog-web/courses.md courses.html "课程和视频"
     1 1 src/blog-web/q.md q.html "QQ交流群"
     # 课程
+    1 1 courses/myfs/myfs.md ~ '"我的"文件系统'
     0 1 courses/kernel/kernel.md ${tmp_courses_path} "Linux内核课程"
         1 1 courses/kernel/kernel-introduction.md ${tmp_courses_path} "内核简介"
         1 1 courses/kernel/kernel-dev-environment.md ${tmp_courses_path} "内核开发环境"
