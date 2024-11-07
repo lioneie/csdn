@@ -137,6 +137,13 @@ vim /etc/ssh/sshd_config # PermitRootLogin prohibit-password 改为 PermitRootLo
 service ssh restart # docker 中不能使用 systemctl 启动 ssh
 ```
 
+## 其他软件
+
+```sh
+apt install bash-completion -y # 为了解决docker 中git不会自动补全, 要执行 source /usr/share/bash-completion/completions/git（一般放到.bash_profile中）
+apt install sudo -y # 不安装的话会提示bash: sudo: command not found
+```
+
 # macos环境
 
 macos的docker要想与宿主机通信，要进行端口映射，启动时要加选项`-p 8888:8888`，macos下用docker我个人只是为了看代码（使用code-server）。
