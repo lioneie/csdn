@@ -10,6 +10,8 @@
 
 [Completing the EEVDF scheduler](https://chenxiaosong.com/src/translations/kernel/Completing-the-EEVDF-scheduler.html)
 
+[Ceph Distributed File System](https://chenxiaosong.com/src/translations/kernel/ceph.html)
+
 # nfs
 
 [Network File System (NFS) Version 4 Minor Version 1 Protocol](https://chenxiaosong.com/src/translations/nfs/rfc8881-nfsv4.1.html)
