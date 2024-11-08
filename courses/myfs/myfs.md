@@ -34,3 +34,14 @@ make O=x86_64-build modules -j`nproc`
 ## todo
 
 本来想和[`ksmbd/Makefile`](https://github.com/namjaejeon/ksmbd/blob/master/Makefile)中一样用`ifneq ($(KERNELRELEASE),)`隔离开独立模块和作为内核一部分，但好像没什么卵用，对makefile熟悉的朋友可以告诉我要怎么写。
+
+# 调试
+
+参考[`fs/smb/server/server.c`](https://github.com/torvalds/linux/blob/master/fs/smb/server/server.c)写了一个日志开关功能，使用请参考[《smb调试方法》](https://chenxiaosong.com/courses/smb/smb-debug.html)。
+
+控制命令如下:
+```sh
+cat /sys/class/myfs-ctrl/debug # 查看日志开关
+echo all > /sys/class/myfs-ctrl/debug # 全部切换
+echo main > /sys/class/myfs-ctrl/debug # 只切换main
+```
