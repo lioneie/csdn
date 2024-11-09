@@ -64,12 +64,44 @@ umount /mnt
 mount -t myfs -o loop /dev/sda /mnt
 ```
 
+## 文件操作
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/syscall.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <linux/limits.h>
+
+int main()
+{
+        int res = syscall(__NR_openat, AT_FDCWD, "/mnt", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY);
+        printf("result: %d\n", res);
+
+        return 0;
+}
+```
+
 # 开发过程
 
 文件系统的模块加载函数是`init_myfs()`，模块卸载函数是`exit_myfs()`。可作为独立模块编译，也可作为内核一部分编译，内核配置选项是`CONFIG_MYFS`。
 
-引入`struct file_system_type myfs_fs_type`，实现`.mount`和`.kill_sb`方法，但测试发现mount时会panic，为了方便调试，引入调试日志函数接口`myfs_debug()`。
+引入`struct file_system_type myfs_fs_type`，实现`.mount`和`.kill_sb`方法，但测试发现mount时会panic，用`scripts/faddr2line`脚本解析栈信息，发现在`legacy_get_tree()`中得到的`struct dentry *root`为空，所以是还没能得到`root`的`dentry`和`inode`。
 
-接着在`myfs_fill_super()`函数中获取root inode，但mount时却报错: `mount: /mnt: mount(2) system call failed: Not a directory.`。查看代码发现是root inode不是目录类型，所以将root inode的`i_mode`设置成目录类型，这时就能挂载成功。
+为了方便调试，引入调试日志函数接口`myfs_debug()`。接着在`myfs_fill_super()`函数中获取`root inode`，但mount时却报错: `mount: /mnt: mount(2) system call failed: Not a directory.`。查看代码发现是`root inode`不是目录类型，所以将`root inode`的`i_mode`设置成目录类型，这时就能挂载成功。
 
 但这时`df -Th`命令还不能输出`myfs`相关的信息，引入`struct super_operations myfs_sops`且实现`.statfs`方法，`df -Th`命令就可输出相关信息。
+
+引入`myfs_dir_operations`和`myfs_file_operations`，但是`ls /mnt`还是报错`ls: cannot open directory '/mnt': Not a directory`，具体原因待定位，作为参考，以下流程是ext2的流程:
+```c
+openat
+  do_sys_open
+    do_sys_openat2
+      do_filp_open
+        path_openat
+          do_open
+            vfs_open
+              do_dentry_open
+                ext2_dir_open
+```
