@@ -93,7 +93,8 @@ int main()
 
 但这时`df -Th`命令还不能输出`myfs`相关的信息，引入`struct super_operations myfs_sops`且实现`.statfs`方法，`df -Th`命令就可输出相关信息。
 
-引入`myfs_dir_operations`和`myfs_file_operations`，但是`ls /mnt`还是报错`ls: cannot open directory '/mnt': Not a directory`，具体原因待定位，作为参考，以下流程是ext2的流程:
+引入`myfs_dir_operations`和`myfs_file_operations`，但是`ls /mnt`还是报错`ls: cannot open directory '/mnt': Not a directory`，具体原因待定位。
+<!--
 ```c
 openat
   do_sys_open
@@ -105,3 +106,4 @@ openat
               do_dentry_open
                 ext2_dir_open
 ```
+-->
