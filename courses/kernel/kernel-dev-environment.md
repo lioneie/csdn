@@ -341,6 +341,49 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=aarch64-build Image -j`nproc`
 
 老版本（如v5.17）编译如果报错`FAILED: load BTF from vmlinux: Invalid argument`，可以尝试关闭`CONFIG_DEBUG_INFO_BTF`配置。
 
+## 独立模块编译
+
+举个例子，把Linux内核仓库下的`fs/ext2`复制出来，修改`Makefile`文件:
+```sh
+CONFIG_EXT2_FS := m
+CONFIG_EXT2_FS_XATTR := y
+CONFIG_EXT2_FS_POSIX_ACL := y
+CONFIG_EXT2_FS_SECURITY := y
+
+EXTRA_CFLAGS += -DCONFIG_EXT2_FS=1 -DCONFIG_EXT2_FS_XATTR=1 \
+                -DCONFIG_EXT2_FS_POSIX_ACL=1 -DCONFIG_EXT2_FS_SECURITY=1
+
+obj-$(CONFIG_EXT2_FS) += ext2.o
+
+ext2-y := balloc.o dir.o file.o ialloc.o inode.o \
+          ioctl.o namei.o super.o symlink.o trace.o
+
+# For tracepoints to include our trace.h from tracepoint infrastructure
+CFLAGS_trace.o := -I$(src)
+
+ext2-$(CONFIG_EXT2_FS_XATTR)     += xattr.o xattr_user.o xattr_trusted.o
+ext2-$(CONFIG_EXT2_FS_POSIX_ACL) += acl.o
+ext2-$(CONFIG_EXT2_FS_SECURITY)  += xattr_security.o
+
+KDIR    := /root/code/linux/x86_64-build/
+PWD     := $(shell pwd)
+
+# 设置交叉编译工具链的前缀和目标架构
+CROSS_COMPILE := aarch64-linux-gnu-
+ARCH := arm64
+
+all:
+	$(MAKE) -C $(KDIR) M=$(PWD) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
+clean:
+	$(MAKE) -C $(KDIR) M=$(PWD) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) clean
+```
+
+然后编译:
+```sh
+make # 生成ko文件
+make clean # 清除编译结果
+```
+
 ## 内核文档编译
 
 参考[简介 — The Linux Kernel documentation](https://www.kernel.org/doc/html/latest/translations/zh_CN/doc-guide/sphinx.html)。
