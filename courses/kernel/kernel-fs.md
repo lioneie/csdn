@@ -1592,6 +1592,8 @@ proc文件系统中的信息太多，一般不再增加新项。
 <!-- public begin -->
 # minix文件系统
 
+用户态工具源码包含在[`util-linux`](https://git.kernel.org/pub/scm/utils/util-linux/util-linux.git/tree/disk-utils)中。
+
 ## 使用
 
 虚拟机启动时，不能使用4k盘，qemu启动命令`logical_block_size`和`physical_block_size`参数要使用512:
@@ -1602,7 +1604,8 @@ proc文件系统中的信息太多，一般不再增加新项。
 
 格式化磁盘，具体的选项使用`man mkfs.minix`查看:
 ```sh
-mkfs.minix -3 /dev/sda
+mkfs.minix image # 默认版本1
+mkfs.minix -3 /dev/sda # 指定版本3
 ```
 
 挂载文件系统:
@@ -1611,6 +1614,28 @@ mount -t minix /dev/sda /mnt
 ```
 
 或者格式化文件，通过loop设备挂载，注意这时需要打开`CONFIG_BLK_DEV_LOOP`配置。
+
+## 代码
+
+1. 超级块结构。
+  - 磁盘超级块结构`struct minix_super_block`和`struct minix3_super_block`
+  - 内存超级块结构`struct minix_sb_info`，赋值给`struct super_block`的`s_fs_info`成员
+2. 超级块操作方法`minix_sops`。
+3. 索引节点结构。
+  - 磁盘索引节点结构`struct minix_inode`和`struct minix2_inode`
+  - 内存索引节点结构`struct minix_inode_info`
+4. 各种类型文件的索引节点操作方法:
+  - 常规文件`minix_file_inode_operations`。
+  - 目录`minix_dir_inode_operations`。
+  - 符号链接（路径名小于60字节）`minix_symlink_inode_operations`。
+5. `dentry`操作方法，minix没有定义
+6. 各种类型文件的`file`操作方法:
+  - 常规文件`minix_file_operations`。
+  - 目录`minix_dir_operations`。
+  - 其他类型查看`init_special_inode()`函数。
+7. 各种类型文件的`address_space`操作方法，常规文件、目录、符号链接都是`minix_aops`
+8. 文件系统类型`minix_fs_type`。
+9. 模块加载卸载方法，`init_minix_fs`和`exit_minix_fs`。
 
 ## 支持长文件名
 
