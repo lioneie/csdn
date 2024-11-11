@@ -1592,8 +1592,6 @@ proc文件系统中的信息太多，一般不再增加新项。
 <!-- public begin -->
 # minix文件系统
 
-用户态工具源码包含在[`util-linux`](https://git.kernel.org/pub/scm/utils/util-linux/util-linux.git/tree/disk-utils)中。
-
 ## 使用
 
 虚拟机启动时，不能使用4k盘，qemu启动命令`logical_block_size`和`physical_block_size`参数要使用512:
@@ -1626,9 +1624,21 @@ mount -t minix /dev/sda /mnt
 
 ## 独立模块编译
 
-如果我们要在minix文件系统的基础上再开发，为了方便开发测试，可以`fs/minix`复制出来，[作为一个独立模块](https://gitee.com/chenxiaosonggitee/tmp/tree/master/minix)编译，这里我把文件系统类型名改为了`myminix`，挂载时要指定挂载选项，如通过loop设备挂载:
+如果我们要在minix文件系统的基础上再开发，为了方便开发测试，可以`fs/minix`复制出来，[作为一个独立模块](https://gitee.com/chenxiaosonggitee/tmp/tree/master/myminix)编译，这里我把文件系统类型名改为了`myminix`，挂载时要指定挂载选项，如通过loop设备挂载:
 ```sh
 mount -t myminix -o loop image /mnt
+```
+
+## `util-linux`
+
+用户态工具源码包含在[`util-linux`](https://git.kernel.org/pub/scm/utils/util-linux/util-linux.git/tree/disk-utils)中，[github仓库](https://github.com/util-linux/util-linux)。
+
+编译参考[`Documentation/howto-compilation.txt`](https://github.com/util-linux/util-linux/blob/master/Documentation/howto-compilation.txt)。
+
+```sh
+apt install -y autopoint gettext flex bison sqlite3 libsqlite3-dev
+./autogen.sh && ./configure && make -j`nproc`
+# make install # 默认安装到/usr/sbin/mkfs.minix
 ```
 
 ## 数据结构
