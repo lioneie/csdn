@@ -1663,6 +1663,15 @@ apt install -y autopoint gettext flex bison sqlite3 libsqlite3-dev
 8. 文件系统类型`minix_fs_type`。
 9. 模块加载卸载方法，`init_minix_fs`和`exit_minix_fs`。
 
+其他重要的数据结构:
+```c
+typedef struct {
+        block_t *p; // key在内存中的地址
+        block_t key; // 块号
+        struct buffer_head *bh; // 缓冲头，内存中保存块的数据
+} Indirect;
+```
+
 ## 函数流程
 
 写文件流程:
@@ -1679,10 +1688,25 @@ write
                   __block_write_begin_int
                     minix_get_block
                       V1_minix_get_block
-                        get_block
+                        get_block // 这里的bh已经分配内存了
+                          block_to_path
+                            offsets[n++] = block // if (block < 7) 直接块
                           // depth=1时直接指向数据，depth=2时一次间接地址
                           // Zonesize=1024，v1版本DIRECT = 7，所以当写的文件大小超过7168字节时，depth=2
                           get_branch
+                            i_data(inode)
+                              return u.i1_data
+                            add_chain(i1_data + *offsets)
+                              Indirect->p = block_t *
+                              Indirect->key = block_t
+                              Indirect->bh = buffer_head *
+                            sb_bread // 根据块号和块大小获取数据，返回buffer_head
+                          alloc_branch // 如果块没找到
+                            parent = minix_new_block // 获得新块，只是设置bitmap
+                            // 间接块才往下走
+                            nr = minix_new_block(inode)
+                            bh = sb_getblk // 获取间接块对应的buffer_head
+                          map_bh // 将buffer_head映射到块
 ```
 
 ## 支持长文件名
