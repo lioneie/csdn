@@ -26,7 +26,7 @@ mount -t minix /dev/sda /mnt
 
 当我们使用`touch`命令创建一个4095字节长度的文件时，会执行到`minix_lookup`函数。而当创建一个4096字节长度的文件时，不会执行到`minix_lookup`函数，说明在`vfs`已经拦截了。
 
-调试的补丁为[`0001-debug-long-filename.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/filesystem/0001-debug-long-filename.patch)，相关代码流程如下:
+相关代码流程如下:
 ```c
 openat
   do_sys_open
