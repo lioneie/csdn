@@ -1608,6 +1608,15 @@ mkfs.minix image # 默认版本1
 mkfs.minix -3 /dev/sda # 指定版本3
 ```
 
+`mkfs.minix image`的输出如下:
+```sh
+21856 inodes
+65535 blocks
+Firstdatazone=696 (696)
+Zonesize=1024 # v1的zone大小
+Maxsize=268966912
+```
+
 挂载文件系统:
 ```sh
 mount -t minix /dev/sda /mnt
@@ -1615,7 +1624,14 @@ mount -t minix /dev/sda /mnt
 
 或者格式化文件，通过loop设备挂载，注意这时需要打开`CONFIG_BLK_DEV_LOOP`配置。
 
-## 代码
+## 独立模块编译
+
+如果我们要在minix文件系统的基础上再开发，为了方便开发测试，可以`fs/minix`复制出来，[作为一个独立模块](https://gitee.com/chenxiaosonggitee/tmp/tree/master/minix)编译，这里我把文件系统类型名改为了`myminix`，挂载时要指定挂载选项，如通过loop设备挂载:
+```sh
+mount -t myminix -o loop image /mnt
+```
+
+## 数据结构
 
 1. 超级块结构。
   - 磁盘超级块结构`struct minix_super_block`和`struct minix3_super_block`
@@ -1636,6 +1652,28 @@ mount -t minix /dev/sda /mnt
 7. 各种类型文件的`address_space`操作方法，常规文件、目录、符号链接都是`minix_aops`
 8. 文件系统类型`minix_fs_type`。
 9. 模块加载卸载方法，`init_minix_fs`和`exit_minix_fs`。
+
+## 函数流程
+
+写文件流程:
+```c
+write
+  ksys_write
+    vfs_write
+      new_sync_write
+        generic_file_write_iter
+          __generic_file_write_iter
+            generic_perform_write
+              minix_write_begin
+                block_write_begin
+                  __block_write_begin_int
+                    minix_get_block
+                      V1_minix_get_block
+                        get_block
+                          // depth=1时直接指向数据，depth=2时一次间接地址
+                          // Zonesize=1024，v1版本DIRECT = 7，所以当写的文件大小超过7168字节时，depth=2
+                          get_branch
+```
 
 ## 支持长文件名
 
