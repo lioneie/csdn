@@ -1588,8 +1588,8 @@ proc文件系统中的信息太多，一般不再增加新项。
 
 <!-- public end -->
 <!-- ing end -->
-我刚接触内核领域主要研究的方向是网络文件系统（nfs、cifs），对块文件系统的了解并不多，所以就从代码量比较小的minix文件系统学起。
 
+<!-- public begin -->
 # minix文件系统
 
 ## 使用
@@ -1643,3 +1643,5 @@ openat
 如果当路径中前面有其他路径时（如`/mnt/<4095字节文件名>`就有4100个字节），会被vfs拦截，所以当要支持4095字节长度时，要在`vfs`做修改。而大部分文件系统支持的最大文件名长度为255字节，所以我们可以这样设计: 当文件名（普通文件和文件夹）大于255字节时，在`vfs`对文件名做hash映射，当文件名（普通文件和文件夹）大于minix v3文件系统最大支持的60字节时，在minix文件系统对文件名做hash映射。
 
 暂时只对最后一个路径名作hash映射，后续再补充支持对中间路径名进行hash映射，补丁为[`0001-minix-support-long-file-name.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-minix-support-long-file-name.patch)。
+
+<!-- public end -->
