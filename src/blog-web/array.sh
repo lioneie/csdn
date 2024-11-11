@@ -149,7 +149,6 @@ array=(
     # 文件系统
     1 1 src/filesystem/microsoft-fs.md ~ "微软文件系统"
     1 1 src/btrfs/4.19-btrfs-forced-readonly.md ~ "4.19 btrfs文件系统变成只读的问题"
-    1 1 src/filesystem/minix-fs.md ~ "minix文件系统"
     1 1 src/filesystem/tmpfs-oom.md ~ "tmpfs不断写导致oom的问题"
     # Linux环境
     1 1 src/userspace-environment/vnc.md ~ "VNC远程桌面"
