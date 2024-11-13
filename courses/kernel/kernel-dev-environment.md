@@ -471,6 +471,8 @@ mkinitramfs -o /boot/initrd.img-xxx xxx
 
 ubuntu下运行`update-grub`，`x86`的`grub.cfg`文件在`/boot/grub/grub.cfg`，`arm64`的`grub.cfg`文件在`/boot/efi/boot/grub/grub.cfg`。麒麟桌面系统要在把`grub.cfg`新生成的启动项里的`security=kysec`改成`security= `（注意后面有空格）。
 
+centos下运行`grub2-mkconfig -o /boot/grub2/grub.cfg`。
+
 # 使用QEMU测试内核代码
 
 前面介绍完了编译环境，编译出的代码我们不能直接在编译环境上运行，还要再启动qemu虚拟机运行我们编译好的内核。
