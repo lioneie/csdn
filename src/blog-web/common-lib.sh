@@ -3,15 +3,15 @@
 # --toc: 这个选项指示 pandoc 生成一个包含文档目录（Table of Contents，目录）的 HTML 输出。TOC 将包括文档中的章节和子章节的链接，以帮助读者导航文档。
 pandoc_common_options="--to html --standalone --metadata encoding=gbk --number-sections --css https://chenxiaosong.com/stylesheet.css"
 
-replace_with_lan_ip() {
+replace_with_other_ip() {
     dst_file=$1
-    lan_ip=$2
+    other_ip=$2
 
-    sed -i 's/chenxiaosong.com/'${lan_ip}'/g' ${dst_file}
+    sed -i 's/chenxiaosong.com/'${other_ip}'/g' ${dst_file}
     # 局域网用http，不用https
-    sed -i 's/https:\/\/'${lan_ip}'/http:\/\/'${lan_ip}'/g' ${dst_file}
+    sed -i 's/https:\/\/'${other_ip}'/http:\/\/'${other_ip}'/g' ${dst_file}
     # 邮箱替换回来
-    sed -i 's/@'${lan_ip}'/@chenxiaosong.com/g' ${dst_file}
+    sed -i 's/@'${other_ip}'/@chenxiaosong.com/g' ${dst_file}
 }
 
 create_sign() {
@@ -43,8 +43,8 @@ create_html() {
     local src_path=$1
     local tmp_html_path=$2
     local sign_path=$3
-    local is_public_ip=$4
-    local lan_ip=$5
+    local is_replace_ip=$4
+    local other_ip=$5
 
     local element_count="${#array[@]}" # 总个数
     local count_per_line=5
@@ -84,8 +84,8 @@ create_html() {
         echo "create ${ofile}"
         pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
         # 局域网的处理
-        if [[ ${is_public_ip} == false ]]; then
-            replace_with_lan_ip ${dst_file} ${lan_ip}
+        if [[ ${is_replace_ip} == true ]]; then
+            replace_with_other_ip ${dst_file} ${other_ip}
         fi
         if [[ ${is_sign} == 1 ]]; then
             # 在<header之后插入sign.html整个文件

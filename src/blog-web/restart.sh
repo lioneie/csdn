@@ -1,7 +1,7 @@
 # 运行命令不断检查 while true; do bash restart.sh; sleep 90; done
 
-is_public_ip=true # 是否公网的ip
-lan_ip=10.42.20.221 # 内网要替换的ip
+is_replace_ip=false # 是否要替换ip
+other_ip=10.42.20.221 # 内网要替换的ip
 
 code_path=/home/sonvhi/chenxiaosong/code # 替换成你的仓库路径
 is_restart=false # 是否重新启动
@@ -10,7 +10,7 @@ is_restart=false # 是否重新启动
 # $1: 仓库名， $2: 是否推送到github
 update_repo() {
     # 如果是局域网ip，就不更新仓库
-    if [ ${is_public_ip} = false ]; then
+    if [ ${is_replace_ip} = true ]; then
         is_restart=true # 但要重启所有
         return
     fi
@@ -28,11 +28,11 @@ update_repo() {
     cd -
 }
 
-update_repo blog ${is_public_ip} # 部署在公网服务器就推到github
+update_repo blog ${is_replace_ip} # 部署在公网服务器就推到github
 update_repo pictures false # 不用推到github
 update_repo private-blog false # 不用推到github
 
 if [ ${is_restart} = false ]; then
     echo "no change"
 fi
-bash ${code_path}/blog/src/blog-web/do-restart.sh ${is_public_ip} ${lan_ip} ${is_restart}
+bash ${code_path}/blog/src/blog-web/do-restart.sh ${is_replace_ip} ${other_ip} ${is_restart}
