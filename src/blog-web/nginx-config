@@ -86,10 +86,6 @@ server {
 		rewrite ^/bili/kernel$ https://www.bilibili.com/video/BV15C411E7Sm/;
 	}
 
-	location /bili/kernel-ext {
-		rewrite ^/bili/kernel-ext$ https://www.bilibili.com/video/BV1Tx4y187vg/;
-	}
-
 	location /bili/smb {
 		rewrite ^/bili/smb$ https://www.bilibili.com/video/BV1Wx4y1x7Nm/;
 	}
