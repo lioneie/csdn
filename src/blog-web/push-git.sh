@@ -8,6 +8,7 @@ git push github master
 
 bash ${code_path}/blog/src/blog-web/create-html.sh false this-arg-is-useless ${code_path}/${github_io}/
 cp ${code_path}/blog/src/blog-web/404.html ${code_path}/${github_io}/
+cp ${code_path}/blog/src/blog-web/README-github-io.md ${code_path}/${github_io}/README.md
 
 cd ${code_path}/${github_io}/
 echo "chenxiaosong.com" > CNAME
