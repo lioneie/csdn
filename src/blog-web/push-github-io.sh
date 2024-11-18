@@ -5,6 +5,7 @@ bash ${code_path}/blog/src/blog-web/create-html.sh false this-arg-is-useless ${c
 cp ${code_path}/blog/src/blog-web/404.html ${code_path}/${github_io}/
 
 cd ${code_path}/${github_io}/
+echo "chenxiaosong.com" > CNAME
 git init
 git remote add origin git@github.com:chenxiaosonggithub/${github_io}.git
 git add .
