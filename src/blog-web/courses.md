@@ -22,4 +22,4 @@
 
 除了上面成体系的课程外，还录了一些其他视频，统一放到了哔哩哔哩bilibili的一个合集中。
 
-[点击这里在哔哩哔哩bilibili在线观看未分类的一些视频](https://chenxiaosong.com/bili/others)
+[点击这里在哔哩哔哩bilibili在线观看未分类的一些视频](https://www.bilibili.com/video/BV14z421z7Mb/)
