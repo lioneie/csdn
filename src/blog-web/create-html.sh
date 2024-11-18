@@ -10,15 +10,16 @@ lan_ip=$2
 . ${src_path}/src/blog-web/common-lib.sh
 . ${src_path}/src/blog-web/array.sh
 
-init_begin() {
+init() {
     rm -rf ${tmp_html_path}
     mkdir -p ${tmp_html_path}
-    bash ${src_path}/courses/courses.sh
+    bash ${src_path}/courses/courses.sh true
 }
 
-init_end() {
+exit() {
     rm ${html_path}/ -rf
     mv ${tmp_html_path} ${html_path}
+    bash ${src_path}/courses/courses.sh false
 }
 
 copy_secret_repository() {
@@ -46,11 +47,11 @@ update_lan_sign() {
     fi
 }
 
-init_begin
+init
 create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path}
 update_lan_sign
 create_html ${src_path} ${tmp_html_path} ${sign_path} ${is_public_ip} ${lan_ip}
 copy_secret_repository
 copy_public_files
 change_perm ${tmp_html_path}
-init_end
+exit

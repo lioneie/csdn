@@ -6,13 +6,13 @@ dst_path=/home/sonvhi/chenxiaosong/csdn-src
 . ${src_path}/src/blog-web/common-lib.sh
 . ${src_path}/src/blog-web/array.sh
 
-init_begin() {
+init() {
     rm -rf ${dst_path}
-    bash ${src_path}/courses/courses.sh
+    bash ${src_path}/courses/courses.sh true
 }
 
-init_end() {
-    return 0
+exit() {
+    bash ${src_path}/courses/courses.sh false
 }
 
 change_private_perm() {
@@ -81,7 +81,7 @@ create_csdn_src() {
     done
 }
 
-init_begin
+init
 create_csdn_src array[@] ${src_path} ${dst_path}
 change_private_perm
-init_end
+exit

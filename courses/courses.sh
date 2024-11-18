@@ -1,6 +1,8 @@
 src_path=/home/sonvhi/chenxiaosong/code/blog
 dst_path=/tmp/blog
 
+is_create_md=$1 # 是否生成markdown
+
 . ${src_path}/src/blog-web/common-lib.sh
 
 # add_common array[@] ${common_file}
@@ -97,9 +99,11 @@ algorithms_files() {
 }
 
 rm -rf ${dst_path}
-mkdir ${dst_path} -p
-kernel_files
-nfs_files
-smb_files
-algorithms_files
-remove_private ${dst_path}
+if [ ${is_create_md} = true ]; then
+    mkdir ${dst_path} -p
+    kernel_files
+    nfs_files
+    smb_files
+    algorithms_files
+    remove_private ${dst_path}
+fi
