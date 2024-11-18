@@ -82,10 +82,6 @@ server {
 		rewrite ^/bili$ https://space.bilibili.com/351970900;
 	}
 
-	location /bili/nfs {
-		rewrite ^/bili/nfs$ https://www.bilibili.com/video/BV1hm421g7T8/;
-	}
-
 	location /bili/others {
 		rewrite ^/bili/others$ https://www.bilibili.com/video/BV14z421z7Mb/;
 	}
