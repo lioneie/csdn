@@ -1,6 +1,6 @@
 # 运行命令不断检查 while true; do bash restart.sh; sleep 90; done
 
-is_replace_ip=false # 是否要替换ip
+is_replace_ip=true # 是否要替换ip
 other_ip=10.42.20.221 # 内网要替换的ip
 
 code_path=/home/sonvhi/chenxiaosong/code # 替换成你的仓库路径
