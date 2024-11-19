@@ -123,14 +123,6 @@ ctrl+v	块选择可视范围
 
 加载tags文件	`:set tags+=文件路径/tags`
 
-## cscope
-
-安装cscope: `sudo apt install cscope -y`，但有很多bug，建议使用[源码](https://sourceforge.net/p/cscope/cscope/ci/master/tree/)安装，安装说明参考[README.chenxiaosong](https://gitee.com/chenxiaosonggitee/cscope/blob/configure.chenxiaosong/README.chenxiaosong)，修复了一些bug以及[更改快捷键](https://gitee.com/chenxiaosonggitee/cscope/commit/79948bf67ed54e449d40f28d35b18eba9c3269d1)。
-
-将脚本文件[cscope_maps.vim](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/editor/cscope_maps.vim)放到`~/.vim/plugin/`路径下，即可使用快捷键（快捷键种类查看 `:cs help`），如`:cs find s word`查找word引用可使用快捷键`ctrl加\加s`（按顺序依次按3个键）。
-
-使用`cscope -Rqbk`（当需要包含`/usr/include`头文件时，不使用`-k`选项）编译代码生成`cscope.out`文件，在`cscope.out`文件所在目录打开`vim`即可加载`cscope.out`文件。Linux内核代码使用`make cscope`命令生成索引文件。
-
 ## 浏览器插件vimium
 
 我是自由软件狂热者，平时工作环境基本都是字符界面，在图形界面下也是用键盘代替鼠标，键盘使用的是自定义的HHKB（可用键盘移动鼠标光标）。在浏览器中搜索资料时，移动鼠标光标效率太低，可以使用浏览器插件vimium。
@@ -279,3 +271,28 @@ evil 配置: M-x customize-group RET evil RET， 参考: https://evil.readthedoc
 
 待确认的功能:
 1. 临时切换成 tab键 插入空格，以及空格个数: 暂时通过复制上一行的方式来实现
+
+# cscope
+
+安装cscope: `sudo apt install cscope -y`，但有很多bug，建议使用[源码](https://sourceforge.net/p/cscope/cscope/ci/master/tree/)安装，可以使用[`configure`](https://sourceforge.net/p/cscope/cscope/ci/configure/tree/)分支，然后merge [`master(eaea31cb93ec)`](https://sourceforge.net/p/cscope/cscope/ci/master/tree/)和[`no_generated_files_in_repo(9c49a74d7ac1)](https://sourceforge.net/p/cscope/cscope/ci/no_generated_files_in_repo/tree/)分支，再合入[更改cscope快捷键的补丁](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/editor/0001-cscope-emacs-change-cscope-select-entry-other-window.patch)。
+
+```sh
+# ubuntu/raspberry-pi build environment
+sudo apt-get install autoconf -y
+sudo apt install libncurses5-dev -y
+sudo apt-get install flex bison -y
+
+# fedora build environment
+sudo dnf install ncurses-devel ncurses -y
+
+# build
+autoreconf -f -i
+mkdir build
+cd build
+../configure --prefix=/path/to/install
+make
+```
+
+将脚本文件[cscope_maps.vim](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/editor/cscope_maps.vim)放到`~/.vim/plugin/`路径下，即可使用快捷键（快捷键种类查看 `:cs help`），如`:cs find s word`查找word引用可使用快捷键`ctrl加\加s`（按顺序依次按3个键）。
+
+使用`cscope -Rqbk`（当需要包含`/usr/include`头文件时，不使用`-k`选项）编译代码生成`cscope.out`文件，在`cscope.out`文件所在目录打开`vim`即可加载`cscope.out`文件。Linux内核代码使用`make cscope`命令生成索引文件。

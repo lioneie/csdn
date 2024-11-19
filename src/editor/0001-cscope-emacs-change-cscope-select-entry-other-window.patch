@@ -1,0 +1,27 @@
+From 79948bf67ed54e449d40f28d35b18eba9c3269d1 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Date: Thu, 2 Jun 2022 23:22:27 +0800
+Subject: [PATCH] cscope/emacs: change cscope-select-entry-other-window
+ shortcut
+
+Signed-off-by: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+---
+ contrib/xcscope/xcscope.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/xcscope/xcscope.el b/contrib/xcscope/xcscope.el
+index 859dff5..3822da3 100644
+--- a/contrib/xcscope/xcscope.el
++++ b/contrib/xcscope/xcscope.el
+@@ -921,7 +921,7 @@ Must end with a newline.")
+     (define-key cscope-list-entry-keymap [mouse-2] 'cscope-mouse-select-entry-other-window))
+   (define-key cscope-list-entry-keymap [return] 'cscope-select-entry-other-window)
+   ;; \r is for Emacs:
+-  (define-key cscope-list-entry-keymap "\r" 'cscope-select-entry-other-window)
++  (define-key cscope-list-entry-keymap "j" 'cscope-select-entry-other-window)
+   (define-key cscope-list-entry-keymap " " 'cscope-show-entry-other-window)
+   (define-key cscope-list-entry-keymap "o" 'cscope-select-entry-one-window)
+   (define-key cscope-list-entry-keymap "q" 'cscope-bury-buffer)
+-- 
+2.34.1
+
