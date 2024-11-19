@@ -130,8 +130,12 @@ pandoc test.html --pdf-engine=wkhtmltopdf -o test.pdf
 
 [GitHub Pages 文档](https://docs.github.com/zh/pages)。
 
-`Settings -> Pages -> Build and deployment -> GitHub Actions`。
+首先在github上建立一个仓库，如[`chenxiaosonggithub.github.io`](https://github.com/chenxiaosonggithub/chenxiaosonggithub.github.io)，其中`chenxiaosonggithub`替换为你的github账号名，把html文件推送到这个仓库，注意要创建[`404.html`](https://github.com/chenxiaosonggithub/chenxiaosonggithub.github.io/blob/master/404.html)和[`CNAME`](https://github.com/chenxiaosonggithub/chenxiaosonggithub.github.io/blob/master/CNAME)。
+
+在阿里云上配置DNS域名解析，添加记录类型`A`解析主域名`@`到记录值`185.199.108.153`、`185.199.109.153`、`185.199.110.153`、`185.199.111.153`，还可以添加记录类型`CNAME`解析`www`到主域名。
 
 # gitee.io
 
 [gitee静态页面托管](https://gitee.com/help/categories/56)。
+
+Gitee Pages 已经暂停提供服务了，忽略。
