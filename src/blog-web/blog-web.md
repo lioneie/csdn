@@ -132,7 +132,7 @@ pandoc test.html --pdf-engine=wkhtmltopdf -o test.pdf
 
 首先在github上建立一个仓库，如[`chenxiaosonggithub.github.io`](https://github.com/chenxiaosonggithub/chenxiaosonggithub.github.io)，其中`chenxiaosonggithub`替换为你的github账号名，把html文件推送到这个仓库，注意要创建[`404.html`](https://github.com/chenxiaosonggithub/chenxiaosonggithub.github.io/blob/master/404.html)和[`CNAME`](https://github.com/chenxiaosonggithub/chenxiaosonggithub.github.io/blob/master/CNAME)。
 
-在阿里云上配置DNS域名解析，添加记录类型`A`解析主域名`@`到记录值`185.199.108.153`、`185.199.109.153`、`185.199.110.153`、`185.199.111.153`，还可以添加记录类型`CNAME`解析`www`到主域名。
+在阿里云上配置DNS域名解析，添加记录类型`A`解析主域名`@`到记录值`185.199.108.153`、`185.199.109.153`、`185.199.110.153`、`185.199.111.153`之一（多个同时加好像不能生成ssl，但我不是很确定哈），添加记录类型`A`解析`www`到和`@`一样的记录值（添加记录类型`CNAME`解析`www`到主域名好像有问题）。
 
 # gitee.io
 
