@@ -1,6 +1,6 @@
 # 源码安装 strace
 
-下载[chenxiaosonggithub/strace](https://gitee.com/chenxiaosonggitee/strace)，这个仓库是在[strace/strace](https://github.com/strace/strace)的基础上修改而来，添加了一个补丁[fault-inject: inject memory allocate failed error](https://gitee.com/chenxiaosonggitee/strace/commit/b196eb9fd65f2801c7c72f2c5ef1230e5734769e)。
+下载[strace/strace](https://github.com/strace/strace)代码，然后打上补丁[`fault-inject: inject memory allocate failed error`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/strace-fault-inject/0001-fault-inject-inject-memory-allocate-failed-error.patch)。
 
 编译命令如下:
 ```sh

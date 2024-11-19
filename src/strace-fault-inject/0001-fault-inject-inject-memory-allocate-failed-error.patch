@@ -1,0 +1,239 @@
+From b196eb9fd65f2801c7c72f2c5ef1230e5734769e Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Date: Thu, 9 Nov 2023 15:00:59 +0800
+Subject: [PATCH] fault-inject: inject memory allocate failed error
+
+Signed-off-by: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+---
+ src/Makefile.am      |  2 ++
+ src/defs.h           |  7 ++++-
+ src/fault.c          | 61 ++++++++++++++++++++++++++++++++++++++++++++
+ src/fault.h          |  7 +++++
+ src/filter_qualify.c | 12 +++++++--
+ src/syscall.c        | 16 ++++++++++++
+ 6 files changed, 102 insertions(+), 3 deletions(-)
+ create mode 100644 src/fault.c
+ create mode 100644 src/fault.h
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 03da75f5f..1d7368c4c 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -103,6 +103,8 @@ libstrace_a_SOURCES =	\
+ 	fadvise.c	\
+ 	fallocate.c	\
+ 	fanotify.c	\
++	fault.c		\
++	fault.h		\
+ 	fchownat.c	\
+ 	fcntl.c		\
+ 	fetch_bpf_fprog.c \
+diff --git a/src/defs.h b/src/defs.h
+index d50a61521..3257f98eb 100644
+--- a/src/defs.h
++++ b/src/defs.h
+@@ -227,6 +227,7 @@ typedef struct ioctlent {
+ # define INJECT_F_SYSCALL	0x20
+ # define INJECT_F_POKE_ENTER	0x40
+ # define INJECT_F_POKE_EXIT	0x80
++# define INJECT_F_FAULT		0x100
+ 
+ # define INJECT_ACTION_FLAGS	\
+ 	(INJECT_F_SIGNAL	\
+@@ -236,15 +237,17 @@ typedef struct ioctlent {
+ 	|INJECT_F_DELAY_EXIT	\
+ 	|INJECT_F_POKE_ENTER	\
+ 	|INJECT_F_POKE_EXIT	\
++	|INJECT_F_FAULT		\
+ 	)
+ 
+ struct inject_data {
+-	uint8_t flags;		/* 8 of 8 flags are used */
++	uint16_t flags;		/* 8 of 16 flags are used */
+ 	uint8_t signo;		/* NSIG <= 128 */
+ 	uint16_t rval_idx;	/* index in retval_vec */
+ 	uint16_t delay_idx;	/* index in delay_data_vec */
+ 	uint16_t poke_idx;	/* index in poke_vec */
+ 	uint16_t scno;		/* syscall to be injected instead of -1 */
++	uint16_t nth;		/* makes N-th call int the task fail */
+ };
+ 
+ struct inject_opts {
+@@ -373,6 +376,7 @@ struct tcb {
+ # define QUAL_VERBOSE	0x004	/* decode the structures of this syscall */
+ # define QUAL_RAW	0x008	/* print all args in hex for this syscall */
+ # define QUAL_INJECT	0x010	/* tamper with this system call on purpose */
++# define QUAL_FAULT	0x020	/* indicate fault is injected to this system call */
+ 
+ # define DEFAULT_QUAL_FLAGS (QUAL_TRACE | QUAL_ABBREV | QUAL_VERBOSE)
+ 
+@@ -396,6 +400,7 @@ struct tcb {
+ # define syscall_tampered_poked(tcp)	((tcp)->flags & TCB_TAMPERED_POKED)
+ # define syscall_tampered_nofail(tcp) ((tcp)->flags & TCB_TAMPERED_NO_FAIL)
+ # define has_seccomp_filter(tcp)	((tcp)->flags & TCB_SECCOMP_FILTER)
++# define fault(tcp) ((tcp)->qual_flg & QUAL_FAULT)
+ 
+ extern const struct_sysent stub_sysent;
+ # define tcp_sysent(tcp) (tcp->s_ent ?: &stub_sysent)
+diff --git a/src/fault.c b/src/fault.c
+new file mode 100644
+index 000000000..fd6628ef3
+--- /dev/null
++++ b/src/fault.c
+@@ -0,0 +1,61 @@
++#include "defs.h"
++#include "fault.h"
++
++#include <fcntl.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++
++int inject_fault(int pid, int nth)
++{
++	char buf[128];
++	int fd;
++
++	sprintf(buf, "/proc/%d/task/%d/fail-nth", pid, pid);
++	fd = open(buf, O_RDWR);
++	if (fd < 0) {
++		error_msg("failed to open %s\n", buf);
++		return -1;
++	}
++
++	sprintf(buf, "%d", nth);
++	if (write(fd, buf, strlen(buf)) == -1) {
++		close(fd);
++		return -1;
++	}
++
++	close(fd);
++
++	return 0;
++}
++
++int fault_injected(int pid)
++{
++	char buf[128];
++	int fd, ret;
++
++	sprintf(buf, "/proc/%d/task/%d/fail-nth", pid, pid);
++	fd = open(buf, O_RDWR);
++	if (fd < 0) {
++		error_msg("failed to open %s\n", buf);
++		return -1;
++	}
++
++	ret = read(fd, buf, sizeof(buf) - 1);
++	if (ret <= 0) {
++		error_msg("failed to read fail-nth\n");
++		goto err_out;
++	}
++
++	ret = atoi(buf);
++	buf[0] = '0';
++	if (write(fd, buf, 1) != 1) {
++		error_msg("failed to write fail-nth\n");
++		goto err_out;
++	}
++
++	return ret;
++
++err_out:
++	close(fd);
++	return -1;
++}
+diff --git a/src/fault.h b/src/fault.h
+new file mode 100644
+index 000000000..7d2c8cfa0
+--- /dev/null
++++ b/src/fault.h
+@@ -0,0 +1,7 @@
++#ifndef STRACE_FAIL_H
++#define STRACE_FAIL_H
++
++int inject_fault(int pid, int nth);
++int fault_injected(int pid);
++
++#endif
+diff --git a/src/filter_qualify.c b/src/filter_qualify.c
+index c3bf2e9ad..e7e1fdee8 100644
+--- a/src/filter_qualify.c
++++ b/src/filter_qualify.c
+@@ -346,8 +346,15 @@ parse_inject_token(const char *const token, struct inject_opts *const fopts,
+ 		}
+ 
+ 		fopts->data.flags |= INJECT_F_SYSCALL;
++	} else if ((val = STR_STRIP_PREFIX(token, "fault=")) != token) {
++		if (fopts->data.flags & (INJECT_F_ERROR | INJECT_F_RETVAL |
++					 INJECT_F_FAULT))
++			return false;
++		fopts->data.nth = string_to_uint_upto(val, 0xffff);
++		fopts->data.flags |= INJECT_F_FAULT;
+ 	} else if ((val = STR_STRIP_PREFIX(token, "error=")) != token) {
+-		if (fopts->data.flags & (INJECT_F_ERROR | INJECT_F_RETVAL))
++		if (fopts->data.flags & (INJECT_F_ERROR | INJECT_F_RETVAL |
++					 INJECT_F_FAULT))
+ 			return false;
+ 		intval = string_to_uint_upto(val, MAX_ERRNO_VALUE);
+ 		if (intval < 0)
+@@ -359,7 +366,8 @@ parse_inject_token(const char *const token, struct inject_opts *const fopts,
+ 	} else if (!fault_tokens_only
+ 		   && (val = STR_STRIP_PREFIX(token, "retval=")) != token) {
+ 
+-		if (fopts->data.flags & (INJECT_F_ERROR | INJECT_F_RETVAL))
++		if (fopts->data.flags & (INJECT_F_ERROR | INJECT_F_RETVAL |
++					 INJECT_F_FAULT))
+ 			return false;
+ 
+ 		errno = 0;
+diff --git a/src/syscall.c b/src/syscall.c
+index 92aaee092..c2d0138d4 100644
+--- a/src/syscall.c
++++ b/src/syscall.c
+@@ -23,6 +23,7 @@
+ #include "delay.h"
+ #include "poke.h"
+ #include "retval.h"
++#include "fault.h"
+ #include <limits.h>
+ #include <fcntl.h>
+ 
+@@ -529,6 +530,9 @@ tamper_with_syscall_entering(struct tcb *tcp, unsigned int *signo)
+ 			delay_tcb(tcp, opts->data.delay_idx, true);
+ 		if (opts->data.flags & INJECT_F_DELAY_EXIT)
+ 			tcp->flags |= TCB_INJECT_DELAY_EXIT;
++		if (opts->data.flags & INJECT_F_FAULT &&
++		    !inject_fault(tcp->pid, opts->data.nth))
++		    tcp->qual_flg |= QUAL_FAULT;
+ 	}
+ 
+ 	return 0;
+@@ -757,6 +761,15 @@ print_syscall_resume(struct tcb *tcp)
+ 	}
+ }
+ 
++static void print_syscall_fault(struct tcb *tcp)
++{
++	struct inject_opts *opts = tcb_inject_opts(tcp);
++	int nth = fault_injected(tcp->pid);
++
++	tcp->qual_flg &= ~QUAL_FAULT;
++	tprintf("(FAIL-NTH %d/%d)", nth, opts->data.nth);
++}
++
+ static void
+ print_injected_note(struct tcb *tcp)
+ {
+@@ -766,6 +779,9 @@ print_injected_note(struct tcb *tcp)
+ 		tprints(" (INJECTED: args)");
+ 	else if (syscall_tampered(tcp))
+ 		tprints(" (INJECTED)");
++
++	if(fault(tcp))
++		print_syscall_fault(tcp);
+ 	if (syscall_tampered_delayed(tcp))
+ 		tprints(" (DELAYED)");
+ }
+-- 
+2.34.1
+
