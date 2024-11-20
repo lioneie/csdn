@@ -8,8 +8,8 @@ is_set_html_path=false # 是否指定html路径
 is_replace_ip=$1
 other_ip=$2
 if [ $# -ge 3 ]; then
-    echo "set html path $3, do not change permission"
     html_path=$3
+    echo "set html path ${html_path}, do not change permission"
     is_set_html_path=true
 fi
 
@@ -65,7 +65,7 @@ do_change_perm() {
 init
 create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path}
 update_lan_sign
-create_html ${src_path} ${tmp_html_path} ${sign_path} ${is_replace_ip} ${other_ip}
+create_html array[@] ${src_path} ${tmp_html_path} ${sign_path} ${is_replace_ip} ${other_ip}
 copy_secret_repository
 copy_public_files
 do_change_perm

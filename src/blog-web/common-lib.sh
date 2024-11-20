@@ -39,12 +39,12 @@ create_sign() {
 #        4. 绝对路径的目录，代表源文件路径前缀，这时目的文件和上面的情况3一样
 #    网页标题
 create_html() {
-    # local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ...
-    local src_path=$1
-    local tmp_html_path=$2
-    local sign_path=$3
-    local is_replace_ip=$4
-    local other_ip=$5
+    local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ...
+    local src_path=$2
+    local tmp_html_path=$3
+    local sign_path=$4
+    local is_replace_ip=$5
+    local other_ip=$6
 
     local element_count="${#array[@]}" # 总个数
     local count_per_line=5
