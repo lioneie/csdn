@@ -8,7 +8,6 @@ other_ip=$2 # 内网要替换的ip
 is_restart=$3
 
 src_path=/home/sonvhi/chenxiaosong/code # 替换成你的仓库路径
-dst_path=/var/www/html
 config_file=/etc/nginx/sites-enabled/default
 
 copy_config() {
