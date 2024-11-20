@@ -134,6 +134,8 @@ pandoc test.html --pdf-engine=wkhtmltopdf -o test.pdf
 
 在阿里云上配置DNS域名解析，添加记录类型`A`解析主域名`@`到记录值`185.199.108.153`、`185.199.109.153`、`185.199.110.153`、`185.199.111.153`之一（多个同时加好像不能生成ssl，但我不是很确定哈），再添加记录类型`CNAME`解析`www`到主域名。
 
+直接把生成的html文件推送到仓库，然后设置 `Settings -> Pages -> Build and deployment -> Source: Deploy from a branch -> Branch: master`。
+
 # gitee.io
 
 [gitee静态页面托管](https://gitee.com/help/categories/56)。
