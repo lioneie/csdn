@@ -46,4 +46,4 @@ update_others_blog() {
 }
 
 restart_all
-update_others_blog
+# update_others_blog
