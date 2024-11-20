@@ -18,3 +18,6 @@ git remote add origin git@github.com:${user_name}/${user_name}.github.io.git
 git add .
 git commit -s -m "chenxiaosong.com"
 git push origin master -f
+
+# others blog
+bash ${code_path}/private-blog/others-blog/push-git.sh
