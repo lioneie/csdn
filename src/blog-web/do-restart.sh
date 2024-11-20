@@ -13,9 +13,7 @@ config_file=/etc/nginx/sites-enabled/default
 copy_config() {
     rm ${config_file}
     cp ${src_path}/blog/src/blog-web/nginx-config ${config_file}
-    if [ ${is_replace_ip} = false ]; then
-        cat ${src_path}/blog/../private-blog/scripts/others-nginx-config >> ${config_file}
-    else
+    if [ ${is_replace_ip} = true ]; then
         # 局域网删除ssl相关配置
         sed -i '/# ssl begin/,/# ssl end/d' ${config_file} # 只能按行为单位删除
     fi
@@ -40,9 +38,4 @@ restart_all() {
     service nginx restart # 重启nginx服务，docker中不支持systemd
 }
 
-update_others_blog() {
-    bash ${src_path}/private-blog/scripts/update-others-blog.sh ${is_restart} ${is_replace_ip}
-}
-
 restart_all
-# update_others_blog
