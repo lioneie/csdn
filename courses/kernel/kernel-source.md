@@ -21,6 +21,8 @@ Linux内核社区主要以邮件交流为主，以下是一些常用的网站:
 
 CLA 协议是开源贡献协议，用于规范贡献者的权利及义务。贡献者在贡献openEuler社区前，需要[签署CLA](https://clasign.osinfra.cn/sign/gitee_openeuler-1611298811283968340)，[签署流程](https://www.openeuler.org/zh/blog/2022-11-25-cla/CLA%E7%AD%BE%E7%BD%B2%E6%B5%81%E7%A8%8B.html)。如果你是以公司邮箱贡献，且公司已经签了CLA，你应该选择“法人贡献者登记”；如果你是以个人邮箱贡献，选择“签署个人CLA”。
 
+[Kernel SIG | openEuler Kernel 补丁合入规范](https://my.oschina.net/openeuler/blog/5949607)，可以用<!-- public begin -->[脚本`create-openeuler-git-msg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/scripts/create-openeuler-git-msg.sh)<!-- public end --><!-- private begin -->脚本`src/scripts/create-openeuler-git-msg.sh`<!-- private end -->生成openEuler补丁需要的格式。
+
 # 内核源码树
 
 我们以社区最近的一个LTS（longterm support，长期维护版本）v6.6的代码来讲接下来的课程。
