@@ -15,6 +15,12 @@ Linux内核社区主要以邮件交流为主，以下是一些常用的网站:
 - [kernelnewbies](https://kernelnewbies.org/): 适合内核初学者看的网站。
 - [LWN.net](https://lwn.net/): Linux新闻周刊。
 
+# openEuler社区
+
+[openEuler托管在gitee上](https://gitee.com/openeuler/kernel)，贡献openEuler要通过提交Pull Requests。
+
+CLA 协议是开源贡献协议，用于规范贡献者的权利及义务。贡献者在贡献openEuler社区前，需要[签署CLA](https://clasign.osinfra.cn/sign/gitee_openeuler-1611298811283968340)，[签署流程](https://www.openeuler.org/zh/blog/2022-11-25-cla/CLA%E7%AD%BE%E7%BD%B2%E6%B5%81%E7%A8%8B.html)。如果你是以公司邮箱贡献，且公司已经签了CLA，你应该选择“法人贡献者登记”；如果你是以个人邮箱贡献，选择“签署个人CLA”。
+
 # 内核源码树
 
 我们以社区最近的一个LTS（longterm support，长期维护版本）v6.6的代码来讲接下来的课程。
