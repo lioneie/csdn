@@ -1,6 +1,6 @@
 - [openEuler/docs/zh/docs/EulerLauncher](https://gitee.com/openeuler/docs/tree/master/docs/zh/docs/EulerLauncher)
 - [eulerlauncher/docs](https://gitee.com/openeuler/eulerlauncher/tree/master/docs)
-- [我提交的一个pr](https://gitee.com/openeuler/docs/pulls/13993)
+- [我提的一个issue](https://gitee.com/openeuler/docs/issues/IB5Z0N)
 
 这个eulerlauncher的代码质量看着不高，因为随便在线浏览一下就看到像[`111`](https://gitee.com/openeuler/eulerlauncher/commit/981e58d3f229bd873e0b35d4fbd948119d82031d)和[`1`](https://gitee.com/openeuler/eulerlauncher/commit/2cca964649f002be03aa7d1bcfe1c3b3211ca7f2)这种提交记录。
 
