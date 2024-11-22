@@ -1,5 +1,9 @@
 # 我写的补丁
 
+[点击查看kernel.org网站上我的Linux内核邮件列表](https://lore.kernel.org/all/?q=chenxiaosong)
+
+[点击查看kernel.org网站上我的Linux内核仓库提交记录](https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/?qt=grep&q=chenxiaosong)（加载需要一丢丢时间哈）
+
 补丁集: [CVE-2022-24448](https://chenxiaosong.com/courses/nfs/patches/CVE-2022-24448.html)
 
 补丁集: [NFS回写错误处理不正确的问题](https://chenxiaosong.com/src/nfs/nfs-handle-writeback-errors-incorrectly.html)
