@@ -1,9 +1,5 @@
 本文章列出一些内核补丁的分析，有些是我写的，有些是我定位问题时遇到的。
 
-[点击查看kernel.org网站上我的Linux内核邮件列表](https://lore.kernel.org/all/?q=chenxiaosong)
-
-[点击查看kernel.org网站上我的Linux内核仓库提交记录](https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/?qt=grep&q=chenxiaosong)（加载需要一丢丢时间哈）
-
 # NFS（网络文件系统）
 
 [点击这里查看NFS相关补丁](https://chenxiaosong.com/courses/nfs/nfs-patches.html)
@@ -13,6 +9,10 @@
 [点击这里查看SMB相关补丁](https://chenxiaosong.com/courses/smb/smb-patches.html)
 
 # 我写的补丁
+
+[点击查看kernel.org网站上我的Linux内核邮件列表](https://lore.kernel.org/all/?q=chenxiaosong)
+
+[点击查看kernel.org网站上我的Linux内核仓库提交记录](https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/?qt=grep&q=chenxiaosong)（加载需要一丢丢时间哈）
 
 我写的补丁，除了上面的模块外，其他模块还有以下补丁。
 
