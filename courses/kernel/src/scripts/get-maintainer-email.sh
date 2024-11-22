@@ -114,7 +114,7 @@ parse_cmd_output() {
 		line=$(echo ${line} | sed 's/> / /g') # 删除'>'字符
 		# echo "line: ${line}"
 		parse_line "${line}"
-	done <<< "${output_str}"
+	done < <(printf "%s\n" "${output_str}")
 }
 
 parse_pattern() {
