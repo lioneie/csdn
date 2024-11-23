@@ -1,6 +1,6 @@
 # 查一下户口
 
-这里就不直接贴照片了哈，毕竟咱也不是靠脸吃饭的，而是靠嘴吃饭。。。没见过我的朋友可以[**点击这里跳转后查看我的照片**](https://chenxiaosong.com/photos.html)。
+这里就不直接贴照片了哈，毕竟咱也不是靠脸吃饭的，而是靠嘴吃饭。。。没见过我的朋友可以[**点击这里跳转后查看我的照片**](https://gitee.com/chenxiaosonggitee/tmp/blob/master/photos/photos.md)。
 
 目前在湖南长沙，曾在杭州学习和工作过很多年，老家胡建，过年回沙县，没错，就是沙县大酒店，哦不对，是沙县小吃的沙县。
 
@@ -9,7 +9,7 @@
 - 邮箱: <chenxiaosong@chenxiaosong.com>
 - [QQ交流群: 544216206, 点击查看群介绍](https://chenxiaosong.com/q.html)
 
-爱好: 自行车骑行，Linux操作系统。顺便提一句，[只用键盘](https://chenxiaosong.com/pictures/self-introduction/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/src/wubi/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
+爱好: 自行车骑行，Linux操作系统。顺便提一句，[只用键盘](https://chenxiaosong.com/pictures/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/src/wubi/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
 
 自由软件的狂热者，能力一般的极客。现在麒麟软件从事**Linux内核**开发，工作内容全世界都看得到，[贡献过多个自由开源软件项目](https://chenxiaosong.com/contributions.html)。
 
@@ -57,4 +57,4 @@
 
 骑行活动都记录在strava上，需要注册登录strava账号才能查看所有的活动，未登录只能查看一周的。
 
-我最喜欢的运动是自行车骑行，坚持每天至少骑行锻炼10公里。有些朋友可能会问如果下雨下雪下冰雹还怎么骑行，当然就是[**室内骑行台啦（点击查看图片）**](https://chenxiaosong.com/pictures/self-introduction/qixingtai.jpg)，还能边骑行边写代码。
+我最喜欢的运动是自行车骑行，坚持每天至少骑行锻炼10公里。有些朋友可能会问如果下雨下雪下冰雹还怎么骑行，当然就是[**室内骑行台啦（点击查看图片）**](https://chenxiaosong.com/pictures/qixingtai.jpg)，还能边骑行边写代码。
