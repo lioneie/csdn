@@ -9,7 +9,6 @@ tmp_courses_path=/tmp/blog
 array=(
     # 自我介绍
     1 1 src/blog-web/index.md index.html '陈孝松个人主页'
-    1 1 src/blog-web/photos.md photos.html '陈孝松照片'
     1 1 src/blog-web/openharmony.md openharmony.html "陈孝松OpenHarmony贡献"
     1 1 src/blog-web/blog.md blog.html "陈孝松博客"
     1 1 src/blog-web/contributions.md contributions.html "陈孝松自由软件贡献"
