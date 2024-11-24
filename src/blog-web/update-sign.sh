@@ -9,6 +9,7 @@ array=(
     tmp/calligraphy/欧阳询.md
     tmp/calligraphy/颜真卿.md
     tmp/calligraphy/柳公权.md
+    tmp/calligraphy/书法.md
 )
 
 update_sign() {
