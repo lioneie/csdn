@@ -112,7 +112,7 @@
 
 [黑神话：悟空](https://chenxiaosong.com/src/game/black-myth-wukong.html)
 
-[书法](https://gitee.com/chenxiaosonggitee/tmp/blob/master/calligraphy/书法.md)
+[书法：左手练字](https://gitee.com/chenxiaosonggitee/tmp/blob/master/calligraphy/书法.md)
 
 # 翻译
 
