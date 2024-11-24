@@ -3,7 +3,7 @@ code_path=/home/sonvhi/chenxiaosong/code/
 . ${code_path}/blog/src/blog-web/common-lib.sh
 
 array=(
-    tmp/photos/photos.md
+    tmp/photos/陈孝松照片.md
 )
 
 update_sign() {
