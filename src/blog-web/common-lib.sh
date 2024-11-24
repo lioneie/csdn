@@ -111,6 +111,24 @@ change_perm() {
     find ${html_path}/ -type d -exec chmod 500 {} +
 }
 
+remove_begin_end() {
+    local begin_str=$1 # 调用的地方要用引号
+    local end_str=$2 # 调用的地方要用引号
+    local path=$3
+
+    # 把begin和end之间的内容删除, sed 默认只支持贪婪模式，要支持非贪婪模式要用Perl正则表达式（PCRE）
+    # TODO: 把公共的命令提取成变量
+    if [ -f "$path" ]; then
+        perl -i -pe "s/${begin_str}.*?${end_str}//g" ${path} # 只能在同一行内，必须放在前面
+        sed -i "/${begin_str}/,/${end_str}/d" ${path} # 只能按行为单位删除
+    elif [ -d "$path" ]; then
+        find ${path} -type f -name '*.md' -exec perl -i -pe "s/${begin_str}.*?${end_str}//g" {} + # 只能在同一行内，必须放在前面
+        find ${path} -type f -name '*.md' -exec sed -i "/${begin_str}/,/${end_str}/d" {} + # 只能按行为单位删除
+    else
+        echo "$path 既不是文件也不是目录"
+    fi
+}
+
 remove_comments() {
     local md_path=$1
     local is_public=$2
@@ -122,14 +140,11 @@ remove_comments() {
         end_str='<!-- public end -->'
     fi
 
-    # 把begin和end之间的内容删除, sed 默认只支持贪婪模式，要支持非贪婪模式要用Perl正则表达式（PCRE）
-    find ${md_path} -type f -name '*.md' -exec perl -i -pe "s/${begin_str}.*?${end_str}//g" {} + # 只能在同一行内，必须放在前面
-    find ${md_path} -type f -name '*.md' -exec sed -i "/${begin_str}/,/${end_str}/d" {} + # 只能按行为单位删除
+    remove_begin_end "${begin_str}" "${end_str}" ${md_path}
     # 正在写的内容就先不放上去
     begin_str='<!-- ing begin -->'
     end_str='<!-- ing end -->'
-    find ${md_path} -type f -name '*.md' -exec perl -i -pe "s/${begin_str}.*?${end_str}//g" {} + # 只能在同一行内，必须放在前面
-    find ${md_path} -type f -name '*.md' -exec sed -i "/${begin_str}/,/${end_str}/d" {} + # 只能按行为单位删除
+    remove_begin_end "${begin_str}" "${end_str}" ${md_path}
     # 把注释全部删除
     find ${md_path} -type f -name '*.md' -exec perl -i -pe 's/<!--.*?-->//g' {} + # 只能在同一行内，必须放在前面
     find ${md_path} -type f -name '*.md' -exec sed -i '/<!--/,/-->/d' {} + # 只能按行为单位删除
