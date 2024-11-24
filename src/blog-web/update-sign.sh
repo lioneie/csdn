@@ -4,6 +4,11 @@ code_path=/home/sonvhi/chenxiaosong/code/
 
 array=(
     tmp/photos/陈孝松照片.md
+    tmp/calligraphy/书法.md
+    tmp/calligraphy/赵孟𫖯.md
+    tmp/calligraphy/欧阳询.md
+    tmp/calligraphy/颜真卿.md
+    tmp/calligraphy/柳公权.md
 )
 
 update_sign() {
