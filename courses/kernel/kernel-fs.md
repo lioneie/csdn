@@ -1624,7 +1624,7 @@ mount -t minix /dev/sda /mnt
 
 ## 独立模块编译
 
-如果我们要在minix文件系统的基础上再开发，为了方便开发测试，可以`fs/minix`复制出来，[作为一个独立模块](https://gitee.com/chenxiaosonggitee/tmp/tree/master/myminix)编译，这里我把文件系统类型名改为了`myminix`，挂载时要指定挂载选项，如通过loop设备挂载:
+如果我们要在minix文件系统的基础上再开发，为了方便开发测试，可以`fs/minix`复制出来，[然后打上补丁`0001-myminix.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-myminix.patch)，这里我把文件系统类型名改为了`myminix`，挂载时要指定挂载选项，如通过loop设备挂载:
 ```sh
 mount -t myminix -o loop image /mnt
 ```

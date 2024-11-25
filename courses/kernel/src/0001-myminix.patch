@@ -1,0 +1,419 @@
+From f04892a918657f5ef91977c9ebaf5d04e7aff23d Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Date: Mon, 25 Nov 2024 16:25:58 +0800
+Subject: [PATCH] myminix
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+---
+ Makefile       | 14 ++--------
+ dir.c          |  2 --
+ file.c         |  2 --
+ inode.c        | 38 ++++++++++++++++++++++-----
+ itree_common.c | 70 +++++++++++++++++++++++++-------------------------
+ itree_v1.c     |  2 --
+ itree_v2.c     |  2 --
+ minix.h        | 23 +----------------
+ 8 files changed, 69 insertions(+), 84 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 1b45e25..a2d3ab5 100644
+--- a/Makefile
++++ b/Makefile
+@@ -3,16 +3,6 @@
+ # Makefile for the Linux minix filesystem routines.
+ #
+ 
+-obj-m += myminix.o
+-
+-myminix-objs := main.o bitmap.o itree_v1.o itree_v2.o namei.o inode.o file.o dir.o
+-
+-KDIR	:= /root/code/linux/x86_64-build/
+-PWD	:= $(shell pwd)
+-
+-all:
+-	$(MAKE) -C $(KDIR) M=$(PWD) modules
+-
+-clean:
+-	$(MAKE) -C $(KDIR) M=$(PWD) clean
++obj-$(CONFIG_MINIX_FS) += minix.o
+ 
++minix-objs := bitmap.o itree_v1.o itree_v2.o namei.o inode.o file.o dir.o
+diff --git a/dir.c b/dir.c
+index daee459..dd2a425 100644
+--- a/dir.c
++++ b/dir.c
+@@ -14,8 +14,6 @@
+ #include <linux/highmem.h>
+ #include <linux/swap.h>
+ 
+-#define	DBG_FACILITY	MINIX_DEBUG_DIR
+-
+ typedef struct minix_dir_entry minix_dirent;
+ typedef struct minix3_dir_entry minix3_dirent;
+ 
+diff --git a/file.c b/file.c
+index e687371..906d192 100644
+--- a/file.c
++++ b/file.c
+@@ -9,8 +9,6 @@
+ 
+ #include "minix.h"
+ 
+-#define	DBG_FACILITY	MINIX_DEBUG_FILE
+-
+ /*
+  * We have mostly NULLs here: the current defaults are OK for
+  * the minix filesystem.
+diff --git a/inode.c b/inode.c
+index aeaba0b..f007e38 100644
+--- a/inode.c
++++ b/inode.c
+@@ -22,8 +22,6 @@
+ #include <linux/writeback.h>
+ #include <linux/fs_context.h>
+ 
+-#define        DBG_FACILITY    MINIX_DEBUG_INODE
+-
+ static int minix_write_inode(struct inode *inode,
+ 		struct writeback_control *wbc);
+ static int minix_statfs(struct dentry *dentry, struct kstatfs *buf);
+@@ -84,7 +82,7 @@ static void init_once(void *foo)
+ 	inode_init_once(&ei->vfs_inode);
+ }
+ 
+-int __init minix_init_inodecache(void)
++static int __init init_inodecache(void)
+ {
+ 	minix_inode_cachep = kmem_cache_create("minix_inode_cache",
+ 					     sizeof(struct minix_inode_info),
+@@ -96,7 +94,7 @@ int __init minix_init_inodecache(void)
+ 	return 0;
+ }
+ 
+-void minix_destroy_inodecache(void)
++static void destroy_inodecache(void)
+ {
+ 	/*
+ 	 * Make sure all delayed rcu free inodes are flushed before we
+@@ -700,12 +698,38 @@ void minix_truncate(struct inode * inode)
+ 		V2_minix_truncate(inode);
+ }
+ 
+-struct file_system_type minix_fs_type = {
++static struct file_system_type minix_fs_type = {
+ 	.owner			= THIS_MODULE,
+-	.name			= "myminix",
++	.name			= "minix",
+ 	.kill_sb		= kill_block_super,
+ 	.fs_flags		= FS_REQUIRES_DEV,
+ 	.init_fs_context	= minix_init_fs_context,
+ };
+-MODULE_ALIAS_FS("myminix");
++MODULE_ALIAS_FS("minix");
++
++static int __init init_minix_fs(void)
++{
++	int err = init_inodecache();
++	if (err)
++		goto out1;
++	err = register_filesystem(&minix_fs_type);
++	if (err)
++		goto out;
++	return 0;
++out:
++	destroy_inodecache();
++out1:
++	return err;
++}
++
++static void __exit exit_minix_fs(void)
++{
++        unregister_filesystem(&minix_fs_type);
++	destroy_inodecache();
++}
++
++module_init(init_minix_fs)
++module_exit(exit_minix_fs)
++MODULE_DESCRIPTION("Minix file system");
++MODULE_LICENSE("GPL");
+ 
+diff --git a/itree_common.c b/itree_common.c
+index 4f28ad1..dad131e 100644
+--- a/itree_common.c
++++ b/itree_common.c
+@@ -2,22 +2,22 @@
+ /* Generic part */
+ 
+ typedef struct {
+-	block_t	*ind_key_p;
+-	block_t	ind_key;
+-	struct buffer_head *ind_bh;
++	block_t	*p;
++	block_t	key;
++	struct buffer_head *bh;
+ } Indirect;
+ 
+ static DEFINE_RWLOCK(pointers_lock);
+ 
+ static inline void add_chain(Indirect *p, struct buffer_head *bh, block_t *v)
+ {
+-	p->ind_key = *(p->ind_key_p = v);
+-	p->ind_bh = bh;
++	p->key = *(p->p = v);
++	p->bh = bh;
+ }
+ 
+ static inline int verify_chain(Indirect *from, Indirect *to)
+ {
+-	while (from <= to && from->ind_key == *from->ind_key_p)
++	while (from <= to && from->key == *from->p)
+ 		from++;
+ 	return (from > to);
+ }
+@@ -40,10 +40,10 @@ static inline Indirect *get_branch(struct inode *inode,
+ 	*err = 0;
+ 	/* i_data is not going away, no lock needed */
+ 	add_chain (chain, NULL, i_data(inode) + *offsets);
+-	if (!p->ind_key)
++	if (!p->key)
+ 		goto no_block;
+ 	while (--depth) {
+-		bh = sb_bread(sb, block_to_cpu(p->ind_key));
++		bh = sb_bread(sb, block_to_cpu(p->key));
+ 		if (!bh)
+ 			goto failure;
+ 		read_lock(&pointers_lock);
+@@ -51,7 +51,7 @@ static inline Indirect *get_branch(struct inode *inode,
+ 			goto changed;
+ 		add_chain(++p, bh, (block_t *)bh->b_data + *++offsets);
+ 		read_unlock(&pointers_lock);
+-		if (!p->ind_key)
++		if (!p->key)
+ 			goto no_block;
+ 	}
+ 	return NULL;
+@@ -77,14 +77,14 @@ static int alloc_branch(struct inode *inode,
+ 	int parent = minix_new_block(inode);
+ 	int err = -ENOSPC;
+ 
+-	branch[0].ind_key = cpu_to_block(parent);
++	branch[0].key = cpu_to_block(parent);
+ 	if (parent) for (n = 1; n < num; n++) {
+ 		struct buffer_head *bh;
+ 		/* Allocate the next block */
+ 		int nr = minix_new_block(inode);
+ 		if (!nr)
+ 			break;
+-		branch[n].ind_key = cpu_to_block(nr);
++		branch[n].key = cpu_to_block(nr);
+ 		bh = sb_getblk(inode->i_sb, parent);
+ 		if (!bh) {
+ 			minix_free_block(inode, nr);
+@@ -93,9 +93,9 @@ static int alloc_branch(struct inode *inode,
+ 		}
+ 		lock_buffer(bh);
+ 		memset(bh->b_data, 0, bh->b_size);
+-		branch[n].ind_bh = bh;
+-		branch[n].ind_key_p = (block_t*) bh->b_data + offsets[n];
+-		*branch[n].ind_key_p = branch[n].ind_key;
++		branch[n].bh = bh;
++		branch[n].p = (block_t*) bh->b_data + offsets[n];
++		*branch[n].p = branch[n].key;
+ 		set_buffer_uptodate(bh);
+ 		unlock_buffer(bh);
+ 		mark_buffer_dirty_inode(bh, inode);
+@@ -106,9 +106,9 @@ static int alloc_branch(struct inode *inode,
+ 
+ 	/* Allocation failed, free what we already allocated */
+ 	for (i = 1; i < n; i++)
+-		bforget(branch[i].ind_bh);
++		bforget(branch[i].bh);
+ 	for (i = 0; i < n; i++)
+-		minix_free_block(inode, block_to_cpu(branch[i].ind_key));
++		minix_free_block(inode, block_to_cpu(branch[i].key));
+ 	return err;
+ }
+ 
+@@ -122,10 +122,10 @@ static inline int splice_branch(struct inode *inode,
+ 	write_lock(&pointers_lock);
+ 
+ 	/* Verify that place we are splicing to is still there and vacant */
+-	if (!verify_chain(chain, where-1) || *where->ind_key_p)
++	if (!verify_chain(chain, where-1) || *where->p)
+ 		goto changed;
+ 
+-	*where->ind_key_p = where->ind_key;
++	*where->p = where->key;
+ 
+ 	write_unlock(&pointers_lock);
+ 
+@@ -134,8 +134,8 @@ static inline int splice_branch(struct inode *inode,
+ 	inode_set_ctime_current(inode);
+ 
+ 	/* had we spliced it onto indirect block? */
+-	if (where->ind_bh)
+-		mark_buffer_dirty_inode(where->ind_bh, inode);
++	if (where->bh)
++		mark_buffer_dirty_inode(where->bh, inode);
+ 
+ 	mark_inode_dirty(inode);
+ 	return 0;
+@@ -143,9 +143,9 @@ static inline int splice_branch(struct inode *inode,
+ changed:
+ 	write_unlock(&pointers_lock);
+ 	for (i = 1; i < num; i++)
+-		bforget(where[i].ind_bh);
++		bforget(where[i].bh);
+ 	for (i = 0; i < num; i++)
+-		minix_free_block(inode, block_to_cpu(where[i].ind_key));
++		minix_free_block(inode, block_to_cpu(where[i].key));
+ 	return -EAGAIN;
+ }
+ 
+@@ -168,7 +168,7 @@ reread:
+ 	/* Simplest case - block found, no allocation needed */
+ 	if (!partial) {
+ got_it:
+-		map_bh(bh, inode->i_sb, block_to_cpu(chain[depth-1].ind_key));
++		map_bh(bh, inode->i_sb, block_to_cpu(chain[depth-1].key));
+ 		/* Clean up and exit */
+ 		partial = chain+depth-1; /* the whole chain */
+ 		goto cleanup;
+@@ -178,7 +178,7 @@ got_it:
+ 	if (!create || err == -EIO) {
+ cleanup:
+ 		while (partial > chain) {
+-			brelse(partial->ind_bh);
++			brelse(partial->bh);
+ 			partial--;
+ 		}
+ out:
+@@ -206,7 +206,7 @@ out:
+ 
+ changed:
+ 	while (partial > chain) {
+-		brelse(partial->ind_bh);
++		brelse(partial->bh);
+ 		partial--;
+ 	}
+ 	goto reread;
+@@ -237,23 +237,23 @@ static Indirect *find_shared(struct inode *inode,
+ 	write_lock(&pointers_lock);
+ 	if (!partial)
+ 		partial = chain + k-1;
+-	if (!partial->ind_key && *partial->ind_key_p) {
++	if (!partial->key && *partial->p) {
+ 		write_unlock(&pointers_lock);
+ 		goto no_top;
+ 	}
+-	for (p=partial;p>chain && all_zeroes((block_t*)p->ind_bh->b_data,p->ind_key_p);p--)
++	for (p=partial;p>chain && all_zeroes((block_t*)p->bh->b_data,p->p);p--)
+ 		;
+ 	if (p == chain + k - 1 && p > chain) {
+-		p->ind_key_p--;
++		p->p--;
+ 	} else {
+-		*top = *p->ind_key_p;
+-		*p->ind_key_p = 0;
++		*top = *p->p;
++		*p->p = 0;
+ 	}
+ 	write_unlock(&pointers_lock);
+ 
+ 	while(partial > p)
+ 	{
+-		brelse(partial->ind_bh);
++		brelse(partial->bh);
+ 		partial--;
+ 	}
+ no_top:
+@@ -328,15 +328,15 @@ static inline void truncate (struct inode * inode)
+ 		if (partial == chain)
+ 			mark_inode_dirty(inode);
+ 		else
+-			mark_buffer_dirty_inode(partial->ind_bh, inode);
++			mark_buffer_dirty_inode(partial->bh, inode);
+ 		free_branches(inode, &nr, &nr+1, (chain+n-1) - partial);
+ 	}
+ 	/* Clear the ends of indirect blocks on the shared branch */
+ 	while (partial > chain) {
+-		free_branches(inode, partial->ind_key_p + 1, block_end(partial->ind_bh),
++		free_branches(inode, partial->p + 1, block_end(partial->bh),
+ 				(chain+n-1) - partial);
+-		mark_buffer_dirty_inode(partial->ind_bh, inode);
+-		brelse (partial->ind_bh);
++		mark_buffer_dirty_inode(partial->bh, inode);
++		brelse (partial->bh);
+ 		partial--;
+ 	}
+ do_indirects:
+diff --git a/itree_v1.c b/itree_v1.c
+index fdd1033..1fed906 100644
+--- a/itree_v1.c
++++ b/itree_v1.c
+@@ -3,8 +3,6 @@
+ #include <linux/slab.h>
+ #include "minix.h"
+ 
+-#define        DBG_FACILITY    MINIX_DEBUG_ITREE
+-
+ enum {DEPTH = 3, DIRECT = 7};	/* Only double indirect */
+ 
+ typedef u16 block_t;	/* 16 bit, host order */
+diff --git a/itree_v2.c b/itree_v2.c
+index 223d119..9d00f31 100644
+--- a/itree_v2.c
++++ b/itree_v2.c
+@@ -2,8 +2,6 @@
+ #include <linux/buffer_head.h>
+ #include "minix.h"
+ 
+-#define        DBG_FACILITY    MINIX_DEBUG_ITREE
+-
+ enum {DIRECT = 7, DEPTH = 4};	/* Have triple indirect */
+ 
+ typedef u32 block_t;	/* 32 bit, host order */
+diff --git a/minix.h b/minix.h
+index 1240382..d54273c 100644
+--- a/minix.h
++++ b/minix.h
+@@ -4,24 +4,7 @@
+ 
+ #include <linux/fs.h>
+ #include <linux/pagemap.h>
+-#include "minix_fs.h"
+-
+-extern int minix_debug_types;
+-
+-#define MINIX_DEBUG_MAIN	BIT(0)
+-#define MINIX_DEBUG_ITREE	BIT(1)
+-#define MINIX_DEBUG_INODE	BIT(2)
+-#define MINIX_DEBUG_FILE	BIT(3)
+-#define MINIX_DEBUG_DIR		BIT(4)
+-#define MINIX_DEBUG_ALL		(MINIX_DEBUG_MAIN | MINIX_DEBUG_ITREE | \
+-				 MINIX_DEBUG_INODE | MINIX_DEBUG_FILE | \
+-				 MINIX_DEBUG_DIR)
+-
+-#define minix_debug(type, fmt, ...)				\
+-	do {							\
+-		if (minix_debug_types & type)	\
+-			pr_info("[%s:%d] " fmt, __func__, __LINE__, ##__VA_ARGS__);		\
+-	} while (0)
++#include <linux/minix_fs.h>
+ 
+ #define INODE_VERSION(inode)	minix_sb(inode->i_sb)->s_version
+ #define MINIX_V1		0x0001		/* original minix fs */
+@@ -111,10 +94,6 @@ static inline unsigned minix_blocks_needed(unsigned bits, unsigned blocksize)
+ 	return DIV_ROUND_UP(bits, blocksize * 8);
+ }
+ 
+-extern struct file_system_type minix_fs_type;
+-extern int __init minix_init_inodecache(void);
+-extern void minix_destroy_inodecache(void);
+-
+ #if defined(CONFIG_MINIX_FS_NATIVE_ENDIAN) && \
+ 	defined(CONFIG_MINIX_FS_BIG_ENDIAN_16BIT_INDEXED)
+ 
+-- 
+2.34.1
+
