@@ -28,14 +28,11 @@ exit() {
     bash ${src_path}/courses/courses.sh false
 }
 
-copy_secret_repository() {
-    # pictures是我的私有仓库
-    cp ${src_path}/../pictures/public/ ${tmp_html_path}/pictures -rf
-}
-
-copy_public_files() {
+copy_files() {
     # css样式
     cp ${src_path}/src/blog-web/stylesheet.css ${tmp_html_path}/
+    # 图片
+    cp ${src_path}/../tmp/pictures/ ${tmp_html_path}/pictures -rf
 }
 
 # 局域网签名
@@ -65,7 +62,6 @@ init
 create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path}
 update_lan_sign
 create_html array[@] ${src_path} ${tmp_html_path} ${sign_path} ${is_replace_ip} ${other_ip}
-copy_secret_repository
-copy_public_files
+copy_files
 do_change_perm
 exit
