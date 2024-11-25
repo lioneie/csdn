@@ -29,7 +29,7 @@ update_repo() {
 }
 
 update_repo blog ${is_replace_ip} # 部署在公网服务器就推到github
-update_repo pictures false # 不用推到github
+update_repo tmp false # 不用推到github
 update_repo private-blog false # 不用推到github
 
 if [ ${is_restart} = false ]; then
