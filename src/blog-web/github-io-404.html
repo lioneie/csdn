@@ -8,16 +8,22 @@
   <script>
     const path = window.location.pathname;
 
-    // 博客里用到的
     if (path === "/baidunetdisk") {
+      // 博客里用到
       window.location.href = "https://pan.baidu.com/s/12hDXdKdIE4-ggjcS7-88lw?pwd=1234";
     } else if (path === "/bili") {
+      // 博客里用到
       window.location.href = "https://space.bilibili.com/351970900";
-    // 和社区交流需要固定下来的一些网址
     } else if (path === "/tmp/btrfs-forced-readonly-log.txt") {
+      // https://lore.kernel.org/all/tencent_0D3574DAB98883D88196B3F24D2D379D7D0A@qq.com/
       window.location.href = "https://gitee.com/chenxiaosonggitee/tmp/blob/master/btrfs/btrfs-forced-readonly-log.txt";
-    } else if (path === "courses/nfs/patches/CVE-2022-24448.html") {
+    } else if (path === "/courses/nfs/patches/CVE-2022-24448.html") {
+      // https://gitee.com/openeuler/kernel/issues/IB6FR2
+      // https://gitee.com/openeuler/kernel/issues/IB6DNK
       window.location.href = "https://chenxiaosong.com/courses/nfs/patches/CVE-2022-24448.html";
+    } else if (path === "/courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.html" || path === "/src/nfs/4.19-null-ptr-deref-in-nfs_updatepage.html") {
+      // https://gitee.com/openeuler/kernel/issues/IAJ2ZJ
+      window.location.href = "https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.html";
     } else {
       // 其他路径重定向到主页
       window.location.href = "/";
