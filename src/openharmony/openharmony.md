@@ -293,7 +293,7 @@ gdb ./example/passthrough_ll
 
 # hmdfs在qemu虚拟机中调试
 
-[chenxiaosonggitee/kernel_linux_5.10](https://gitee.com/chenxiaosonggitee/kernel_linux_5.10)在虚拟机中运行:
+[kernel_linux_5.10](https://gitee.com/openharmony/kernel_linux_5.10)在虚拟机中运行:
 ```sh
 mkdir -p /mnt/dst
 mkdir -p /mnt/cache_dir/dentry_cache/cloud
