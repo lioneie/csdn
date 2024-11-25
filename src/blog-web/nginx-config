@@ -68,19 +68,16 @@ server {
 		return 302 /;
 	}
 
+	# 404 begin
+	# 执行命令 bash src/blog-web/create-nginx-404.sh
+	# 在这里插入网页重定向的内容
+	# 404 end
+
 	# 网页重定向
-	location /tmp/btrfs-forced-readonly-log.txt {
-		# permanent（永久） 或 redirect（临时）, 默认 redirect
-		rewrite ^/tmp/btrfs-forced-readonly-log.txt$ https://gitee.com/chenxiaosonggitee/tmp/blob/master/btrfs/btrfs-forced-readonly-log.txt;
-	}
-
-	location /baidunetdisk {
-		rewrite ^/baidunetdisk$ https://pan.baidu.com/s/12hDXdKdIE4-ggjcS7-88lw?pwd=1234;
-	}
-
-	location /bili {
-		rewrite ^/bili$ https://space.bilibili.com/351970900;
-	}
+	# location /tmp/btrfs-forced-readonly-log.txt {
+	# 	# permanent（永久） 或 redirect（临时）, 默认 redirect
+	# 	rewrite ^/tmp/btrfs-forced-readonly-log.txt$ https://gitee.com/chenxiaosonggitee/tmp/blob/master/btrfs/btrfs-forced-readonly-log.txt;
+	# }
 
 	# 转发
 	# location /code-server/ { # 注意code-server后面有斜杠
