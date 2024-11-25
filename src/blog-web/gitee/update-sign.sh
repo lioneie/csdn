@@ -2,15 +2,17 @@ code_path=/home/sonvhi/chenxiaosong/code/
 # 导入其他脚本
 . ${code_path}/blog/src/blog-web/common-lib.sh
 
-array=(
-    tmp/陈孝松照片.md
-    tmp/calligraphy/书法.md
-    tmp/calligraphy/赵孟𫖯.md
-    tmp/calligraphy/欧阳询.md
-    tmp/calligraphy/颜真卿.md
-    tmp/calligraphy/柳公权.md
-    tmp/calligraphy/书法.md
-)
+array=()
+
+scan_md() {
+    local md_dir=$1
+    md_dir="${md_dir%/}/" # 确保目录末尾有 /
+    # 使用 find 命令查找所有 .md 文件并将结果存储到 array 数组中
+    while IFS= read -r md_file; do
+        # md_file=${md_file/$md_dir} # 干掉前缀
+        array+=(${md_file})
+    done < <(find ${md_dir} -type f -name "*.md")
+}
 
 update_sign() {
     local array=("${!1}") # 使用间接引用来接收数组
@@ -22,8 +24,7 @@ update_sign() {
     local count_per_line=1
     for ((index=0; index<${element_count}; index=$((index + ${count_per_line}))))
     do
-        local ifile=${array[${index}]}
-        local src_file=${code_path}/${ifile}
+        local src_file=${array[${index}]}
 
         remove_begin_end "${begin_str}" "${end_str}" ${src_file}
         cat ${sign_file} >> ${src_file}.tmp
@@ -32,4 +33,5 @@ update_sign() {
     done
 }
 
+scan_md ${code_path}/blog/src/blog-web/gitee/
 update_sign array[@]

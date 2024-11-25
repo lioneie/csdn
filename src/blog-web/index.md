@@ -1,6 +1,6 @@
 # 查一下户口
 
-这里就不直接贴照片了哈，毕竟咱也不是靠脸吃饭的，而是靠嘴吃饭。。。没见过我的朋友可以[**点击这里跳转后查看我的照片**](https://gitee.com/chenxiaosonggitee/tmp/blob/master/陈孝松照片.md)。
+这里就不直接贴照片了哈，毕竟咱也不是靠脸吃饭的，而是靠嘴吃饭。。。没见过我的朋友可以[**点击这里跳转后查看我的照片**](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/blog-web/gitee/陈孝松照片.md)。
 
 目前在湖南长沙，曾在杭州学习和工作过很多年，老家胡建，过年回沙县，没错，就是沙县大酒店，哦不对，是沙县小吃的沙县。
 
