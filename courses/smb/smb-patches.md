@@ -19,11 +19,3 @@
 [`2b058acecf56f cifs: return the more nuanced writeback error on close()`](https://lore.kernel.org/all/20220518145649.2487377-1-chenxiaosong2@huawei.com/)
 
 补丁集: [`[PATCH v2 00/12] smb: fix some bugs, move duplicate definitions to common header file, and some small cleanups`](https://lore.kernel.org/all/20240822082101.391272-1-chenxiaosong@chenxiaosong.com/)
-
-# 其他人的补丁
-
-<!--
-[`7de0394801da cifs: Fix in error types returned for out-of-credit situations.`](https://chenxiaosong.com/courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)
-
-[`87f93d82e0952 smb3: fix problem with null cifs super block with previous patch`](https://chenxiaosong.com/courses/smb/patches/smb3-fix-problem-with-null-cifs-super-block-with-pre.html)
--->
