@@ -74,8 +74,6 @@ array=(
                 "12357f1b2c8e nfsd: minor 4.1 callback cleanup"
             1 1 courses/nfs/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md ~
                 "2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()"
-            1 1 courses/nfs/patches/NFS-Don-t-call-generic_error_remove_page-while-holdi.md ~
-                "22876f540bdf NFS: Don't call generic_error_remove_page() while holding locks"
             1 1 courses/nfs/patches/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.md ~
                 "e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held"
             1 1 courses/nfs/patches/nfsd4-use-reference-count-to-free-client.md ~
