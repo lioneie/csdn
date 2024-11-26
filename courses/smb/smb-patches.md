@@ -25,8 +25,6 @@
 <!--
 [`7de0394801da cifs: Fix in error types returned for out-of-credit situations.`](https://chenxiaosong.com/courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)
 
-[`d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()`](https://chenxiaosong.com/courses/smb/patches/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.html)
-
 [`87f93d82e0952 smb3: fix problem with null cifs super block with previous patch`](https://chenxiaosong.com/courses/smb/patches/smb3-fix-problem-with-null-cifs-super-block-with-pre.html)
 -->
 
