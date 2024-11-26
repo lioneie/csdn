@@ -108,8 +108,6 @@ array=(
         1 1 courses/smb/smb-refactor.md ${tmp_courses_path} "smb代码重构"
         1 1 courses/smb/smb-others.md ${tmp_courses_path} "smb未分类的内容"
             # 我写的补丁
-            1 1 courses/smb/patches/cifs-fix-use-after-free-on-the-link-name.md ~
-                "542228db2f28f cifs: fix use-after-free on the link name"
             # 其他人的补丁
             1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
