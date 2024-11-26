@@ -27,5 +27,3 @@
 
 [`87f93d82e0952 smb3: fix problem with null cifs super block with previous patch`](https://chenxiaosong.com/courses/smb/patches/smb3-fix-problem-with-null-cifs-super-block-with-pre.html)
 -->
-
-[`69ccf040acdd smb: client: fix potential UAF in is_valid_oplock_break()`](https://chenxiaosong.com/courses/smb/patches/cve-smb-client-fix-potential-UAF-in-is_valid_oplock_brea.html)

@@ -113,8 +113,6 @@ array=(
             # 其他人的补丁
             1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
-            1 1 courses/smb/patches/cve-smb-client-fix-potential-UAF-in-is_valid_oplock_brea.md ~
-                "69ccf040acdd smb: client: fix potential UAF in is_valid_oplock_break()"
             1 1 courses/smb/patches/smb3-fix-problem-with-null-cifs-super-block-with-pre.md ~
                 "87f93d82e0952 smb3: fix problem with null cifs super block with previous patch"
     0 1 courses/algorithms/algorithms.md ${tmp_courses_path} "算法"
@@ -150,6 +148,8 @@ array=(
     # cve
     1 1 src/cve/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.md ~
         "d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()"
+    1 1 src/cve/cve-smb-client-fix-potential-UAF-in-is_valid_oplock_brea.md ~
+        "69ccf040acdd smb: client: fix potential UAF in is_valid_oplock_break()"
     # Linux环境
     1 1 src/userspace-environment/vnc.md ~ "VNC远程桌面"
     1 1 src/blog-web/blog-web.md ~ "如何拥有个人域名的网站和邮箱"
