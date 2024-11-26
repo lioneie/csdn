@@ -111,8 +111,6 @@ array=(
             # 其他人的补丁
             1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
-            1 1 courses/smb/patches/smb3-fix-problem-with-null-cifs-super-block-with-pre.md ~
-                "87f93d82e0952 smb3: fix problem with null cifs super block with previous patch"
     0 1 courses/algorithms/algorithms.md ${tmp_courses_path} "算法"
         1 1 courses/algorithms/dynamic-programming.md ${tmp_courses_path} "动态规划"
         1 1 courses/algorithms/sort.md ${tmp_courses_path} "排序算法"
