@@ -47,7 +47,16 @@ apt-get install pandoc -y
 
 ## 脚本
 
-[restart.sh](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/blog-web/restart.sh)脚本用于更新git仓库，重新生成html文件，以及重启nginx服务。运行命令`while true; do bash restart.sh; sleep 90; done`不断检查。
+先设置环境变量:
+```sh
+export MY_TOP_PATH=/your/top/path
+export MY_CODE_TOP_PATH=${MY_TOP_PATH}/code/
+```
+
+[`restart.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/blog-web/restart.sh)脚本用于更新git仓库，重新生成html文件，以及重启nginx服务:
+```sh
+bash src/blog-web/restart.sh
+```
 
 ## 转pdf
 
