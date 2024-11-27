@@ -7,12 +7,12 @@ dst_path=${MY_TOP_PATH}/csdn-src
 . ${src_path}/src/blog-web/common-lib.sh
 . ${src_path}/src/blog-web/array.sh
 
-init() {
+my_init() {
     rm -rf ${dst_path}
     bash ${src_path}/courses/courses.sh true
 }
 
-exit() {
+my_exit() {
     bash ${src_path}/courses/courses.sh false
 }
 
@@ -82,7 +82,7 @@ create_csdn_src() {
     done
 }
 
-init
+my_init
 create_csdn_src array[@] ${src_path} ${dst_path}
 change_private_perm
-exit
+my_exit

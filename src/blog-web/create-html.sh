@@ -17,13 +17,13 @@ fi
 . ${src_path}/src/blog-web/common-lib.sh
 . ${src_path}/src/blog-web/array.sh
 
-init() {
+my_init() {
     rm -rf ${tmp_html_path}
     mkdir -p ${tmp_html_path}
     bash ${src_path}/courses/courses.sh true
 }
 
-exit() {
+my_exit() {
     rm ${html_path}/ -rf
     mv ${tmp_html_path} ${html_path}
     bash ${src_path}/courses/courses.sh false
@@ -59,10 +59,10 @@ do_change_perm() {
     change_perm ${tmp_html_path}
 }
 
-init
+my_init
 create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path}
 update_lan_sign
 create_html array[@] ${src_path} ${tmp_html_path} ${sign_path} ${is_replace_ip} ${other_ip}
 copy_files
 do_change_perm
-exit
+my_exit
