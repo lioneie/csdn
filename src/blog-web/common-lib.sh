@@ -3,6 +3,18 @@
 # --toc: 这个选项指示 pandoc 生成一个包含文档目录（Table of Contents，目录）的 HTML 输出。TOC 将包括文档中的章节和子章节的链接，以帮助读者导航文档。
 pandoc_common_options="--to html --standalone --metadata encoding=gbk --number-sections --css https://chenxiaosong.com/stylesheet.css"
 
+# git仓库根目录的上一层目录
+# 假设当前脚本的路径是/home/user/code/blog/src/blog-web/common-lib.sh，返回的是/home/user/code/
+get_top_path() {
+    # 也可以试试把realpath换成readlink -f
+    local script_path="$(realpath "${BASH_SOURCE[0]}")" # 当前函数所在的脚本路径
+    local git_path="$(git -C $(dirname ${script_path}) rev-parse --show-toplevel)"
+    echo $(dirname "${git_path}") # 仓库的上一层目录
+    # 以此类推，${BASH_SOURCE[2]}表示下一个调用链
+    # echo "current script: ${BASH_SOURCE[0]}"
+    # echo "calling script: ${BASH_SOURCE[1]}"
+}
+
 replace_with_other_ip() {
     dst_file=$1
     other_ip=$2
