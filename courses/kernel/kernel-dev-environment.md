@@ -223,11 +223,27 @@ git log -L:do_new_mount\(:fs/namespace.c
 git name-rev <commit>
 ```
 
-如果我们有两个github账号，两个账号不能在网站上添加同一个ssh key，这时我们就要再生成一个ssh key，还要将ssh私钥添加到ssh代理:
+如果我们有两个github账号，两个账号不能在网站上添加同一个ssh key，这时我们就要再生成一个ssh key:
 ```sh
-ssh-keygen -t ed25519-sk -C "YOUR_EMAIL" # 生成新的key
-eval "$(ssh-agent -s)" # 启动 SSH 代理
-ssh-add ~/.ssh/id_ed25519 # 将 SSH 私钥添加到 SSH 代理
+# 生成id_rsa_2和id_rsa_2.pub
+ssh-keygen -f ~/.ssh/id_rsa_2
+# 创建配置文件
+cat <<EOF > ~/.ssh/config
+# 默认走这里
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_rsa
+  IdentitiesOnly yes
+# 指定账号specifiedaccount
+Host github.com-specifiedaccount
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_rsa_2
+  IdentitiesOnly yes
+EOF
+# 重新设置url，specifiedaccount为指定的账号名
+git remote set-url origin git@github.com-specifiedaccount:specifiedaccount/repo-name.git
 ```
 
 `cherry-pick`多个`commit`:
