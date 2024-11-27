@@ -1,7 +1,10 @@
-# --standalone: 此选项指示 pandoc 生成一个完全独立的输出文件，包括文档标题、样式表和其他元数据，使输出文件成为一个完整的文档。
-# --metadata encoding=gbk: 这个选项允许您添加元数据。在这种情况下，您将 encoding 设置为 gbk，指定输出 HTML 文档的字符编码为 GBK。这对于确保生成的文档以正确的字符编码进行保存非常重要。
-# --toc: 这个选项指示 pandoc 生成一个包含文档目录（Table of Contents，目录）的 HTML 输出。TOC 将包括文档中的章节和子章节的链接，以帮助读者导航文档。
-pandoc_common_options="--to html --standalone --metadata encoding=gbk --number-sections --css https://chenxiaosong.com/stylesheet.css"
+get_pandoc_common_options() {
+    # --standalone: 此选项指示 pandoc 生成一个完全独立的输出文件，包括文档标题、样式表和其他元数据，使输出文件成为一个完整的文档。
+    # --metadata encoding=gbk: 这个选项允许您添加元数据。在这种情况下，您将 encoding 设置为 gbk，指定输出 HTML 文档的字符编码为 GBK。这对于确保生成的文档以正确的字符编码进行保存非常重要。
+    # --toc: 这个选项指示 pandoc 生成一个包含文档目录（Table of Contents，目录）的 HTML 输出。TOC 将包括文档中的章节和子章节的链接，以帮助读者导航文档。
+    local options="--to html --standalone --metadata encoding=gbk --number-sections --css https://chenxiaosong.com/stylesheet.css"
+    echo "${options}"
+}
 
 # git仓库根目录的上一层目录
 # 假设当前脚本的路径是/home/user/code/blog/src/blog-web/common-lib.sh，返回的是/home/user/code/
@@ -32,8 +35,9 @@ create_sign() {
 
     local html_title="签名"
     local dst_file=${tmp_html_path}/sign.html
+    local pandoc_options=$(get_pandoc_common_options)
     local from_format="--from markdown"
-    pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_common_options}
+    pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
     # 先去除sign.html文件中其他内容
     sed -i '/<\/header>/,/<\/body>/!d' ${dst_file} # 只保留</header>到</body>的内容
     sed -i '1d;$d' ${dst_file} # 删除第一行和最后一行
@@ -66,7 +70,7 @@ create_html() {
         local ifile=${array[${index}+2]}
         local ofile_or_ipathprefix=${array[${index}+3]}
         local html_title=${array[${index}+4]}
-        local pandoc_options=${pandoc_common_options}
+        local pandoc_options=$(get_pandoc_common_options)
 
         local ipath_prefix
         local ofile=${ofile_or_ipathprefix}

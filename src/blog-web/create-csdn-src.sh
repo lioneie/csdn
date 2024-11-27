@@ -61,7 +61,7 @@ create_csdn_src() {
         local ifile=${array[${index}+2]}
         local ofile_or_ipathprefix=${array[${index}+3]}
         local html_title=${array[${index}+4]}
-        local pandoc_options=${pandoc_common_options}
+        local pandoc_options=$(get_pandoc_common_options)
 
         local ipath_prefix
         local ofile=${ofile_or_ipathprefix}
