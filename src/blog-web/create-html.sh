@@ -1,4 +1,5 @@
-src_path=/home/sonvhi/chenxiaosong/code/blog # 替换为你的仓库路径
+. ~/.top-path
+src_path=${MY_CODE_TOP_PATH}/blog # 替换为你的仓库路径
 tmp_html_path=/tmp/html-tmp # 临时的html文件夹，生成html完成后再重命名，防止生成html的过程中网站不能访问
 html_path=/var/www/html
 sign_path=${tmp_html_path}

@@ -1,4 +1,5 @@
-code_path=/home/sonvhi/chenxiaosong/code/
+. ~/.top-path
+code_path=${MY_CODE_TOP_PATH}
 user_name=chenxiaosonggithub
 
 git pull origin master

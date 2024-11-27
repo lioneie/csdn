@@ -1,4 +1,6 @@
-code_path=/home/sonvhi/chenxiaosong/code/
+. ~/.top-path
+
+code_path=${MY_CODE_TOP_PATH}
 # 导入其他脚本
 . ${code_path}/blog/src/blog-web/common-lib.sh
 

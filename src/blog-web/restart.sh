@@ -1,9 +1,10 @@
 # 运行命令不断检查 while true; do bash restart.sh; sleep 90; done
+. ~/.top-path
 
 is_replace_ip=true # 是否要替换ip
 other_ip=10.42.20.221 # 内网要替换的ip
 
-code_path=/home/sonvhi/chenxiaosong/code # 替换成你的仓库路径
+code_path=${MY_CODE_TOP_PATH} # 替换成你的仓库路径
 is_restart=false # 是否重新启动
 
 # 更新git仓库代码

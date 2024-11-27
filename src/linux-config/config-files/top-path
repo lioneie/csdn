@@ -1,2 +1,2 @@
-top_path=/home/sonvhi/chenxiaosong/
-code_top_path=${top_path}/code
+MY_TOP_PATH=/home/sonvhi/chenxiaosong/
+MY_CODE_TOP_PATH=${MY_TOP_PATH}/code

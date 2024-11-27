@@ -1,4 +1,5 @@
-code_path=/home/sonvhi/chenxiaosong/code/
+. ~/.top-path
+code_path=${MY_CODE_TOP_PATH}
 
 input_file=${code_path}/blog/src/blog-web/github-io-404.html
 origin_file=${code_path}/blog/src/blog-web/nginx-config

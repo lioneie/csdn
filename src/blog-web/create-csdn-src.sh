@@ -1,7 +1,8 @@
 # 此脚本用于生成CSDN等博客网站的文件
+. ~/.top-path
 
-src_path=/home/sonvhi/chenxiaosong/code/blog # 替换为你的仓库路径
-dst_path=/home/sonvhi/chenxiaosong/csdn-src
+src_path=${MY_CODE_TOP_PATH}/blog # 替换为你的仓库路径
+dst_path=${MY_TOP_PATH}/csdn-src
 
 . ${src_path}/src/blog-web/common-lib.sh
 . ${src_path}/src/blog-web/array.sh

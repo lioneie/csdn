@@ -1,3 +1,5 @@
+. ~/.top-path
+
 if [ $# -ne 3 ]; then
     echo "Usage: $0 \${is_replace_ip} \${other_ip} \${is_restart}"
     exit 1
@@ -7,7 +9,7 @@ is_replace_ip=$1
 other_ip=$2 # 内网要替换的ip
 is_restart=$3
 
-src_path=/home/sonvhi/chenxiaosong/code # 替换成你的仓库路径
+src_path=${MY_CODE_TOP_PATH} # 替换成你的仓库路径
 config_file=/etc/nginx/sites-enabled/default
 
 copy_config() {

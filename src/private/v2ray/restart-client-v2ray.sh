@@ -1,4 +1,5 @@
-config_file=/home/sonvhi/chenxiaosong/sw/v2ray-linux-64/config.json
+. ~/.top-path
+config_file=${MY_TOP_PATH}/sw/v2ray-linux-64/config.json
 port_line="                        \"port\": "
 country_line="                        \"address\": "
 

@@ -1,4 +1,5 @@
-base_image_path=/home/sonvhi/chenxiaosong/qemu-kernel/base_image
+. ~/.top-path
+base_image_path=${MY_TOP_PATH}/qemu-kernel/base_image
 
 arch_array=(	x86_64		aarch64	)
 release_array=(	bullseye	bullseye)

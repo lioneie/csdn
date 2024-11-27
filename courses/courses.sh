@@ -1,4 +1,5 @@
-src_path=/home/sonvhi/chenxiaosong/code/blog
+. ~/.top-path
+src_path=${MY_CODE_TOP_PATH}/blog
 dst_path=/tmp/blog
 
 is_create_md=$1 # 是否生成markdown
