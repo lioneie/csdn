@@ -292,8 +292,8 @@ git format-patch -3 --cover-letter --stat=300,200
 # --oneline：简化每条提交的显示。
 # --date=short：以简短的日期格式（YYYY-MM-DD）显示时间。
 # --format="%ad %h %s"：自定义输出格式，其中：
-# %ad：显示提交的日期（由 --date 指定的格式）。
-# %ci：显示提交的 日期和时间
+# %ad：显示提交的日期（由 --date 指定的格式），%d: 不包含时分秒
+# %ci：显示提交的 日期和时间，%i: 包含时分秒
 # %h：显示提交的简短哈希值。
 # %s：显示提交的信息。
 git log --author=yourname --oneline --date=short --format="%ad %h %s"
