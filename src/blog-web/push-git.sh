@@ -18,6 +18,7 @@ git init
 git remote add origin git@github.com:${user_name}/${user_name}.github.io.git
 git add .
 git commit -s -m "chenxiaosong.com"
+git branch -m master # 确保分支名为master
 git push origin master -f
 
 # others blog
