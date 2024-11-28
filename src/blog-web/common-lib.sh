@@ -153,7 +153,7 @@ remove_mid_lines() {
 
 # 删除完全匹配的一整行
 remove_line() {
-    local str=$1
+    local str=$1 # 调用的地方要用引号
     local path=$2
     # TODO: 把公共的命令提取成变量
     # -0777：使 perl 在处理文件时将整个文件作为一个单一的字符串，而不是逐行处理（即允许跨行匹配）
@@ -166,33 +166,51 @@ remove_line() {
     fi
 }
 
-remove_comments() {
+remove_other_comments() {
     local md_path=$1
-    local begin_str=$2
-    local end_str=$3
 
-    remove_mid_lines "${begin_str}" "${end_str}" ${md_path}
     # 正在写的内容就先不放上去
-    begin_str='<!-- ing begin -->'
-    end_str='<!-- ing end -->'
+    local begin_str='<!-- ing begin -->'
+    local end_str='<!-- ing end -->'
     remove_mid_lines "${begin_str}" "${end_str}" ${md_path}
+    remove_line "${begin_str}" "${md_path}"
+    remove_line "${end_str}" "${md_path}"
     # 把注释全部删除
     find ${md_path} -type f -name '*.md' -exec perl -i -pe 's/<!--.*?-->//g' {} + # 只能在同一行内，必须放在前面
     find ${md_path} -type f -name '*.md' -exec sed -i '/<!--/,/-->/d' {} + # 只能按行为单位删除
 }
 
-remove_private() {
+remove_comment_lines() {
     local md_path=$1
+    remove_line '<!-- public begin -->' "${md_path}"
+    remove_line '<!-- public end -->' "${md_path}"
+    remove_line '<!-- private begin -->' "${md_path}"
+    remove_line '<!-- private end -->' "${md_path}"
+}
+
+remove_comments() {
+    local md_path=$1
+    local is_public=$2
+
     local begin_str='<!-- private begin -->'
     local end_str='<!-- private end -->'
-    remove_comments "$1" "${begin_str}" "${end_str}"
+    if [[ ${is_public} == true ]]; then
+        begin_str='<!-- public begin -->'
+        end_str='<!-- public end -->'
+    fi
+    remove_mid_lines "${begin_str}" "${end_str}" "${md_path}"
+    remove_comment_lines "${md_path}"
+    remove_other_comments ${md_path}
+}
+
+remove_private() {
+    local md_path=$1
+    remove_comments "${md_path}" false
 }
 
 remove_public() {
     local md_path=$1
-    local begin_str='<!-- public begin -->'
-    local end_str='<!-- public end -->'
-    remove_comments "$1" "${begin_str}" "${end_str}"
+    remove_comments "${md_path}" true
 }
 
 add_or_sub_header() {
