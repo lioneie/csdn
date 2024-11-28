@@ -134,3 +134,22 @@ MOUNT_OPTIONS="-o acl,user_xattr"
 ```
 
 ## nfs
+
+先执行[`bash nfs-svr-setup.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/nfs-svr-setup.sh)启动nfs server。
+
+创建`local.config`配置文件:
+```sh
+TEST_DEV=localhost:/s_test
+TEST_DIR=/tmp/test
+SCRATCH_DEV=localhost:/s_scratch
+SCRATCH_MNT=/tmp/scratch
+FSTYP=nfs
+MOUNT_OPTIONS="-o vers=4.2"
+```
+
+测试命令:
+```sh
+./check generic/001
+./check nfs/001
+./check -g generic/dir # 组查看tests/generic/group.list
+```
