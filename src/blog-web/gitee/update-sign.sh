@@ -28,7 +28,7 @@ update_sign() {
     do
         local src_file=${array[${index}]}
 
-        remove_begin_end "${begin_str}" "${end_str}" ${src_file}
+        remove_mid_lines "${begin_str}" "${end_str}" ${src_file}
         cat ${sign_file} >> ${src_file}.tmp
         cat ${src_file} >> ${src_file}.tmp
         mv ${src_file}.tmp ${src_file}
