@@ -149,6 +149,21 @@ remove_begin_end() {
     fi
 }
 
+# 删除完全匹配的一整行
+remove_line() {
+    local str=$1
+    local path=$2
+    # TODO: 把公共的命令提取成变量
+    # -0777：使 perl 在处理文件时将整个文件作为一个单一的字符串，而不是逐行处理（即允许跨行匹配）
+    if [ -f "${path}" ]; then
+        perl -0777 -i -pe "s/\n${str}\n/\n/g" ${path}
+    elif [ -d "${path}" ]; then
+        find ${path} -type f -exec perl -0777 -i -pe "s/\n${str}\n/\n/g" {} +
+    else
+        echo "${path} 既不是文件也不是目录"
+    fi
+}
+
 remove_comments() {
     local md_path=$1
     local begin_str=$2
