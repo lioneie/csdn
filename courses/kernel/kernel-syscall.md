@@ -37,7 +37,10 @@ SYSCALL_DEFINE0(ni_syscall)
 
 # 增加一个系统调用
 
-内核打上补丁<!-- public begin -->[`src/0001-add-new-syscall-openat_test.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-add-new-syscall-openat_test.patch)<!-- public end -->
+内核打上补丁
+<!-- public begin -->
+[`src/0001-add-new-syscall-openat_test.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-add-new-syscall-openat_test.patch)
+<!-- public end -->
 <!-- private begin -->
 `src/0001-add-new-syscall-openat_test.patch`
 <!-- private end -->

@@ -74,7 +74,10 @@ tar xvf linux-6.8.5.tar.xz
 
 ## qemu
 
-内核编译时打开[Documentation/9psetup](https://wiki.qemu.org/Documentation/9psetup)中的配置。虚拟机中执行脚本<!-- public begin -->[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mod-cfg.sh)<!-- public end -->
+内核编译时打开[Documentation/9psetup](https://wiki.qemu.org/Documentation/9psetup)中的配置。虚拟机中执行脚本
+<!-- public begin -->
+[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mod-cfg.sh)
+<!-- public end -->
 <!-- private begin -->
 `src/mod-cfg.sh`
 <!-- private end -->
@@ -198,7 +201,12 @@ cd events/ext2/ext2_dio_read_begin
 ls # enable  filter  format  hist  id  trigger
 ```
 
-## `trace-cmd`<!-- public begin -->和`kernelshark`<!-- public end -->
+<!-- public begin -->
+## `trace-cmd` 和`kernelshark`
+<!-- public end -->
+<!-- private begin -->
+## `trace-cmd`
+<!-- private end -->
 
 ```sh
 sudo apt install trace-cmd -y
@@ -271,7 +279,10 @@ cat trace_pipe
 
 ## 插入`kprobe`模块
 
-参考<!-- public begin -->[kprobes](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kprobes)<!-- public end -->
+参考
+<!-- public begin -->
+[kprobes](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kprobes)
+<!-- public end -->
 <!-- private begin -->
 `src/kprobes`
 <!-- private end -->

@@ -1,4 +1,8 @@
-一般的Linux书籍都是先讲解进程和内存相关的知识，但我想先讲解文件系统。<!-- public begin -->第一，因为我就是做文件系统的，更擅长这一块，其他模块的内容我还要再去好好看看书，毕竟不能误人子弟嘛；第二，是<!-- public end -->因为文件系统模块更接近于用户态，是相对比较好理解的内容（当然想深入还是要下大功夫的），由文件系统入手比较适合初学者。
+一般的Linux书籍都是先讲解进程和内存相关的知识，但我想先讲解文件系统。
+<!-- public begin -->
+第一，因为我就是做文件系统的，更擅长这一块，其他模块的内容我还要再去好好看看书，毕竟不能误人子弟嘛；第二，是
+<!-- public end -->
+因为文件系统模块更接近于用户态，是相对比较好理解的内容（当然想深入还是要下大功夫的），由文件系统入手比较适合初学者。
 
 # 什么是文件系统
 
@@ -834,7 +838,10 @@ struct ucounts {
 
 ### `inode`的`i_nlink`
 
-调试补丁为<!-- public begin -->[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-vfs.patch)<!-- public end -->
+调试补丁为
+<!-- public begin -->
+[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-vfs.patch)
+<!-- public end -->
 <!-- private begin -->
 `src/0001-debug-vfs.patch`
 <!-- private end -->
@@ -881,7 +888,10 @@ mkdir // 系统调用
 
 ### `super_block`的`s_mounts`
 
-调试补丁为<!-- public begin -->[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-vfs.patch)<!-- public end -->
+调试补丁为
+<!-- public begin -->
+[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-vfs.patch)
+<!-- public end -->
 <!-- private begin -->
 `src/0001-debug-vfs.patch`
 <!-- private end -->
@@ -908,7 +918,10 @@ mount
 
 ### 通过`inode`得到完整路径
 
-调试补丁为<!-- public begin -->[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-vfs.patch)<!-- public end -->
+调试补丁为
+<!-- public begin -->
+[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-vfs.patch)
+<!-- public end -->
 <!-- private begin -->
 `src/0001-debug-vfs.patch`
 <!-- private end -->

@@ -1,6 +1,10 @@
 下面介绍Linux内核编译环境和测试环境的搭建过程，当然我也为各位朋友准备好了已经安装好的虚拟机镜像，只需下载运行即可。
 
-<!-- public begin -->[点击这里从百度网盘下载对应平台的虚拟机镜像](https://chenxiaosong.com/baidunetdisk)，<!-- public end -->`x86_64`（也就是你平时用来安装windows系统的电脑，或者2020年前的苹果电脑）选择`ubuntu-x64_64.zip`，`arm64`（2020年末之后的苹果电脑）选择`ubuntu-aarch64.zip`。虚拟机运行后，登录界面的密码是`1`。
+
+<!-- public begin -->
+[点击这里从百度网盘下载对应平台的虚拟机镜像](https://chenxiaosong.com/baidunetdisk)，
+<!-- public end -->
+`x86_64`（也就是你平时用来安装windows系统的电脑，或者2020年前的苹果电脑）选择`ubuntu-x64_64.zip`，`arm64`（2020年末之后的苹果电脑）选择`ubuntu-aarch64.zip`。虚拟机运行后，登录界面的密码是`1`。
 
 # 安装Linux发行版
 
@@ -12,10 +16,16 @@
 
 ## 虚拟机软件
 
-接下来介绍几个常用的虚拟机软件。Windows系统推荐使用VirtualBox，arm64苹果系统推荐使用UTM。<!-- public begin -->如果你在看VMware虚拟机相关的视频，[请转为查看这个视频](https://www.bilibili.com/video/BV1Ss421T7KY/);
+接下来介绍几个常用的虚拟机软件。Windows系统推荐使用VirtualBox，arm64苹果系统推荐使用UTM。
+<!-- public begin -->
+如果你在看VMware虚拟机相关的视频，[请转为查看这个视频](https://www.bilibili.com/video/BV1Ss421T7KY/);
+<!-- public end -->
 
 - [VirtualBox](https://www.virtualbox.org/)。首先在[VirtualBox下载界面](https://www.virtualbox.org/wiki/Downloads)下载对应平台的安装包，比如如果要在Windows系统下安装VirtualBox，点击**Windows hosts**下载安装包。VirtualBox的安装过程很简单，只需根据安装提示操作即可。VirtualBox安装完成后，下载**VirtualBox 7.0.14 Oracle VM VirtualBox Extension Pack**安装插件。[arm芯片的版本](https://isapplesiliconready.com/app/Virtualbox)好像只有[7.0.8版本](https://download.virtualbox.org/virtualbox/7.0.8/)才有。
-- [VMware](https://www.vmware.com/)。[下载点击这篇文章](https://blogs.vmware.com/teamfusion/2024/05/fusion-pro-now-available-free-for-personal-use.html)，注册登录账号，下载时的信息填写类似`Address 1: 1ONE, City: SACRAMENTO, Postal code: 94203-0001, Country/Territory: United States, State or province: California`。安装过程很简单，只需根据提示操作即可。<!-- public begin -->Linux下安装VMware时需要注意的是`/tmp`目录的挂载不能在`/etc/fstab`文件中指定`noexec`，还需要安装gcc较新的版本（如`VMware-Workstation-Full-17.5.1-23298084.x86_64.bundle`在ubuntu2204下安装时要安装gcc12，默认安装的是gcc11）。<!-- public end -->
+- [VMware](https://www.vmware.com/)。[下载点击这篇文章](https://blogs.vmware.com/teamfusion/2024/05/fusion-pro-now-available-free-for-personal-use.html)，注册登录账号，下载时的信息填写类似`Address 1: 1ONE, City: SACRAMENTO, Postal code: 94203-0001, Country/Territory: United States, State or province: California`。安装过程很简单，只需根据提示操作即可。
+<!-- public begin -->
+Linux下安装VMware时需要注意的是`/tmp`目录的挂载不能在`/etc/fstab`文件中指定`noexec`，还需要安装gcc较新的版本（如`VMware-Workstation-Full-17.5.1-23298084.x86_64.bundle`在ubuntu2204下安装时要安装gcc12，默认安装的是gcc11）。
+<!-- public end -->
 - [Virtual Machine Manager](https://virt-manager.org/)。这个虚拟机软件只用在Linux平台上，如果你物理机上安装的操作系统是Linux，那么使用这个软件运行虚拟机就比较合适。比如在Ubuntu上使用命令`sudo apt-get install qemu qemu-kvm virt-manager qemu-system -y`安装（需要重启才能以非root用户启动）。
 - [UTM](https://mac.getutm.app/)。只针对苹果电脑系统，从[github](https://docs.getutm.app/installation/macos/)下载安装包。建议在配置比较高（尤其是内存）的苹果电脑上使用，如果配置比较低可能会遇到一些问题。从[github](https://docs.getutm.app/installation/macos/)上下载安装包。导入虚拟机时，选择"创建一个新虚拟机" -> "虚拟化" -> "其他" -> 打勾"Skip ISO boot"，"Storage"选择小一点的容量（如`1G`），创建虚拟机后打开配置，"VirtIO驱动器" -> "删除"，然后再"新建" -> "导入"，可以选择`vmdk`或`qcow2`等格式，会统一转换成`qcow2`格式，保存后生效。安装后的虚拟机文件在`~/Library/Containers/com.utmapp.UTM/Data/Documents`目录下，默认Finder中不显示这个目录，可以在家目录下打开`Show View Options -> Show Library Folder`。需要注意一下，网络如果选择`共享网络`会出现不稳定断网的情况，建议选择`桥接（高级）`，选择`桥接`时如果宿主机的网络切换了（如连了另一个wifi）虚拟机中的网络也要断开重连一下。如果出现虚拟机网络经常断开的情况，可以尝试宿主机换一个稳定的网络。
 
@@ -312,7 +322,10 @@ git clone https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linu
 
 ## 编译步骤
 
-建议新建一个`build`目录，把所有的编译输出存放在这个目录下，注意<!-- public begin -->[`.config`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)<!-- public end -->
+建议新建一个`build`目录，把所有的编译输出存放在这个目录下，注意
+<!-- public begin -->
+[`.config`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)
+<!-- public end -->
 <!-- private begin -->
 `src/x86_64/config`
 <!-- private end -->
@@ -485,7 +498,10 @@ make O=build SPHINXOPTS=-v htmldocs -j`nproc` # -v 获得更详细的输出。
 
 如果你要更方便的使用一些调试的功能，就要加一些额外的补丁。
 
-- 降低编译优化等级，默认的内核编译优化等级太高，用GDB调试时不太方便，有些函数语句被优化了，无法打断点，这时就要降低编译优化等级。做好的虚拟机中已经打上了降低编译优化等级的补丁。<!-- public begin -->比如`x86_64`架构下可以在[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)目录下选择对应版本的补丁，更多详细的内容请查看GDB调试相关的章节。<!-- public end -->
+- 降低编译优化等级，默认的内核编译优化等级太高，用GDB调试时不太方便，有些函数语句被优化了，无法打断点，这时就要降低编译优化等级。做好的虚拟机中已经打上了降低编译优化等级的补丁。
+<!-- public begin -->
+比如`x86_64`架构下可以在[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)目录下选择对应版本的补丁，更多详细的内容请查看GDB调试相关的章节。
+<!-- public end -->
 - `dump_stack()`输出的栈全是问号的解决办法。如果你使用`dump_stack()`输出的栈全是问号，可以 revert 补丁 `f1d9a2abff66 x86/unwind/orc: Don't skip the first frame for inactive tasks`。主线已经有补丁做了 revert: `230db82413c0 x86/unwind/orc: Fix unreliable stack dump with gcov`。
 <!-- public begin -->
 - 肯定还有一些其他有用的补丁，后面再补充哈。
@@ -527,15 +543,28 @@ QEMU: quick emulation，高速度、跨平台的开源模拟器，能模拟x86�
 
 ## 制作测试用的qcow2镜像的脚本
 
-测试编译好的内核我们不直接用发行版的iso镜像安装的系统，而是使用脚本生成比较小的镜像（不含有图形界面）。<!-- public begin -->进入目录[`courses`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses)，<!-- public end -->选择相应的cpu架构，如<!-- public begin -->[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)<!-- public end -->
+测试编译好的内核我们不直接用发行版的iso镜像安装的系统，而是使用脚本生成比较小的镜像（不含有图形界面）。
+<!-- public begin -->
+进入目录[`courses`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses)，
+<!-- public end -->
+选择相应的cpu架构，如
+<!-- public begin -->
+[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)
+<!-- public end -->
 <!-- private begin -->
 `src/x86_64`
 <!-- private end -->
-目录。执行<!-- public begin -->[`create-raw.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/create-raw.sh)<!-- public end -->
+目录。执行
+<!-- public begin -->
+[`create-raw.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/create-raw.sh)
+<!-- public end -->
 <!-- private begin -->
 `create-raw.sh`
 <!-- private end -->
-生成raw格式的镜像，这个脚本会调用到<!-- public begin -->[`create-debian.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/create-debian.sh)<!-- public end -->
+生成raw格式的镜像，这个脚本会调用到
+<!-- public begin -->
+[`create-debian.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/create-debian.sh)
+<!-- public end -->
 <!-- private begin -->
 `src/create-debian.sh`
 <!-- private end -->
@@ -549,15 +578,24 @@ QEMU: quick emulation，高速度、跨平台的开源模拟器，能模拟x86�
 qemu-img convert -p -f raw -O qcow2 image.raw image.qcow2
 ```
 
-再执行脚本<!-- public begin -->[`link-scripts.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/link-scripts.sh)<!-- public end -->
+再执行脚本
+<!-- public begin -->
+[`link-scripts.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/link-scripts.sh)
+<!-- public end -->
 <!-- private begin -->
 `src/link-scripts.sh`
 <!-- private end -->
-把脚本链接到相应的目录，执行<!-- public begin -->[`update-base.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/update-base.sh)<!-- public end -->
+把脚本链接到相应的目录，执行
+<!-- public begin -->
+[`update-base.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/update-base.sh)
+<!-- public end -->
 <!-- private begin -->
 `update-base.sh`
 <!-- private end -->
-启动虚拟机更新镜像（如再安装一些额外的软件），镜像更新完后关闭虚拟机，再执行<!-- public begin -->[`create-qcow2.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/create-qcow2.sh)<!-- public end -->
+启动虚拟机更新镜像（如再安装一些额外的软件），镜像更新完后关闭虚拟机，再执行
+<!-- public begin -->
+[`create-qcow2.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/create-qcow2.sh)
+<!-- public end -->
 <!-- private begin -->
 `create-qcow2.sh`
 <!-- private end -->
@@ -689,7 +727,11 @@ virsh net-start default
 
 ## qemu运行qcow2镜像
 
-制作好的Ubuntu虚拟机镜像<!-- public begin -->（从百度网盘中下载的）<!-- public end -->中的`${HOME}/qemu-kernel/start.sh`脚本中每个选项的可选值可以使用以下命令查看:
+制作好的Ubuntu虚拟机镜像
+<!-- public begin -->
+（从百度网盘中下载的）
+<!-- public end -->
+中的`${HOME}/qemu-kernel/start.sh`脚本中每个选项的可选值可以使用以下命令查看:
 ```sh
 qemu-system-aarch64 -cpu ?
 qemu-system-x86_64 -machine ?
@@ -708,7 +750,10 @@ echo "stty rows 54 cols 229" > stty.sh
 . stty.sh
 ```
 
-当启用了9p文件系统，就可以把宿主机的modules目录（当然也可以是其他任何目录）共享给虚拟机，具体参考[Documentation/9psetup](https://wiki.qemu.org/Documentation/9psetup)。虚拟机中执行脚本<!-- public begin -->[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mod-cfg.sh)<!-- public end -->
+当启用了9p文件系统，就可以把宿主机的modules目录（当然也可以是其他任何目录）共享给虚拟机，具体参考[Documentation/9psetup](https://wiki.qemu.org/Documentation/9psetup)。虚拟机中执行脚本
+<!-- public begin -->
+[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mod-cfg.sh)
+<!-- public end -->
 <!-- private begin -->
 `src/mod-cfg.sh`
 <!-- private end -->
@@ -763,13 +808,23 @@ CONFIG_FRAME_POINTER=y # Makefile 中选择GCC编译选项
 CONFIG_RANDOMIZE_BASE = n # 关闭地址随机化
 ```
 
-可以使用<!-- public begin -->我常用的[x86_64的内核配置文件](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)。<!-- public end -->
+可以使用
+<!-- public begin -->
+我常用的[x86_64的内核配置文件](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)。
+<!-- public end -->
 <!-- private begin -->
 `src/x86_64/config`
 <!-- private end -->
 配置文件。
 
-<!-- public begin -->gcc的编译选项`O1`优化等级不需要修改就可以编译通过。`O0`优化等级无法编译（尝试`CONFIG_JUMP_LABEL=n`还是不行），要修改汇编代码，有兴趣的朋友可以和我一直尝试。<!-- public end -->`Og`优化等级经过修改可以编译通过，`x86_64`合入目录<!-- public begin -->[`courses/kernel/src/x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)<!-- public end -->
+
+<!-- public begin -->
+gcc的编译选项`O1`优化等级不需要修改就可以编译通过。`O0`优化等级无法编译（尝试`CONFIG_JUMP_LABEL=n`还是不行），要修改汇编代码，有兴趣的朋友可以和我一直尝试。
+<!-- public end -->
+`Og`优化等级经过修改可以编译通过，`x86_64`合入目录
+<!-- public begin -->
+[`courses/kernel/src/x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)
+<!-- public end -->
 <!-- private begin -->
 `src/x86_64`
 <!-- private end -->
@@ -785,7 +840,11 @@ qemu启动虚拟机时，要添加以下几个选项:
 -s # 相当于 -gdb tcp::1234 默认端口1234，不建议用，最好指定端口
 ```
 
-完整的启动命令查看制作好的Ubuntu虚拟机镜像<!-- public begin -->（从百度网盘中下载的）<!-- public end -->中的`${HOME}/qemu-kernel/start.sh`脚本。
+完整的启动命令查看制作好的Ubuntu虚拟机镜像
+<!-- public begin -->
+（从百度网盘中下载的）
+<!-- public end -->
+中的`${HOME}/qemu-kernel/start.sh`脚本。
 
 ## GDB命令
 
