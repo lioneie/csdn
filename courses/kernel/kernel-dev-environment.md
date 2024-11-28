@@ -312,7 +312,11 @@ git clone https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linu
 
 ## 编译步骤
 
-建议新建一个`build`目录，把所有的编译输出存放在这个目录下，注意<!-- public begin -->[`.config`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)<!-- public end --><!-- private begin -->`src/x86_64/config`<!-- private end -->文件复制到`build/.config`。`.config`配置文件至少要打开以下配置（建议通过`make O=build menuconfig`命令修改）:
+建议新建一个`build`目录，把所有的编译输出存放在这个目录下，注意<!-- public begin -->[`.config`](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)<!-- public end -->
+<!-- private begin -->
+`src/x86_64/config`
+<!-- private end -->
+文件复制到`build/.config`。`.config`配置文件至少要打开以下配置（建议通过`make O=build menuconfig`命令修改）:
 ```sh
 CONFIG_EXT4_FS
 CONFIG_XFS_FS
@@ -523,7 +527,19 @@ QEMU: quick emulation，高速度、跨平台的开源模拟器，能模拟x86�
 
 ## 制作测试用的qcow2镜像的脚本
 
-测试编译好的内核我们不直接用发行版的iso镜像安装的系统，而是使用脚本生成比较小的镜像（不含有图形界面）。<!-- public begin -->进入目录[`courses`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses)，<!-- public end -->选择相应的cpu架构，如<!-- public begin -->[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)<!-- public end --><!-- private begin -->`src/x86_64`<!-- private end -->目录。执行<!-- public begin -->[`create-raw.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/create-raw.sh)<!-- public end --><!-- private begin -->`create-raw.sh`<!-- private end -->生成raw格式的镜像，这个脚本会调用到<!-- public begin -->[`create-debian.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/create-debian.sh)<!-- public end --><!-- private begin -->`src/create-debian.sh`<!-- private end -->，是从[syzkaller的脚本](https://github.com/google/syzkaller/blob/master/tools/create-image.sh)经过修改而来。
+测试编译好的内核我们不直接用发行版的iso镜像安装的系统，而是使用脚本生成比较小的镜像（不含有图形界面）。<!-- public begin -->进入目录[`courses`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses)，<!-- public end -->选择相应的cpu架构，如<!-- public begin -->[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)<!-- public end -->
+<!-- private begin -->
+`src/x86_64`
+<!-- private end -->
+目录。执行<!-- public begin -->[`create-raw.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/create-raw.sh)<!-- public end -->
+<!-- private begin -->
+`create-raw.sh`
+<!-- private end -->
+生成raw格式的镜像，这个脚本会调用到<!-- public begin -->[`create-debian.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/create-debian.sh)<!-- public end -->
+<!-- private begin -->
+`src/create-debian.sh`
+<!-- private end -->
+，是从[syzkaller的脚本](https://github.com/google/syzkaller/blob/master/tools/create-image.sh)经过修改而来。
 
 注意riscv64架构的镜像，可以直接下载[ubuntu2204](https://ubuntu.com/download/risc-v)（选择[QEMU emulator]），[使用文档](https://wiki.ubuntu.com/RISC-V/QEMU?_gl=1*5kle2i*_gcl_au*MTE0MzIzMjgyMi4xNzE3NTA4NjU1&_ga=2.54580847.51388592.1718933588-66008337.1718933588)。
 
@@ -533,7 +549,19 @@ QEMU: quick emulation，高速度、跨平台的开源模拟器，能模拟x86�
 qemu-img convert -p -f raw -O qcow2 image.raw image.qcow2
 ```
 
-再执行脚本<!-- public begin -->[`link-scripts.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/link-scripts.sh)<!-- public end --><!-- private begin -->`src/link-scripts.sh`<!-- private end -->把脚本链接到相应的目录，执行<!-- public begin -->[`update-base.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/update-base.sh)<!-- public end --><!-- private begin -->`update-base.sh`<!-- private end -->启动虚拟机更新镜像（如再安装一些额外的软件），镜像更新完后关闭虚拟机，再执行<!-- public begin -->[`create-qcow2.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/create-qcow2.sh)<!-- public end --><!-- private begin -->`create-qcow2.sh`<!-- private end -->生成指向基础镜像的qcow2镜像。
+再执行脚本<!-- public begin -->[`link-scripts.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/link-scripts.sh)<!-- public end -->
+<!-- private begin -->
+`src/link-scripts.sh`
+<!-- private end -->
+把脚本链接到相应的目录，执行<!-- public begin -->[`update-base.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/update-base.sh)<!-- public end -->
+<!-- private begin -->
+`update-base.sh`
+<!-- private end -->
+启动虚拟机更新镜像（如再安装一些额外的软件），镜像更新完后关闭虚拟机，再执行<!-- public begin -->[`create-qcow2.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/create-qcow2.sh)<!-- public end -->
+<!-- private begin -->
+`create-qcow2.sh`
+<!-- private end -->
+生成指向基础镜像的qcow2镜像。
 
 ## 通过iso安装发行版
 
@@ -680,7 +708,11 @@ echo "stty rows 54 cols 229" > stty.sh
 . stty.sh
 ```
 
-当启用了9p文件系统，就可以把宿主机的modules目录（当然也可以是其他任何目录）共享给虚拟机，具体参考[Documentation/9psetup](https://wiki.qemu.org/Documentation/9psetup)。虚拟机中执行脚本<!-- public begin -->[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mod-cfg.sh)<!-- public end --><!-- private begin -->`src/mod-cfg.sh`<!-- private end -->（直接运行`bash mod-cfg.sh`可以查看使用帮助）挂载和链接模块目录。
+当启用了9p文件系统，就可以把宿主机的modules目录（当然也可以是其他任何目录）共享给虚拟机，具体参考[Documentation/9psetup](https://wiki.qemu.org/Documentation/9psetup)。虚拟机中执行脚本<!-- public begin -->[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mod-cfg.sh)<!-- public end -->
+<!-- private begin -->
+`src/mod-cfg.sh`
+<!-- private end -->
+（直接运行`bash mod-cfg.sh`可以查看使用帮助）挂载和链接模块目录。
 
 root免密登录，`/etc/ssh/sshd_config`（注意不是`ssh_config`） 修改以下内容:
 ```
@@ -731,9 +763,17 @@ CONFIG_FRAME_POINTER=y # Makefile 中选择GCC编译选项
 CONFIG_RANDOMIZE_BASE = n # 关闭地址随机化
 ```
 
-可以使用<!-- public begin -->我常用的[x86_64的内核配置文件](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)。<!-- public end --><!-- private begin -->`src/x86_64/config`配置文件。<!-- private end -->
+可以使用<!-- public begin -->我常用的[x86_64的内核配置文件](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/x86_64-config)。<!-- public end -->
+<!-- private begin -->
+`src/x86_64/config`
+<!-- private end -->
+配置文件。
 
-<!-- public begin -->gcc的编译选项`O1`优化等级不需要修改就可以编译通过。`O0`优化等级无法编译（尝试`CONFIG_JUMP_LABEL=n`还是不行），要修改汇编代码，有兴趣的朋友可以和我一直尝试。<!-- public end -->`Og`优化等级经过修改可以编译通过，`x86_64`合入目录<!-- public begin -->[`courses/kernel/src/x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)<!-- public end --><!-- private begin -->`src/x86_64`<!-- private end -->对应版本的补丁。建议使用`Og`优化等级编译，既能满足gdb调试需求，也能尽量少的修改代码。
+<!-- public begin -->gcc的编译选项`O1`优化等级不需要修改就可以编译通过。`O0`优化等级无法编译（尝试`CONFIG_JUMP_LABEL=n`还是不行），要修改汇编代码，有兴趣的朋友可以和我一直尝试。<!-- public end -->`Og`优化等级经过修改可以编译通过，`x86_64`合入目录<!-- public begin -->[`courses/kernel/src/x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)<!-- public end -->
+<!-- private begin -->
+`src/x86_64`
+<!-- private end -->
+对应版本的补丁。建议使用`Og`优化等级编译，既能满足gdb调试需求，也能尽量少的修改代码。
 
 ## QEMU命令选项
 

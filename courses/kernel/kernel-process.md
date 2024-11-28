@@ -37,7 +37,11 @@ struct pcpu_hot {
 
 ## 进程描述符
 
-用结构体`struct task_struct`来描述进程，这个结构体很大，请查看<!-- private begin -->`task_struct.c`<!-- private end --><!-- public begin -->[`src/task_struct.c`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/task_struct.c)<!-- public end -->。
+用结构体`struct task_struct`来描述进程，这个结构体很大，请查看 <!-- public begin -->[`src/task_struct.c`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/task_struct.c)<!-- public end -->
+<!-- private begin -->
+`task_struct.c`
+<!-- private end -->
+。
 
 其中`__state`可以是以下值，通过`set_current_state(state_value)`来设置:
 
@@ -130,7 +134,15 @@ waitpid
 
 ## 调试
 
-内核打上<!-- public begin -->[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-task_struct.patch)<!-- public end --><!-- private begin -->`src/0001-debug-task_struct.patch`<!-- private end -->补丁，编译运行<!-- public begin -->[`fork.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/fork.c)<!-- public end --><!-- private begin -->`src/fork.c`<!-- private end -->:
+内核打上<!-- public begin -->[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-task_struct.patch)<!-- public end -->
+<!-- private begin -->
+`src/0001-debug-task_struct.patch`
+<!-- private end -->
+补丁，编译运行<!-- public begin -->[`fork.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/fork.c)<!-- public end -->
+<!-- private begin -->
+`src/fork.c`
+<!-- private end -->
+:
 ```sh
 mkfs.ext2 -F image
 mount image /mnt
@@ -260,7 +272,15 @@ int kthread_stop(struct task_struct *k)
 
 ## 调试
 
-内核打上<!-- public begin -->[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-task_struct.patch)<!-- public end --><!-- private begin -->`src/0001-debug-task_struct.patch`<!-- private end -->补丁，编译运行<!-- public begin -->[`pthread.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/pthread.c)<!-- public end --><!-- private begin -->`src/pthread.c`<!-- private end -->:
+内核打上<!-- public begin -->[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-task_struct.patch)<!-- public end -->
+<!-- private begin -->
+`src/0001-debug-task_struct.patch`
+<!-- private end -->
+补丁，编译运行<!-- public begin -->[`pthread.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/pthread.c)<!-- public end -->
+<!-- private begin -->
+`src/pthread.c`
+<!-- private end -->
+:
 ```sh
 mkfs.ext2 -F image
 mount image /mnt
@@ -304,7 +324,11 @@ int nice(int incr)
 SYSCALL_DEFINE1(nice, int, increment)
 ```
 
-示例文件<!-- public begin -->[`nice.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/nice.c)<!-- public end --><!-- private begin -->`src/nice.c`<!-- private end -->。两个进程并行运行，各自增加自己的计数器。父进程使用默认nice值，子进程nice值可选。
+示例文件<!-- public begin -->[`nice.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/nice.c)<!-- public end -->
+<!-- private begin -->
+`src/nice.c`
+<!-- private end -->
+。两个进程并行运行，各自增加自己的计数器。父进程使用默认nice值，子进程nice值可选。
 
 `gcc nice.c -o nice` 编译文件。
 

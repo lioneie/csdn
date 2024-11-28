@@ -21,7 +21,11 @@ Linux内核社区主要以邮件交流为主，以下是一些常用的网站:
 
 CLA 协议是开源贡献协议，用于规范贡献者的权利及义务。贡献者在贡献openEuler社区前，需要[签署CLA](https://clasign.osinfra.cn/sign/gitee_openeuler-1611298811283968340)，[签署流程](https://www.openeuler.org/zh/blog/2022-11-25-cla/CLA%E7%AD%BE%E7%BD%B2%E6%B5%81%E7%A8%8B.html)。如果你是以公司邮箱贡献，且公司已经签了CLA，你应该选择“法人贡献者登记”；如果你是以个人邮箱贡献，选择“签署个人CLA”。注意仓库下`.git/config`或`~/.gitconfig`中的邮箱配置要求必须是签署了CLA的邮箱，用`git log --pretty=fuller`可以查看commit的邮箱。
 
-[Kernel SIG | openEuler Kernel 补丁合入规范](https://my.oschina.net/openeuler/blog/5949607)，可以用<!-- public begin -->[脚本`create-openeuler-git-msg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/scripts/create-openeuler-git-msg.sh)<!-- public end --><!-- private begin -->脚本`src/scripts/create-openeuler-git-msg.sh`<!-- private end -->生成openEuler补丁需要的格式。
+[Kernel SIG | openEuler Kernel 补丁合入规范](https://my.oschina.net/openeuler/blog/5949607)，可以用<!-- public begin -->[脚本`create-openeuler-git-msg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/scripts/create-openeuler-git-msg.sh)<!-- public end -->
+<!-- private begin -->
+脚本`src/scripts/create-openeuler-git-msg.sh`
+<!-- private end -->
+生成openEuler补丁需要的格式。
 
 # 内核源码树
 
@@ -68,7 +72,11 @@ CLA 协议是开源贡献协议，用于规范贡献者的权利及义务。贡�
 
 ## 准备补丁
 
-你可以通过[bugzilla](https://bugzilla.kernel.org/)或[syzbot](https://syzkaller.appspot.com/upstream)发现内核bug，也可以通过阅读内核代码发现bug或进行重构。<!-- public begin -->或者可以用[`calc-func-lines.sh`脚本](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/scripts/calc-func-lines.sh)<!-- public end --><!-- private begin -->或者可以用`src/scripts/calc-func-lines.sh`脚本<!-- private end -->找到长函数（不容易阅读）进行重构。
+你可以通过[bugzilla](https://bugzilla.kernel.org/)或[syzbot](https://syzkaller.appspot.com/upstream)发现内核bug，也可以通过阅读内核代码发现bug或进行重构。<!-- public begin -->或者可以用[`calc-func-lines.sh`脚本](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/scripts/calc-func-lines.sh)<!-- public end -->
+<!-- private begin -->
+或者可以用`src/scripts/calc-func-lines.sh`脚本
+<!-- private end -->
+找到长函数（不容易阅读）进行重构。
 
 可以参考内核仓库中的补丁<!-- public begin -->，比如[我提交的补丁](https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/?qt=grep&q=chenxiaosong)<!-- public end -->。修改代码时要参考[Linux内核代码风格](https://www.kernel.org/doc/html/latest/translations/zh_CN/process/coding-style.html#cn-codingstyle)。
 
