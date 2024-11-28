@@ -76,7 +76,9 @@
 
 [LTP Network Tests README](https://chenxiaosong.com/src/translations/tests/ltp-network-tests-readme.html)
 
-[(x)fstests README](https://chenxiaosong.com/src/translations/tests/xfstests-readme.html)
+[xfstests README](https://chenxiaosong.com/src/translations/tests/xfstests-readme.html)
+
+[xfstests README.config-sections](https://chenxiaosong.com/src/translations/tests/xfstests-readme.config-sections.html)
 
 [syzkaller - kernel fuzzer](https://chenxiaosong.com/src/translations/tests/syzkaller.html)
 

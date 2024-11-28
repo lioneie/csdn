@@ -207,7 +207,8 @@ array=(
         # tests
         1 1 src/translations/tests/ltp-readme.md ~ "Linux Test Project README"
         1 1 src/translations/tests/ltp-network-tests-readme.md ~ "LTP Network Tests README"
-        1 1 src/translations/tests/xfstests-readme.md ~ "(x)fstests README"
+        1 1 src/translations/tests/xfstests-readme.md ~ "xfstests README"
+        1 1 src/translations/tests/xfstests-readme.config-sections.md ~ "xfstests README.config-sections"
         1 1 src/translations/tests/syzkaller.md ~ "syzkaller - kernel fuzzer"
         1 1 src/translations/tests/kdevops-readme.md ~ "kdevops README"
         1 1 src/translations/tests/kdevops-nfs.md ~ "kdevops docs/nfs.md"
