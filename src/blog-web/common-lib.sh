@@ -62,6 +62,9 @@ create_html() {
     local is_replace_ip=$5
     local other_ip=$6
 
+    # 以下内容如果修改了，还要修改create-csdn-src.sh中的create_csdn_src()
+    # blog web shell common begin 1
+
     local element_count="${#array[@]}" # 总个数
     local count_per_line=5
     for ((index=0; index<${element_count}; index=$((index + ${count_per_line})))); do
@@ -70,8 +73,8 @@ create_html() {
         local ifile=${array[${index}+2]}
         local ofile_or_ipathprefix=${array[${index}+3]}
         local html_title=${array[${index}+4]}
-        local pandoc_options=$(get_pandoc_common_options)
 
+        local pandoc_options=$(get_pandoc_common_options)
         local ipath_prefix
         local ofile=${ofile_or_ipathprefix}
         local src_file=${src_path}/${ifile} # 源路径拼接
@@ -83,6 +86,7 @@ create_html() {
             ofile="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
         fi
 
+        # blog web shell common end 1
         # 以上内容如果修改了，还要修改create-csdn-src.sh中的create_csdn_src()
 
         local dst_file=${tmp_html_path}/${ofile} # 拼接生成html文件名

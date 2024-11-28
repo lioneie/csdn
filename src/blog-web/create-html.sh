@@ -1,6 +1,6 @@
 . ~/.top-path
 src_path=${MY_CODE_TOP_PATH}/blog # 替换为你的仓库路径
-tmp_html_path=/tmp/html-tmp # 临时的html文件夹，生成html完成后再重命名，防止生成html的过程中网站不能访问
+tmp_html_path=/tmp/blog-html-tmp # 临时的html文件夹，生成html完成后再重命名，防止生成html的过程中网站不能访问
 html_path=/var/www/html
 sign_path=${tmp_html_path}
 is_set_html_path=false # 是否指定html路径
@@ -20,13 +20,16 @@ fi
 my_init() {
     rm -rf ${tmp_html_path}
     mkdir -p ${tmp_html_path}
-    bash ${src_path}/courses/courses.sh true
+    rm -rf ${tmp_src_path}
+    mkdir -p ${tmp_src_path}
+    bash ${src_path}/courses/courses.sh ${tmp_src_path}
+    remove_private ${tmp_src_path}
 }
 
 my_exit() {
     rm ${html_path}/ -rf
     mv ${tmp_html_path} ${html_path}
-    bash ${src_path}/courses/courses.sh false
+    rm -rf ${tmp_src_path}
 }
 
 copy_files() {

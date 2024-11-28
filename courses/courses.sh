@@ -1,8 +1,7 @@
 . ~/.top-path
 src_path=${MY_CODE_TOP_PATH}/blog
-dst_path=/tmp/blog
 
-is_create_md=$1 # 是否生成markdown
+tmp_src_path=$1
 
 . ${src_path}/src/blog-web/common-lib.sh
 
@@ -19,7 +18,7 @@ add_common() {
         local ifile=${array[${index}+1]}
 
         local src_file=${src_path}/${ifile}
-        local dst_file=${dst_path}/${ifile}
+        local dst_file=${tmp_src_path}/${ifile}
         local dst_dir="$(dirname "${dst_file}")" # 所在的文件夹
         if [ ! -d "${dst_dir}" ]; then
             mkdir -p "${dst_dir}" # 文件夹不存在就创建
@@ -99,12 +98,7 @@ algorithms_files() {
     add_common array[@] ${common_file}
 }
 
-rm -rf ${dst_path}
-if [ ${is_create_md} = true ]; then
-    mkdir ${dst_path} -p
-    kernel_files
-    nfs_files
-    smb_files
-    algorithms_files
-    remove_private ${dst_path}
-fi
+kernel_files
+nfs_files
+smb_files
+algorithms_files

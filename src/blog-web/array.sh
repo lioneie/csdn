@@ -1,4 +1,4 @@
-tmp_courses_path=/tmp/blog
+tmp_src_path=/tmp/blog-src-tmp
 
 # 每一行代表:
 #    是否生成目录
@@ -17,20 +17,20 @@ array=(
     1 1 src/blog-web/q.md q.html "QQ交流群"
     # 课程
     1 1 courses/myfs/myfs.md ~ '"我的"文件系统'
-    0 1 courses/kernel/kernel.md ${tmp_courses_path} "Linux内核课程"
-        1 1 courses/kernel/kernel-introduction.md ${tmp_courses_path} "内核简介"
-        1 1 courses/kernel/kernel-dev-environment.md ${tmp_courses_path} "内核开发环境"
-        1 1 courses/kernel/kernel-book.md ${tmp_courses_path} "内核书籍推荐"
-        1 1 courses/kernel/kernel-source.md ${tmp_courses_path} "内核源码介绍"
-        1 1 courses/kernel/kernel-fs.md ${tmp_courses_path} "文件系统"
-        1 1 courses/kernel/kernel-debug.md ${tmp_courses_path} "内核调试方法"
-        1 1 courses/kernel/kernel-mm.md ${tmp_courses_path} "内存管理"
-        1 1 courses/kernel/kernel-process.md ${tmp_courses_path} "进程管理和调度"
-        1 1 courses/kernel/kernel-interrupt.md ${tmp_courses_path} "中断"
-        1 1 courses/kernel/kernel-syscall.md ${tmp_courses_path} "系统调用"
-        1 1 courses/kernel/kernel-timer.md ${tmp_courses_path} "定时器"
-        1 1 courses/kernel/kernel-bpf.md ${tmp_courses_path} "BPF"
-        1 1 courses/kernel/kernel-patches.md ${tmp_courses_path} "内核补丁分析"
+    0 1 courses/kernel/kernel.md ${tmp_src_path} "Linux内核课程"
+        1 1 courses/kernel/kernel-introduction.md ${tmp_src_path} "内核简介"
+        1 1 courses/kernel/kernel-dev-environment.md ${tmp_src_path} "内核开发环境"
+        1 1 courses/kernel/kernel-book.md ${tmp_src_path} "内核书籍推荐"
+        1 1 courses/kernel/kernel-source.md ${tmp_src_path} "内核源码介绍"
+        1 1 courses/kernel/kernel-fs.md ${tmp_src_path} "文件系统"
+        1 1 courses/kernel/kernel-debug.md ${tmp_src_path} "内核调试方法"
+        1 1 courses/kernel/kernel-mm.md ${tmp_src_path} "内存管理"
+        1 1 courses/kernel/kernel-process.md ${tmp_src_path} "进程管理和调度"
+        1 1 courses/kernel/kernel-interrupt.md ${tmp_src_path} "中断"
+        1 1 courses/kernel/kernel-syscall.md ${tmp_src_path} "系统调用"
+        1 1 courses/kernel/kernel-timer.md ${tmp_src_path} "定时器"
+        1 1 courses/kernel/kernel-bpf.md ${tmp_src_path} "BPF"
+        1 1 courses/kernel/kernel-patches.md ${tmp_src_path} "内核补丁分析"
             # 我写的补丁
             1 1 courses/kernel/patches/xfs-fix-NULL-pointer-dereference-in-xfs_getbmap.md ~
                 "001c179c4e26d xfs: fix NULL pointer dereference in xfs_getbmap()"
@@ -55,15 +55,15 @@ array=(
                 "c186f0887fe7 ext4: fix use-after-free in ext4_search_dir"
             1 1 courses/kernel/patches/refactor-of-__ext4_fill_super.md ~
                 "some refactor of __ext4_fill_super()"
-    0 1 courses/nfs/nfs.md ${tmp_courses_path} "nfs文件系统"
-        1 1 courses/nfs/nfs-introduction.md ${tmp_courses_path} "nfs简介"
-        1 1 courses/nfs/nfs-environment.md ${tmp_courses_path} "nfs环境"
-        1 1 courses/nfs/nfs-client-struct.md ${tmp_courses_path} "nfs client数据结构"
-        1 1 courses/nfs/pnfs.md ${tmp_courses_path} "Parallel NFS (pNFS)"
-        1 1 courses/nfs/nfs-debug.md ${tmp_courses_path} "nfs调试方法"
-        1 1 courses/nfs/nfs-multipath.md ${tmp_courses_path} "nfs多路径"
-        1 1 courses/nfs/nfs-patches.md ${tmp_courses_path} "nfs补丁分析"
-        1 1 courses/nfs/nfs-others.md ${tmp_courses_path} "nfs未分类的内容"
+    0 1 courses/nfs/nfs.md ${tmp_src_path} "nfs文件系统"
+        1 1 courses/nfs/nfs-introduction.md ${tmp_src_path} "nfs简介"
+        1 1 courses/nfs/nfs-environment.md ${tmp_src_path} "nfs环境"
+        1 1 courses/nfs/nfs-client-struct.md ${tmp_src_path} "nfs client数据结构"
+        1 1 courses/nfs/pnfs.md ${tmp_src_path} "Parallel NFS (pNFS)"
+        1 1 courses/nfs/nfs-debug.md ${tmp_src_path} "nfs调试方法"
+        1 1 courses/nfs/nfs-multipath.md ${tmp_src_path} "nfs多路径"
+        1 1 courses/nfs/nfs-patches.md ${tmp_src_path} "nfs补丁分析"
+        1 1 courses/nfs/nfs-others.md ${tmp_src_path} "nfs未分类的内容"
             # 我写的补丁
             1 1 courses/nfs/patches/CVE-2022-24448.md ~ "CVE-2022-24448"
             1 1 courses/nfs/patches/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
@@ -86,7 +86,7 @@ array=(
                 "600df3856f0b nfsd: Remove incorrect check in nfsd4_validate_stateid"
             1 1 courses/nfs/patches/patchset-nfs_instantiate-might-succeed-leaving-dentry-negative-unhashed.md ~
                 "patchset: nfs_instantiate() might succeed leaving dentry negative unhashed"
-        1 1 courses/nfs/nfs-issues.md ${tmp_courses_path} "nfs问题分析"
+        1 1 courses/nfs/nfs-issues.md ${tmp_src_path} "nfs问题分析"
             1 1 courses/nfs/issues/nfs-clients-same-hostname-clientid-expire.md ~ "多个NFS客户端使用相同的hostname导致clientid过期"
             1 1 courses/nfs/issues/4.19-nfs-no-iterate_shared.md ~ "nfs没实现iterate_shared导致的遍历目录无法并发问题"
             1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage空指针解引用问题'
@@ -96,22 +96,22 @@ array=(
             1 1 courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.md ~ "4.19 __nfs3_proc_setacls空指针解引用问题"
             1 1 courses/nfs/issues/nfs-df-long-time.md ~ "nfs df命令执行时间长的问题"
 
-    0 1 courses/smb/smb.md ${tmp_courses_path} "smb文件系统"
-        1 1 courses/smb/smb-introduction.md ${tmp_courses_path} "smb简介"
-        1 1 courses/smb/smb-environment.md ${tmp_courses_path} "smb环境"
-        1 1 courses/smb/ksmbd.md ${tmp_courses_path} "smb server (ksmbd)"
-        1 1 courses/smb/smb-client-struct.md ${tmp_courses_path} "smb client数据结构"
-        1 1 courses/smb/smb-debug.md ${tmp_courses_path} "smb调试方法"
-        1 1 courses/smb/smb-patches.md ${tmp_courses_path} "smb补丁分析"
-        1 1 courses/smb/smb-refactor.md ${tmp_courses_path} "smb代码重构"
-        1 1 courses/smb/smb-others.md ${tmp_courses_path} "smb未分类的内容"
+    0 1 courses/smb/smb.md ${tmp_src_path} "smb文件系统"
+        1 1 courses/smb/smb-introduction.md ${tmp_src_path} "smb简介"
+        1 1 courses/smb/smb-environment.md ${tmp_src_path} "smb环境"
+        1 1 courses/smb/ksmbd.md ${tmp_src_path} "smb server (ksmbd)"
+        1 1 courses/smb/smb-client-struct.md ${tmp_src_path} "smb client数据结构"
+        1 1 courses/smb/smb-debug.md ${tmp_src_path} "smb调试方法"
+        1 1 courses/smb/smb-patches.md ${tmp_src_path} "smb补丁分析"
+        1 1 courses/smb/smb-refactor.md ${tmp_src_path} "smb代码重构"
+        1 1 courses/smb/smb-others.md ${tmp_src_path} "smb未分类的内容"
             # 我写的补丁
             # 其他人的补丁
             1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
                 "7de0394801da cifs: Fix in error types returned for out-of-credit situations."
-    0 1 courses/algorithms/algorithms.md ${tmp_courses_path} "算法"
-        1 1 courses/algorithms/dynamic-programming.md ${tmp_courses_path} "动态规划"
-        1 1 courses/algorithms/sort.md ${tmp_courses_path} "排序算法"
+    0 1 courses/algorithms/algorithms.md ${tmp_src_path} "算法"
+        1 1 courses/algorithms/dynamic-programming.md ${tmp_src_path} "动态规划"
+        1 1 courses/algorithms/sort.md ${tmp_src_path} "排序算法"
     1 1 courses/book-contents.md ~ "书籍目录"
     # Linux内核
     1 1 src/kernel-environment/kernel-qemu-kvm.md ~ "QEMU/KVM环境搭建与使用"
