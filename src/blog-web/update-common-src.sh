@@ -38,4 +38,19 @@ update_md_sign() {
     done
 }
 
-update_md_sign ${code_path}/blog/src/blog-web/gitee/
+update_common_src() {
+    local src_file=$1
+    local dst_file=$2
+    local begin_str=$3
+    local end_str=$4
+
+    cp ${src_file} ${src_file}.tmp
+    sed -i "/${begin_str}/,/${end_str}/!d" ${src_file}.tmp # 只保留begin到end的内容
+    sed -i '1d;$d' ${src_file}.tmp # 删除第一行和最后一行
+    remove_mid_lines "${begin_str}" "${end_str}" "${dst_file}"
+    sed -i -e "/${begin_str}/r ${src_file}.tmp" ${dst_file}
+    rm ${src_file}.tmp
+}
+
+update_md_sign "${code_path}/blog/src/blog-web/gitee/"
+update_common_src "${code_path}/blog/src/blog-web/common-lib.sh" "${code_path}/blog/src/blog-web/create-csdn-src.sh" "# blog web shell common begin 1" "# blog web shell common end 1"
