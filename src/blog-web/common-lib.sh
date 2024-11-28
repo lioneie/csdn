@@ -142,10 +142,10 @@ remove_begin_end() {
         perl -i -pe "s/${begin_str}.*?${end_str}//g" ${path} # 只能在同一行内，必须放在前面
         sed -i "/${begin_str}/,/${end_str}/d" ${path} # 只能按行为单位删除
     elif [ -d "$path" ]; then
-        find ${path} -type f -name '*.md' -exec perl -i -pe "s/${begin_str}.*?${end_str}//g" {} + # 只能在同一行内，必须放在前面
-        find ${path} -type f -name '*.md' -exec sed -i "/${begin_str}/,/${end_str}/d" {} + # 只能按行为单位删除
+        find ${path} -type f -exec perl -i -pe "s/${begin_str}.*?${end_str}//g" {} + # 只能在同一行内，必须放在前面
+        find ${path} -type f -exec sed -i "/${begin_str}/,/${end_str}/d" {} + # 只能按行为单位删除
     else
-        echo "$path 既不是文件也不是目录"
+        echo "${path} 既不是文件也不是目录"
     fi
 }
 
