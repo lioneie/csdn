@@ -304,11 +304,13 @@ create_src_for_header() {
 generate_index() {
     local dir="$1"
     local parent_dir="$2"
+    local start_dir="$3"
+
     local title=${dir/$start_dir/} # 干掉前缀
     title="${title:-top}"
     local html_name
 
-    if [ -n "$parent_dir" ]; then
+    if [ -n "${parent_dir}" ]; then
         html_name="index.html"
     else
         html_name="ls.html"
@@ -323,14 +325,14 @@ generate_index() {
         echo "<h1>Index of ${title}</h1><hr><pre>"
 
         # 输出父目录链接（如果有的话）
-        if [ -n "$parent_dir" ]; then
+        if [ -n "${parent_dir}" ]; then
             echo "<a href=\"../\">../</a>"
         fi
 
         # 遍历目录中的内容，输出每个文件或目录的链接
-        for entry in "$dir"/*; do
+        for entry in "${dir}"/*; do
             local entry_name=$(basename "$entry")
-            if [ "$entry_name" = "${html_name}" ]; then
+            if [ "${entry_name}" = "${html_name}" ]; then
                 # 自己还显示个啥呢
                 continue
             elif [ -d "$entry" ]; then
@@ -345,12 +347,12 @@ generate_index() {
         # 输出文件尾
         echo "</pre><hr></body>"
         echo "</html>"
-    } > "$index_file"
+    } > "${index_file}"
 
     # 递归生成子目录的 index.html
-    for subdir in "$dir"/*; do
-        if [ -d "$subdir" ]; then
-            generate_index "$subdir" "$dir"
+    for subdir in "${dir}"/*; do
+        if [ -d "${subdir}" ]; then
+            generate_index "${subdir}" "${dir}" "${start_dir}"
         fi
     done
 }
