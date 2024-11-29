@@ -1,6 +1,7 @@
 . ~/.top-path
 code_path=${MY_CODE_TOP_PATH}
 user_name=chenxiaosonggithub
+github_io_repo=${code_path}/${user_name}.github.io/
 # 导入其他脚本
 . ${code_path}/blog/src/blog-web/common-lib.sh
 
@@ -9,13 +10,13 @@ git push origin master
 git pull github master
 git push github master
 
-bash ${code_path}/blog/src/blog-web/create-html.sh false this-arg-is-useless ${code_path}/${user_name}.github.io/
-cp ${code_path}/blog/src/blog-web/github-io-404.html ${code_path}/${user_name}.github.io/404.html
-cp ${code_path}/blog/src/blog-web/github-io-README.md ${code_path}/${user_name}.github.io/README.md
-echo "chenxiaosong.com" > ${code_path}/${user_name}.github.io/CNAME
-generate_index ${code_path}/${user_name}.github.io/
+bash ${code_path}/blog/src/blog-web/create-html.sh false this-arg-is-useless ${github_io_repo}
+cp ${code_path}/blog/src/blog-web/github-io-404.html ${github_io_repo}/404.html
+cp ${code_path}/blog/src/blog-web/github-io-README.md ${github_io_repo}/README.md
+echo "chenxiaosong.com" > ${github_io_repo}/CNAME
+generate_index "${github_io_repo}" "" "${github_io_repo}"
 
-cd ${code_path}/${user_name}.github.io/
+cd ${github_io_repo}
 git init
 git remote add origin git@github.com:${user_name}/${user_name}.github.io.git
 git add .
