@@ -31,10 +31,9 @@ replace_with_other_ip() {
 
 create_sign() {
     local src_file=$1
-    local tmp_html_path=$2
+    local dst_file=$2
 
     local html_title="签名"
-    local dst_file=${tmp_html_path}/sign.html
     local pandoc_options=$(get_pandoc_common_options)
     local from_format="--from markdown"
     pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
@@ -58,7 +57,7 @@ create_html() {
     local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ...
     local src_path=$2
     local tmp_html_path=$3
-    local sign_path=$4
+    local sign_html=$4
     local is_replace_ip=$5
     local other_ip=$6
 
@@ -108,8 +107,8 @@ create_html() {
             replace_with_other_ip ${dst_file} ${other_ip}
         fi
         if [[ ${is_sign} == 1 ]]; then
-            # 在<header之后插入sign.html整个文件
-            sed -i -e '/<header/r '${sign_path}'/sign.html' ${dst_file}
+            # 在'<header'之后插入整个签名文件
+            sed -i -e '/<header/r '${sign_html} ${dst_file}
         fi
 
         # cd ${src_path}

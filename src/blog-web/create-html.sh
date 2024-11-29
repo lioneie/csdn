@@ -2,7 +2,7 @@
 src_path=${MY_CODE_TOP_PATH}/blog # 替换为你的仓库路径
 tmp_html_path=/tmp/blog-html-tmp # 临时的html文件夹，生成html完成后再重命名，防止生成html的过程中网站不能访问
 html_path=/var/www/html
-sign_path=${tmp_html_path}
+sign_html=${tmp_html_path}/sign.html
 is_set_html_path=false # 是否指定html路径
 
 is_replace_ip=$1
@@ -63,9 +63,9 @@ do_change_perm() {
 }
 
 my_init
-create_sign ${src_path}/src/blog-web/sign.md ${tmp_html_path}
+create_sign ${src_path}/src/blog-web/sign.md ${sign_html}
 update_lan_sign
-create_html array[@] ${src_path} ${tmp_html_path} ${sign_path} ${is_replace_ip} ${other_ip}
+create_html array[@] ${src_path} ${tmp_html_path} ${sign_html} ${is_replace_ip} ${other_ip}
 copy_files
 do_change_perm
 my_exit
