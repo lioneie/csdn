@@ -1,7 +1,7 @@
 # 检查参数
 if [ $# -ne 2 ]; then
-    echo "用法: bash $0 <commit_id> <mainline/stable>"
-    exit 1
+	echo "用法: bash $0 <commit_id> <mainline/stable>"
+	exit 1
 fi
 
 commit_id=$1

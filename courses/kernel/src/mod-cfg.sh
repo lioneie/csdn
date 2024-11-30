@@ -1,6 +1,6 @@
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 \${repo_name}"
-    exit 1
+	echo "Usage: $0 \${repo_name}"
+	exit 1
 fi
 
 mnt_point=/tmp/9p
