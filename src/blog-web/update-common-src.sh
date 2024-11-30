@@ -52,5 +52,5 @@ update_common_src() {
     rm ${src_file}.tmp
 }
 
-update_md_sign "${code_path}/blog/src/blog-web/gitee/"
+update_md_sign "${code_path}/blog/src/gitee-md/"
 update_common_src "${code_path}/blog/src/blog-web/common-lib.sh" "${code_path}/blog/src/blog-web/create-csdn-src.sh" "# blog web shell common begin 1" "# blog web shell common end 1"
