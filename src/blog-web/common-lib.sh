@@ -408,3 +408,13 @@ check_repo() {
 		not_sync_repos_ref+=(${repo})
 	fi
 }
+
+print_repos_result() {
+	local description=$1
+	local repos=("${!2}")
+
+	local len="${#repos[@]}"
+	if [ "${len}" -ne 0 ]; then
+		echo "${description} ${repos[@]}"
+	fi
+}
