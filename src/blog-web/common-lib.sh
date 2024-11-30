@@ -1,3 +1,10 @@
+# 要定义MY_DEBUG变量
+my_echo() {
+	if [ "${MY_ECHO_DEBUG}" -eq 1 ]; then
+		echo "$@"
+	fi
+}
+
 get_pandoc_common_options() {
     # --standalone: 此选项指示 pandoc 生成一个完全独立的输出文件，包括文档标题、样式表和其他元数据，使输出文件成为一个完整的文档。
     # --metadata encoding=gbk: 这个选项允许您添加元数据。在这种情况下，您将 encoding 设置为 gbk，指定输出 HTML 文档的字符编码为 GBK。这对于确保生成的文档以正确的字符编码进行保存非常重要。
@@ -355,4 +362,49 @@ generate_index() {
             generate_index "${subdir}" "${dir}" "${start_dir}"
         fi
     done
+}
+
+check_repo() {
+	local path=$1
+	local -n not_exist_repos_ref=$2
+	local -n not_clean_repos_ref=$3
+	local -n not_sync_repos_ref=$4
+	local -n ok_repos_ref=$5
+
+	local repo=$(basename "${path}")
+	local path=${code_path}/${repo}
+
+	if [ ! -d "${path}" ]; then
+		my_echo "${repo}目录不存在"
+		not_exist_repos_ref+=(${repo})
+		return
+	fi
+
+	cd ${path}
+	status=$(git status -s)
+
+	if [ ! -z "${status}" ]; then
+		my_echo "${repo}有未提交的更改:"
+		my_echo "${status}"
+		not_clean_repos_ref+=(${repo})
+		return
+	fi
+
+	git fetch origin
+	if [ $? -ne 0 ]; then
+		echo "!!! ${repo} fetch fail !!!"
+		return
+	fi
+	origin_commit=$(git rev-parse origin/master)
+	master_commit=$(git rev-parse master)
+	my_echo "${repo} origin_commit: ${origin_commit}"
+	my_echo "${repo} master_commit: ${master_commit}"
+
+	if [ "${origin_commit}" == "${master_commit}" ]; then
+		my_echo "${repo}全部搞定"
+		ok_repos_ref+=(${repo})
+	else
+		my_echo "${repo}未push/pull"
+		not_sync_repos_ref+=(${repo})
+	fi
 }
