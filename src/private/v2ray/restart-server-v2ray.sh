@@ -4,8 +4,8 @@ target_line="            \"port\": "
 port=${1}
 if [ -z "${port}" ]
 then
-        echo "Please specify port!!!"
-        return 1
+		echo "Please specify port!!!"
+		return 1
 fi
 
 sed -i "s/^${target_line}.*$/${target_line}${port},/" ${config_file}
