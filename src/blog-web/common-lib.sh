@@ -1,4 +1,20 @@
-# 要定义MY_DEBUG变量
+get_green_color() {
+	echo '\033[0;32m'
+}
+
+get_yellow_color() {
+	echo '\033[1;33m'
+}
+
+get_red_color() {
+	echo '\033[1;31m'
+}
+
+get_no_color() {
+	echo '\033[0m'
+}
+
+# 要定义MY_ECHO_DEBUG变量
 my_echo() {
 	if [ "${MY_ECHO_DEBUG}" -eq 1 ]; then
 		echo "$@"
@@ -415,6 +431,6 @@ print_repos_result() {
 
 	local len="${#repos[@]}"
 	if [ "${len}" -ne 0 ]; then
-		echo "${description} ${repos[@]}"
+		echo -e "${description} ${repos[@]}"
 	fi
 }
