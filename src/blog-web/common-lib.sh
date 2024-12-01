@@ -426,11 +426,11 @@ check_repo() {
 }
 
 print_array() {
-	local description=$1
-	local array=("${!2}")
+	local array=("${!1}")
+	local descriptions=("${@:2}")
 
 	local len="${#array[@]}"
 	if [ "${len}" -ne 0 ]; then
-		echo -e "${description} ${array[@]}"
+		echo -e "${descriptions[@]}"
 	fi
 }

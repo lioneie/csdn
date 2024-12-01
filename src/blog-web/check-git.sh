@@ -12,10 +12,10 @@ ok_repos=()
 
 print_result() {
 	echo
-	print_array "$(get_red_color)未提交的仓库:$(get_no_color)" "not_clean_repos[@]"
-	print_array "$(get_red_color)未push/pull的仓库:$(get_no_color)" "not_sync_repos[@]"
-	print_array "$(get_yellow_color)不存在的仓库:$(get_no_color)" "not_exist_repos[@]"
-	print_array "$(get_green_color)全部搞定的仓库:$(get_no_color)" "ok_repos[@]"
+	print_array "not_clean_repos[@]" "$(get_red_color)" "未提交的仓库:" "${not_clean_repos[@]}" "$(get_no_color)"
+	print_array "not_sync_repos[@]" "$(get_red_color)" "未push/pull的仓库:" "${not_sync_repos[@]}" "$(get_no_color)"
+	print_array "not_exist_repos[@]" "$(get_yellow_color)" "不存在的仓库:" "${not_exist_repos[@]}" "$(get_no_color)"
+	print_array "ok_repos[@]" "$(get_green_color)" "全部搞定的仓库:" "${ok_repos[@]}"  "$(get_no_color)"
 }
 
 check_git() {
