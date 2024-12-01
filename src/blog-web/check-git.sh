@@ -12,10 +12,10 @@ ok_repos=()
 
 print_result() {
 	echo
-	print_repos_result "未提交的仓库:" "not_clean_repos[@]"
-	print_repos_result "未push/pull的仓库:" "not_sync_repos[@]"
-	print_repos_result "不存在的仓库:" "not_exist_repos[@]"
-	print_repos_result "全部搞定的仓库:" "ok_repos[@]"
+	print_repos_result "$(get_red_color)未提交的仓库:$(get_no_color)" "not_clean_repos[@]"
+	print_repos_result "$(get_red_color)未push/pull的仓库:$(get_no_color)" "not_sync_repos[@]"
+	print_repos_result "$(get_yellow_color)不存在的仓库:$(get_no_color)" "not_exist_repos[@]"
+	print_repos_result "$(get_green_color)全部搞定的仓库:$(get_no_color)" "ok_repos[@]"
 }
 
 check_git() {
@@ -28,5 +28,5 @@ check_git "tmp"
 check_git "private-blog"
 check_git "private-tmp"
 check_git "myfs"
-print_result
 . ${code_path}/private-blog/scripts/check-git.sh
+print_result
