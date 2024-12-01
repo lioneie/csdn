@@ -28,5 +28,5 @@ check_git "tmp"
 check_git "private-blog"
 check_git "private-tmp"
 check_git "myfs"
-. ${code_path}/private-blog/scripts/check-git.sh
+. ${code_path}/private-blog/scripts/check-gitee.sh
 print_result
