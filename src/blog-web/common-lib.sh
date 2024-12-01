@@ -388,7 +388,6 @@ check_repo() {
 	local -n ok_repos_ref=$5
 
 	local repo=$(basename "${path}")
-	local path=${code_path}/${repo}
 
 	if [ ! -d "${path}" ]; then
 		my_echo "${repo}目录不存在"
