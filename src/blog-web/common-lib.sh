@@ -425,12 +425,12 @@ check_repo() {
 	fi
 }
 
-print_repos_result() {
+print_array() {
 	local description=$1
-	local repos=("${!2}")
+	local array=("${!2}")
 
-	local len="${#repos[@]}"
+	local len="${#array[@]}"
 	if [ "${len}" -ne 0 ]; then
-		echo -e "${description} ${repos[@]}"
+		echo -e "${description} ${array[@]}"
 	fi
 }
