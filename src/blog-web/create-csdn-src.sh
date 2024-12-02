@@ -1,6 +1,8 @@
 # 此脚本用于生成CSDN等博客网站的文件
 . ~/.top-path
 
+is_remove_all_comments=$1
+
 src_path=${MY_CODE_TOP_PATH}/blog # 替换为你的仓库路径
 dst_path=${MY_TOP_PATH}/csdn-src
 
@@ -17,7 +19,9 @@ my_init() {
 
 my_exit() {
 	# rm -rf ${tmp_src_path} # 为了方便对比，不删除
-	: # 占位符，相当于空操作
+	if [[ "${is_remove_all_comments}" == true ]]; then
+		remove_other_comments ${dst_path}
+	fi
 }
 
 change_private_perm() {
