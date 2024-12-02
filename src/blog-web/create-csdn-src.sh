@@ -9,11 +9,15 @@ dst_path=${MY_TOP_PATH}/csdn-src
 
 my_init() {
 	rm -rf ${dst_path}
-	bash ${src_path}/courses/courses.sh true
+	rm -rf ${tmp_src_path}
+	mkdir -p ${tmp_src_path}
+	bash ${src_path}/courses/courses.sh ${tmp_src_path}
+	remove_private ${tmp_src_path}
 }
 
 my_exit() {
-	bash ${src_path}/courses/courses.sh false
+	# rm -rf ${tmp_src_path} # 为了方便对比，不删除
+	: # 占位符，相当于空操作
 }
 
 change_private_perm() {
