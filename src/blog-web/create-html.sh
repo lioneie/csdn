@@ -18,6 +18,8 @@ fi
 . ${src_path}/src/blog-web/array.sh
 
 my_init() {
+	rm -rf ${html_path}
+	mkdir -p ${html_path}
 	rm -rf ${tmp_html_path}
 	mkdir -p ${tmp_html_path}
 	rm -rf ${tmp_src_path}
