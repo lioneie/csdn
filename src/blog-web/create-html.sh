@@ -9,7 +9,7 @@ is_replace_ip=$1
 other_ip=$2
 if [ $# -ge 3 ]; then
 	html_path=$3
-	echo "set html path ${html_path}, do not change permission"
+	echo "set html path ${html_path}"
 	is_set_html_path=true
 fi
 
