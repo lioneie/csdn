@@ -5,6 +5,8 @@ public_src_path=${MY_CODE_TOP_PATH}/blog # 替换为你的仓库路径
 title_name_dst_path=${MY_TOP_PATH}/title-name-src
 csdn_dst_path=${MY_TOP_PATH}/csdn-src
 
+BLOG_URL="https://chenxiaosong.com"
+
 . ${public_src_path}/src/blog-web/common-lib.sh
 . ${public_src_path}/src/blog-web/array.sh
 
@@ -53,7 +55,7 @@ create_full_src() {
 	echo '--> ' >> ${dst_file}
 	echo >> ${dst_file}
 
-	echo '[建议点击这里查看个人主页上的最新原文](https://chenxiaosong.com/'${ofile}')' >> ${dst_file}
+	echo '[建议点击这里查看个人主页上的最新原文]('${BLOG_URL}'/'${ofile}')' >> ${dst_file}
 	echo >> ${dst_file}
 	cat ${src_path}/src/blog-web/sign.md >> ${dst_file}
 	echo >> ${dst_file}
