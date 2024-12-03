@@ -76,16 +76,11 @@ create_sign() {
 #		3. '~'，就代表只和源文件的后缀名不同
 #		4. 绝对路径的目录，代表源文件路径前缀，这时目的文件和上面的情况3一样
 #	网页标题
-create_html() {
-	local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ...
-	local src_path=$2
-	local tmp_html_path=$3
-	local sign_html=$4
-	local is_replace_ip=$5
-	local other_ip=$6
-
-	# 以下内容如果修改了，还要修改create-csdn-src.sh中的create_csdn_src()
-	# blog web shell common begin 1
+iterate_array() {
+	local function=$1 # 调用的地方 iterate_array ... function ...
+	local array=("${!2}") # 使用间接引用来接收数组，调用的地方 iterate_array array[@] ...
+	local src_path=$3
+	shift 3 # "$@"移除前面的参数
 
 	local element_count="${#array[@]}" # 总个数
 	local count_per_line=5
@@ -96,10 +91,10 @@ create_html() {
 		local ofile_or_ipathprefix=${array[${index}+3]}
 		local html_title=${array[${index}+4]}
 
-		local pandoc_options=$(get_pandoc_common_options)
-		local ipath_prefix
-		local ofile=${ofile_or_ipathprefix}
 		local src_file=${src_path}/${ifile} # 源路径拼接
+		local ofile=${ofile_or_ipathprefix}
+
+		local ipath_prefix
 		if [[ ${ofile_or_ipathprefix} == ~ ]]; then
 			ofile="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
 		elif [ -d "${ofile_or_ipathprefix}" ]; then # ofile_or_ipathprefix是目录绝对路径, 代表源文件路径前缀
@@ -108,36 +103,74 @@ create_html() {
 			ofile="${ifile%.*}.html" # 使用参数扩展去除文件名的后缀，再加.html
 		fi
 
-		# blog web shell common end 1
-		# 以上内容如果修改了，还要修改create-csdn-src.sh中的create_csdn_src()
-
-		local dst_file=${tmp_html_path}/${ofile} # 拼接生成html文件名
-		local dst_dir="$(dirname "${dst_file}")" # html文件所在的文件夹
-		if [ ! -d "${dst_dir}" ]; then
-			mkdir -p "${dst_dir}" # 文件夹不存在就创建
-		fi
-		from_format="--from markdown"
-		if [[ ${src_file} == *.rst ]]; then
-			from_format="--from rst" # rst格式
-		fi
-		if [[ ${is_toc} == 1 ]]; then
-			pandoc_options="${pandoc_options} --toc"
-		fi
-		echo "create ${ofile}"
-		pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
-		# 局域网的处理
-		if [[ ${is_replace_ip} == true ]]; then
-			replace_with_other_ip ${dst_file} ${other_ip}
-		fi
-		if [[ ${is_sign} == 1 ]]; then
-			# 在'<header'之后插入整个签名文件
-			sed -i -e '/<header/r '${sign_html} ${dst_file}
-		fi
-
-		# cd ${src_path}
-		# git log -1 --format=%ad --date=iso ${ifile}
-		# cd -
+		${function} \
+			"${is_toc}"	\
+			"${is_sign}"	\
+			"${ifile}"	\
+			"${ofile}"	\
+			"${html_title}"	\
+			"${src_file}"	\
+			"${src_path}"	\
+			"$@" # 剩下的参数
 	done
+}
+
+__create_html() {
+	local is_toc=$1
+	shift; local is_sign=$1
+	shift; local ifile=$1
+	shift; local ofile=$1
+	shift; local html_title=$1
+	shift; local src_file=$1
+	shift; local src_path=$1
+
+	shift; local tmp_html_path=$1
+	shift; local sign_html=$1
+	shift; local is_replace_ip=$1
+	shift; local other_ip=$1
+
+	local dst_file=${tmp_html_path}/${ofile} # 拼接生成html文件名
+	local dst_dir="$(dirname "${dst_file}")" # html文件所在的文件夹
+	if [ ! -d "${dst_dir}" ]; then
+		mkdir -p "${dst_dir}" # 文件夹不存在就创建
+	fi
+	local from_format="--from markdown"
+	if [[ ${src_file} == *.rst ]]; then
+		from_format="--from rst" # rst格式
+	fi
+	local pandoc_options=$(get_pandoc_common_options)
+	if [[ ${is_toc} == 1 ]]; then
+		pandoc_options="${pandoc_options} --toc"
+	fi
+	echo "create ${ofile}"
+	pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
+	# 局域网的处理
+	if [[ ${is_replace_ip} == true ]]; then
+		replace_with_other_ip ${dst_file} ${other_ip}
+	fi
+	if [[ ${is_sign} == 1 ]]; then
+		# 在'<header'之后插入整个签名文件
+		sed -i -e '/<header/r '${sign_html} ${dst_file}
+	fi
+
+	# cd ${src_path}
+	# git log -1 --format=%ad --date=iso ${ifile}
+	# cd -
+}
+
+create_html() {
+	local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ...
+	shift; local src_path=$1
+	shift; local tmp_html_path=$1
+	shift; local sign_html=$1
+	shift; local is_replace_ip=$1
+	shift; local other_ip=$1
+
+	iterate_array __create_html array[@] "${src_path}" \
+		"${tmp_html_path}"	\
+		"${sign_html}"		\
+		"${is_replace_ip}"	\
+		"${other_ip}"
 }
 
 change_perm() {
