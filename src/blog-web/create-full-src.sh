@@ -1,19 +1,19 @@
 # 此脚本用于生成以标题命名的文件和CSDN等博客网站的文件
 . ~/.top-path
 
-src_path=${MY_CODE_TOP_PATH}/blog # 替换为你的仓库路径
+public_src_path=${MY_CODE_TOP_PATH}/blog # 替换为你的仓库路径
 title_name_dst_path=${MY_TOP_PATH}/title-name-src
 csdn_dst_path=${MY_TOP_PATH}/csdn-src
 
-. ${src_path}/src/blog-web/common-lib.sh
-. ${src_path}/src/blog-web/array.sh
+. ${public_src_path}/src/blog-web/common-lib.sh
+. ${public_src_path}/src/blog-web/array.sh
 
 my_init() {
 	rm -rf ${title_name_dst_path}
 	rm -rf ${csdn_dst_path}
 	rm -rf ${tmp_src_path}
 	mkdir -p ${tmp_src_path}
-	bash ${src_path}/courses/courses.sh ${tmp_src_path}
+	bash ${public_src_path}/courses/courses.sh ${tmp_src_path}
 	remove_private ${tmp_src_path}
 }
 
@@ -119,7 +119,7 @@ create_csdn_src() {
 }
 
 my_init
-create_title_name_src array[@] ${src_path} ${title_name_dst_path}
-create_csdn_src array[@] ${src_path} ${csdn_dst_path}
+create_title_name_src array[@] ${public_src_path} ${title_name_dst_path}
+create_csdn_src array[@] ${public_src_path} ${csdn_dst_path}
 change_private_perm
 my_exit
