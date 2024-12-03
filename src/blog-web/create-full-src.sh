@@ -30,7 +30,7 @@ change_private_perm() {
 	chmod -R 770 ${csdn_dst_path}
 }
 
-__create_title_name_src() {
+create_full_src() {
 	local is_toc=$1
 	shift; local is_sign=$1
 	shift; local ifile=$1
@@ -58,7 +58,22 @@ __create_title_name_src() {
 	cat ${src_path}/src/blog-web/sign.md >> ${dst_file}
 	echo >> ${dst_file}
 	cat ${src_file} >> ${dst_file}
+}
 
+__create_title_name_src() {
+	create_full_src "$@"
+
+	local is_toc=$1
+	shift; local is_sign=$1
+	shift; local ifile=$1
+	shift; local ofile=$1
+	shift; local html_title=$1
+	shift; local src_file=$1
+	shift; local src_path=$1
+
+	shift; local dst_path=$1
+
+	local dst_file=${dst_path}/${ifile} # 输出文件
 	# 提取文件的目录路径
 	local dir_path=$(dirname "${dst_file}")
 	# 提取文件的扩展名
@@ -78,6 +93,8 @@ create_title_name_src() {
 }
 
 __create_csdn_src() {
+	create_full_src "$@"
+
 	local is_toc=$1
 	shift; local is_sign=$1
 	shift; local ifile=$1
@@ -89,23 +106,6 @@ __create_csdn_src() {
 	shift; local dst_path=$1
 
 	local dst_file=${dst_path}/${ifile} # 输出文件
-	local dst_dir="$(dirname "${dst_file}")" # 输出文件所在的文件夹
-	if [ ! -d "${dst_dir}" ]; then
-		mkdir -p "${dst_dir}" # 文件夹不存在就创建
-	fi
-
-	cd ${src_path}
-	echo '<!--' >> ${dst_file}
-	git log --oneline ${ifile} | head -n 1 >> ${dst_file}
-	echo '--> ' >> ${dst_file}
-	echo >> ${dst_file}
-
-	echo '[建议点击这里查看个人主页上的最新原文](https://chenxiaosong.com/'${ofile}')' >> ${dst_file}
-	echo >> ${dst_file}
-	cat ${src_path}/src/blog-web/sign.md >> ${dst_file}
-	echo >> ${dst_file}
-	cat ${src_file} >> ${dst_file}
-
 	create_src_for_header ${dst_file}
 }
 
