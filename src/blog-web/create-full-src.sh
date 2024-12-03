@@ -1,14 +1,22 @@
 # 此脚本用于生成以标题命名的文件和CSDN等博客网站的文件
 . ~/.top-path
 
+# 检查参数
+if [ $# -ne 1 ]; then
+        echo "用法: bash $0 <局域网ip>"
+        exit 1
+fi
+lan_ip=$1
+
 public_src_path=${MY_CODE_TOP_PATH}/blog # 替换为你的仓库路径
 title_name_dst_path=${MY_TOP_PATH}/title-name-src
 csdn_dst_path=${MY_TOP_PATH}/csdn-src
 
-BLOG_URL="https://chenxiaosong.com"
-
 . ${public_src_path}/src/blog-web/common-lib.sh
 . ${public_src_path}/src/blog-web/array.sh
+
+BLOG_URL="https://chenxiaosong.com"
+SIGN_MD_FILE=${public_src_path}/src/blog-web/sign.md
 
 my_init() {
 	rm -rf ${title_name_dst_path}
@@ -57,9 +65,23 @@ create_full_src() {
 
 	echo '[建议点击这里查看个人主页上的最新原文]('${BLOG_URL}'/'${ofile}')' >> ${dst_file}
 	echo >> ${dst_file}
-	cat ${src_path}/src/blog-web/sign.md >> ${dst_file}
+	cat ${SIGN_MD_FILE} >> ${dst_file}
 	echo >> ${dst_file}
 	cat ${src_file} >> ${dst_file}
+}
+
+get_title_filename() {
+	local dst_file=$1
+	local html_title=$2
+
+	# 提取文件的目录路径
+	local dir_path=$(dirname "${dst_file}")
+	# 提取文件的扩展名
+	local extension="${dst_file##*.}" # TODO: 多个点号时
+	# 除下划线外，所有标点和空格替换为减号
+	html_title=$(echo "${html_title}" | sed 's/_/underscore/g' | sed 's/[[:punct:][:space:]]/-/g' | sed 's/underscore/_/g')
+
+	echo "${dir_path}/${html_title}.${extension}"
 }
 
 __create_title_name_src() {
@@ -76,13 +98,8 @@ __create_title_name_src() {
 	shift; local dst_path=$1
 
 	local dst_file=${dst_path}/${ifile} # 输出文件
-	# 提取文件的目录路径
-	local dir_path=$(dirname "${dst_file}")
-	# 提取文件的扩展名
-	local extension="${dst_file##*.}" # TODO: 多个点号时
-	# 除下划线外，所有标点和空格替换为减号
-	html_title=$(echo "${html_title}" | sed 's/_/underscore/g' | sed 's/[[:punct:][:space:]]/-/g' | sed 's/underscore/_/g')
-	mv ${dst_file} ${dir_path}/${html_title}.${extension}
+	local title_filename=$(get_title_filename "${dst_file}" "${html_title}")
+	mv "${dst_file}" "${title_filename}"
 }
 
 create_title_name_src() {
@@ -125,3 +142,4 @@ create_title_name_src array[@] ${public_src_path} ${title_name_dst_path}
 create_csdn_src array[@] ${public_src_path} ${csdn_dst_path}
 change_private_perm
 my_exit
+. ${public_src_path}/../private-blog/scripts/create-full-src.sh ${lan_ip}
