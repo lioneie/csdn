@@ -2,7 +2,11 @@
 . ~/.top-path
 
 is_replace_ip=true # 是否要替换ip
+# 也可以使用简化版本: other_ip="${1:-10.42.20.221}"
 other_ip=10.42.20.221 # 内网要替换的ip
+if [ -n "$1" ]; then
+	other_ip="$1"
+fi
 
 code_path=${MY_CODE_TOP_PATH} # 替换成你的仓库路径
 is_restart=false # 是否重新启动
