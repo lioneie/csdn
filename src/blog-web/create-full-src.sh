@@ -63,7 +63,8 @@ __create_title_name_src() {
 	local dir_path=$(dirname "${dst_file}")
 	# 提取文件的扩展名
 	local extension="${dst_file##*.}" # TODO: 多个点号时
-	html_title=$(echo "${html_title}" | sed 's/[[:punct:][:space:]]/-/g')
+	# 除下划线外，所有标点和空格替换为减号
+	html_title=$(echo "${html_title}" | sed 's/_/underscore/g' | sed 's/[[:punct:][:space:]]/-/g' | sed 's/underscore/_/g')
 	mv ${dst_file} ${dir_path}/${html_title}.${extension}
 }
 
