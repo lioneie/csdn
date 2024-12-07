@@ -16,7 +16,7 @@ case "${inclusion}" in
 	repo="torvalds"
 	;;
 *)
-	echo "inclusion wrong"
+	echo "inclusion is wrong"
 	exit
 	;;
 esac
