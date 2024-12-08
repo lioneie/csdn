@@ -68,6 +68,12 @@ server {
 		return 302 /;
 	}
 
+	location /passwd {
+		auth_basic "passwd access";   # 提示文本，可以随意设置
+		auth_basic_user_file /etc/nginx/.htpasswd;  # 密码文件的路径
+		# TODO: 禁用缓存
+	}
+
 	# 404 begin
 	# 执行命令 bash src/blog-web/create-nginx-404.sh
 	# 在这里插入网页重定向的内容

@@ -34,6 +34,27 @@ service nginx restart # 在docker中
 sudo systemctl restart nginx
 ```
 
+## nginx某个目录密码保护
+
+安装软件:
+```sh
+apt-get install -y apache2-utils
+yum install -y httpd-tools
+```
+
+创建密码文件:
+```sh
+htpasswd -c /etc/nginx/.htpasswd username # username 是你要设置的用户名
+```
+
+在`/etc/nginx/sites-enabled/default`加入以下配置:
+```sh
+       location /passwd {
+               auth_basic "passwd access";   # 提示文本，可以随意设置
+               auth_basic_user_file /etc/nginx/.htpasswd;  # 密码文件的路径
+       }
+```
+
 ## pandoc
 
 pandoc用于将markdown或rst（ReStructuredText）格式文件转换成html。
