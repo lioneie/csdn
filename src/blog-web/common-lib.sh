@@ -31,7 +31,7 @@ comm_get_pandoc_options() {
 
 # git仓库根目录的上一层目录
 # 假设当前脚本的路径是/home/user/code/blog/src/blog-web/common-lib.sh，返回的是/home/user/code/
-get_top_path() {
+comm_get_top_path() {
 	# 也可以试试把realpath换成readlink -f
 	local script_path="$(realpath "${BASH_SOURCE[0]}")" # 当前函数所在的脚本路径
 	local git_path="$(git -C $(dirname ${script_path}) rev-parse --show-toplevel)"
