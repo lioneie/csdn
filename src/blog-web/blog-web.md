@@ -55,6 +55,13 @@ htpasswd -c /etc/nginx/.htpasswd username # username 是你要设置的用户名
        }
 ```
 
+## 检查.rst文件的格式
+
+```sh
+sudo apt install rstcheck -y
+rstcheck file
+```
+
 ## pandoc
 
 pandoc用于将markdown或rst（ReStructuredText）格式文件转换成html。
