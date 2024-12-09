@@ -52,7 +52,7 @@ comm_replace_ip() {
 	sed -i 's/@'${other_ip}'/@chenxiaosong.com/g' ${dst_file}
 }
 
-create_sign() {
+comm_create_sign() {
 	local src_file=$1
 	local dst_file=$2
 
