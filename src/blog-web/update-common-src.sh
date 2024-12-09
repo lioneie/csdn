@@ -29,7 +29,7 @@ update_md_sign() {
 	do
 		local src_file=${array[${index}]}
 
-		remove_mid_lines "${begin_str}" "${end_str}" ${src_file}
+		comm_rm_mid_lines "${begin_str}" "${end_str}" ${src_file}
 		remove_line "${begin_str}" ${src_file}
 		remove_line "${end_str}" ${src_file}
 		cat ${sign_file} >> ${src_file}.tmp
@@ -47,7 +47,7 @@ update_common_src() {
 	cp ${src_file} ${src_file}.tmp
 	sed -i "/${begin_str}/,/${end_str}/!d" ${src_file}.tmp # 只保留begin到end的内容
 	sed -i '1d;$d' ${src_file}.tmp # 删除第一行和最后一行
-	remove_mid_lines "${begin_str}" "${end_str}" "${dst_file}"
+	comm_rm_mid_lines "${begin_str}" "${end_str}" "${dst_file}"
 	sed -i -e "/${begin_str}/r ${src_file}.tmp" ${dst_file}
 	rm ${src_file}.tmp
 }

@@ -187,7 +187,7 @@ comm_change_nginx_perm() {
 }
 
 # 删除begin和end中间的内容，保留begin和end两行
-remove_mid_lines() {
+comm_rm_mid_lines() {
 	local begin_str=$1 # 调用的地方要用引号
 	local end_str=$2 # 调用的地方要用引号
 	local path=$3
@@ -229,7 +229,7 @@ remove_other_comments() {
 	# 正在写的内容就先不放上去
 	local begin_str='<!-- ing begin -->'
 	local end_str='<!-- ing end -->'
-	remove_mid_lines "${begin_str}" "${end_str}" ${md_path}
+	comm_rm_mid_lines "${begin_str}" "${end_str}" ${md_path}
 	remove_line "${begin_str}" "${md_path}"
 	remove_line "${end_str}" "${md_path}"
 	# 把注释全部删除
@@ -255,7 +255,7 @@ remove_comments() {
 		begin_str='<!-- public begin -->'
 		end_str='<!-- public end -->'
 	fi
-	remove_mid_lines "${begin_str}" "${end_str}" "${md_path}"
+	comm_rm_mid_lines "${begin_str}" "${end_str}" "${md_path}"
 	remove_comment_lines "${md_path}"
 	remove_other_comments ${md_path}
 }
