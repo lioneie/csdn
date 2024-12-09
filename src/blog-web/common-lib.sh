@@ -2,7 +2,7 @@ comm_green_color() {
 	echo '\033[0;32m'
 }
 
-get_yellow_color() {
+comm_yellow_color() {
 	echo '\033[1;33m'
 }
 
