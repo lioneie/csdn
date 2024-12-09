@@ -1,4 +1,4 @@
-get_green_color() {
+comm_green_color() {
 	echo '\033[0;32m'
 }
 
