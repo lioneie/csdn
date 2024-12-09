@@ -303,7 +303,7 @@ comm_add_or_sub_header() {
 }
 
 # 将标题增加一级
-add_header_sharp() {
+comm_add_header_sharp() {
 	input_file=$1
 	output_file=$2
 	comm_add_or_sub_header ${input_file} ${output_file} true
