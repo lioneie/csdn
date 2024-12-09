@@ -41,7 +41,7 @@ comm_get_top_path() {
 	# echo "calling script: ${BASH_SOURCE[1]}"
 }
 
-replace_with_other_ip() {
+comm_replace_ip() {
 	dst_file=$1
 	other_ip=$2
 
@@ -146,7 +146,7 @@ __create_html() {
 	pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
 	# 局域网的处理
 	if [[ ${is_replace_ip} == true ]]; then
-		replace_with_other_ip ${dst_file} ${other_ip}
+		comm_replace_ip ${dst_file} ${other_ip}
 	fi
 	if [[ ${is_sign} == 1 ]]; then
 		# 在'<header'之后插入整个签名文件

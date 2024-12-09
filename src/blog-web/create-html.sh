@@ -46,7 +46,7 @@ update_lan_sign() {
 	local sign_file=${tmp_html_path}/sign.html
 	# 局域网的处理
 	if [[ ${is_replace_ip} == true ]]; then
-		replace_with_other_ip ${sign_file} ${other_ip}
+		comm_replace_ip ${sign_file} ${other_ip}
 		# 内网主页
 		sed -i 's/主页/内网主页/g' ${sign_file}
 		# 在<ul>之后插入公网主页
