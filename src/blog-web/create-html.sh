@@ -61,7 +61,7 @@ do_change_perm() {
 	if [ ${is_set_html_path} = true ]; then
 		return
 	fi
-	change_perm ${tmp_html_path}
+	comm_change_nginx_perm ${tmp_html_path}
 }
 
 my_init

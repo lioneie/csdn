@@ -173,7 +173,7 @@ comm_create_html() {
 		"${other_ip}"
 }
 
-change_perm() {
+comm_change_nginx_perm() {
 	local html_path=$1
 
 	chown -R www-data:www-data ${html_path}/
