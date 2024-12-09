@@ -105,6 +105,7 @@ array=(
 		1 1 courses/smb/smb-refactor.md ${tmp_src_path} "smb代码重构"
 		1 1 courses/smb/smb-others.md ${tmp_src_path} "smb未分类的内容"
 			# 我写的补丁
+			1 1 courses/smb/patches/CVE-2024-46742.md ~ "CVE-2024-46742"
 			# 其他人的补丁
 			1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
 				"7de0394801da cifs: Fix in error types returned for out-of-credit situations."
