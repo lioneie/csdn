@@ -10,6 +10,8 @@
 
 补丁集: [`NFS: check FMODE_EXEC from open context mode`](https://lore.kernel.org/all/20220923054015.2890271-1-chenxiaosong2@huawei.com/)
 
+[[PATCH 4.19] NFS: fix null-ptr-deref in nfs_inode_add_request()](https://lore.kernel.org/all/20241209085410.601489-1-chenxiaosong@chenxiaosong.com/)
+
 # 其他人的补丁
 
 [`e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt`](https://chenxiaosong.com/courses/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.html)
