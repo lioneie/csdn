@@ -6,7 +6,7 @@ comm_yellow_color() {
 	echo '\033[1;33m'
 }
 
-get_red_color() {
+comm_red_color() {
 	echo '\033[1;31m'
 }
 
