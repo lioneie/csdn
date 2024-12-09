@@ -413,7 +413,7 @@ comm_generate_index() {
 	done
 }
 
-check_repo() {
+comm_check_repo() {
 	local path=$1
 	local -n not_exist_repos_ref=$2
 	local -n not_clean_repos_ref=$3

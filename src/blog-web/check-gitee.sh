@@ -20,7 +20,7 @@ print_result() {
 
 check_git() {
 	local repo=$1
-	check_repo ${code_path}/${repo} not_exist_repos not_clean_repos not_sync_repos ok_repos
+	comm_check_repo ${code_path}/${repo} not_exist_repos not_clean_repos not_sync_repos ok_repos
 }
 
 check_git "blog"
