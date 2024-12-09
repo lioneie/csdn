@@ -310,7 +310,7 @@ comm_add_header_sharp() {
 }
 
 # 将标题减少一级
-sub_header_sharp() {
+comm_sub_header_sharp() {
 	input_file=$1
 	output_file=$2
 	comm_add_or_sub_header ${input_file} ${output_file} false
