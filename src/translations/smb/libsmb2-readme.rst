@@ -1,3 +1,5 @@
+本文档翻译自`sahlberg/libsmb2/README <https://github.com/sahlberg/libsmb2/blob/master/README>`_，翻译时文件的最新提交是``02783d6f32515375a2a9b13446917770550bdab4 Merge branch 'master' into Cleanups``，大部分借助于ChatGPT翻译，仅作为我个人的参考，如果你想查阅，建议看英文文档，因为我不确定我记录的中文翻译是否完整和正确。
+
 Libsmb2 是一个用于访问或提供 SMB2/SMB3 共享的用户空间客户端/服务器库。
 它具有高性能且完全异步。它支持 SMB 读/写命令的零拷贝以及复合命令。
 
