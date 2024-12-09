@@ -125,7 +125,7 @@ __create_csdn_src() {
 	shift; local dst_path=$1
 
 	local dst_file=${dst_path}/${ifile} # 输出文件
-	create_src_for_header ${dst_file}
+	comm_create_src_for_header ${dst_file}
 }
 
 create_csdn_src() {

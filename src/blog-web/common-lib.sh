@@ -316,7 +316,7 @@ comm_sub_header_sharp() {
 	comm_add_or_sub_header ${input_file} ${output_file} false
 }
 
-create_src_for_header() {
+comm_create_src_for_header() {
 	input_file=$1
 
 	local is_code=false
