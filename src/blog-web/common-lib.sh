@@ -115,7 +115,7 @@ comm_iterate_array() {
 	done
 }
 
-__create_html() {
+__comm_create_html() {
 	local is_toc=$1
 	shift; local is_sign=$1
 	shift; local ifile=$1
@@ -166,7 +166,7 @@ create_html() {
 	shift; local is_replace_ip=$1
 	shift; local other_ip=$1
 
-	comm_iterate_array __create_html array[@] "${src_path}" \
+	comm_iterate_array __comm_create_html array[@] "${src_path}" \
 		"${tmp_html_path}"	\
 		"${sign_html}"		\
 		"${is_replace_ip}"	\
