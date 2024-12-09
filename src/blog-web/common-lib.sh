@@ -10,7 +10,7 @@ comm_red_color() {
 	echo '\033[1;31m'
 }
 
-get_no_color() {
+comm_no_color() {
 	echo '\033[0m'
 }
 
