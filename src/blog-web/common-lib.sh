@@ -207,7 +207,7 @@ comm_rm_mid_lines() {
 }
 
 # 删除完全匹配的一整行
-remove_line() {
+comm_rm_line() {
 	local str=$1 # 调用的地方要用引号
 	local path=$2
 	# TODO: 把公共的命令提取成变量
@@ -230,8 +230,8 @@ remove_other_comments() {
 	local begin_str='<!-- ing begin -->'
 	local end_str='<!-- ing end -->'
 	comm_rm_mid_lines "${begin_str}" "${end_str}" ${md_path}
-	remove_line "${begin_str}" "${md_path}"
-	remove_line "${end_str}" "${md_path}"
+	comm_rm_line "${begin_str}" "${md_path}"
+	comm_rm_line "${end_str}" "${md_path}"
 	# 把注释全部删除
 	find ${md_path} -type f -name '*.md' -exec perl -i -pe 's/<!--.*?-->//g' {} + # 只能在同一行内，必须放在前面
 	find ${md_path} -type f -name '*.md' -exec sed -i '/<!--/,/-->/d' {} + # 只能按行为单位删除
@@ -239,10 +239,10 @@ remove_other_comments() {
 
 remove_comment_lines() {
 	local md_path=$1
-	remove_line '<!-- public begin -->' "${md_path}"
-	remove_line '<!-- public end -->' "${md_path}"
-	remove_line '<!-- private begin -->' "${md_path}"
-	remove_line '<!-- private end -->' "${md_path}"
+	comm_rm_line '<!-- public begin -->' "${md_path}"
+	comm_rm_line '<!-- public end -->' "${md_path}"
+	comm_rm_line '<!-- private begin -->' "${md_path}"
+	comm_rm_line '<!-- private end -->' "${md_path}"
 }
 
 remove_comments() {

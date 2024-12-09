@@ -30,8 +30,8 @@ update_md_sign() {
 		local src_file=${array[${index}]}
 
 		comm_rm_mid_lines "${begin_str}" "${end_str}" ${src_file}
-		remove_line "${begin_str}" ${src_file}
-		remove_line "${end_str}" ${src_file}
+		comm_rm_line "${begin_str}" ${src_file}
+		comm_rm_line "${end_str}" ${src_file}
 		cat ${sign_file} >> ${src_file}.tmp
 		cat ${src_file} >> ${src_file}.tmp
 		mv ${src_file}.tmp ${src_file}
