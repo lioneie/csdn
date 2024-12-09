@@ -12,7 +12,7 @@ bash ${code_path}/blog/src/blog-web/create-html.sh false this-arg-is-useless ${g
 cp ${code_path}/blog/src/blog-web/github-io-404.html ${github_io_repo}/404.html
 cp ${code_path}/blog/src/blog-web/github-io-README.md ${github_io_repo}/README.md
 echo "chenxiaosong.com" > ${github_io_repo}/CNAME
-generate_index "${github_io_repo}" "" "${github_io_repo}"
+comm_generate_index "${github_io_repo}" "" "${github_io_repo}"
 
 cd ${github_io_repo}
 git init

@@ -357,7 +357,7 @@ comm_create_src_for_header() {
 }
 
 # 递归生成index.html，最顶层目录生成ls.html
-generate_index() {
+comm_generate_index() {
 	local dir="$1"
 	local parent_dir="$2"
 	local start_dir="$3"
@@ -408,7 +408,7 @@ generate_index() {
 	# 递归生成子目录的 index.html
 	for subdir in "${dir}"/*; do
 		if [ -d "${subdir}" ]; then
-			generate_index "${subdir}" "${dir}" "${start_dir}"
+			comm_generate_index "${subdir}" "${dir}" "${start_dir}"
 		fi
 	done
 }
