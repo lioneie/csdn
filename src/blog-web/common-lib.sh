@@ -265,7 +265,7 @@ comm_rm_private() {
 	comm_rm_comments "${md_path}" false
 }
 
-remove_public() {
+comm_rm_public() {
 	local md_path=$1
 	comm_rm_comments "${md_path}" true
 }
