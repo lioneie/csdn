@@ -260,7 +260,7 @@ comm_rm_comments() {
 	comm_rm_other_comments ${md_path}
 }
 
-remove_private() {
+comm_rm_private() {
 	local md_path=$1
 	comm_rm_comments "${md_path}" false
 }

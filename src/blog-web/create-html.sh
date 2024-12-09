@@ -25,7 +25,7 @@ my_init() {
 	rm -rf ${tmp_src_path}
 	mkdir -p ${tmp_src_path}
 	bash ${src_path}/courses/courses.sh ${tmp_src_path}
-	remove_private ${tmp_src_path}
+	comm_rm_private ${tmp_src_path}
 }
 
 my_exit() {
