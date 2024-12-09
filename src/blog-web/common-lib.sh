@@ -270,7 +270,7 @@ comm_rm_public() {
 	comm_rm_comments "${md_path}" true
 }
 
-add_or_sub_header() {
+comm_add_or_sub_header() {
 	local input_file=$1
 	local output_file=$2
 	local is_add=$3 # true有增加，false为减少
@@ -306,14 +306,14 @@ add_or_sub_header() {
 add_header_sharp() {
 	input_file=$1
 	output_file=$2
-	add_or_sub_header ${input_file} ${output_file} true
+	comm_add_or_sub_header ${input_file} ${output_file} true
 }
 
 # 将标题减少一级
 sub_header_sharp() {
 	input_file=$1
 	output_file=$2
-	add_or_sub_header ${input_file} ${output_file} false
+	comm_add_or_sub_header ${input_file} ${output_file} false
 }
 
 create_src_for_header() {
