@@ -158,8 +158,8 @@ __comm_create_html() {
 	# cd -
 }
 
-create_html() {
-	local array=("${!1}") # 使用间接引用来接收数组，调用的地方 create_html array[@] ...
+comm_create_html() {
+	local array=("${!1}") # 使用间接引用来接收数组，调用的地方 comm_create_html array[@] ...
 	shift; local src_path=$1
 	shift; local tmp_html_path=$1
 	shift; local sign_html=$1

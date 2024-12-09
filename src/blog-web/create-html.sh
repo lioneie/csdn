@@ -67,7 +67,7 @@ do_change_perm() {
 my_init
 comm_create_sign ${src_path}/src/blog-web/sign.md ${sign_html}
 update_lan_sign
-create_html array[@] ${src_path} ${tmp_html_path} ${sign_html} ${is_replace_ip} ${other_ip}
+comm_create_html array[@] ${src_path} ${tmp_html_path} ${sign_html} ${is_replace_ip} ${other_ip}
 copy_files
 do_change_perm
 my_exit
