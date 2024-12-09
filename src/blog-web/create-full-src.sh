@@ -29,8 +29,8 @@ my_init() {
 
 my_exit() {
 	# rm -rf ${tmp_src_path} # 为了方便对比，不删除
-	remove_other_comments ${title_name_dst_path}
-	# remove_other_comments ${csdn_dst_path} # 注释保留
+	comm_rm_other_comments ${title_name_dst_path}
+	# comm_rm_other_comments ${csdn_dst_path} # 注释保留
 }
 
 change_private_perm() {

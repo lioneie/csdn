@@ -223,7 +223,7 @@ comm_rm_line() {
 	fi
 }
 
-remove_other_comments() {
+comm_rm_other_comments() {
 	local md_path=$1
 
 	# 正在写的内容就先不放上去
@@ -257,7 +257,7 @@ remove_comments() {
 	fi
 	comm_rm_mid_lines "${begin_str}" "${end_str}" "${md_path}"
 	remove_comment_lines "${md_path}"
-	remove_other_comments ${md_path}
+	comm_rm_other_comments ${md_path}
 }
 
 remove_private() {
