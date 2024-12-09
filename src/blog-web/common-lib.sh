@@ -15,7 +15,7 @@ comm_no_color() {
 }
 
 # 要定义MY_ECHO_DEBUG变量
-my_echo() {
+comm_echo() {
 	if [ "${MY_ECHO_DEBUG}" -eq 1 ]; then
 		echo "$@"
 	fi
@@ -423,7 +423,7 @@ check_repo() {
 	local repo=$(basename "${path}")
 
 	if [ ! -d "${path}" ]; then
-		my_echo "${repo}目录不存在"
+		comm_echo "${repo}目录不存在"
 		not_exist_repos_ref+=(${repo})
 		return
 	fi
@@ -432,8 +432,8 @@ check_repo() {
 	status=$(git status -s)
 
 	if [ ! -z "${status}" ]; then
-		my_echo "${repo}有未提交的更改:"
-		my_echo "${status}"
+		comm_echo "${repo}有未提交的更改:"
+		comm_echo "${status}"
 		not_clean_repos_ref+=(${repo})
 		return
 	fi
@@ -445,14 +445,14 @@ check_repo() {
 	fi
 	origin_commit=$(git rev-parse origin/master)
 	master_commit=$(git rev-parse master)
-	my_echo "${repo} origin_commit: ${origin_commit}"
-	my_echo "${repo} master_commit: ${master_commit}"
+	comm_echo "${repo} origin_commit: ${origin_commit}"
+	comm_echo "${repo} master_commit: ${master_commit}"
 
 	if [ "${origin_commit}" == "${master_commit}" ]; then
-		my_echo "${repo}全部搞定"
+		comm_echo "${repo}全部搞定"
 		ok_repos_ref+=(${repo})
 	else
-		my_echo "${repo}未push/pull"
+		comm_echo "${repo}未push/pull"
 		not_sync_repos_ref+=(${repo})
 	fi
 }
