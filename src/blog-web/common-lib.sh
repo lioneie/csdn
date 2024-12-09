@@ -76,9 +76,9 @@ comm_create_sign() {
 #		3. '~'，就代表只和源文件的后缀名不同
 #		4. 绝对路径的目录，代表源文件路径前缀，这时目的文件和上面的情况3一样
 #	网页标题
-iterate_array() {
-	local function=$1 # 调用的地方 iterate_array ... function ...
-	local array=("${!2}") # 使用间接引用来接收数组，调用的地方 iterate_array array[@] ...
+comm_iterate_array() {
+	local function=$1 # 调用的地方 comm_iterate_array ... function ...
+	local array=("${!2}") # 使用间接引用来接收数组，调用的地方 comm_iterate_array array[@] ...
 	local src_path=$3
 	shift 3 # "$@"移除前面的参数
 
@@ -166,7 +166,7 @@ create_html() {
 	shift; local is_replace_ip=$1
 	shift; local other_ip=$1
 
-	iterate_array __create_html array[@] "${src_path}" \
+	comm_iterate_array __create_html array[@] "${src_path}" \
 		"${tmp_html_path}"	\
 		"${sign_html}"		\
 		"${is_replace_ip}"	\

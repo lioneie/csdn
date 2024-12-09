@@ -107,7 +107,7 @@ create_title_name_src() {
 	local src_path=$2
 	local dst_path=$3
 
-	iterate_array __create_title_name_src array[@] "${src_path}"	\
+	comm_iterate_array __create_title_name_src array[@] "${src_path}"	\
 		"${dst_path}"
 }
 
@@ -133,7 +133,7 @@ create_csdn_src() {
 	local src_path=$2
 	local dst_path=$3
 
-	iterate_array __create_csdn_src array[@] "${src_path}"	\
+	comm_iterate_array __create_csdn_src array[@] "${src_path}"	\
 		"${dst_path}"
 }
 
