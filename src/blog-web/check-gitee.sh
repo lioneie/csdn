@@ -12,10 +12,10 @@ ok_repos=()
 
 print_result() {
 	echo
-	print_array "not_exist_repos[@]" "$(comm_yellow_color)" "不存在的仓库:" "${not_exist_repos[@]}" "$(comm_no_color)"
-	print_array "ok_repos[@]" "$(comm_green_color)" "全部搞定的仓库:" "${ok_repos[@]}"  "$(comm_no_color)"
-	print_array "not_clean_repos[@]" "$(comm_red_color)" "未提交的仓库:" "${not_clean_repos[@]}" "$(comm_no_color)"
-	print_array "not_sync_repos[@]" "$(comm_red_color)" "未push/pull的仓库:" "${not_sync_repos[@]}" "$(comm_no_color)"
+	comm_print_array "not_exist_repos[@]" "$(comm_yellow_color)" "不存在的仓库:" "${not_exist_repos[@]}" "$(comm_no_color)"
+	comm_print_array "ok_repos[@]" "$(comm_green_color)" "全部搞定的仓库:" "${ok_repos[@]}"  "$(comm_no_color)"
+	comm_print_array "not_clean_repos[@]" "$(comm_red_color)" "未提交的仓库:" "${not_clean_repos[@]}" "$(comm_no_color)"
+	comm_print_array "not_sync_repos[@]" "$(comm_red_color)" "未push/pull的仓库:" "${not_sync_repos[@]}" "$(comm_no_color)"
 }
 
 check_git() {

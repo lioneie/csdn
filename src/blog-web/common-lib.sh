@@ -457,7 +457,7 @@ comm_check_repo() {
 	fi
 }
 
-print_array() {
+comm_print_array() {
 	local array=("${!1}")
 	local descriptions=("${@:2}")
 
