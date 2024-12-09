@@ -237,7 +237,7 @@ comm_rm_other_comments() {
 	find ${md_path} -type f -name '*.md' -exec sed -i '/<!--/,/-->/d' {} + # 只能按行为单位删除
 }
 
-remove_comment_lines() {
+comm_rm_comment_lines() {
 	local md_path=$1
 	comm_rm_line '<!-- public begin -->' "${md_path}"
 	comm_rm_line '<!-- public end -->' "${md_path}"
@@ -256,7 +256,7 @@ remove_comments() {
 		end_str='<!-- public end -->'
 	fi
 	comm_rm_mid_lines "${begin_str}" "${end_str}" "${md_path}"
-	remove_comment_lines "${md_path}"
+	comm_rm_comment_lines "${md_path}"
 	comm_rm_other_comments ${md_path}
 }
 
