@@ -245,7 +245,7 @@ comm_rm_comment_lines() {
 	comm_rm_line '<!-- private end -->' "${md_path}"
 }
 
-remove_comments() {
+comm_rm_comments() {
 	local md_path=$1
 	local is_public=$2
 
@@ -262,12 +262,12 @@ remove_comments() {
 
 remove_private() {
 	local md_path=$1
-	remove_comments "${md_path}" false
+	comm_rm_comments "${md_path}" false
 }
 
 remove_public() {
 	local md_path=$1
-	remove_comments "${md_path}" true
+	comm_rm_comments "${md_path}" true
 }
 
 add_or_sub_header() {
