@@ -6,7 +6,7 @@
 
 补丁集: [CVE-2022-24448](https://chenxiaosong.com/courses/nfs/patches/CVE-2022-24448.html)
 
-补丁集: [NFS回写错误处理不正确的问题](https://chenxiaosong.com/src/nfs/nfs-handle-writeback-errors-incorrectly.html)
+补丁集: [NFS回写错误处理不正确的问题](https://chenxiaosong.com/courses/nfs/patches/nfs-handle-writeback-errors-incorrectly.html)
 
 补丁集: [`NFS: check FMODE_EXEC from open context mode`](https://lore.kernel.org/all/20220923054015.2890271-1-chenxiaosong2@huawei.com/)
 
