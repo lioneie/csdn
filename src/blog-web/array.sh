@@ -219,7 +219,7 @@ array=(
 		1 1 src/translations/systemtap/systemtap-readme.md ~ "systemtap README"
 		# doc-guide
 		1 1 src/translations/doc-guide/kernel-doc.rst ~ "doc-guide/kernel-doc.rst"
-	# private
-	1 1 src/private/v2ray/v2ray.md private/v2ray.html "v2ray代理服务器"
-	1 1 src/private/chatgpt/chatgpt.md private/chatgpt.html "注册ChatGPT"
+	# no-index
+	1 1 src/private/v2ray/v2ray.md no-index/v2ray.html "v2ray代理服务器"
+	1 1 src/private/chatgpt/chatgpt.md no-index/chatgpt.html "注册ChatGPT"
 )

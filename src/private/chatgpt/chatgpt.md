@@ -2,7 +2,7 @@
 
 # 访问境外网站
 
-注册chatgpt需要可以访问境外网站，可以选择自己搭建代理服务器，可以参考[《v2ray代理服务器》](https://chenxiaosong.com/private/v2ray.html)，但自己搭建的服务器ip容易被封。
+注册chatgpt需要可以访问境外网站，可以选择自己搭建代理服务器，可以参考[《v2ray代理服务器》](https://chenxiaosong.com/no-index/v2ray.html)，但自己搭建的服务器ip容易被封。
 
 建议使用chrome浏览器的“谷歌上网助手”，可以在chrome的web store搜索“Ghelper”或“谷歌上网助手”安装插件，也可以在[Ghelper网站](https://ghelper.net/)上下载插件安装。购买VIP时，注意新注册的Ghelper账号无法使用支付宝支付，要把支付链接尾部替换成 `options.html?/pay/1/alipay`。如果无法访问某些网站，可以在“Select Server”中切换。
 
