@@ -233,8 +233,8 @@ comm_rm_other_comments() {
 	comm_rm_line "${begin_str}" "${md_path}"
 	comm_rm_line "${end_str}" "${md_path}"
 	# 把注释全部删除
-	find ${md_path} -type f -name '*.md' -exec perl -i -pe 's/<!--.*?-->//g' {} + # 只能在同一行内，必须放在前面
-	find ${md_path} -type f -name '*.md' -exec sed -i '/<!--/,/-->/d' {} + # 只能按行为单位删除
+	find ${md_path} -type f -exec perl -i -pe 's/<!--.*?-->//g' {} + # 只能在同一行内，必须放在前面
+	find ${md_path} -type f -exec sed -i '/<!--/,/-->/d' {} + # 只能按行为单位删除
 }
 
 comm_rm_comment_lines() {
