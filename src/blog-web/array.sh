@@ -4,7 +4,7 @@
 #	源文件，markdown或rst文件相对路径
 #	目的文件，html文件相对路径，如果是~，就代表只和源文件的后缀名不同
 #	网页标题
-array=(
+comm_array=(
 	# 自我介绍
 	1 1 src/blog-web/index.md index.html '陈孝松个人主页'
 	1 1 src/blog-web/openharmony.md openharmony.html "陈孝松OpenHarmony贡献"

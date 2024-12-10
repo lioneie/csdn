@@ -71,7 +71,7 @@ create_csdn_src() {
 }
 
 my_init
-create_title_name_src array[@] ${public_src_path} ${title_name_dst_path}
-create_csdn_src array[@] ${public_src_path} ${csdn_dst_path}
+create_title_name_src comm_array[@] ${public_src_path} ${title_name_dst_path}
+create_csdn_src comm_array[@] ${public_src_path} ${csdn_dst_path}
 my_exit
 . ${public_src_path}/../private-blog/scripts/create-full-src.sh ${lan_ip}
