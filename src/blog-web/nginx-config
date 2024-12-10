@@ -48,6 +48,7 @@ server {
 
 	# root /home/sonvhi/chenxiaosong/www/html;
 	root /var/www/html;
+	autoindex on; # 打开目录浏览功能
 
 	# Add index.php to the list if you are using PHP
 	index index.html index.htm index.nginx-debian.html;
@@ -57,7 +58,6 @@ server {
 	error_page 404 = /default-location;
 
 	location / {
-		autoindex on; # 打开目录浏览功能
 		# 目录浏览时字符集为 UTF-8
 		add_header Content-Type "text/html; charset=UTF-8";
 		# First attempt to serve request as file, then
