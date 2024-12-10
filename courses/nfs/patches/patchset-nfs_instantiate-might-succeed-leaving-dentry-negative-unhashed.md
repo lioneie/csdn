@@ -1,3 +1,5 @@
+相关的问题: [4.19 __nfs3_proc_setacls空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.html)。
+
 `[PATCH 0/3] nfs_instantiate() might succeed leaving dentry negative unhashed`:
 ```
 在添加提交 b0c6108ecf64 ("nfs_instantiate(): prevent multiple aliases for directory inode") 后，我的 NFS 客户端在同时对本地文件系统和通过 knfsd 导出的相同文件系统执行 Lustre 竞争测试时崩溃：
