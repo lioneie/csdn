@@ -1,5 +1,9 @@
 本文翻译自[xfs_filesystem_structure.pdf](https://mirrors.edge.kernel.org/pub/linux/utils/fs/xfs/docs/xfs_filesystem_structure.pdf)，大部分借助于ChatGPT翻译，仅作为我个人的参考，如果你想查阅，建议看英文文档，因为我不确定我记录的中文翻译是否完整和正确。
 
+```sh
+git clone git://git.kernel.org/pub/scm/fs/xfs/xfs-documentation.git; make
+```
+
 <!-- 翻译时告诉chatgpt: 翻译成中文，标点符号结尾的换行后面是一个新段落，非标点符号结尾的换行忽略 -->
 
 # Part I High Level Design

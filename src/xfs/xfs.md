@@ -1,3 +1,5 @@
+- [`xfs_filesystem_structure.pdf`](https://chenxiaosong.com/src/translations/xfs/xfs_filesystem_structure.html)
+
 <!-- https://zorrozou.github.io/docs/xfs/ -->
 # xfs磁盘结构
 
