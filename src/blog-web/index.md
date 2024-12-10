@@ -51,6 +51,10 @@
 
 除了Linux内核和鸿蒙操作系统的贡献外，还贡献过LoRaWAN、KDE的ghostwriter等项目。
 
+# 专利和论文
+
+[点击这里查看我写的专利和论文](https://chenxiaosong.com/patent-paper.html)
+
 # 自行车骑行
 
 [点击查看strava上的骑行记录](https://www.strava.com/athletes/chenxiaosong)

@@ -13,6 +13,7 @@ comm_array=(
 	1 1 src/blog-web/translations.md ~ "翻译"
 	1 1 src/blog-web/courses.md courses.html "课程和视频"
 	1 1 src/blog-web/q.md q.html "QQ交流群"
+	1 1 src/blog-web/patent-paper.md patent-paper.html "陈孝松专利和论文"
 	# 课程
 	1 1 courses/myfs/myfs.md ~ '"我的"文件系统'
 	0 1 courses/kernel/kernel.md "$(comm_tmp_src_path)" "Linux内核课程"
