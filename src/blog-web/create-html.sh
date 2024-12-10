@@ -22,16 +22,16 @@ my_init() {
 	mkdir -p ${html_path}
 	rm -rf ${tmp_html_path}
 	mkdir -p ${tmp_html_path}
-	rm -rf ${tmp_src_path}
-	mkdir -p ${tmp_src_path}
-	bash ${src_path}/courses/courses.sh ${tmp_src_path}
-	comm_rm_private ${tmp_src_path}
+	rm -rf $(comm_tmp_src_path)
+	mkdir -p $(comm_tmp_src_path)
+	bash ${src_path}/courses/courses.sh $(comm_tmp_src_path)
+	comm_rm_private $(comm_tmp_src_path)
 }
 
 my_exit() {
 	rm ${html_path}/ -rf
 	mv ${tmp_html_path} ${html_path}
-	rm -rf ${tmp_src_path}
+	rm -rf $(comm_tmp_src_path)
 }
 
 copy_files() {

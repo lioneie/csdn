@@ -18,14 +18,14 @@ csdn_dst_path=${MY_TOP_PATH}/csdn-src
 my_init() {
 	rm -rf ${title_name_dst_path}
 	rm -rf ${csdn_dst_path}
-	rm -rf ${tmp_src_path}
-	mkdir -p ${tmp_src_path}
-	bash ${public_src_path}/courses/courses.sh ${tmp_src_path}
-	comm_rm_private ${tmp_src_path}
+	rm -rf $(comm_tmp_src_path)
+	mkdir -p $(comm_tmp_src_path)
+	bash ${public_src_path}/courses/courses.sh $(comm_tmp_src_path)
+	comm_rm_private $(comm_tmp_src_path)
 }
 
 my_exit() {
-	# rm -rf ${tmp_src_path} # 为了方便对比，不删除
+	# rm -rf $(comm_tmp_src_path) # 为了方便对比，不删除
 	comm_rm_other_comments ${title_name_dst_path}
 	# comm_rm_other_comments ${csdn_dst_path} # 注释保留
 }
