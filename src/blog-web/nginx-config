@@ -74,6 +74,11 @@ server {
 		# TODO: 禁用缓存
 	}
 
+	# 解决txt文件乱码的问题
+	location ~* \.txt$ {
+		add_header Content-Type "text/plain; charset=UTF-8";
+	}
+
 	# 404 begin
 	# 执行命令 bash src/blog-web/create-nginx-404.sh
 	# 在这里插入网页重定向的内容
