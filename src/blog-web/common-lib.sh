@@ -45,11 +45,11 @@ comm_replace_ip() {
 	dst_file=$1
 	other_ip=$2
 
-	sed -i 's/chenxiaosong.com/'${other_ip}'/g' ${dst_file}
+	sed -i 's/chenxiaosong.com/'${other_ip}'/g' "${dst_file}"
 	# 局域网用http，不用https
-	sed -i 's/https:\/\/'${other_ip}'/http:\/\/'${other_ip}'/g' ${dst_file}
+	sed -i 's/https:\/\/'${other_ip}'/http:\/\/'${other_ip}'/g' "${dst_file}"
 	# 邮箱替换回来
-	sed -i 's/@'${other_ip}'/@chenxiaosong.com/g' ${dst_file}
+	sed -i 's/@'${other_ip}'/@chenxiaosong.com/g' "${dst_file}"
 }
 
 comm_create_sign() {
