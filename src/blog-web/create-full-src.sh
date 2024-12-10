@@ -15,9 +15,6 @@ csdn_dst_path=${MY_TOP_PATH}/csdn-src
 . ${public_src_path}/src/blog-web/common-lib.sh
 . ${public_src_path}/src/blog-web/array.sh
 
-BLOG_URL="https://chenxiaosong.com"
-SIGN_MD_FILE=${public_src_path}/src/blog-web/sign.md
-
 my_init() {
 	rm -rf ${title_name_dst_path}
 	rm -rf ${csdn_dst_path}
@@ -50,6 +47,8 @@ create_full_src() {
 	shift; local src_path=$1
 
 	shift; local dst_path=$1
+	shift; local blog_url=$1
+	shift; local sign_md_file=$1
 
 	local dst_file=${dst_path}/${ifile} # 输出文件
 	local dst_dir="$(dirname "${dst_file}")" # 输出文件所在的文件夹
@@ -63,9 +62,9 @@ create_full_src() {
 	echo '--> ' >> ${dst_file}
 	echo >> ${dst_file}
 
-	echo '[建议点击这里查看个人主页上的最新原文]('${BLOG_URL}'/'${ofile}')' >> ${dst_file}
+	echo '[建议点击这里查看个人主页上的最新原文]('${blog_url}'/'${ofile}')' >> ${dst_file}
 	echo >> ${dst_file}
-	cat ${SIGN_MD_FILE} >> ${dst_file}
+	cat ${sign_md_file} >> ${dst_file}
 	echo >> ${dst_file}
 	cat ${src_file} >> ${dst_file}
 }
@@ -108,7 +107,10 @@ create_title_name_src() {
 	local dst_path=$3
 
 	comm_iterate_array __create_title_name_src array[@] "${src_path}"	\
-		"${dst_path}"
+		"${dst_path}"	\
+		"https://chenxiaosong.com"	\
+		"${public_src_path}/src/blog-web/sign.md"
+
 }
 
 __create_csdn_src() {
@@ -134,7 +136,9 @@ create_csdn_src() {
 	local dst_path=$3
 
 	comm_iterate_array __create_csdn_src array[@] "${src_path}"	\
-		"${dst_path}"
+		"${dst_path}"	\
+		"https://chenxiaosong.com"	\
+		"${public_src_path}/src/blog-web/sign.md"
 }
 
 my_init
