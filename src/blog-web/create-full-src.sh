@@ -30,78 +30,12 @@ my_exit() {
 	# comm_rm_other_comments ${csdn_dst_path} # 注释保留
 }
 
-create_full_src() {
-	local is_toc=$1
-	shift; local is_sign=$1
-	shift; local ifile=$1
-	shift; local ofile=$1
-	shift; local html_title=$1
-	shift; local src_file=$1
-	shift; local src_path=$1
-
-	shift; local dst_path=$1
-	shift; local blog_url=$1
-	shift; local sign_md_file=$1
-
-	local dst_file=${dst_path}/${ifile} # 输出文件
-	local dst_dir="$(dirname "${dst_file}")" # 输出文件所在的文件夹
-	if [ ! -d "${dst_dir}" ]; then
-		mkdir -p "${dst_dir}" # 文件夹不存在就创建
-	fi
-
-	cd ${src_path}
-	echo '<!--' >> ${dst_file}
-	git log --oneline ${ifile} | head -n 1 >> ${dst_file}
-	echo '--> ' >> ${dst_file}
-	echo >> ${dst_file}
-
-	echo '[建议点击这里查看个人主页上的最新原文]('${blog_url}'/'${ofile}')' >> ${dst_file}
-	echo >> ${dst_file}
-	cat ${sign_md_file} >> ${dst_file}
-	echo >> ${dst_file}
-	cat ${src_file} >> ${dst_file}
-}
-
-get_title_filename() {
-	local dst_file=$1
-	local html_title=$2
-
-	# 提取文件的目录路径
-	local dir_path=$(dirname "${dst_file}")
-	# 提取文件的扩展名
-	local extension="${dst_file##*.}" # TODO: 多个点号时
-	# 除下划线外，所有标点和空格替换为减号
-	# html_title=$(echo "${html_title}" | sed 's/_/underscore/g' | sed 's/[[:punct:][:space:]]/-/g' | sed 's/underscore/_/g')
-	# 替换/
-	html_title=$(echo "${html_title}" | sed 's|/|-|g')
-
-	echo "${dir_path}/${html_title}.${extension}"
-}
-
-__create_title_name_src() {
-	create_full_src "$@"
-
-	local is_toc=$1
-	shift; local is_sign=$1
-	shift; local ifile=$1
-	shift; local ofile=$1
-	shift; local html_title=$1
-	shift; local src_file=$1
-	shift; local src_path=$1
-
-	shift; local dst_path=$1
-
-	local dst_file=${dst_path}/${ifile} # 输出文件
-	local title_filename=$(get_title_filename "${dst_file}" "${html_title}")
-	mv "${dst_file}" "${title_filename}"
-}
-
 create_title_name_src() {
 	local array=("${!1}")
 	local src_path=$2
 	local dst_path=$3
 
-	comm_iterate_array __create_title_name_src array[@] "${src_path}"	\
+	comm_iterate_array __comm_create_title_name_src array[@] "${src_path}"	\
 		"${dst_path}"	\
 		"https://chenxiaosong.com"	\
 		"${public_src_path}/src/blog-web/sign.md"
@@ -109,7 +43,7 @@ create_title_name_src() {
 }
 
 __create_csdn_src() {
-	create_full_src "$@"
+	comm_create_full_src "$@"
 
 	local is_toc=$1
 	shift; local is_sign=$1
