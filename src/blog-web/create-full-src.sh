@@ -30,13 +30,6 @@ my_exit() {
 	# comm_rm_other_comments ${csdn_dst_path} # 注释保留
 }
 
-change_private_perm() {
-	chown -R sonvhi:sonvhi ${title_name_dst_path}
-	chmod -R 770 ${title_name_dst_path}
-	chown -R sonvhi:sonvhi ${csdn_dst_path}
-	chmod -R 770 ${csdn_dst_path}
-}
-
 create_full_src() {
 	local is_toc=$1
 	shift; local is_sign=$1
@@ -144,6 +137,5 @@ create_csdn_src() {
 my_init
 create_title_name_src array[@] ${public_src_path} ${title_name_dst_path}
 create_csdn_src array[@] ${public_src_path} ${csdn_dst_path}
-change_private_perm
 my_exit
 . ${public_src_path}/../private-blog/scripts/create-full-src.sh ${lan_ip}
