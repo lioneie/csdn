@@ -306,7 +306,9 @@ git format-patch -3 --cover-letter --stat=300,200
 # %ci：显示提交的 日期和时间，%i: 包含时分秒
 # %h：显示提交的简短哈希值。
 # %s：显示提交的信息。
-git log --oneline --date=short --format="%ad %h %s" --author=yourname
+# %an：提交者的名字。
+# %ae：提交者的邮箱。
+git log --oneline --date=short --format="%ad %h %s %an <%ae>" --author=yourname
 ```
 
 # 代码编译
