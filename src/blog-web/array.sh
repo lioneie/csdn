@@ -138,6 +138,7 @@ comm_array=(
 	1 1 src/filesystem/microsoft-fs.md ~ "微软文件系统"
 	1 1 src/btrfs/4.19-btrfs-forced-readonly.md ~ "4.19 btrfs文件系统变成只读的问题"
 	1 1 src/filesystem/tmpfs-oom.md ~ "tmpfs不断写导致oom的问题"
+	1 1 src/filesystem/lazy-umount.md ~ "文件系统延迟卸载"
 	# cve
 	1 1 src/cve/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.md ~
 		"d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()"

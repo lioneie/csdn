@@ -68,6 +68,8 @@
 
 [tmpfs不断写导致oom的问题](https://chenxiaosong.com/src/filesystem/tmpfs-oom.html)
 
+[文件系统延迟卸载](https://chenxiaosong.com/src/filesystem/lazy-umount.html)
+
 # Linux环境
 
 [VNC远程桌面](https://chenxiaosong.com/src/userspace-environment/vnc.html)
