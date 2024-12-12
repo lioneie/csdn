@@ -23,7 +23,7 @@ lsof +D /mnt # List Open Files
 fuser -mv /mnt # file user, 显示哪些进程正在访问特定文件、目录或文件系统
 ```
 
-## 未执行`umount --lazy /mnt`
+## 未执行`umount --lazy`
 
 `lsof +D /mnt`输出如下:
 ```sh
@@ -59,7 +59,7 @@ statx(0, "/proc/3038/fd/3", ..., stx_mnt_id=0x46}) = 0
 ls /proc/3038/fd/3 -lh # 3 -> /mnt/.file.swm
 ```
 
-## 执行`umount --lazy /mnt`后
+## 执行`umount --lazy`后
 
 ```sh
 ls /proc/2924/cwd -lh # /proc/2924/cwd -> /
