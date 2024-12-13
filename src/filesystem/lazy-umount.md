@@ -2,18 +2,18 @@
 
 执行以下命令:
 ```sh
-fallocate -l 10M image
-mkfs.ext2 -F image
-mount -t ext2 image /mnt
+mkfs.ext2 -F /dev/sda
+mount -t ext2 /dev/sda /mnt
 cd /mnt && vim file
 umount --lazy /mnt
+mkfs.ext2 -F /dev/sda # /dev/sda is apparently in use by the system; will not make a filesystem here!
 ```
 
 这时，通用的一些命令如`df`、`mount`等看不到挂载实例，也无法看到哪些进程正在使用挂载点。
 
 # 调试
 
-通过命令`strace -o strace.txt -f -v -s 4096 <df/mount>`可以知道，`df`、`mount`命令都是读取`/proc/self/mountinfo`文件。
+通过命令`strace -o strace.txt -f -v -s 4096 df`和`strace -o strace.txt -f -v -s 4096 mount`可以知道，`df`、`mount`命令都是读取`/proc/self/mountinfo`文件。
 
 以下命令查询进程:
 ```sh
@@ -33,7 +33,7 @@ vim     3038 root  cwd    DIR    7,0     1024    2 /mnt
 vim     3038 root    3u   REG    7,0    12288   15 /mnt/.file.swm
 ```
 
-通过`strace`命令可知，是通过以下方式获取:
+通过`strace`命令可知，这些输出是通过以下方式获取:
 ```sh
 ls /proc/2924/cwd -lh # /proc/2924/cwd -> /mnt
 ls /proc/3038/cwd -lh # /proc/3038/cwd -> /mnt
@@ -48,7 +48,7 @@ ls /proc/3038/fd/3 -lh # 3 -> /mnt/.file.swm
                      root       3038 F.c.. vim
 ```
 
-通过`strace`命令可知，是通过以下方式获取:
+通过`strace`命令可知，这些输出是通过以下方式获取:
 ```sh
 cat /proc/mounts
 statx(0, "/mnt", ..., stx_mnt_id=0x46}) = 0
