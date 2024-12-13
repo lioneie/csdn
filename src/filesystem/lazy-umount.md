@@ -6,6 +6,7 @@ mkfs.ext2 -F /dev/sda
 mount -t ext2 /dev/sda /mnt
 cd /mnt && vim file
 umount --lazy /mnt
+# 这时无法执行mkfs
 mkfs.ext2 -F /dev/sda # /dev/sda is apparently in use by the system; will not make a filesystem here!
 ```
 
@@ -21,6 +22,16 @@ mkfs.ext2 -F /dev/sda # /dev/sda is apparently in use by the system; will not ma
 lsof +D /mnt # List Open Files
 # -m：表示查询挂载点（而不仅仅是某个文件）
 fuser -mv /mnt # file user, 显示哪些进程正在访问特定文件、目录或文件系统
+```
+
+正常`umount`的系统调用:
+```sh
+umount2("/mnt", 0)       = 0
+```
+
+`umount --lazy`的系统调用:
+```sh
+umount2("/mnt", MNT_DETACH)       = 0
 ```
 
 ## 未执行`umount --lazy`
@@ -77,4 +88,47 @@ statx(0, "/proc/3038/fd/3", ..., stx_mnt_id=0x46}) = 0
 ```
 
 # 代码分析
+
+正常`umount`流程:
+```c
+ksys_umount
+  path_umount
+    do_umount
+      if (flags & MNT_DETACH) // 条件不满足
+      propagate_mount_busy // 如果挂载点正在被使用，在这里拦截，umount_tree()不执行
+      umount_tree(mnt, UMOUNT_PROPAGATE|UMOUNT_SYNC)
+```
+
+`umount --lazy`流程:
+```c
+ksys_umount
+  path_umount
+    do_umount
+      if (flags & MNT_DETACH) // 条件满足
+      umount_tree(mnt, UMOUNT_PROPAGATE)
+```
+
+真正卸载流程:
+```c
+__cleanup_mnt
+  cleanup_mnt
+    deactivate_super
+      deactivate_locked_super
+        ext4_kill_sb // 具体文件系统
+    mnt_free_id
+```
+
+打开`/proc/self/mountinfo`和`/proc/mounts`涉及的函数:
+```c
+mountinfo_open
+  mounts_open_common
+    p->show = show_mountinfo
+  
+mounts_open
+  mounts_open_common
+    p->show = show_vfsmnt
+```
+
+读取内容时都涉及到`struct seq_operations mounts_op`。
+
 
