@@ -74,7 +74,7 @@ ls /proc/3038/fd/3 -lh # 3 -> /mnt/.file.swm
 
 ```sh
 ls /proc/2924/cwd -lh # /proc/2924/cwd -> /
-ls /proc/3038/cwd -lh # /proc/3038/cwd -> /
+ls /proc/3038/cwd -lh # /proc/3038/cwd -> / , 如果是在打开的文件是/mnt/dir/file，则指向/dir
 ls /proc/3038/fd/3 -lh # /proc/3038/fd/3 -> /.file.swm
 ```
 
@@ -131,4 +131,10 @@ mounts_open
 
 读取内容时都涉及到`struct seq_operations mounts_op`。
 
-
+`ls /proc/5718/root -lh`的流程:
+```c
+do_readlinkat
+  vfs_readlink
+    proc_pid_readlink
+      proc_cwd_link
+```
