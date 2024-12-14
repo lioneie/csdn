@@ -89,6 +89,28 @@ statx(0, "/proc/3038/fd/3", ..., stx_mnt_id=0x46}) = 0
 
 # 代码分析
 
+打开`/proc/self/mountinfo`和`/proc/mounts`涉及的函数:
+```c
+mountinfo_open
+  mounts_open_common
+    p->show = show_mountinfo
+      seq_printf(m, "%i %i %u:%u ", r->mnt_id, ...
+  
+mounts_open
+  mounts_open_common
+    p->show = show_vfsmnt
+```
+
+读取内容时都涉及到`struct seq_operations mounts_op`。
+
+`ls /proc/5718/cwd -lh`的流程:
+```c
+do_readlinkat
+  vfs_readlink
+    proc_pid_readlink
+      proc_cwd_link
+```
+
 正常`umount`流程:
 ```c
 ksys_umount
@@ -118,23 +140,14 @@ __cleanup_mnt
     mnt_free_id
 ```
 
-打开`/proc/self/mountinfo`和`/proc/mounts`涉及的函数:
+挂载加到红黑树的流程:
 ```c
-mountinfo_open
-  mounts_open_common
-    p->show = show_mountinfo
-  
-mounts_open
-  mounts_open_common
-    p->show = show_vfsmnt
-```
+fsmount
+  mnt_add_to_ns
 
-读取内容时都涉及到`struct seq_operations mounts_op`。
-
-`ls /proc/5718/root -lh`的流程:
-```c
-do_readlinkat
-  vfs_readlink
-    proc_pid_readlink
-      proc_cwd_link
+move_mount
+  do_move_mount
+    attach_recursive_mnt
+      commit_tree
+        mnt_add_to_ns
 ```
