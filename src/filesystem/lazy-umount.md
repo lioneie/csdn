@@ -95,7 +95,7 @@ mountinfo_open
   mounts_open_common
     p->show = show_mountinfo
       seq_printf(m, "%i %i %u:%u ", r->mnt_id, ...
-  
+
 mounts_open
   mounts_open_common
     p->show = show_vfsmnt
@@ -151,3 +151,11 @@ move_mount
       commit_tree
         mnt_add_to_ns
 ```
+
+# openeuler overlayfs
+
+- [overlayfs 添加sysfs文件显示载挂载信息](https://summer-ospp.ac.cn/2022/#/org/prodetail/22b970207)
+- [issue](https://gitee.com/openeuler/kernel/issues/I5WIS5)
+- [`a5c8655cfb97 overlayfs: add sysfs file for OverlayFS`](https://gitee.com/openeuler/kernel/pulls/149/commits)
+
+`openEuler-22.09`分支要回退`c1ad2f078e89 sign-file: Support SM signature`，还需要关闭配置`CONFIG_DEBUG_INFO_BTF`。
