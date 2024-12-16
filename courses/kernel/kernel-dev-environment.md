@@ -282,6 +282,8 @@ echo "全部合并成功"
 ```sh
 Conflicts:
         include/linux/sunrpc/clnt.h
+[Commit xxxxxxxxx ("xxx: here is subject") 这里描述冲突的原因，如果后面还有补丁就用封号;
+ Commit xxxxxxxxx ("xxx: here is subject") 最后一个补丁用点号.]
 ```
 
 查看帮助文档`man git format-patch`:
