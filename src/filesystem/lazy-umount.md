@@ -159,3 +159,18 @@ move_mount
 - [`a5c8655cfb97 overlayfs: add sysfs file for OverlayFS`](https://gitee.com/openeuler/kernel/pulls/149/commits)
 
 `openEuler-22.09`分支要回退`c1ad2f078e89 sign-file: Support SM signature`，还需要关闭配置`CONFIG_DEBUG_INFO_BTF`。
+
+overlayfs我以前没用过，先看看怎么使用:
+```sh
+mkdir /mnt/lower # 存放只读数据
+mkdir /mnt/upper # 存放可写数据。
+mkdir /mnt/work  # 用于存储合并过程中的元数据
+mkdir /mnt/merged # 合并后的结果挂载点
+mount -t overlay ovl-name -o lowerdir=/mnt/lower,upperdir=/mnt/upper,workdir=/mnt/work /mnt/merged
+echo "This is a file in lower" > /mnt/lower/lower_file.txt
+echo "This is a file in upper" > /mnt/upper/upper_file.txt
+ls /mnt/merged
+echo "Lower file is changed in merged" > /mnt/merged/lower_file.txt
+cat /mnt/lower/lower_file.txt # 没变
+cat /mnt/merged/lower_file.txt # 变了
+```
