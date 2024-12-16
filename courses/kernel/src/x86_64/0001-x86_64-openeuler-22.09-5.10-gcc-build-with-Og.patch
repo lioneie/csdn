@@ -1,0 +1,66 @@
+From cdada99aff931d355f5900d87617368291821ea9 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+Date: Thu, 26 Oct 2023 01:45:45 +0000
+Subject: [PATCH] x86_64: openeuler-22.09 5.10 gcc build with -Og
+
+Signed-off-by: ChenXiaoSong <chenxiaosongemail@foxmail.com>
+---
+ Makefile                       | 12 ++----------
+ include/linux/compiler-gcc.h   |  2 +-
+ include/linux/compiler_types.h |  4 ++--
+ 3 files changed, 5 insertions(+), 13 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index e143ee87c043..4701ad0a1fe3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -798,16 +798,8 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, format-truncation)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, format-overflow)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
+ 
+-ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
+-KBUILD_CFLAGS += -O2
+-KBUILD_RUSTFLAGS_OPT_LEVEL_MAP := 2
+-else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+-KBUILD_CFLAGS += -O3
+-KBUILD_RUSTFLAGS_OPT_LEVEL_MAP := 3
+-else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+-KBUILD_CFLAGS += -Os
+-KBUILD_RUSTFLAGS_OPT_LEVEL_MAP := s
+-endif
++KBUILD_CFLAGS += -Og
++KBUILD_RUSTFLAGS_OPT_LEVEL_MAP := g
+ 
+ # Always set `debug-assertions` and `overflow-checks` because their default
+ # depends on `opt-level` and `debug-assertions`, respectively.
+diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+index 4cf524ccab43..56932f4aa39a 100644
+--- a/include/linux/compiler-gcc.h
++++ b/include/linux/compiler-gcc.h
+@@ -55,7 +55,7 @@
+ #define __compiletime_object_size(obj) __builtin_object_size(obj, 0)
+ 
+ #define __compiletime_warning(message) __attribute__((__warning__(message)))
+-#define __compiletime_error(message) __attribute__((__error__(message)))
++#define __compiletime_error(message) // __attribute__((__error__(message)))
+ 
+ #if defined(LATENT_ENTROPY_PLUGIN) && !defined(__CHECKER__)
+ #define __latent_entropy __attribute__((latent_entropy))
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index 273609a314c7..8b9759e9c90a 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -307,8 +307,8 @@ struct ftrace_likely_data {
+ # define __compiletime_assert(condition, msg, prefix, suffix) do { } while (0)
+ #endif
+ 
+-#define _compiletime_assert(condition, msg, prefix, suffix) \
+-	__compiletime_assert(condition, msg, prefix, suffix)
++#define _compiletime_assert(condition, msg, prefix, suffix)
++	// __compiletime_assert(condition, msg, prefix, suffix)
+ 
+ /**
+  * compiletime_assert - break build and emit msg if condition is false
+-- 
+2.34.1
+
