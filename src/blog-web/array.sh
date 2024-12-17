@@ -174,6 +174,7 @@ comm_array=(
 		1 1 src/translations/kernel/An-EEVDF-CPU-scheduler-for-Linux.md ~ "An EEVDF CPU scheduler for Linux"
 		1 1 src/translations/kernel/Completing-the-EEVDF-scheduler.md ~ "Completing the EEVDF scheduler"
 		1 1 src/translations/kernel/ceph.rst ~ "Ceph Distributed File System"
+		1 1 src/translations/kernel/kernel-doc.rst ~ "doc-guide/kernel-doc.rst"
 		# nfs
 		1 1 src/translations/nfs/rfc8881-nfsv4.1.md ~ "Network File System (NFS) Version 4 Minor Version 1 Protocol"
 		1 1 src/translations/nfs/rfc7862-nfsv4.2.md ~ "Network File System (NFS) Version 4 Minor Version 2 Protocol"
@@ -217,8 +218,6 @@ comm_array=(
 		1 1 src/translations/qemu/qemu-networking-nat.md ~ "QEMU Documentation/Networking/NAT"
 		# systemtap
 		1 1 src/translations/systemtap/systemtap-readme.md ~ "systemtap README"
-		# doc-guide
-		1 1 src/translations/doc-guide/kernel-doc.rst ~ "doc-guide/kernel-doc.rst"
 	# no-index
 	1 1 src/private/v2ray/v2ray.md no-index/v2ray.html "v2ray代理服务器"
 	1 1 src/private/chatgpt/chatgpt.md no-index/chatgpt.html "注册ChatGPT"

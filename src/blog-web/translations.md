@@ -12,6 +12,8 @@
 
 [Ceph Distributed File System](https://chenxiaosong.com/src/translations/kernel/ceph.html)
 
+[doc-guide/kernel-doc.rst](https://chenxiaosong.com/src/translations/kernel/kernel-doc.html)
+
 # nfs
 
 [Network File System (NFS) Version 4 Minor Version 1 Protocol](https://chenxiaosong.com/src/translations/nfs/rfc8881-nfsv4.1.html)
@@ -96,6 +98,3 @@
 
 [systemtap README](https://chenxiaosong.com/src/translations/systemtap/systemtap-readme.html)
 
-# doc-guide
-
-[doc-guide/kernel-doc.rst](https://chenxiaosong.com/src/translations/doc-guide/kernel-doc.html)
