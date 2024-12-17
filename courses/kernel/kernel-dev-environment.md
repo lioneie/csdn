@@ -834,6 +834,8 @@ gcc的编译选项`O1`优化等级不需要修改就可以编译通过。`O0`优
 <!-- private end -->
 对应版本的补丁。建议使用`Og`优化等级编译，既能满足gdb调试需求，也能尽量少的修改代码。
 
+另外，也建议把需要调试的函数的`inline`关键字去掉。
+
 ## QEMU命令选项
 
 qemu启动虚拟机时，要添加以下几个选项:
@@ -874,7 +876,7 @@ gdb命令的用法和用户态程序的调试大同小异。
 
 ## GDB辅助调试功能
 
-使用内核提供的[GDB辅助调试功能](https://www.kernel.org/doc/Documentation/dev-tools/gdb-kernel-debugging.rst)可以更方便的调试内核（如打印断点处的进程名和进程id等）。
+使用内核提供的[GDB辅助调试功能](https://github.com/torvalds/linux/blob/master/Documentation/dev-tools/gdb-kernel-debugging.rst)可以更方便的调试内核（如打印断点处的进程名和进程id等）。
 
 内核最新版本（2024.04）使用以下命令开启GDB辅助调试功能，注意最新版本编译出的脚本无法调试4.19和5.10的代码:
 ```sh
