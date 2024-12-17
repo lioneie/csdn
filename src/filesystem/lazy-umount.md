@@ -139,19 +139,22 @@ __cleanup_mnt
     deactivate_super
       deactivate_locked_super
         ext4_kill_sb // 具体文件系统
-    mnt_free_id
+    mnt_free_id // 释放mnt_id
 ```
 
 挂载加到红黑树的流程:
 ```c
 fsmount
+  vfs_create_mount
+    alloc_vfsmnt
+      mnt_alloc_id // 分配mnt_id
   mnt_add_to_ns
 
 move_mount
   do_move_mount
     attach_recursive_mnt
       commit_tree
-        mnt_add_to_ns
+        mnt_add_to_ns // 加到红黑树中
 ```
 
 # openeuler overlayfs
