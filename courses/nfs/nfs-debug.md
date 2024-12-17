@@ -86,6 +86,17 @@ echo c > /proc/sysrq-trigger
 
 关于vmcore的更详细内容，请查看[内核调试方法](https://chenxiaosong.com/courses/kernel/kernel-debug.html)。
 
+如果要让内核在hungtask或softlockup等情况触发panic，可以执行以下操作:
+```sh
+sysctl -w kernel.softlockup_panic=1 # -w：表示“写”操作，用来修改内核参数
+sysctl -w kernel.hung_task_panic=0
+sysctl kernel.softlockup_panic # 查看
+# 或者用以下命令
+echo 1 > /proc/sys/kernel/softlockup_panic # 和sysctl命令效果一样
+echo 0 > /proc/sys/kernel/hung_task_panic
+cat /proc/sys/kernel/softlockup_panic # 查看
+```
+
 # 非特权源端口挂载
 
 默认情况下，nfs client挂载使用的源端口是小于1024的特权端口（Privileged Ports），需要root权限。

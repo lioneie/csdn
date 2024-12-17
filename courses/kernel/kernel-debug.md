@@ -493,7 +493,18 @@ echo 3000 > /proc/sys/kernel/panic # panic之后多久重启
 echo 1 > /proc/sys/kernel/sysrq
 # 这个命令触发了 Magic SysRq 键中的 "c" 操作。在 Magic SysRq 中，"c" 表示让内核立即进行系统内核转储。
 # 这对于在系统发生严重故障时收集调试信息非常有用。
-echo c > /proc/sysrq-trigger
+echo c > /proc/sysrq-trigger # 相当于Alt + SysRq + c
+```
+
+如果要让内核在hungtask或softlockup等情况触发panic，可以执行以下操作:
+```sh
+sysctl -w kernel.softlockup_panic=1 # -w：表示“写”操作，用来修改内核参数
+sysctl -w kernel.hung_task_panic=0
+sysctl kernel.softlockup_panic # 查看
+# 或者用以下命令
+echo 1 > /proc/sys/kernel/softlockup_panic # 和sysctl命令效果一样
+echo 0 > /proc/sys/kernel/hung_task_panic
+cat /proc/sys/kernel/softlockup_panic # 查看
 ```
 
 `x86_64`启动`crash`:
