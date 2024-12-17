@@ -128,6 +128,8 @@ ksys_umount
     do_umount
       if (flags & MNT_DETACH) // 条件满足
       umount_tree(mnt, UMOUNT_PROPAGATE)
+        // move_from_ns()使用gdb调试时，要去掉inline，否则无法进断点
+        move_from_ns // 从红黑树中删除
 ```
 
 真正卸载流程:
@@ -154,11 +156,14 @@ move_mount
 
 # openeuler overlayfs
 
+- TODO: 挂载第二次时，`ovl_free_fs() -> wait_for_completion()`发生空指针解引用
 - [overlayfs 添加sysfs文件显示载挂载信息](https://summer-ospp.ac.cn/2022/#/org/prodetail/22b970207)
 - [issue](https://gitee.com/openeuler/kernel/issues/I5WIS5)
 - [`a5c8655cfb97 overlayfs: add sysfs file for OverlayFS`](https://gitee.com/openeuler/kernel/pulls/149/commits)
 
 `openEuler-22.09`分支要回退`c1ad2f078e89 sign-file: Support SM signature`，还需要关闭配置`CONFIG_DEBUG_INFO_BTF`。
+
+## 使用
 
 overlayfs我以前没用过，先看看怎么使用:
 ```sh
@@ -174,3 +179,51 @@ echo "Lower file is changed in merged" > /mnt/merged/lower_file.txt
 cat /mnt/lower/lower_file.txt # 没变
 cat /mnt/merged/lower_file.txt # 变了
 ```
+
+再来看[overlayfs 添加sysfs文件显示载挂载信息](https://gitee.com/openeuler/kernel/issues/I5WIS5)的测试:
+```sh
+tree /sys/fs/overlayfs/
+# /sys/fs/overlayfs/
+# └── merge_0_36
+#     ├── lower
+#     ├── merge
+#     ├── upper
+#     └── work
+cat /sys/fs/overlayfs/merge_0_36/lower # /mnt/lower
+cat /sys/fs/overlayfs/merge_0_36/upper # /mnt/upper
+cat /sys/fs/overlayfs/merge_0_36/work # /mnt/work
+cat /sys/fs/overlayfs/merge_0_36/merge # /mnt/merged
+cd /mnt/merged
+umount --lazy /mnt/merged
+tree /sys/fs/overlayfs/ # 还能看到和原来一样的输出
+cd
+tree /sys/fs/overlayfs/ # 已经看不到输出
+```
+
+## 代码分析
+
+```c
+mount
+  do_mount
+    path_mount
+      do_new_mount
+        ovl_mount_end
+          ovl_register_sysfs
+          ovl_mergedir_backup
+
+__cleanup_mnt
+  cleanup_mnt
+    deactivate_super
+      deactivate_locked_super
+        kill_anon_super
+          generic_shutdown_super
+            ovl_put_super
+              ovl_free_fs
+                kobject_put
+                  kref_put
+                    kobject_release
+                      kobject_cleanup
+                        ovl_kobj_release
+                          complete(&ofs->kobj_unregister)
+```
+
