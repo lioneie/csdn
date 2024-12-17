@@ -94,6 +94,7 @@ comm_array=(
 			1 1 courses/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid报warning紧接着panic的问题"
 			1 1 courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.md ~ "4.19 __nfs3_proc_setacls空指针解引用问题"
 			1 1 courses/nfs/issues/nfs-df-long-time.md ~ "nfs df命令执行时间长的问题"
+			1 1 courses/nfs/issues/4.19-nfs-soft-lockup-in-nfs_wb_page.md ~ "4.19 nfs_wb_page() soft lockup的问题"
 	0 1 courses/smb/smb.md "$(comm_tmp_src_path)" "smb文件系统"
 		1 1 courses/smb/smb-introduction.md "$(comm_tmp_src_path)" "smb简介"
 		1 1 courses/smb/smb-environment.md "$(comm_tmp_src_path)" "smb环境"
