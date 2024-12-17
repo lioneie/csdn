@@ -1,0 +1,2 @@
+本文档翻译自`gdb-kernel-debugging.rst <https://github.com/torvalds/linux/blob/master/Documentation/dev-tools/gdb-kernel-debugging.rst>`_，翻译时的最新提交是`6b219431037bf98c9efd49716aea9b68440477a3 docs/scripts/gdb: add necessary make scripts_gdb step <https://github.com/torvalds/linux/blob/6b219431037bf98c9efd49716aea9b68440477a3/Documentation/dev-tools/gdb-kernel-debugging.rst>`_。大部分借助于ChatGPT翻译，仅作为我个人的参考，如果你想查阅，建议看英文文档，因为我不确定我记录的中文翻译是否完整和正确。
+

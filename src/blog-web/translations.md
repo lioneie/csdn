@@ -14,6 +14,10 @@
 
 [doc-guide/kernel-doc.rst](https://chenxiaosong.com/src/translations/kernel/kernel-doc.html)
 
+[dev-tools/gdb-kernel-debugging.rst](https://chenxiaosong.com/src/translations/kernel/gdb-kernel-debugging.html)
+
+[dev-tools/kgdb.rst](https://chenxiaosong.com/src/translations/kernel/kgdb.html)
+
 # nfs
 
 [Network File System (NFS) Version 4 Minor Version 1 Protocol](https://chenxiaosong.com/src/translations/nfs/rfc8881-nfsv4.1.html)
