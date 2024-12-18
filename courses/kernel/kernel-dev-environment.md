@@ -529,6 +529,15 @@ ubuntu下运行`update-grub`，`x86`的`grub.cfg`文件在`/boot/grub/grub.cfg`�
 
 centos下运行`grub2-mkconfig -o /boot/grub2/grub.cfg`。
 
+麒麟server 4.19替换内核的步骤:
+```sh
+rpm -i kernel-4.19.90-23.29.v2101.fortest.ky10.aarch64.rpm kernel-core-4.19.90-23.29.v2101.fortest.ky10.aarch64.rpm kernel-modules-* --force
+cat /boot/grub2/grubenv # 查看默认启动项
+vim /boot/efi/EFI/kylin/grub.cfg # 从这里复制 Kylin Linux Advanced Server (4.19.90-23.29.v2101.fortest.ky10.aarch64) V10 (Lance)
+grub2-set-default "Kylin Linux Advanced Server (4.19.90-23.29.v2101.fortest.ky10.aarch64) V10 (Lance)" # 更改默认启动项
+sync # 确保落盘
+```
+
 # 使用QEMU测试内核代码
 
 前面介绍完了编译环境，编译出的代码我们不能直接在编译环境上运行，还要再启动qemu虚拟机运行我们编译好的内核。
