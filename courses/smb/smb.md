@@ -29,4 +29,7 @@
 
 # [smb代码重构](https://chenxiaosong.com/courses/smb/smb-refactor.html)
 
+# [smb问题分析](https://chenxiaosong.com/courses/smb/smb-issues.html)
+
 # [smb未分类的内容](https://chenxiaosong.com/courses/smb/smb-others.html)
+

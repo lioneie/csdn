@@ -83,6 +83,7 @@ smb_files() {
 		1 courses/smb/smb-patches.md
 		1 courses/smb/smb-refactor.md
 		1 courses/smb/smb-others.md
+		1 courses/smb/smb-issues.md
 	)
 	add_common array[@] ${common_file}
 }

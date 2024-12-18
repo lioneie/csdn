@@ -61,8 +61,8 @@ comm_array=(
 		1 1 courses/nfs/pnfs.md "$(comm_tmp_src_path)" "Parallel NFS (pNFS)"
 		1 1 courses/nfs/nfs-debug.md "$(comm_tmp_src_path)" "nfs调试方法"
 		1 1 courses/nfs/nfs-multipath.md "$(comm_tmp_src_path)" "nfs多路径"
-		1 1 courses/nfs/nfs-patches.md "$(comm_tmp_src_path)" "nfs补丁分析"
 		1 1 courses/nfs/nfs-others.md "$(comm_tmp_src_path)" "nfs未分类的内容"
+		1 1 courses/nfs/nfs-patches.md "$(comm_tmp_src_path)" "nfs补丁分析"
 			# 我写的补丁
 			1 1 courses/nfs/patches/CVE-2022-24448.md ~ "CVE-2022-24448"
 			1 1 courses/nfs/patches/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
@@ -109,6 +109,9 @@ comm_array=(
 			# 其他人的补丁
 			1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
 				"7de0394801da cifs: Fix in error types returned for out-of-credit situations."
+		1 1 courses/smb/smb-issues.md "$(comm_tmp_src_path)" "smb问题分析"
+			1 1 courses/smb/issues/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect()空指针解引用问题"
+			1 1 courses/smb/issues/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat()系统调用报错ENOTSUPP"
 	0 1 courses/algorithms/algorithms.md "$(comm_tmp_src_path)" "算法"
 		1 1 courses/algorithms/dynamic-programming.md "$(comm_tmp_src_path)" "动态规划"
 		1 1 courses/algorithms/sort.md "$(comm_tmp_src_path)" "排序算法"
@@ -129,12 +132,9 @@ comm_array=(
 	1 1 src/nfs/4.19-ltp-nfs-fail.md ~ "4.19 ltp nfs测试失败问题"
 	1 1 src/nfs/nfs-no-net-oom.md ~ "nfs断网导致oom的问题"
 	# smb(cifs)
-	1 1 src/smb/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect()空指针解引用问题"
-	1 1 src/smb/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat()系统调用报错ENOTSUPP"
+	# ext
 	# xfs
 	1 1 src/xfs/xfs-shutdown-fs.md ~ "xfs agf没落盘的问题"
-	# ext
-
 	# 文件系统
 	1 1 src/filesystem/microsoft-fs.md ~ "微软文件系统"
 	1 1 src/btrfs/4.19-btrfs-forced-readonly.md ~ "4.19 btrfs文件系统变成只读的问题"
