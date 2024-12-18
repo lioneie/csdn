@@ -87,12 +87,12 @@ comm_array=(
 				"patchset: nfs_instantiate() might succeed leaving dentry negative unhashed"
 		1 1 courses/nfs/nfs-issues.md "$(comm_tmp_src_path)" "nfs问题分析"
 			1 1 courses/nfs/issues/nfs-clients-same-hostname-clientid-expire.md ~ "多个NFS客户端使用相同的hostname导致clientid过期"
-			1 1 courses/nfs/issues/4.19-nfs-no-iterate_shared.md ~ "nfs没实现iterate_shared导致的遍历目录无法并发问题"
-			1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage空指针解引用问题'
-			1 1 courses/nfs/issues/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md ~ "aarch64架构 4.19 nfs_readpage_async空指针解引用问题"
-			1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async空指针解引用问题'
-			1 1 courses/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid报warning紧接着panic的问题"
-			1 1 courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.md ~ "4.19 __nfs3_proc_setacls空指针解引用问题"
+			1 1 courses/nfs/issues/4.19-nfs-no-iterate_shared.md ~ "nfs没实现iterate_shared()导致的遍历目录无法并发问题"
+			1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage()空指针解引用问题'
+			1 1 courses/nfs/issues/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md ~ "aarch64架构 4.19 nfs_readpage_async()空指针解引用问题"
+			1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async()空指针解引用问题'
+			1 1 courses/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid()报warning紧接着panic的问题"
+			1 1 courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.md ~ "4.19 __nfs3_proc_setacls()空指针解引用问题"
 			1 1 courses/nfs/issues/nfs-df-long-time.md ~ "nfs df命令执行时间长的问题"
 			1 1 courses/nfs/issues/4.19-nfs-soft-lockup-in-nfs_wb_page.md ~ "4.19 nfs_wb_page() soft lockup的问题"
 	0 1 courses/smb/smb.md "$(comm_tmp_src_path)" "smb文件系统"
@@ -129,8 +129,8 @@ comm_array=(
 	1 1 src/nfs/4.19-ltp-nfs-fail.md ~ "4.19 ltp nfs测试失败问题"
 	1 1 src/nfs/nfs-no-net-oom.md ~ "nfs断网导致oom的问题"
 	# smb(cifs)
-	1 1 src/smb/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect空指针解引用问题"
-	1 1 src/smb/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat报错ENOTSUPP"
+	1 1 src/smb/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect()空指针解引用问题"
+	1 1 src/smb/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat()系统调用报错ENOTSUPP"
 	# xfs
 	1 1 src/xfs/xfs-shutdown-fs.md ~ "xfs agf没落盘的问题"
 	# ext

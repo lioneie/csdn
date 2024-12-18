@@ -2,17 +2,17 @@
 
 [多个NFS客户端使用相同的hostname导致clientid过期](https://chenxiaosong.com/courses/nfs/issues/nfs-clients-same-hostname-clientid-expire.html)
 
-[4.19 nfs没实现iterate_shared导致的遍历目录无法并发问题](https://chenxiaosong.com/courses/nfs/issues/4.19-nfs-no-iterate_shared.html)
+[4.19 nfs没实现iterate_shared()导致的遍历目录无法并发问题](https://chenxiaosong.com/courses/nfs/issues/4.19-nfs-no-iterate_shared.html)
 
-[4.19 nfs_updatepage空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.html)
+[4.19 nfs_updatepage()空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.html)
 
-[aarch64架构 4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.html)
+[aarch64架构 4.19 nfs_readpage_async()空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.html)
 
-[4.19 nfs_readpage_async空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-nfs_readpage_async.html)
+[4.19 nfs_readpage_async()空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-nfs_readpage_async.html)
 
-[4.19 nfs4_put_stid报warning紧接着panic的问题](https://chenxiaosong.com/courses/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.html)
+[4.19 nfs4_put_stid()报warning紧接着panic的问题](https://chenxiaosong.com/courses/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.html)
 
-[4.19 __nfs3_proc_setacls空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.html)
+[4.19 __nfs3_proc_setacls()空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.html)
 
 [nfs df命令执行时间长的问题](https://chenxiaosong.com/courses/nfs/issues/nfs-df-long-time.html)
 

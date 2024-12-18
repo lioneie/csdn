@@ -48,9 +48,9 @@
 
 [点击查看smb文件系统课程（持续更新中）](https://chenxiaosong.com/courses/smb/smb.html)
 
-[4.19 cifs_reconnect空指针解引用问题](https://chenxiaosong.com/src/smb/4.19-null-ptr-deref-in-cifs_reconnect.html)
+[4.19 cifs_reconnect()空指针解引用问题](https://chenxiaosong.com/src/smb/4.19-null-ptr-deref-in-cifs_reconnect.html)
 
-[cifs newfstatat报错ENOTSUPP](https://chenxiaosong.com/src/smb/cifs-newfstatat-ENOTSUPP.html)
+[cifs newfstatat()系统调用报错ENOTSUPP](https://chenxiaosong.com/src/smb/cifs-newfstatat-ENOTSUPP.html)
 
 # XFS文件系统
 
