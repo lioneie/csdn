@@ -531,10 +531,12 @@ centos下运行`grub2-mkconfig -o /boot/grub2/grub.cfg`。
 
 麒麟server 4.19替换内核的步骤:
 ```sh
-rpm -i kernel-4.19.90-23.29.v2101.fortest.ky10.aarch64.rpm kernel-core-4.19.90-23.29.v2101.fortest.ky10.aarch64.rpm kernel-modules-* --force
+# kernel-devel-4.19.* kernel-headers-4.19.* 可不安装
+rpm -i kernel-4.19.* kernel-core-4.19.* kernel-modules-* --force
 cat /boot/grub2/grubenv # 查看默认启动项
-vim /boot/efi/EFI/kylin/grub.cfg # 从这里复制 Kylin Linux Advanced Server (4.19.90-23.29.v2101.fortest.ky10.aarch64) V10 (Lance)
+view /boot/efi/EFI/kylin/grub.cfg # 从这里复制 Kylin Linux Advanced Server (4.19.90-23.29.v2101.fortest.ky10.aarch64) V10 (Lance)
 grub2-set-default "Kylin Linux Advanced Server (4.19.90-23.29.v2101.fortest.ky10.aarch64) V10 (Lance)" # 更改默认启动项
+cat /boot/grub2/grubenv # 查看是否更改成功
 sync # 确保落盘
 ```
 
