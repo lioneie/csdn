@@ -249,29 +249,32 @@ cat trace_pipe | less
 
 kprobe的使用如下:
 ```sh
+kprobe_func_name=ext2_readdir
+
 cd /sys/kernel/debug/tracing/
 # 可以用 kprobe 跟踪的函数
-cat available_filter_functions
+cat available_filter_functions | grep ${kprobe_func_name}
 echo 1 > tracing_on
 
 # x86_64函数参数用到的寄存器: RDI, RSI, RDX, RCX, R8, R9
 # aarch64函数参数用到的寄存器: X0 ~ X7
 # f_mode 在 file 结构体中的偏移为 20, x32代表32位（4字节），注意 rdi 寄存器要写成 di
-echo 'p:p_ext2_readdir ext2_readdir f_mode=+20(%di):x32' >> kprobe_events
-echo 1 > events/kprobes/p_ext2_readdir/enable
-echo stacktrace > events/kprobes/p_ext2_readdir/trigger
-echo '!stacktrace' > events/kprobes/p_ext2_readdir/trigger
-echo 0 > events/kprobes/p_ext2_readdir/enable
-echo '-:p_ext2_readdir' >> kprobe_events
+echo "p:p:p_${kprobe_func_name} ${kprobe_func_name} err=+20(%di):x32" >> kprobe_events # x86_64
+echo "p:p_${kprobe_func_name} ${kprobe_func_name} err=+20(%x0):x32" >> kprobe_events # aarch64
+echo 1 > events/kprobes/p_${kprobe_func_name}/enable
+echo stacktrace > events/kprobes/p_${kprobe_func_name}/trigger
+echo '!stacktrace' > events/kprobes/p_${kprobe_func_name}/trigger
+echo 0 > events/kprobes/p_${kprobe_func_name}/enable
+echo "-:p_${kprobe_func_name}" >> kprobe_events
 
 # kretprobe，可以跟踪函数返回值
-# 注意要用单引号
-echo 'r:r_ext2_readdir ext2_readdir ret=$retval' >> kprobe_events
-echo 1 > events/kprobes/r_ext2_readdir/enable
-echo stacktrace > events/kprobes/r_ext2_readdir/trigger
-echo '!stacktrace' > events/kprobes/r_ext2_readdir/trigger
-echo 0 > events/kprobes/r_ext2_readdir/enable
-echo '-:r_ext2_readdir' >> kprobe_events
+echo "r:r_${kprobe_func_name} ${kprobe_func_name} ret=\$retval" >> kprobe_events # 双绰号要用 \$
+echo 'r:r_'${kprobe_func_name}' '${kprobe_func_name}' ret=$retval' >> kprobe_events # 注意这里是单引号
+echo 1 > events/kprobes/r_${kprobe_func_name}/enable
+echo stacktrace > events/kprobes/r_${kprobe_func_name}/trigger
+echo '!stacktrace' > events/kprobes/r_${kprobe_func_name}/trigger
+echo 0 > events/kprobes/r_${kprobe_func_name}/enable
+echo "-:r_${kprobe_func_name}" >> kprobe_events
 
 echo 0 > trace # 清除trace信息
 cat trace_pipe
