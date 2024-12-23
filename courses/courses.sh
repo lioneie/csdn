@@ -1,4 +1,6 @@
 . ~/.top-path
+MY_ECHO_DEBUG=0
+
 src_path=${MY_CODE_TOP_PATH}/blog
 
 tmp_src_path=$1
@@ -7,15 +9,21 @@ tmp_src_path=$1
 
 # add_common array[@] ${common_file}
 add_common() {
-	local array=("${!1}") # 使用间接引用来接收数组
-	local common_file=$2
+	local except_array=("${!1}") # 使用间接引用来接收数组
+	local array=("${!2}") # 使用间接引用来接收数组
+	local target_path=$3
+
+	local common_file=${target_path}/common.md
 
 	local element_count="${#array[@]}" # 总个数
-	local count_per_line=2
+	local count_per_line=1
 	for ((index=0; index<${element_count}; index=$((index + ${count_per_line}))))
 	do
-		local is_add_common=${array[${index}]}
-		local ifile=${array[${index}+1]}
+		local ifile=${array[${index}]}
+
+		if [[ ${ifile} == ${common_file} ]]; then
+			continue
+		fi
 
 		local src_file=${src_path}/${ifile}
 		local dst_file=${tmp_src_path}/${ifile}
@@ -23,83 +31,51 @@ add_common() {
 		if [ ! -d "${dst_dir}" ]; then
 			mkdir -p "${dst_dir}" # 文件夹不存在就创建
 		fi
-		if [[ ${is_add_common} == 1 ]]; then
-			cp ${common_file} ${dst_file}
+		comm_echo "src_file:${src_file}, dst_file:${dst_file}"
+
+		comm_is_in_array except_array[@] ${ifile}
+		if [[ $? == 0 ]]; then
+			comm_echo "${ifile} do not add common"
+			cp "${src_file}" "${dst_file}" # 只复制
+			continue
 		fi
+
+		cp ${common_file} ${dst_file}
 		cat ${src_file} >> ${dst_file}
 	done
 }
 
-kernel_files() {
-	local common_file=${src_path}/courses/kernel/common.md
-	# 每一行代表: 是否在开头添加公共内容 文件相对路径
-	local array=(
-		0 courses/kernel/kernel.md
-		1 courses/kernel/kernel-introduction.md
-		1 courses/kernel/kernel-dev-environment.md
-		1 courses/kernel/kernel-book.md
-		1 courses/kernel/kernel-source.md
-		1 courses/kernel/kernel-fs.md
-		1 courses/kernel/kernel-debug.md
-		1 courses/kernel/kernel-mm.md
-		1 courses/kernel/kernel-process.md
-		1 courses/kernel/kernel-bpf.md
-		1 courses/kernel/kernel-patches.md
-		1 courses/kernel/kernel-interrupt.md
-		1 courses/kernel/kernel-syscall.md
-		1 courses/kernel/kernel-timer.md
-	)
-	add_common array[@] ${common_file}
+scan_md() {
+	local -n array_ref=$1
+	local target_path=$2
+	local mid_path=$3
+
+	target_path="${target_path%/}/" # 确保目录末尾有 /
+	# 使用 find 命令查找所有 .md 文件并将结果存储到 array 数组中
+	while IFS= read -r md_file; do
+		md_file="${md_file/$target_path}" # 干掉前缀
+		md_file=$(comm_normalize_path "${mid_path}/${md_file}")
+		comm_echo "${md_file}"
+		# 追加到数组中
+		array+=("${md_file}")
+	done < <(find "${target_path}" -type f -name "*.md")
 }
 
-nfs_files() {
-	local common_file=${src_path}/courses/nfs/common.md
-	# 每一行代表: 是否在开头添加公共内容 文件相对路径
-	local array=(
-		0 courses/nfs/nfs.md
-		1 courses/nfs/nfs-introduction.md
-		1 courses/nfs/nfs-environment.md
-		1 courses/nfs/nfs-client-struct.md
-		1 courses/nfs/pnfs.md
-		1 courses/nfs/nfs-debug.md
-		1 courses/nfs/nfs-patches.md
-		1 courses/nfs/nfs-issues.md
-		1 courses/nfs/nfs-others.md
-		1 courses/nfs/nfs-multipath.md
+create_full_course_md() {
+	local course=$1
+
+	local mid_path="courses/${course}/"
+	local target_path=${src_path}/${mid_path}
+	local except_array=(
+		courses/${course}/${course}.md
 	)
-	add_common array[@] ${common_file}
+	local array=()
+	scan_md array "${target_path}" "${mid_path}"
+	add_common except_array[@] array[@] "${target_path}"
 }
 
-smb_files() {
-	local common_file=${src_path}/courses/smb/common.md
-	# 每一行代表: 是否在开头添加公共内容 文件相对路径
-	local array=(
-		0 courses/smb/smb.md
-		1 courses/smb/smb-introduction.md
-		1 courses/smb/smb-environment.md
-		1 courses/smb/ksmbd.md
-		1 courses/smb/smb-client-struct.md
-		1 courses/smb/smb-debug.md
-		1 courses/smb/smb-patches.md
-		1 courses/smb/smb-refactor.md
-		1 courses/smb/smb-others.md
-		1 courses/smb/smb-issues.md
-	)
-	add_common array[@] ${common_file}
-}
+create_full_course_md "kernel"
+create_full_course_md "nfs"
+create_full_course_md "smb"
+create_full_course_md "algorithms"
 
-algorithms_files() {
-	local common_file=${src_path}/courses/algorithms/common.md
-	# 每一行代表: 是否在开头添加公共内容 文件相对路径
-	local array=(
-		0 courses/algorithms/algorithms.md
-		1 courses/algorithms/dynamic-programming.md
-		1 courses/algorithms/sort.md
-	)
-	add_common array[@] ${common_file}
-}
-
-kernel_files
-nfs_files
-smb_files
-algorithms_files
