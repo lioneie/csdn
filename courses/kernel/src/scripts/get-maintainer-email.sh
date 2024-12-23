@@ -3,6 +3,8 @@
 #   2. get-maintainer-email.sh '000*'
 #   3. get-maintainer-email.sh "000*"
 #   4. get-maintainer-email.sh "000*" fs/nfs fs/nfsd fs/nfs_common
+. ~/.top-path
+. ${MY_CODE_TOP_PATH}/blog/src/blog-web/common-lib.sh
 
 to_types=('maintainer' 'reviewer' 'supporter' 'commit_signer' 'blamed_fixes')
 cc_types=('open list' 'moderated list')
@@ -13,31 +15,18 @@ to_emails=()
 cc_emails=()
 unknown_emails=()
 
-# 0: 已存在数组中，1: 不存在数组中
-is_exist() {
-	local -n array=$1
-	local target_item=$2
-
-	for item in "${array[@]}"; do
-		if [[ "$item" == "${target_item}" ]]; then
-			return 0
-		fi
-	done
-	return 1
-}
-
 # 0: 已存在某个数组中，1: 不存在任何数组中
 is_email_exist() {
 	local email=$1
-	is_exist to_emails ${email}
+	comm_is_in_array to_emails ${email}
 	if [[ $? == 0 ]]; then
 		return 0
 	fi
-	is_exist cc_emails ${email}
+	comm_is_in_array cc_emails ${email}
 	if [[ $? == 0 ]]; then
 		return 0
 	fi
-	is_exist unknown_emails ${email}
+	comm_is_in_array unknown_emails ${email}
 	if [[ $? == 0 ]]; then
 		return 0
 	fi
@@ -47,7 +36,7 @@ is_email_exist() {
 # 0: 是例外的邮箱，1: 不是例外的邮箱
 is_except_email() {
 	local email=$1
-	is_exist except_emails ${email}
+	comm_is_in_array except_emails ${email}
 	if [[ $? == 0 ]]; then
 		return 0
 	fi

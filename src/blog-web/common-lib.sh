@@ -537,3 +537,27 @@ comm_create_full_src() {
 	cat ${src_file} >> ${dst_file}
 }
 
+# 0: 已存在数组中，1: 不存在数组中
+comm_is_in_array() {
+	local array=("${!1}")
+	local target_item=$2
+
+	for item in "${array[@]}"; do
+		if [[ "$item" == "${target_item}" ]]; then
+			return 0
+		fi
+	done
+	return 1
+}
+
+comm_normalize_path() {
+	local path="$1"
+	# 删除连续的斜杠
+	path=$(echo "$path" | sed -e 's#/\+#/#g')
+	# 如果是目录，确保以 / 结尾
+	if [[ -d "$path" && "$path" != */ ]]; then
+		path="$path/"
+	fi
+	echo "$path"
+}
+
