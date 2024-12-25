@@ -23,7 +23,8 @@ my_init() {
 	mkdir -p ${tmp_html_path}
 	rm -rf $(comm_tmp_src_path)
 	mkdir -p $(comm_tmp_src_path)
-	bash ${src_path}/courses/courses.sh $(comm_tmp_src_path)
+	cp -rf ${src_path}/* $(comm_tmp_src_path)
+	bash ${src_path}/courses/courses.sh
 	comm_rm_private $(comm_tmp_src_path)
 }
 
@@ -45,7 +46,7 @@ update_lan_sign() {
 	local sign_file=${tmp_html_path}/sign.html
 	# 局域网的处理
 	if [[ ${is_replace_ip} == true ]]; then
-		comm_replace_ip ${sign_file} ${other_ip}
+		comm_file_replace_ip ${sign_file} ${other_ip}
 		# 内网主页
 		sed -i 's/主页/内网主页/g' ${sign_file}
 		# 在<ul>之后插入公网主页
@@ -66,7 +67,7 @@ do_change_perm() {
 my_init
 comm_create_sign ${src_path}/src/blog-web/sign.md ${sign_html}
 update_lan_sign
-comm_create_html comm_array[@] ${src_path} ${tmp_html_path} ${sign_html} ${is_replace_ip} ${other_ip}
+comm_create_html comm_array[@] $(comm_tmp_src_path) ${tmp_html_path} ${sign_html} ${is_replace_ip} ${other_ip}
 copy_files
 do_change_perm
 my_exit

@@ -3,8 +3,6 @@ MY_ECHO_DEBUG=0
 
 src_path=${MY_CODE_TOP_PATH}/blog
 
-tmp_src_path=$1
-
 . ${src_path}/src/blog-web/common-lib.sh
 
 # add_common array[@] ${common_file}
@@ -26,7 +24,7 @@ add_common() {
 		fi
 
 		local src_file=${src_path}/${ifile}
-		local dst_file=${tmp_src_path}/${ifile}
+		local dst_file=$(comm_tmp_src_path)/${ifile}
 		local dst_dir="$(dirname "${dst_file}")" # 所在的文件夹
 		if [ ! -d "${dst_dir}" ]; then
 			mkdir -p "${dst_dir}" # 文件夹不存在就创建
