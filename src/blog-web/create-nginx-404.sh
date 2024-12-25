@@ -1,6 +1,11 @@
 . ~/.top-path
 code_path=${MY_CODE_TOP_PATH}
 
+other_ip=$1
+
+# 导入其他脚本
+. ${code_path}/blog/src/blog-web/common-lib.sh
+
 input_file=${code_path}/blog/src/blog-web/github-io-404.html
 origin_file=${code_path}/blog/src/blog-web/nginx-config
 tmp_file=${origin_file}.tmp
@@ -21,7 +26,11 @@ parse_line() {
 			continue
 		fi
 		url="${BASH_REMATCH[1]}"
+		url=$(comm_str_replace_ip "${url}" "${other_ip}")
 		for path in "${path_array[@]}"; do
+			if [[ ${url} == *"${path}" ]]; then
+				continue # 一样的就不重定向
+			fi
 			echo "	location ${path} {" >> "${tmp_file}"
 			echo "		rewrite ^${path}\$ ${url};" >> "${tmp_file}"
 			echo "	}" >> "${tmp_file}"

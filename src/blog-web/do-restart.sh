@@ -14,7 +14,7 @@ config_file=/etc/nginx/sites-enabled/default
 
 copy_config() {
 	rm ${config_file}
-	bash ${src_path}/blog/src/blog-web/create-nginx-404.sh
+	bash ${src_path}/blog/src/blog-web/create-nginx-404.sh "${other_ip}"
 	mv ${src_path}/blog/src/blog-web/nginx-config.full ${config_file}
 	if [ ${is_replace_ip} = true ]; then
 		# 局域网删除ssl相关配置
