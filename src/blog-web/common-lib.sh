@@ -45,15 +45,28 @@ comm_get_top_path() {
 	# echo "calling script: ${BASH_SOURCE[1]}"
 }
 
-comm_replace_ip() {
-	dst_file=$1
-	other_ip=$2
+comm_file_replace_ip() {
+	local dst_file=$1
+	local other_ip=$2
 
 	sed -i 's/chenxiaosong.com/'${other_ip}'/g' "${dst_file}"
 	# 局域网用http，不用https
 	sed -i 's/https:\/\/'${other_ip}'/http:\/\/'${other_ip}'/g' "${dst_file}"
 	# 邮箱替换回来
 	sed -i 's/@'${other_ip}'/@chenxiaosong.com/g' "${dst_file}"
+}
+
+comm_str_replace_ip() {
+	local str=$1
+	local other_ip=$2
+
+	str=$(echo "${str}" | sed 's/chenxiaosong.com/'${other_ip}'/')
+	# 局域网用http，不用https
+	str=$(echo "${str}" | sed 's/https:\/\/'${other_ip}'/http:\/\/'${other_ip}'/')
+	# 邮箱替换回来
+	str=$(echo "${str}" | sed 's/@'${other_ip}'/@chenxiaosong.com/')
+
+	echo "${str}"
 }
 
 comm_create_sign() {
@@ -150,7 +163,7 @@ __comm_create_html() {
 	pandoc ${src_file} -o ${dst_file} --metadata title="${html_title}" ${from_format} ${pandoc_options}
 	# 局域网的处理
 	if [[ ${is_replace_ip} == true ]]; then
-		comm_replace_ip ${dst_file} ${other_ip}
+		comm_file_replace_ip ${dst_file} ${other_ip}
 	fi
 	if [[ ${is_sign} == 1 ]]; then
 		# 在'<header'之后插入整个签名文件
