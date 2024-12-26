@@ -66,10 +66,6 @@
 
 [BTRFS documentation](https://chenxiaosong.com/src/translations/btrfs/btrfs-doc.html)
 
-# xfs
-
-[xfs_filesystem_structure.pdf](https://chenxiaosong.com/src/translations/xfs/xfs_filesystem_structure.html)
-
 # wine
 
 [Building Wine - WineHQ Wiki](https://chenxiaosong.com/src/translations/wine/building-wine-winehq-wiki.html)

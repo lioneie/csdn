@@ -203,8 +203,6 @@ comm_array=(
 		1 1 src/translations/smb/kernel-doc-cifs-todo.rst ~ "kernel doc: admin-guide/cifs/todo.rst"
 		# btrfs
 		1 1 src/translations/btrfs/btrfs-doc.rst ~ "BTRFS documentation"
-		# xfs
-		1 1 src/translations/xfs/xfs_filesystem_structure.md ~ "xfs_filesystem_structure.pdf"
 		# wine
 		1 1 src/translations/wine/building-wine-winehq-wiki.md ~ "Building Wine - WineHQ Wiki"
 		1 1 src/translations/wine/box64-docs-X64WINE.md ~ "box64 Installing Wine64"
