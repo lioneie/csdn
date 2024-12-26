@@ -179,8 +179,6 @@ comm_array=(
 		1 1 src/translations/kernel/gdb-kernel-debugging.rst ~ "dev-tools/gdb-kernel-debugging.rst"
 		1 1 src/translations/kernel/kgdb.rst ~ "dev-tools/kgdb.rst"
 		# nfs
-		1 1 src/translations/nfs/rfc8881-nfsv4.1.md ~ "Network File System (NFS) Version 4 Minor Version 1 Protocol"
-		1 1 src/translations/nfs/rfc7862-nfsv4.2.md ~ "Network File System (NFS) Version 4 Minor Version 2 Protocol"
 		1 1 src/translations/nfs/kernel-doc-client-identifier.rst ~ "NFSv4 client identifier"
 		1 1 src/translations/nfs/cthon-nfs-tests-readme.md ~ "Connectathon NFS tests README"
 		1 1 src/translations/nfs/bugzilla-redhat-bug-2176575.md ~

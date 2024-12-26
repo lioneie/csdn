@@ -14,16 +14,6 @@
 
 # NFS各版本比较
 
-<!--
-| 版本 | RFC | 发布时间 | 页数 |
-|:-----------:|:-----------:|:-----------:|:----------:|
-| NFSv2 | [rfc1094](https://www.rfc-editor.org/rfc/rfc1094.html) | March 1989 | 27 |
-| NFSv3 | [rfc1813](https://www.rfc-editor.org/rfc/rfc1813.html) | June 1995 | 126 |
-| NFSv4 | [rfc3530](https://www.rfc-editor.org/rfc/rfc3530.html)<br>（被[rfc7530](https://www.rfc-editor.org/rfc/rfc7530.html)取代，March 2015） | April 2003 | 275 |
-| NFSv4.1 | [rfc8881](https://www.rfc-editor.org/rfc/rfc8881.html) [翻译](https://chenxiaosong.com/src/translations/nfs/rfc8881-nfsv4.1.html) | January 2010 | 617 |
-| NFSv4.2 | [rfc7862](https://www.rfc-editor.org/rfc/rfc7862.html) [翻译](https://chenxiaosong.com/src/translations/nfs/rfc7862-nfsv4.2.html) | November 2016 | 104 |
--->
-
 nfs各个版本的区别:
 
 - NFSv2: 实现基本的功能，有很多的限制，如: 读写最大长度限制8192字节，文件句柄长度固定32字节，只支持同步写。
