@@ -1,3 +1,5 @@
+[pdf文档翻译请查看百度网盘](https://chenxiaosong.com/baidunetdisk)。
+
 # SMB和NetBIOS
 
 NFS只能在Unix-Like系统间使用，CIFS（Common Internet File System）只能在Windows系统间使用，SMB（Server Message Block，中文翻译: 服务器信息块）能够在Windows与Unix-Like之间使用。

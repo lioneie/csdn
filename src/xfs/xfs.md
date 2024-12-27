@@ -2,7 +2,7 @@
 
 - [英文 xfs_filesystem_structure.pdf](https://mirrors.edge.kernel.org/pub/linux/utils/fs/xfs/docs/xfs_filesystem_structure.pdf)
 - [文档git仓库](https://git.kernel.org/pub/scm/fs/xfs/xfs-documentation.git)
-- [中文翻译](https://gitee.com/chenxiaosonggitee/tmp/blob/master/translations/cn-openai-xfs_filesystem_structure.pdf)
+- [pdf文档翻译请查看百度网盘](https://chenxiaosong.com/baidunetdisk)
 
 <!-- https://zorrozou.github.io/docs/xfs/ -->
 # xfs磁盘结构

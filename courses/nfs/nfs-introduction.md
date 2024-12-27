@@ -77,6 +77,8 @@ sunrpc之下的tcp层和ip层已经大概率的保证了数据的可靠性，sun
 
 # rfc协议
 
+[pdf文档翻译请查看百度网盘](https://chenxiaosong.com/baidunetdisk)。
+
 SunRPC有以下几个版本，你们一定和我一样在心里骂制定标准的人，为什么会有3个version 2，就不能命名成version 3和4？我们查阅时只需要选择[最新版本rfc5531](https://www.rfc-editor.org/rfc/rfc5531):
 
 - [rfc1050, April 1988,  RPC: Remote Procedure Call Protocol Specification](https://www.rfc-editor.org/rfc/rfc1050)
