@@ -18,6 +18,15 @@ comm_no_color() {
 	echo '\033[0m'
 }
 
+# ceil(numerator/denominator)
+comm_ceil_divide() {
+	local numerator=$1 # 被除数
+	local denominator=$2 # 除数
+
+	local result=$(( (numerator + denominator - 1) / denominator ))
+	echo "${result}"
+}
+
 # 要定义MY_ECHO_DEBUG变量
 comm_echo() {
 	if [ "${MY_ECHO_DEBUG}" -eq 1 ]; then
