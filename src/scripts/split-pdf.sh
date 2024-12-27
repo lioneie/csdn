@@ -36,3 +36,4 @@ split_pdf "${filename}" "${pages_per_file}"
 
 # 合并就直接输入命令
 # pdftk part1.pdf part2.pdf cat output merged.pdf
+# pdftk part* cat output merged.pdf
