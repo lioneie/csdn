@@ -1,3 +1,17 @@
+# pdf翻译
+
+我用了网页插件[沉浸式翻译](https://immersivetranslate.com/zh-Hans/)，如果你有更好的工具，请分享给我。
+
+pdf文件太大可能有些工具不支持，可以使用Linux下的`pdftk`（PDF Toolkit）工具分割和合并pdf文件:
+```sh
+sudo apt-get install pdftk -y # 安装
+pdftk file.pdf burst # 把每一页都拆分
+pdftk file.pdf cat 1-10 output part1.pdf # 拆分1-10页
+pdftk part1.pdf part2.pdf cat output merged.pdf # 合并
+```
+
+拆分pdf文件可以使用脚本[`split-pdf.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/scripts/split-pdf.sh)。
+
 # kernel
 
 [CFS Scheduler](https://chenxiaosong.com/src/translations/kernel/sched-design-CFS.html)
