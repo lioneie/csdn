@@ -101,6 +101,8 @@ nfs的rfc协议文档有以下几个版本:
 - nfs client maintainer: Trond Myklebust <trondmy@kernel.org>，Anna Schumaker <anna@kernel.org>。
 - nfs server maintainer(supporter): Chuck Lever <chuck.lever@oracle.com>（友好），Jeff Layton <jlayton@kernel.org>。
 - sunrpc maintainer: Trond Myklebust <trondmy@kernel.org>，Anna Schumaker <anna@kernel.org>。
+- [邮件列表](https://lore.kernel.org/linux-nfs/)
+- [patchwork](https://patchwork.kernel.org/project/linux-nfs/list/)
 
 获取supporter、reviewer、maintainer、open list的邮箱:
 ```sh
