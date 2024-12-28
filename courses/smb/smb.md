@@ -33,3 +33,5 @@
 
 # [smb未分类的内容](https://chenxiaosong.com/courses/smb/smb-others.html)
 
+# [smb社区贡献](https://chenxiaosong.com/courses/smb/smb-mailing-lists.html)
+
