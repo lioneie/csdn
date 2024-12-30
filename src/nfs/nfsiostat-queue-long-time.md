@@ -1,5 +1,11 @@
 # 问题描述
 
+挂载信息:
+```sh
+mount | grep nfs
+xx.xx.xx.xx:/server/export on /mnt type nfs (rw,relatime,vers=3,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=xx.xx.xx.xx,mountvers=3,mountport=20048,mountproto=udp,local_lock=none,addr=xx.xx.xx.xx,_netdev)
+```
+
 `nfsiostat`命令输出:
 ```sh
            ops/s       rpc bklog
@@ -91,7 +97,23 @@ AUTHOR
 
 # 调试
 
+测试读写一个字节所需时间:
 ```sh
 time dd if=/dev/random of=/mnt/file bs=1 count=1 oflag=direct
 time dd if=/mnt/file of=/dev/null bs=1 count=1 iflag=direct
+```
+
+从结果看，`dd`命令读写所用的时间正常。
+
+再打开nfs和sunrpc的日志调试开关:
+```sh
+echo 0xFFFF > /proc/sys/sunrpc/nfs_debug # NFSDBG_ALL
+echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL
+nfsiostat
+sleep 10
+nfsiostat
+dmesg > dmesg.txt
+# 关闭日志调试开关
+echo 0 > /proc/sys/sunrpc/nfs_debug
+echo 0 > /proc/sys/sunrpc/rpc_debug
 ```
