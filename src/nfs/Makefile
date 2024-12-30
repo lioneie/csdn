@@ -1,11 +1,14 @@
 obj-m += kprobe-df-long-time.o
 
-CROSS_COMPILE=''
+# ARCH=arm64
+# CROSS_COMPILE='aarch64-linux-gnu-'
 
-KDIR := /home/sonvhi/chenxiaosong/code/x86_64-linux/build
+KDIR	:= /home/sonvhi/chenxiaosong/code/linux/x86_64-build
+PWD     := $(shell pwd)
 
 all:
-	make -C ${KDIR} M=`pwd`
+	$(MAKE) -C $(KDIR) M=$(PWD) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} modules
 
 clean:
-	rm -f *.ko *.o *.mod *.mod.o *.mod.c .*.cmd *.symvers  modul*
+	$(MAKE) -C $(KDIR) M=$(PWD) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} clean
+
