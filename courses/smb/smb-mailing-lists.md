@@ -36,7 +36,6 @@ smb client很早进入内核，就不统计了。这里统计一下2021.03.16进
 # 还要显示邮件可以用 --format='%aN <%aE>'
 # --follow 对目录其实没啥卵用，但还是习惯的写了
 git log --follow --format='%aN <%aE>' fs/smb/server/ | sort | uniq -c | sort -nr
-git log --follow --format='%aN <%aE>' fs/smb/server/ | sort | uniq -c | sort -nr
     125 Namjae Jeon <linkinjeon@kernel.org>
       7 Marios Makassikis <mmakassikis@freebox.fr>
       7 ChenXiaoSong <chenxiaosong@kylinos.cn> # 这是我
