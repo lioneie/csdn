@@ -19,6 +19,8 @@ write:             ops/s            kB/s           kB/op         retrans    avg 
 
 # `nfsiostat`
 
+## man手册
+
 ```sh
 NAME
        nfsiostat - 使用 /proc/self/mountstats 模拟 NFS 挂载点的 iostat
@@ -95,7 +97,88 @@ AUTHOR
        Chuck Lever <chuck.lever@oracle.com>
 ```
 
+## 代码分析
+
+`/proc/self/mountstats`文件内容:
+```sh
+device localhost:/tmp/s_test mounted on /mnt with fstype nfs statvers=1.1
+        opts:   rw,vers=3,rsize=1048576,wsize=1048576,namlen=255,acregmin=3,acregmax=60,acdirmin=30,acdirmax=60,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=127.0.0.1,mountvers=3,mountport=20048,mountproto=udp,local_lock=none
+        age:    159
+        caps:   caps=0xf,wtmult=4096,dtsize=1048576,bsize=0,namlen=255
+        sec:    flavor=1,pseudoflavor=1
+        events: 0 0 0 0 2 1 7 1 0 1 0 1 0 0 3 0 0 2 0 0 1 0 0 0 0 0 0 
+        bytes:  15 15 0 0 15 15 1 1 
+        RPC iostats version: 1.1  p/v: 100003/3 (nfs)
+        xprt:   tcp 795 1 2 0 2 15 15 0 15 0 2 0 0
+        per-op statistics
+                NULL: 1 1 0 44 24 0 0 0 0
+             GETATTR: 2 2 0 208 224 0 0 0 0
+             SETATTR: 0 0 0 0 0 0 0 0 0
+              LOOKUP: 1 1 0 112 224 0 0 0 0
+              ACCESS: 3 3 0 332 360 0 0 0 0
+            READLINK: 0 0 0 0 0 0 0 0 0
+                READ: 1 1 0 124 144 0 0 0 0
+               WRITE: 1 1 0 148 136 0 14 14 0
+              CREATE: 1 1 0 152 232 0 23 23 0
+               MKDIR: 0 0 0 0 0 0 0 0 0
+             SYMLINK: 0 0 0 0 0 0 0 0 0
+               MKNOD: 0 0 0 0 0 0 0 0 0
+              REMOVE: 0 0 0 0 0 0 0 0 0
+               RMDIR: 0 0 0 0 0 0 0 0 0
+              RENAME: 0 0 0 0 0 0 0 0 0
+                LINK: 0 0 0 0 0 0 0 0 0
+             READDIR: 0 0 0 0 0 0 0 0 0
+         READDIRPLUS: 0 0 0 0 0 0 0 0 0
+              FSSTAT: 1 1 0 104 84 0 0 0 0
+              FSINFO: 2 2 0 208 160 0 0 0 0
+            PATHCONF: 0 0 0 0 0 0 0 0 0
+              COMMIT: 0 0 0 0 0 0 0 0 0
+```
+
+
+```c
+REG("mountstats", S_IRUSR, proc_mountstats_operations)
+
+mountstats_open
+  mounts_open_common
+    p->show = show_vfsstat
+
+show_vfsstat
+  nfs_show_stats
+    rpc_clnt_show_stats
+      _add_rpc_iostats
+      _print_rpc_iostats
+        ktime_to_ms(stats->om_queue)
+
+rpc_call_sync
+  rpc_run_task
+    rpc_new_task
+      rpc_init_task
+        rpc_init_task_statistics
+          task->tk_start = ktime_get() // rpc任务开始的时刻
+
+rpc_execute
+  __rpc_execute
+    call_transmit
+      xprt_transmit
+        xprt_request_transmit
+          xs_tcp_send_request
+            req->rq_xtime = ktime_get() // 发送tcp请求的时刻
+
+xprt_lookup_rqst
+  entry->rq_rtt = ktime_sub(ktime_get(), entry->rq_xtime) // tcp请求到收到回复的间隔时间
+
+rpc_count_iostats_metrics
+  backlog = ktime_sub(req->rq_xtime, task->tk_start) // rpc任务开始到tcp请求的间隔时间，也就是排队的时间
+  execute = ktime_sub(now, task->tk_start) // 总的时间
+```
+
 # 调试
+
+挂载:
+```sh
+mount -t nfs -o rw,relatime,vers=3,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountvers=3,mountport=20048,mountproto=udp,local_lock=none,_netdev localhost:/tmp/s_test /mnt
+```
 
 测试读写一个字节所需时间:
 ```sh
@@ -109,11 +192,13 @@ time dd if=/mnt/file of=/dev/null bs=1 count=1 iflag=direct
 ```sh
 echo 0xFFFF > /proc/sys/sunrpc/nfs_debug # NFSDBG_ALL
 echo 0x7fff > /proc/sys/sunrpc/rpc_debug # RPCDBG_ALL
-nfsiostat
+nfsiostat 1 >  nfsiostat.txt &
+nfsiostat_pid=$!
 sleep 10
-nfsiostat
 dmesg > dmesg.txt
 # 关闭日志调试开关
 echo 0 > /proc/sys/sunrpc/nfs_debug
 echo 0 > /proc/sys/sunrpc/rpc_debug
+kill -9 ${nfsiostat_pid}
 ```
+
