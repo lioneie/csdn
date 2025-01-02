@@ -17,6 +17,8 @@ write:             ops/s            kB/s           kB/op         retrans    avg 
                    6.549          24.308           3.711        0 (0.0%)           0.987        4621.857        4620.851
 ```
 
+`mpstat`和`iostat -xm`命令输出中的`%iowait`过高，需要确认是否和nfs有关。
+
 # `nfsiostat`
 
 ## man手册
@@ -135,7 +137,7 @@ device localhost:/tmp/s_test mounted on /mnt with fstype nfs statvers=1.1
               COMMIT: 0 0 0 0 0 0 0 0 0
 ```
 
-
+`rpc_init_task_statistics()`记录rpc任务开始的时刻，`xs_tcp_send_request()`记录tcp请求的时刻，`xprt_lookup_rqst()`计算tcp请求到收到回复的间隔时间，`rpc_count_iostats_metrics()`计算排队的时间和rpc任务总的时间:
 ```c
 REG("mountstats", S_IRUSR, proc_mountstats_operations)
 
@@ -173,6 +175,23 @@ rpc_count_iostats_metrics
   execute = ktime_sub(now, task->tk_start) // 总的时间
 ```
 
+# `/proc/stat`
+
+由`strace -o strace.out -f -v -s 4096 xxxx`可以看出`iostat -xm` 和`mpstat`都是解析`/proc/stat`中的内容。
+
+代码分析如下:
+```c
+struct proc_ops stat_proc_ops
+
+stat_open
+  single_open_size(file, show_stat,
+
+show_stat
+  get_iowait_time
+    get_cpu_iowait_time_us
+      get_cpu_sleep_time_us(ts, &ts->iowait_sleeptime,
+```
+
 # 调试
 
 挂载:
@@ -200,5 +219,16 @@ dmesg > dmesg.txt
 echo 0 > /proc/sys/sunrpc/nfs_debug
 echo 0 > /proc/sys/sunrpc/rpc_debug
 kill -9 ${nfsiostat_pid}
+```
+
+# 代码分析
+
+调用`io_schedule_prepare()`的地方:
+```sh
+io_schedule
+io_schedule_timeout
+mutex_lock_io
+mutex_lock_io_nested
+blkcg_maybe_throttle_blkg
 ```
 
