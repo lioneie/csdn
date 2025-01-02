@@ -17,3 +17,6 @@
 [nfs df命令执行时间长的问题](https://chenxiaosong.com/courses/nfs/issues/nfs-df-long-time.html)
 
 [4.19 nfs_wb_page() soft lockup的问题](https://chenxiaosong.com/courses/nfs/issues/4.19-nfs-soft-lockup-in-nfs_wb_page.html)
+
+[nfsiostat命令queue时间长的问题](https://chenxiaosong.com/courses/nfs/issues/nfsiostat-queue-long-time.html)
+
