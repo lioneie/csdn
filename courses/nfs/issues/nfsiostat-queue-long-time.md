@@ -223,6 +223,8 @@ kill -9 ${nfsiostat_pid}
 
 # 代码分析
 
+## 最新主线
+
 调用`io_schedule_prepare()`的地方:
 ```sh
 io_schedule
@@ -230,5 +232,33 @@ io_schedule_timeout
 mutex_lock_io
 mutex_lock_io_nested
 blkcg_maybe_throttle_blkg
+```
+
+```c
+nfs_wb_folio
+  folio_wait_writeback
+    folio_wait_bit
+      folio_wait_bit_common
+        io_schedule
+```
+
+## 4.19
+
+```c
+write
+  vfs_write
+    __vfs_write
+      new_sync_write
+        nfs_file_write
+          generic_perform_write
+            nfs_write_end
+              nfs_updatepage
+                nfs_writepage_setup
+                  nfs_setup_write_request
+                    nfs_try_to_update_request
+                      nfs_wb_page
+                        wait_on_page_writeback
+                          wait_on_page_bit_common
+                            io_schedule
 ```
 
