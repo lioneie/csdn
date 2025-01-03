@@ -226,7 +226,7 @@ kill -9 ${nfsiostat_pid}
 ## 最新主线
 
 调用`io_schedule_prepare()`的地方:
-```sh
+```c
 io_schedule
 io_schedule_timeout
 mutex_lock_io
@@ -260,5 +260,67 @@ write
                         wait_on_page_writeback
                           wait_on_page_bit_common
                             io_schedule
+```
+
+# vmcore分析
+
+```sh
+ps aux | grep D
+cat /proc/134743/stack
+
+crash /usr/lib/debug/lib/modules/`uname -r`/vmlinux # 在线调试
+crash> bt 134743
+crash> kmem ffff800b46525fe8
+  FREE/[ALLOCATED]
+  [ffff800b46525c88]
+crash> struct nfs_inode ffff800b46525c88 -o
+  [ffff800b46525e68] struct inode vfs_inode;
+crash> kmem ffff800f9bd00400
+  FREE/[ALLOCATED]
+  [ffff800f9bd00400]
+crash> struct file ffff800f9bd00400
+  f_path = {
+    dentry = 0xffff800b4838dc38
+  },
+  f_inode = 0xffff800b46525e68 # 和前面的值一样
+crash> struct dentry 0xffff800b4838dc38 -o
+  [ffff800b4838dc58] struct qstr d_name;
+crash> struct qstr ffff800b4838dc58
+  name = ... "stat.log"
+crash> struct dentry 0xffff800b4838dc38
+  d_parent = 0xffff800f66abf738 # 获取父目录dentry
+crash> struct dentry 0xffff800f66abf738 -o
+  [ffff800f66abf758] struct qstr d_name;
+crash> struct qstr ffff800f66abf758
+  name = ... "kuas-authorization-rpc"
+crash> struct dentry 0xffff800f66abf738
+  d_parent = 0xffff800f66ba41d0
+crash> struct dentry 0xffff800f66ba41d0 -o
+  [ffff800f66ba41f0] struct qstr d_name;
+crash> struct qstr ffff800f66ba41f0
+  name = ... "kuas-log"
+crash> struct dentry 0xffff800f66ba41d0
+  d_parent = 0xffff800f667b4da0
+
+find /opt/glusterfs -name "*kuas-authorization-rpc*"
+  /opt/glusterfs/data/logs/kuas-log/kuas-authorization-rpc/stat.log
+
+cat /opt/glusterfs/data/logs/kuas-log/kuas-authorization-rpc/stat.log
+echo "test log" > test-log.txt
+cat test-log.txt >> /opt/glusterfs/data/logs/kuas-log/kuas-authorization-rpc/stat.log
+```
+
+```sh
+cat /proc/2802473/stack
+crash> kmem ffff800f46d36400
+  [ffff800f46d36400]
+crash> struct file ffff800f46d36400
+  f_path = {
+    dentry = 0xffff800b4589acf8
+  }
+crash> struct dentry 0xffff800b4589acf8 -o
+  [ffff800b4589ad18] struct qstr d_name;
+crash> struct qstr ffff800b4589ad18
+  name = ... "stat.log"
 ```
 
