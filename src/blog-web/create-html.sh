@@ -29,8 +29,9 @@ my_init() {
 }
 
 my_exit() {
-	rm ${html_path}/ -rf
-	mv ${tmp_html_path} ${html_path}
+	rm ${html_path}/* -rf # 如果是git仓库，不删除.git
+	mv ${tmp_html_path}/* ${html_path}
+	rm ${tmp_html_path} -rf
 	rm -rf $(comm_tmp_src_path)
 }
 

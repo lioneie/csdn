@@ -17,7 +17,10 @@ comm_generate_index "${github_io_repo}" "" "${github_io_repo}"
 
 cd ${github_io_repo}
 git init
+git remote remove origin
 git remote add origin git@github.com:${user_name}/${user_name}.github.io.git
+git fetch origin
+git reset origin/master
 git add .
 git commit -s -m "chenxiaosong.com"
 git branch -m master # 确保分支名为master
