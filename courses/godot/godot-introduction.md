@@ -17,7 +17,7 @@ GDScript版本解压后直接双击运行即可，.NET版本运行前要安装.N
 
 最方便的就是导出为web，参考[为 Web 导出](https://docs.godotengine.org/zh-cn/4.x/tutorials/export/exporting_for_web.html)。
 
-先在“项目 -> 安装Android构建模板”（当然不只安卓需要模板）安装模板，可能无法下载，可以在[github下载相应版本的`export_templates.tpz`](https://github.com/godotengine/godot/releases)。在“项目 -> 导出...“ 选择 “添加... -> Web -> 导出项目“。
+先在“项目 -> 安装Android构建模板”（当然不只安卓需要模板）安装模板，可能无法下载，可以在[github下载相应版本的`export_templates.tpz`](https://github.com/godotengine/godot/releases)。在“项目 -> 导出...“ 选择 “添加... -> Web -> 导出项目“。注意只有https才能正常访问网页，当然localhost可以用http，双击html文件运行也无法正常访问。
 
 可以在电脑端网页试试我导出的官方教程的[2d demo](https://chenxiaosong.com/godot/2d-demo/2d-demo.html)和[3d demo](https://chenxiaosong.com/godot/3d-demo/3d-demo.html)，注意这两个demo需要用到方向键和空格，手机上无法玩，当然我后续也试试修改成手机上也能玩。
 
