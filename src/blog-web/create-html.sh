@@ -40,6 +40,8 @@ copy_files() {
 	cp ${src_path}/src/blog-web/stylesheet.css ${tmp_html_path}/
 	# 图片
 	cp ${src_path}/../tmp/pictures/ ${tmp_html_path}/pictures -rf
+	# godot
+	cp ${src_path}/../tmp/godot/ ${tmp_html_path}/ -rf
 }
 
 # 局域网签名

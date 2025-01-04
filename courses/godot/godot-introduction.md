@@ -13,3 +13,9 @@ GDScript版本解压后直接双击运行即可，.NET版本运行前要安装.N
 
 为了测试软件是否可以正常运行，GDScript版本可以导入[`2d/dodge_the_creeps`](https://github.com/godotengine/godot-demo-projects/blob/master/2d/dodge_the_creeps/project.godot)（参考[你的第一个 2D 游戏](https://docs.godotengine.org/zh-cn/4.x/getting_started/first_2d_game/index.html)）和[`3d/squash_the_creeps`](https://github.com/godotengine/godot-demo-projects/blob/master/3d/squash_the_creeps/project.godot)（参考[你的第一个 3D 游戏](https://docs.godotengine.org/zh-cn/4.x/getting_started/first_3d_game/index.html)），然后点击右上角三角形的“运行项目”按钮即可运行游戏。
 
+# 导出
+
+最方便的就是导出为web，参考[为 Web 导出](https://docs.godotengine.org/zh-cn/4.x/tutorials/export/exporting_for_web.html)。
+
+先在“项目 -> 安装Android构建模板”（当然不只安卓需要模板）安装模板，可能无法下载，可以在[github下载相应版本的`export_templates.tpz`](https://github.com/godotengine/godot/releases)。在“项目 -> 导出...“ 选择 “添加... -> Web -> 导出项目“。
+
