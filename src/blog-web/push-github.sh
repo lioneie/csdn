@@ -5,6 +5,12 @@ github_io_repo=${code_path}/${user_name}.github.io/
 # 导入其他脚本
 . ${code_path}/blog/src/blog-web/common-lib.sh
 
+is_new_repo=false
+if [ $# -ge 1 ]; then
+	is_new_repo=$1
+fi
+echo "new github.io repo: ${is_new_repo}"
+
 cd ${code_path}/blog/
 git pull github master
 git push github master
@@ -16,15 +22,20 @@ echo "chenxiaosong.com" > ${github_io_repo}/CNAME
 comm_generate_index "${github_io_repo}" "" "${github_io_repo}"
 
 cd ${github_io_repo}
-git init
+if [[ "${is_new_repo}" == true ]]; then
+	rm .git -rf
+	git init
+fi
 git remote remove origin
 git remote add origin git@github.com:${user_name}/${user_name}.github.io.git
-git fetch origin
-git reset origin/master
+if [[ "${is_new_repo}" == false ]]; then
+	git fetch origin
+	git reset origin/master
+fi
 git add .
 git commit -s -m "chenxiaosong.com"
 git branch -m master # 确保分支名为master
 git push origin master -f
 
 # others blog
-bash ${code_path}/private-blog/others-blog/push-github.sh
+bash ${code_path}/private-blog/others-blog/push-github.sh "${is_new_repo}"
