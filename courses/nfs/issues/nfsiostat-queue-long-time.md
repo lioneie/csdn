@@ -19,10 +19,11 @@ write:             ops/s            kB/s           kB/op         retrans    avg 
 
 `mpstat`和`iostat -xm`命令输出中的`%iowait`过高，需要确认是否和nfs有关。
 
-# `nfsiostat`
+# `nfsiostat`命令
 
 ## man手册
 
+顺便把`man nfsiostat`做个翻译，方便查阅:
 ```sh
 NAME
        nfsiostat - 使用 /proc/self/mountstats 模拟 NFS 挂载点的 iostat
@@ -114,27 +115,10 @@ device localhost:/tmp/s_test mounted on /mnt with fstype nfs statvers=1.1
         xprt:   tcp 795 1 2 0 2 15 15 0 15 0 2 0 0
         per-op statistics
                 NULL: 1 1 0 44 24 0 0 0 0
-             GETATTR: 2 2 0 208 224 0 0 0 0
-             SETATTR: 0 0 0 0 0 0 0 0 0
-              LOOKUP: 1 1 0 112 224 0 0 0 0
-              ACCESS: 3 3 0 332 360 0 0 0 0
-            READLINK: 0 0 0 0 0 0 0 0 0
+                ...
                 READ: 1 1 0 124 144 0 0 0 0
                WRITE: 1 1 0 148 136 0 14 14 0
-              CREATE: 1 1 0 152 232 0 23 23 0
-               MKDIR: 0 0 0 0 0 0 0 0 0
-             SYMLINK: 0 0 0 0 0 0 0 0 0
-               MKNOD: 0 0 0 0 0 0 0 0 0
-              REMOVE: 0 0 0 0 0 0 0 0 0
-               RMDIR: 0 0 0 0 0 0 0 0 0
-              RENAME: 0 0 0 0 0 0 0 0 0
-                LINK: 0 0 0 0 0 0 0 0 0
-             READDIR: 0 0 0 0 0 0 0 0 0
-         READDIRPLUS: 0 0 0 0 0 0 0 0 0
-              FSSTAT: 1 1 0 104 84 0 0 0 0
-              FSINFO: 2 2 0 208 160 0 0 0 0
-            PATHCONF: 0 0 0 0 0 0 0 0 0
-              COMMIT: 0 0 0 0 0 0 0 0 0
+               ...
 ```
 
 `rpc_init_task_statistics()`记录rpc任务开始的时刻，`xs_tcp_send_request()`记录tcp请求的时刻，`xprt_lookup_rqst()`计算tcp请求到收到回复的间隔时间，`rpc_count_iostats_metrics()`计算排队的时间和rpc任务总的时间:
@@ -175,7 +159,7 @@ rpc_count_iostats_metrics
   execute = ktime_sub(now, task->tk_start) // 总的时间
 ```
 
-# `/proc/stat`
+# `/proc/stat`文件
 
 由`strace -o strace.out -f -v -s 4096 xxxx`可以看出`iostat -xm` 和`mpstat`都是解析`/proc/stat`中的内容。
 
@@ -189,7 +173,7 @@ stat_open
 show_stat
   get_iowait_time
     get_cpu_iowait_time_us
-      get_cpu_sleep_time_us(ts, &ts->iowait_sleeptime,
+      get_cpu_sleep_time_us(ts, &ts->iowait_sleeptime, // 进程设置current->in_iowait期间统计的时间
 ```
 
 # 调试
@@ -221,6 +205,11 @@ echo 0 > /proc/sys/sunrpc/rpc_debug
 kill -9 ${nfsiostat_pid}
 ```
 
+抓包:
+```sh
+tcpdump --interface=any --buffer-size=20480 -w out.cap
+```
+
 # 代码分析
 
 ## 最新主线
@@ -234,6 +223,7 @@ mutex_lock_io_nested
 blkcg_maybe_throttle_blkg
 ```
 
+调用`io_schedule()`地方:
 ```c
 nfs_wb_folio
   folio_wait_writeback
@@ -242,8 +232,9 @@ nfs_wb_folio
         io_schedule
 ```
 
-## 4.19
+## 4.19内核
 
+调用`io_schedule()`地方:
 ```c
 write
   vfs_write
@@ -264,11 +255,18 @@ write
 
 # vmcore分析
 
-```sh
-ps aux | grep D
-cat /proc/134743/stack
+从以下vmcore的解析结果看，处于`D`状态（uninterruptible sleep，usually IO）的进程所操作的文件是日志文件，对这个日志文件手动进行读写都正常。
 
+启动在线调试:
+```sh
 crash /usr/lib/debug/lib/modules/`uname -r`/vmlinux # 在线调试
+# 找到D状态进程
+ps aux | grep D
+```
+
+解析进程`134743`:
+```sh
+cat /proc/134743/stack
 crash> bt 134743
 crash> kmem ffff800b46525fe8
   FREE/[ALLOCATED]
@@ -286,30 +284,32 @@ crash> struct file ffff800f9bd00400
 crash> struct dentry 0xffff800b4838dc38 -o
   [ffff800b4838dc58] struct qstr d_name;
 crash> struct qstr ffff800b4838dc58
-  name = ... "stat.log"
+  name = ... "stat.log" # 文件名
 crash> struct dentry 0xffff800b4838dc38
   d_parent = 0xffff800f66abf738 # 获取父目录dentry
 crash> struct dentry 0xffff800f66abf738 -o
   [ffff800f66abf758] struct qstr d_name;
 crash> struct qstr ffff800f66abf758
-  name = ... "kuas-authorization-rpc"
+  name = ... "kuas-authorization-rpc" # 父目录名
 crash> struct dentry 0xffff800f66abf738
   d_parent = 0xffff800f66ba41d0
 crash> struct dentry 0xffff800f66ba41d0 -o
   [ffff800f66ba41f0] struct qstr d_name;
 crash> struct qstr ffff800f66ba41f0
-  name = ... "kuas-log"
+  name = ... "kuas-log" # 再上一级目录名
 crash> struct dentry 0xffff800f66ba41d0
   d_parent = 0xffff800f667b4da0
 
+# 可以了，搜索一下目录名
 find /opt/glusterfs -name "*kuas-authorization-rpc*"
   /opt/glusterfs/data/logs/kuas-log/kuas-authorization-rpc/stat.log
-
+# 读写测试，看着都正常
 cat /opt/glusterfs/data/logs/kuas-log/kuas-authorization-rpc/stat.log
 echo "test log" > test-log.txt
 cat test-log.txt >> /opt/glusterfs/data/logs/kuas-log/kuas-authorization-rpc/stat.log
 ```
 
+再解析一个进程:
 ```sh
 cat /proc/2802473/stack
 crash> kmem ffff800f46d36400
@@ -321,6 +321,24 @@ crash> struct file ffff800f46d36400
 crash> struct dentry 0xffff800b4589acf8 -o
   [ffff800b4589ad18] struct qstr d_name;
 crash> struct qstr ffff800b4589ad18
-  name = ... "stat.log"
+  name = ... "stat.log" # 还是日志文件
+```
+
+# 抓包数据分析
+
+从抓包数据中看到有很多nfsv3 write回复`NFS3ERR_JUKEBOX`错误，从[nfsv3的rfc1813协议](https://www.rfc-editor.org/rfc/rfc1813)查阅到此错误的解释:
+```
+NFS3ERR_JUKEBOX
+       The server initiated the request, but was not able to
+       complete it in a timely fashion. The client should wait
+       and then try the request with a new RPC transaction ID.
+       For example, this error should be returned from a server
+       that supports hierarchical storage and receives a request
+       to process a file that has been migrated. In this case,
+       the server should start the immigration process and
+       respond to client with this error.
+
+翻译如下:
+服务器已启动请求，但未能及时完成。客户端应该等待，然后使用新的 RPC 事务 ID 重试请求。例如，如果服务器支持层次化存储，并且接收到请求处理已迁移文件的请求时，应该返回此错误。在这种情况下，服务器应启动文件迁移过程，并向客户端返回此错误。
 ```
 
