@@ -7,7 +7,7 @@
 
 # 安装运行
 
-首先下载软件，[linux godot下载](https://godotengine.org/download/linux/)，[macos godot下载](https://godotengine.org/download/macos/)。.NET版本下载后的压缩包名中含有`mono`，GDScript版本下载后的压缩包名中不含有`mono`。
+首先下载软件，[linux godot下载](https://godotengine.org/download/linux/)，[macos godot下载](https://godotengine.org/download/macos/)，[windows godot下载](https://godotengine.org/download/windows/)。.NET版本下载后的压缩包名中含有`mono`，GDScript版本下载后的压缩包名中不含有`mono`。
 
 GDScript版本解压后直接双击运行即可，.NET版本运行前要安装.NET SDK。
 
