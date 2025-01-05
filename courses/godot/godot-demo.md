@@ -6,7 +6,8 @@
 
 - [参考文档](https://docs.godotengine.org/zh-cn/4.x/getting_started/first_2d_game/index.html)
 - [官方demo源码](https://github.com/godotengine/godot-demo-projects/tree/master/2d/dodge_the_creeps)
-- [我撸一遍的源码](https://gitee.com/chenxiaosonggitee/tmp/tree/master/godot-src/2d-demo)
+
+[经过我修改后: 添加4个方向键](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/godot/src/0001-2d-dodge_the_creeps-add-dir-buttons.patch)后，可以在手机浏览器上玩，[感兴趣的朋友可以点击这里试试](https://chenxiaosong.com/godot/2d-demo/2d-demo.html)。
 
 建议直接看[参考文档](https://docs.godotengine.org/zh-cn/4.x/getting_started/first_2d_game/index.html)，这里我只把一些需要特别注意的点记一下，不会把官方指导文档里已有的内容搬过来。
 
