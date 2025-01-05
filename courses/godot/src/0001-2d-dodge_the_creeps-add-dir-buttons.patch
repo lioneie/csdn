@@ -1,4 +1,4 @@
-From e25bfc73f9a800b0ae0aa9b5bf779f13ac59ba3d Mon Sep 17 00:00:00 2001
+From 0783f14a9e7dc728bd2495ab4fd9714e6e7b6968 Mon Sep 17 00:00:00 2001
 From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
 Date: Mon, 6 Jan 2025 00:48:31 +0800
 Subject: [PATCH] 2d/dodge_the_creeps: add dir buttons
@@ -137,7 +137,7 @@ index ad0e9d88..38b9801b 100644
 +[connection signal="dir_button" from="HUD" to="Player" method="_on_hud_dir_button"]
  [connection signal="start_game" from="HUD" to="." method="new_game"]
 diff --git a/2d/dodge_the_creeps/player.gd b/2d/dodge_the_creeps/player.gd
-index 74d8ddaa..c9bbc6af 100644
+index 74d8ddaa..0573c3f8 100644
 --- a/2d/dodge_the_creeps/player.gd
 +++ b/2d/dodge_the_creeps/player.gd
 @@ -4,6 +4,7 @@ signal hit
@@ -196,7 +196,7 @@ index 74d8ddaa..c9bbc6af 100644
 +
 +
 +func _on_hud_dir_button(dir):
-+	if velocity.length() > 0:
++	if dir.length() > 0:
 +		velocity += dir
 +	else:
 +		velocity = dir
