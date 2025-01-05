@@ -16,3 +16,5 @@ AnimatedSprite2D 需要一个 SpriteFrames 资源，在检查器的 Animation �
 
 在“FileSystem”选项卡中找到玩家图像，“FileSystem（文件系统）”选项卡在窗口左下角。
 
+设置透明度: 在“检查器”中搜索“modulate”。
+
