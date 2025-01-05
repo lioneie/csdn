@@ -1,18 +1,18 @@
-From 1341d4be06d28706b6286f10714fad2189c4a60a Mon Sep 17 00:00:00 2001
+From e25bfc73f9a800b0ae0aa9b5bf779f13ac59ba3d Mon Sep 17 00:00:00 2001
 From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
 Date: Mon, 6 Jan 2025 00:48:31 +0800
 Subject: [PATCH] 2d/dodge_the_creeps: add dir buttons
 
 Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
 ---
- 2d/dodge_the_creeps/hud.gd    | 29 +++++++++++++++++++++
+ 2d/dodge_the_creeps/hud.gd    | 31 ++++++++++++++++++++++
  2d/dodge_the_creeps/hud.tscn  | 48 +++++++++++++++++++++++++++++++++++
  2d/dodge_the_creeps/main.tscn |  1 +
- 2d/dodge_the_creeps/player.gd | 28 +++++++++-----------
- 4 files changed, 90 insertions(+), 16 deletions(-)
+ 2d/dodge_the_creeps/player.gd | 31 +++++++++++-----------
+ 4 files changed, 95 insertions(+), 16 deletions(-)
 
 diff --git a/2d/dodge_the_creeps/hud.gd b/2d/dodge_the_creeps/hud.gd
-index b4504f1b..704e1733 100644
+index b4504f1b..c3be1d9d 100644
 --- a/2d/dodge_the_creeps/hud.gd
 +++ b/2d/dodge_the_creeps/hud.gd
 @@ -1,6 +1,7 @@
@@ -34,7 +34,7 @@ index b4504f1b..704e1733 100644
  
  
  func update_score(score):
-@@ -24,7 +29,31 @@ func update_score(score):
+@@ -24,7 +29,33 @@ func update_score(score):
  func _on_StartButton_pressed():
  	$StartButton.hide()
  	start_game.emit()
@@ -42,6 +42,8 @@ index b4504f1b..704e1733 100644
 +	$RightButton.show()
 +	$UpButton.show()
 +	$DownButton.show()
++	var velocity = Vector2(0, 0)
++	dir_button.emit(velocity)
  
  
  func _on_MessageTimer_timeout():
@@ -135,7 +137,7 @@ index ad0e9d88..38b9801b 100644
 +[connection signal="dir_button" from="HUD" to="Player" method="_on_hud_dir_button"]
  [connection signal="start_game" from="HUD" to="." method="new_game"]
 diff --git a/2d/dodge_the_creeps/player.gd b/2d/dodge_the_creeps/player.gd
-index 74d8ddaa..1c015333 100644
+index 74d8ddaa..c9bbc6af 100644
 --- a/2d/dodge_the_creeps/player.gd
 +++ b/2d/dodge_the_creeps/player.gd
 @@ -4,6 +4,7 @@ signal hit
@@ -187,14 +189,17 @@ index 74d8ddaa..1c015333 100644
  
  
  func start(pos):
-@@ -52,3 +44,7 @@ func _on_body_entered(_body):
+@@ -52,3 +44,10 @@ func _on_body_entered(_body):
  	hit.emit()
  	# 必须延迟执行，因为我们不能在物理回调中更改物理属性。
  	$CollisionShape2D.set_deferred(&"disabled", true)
 +
 +
 +func _on_hud_dir_button(dir):
-+	velocity += dir
++	if velocity.length() > 0:
++		velocity += dir
++	else:
++		velocity = dir
 -- 
 2.43.0
 
