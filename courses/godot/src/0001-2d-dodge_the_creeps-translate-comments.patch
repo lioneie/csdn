@@ -1,0 +1,88 @@
+From 098ea0576f732a4f65216bb4e2c431e047ac19a0 Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Date: Sun, 5 Jan 2025 22:00:54 +0800
+Subject: [PATCH] 2d/dodge_the_creeps: translate  comments
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+---
+ 2d/dodge_the_creeps/main.gd   | 14 +++++++-------
+ 2d/dodge_the_creeps/player.gd | 10 +++++-----
+ 2 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/2d/dodge_the_creeps/main.gd b/2d/dodge_the_creeps/main.gd
+index b59b1b28..306fff7b 100644
+--- a/2d/dodge_the_creeps/main.gd
++++ b/2d/dodge_the_creeps/main.gd
+@@ -22,28 +22,28 @@ func new_game():
+ 
+ 
+ func _on_MobTimer_timeout():
+-	# Create a new instance of the Mob scene.
++	# 创建一个新的 Mob 场景实例。
+ 	var mob = mob_scene.instantiate()
+ 
+-	# Choose a random location on Path2D.
++	# 在 Path2D 上选择一个随机位置。
+ 	var mob_spawn_location = get_node(^"MobPath/MobSpawnLocation")
+ 	mob_spawn_location.progress = randi()
+ 
+-	# Set the mob's direction perpendicular to the path direction.
++	# 设置 Mob 的方向，使其垂直于路径方向。
+ 	var direction = mob_spawn_location.rotation + PI / 2
+ 
+-	# Set the mob's position to a random location.
++	# 将 Mob 的位置设置为随机位置。
+ 	mob.position = mob_spawn_location.position
+ 
+-	# Add some randomness to the direction.
++	# 为方向添加一些随机性。
+ 	direction += randf_range(-PI / 4, PI / 4)
+ 	mob.rotation = direction
+ 
+-	# Choose the velocity for the mob.
++	# 为 Mob 选择一个速度。
+ 	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
+ 	mob.linear_velocity = velocity.rotated(direction)
+ 
+-	# Spawn the mob by adding it to the Main scene.
++	# 通过将 Mob 添加到 Main 场景来生成它。
+ 	add_child(mob)
+ 
+ func _on_ScoreTimer_timeout():
+diff --git a/2d/dodge_the_creeps/player.gd b/2d/dodge_the_creeps/player.gd
+index e2d3e87b..74d8ddaa 100644
+--- a/2d/dodge_the_creeps/player.gd
++++ b/2d/dodge_the_creeps/player.gd
+@@ -2,8 +2,8 @@ extends Area2D
+ 
+ signal hit
+ 
+-@export var speed = 400 # How fast the player will move (pixels/sec).
+-var screen_size # Size of the game window.
++@export var speed = 400 # 玩家移动速度（像素/秒）。
++var screen_size # 游戏窗口的大小。
+ 
+ func _ready():
+ 	screen_size = get_viewport_rect().size
+@@ -11,7 +11,7 @@ func _ready():
+ 
+ 
+ func _process(delta):
+-	var velocity = Vector2.ZERO # The player's movement vector.
++	var velocity = Vector2.ZERO # 玩家移动的向量。
+ 	if Input.is_action_pressed(&"move_right"):
+ 		velocity.x += 1
+ 	if Input.is_action_pressed(&"move_left"):
+@@ -48,7 +48,7 @@ func start(pos):
+ 
+ 
+ func _on_body_entered(_body):
+-	hide() # Player disappears after being hit.
++	hide() # 玩家被击中后消失。
+ 	hit.emit()
+-	# Must be deferred as we can't change physics properties on a physics callback.
++	# 必须延迟执行，因为我们不能在物理回调中更改物理属性。
+ 	$CollisionShape2D.set_deferred(&"disabled", true)
+-- 
+2.43.0
+

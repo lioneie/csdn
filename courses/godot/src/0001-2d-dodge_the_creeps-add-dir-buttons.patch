@@ -1,0 +1,200 @@
+From 1341d4be06d28706b6286f10714fad2189c4a60a Mon Sep 17 00:00:00 2001
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Date: Mon, 6 Jan 2025 00:48:31 +0800
+Subject: [PATCH] 2d/dodge_the_creeps: add dir buttons
+
+Signed-off-by: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+---
+ 2d/dodge_the_creeps/hud.gd    | 29 +++++++++++++++++++++
+ 2d/dodge_the_creeps/hud.tscn  | 48 +++++++++++++++++++++++++++++++++++
+ 2d/dodge_the_creeps/main.tscn |  1 +
+ 2d/dodge_the_creeps/player.gd | 28 +++++++++-----------
+ 4 files changed, 90 insertions(+), 16 deletions(-)
+
+diff --git a/2d/dodge_the_creeps/hud.gd b/2d/dodge_the_creeps/hud.gd
+index b4504f1b..704e1733 100644
+--- a/2d/dodge_the_creeps/hud.gd
++++ b/2d/dodge_the_creeps/hud.gd
+@@ -1,6 +1,7 @@
+ extends CanvasLayer
+ 
+ signal start_game
++signal dir_button
+ 
+ func show_message(text):
+ 	$MessageLabel.text = text
+@@ -15,6 +16,10 @@ func show_game_over():
+ 	$MessageLabel.show()
+ 	await get_tree().create_timer(1).timeout
+ 	$StartButton.show()
++	$LeftButton.hide()
++	$RightButton.hide()
++	$UpButton.hide()
++	$DownButton.hide()
+ 
+ 
+ func update_score(score):
+@@ -24,7 +29,31 @@ func update_score(score):
+ func _on_StartButton_pressed():
+ 	$StartButton.hide()
+ 	start_game.emit()
++	$LeftButton.show()
++	$RightButton.show()
++	$UpButton.show()
++	$DownButton.show()
+ 
+ 
+ func _on_MessageTimer_timeout():
+ 	$MessageLabel.hide()
++
++
++func _on_dir_left():
++	var velocity = Vector2(-1, 0)
++	dir_button.emit(velocity)
++
++
++func _on_dir_right():
++	var velocity = Vector2(1, 0)
++	dir_button.emit(velocity)
++
++
++func _on_dir_up():
++	var velocity = Vector2(0, -1)
++	dir_button.emit(velocity)
++
++
++func _on_dir_down():
++	var velocity = Vector2(0, 1)
++	dir_button.emit(velocity)
+diff --git a/2d/dodge_the_creeps/hud.tscn b/2d/dodge_the_creeps/hud.tscn
+index ab9e2b66..7c8ad3a2 100644
+--- a/2d/dodge_the_creeps/hud.tscn
++++ b/2d/dodge_the_creeps/hud.tscn
+@@ -57,5 +57,53 @@ text = "Start"
+ [node name="MessageTimer" type="Timer" parent="."]
+ one_shot = true
+ 
++[node name="LeftButton" type="Button" parent="."]
++visible = false
++modulate = Color(1, 1, 1, 0.298039)
++offset_left = 86.0
++offset_top = 400.0
++offset_right = 186.0
++offset_bottom = 500.0
++theme_override_font_sizes/font_size = 30
++text = "left"
++
++[node name="RightButton" type="Button" parent="."]
++visible = false
++modulate = Color(1, 1, 1, 0.298039)
++offset_left = 293.0
++offset_top = 400.0
++offset_right = 393.0
++offset_bottom = 500.0
++theme_override_font_sizes/font_size = 30
++text = "right"
++
++[node name="UpButton" type="Button" parent="."]
++visible = false
++modulate = Color(1, 1, 1, 0.298039)
++offset_left = 189.0
++offset_top = 296.0
++offset_right = 289.0
++offset_bottom = 396.0
++theme_override_font_sizes/font_size = 30
++text = "up"
++
++[node name="DownButton" type="Button" parent="."]
++visible = false
++modulate = Color(1, 1, 1, 0.298039)
++offset_left = 186.0
++offset_top = 505.0
++offset_right = 286.0
++offset_bottom = 605.0
++theme_override_font_sizes/font_size = 30
++text = "down"
++
+ [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
+ [connection signal="timeout" from="MessageTimer" to="." method="_on_MessageTimer_timeout"]
++[connection signal="button_down" from="LeftButton" to="." method="_on_dir_left"]
++[connection signal="button_up" from="LeftButton" to="." method="_on_dir_right"]
++[connection signal="button_down" from="RightButton" to="." method="_on_dir_right"]
++[connection signal="button_up" from="RightButton" to="." method="_on_dir_left"]
++[connection signal="button_down" from="UpButton" to="." method="_on_dir_up"]
++[connection signal="button_up" from="UpButton" to="." method="_on_dir_down"]
++[connection signal="button_down" from="DownButton" to="." method="_on_dir_down"]
++[connection signal="button_up" from="DownButton" to="." method="_on_dir_up"]
+diff --git a/2d/dodge_the_creeps/main.tscn b/2d/dodge_the_creeps/main.tscn
+index ad0e9d88..38b9801b 100644
+--- a/2d/dodge_the_creeps/main.tscn
++++ b/2d/dodge_the_creeps/main.tscn
+@@ -56,4 +56,5 @@ stream = ExtResource("6_hp1r0")
+ [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
+ [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
+ [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
++[connection signal="dir_button" from="HUD" to="Player" method="_on_hud_dir_button"]
+ [connection signal="start_game" from="HUD" to="." method="new_game"]
+diff --git a/2d/dodge_the_creeps/player.gd b/2d/dodge_the_creeps/player.gd
+index 74d8ddaa..1c015333 100644
+--- a/2d/dodge_the_creeps/player.gd
++++ b/2d/dodge_the_creeps/player.gd
+@@ -4,6 +4,7 @@ signal hit
+ 
+ @export var speed = 400 # 玩家移动速度（像素/秒）。
+ var screen_size # 游戏窗口的大小。
++var velocity = Vector2.ZERO # 玩家移动的向量。
+ 
+ func _ready():
+ 	screen_size = get_viewport_rect().size
+@@ -11,33 +12,24 @@ func _ready():
+ 
+ 
+ func _process(delta):
+-	var velocity = Vector2.ZERO # 玩家移动的向量。
+-	if Input.is_action_pressed(&"move_right"):
+-		velocity.x += 1
+-	if Input.is_action_pressed(&"move_left"):
+-		velocity.x -= 1
+-	if Input.is_action_pressed(&"move_down"):
+-		velocity.y += 1
+-	if Input.is_action_pressed(&"move_up"):
+-		velocity.y -= 1
+-
++	var tmp_velocity = Vector2.ZERO
+ 	if velocity.length() > 0:
+-		velocity = velocity.normalized() * speed
++		tmp_velocity = velocity.normalized() * speed
+ 		$AnimatedSprite2D.play()
+ 	else:
+ 		$AnimatedSprite2D.stop()
+ 
+-	position += velocity * delta
++	position += tmp_velocity * delta
+ 	position = position.clamp(Vector2.ZERO, screen_size)
+ 
+-	if velocity.x != 0:
++	if tmp_velocity.x != 0:
+ 		$AnimatedSprite2D.animation = &"right"
+ 		$AnimatedSprite2D.flip_v = false
+ 		$Trail.rotation = 0
+-		$AnimatedSprite2D.flip_h = velocity.x < 0
+-	elif velocity.y != 0:
++		$AnimatedSprite2D.flip_h = tmp_velocity.x < 0
++	elif tmp_velocity.y != 0:
+ 		$AnimatedSprite2D.animation = &"up"
+-		rotation = PI if velocity.y > 0 else 0
++		rotation = PI if tmp_velocity.y > 0 else 0
+ 
+ 
+ func start(pos):
+@@ -52,3 +44,7 @@ func _on_body_entered(_body):
+ 	hit.emit()
+ 	# 必须延迟执行，因为我们不能在物理回调中更改物理属性。
+ 	$CollisionShape2D.set_deferred(&"disabled", true)
++
++
++func _on_hud_dir_button(dir):
++	velocity += dir
+-- 
+2.43.0
+
