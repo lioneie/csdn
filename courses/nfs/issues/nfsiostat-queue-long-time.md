@@ -288,6 +288,20 @@ nfs_pgio_result // .rpc_call_done
       rpc_delay(task, NFS_JUKEBOX_RETRY_TIME)
 ```
 
+# nfs server分析
+
+此问题的场景nfs server是个黑盒子，但我们还是分析一下Linux内核中的错误情况。
+
+以下错误nfs server都会返回`nfserr_jukebox`给nfs client:
+```c
+nfserrno
+  { nfserr_jukebox, -ETIMEDOUT },
+  { nfserr_jukebox, -ERESTARTSYS },
+  { nfserr_jukebox, -EAGAIN },
+  { nfserr_jukebox, -EWOULDBLOCK },
+  { nfserr_jukebox, -ENOMEM },
+```
+
 # vmcore分析
 
 从以下vmcore的解析结果看，处于`D`状态（uninterruptible sleep，usually IO）的进程所操作的文件是日志文件，对这个日志文件手动进行读写都正常。
