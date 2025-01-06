@@ -6,16 +6,13 @@
 
 - [参考文档](https://docs.godotengine.org/zh-cn/4.x/getting_started/first_2d_game/index.html)
 - [官方demo源码](https://github.com/godotengine/godot-demo-projects/tree/master/2d/dodge_the_creeps)
+- [我修改后能在手机上玩的版本](https://chenxiaosong.com/godot/2d-demo/2d-demo.html)
 
-[经过我修改后: 添加4个方向键](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/godot/src/0001-2d-dodge_the_creeps-add-dir-buttons.patch)后，可以在手机浏览器上玩，[感兴趣的朋友可以点击这里试试](https://chenxiaosong.com/godot/2d-demo/2d-demo.html)。
+我的修改: [添加4个方向键](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/godot/src/0001-2d-dodge_the_creeps-add-dir-buttons.patch)后，可以在手机浏览器上玩，[感兴趣的朋友可以点击这里试试](https://chenxiaosong.com/godot/2d-demo/2d-demo.html)。
 
-建议直接看[参考文档](https://docs.godotengine.org/zh-cn/4.x/getting_started/first_2d_game/index.html)，这里我只把一些需要特别注意的点记一下，不会把官方指导文档里已有的内容搬过来。
+建议直接看[参考文档](https://docs.godotengine.org/zh-cn/4.x/getting_started/first_2d_game/index.html)，这里我只记一些自己在撸的过程中遇到的一些疑难点，不会把官方指导文档里已有的内容搬过来。
 
 单击“其他节点”按钮并将 Area2D 节点添加到场景中时，默认折叠视图中并没有将Area2D展示出来，最好是在“搜索”框中搜索一下。
-
-AnimatedSprite2D 需要一个 SpriteFrames 资源，在检查器的 Animation 选项卡下找到 Sprite Frames 属性，注意检查器在窗口的右边。
-
-在“FileSystem”选项卡中找到玩家图像，“FileSystem（文件系统）”选项卡在窗口左下角。
 
 设置透明度: 在“检查器”中搜索“modulate”。
 
