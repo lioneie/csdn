@@ -161,7 +161,7 @@ rpc_count_iostats_metrics
 
 # `/proc/stat`文件
 
-由`strace -o strace.out -f -v -s 4096 xxxx`可以看出`iostat -xm` 和`mpstat`都是解析`/proc/stat`中的内容。
+通过`strace -o strace.out -f -v -s 4096 xxxx`抓取系统调用可以看出`iostat -xm` 和`mpstat`都是解析`/proc/stat`中的内容。
 
 代码分析如下:
 ```c
@@ -248,26 +248,37 @@ write
                   nfs_setup_write_request
                     nfs_try_to_update_request
                       nfs_wb_page
-                        nfs_writepage_locked
-                          nfs_do_writepage
-                            nfs_page_async_flush
-                              nfs_set_page_writeback // 设置回写标记
-                              nfs_pageio_add_request
-                          nfs_pageio_complete
-                            nfs_pageio_complete_mirror
-                              nfs_pageio_doio
-                                nfs_generic_pg_pgios // .pg_doio
-                                  nfs_generic_pgio
-                                    desc->pg_rpc_callops = &nfs_pgio_common_ops
-                                      .rpc_call_done = nfs_pgio_result,
-                                  nfs_initiate_pgio
-                                    .flags = RPC_TASK_ASYNC | flags, // 异步
-                                    rpc_run_task
-                                      rpc_execute
-                                        rpc_make_runnable // 异步执行
-                        wait_on_page_writeback // 等待异步回写完成
-                          wait_on_page_bit_common
-                            io_schedule
+
+nfs_wb_page
+  nfs_writepage_locked
+    nfs_do_writepage
+      nfs_page_async_flush
+        nfs_set_page_writeback // 设置回写标记
+        nfs_pageio_add_request
+    nfs_pageio_complete
+      nfs_pageio_complete_mirror
+        nfs_pageio_doio
+          nfs_generic_pg_pgios // .pg_doio
+            nfs_generic_pgio
+              desc->pg_rpc_callops = &nfs_pgio_common_ops
+                .rpc_call_done = nfs_pgio_result,
+            nfs_initiate_pgio
+              .flags = RPC_TASK_ASYNC | flags, // 异步
+              rpc_run_task
+                rpc_execute
+                  rpc_make_runnable // 异步执行
+  wait_on_page_writeback // 等待异步回写完成
+    wait_on_page_bit_common
+      io_schedule // 这里会影响`mpstat`和`iostat -xm`命令输出中的`%iowait`
+
+// rpc请求回复后
+rpc_free_task
+  rpc_release_calldata
+    nfs_pgio_release // .rpc_release
+      nfs_write_completion // hdr->completion_ops->completion
+        nfs_end_page_writeback
+          end_page_writeback // 在这里清除回写标记
+            wake_up_page(page, PG_writeback) // 唤醒wait_on_page_writeback
 
 nfs3_xdr_dec_read3res
 nfs3_xdr_dec_write3res
@@ -275,7 +286,7 @@ nfs3_xdr_dec_write3res
     nfs_errtbl
       { NFSERR_JUKEBOX,       -EJUKEBOX       } // 接下来我们再找使用 EJUKEBOX 的地方
 
-// 读写好像没调用
+// 读写好像没调用sync
 rpc_call_sync
   nfs3_rpc_wrapper
     if (res != -EJUKEBOX)
@@ -283,9 +294,10 @@ rpc_call_sync
 nfs_pgio_result // .rpc_call_done
   nfs_readpage_done // .rw_done
     nfs3_read_done // 还有nfs3_write_done
-      if (task->tk_status == -EJUKEBOX)
-      rpc_restart_call
-      rpc_delay(task, NFS_JUKEBOX_RETRY_TIME)
+      nfs3_async_handle_jukebox
+        if (task->tk_status == -EJUKEBOX)
+        rpc_restart_call // 继续尝试rpc请示
+        rpc_delay(task, NFS_JUKEBOX_RETRY_TIME)
 ```
 
 # nfs server分析
