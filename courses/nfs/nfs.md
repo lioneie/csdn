@@ -30,4 +30,6 @@
 
 # [nfs问题分析](https://chenxiaosong.com/courses/nfs/nfs-issues.html)
 
+# [nfs社区贡献](https://chenxiaosong.com/courses/nfs/nfs-mailing-lists.html)
+
 # [nfs未分类的内容](https://chenxiaosong.com/courses/nfs/nfs-others.html)

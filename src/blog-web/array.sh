@@ -62,6 +62,7 @@ comm_array=(
 		1 1 courses/nfs/nfs-debug.md ~ "nfs调试方法"
 		1 1 courses/nfs/nfs-multipath.md ~ "nfs多路径"
 		1 1 courses/nfs/nfs-others.md ~ "nfs未分类的内容"
+		1 1 courses/nfs/nfs-mailing-lists.md ~ "nfs社区贡献"
 		1 1 courses/nfs/nfs-patches.md ~ "nfs补丁分析"
 			# 我写的补丁
 			1 1 courses/nfs/patches/CVE-2022-24448.md ~ "CVE-2022-24448"
