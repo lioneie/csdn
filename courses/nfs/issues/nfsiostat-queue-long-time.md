@@ -248,9 +248,44 @@ write
                   nfs_setup_write_request
                     nfs_try_to_update_request
                       nfs_wb_page
-                        wait_on_page_writeback
+                        nfs_writepage_locked
+                          nfs_do_writepage
+                            nfs_page_async_flush
+                              nfs_set_page_writeback // 设置回写标记
+                              nfs_pageio_add_request
+                          nfs_pageio_complete
+                            nfs_pageio_complete_mirror
+                              nfs_pageio_doio
+                                nfs_generic_pg_pgios // .pg_doio
+                                  nfs_generic_pgio
+                                    desc->pg_rpc_callops = &nfs_pgio_common_ops
+                                      .rpc_call_done = nfs_pgio_result,
+                                  nfs_initiate_pgio
+                                    .flags = RPC_TASK_ASYNC | flags, // 异步
+                                    rpc_run_task
+                                      rpc_execute
+                                        rpc_make_runnable // 异步执行
+                        wait_on_page_writeback // 等待异步回写完成
                           wait_on_page_bit_common
                             io_schedule
+
+nfs3_xdr_dec_read3res
+nfs3_xdr_dec_write3res
+  nfs3_stat_to_errno
+    nfs_errtbl
+      { NFSERR_JUKEBOX,       -EJUKEBOX       } // 接下来我们再找使用 EJUKEBOX 的地方
+
+// 读写好像没调用
+rpc_call_sync
+  nfs3_rpc_wrapper
+    if (res != -EJUKEBOX)
+
+nfs_pgio_result // .rpc_call_done
+  nfs_readpage_done // .rw_done
+    nfs3_read_done // 还有nfs3_write_done
+      if (task->tk_status == -EJUKEBOX)
+      rpc_restart_call
+      rpc_delay(task, NFS_JUKEBOX_RETRY_TIME)
 ```
 
 # vmcore分析
