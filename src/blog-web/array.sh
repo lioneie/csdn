@@ -105,6 +105,7 @@ comm_array=(
 		1 1 courses/smb/smb-refactor.md ~ "smb代码重构"
 		1 1 courses/smb/smb-others.md ~ "smb未分类的内容"
 		1 1 courses/smb/smb-mailing-lists.md ~ "smb社区贡献"
+			1 1 courses/smb/patches/others-patches.md ~ "社区补丁"
 		1 1 courses/smb/smb-patches.md ~ "smb补丁分析"
 			# 我写的补丁
 			1 1 courses/smb/patches/CVE-2024-46742.md ~ "CVE-2024-46742"
