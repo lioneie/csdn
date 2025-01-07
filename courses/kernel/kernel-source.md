@@ -84,6 +84,8 @@ CLA 协议是开源贡献协议，用于规范贡献者的权利及义务。贡�
 <!-- private end -->
 找到长函数（不容易阅读）进行重构。
 
+如果是多个人一起开发的补丁，需要加上`Co-developed-by: `，顺序是先`Co-developed-by: `第二作者，然后`Signed-off-by: `第二作者，最后`Signed-off-by: `第一作者。
+
 可以参考内核仓库中的补丁
 <!-- public begin -->
 ，比如[我提交的补丁](https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/?qt=grep&q=chenxiaosong)
