@@ -18,76 +18,79 @@ nfs_parse_mount_options
         nfs_multipath_parse_ip_list_inter
 ```
 
-# 主线代码对多路径的支持
-
-## `nconnect`挂载选项
+# `nconnect`挂载选项
 
 [Multiple network connections for a single NFS mount.](https://patchwork.kernel.org/project/linux-nfs/cover/155917564898.3988.6096672032831115016.stgit@noble.brown/)
 
 cover-letter翻译:
 ```
-这个补丁集基于git://git.linux-nfs.org/projects/trondmy/nfs-2.6.git 的multipath_tcp分支中的补丁。
+这组补丁基于 git://git.linux-nfs.org/projects/trondmy/nfs-2.6.git 中的 multipath_tcp 分支。
 
-我想要在支持这项工作并希望它能够成功的声音中加入我的声音。
-多年来，我们的客户/合作伙伴一直希望有这样的功能。在SLE15之前的SLES版本中，我们提供了一个“nosharetransport”挂载选项，以便可以从同一服务器挂载多个文件系统，每个文件系统都将获得自己的TCP连接。在SLE15中，我们正在使用这个“nconnect”功能，这更加方便。
+我想为这项工作表达支持，并希望它能够被合并。多年来，我们有客户/合作伙伴一直在希望得到这种功能。在 SLES 15 之前的版本中，我们提供了一个名为“nosharetransport”的挂载选项，以便从同一服务器挂载多个文件系统，每个文件系统都会得到一个独立的 TCP 连接。在 SLE15 中，我们使用了这个‘nconnect’功能，这要更好得多。
 
-合作伙伴向我们保证它提高了总体吞吐量，特别是在使用绑定网络时，但在Olga Kornievskaia提供一些具体的测试数据之前，我们还没有任何具体的数据 - 谢谢Olga！
+合作伙伴向我们保证，这在总体吞吐量上有所提高，特别是在绑定网络中，但我们直到 Olga Kornievskaia 提供了一些具体的测试数据之后才得到了可靠的数据，谢谢 Olga！
 
-正如我在其中一个补丁中所解释的那样，我理解的是并行硬件通常通过分发流而不是数据包来利用，这避免了在流中传递数据包时的无序传递。因此，需要多个流来利用并行硬件。
+根据我的理解，正如我在某个补丁中解释的那样，通常通过分配流而不是分配数据包来利用并行硬件。这样可以避免流中数据包的乱序交付。因此，需要多个流来有效利用并行硬件。
 
-此补丁集的早期版本于2017年4月发布，Chuck提出了两个问题:
-1/ mountstats仅报告一个挂载的一个xprt
-2/ 会话建立需要在单个xprt上进行，因为在建立会话之前不能将其他xprt绑定到会话。
-我已经添加了解决这些问题的补丁，并且还在debugfs信息中添加了额外的xprt。
+这组补丁的早期版本在 2017 年 4 月发布，Chuck 提出了两个问题：
 
-我还对补丁进行了一些重新排列，合并了两个补丁，并删除了对TCP和NFSV4.x，x>=1的限制。讨论似乎表明这些限制是不需要的，我看不到需要。
+1. mountstats 只报告每个挂载的一个 xprt
+2. 会话建立必须在单个 xprt 上进行，因为在会话建立之前，无法将其他 xprt 绑定到会话。 我已添加补丁来解决这些问题，并且还在 debugfs 信息中添加了额外的 xprt。
 
-在Trond的树中有一个与负载平衡代码有关的错误。
-当xprt附加到客户端时，queuelen会递增。
-一些请求（特别是BIND_CONN_TO_SESSION）传递给一个xprt，但在这种情况下，queuelen没有递增，而是递减。这会导致其变为“负值”，从而产生混乱。
+此外，我还重新安排了一些补丁，合并了两个，并删除了对 TCP 和 NFSV4.x,x>=1 的限制。讨论表明，这些限制没有必要，我也没有看到需要它们的理由。
 
-我想最后的三个补丁（Allow multiple connection）是否可以合并为一个单独的补丁。
+Trond 树中的负载均衡代码存在一个 bug。在 xprt 附加到客户端时，队列长度会递增。有些请求（特别是 BIND_CONN_TO_SESSION）会传入一个 xprt，但这种情况下队列长度并未递增，而是被递减了。这会导致队列长度变为负值，从而引发问题。
 
-我对自动确定最佳连接数没有进行深入思考，但我怀疑它可能无法在透明且可靠的情况下完成。当添加连接可以提高吞吐量时，几乎肯定是一件好事。当添加连接不会提高吞吐量时，其影响就不那么明显了。
-我认为协议增强可以由服务器建议一个上限并在客户端注意到传输队列时逐渐增加到该上限的情况下，可能是我们能做的最好的事情。但在实施这个功能之前，我们需要更多的经验。
+我在想，最后三个补丁（允许多个连接）是否可以合并为一个补丁。
 
-非常欢迎您的评论。我希望看到这个或类似的东西被合并。
+我没有深入考虑如何自动确定最佳连接数，但我怀疑这很难做到透明且可靠。当增加连接能够提高吞吐量时，这几乎肯定是个好选择。但当增加连接并未提高吞吐量时，影响就不那么明显了。我觉得，可能的最好的方法是，协议改进中服务器建议一个上限，当客户端注意到传输积压时，它会向该上限增加连接数。但我们需要更多的经验才能完善这项功能。
 
-谢谢，
-NeilBrown
+欢迎任何评论。我很希望看到这项工作，或类似的功能能够被合并。
+
+谢谢， NeilBrown
 ```
 
-1/9 21f0ffaff510 SUNRPC: Add basic load balancing to the transport switch
+## 1/9 [`tags/v5.3-rc1 21f0ffaff510 SUNRPC: Add basic load balancing to the transport switch`](https://patchwork.kernel.org/project/linux-nfs/patch/155917688854.3988.7703839883828652258.stgit@noble.brown/)
 
-2/9 612b41f808a9 SUNRPC: Allow creation of RPC clients with multiple connections
+```
+SUNRPC: 为传输切换添加基础负载均衡
 
-3/9 5a0c257f8e0f NFS: send state management on a single connection.
+目前，仅计算队列长度。这比计算队列中字节数的方式不够精确，但实现起来更容易。
+```
 
-4/9 10db56917bcb SUNRPC: enhance rpc_clnt_show_stats() to report on all xprts.
+## 2/9 612b41f808a9 SUNRPC: Allow creation of RPC clients with multiple connections
+
+## 3/9 5a0c257f8e0f NFS: send state management on a single connection.
+
+## 4/9 10db56917bcb SUNRPC: enhance rpc_clnt_show_stats() to report on all xprts.
 
 ```shell
 cat /proc/self/mountstats | less
 ```
 
-5/9 2f34b8bfae19 SUNRPC: add links for all client xprts to debugfs
+## 5/9 2f34b8bfae19 SUNRPC: add links for all client xprts to debugfs
 
-6/9 28cc5cd8c68f NFS: Add a mount option to specify number of TCP connections to use
+## 6/9 28cc5cd8c68f NFS: Add a mount option to specify number of TCP connections to use
 
-7/9 6619079d0540 NFSv4: Allow multiple connections to NFSv4.x (x>0) servers
+## 7/9 6619079d0540 NFSv4: Allow multiple connections to NFSv4.x (x>0) servers
 
-8/9 bb71e4a5d7eb pNFS: Allow multiple connections to the DS
+## 8/9 bb71e4a5d7eb pNFS: Allow multiple connections to the DS
 
-9/9 53c326307156 NFS: Allow multiple connections to a NFSv2 or NFSv3 server
+## 9/9 53c326307156 NFS: Allow multiple connections to a NFSv2 or NFSv3 server
 
-## `max_connect`挂载选项
+# `max_connect`挂载选项
 
 [do not collapse trunkable transports](https://patchwork.kernel.org/project/linux-nfs/cover/20210827183719.41057-1-olga.kornievskaia@gmail.com/)
 
 cover-letter翻译:
 ```
-这个补丁系列的目标是允许新的挂载（即nfsv4.1+支持会话干线的服务器）到相同的服务器，但到不同的网络地址使用与这些挂载相关联的连接，同时仍然使用相同的客户端结构。
+这组补丁系列尝试允许对同一服务器（即支持 NFSv4.1+ 会话可拆分的服务器）但不同网络地址的新挂载使用与这些挂载关联的连接，同时仍然使用相同的客户端结构。
 
-一个新的挂载选项，"max_connect"，控制可以添加到现有客户端的额外传输的数量，最多可以有16个这样的传输。
+新增了一个挂载选项 "max_connect"，用于控制可以向现有客户端添加多少额外的传输连接，最多可以添加 16 个这样的传输连接。
+
+v5：修复编译警告
+
+v4： 未对 5 个补丁做任何更改。 删除了补丁 6。 新增了手册页补丁。
 ```
 
 1/5 3a3f976639f2 SUNRPC keep track of number of transports to unique addresses
