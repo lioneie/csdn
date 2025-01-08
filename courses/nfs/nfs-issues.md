@@ -20,5 +20,5 @@
 
 [nfsiostat命令queue时间长的问题](https://chenxiaosong.com/courses/nfs/issues/nfsiostat-queue-long-time.html)
 
-[nfs_ctx_key_to_expire()内存泄露和空指针解引用的问题](https://chenxiaosong.com/courses/nfs/issues/null-ptr-deref-in-nfs_ctx_key_to_expire.html)
+[nfs_ctx_key_to_expire()引用计数泄露和空指针解引用的问题](https://chenxiaosong.com/courses/nfs/issues/null-ptr-deref-in-nfs_ctx_key_to_expire.html)
 

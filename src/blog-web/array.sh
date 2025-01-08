@@ -98,7 +98,7 @@ comm_array=(
 			1 1 courses/nfs/issues/nfs-df-long-time.md ~ "nfs df命令执行时间长的问题"
 			1 1 courses/nfs/issues/4.19-nfs-soft-lockup-in-nfs_wb_page.md ~ "4.19 nfs_wb_page() soft lockup的问题"
 			1 1 courses/nfs/issues/nfsiostat-queue-long-time.md ~ "nfsiostat命令queue时间长的问题"
-			1 1 courses/nfs/issues/null-ptr-deref-in-nfs_ctx_key_to_expire.md ~ "nfs_ctx_key_to_expire()内存泄露和空指针解引用的问题"
+			1 1 courses/nfs/issues/null-ptr-deref-in-nfs_ctx_key_to_expire.md ~ "nfs_ctx_key_to_expire()引用计数泄露和空指针解引用的问题"
 	0 1 courses/smb/smb.md ~ "smb文件系统"
 		1 1 courses/smb/smb-introduction.md ~ "smb简介"
 		1 1 courses/smb/smb-environment.md ~ "smb环境"
