@@ -2,6 +2,8 @@
 
 这个问题是以前华为同事在[openeuler的OLK-5.10分支](https://gitee.com/openeuler/kernel/tree/OLK-5.10/)上遇到的（现在我在麒麟软件），详情请看类似的[`[UBUNTU 20.04] Null Pointer issue in nfs code running Ubuntu on IBM Z`](https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1968096)，这个网页上提到修复补丁`ca05cbae2a04 NFS: Fix up nfs_ctx_key_to_expire()`。
 
+[内存屏障相关的补丁可以参考`c0e48f9dea91 io_uring: add a memory barrier before atomic_read`](https://lore.kernel.org/all/1563453840-19778-1-git-send-email-liuzhengyuan@kylinos.cn/)
+
 # 代码分析
 
 华为的vmcore拿不出来，根据华为同事的解析结果，空指针解引用发生在`unx_match()`中的`if (!uid_eq(cred->cr_cred->fsuid, acred->cred->fsuid)`，`cred->cr_cred`的值为`NULL`。
