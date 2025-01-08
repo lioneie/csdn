@@ -38,7 +38,7 @@ ksys_write / do_writev
       mutex_lock(&file->f_pos_lock) // write在这里加锁，不会并发
 ```
 
-当然空指针解引用问题涉及到乱序执行、内存屏障等，不好构造。这里我们先分析一下内存泄露的情况:
+当然空指针解引用问题涉及到乱序执行、内存屏障等，不好构造。这里我们先分析一下引用计数泄露的情况:
 ```c
 ksys_pwrite64
   vfs_write
@@ -48,7 +48,7 @@ ksys_pwrite64
           nfs_ctx_key_to_expire
             unx_lookup_cred, // auth->au_ops->lookup_cred
             // 两个进程同时lookup_cred成功，都对ll_cred进行了赋值，
-            // 先赋值的cred没执行put_rpccred()，造成了内存泄露
+            // 先赋值的cred没执行put_rpccred()，造成了引用计数泄露
             ctx->ll_cred = cred
 ```
 
@@ -122,7 +122,7 @@ sleep 1
 ./test
 ```
 
-现在构造出了两个进程同时执行到`nfs_ctx_key_to_expire()`的情况，内存泄露的情况只要同时`lookup_cred()`成功，然后都执行`ctx->ll_cred = cred`就会发生。后续再尝试。
+现在构造出了两个进程同时执行到`nfs_ctx_key_to_expire()`的情况，引用计数泄露的情况只要同时`lookup_cred()`成功，然后都执行`ctx->ll_cred = cred`就会发生。后续再尝试。
 
 至于空指针解引用的情况不好构造，因为涉及到乱序执行、内存屏障等，后面有时间再慢慢尝试构造。
 
