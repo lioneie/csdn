@@ -32,4 +32,6 @@ lk准备出一个Linux内核相关的教程，最大的目的是为了整理自�
 
 # [BPF](https://chenxiaosong.com/courses/kernel/kernel-bpf.html)
 
+# [网络](https://chenxiaosong.com/courses/kernel/kernel-networks.html)
+
 # [内核补丁分析](https://chenxiaosong.com/courses/kernel/kernel-patches.html)
