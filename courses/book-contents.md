@@ -2268,6 +2268,8 @@ lO.4.3 异步串行通信控制器UART
 
 # [《UNIX环境高级编程（第3版）》](https://book.douban.com/subject/25900403/)
 
+[在这里下载源代码](http://www.apuebook.com/code3e.html)。
+
 ```
 Chapter 1. UNIX System Overview / UNIX基础知识 1
 1.1 Introduction / 引言 1
@@ -2619,6 +2621,8 @@ Bibliography / 参考书目 947
 ```
 
 # [《Linux程序设计（第4版）》](https://book.douban.com/subject/4831448/)
+
+[在这里下载源代码](https://www.wiley.com/en-us/Beginning+Linux+Programming%2C+4th+Edition-p-9781118058619#downloadstab-section)。
 
 ```
 第1章 入门 1
