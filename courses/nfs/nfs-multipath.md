@@ -64,7 +64,7 @@ SUNRPC: 为传输切换添加基础负载均衡
 
 ## 4/9 10db56917bcb SUNRPC: enhance rpc_clnt_show_stats() to report on all xprts.
 
-```shell
+```sh
 cat /proc/self/mountstats | less
 ```
 
@@ -93,7 +93,7 @@ v5：修复编译警告
 v4： 未对 5 个补丁做任何更改。 删除了补丁 6。 新增了手册页补丁。
 ```
 
-1/5 3a3f976639f2 SUNRPC keep track of number of transports to unique addresses
+1/5 tags/v5.15-rc1 3a3f976639f2 SUNRPC keep track of number of transports to unique addresses
 
 2/5 df205d0a8ea1 SUNRPC add xps_nunique_destaddr_xprts to xprt_switch_info in sysfs
 
