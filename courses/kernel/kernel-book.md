@@ -13,24 +13,24 @@
 这本书我看过很多很多遍，是我的内核启蒙书，没那么厚，对内核知识概括得很好，看完可以对内核知识有一个总体的掌握，但讲得不那么细，也正是因为这样，第一遍我看的时候有点晕，但第二第三遍再看时很爽。
 
 ```
-第1章 Linux内核简介
-第2章 从内核出发
-第3章 进程管理
-第4章 进程调度
-第5章 系统调用
+第1章 Linux内核简介 <!-- 内核简介 -->
+第2章 从内核出发 <!-- 内核源码介绍 -->
+第3章 进程管理 <!-- 进程管理和调度 -->
+第4章 进程调度 <!-- 进程管理和调度 -->
+第5章 系统调用 <!-- 系统调用 -->
 第6章 内核数据结构
-第7章 中断和中断处理
-第8章 下半部和推后执行的工作
+第7章 中断和中断处理 <!-- 中断 -->
+第8章 下半部和推后执行的工作 <-- 中断 -->
 第9章 内核同步介绍
 第10章 内核同步方法
 第11章 定时器和时间管理
-第12章 内存管理
-第13章 虚拟文件系统
+第12章 内存管理 <!-- 内存管理 -->
+第13章 虚拟文件系统 <!-- 文件系统 -->
 第14章 块I/O层
-第15章 进程地址空间
+第15章 进程地址空间 <!-- 内存管理 -->
 第16章 页高速缓存和页回写
 第17章 设备与模块
-第18章 调试
+第18章 调试 <!-- 内核调试方法 -->
 第19章 可移植性
 第20章 补丁、开发和社区参考资料
 ```
@@ -126,7 +126,7 @@
 第9章 Ext文件系统族
 第10章 无持久存储的文件系统
 第11章 扩展属性和访问控制表
-第12章 网络
+第12章 网络 <!-- 网络 -->
 第13章 系统调用
 第14章 内核活动
 第15章 时间管理
@@ -180,10 +180,10 @@
 第４章 Linux内核模块 92
 第５章 Linux文件系统与设备文件 104
 第６章 字符设备驱动 134
-第７章 Linux设备驱动中的并发控制 158
+第７章 Linux设备驱动中的并发控制 158 <!-- 内核同步 -->
 第８章 Linux设备驱动中的阻塞与非阻塞I/O 189
 第９章 Linux设备驱动中的异步通知与异步I/O 206
-第10章 中断与时钟 224
+第10章 中断与时钟 224 <!-- 中断 -->
 第11章 内存与I/O访问 251
 第12章 Linux设备驱动的软件架构思想 286
 第13章 Linux块设备驱动 331
@@ -256,3 +256,64 @@
 附录D C.BPF. 793
 附录E BPF指令812
 ```
+
+
+# [《UNIX环境高级编程（第3版）》](https://book.douban.com/subject/25900403/)
+
+这本书是介绍用户态的，属于介绍得比较详细的。
+
+```
+Chapter 1. UNIX System Overview / UNIX基础知识 1
+Chapter 2. UNIX Standardization and Implementations / UNIX标准及实现 25
+Chapter 3. File I/O / 文件I/O 61
+Chapter 4. Files and Directories / 文件和目录 93
+Chapter 5. Standard I/O Library / 标准I/O库 143
+Chapter 6. System Data Files and Information / 系统数据文件和信息 177
+Chapter 7. Process Environment / 进程环境 197
+Chapter 8. Process Control / 进程控制 227
+Chapter 9. Process Relationships / 进程关系 285
+Chapter 10. Signals / 信号 313
+Chapter 11. Threads / 线程 383
+Chapter 12. Thread Control / 线程控制 425
+Chapter 13. Daemon Processes / 守护进程 463
+Chapter 14. Advanced I/O / 高级I/O 481
+Chapter 15. Interprocess Communication / 进程间通信 533
+Chapter 16. Network IPC: Sockets / 网络IPC: 套接字 589
+Chapter 17. Advanced IPC / 高级进程间通信 629
+Chapter 18. Terminal I/O / 终端I/O 671
+Chapter 19. Pseudo Terminals / 伪终端 715
+Chapter 20. A Database Library / 数据库函数库 743
+Chapter 21. Communicating with a Network Printer / 与网络打印机通信 789
+Appendix A. Function Prototypes / 函数原型 845
+Appendix B. Miscellaneous Source Code / 其他源代码 895
+B.1 Our Header File / 本书使用的头文件 895
+B.2 Standard Error Routines / 标准出错例程 898
+Appendix C. Solutions to Selected Exercises / 部分习题答案 905
+Bibliography / 参考书目 947
+```
+
+# [《Linux程序设计（第4版）》](https://book.douban.com/subject/4831448/)
+
+这本书是介绍用户态的，算是比较基础的。
+
+```
+第1章 入门 1
+第2章 shell程序设计 15
+第3章 文件操作 78
+第4章 linux环境 114
+第5章 终端 144
+第6章 使用curses函数库管理基于文本的屏幕 175
+第7章 数据管理 214
+第8章 mysql 263
+第9章 开发工具 317
+第10章 调试 361
+第11章 进程和信号 388
+第12章 posix线程 416
+第13章 进程间通信: 管道 443
+第14章 信号量、共享内存和消息队列 488
+第15章 套接字 513 <!-- 网络 -->
+第16章 用gtk+进行gnome编程 546
+第17章 用qt进行kde编程 593
+第18章 linux标准 633
+```
+
