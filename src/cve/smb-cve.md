@@ -30,3 +30,9 @@ ksmbd：在 ksmbd_conn 结构体中添加引用计数
 
 [openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I9L5L1)
 
+# `CVE-2024-26954 a80a486d72e2 ksmbd: fix slab-out-of-bounds in smb_strndup_from_utf16()`
+
+引入问题的补丁: `0626e6641f6b cifsd: add server handler for central processing and tranport layers`。
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I9L5E3)
+
