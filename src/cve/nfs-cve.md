@@ -55,3 +55,9 @@ NFS服务器：限制并发的异步COPY操作数量
 - CVE-2024-50241: [`NFSD: Initialize struct nfsd4_copy earlier`](https://gitee.com/openeuler/kernel/pulls/13356)
 - CVE-2024-53073: [`NFSD: Never decrement pending_async_copies on error`](https://gitee.com/openeuler/kernel/pulls/13905)
 
+# `CVE-2024-41076 aad11473f8f4 NFSv4: Fix memory leak in nfs4_set_security_label`
+
+引入问题的补丁: `1b00ad657997 NFS: Remove the nfs4_label from the nfs_setattrres`。
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/IAGELL)。
+
