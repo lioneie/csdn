@@ -24,3 +24,9 @@ ksmbd：在 ksmbd_conn 结构体中添加引用计数
 
 [openeuler issue](https://gitee.com/src-openeuler/kernel/issues/IAYRCR)
 
+# `CVE-2024-26952 c6cd2e8d2d9a ksmbd: fix potencial out-of-bounds when buffer offset is invalid`
+
+引入问题的补丁: `0626e6641f6b cifsd: add server handler for central processing and tranport layers`。
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I9L5L1)
+
