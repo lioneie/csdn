@@ -247,11 +247,15 @@ sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-potential-OOBs-in-smb2_parse_c
 打上前置补丁`89a5bfa350fa smb3: optimize open to not send query file internal info`后有冲突，还需要再合入前置补丁`b0f6df737a1c cifs: cache FILE_ALL_INFO for the shared root handle`。
 
 
-# 暂无openeuler issue `CVE-2024-35866 58acd1f49716 smb: client: fix potential UAF in cifs_dump_full_key()`
+# `CVE-2024-35866 58acd1f49716 smb: client: fix potential UAF in cifs_dump_full_key()`
+
+[openeuler](https://www.openeuler.org/en/security/cve/detail/?cveId=CVE-2024-35866&packageName=kernel)
 
 `git blame fs/smb/client/ioctl.c | grep "cifs_dump_full_key"`找引入`cifs_dump_full_key()`函数的补丁，找到`1bb56810677f2`（还不是最终的引入补丁），`checkout`到之前的`eb0688180549e3b72464e9f78df58cb7a5592c7f`，再执行`git blame fs/cifs/ioctl.c | grep "cifs_dump_full_key"`，找到`7ba3d1cdb7988ccfbc6e4995dee04510c85fefbc smb3.1.1: allow dumping keys for multiuser mounts`，就是最终的引入问题的补丁。
 
-# 暂无openeuler issue `CVE-2024-35861 e0e50401cc39 smb: client: fix potential UAF in cifs_signal_cifsd_for_reconnect()`
+# `CVE-2024-35861 e0e50401cc39 smb: client: fix potential UAF in cifs_signal_cifsd_for_reconnect()`
+
+[openeuler](https://www.openeuler.org/en/security/cve/detail/?cveId=CVE-2024-35861&packageName=kernel)
 
 ## 4.19合补丁
 
@@ -262,7 +266,9 @@ sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-potential-UAF-in-cifs_signal_c
 
 引入问题的补丁: `dca65818c80c cifs: use a different reconnect helper for non-cifsd threads`。
 
-# 暂无openeuler issue `CVE-2024-35868 d3da25c5ac84 smb: client: fix potential UAF in cifs_stats_proc_write()`
+# `CVE-2024-35868 d3da25c5ac84 smb: client: fix potential UAF in cifs_stats_proc_write()`
+
+[openeuler](https://www.openeuler.org/en/security/cve/detail/?cveId=CVE-2024-35868&packageName=kernel)
 
 因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
 ```sh
@@ -271,7 +277,9 @@ sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-potential-UAF-in-cifs_stats_pr
 
 参考[`d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()`](https://chenxiaosong.com/src/cve/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.html)
 
-# 暂无openeuler issue `CVE-2024-35863 69ccf040acdd smb: client: fix potential UAF in is_valid_oplock_break()`
+# `CVE-2024-35863 69ccf040acdd smb: client: fix potential UAF in is_valid_oplock_break()`
+
+[openeuler](https://www.openeuler.org/en/security/cve/detail/?cveId=CVE-2024-35863&packageName=kernel)
 
 因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
 ```sh
@@ -299,7 +307,9 @@ index 00e99a4ea023..6d54c0117c73 100644
                         if (tcon->tid != buf->Tid)
 ```
 
-# 暂无openeuler issue `CVE-2024-35865 22863485a462 smb: client: fix potential UAF in smb2_is_valid_oplock_break()`
+# `CVE-2024-35865 22863485a462 smb: client: fix potential UAF in smb2_is_valid_oplock_break()`
+
+[openeuler](https://www.openeuler.org/en/security/cve/detail/?cveId=CVE-2024-35865&packageName=kernel)
 
 因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
 ```sh
@@ -337,7 +347,9 @@ sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-UAF-in-smb2_reconnect_server.p
 
 `struct cifs_ses`的`ses_lock`成员是在补丁`d7d7a66aacd6 cifs: avoid use of global locks for high contention data`中引入的。
 
-# 暂无openeuler issue `CVE-2023-52751 5c86919455c1 smb: client: fix use-after-free in smb2_query_info_compound()`
+# `CVE-2023-52751 5c86919455c1 smb: client: fix use-after-free in smb2_query_info_compound()`
+
+[openeuler](https://www.openeuler.org/en/security/cve/detail/?cveId=CVE-2023-52751&packageName=kernel)
 
 因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
 ```sh
