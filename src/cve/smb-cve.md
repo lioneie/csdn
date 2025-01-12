@@ -50,4 +50,14 @@ ksmbd：在 smb2_allocate_rsp_buf() 中验证请求缓冲区大小
 
 [openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I92OR4)
 
-# 
+# `CVE-2024-39468 02c418774f76 smb: client: fix deadlock in smb2_find_smb_tcon()`
+
+因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，老版本要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
+```sh
+sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-deadlock-in-smb2_find_smb_tcon.patch
+```
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/IA8AFZ)。
+
+在4.19和5.4代码中，`smb2_find_smb_tcon()`函数中未对`smb2_find_smb_sess_tcon_unlocked()`的结果进行错误处理，没有相关逻辑，不影响。
+
