@@ -14,3 +14,13 @@
 
 [openeuler 4.19 补丁](https://gitee.com/openeuler/kernel/pulls/14249)
 
+# `CVE-2024-49988 ee426bfb9d09 ksmbd: add refcnt to ksmbd_conn struct`
+
+```
+ksmbd：在 ksmbd_conn 结构体中添加引用计数
+
+在发送 oplock 中断请求时，使用了 opinfo->conn，但是在多通道环境下，已经释放的 ->conn 可能会被使用。这个补丁在 ksmbd_conn 结构体中添加了引用计数，以确保只有在不再使用时，ksmbd_conn 结构体才能被释放。
+```
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/IAYRCR)
+
