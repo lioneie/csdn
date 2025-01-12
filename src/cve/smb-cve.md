@@ -97,3 +97,14 @@ sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-OOB-in-receive_encrypted_stand
 ```
 
 在主线代码上使用`git blame fs/smb/client/smb2ops.c | grep "struct smb2_hdr \*shdr"`找到前置补丁`0d35e382e4e9 cifs: Create a new shared file holding smb2 pdu definitions`才能解决冲突，但此前置补丁与我们修改的内容无关，所以只需要手动处理冲突即可。
+
+# `CVE-2023-6606 b35858b3786d smb: client: fix OOB in smbCalcSize()`
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I8MXXW)
+
+因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，低版本要打上这个修复补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
+```sh
+sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-OOB-in-smbCalcSize.patch
+```
+
+此补丁修复`checkSMB()->smbCalcSize()`中访问越界的问题。
