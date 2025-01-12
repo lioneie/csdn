@@ -10,3 +10,8 @@
 
 [openeuler issue](https://gitee.com/src-openeuler/kernel/issues/IB37AB)
 
+# `CVE-2023-52732 a68e564adcaa ceph: blocklist the kclient when receiving corrupted snap trace`
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I9R4KH)
+
+
