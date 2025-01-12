@@ -45,3 +45,9 @@ ksmbd：在 smb2_allocate_rsp_buf() 中验证请求缓冲区大小
 
 响应缓冲区应该在 smb2_allocate_rsp_buf 中分配，随后再验证请求。然而，smb2_allocate_rsp_buf() 中使用了有效负载中的字段以及 smb2 头部的内容。这个补丁在 smb2_allocate_rsp_buf() 中添加了简单的缓冲区大小验证，以避免潜在的请求缓冲区越界问题。
 ```
+
+# `CVE-2023-52442 3df0411e132e ksmbd: validate session id and tree id in compound request`
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I92OR4)
+
+# 
