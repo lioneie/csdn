@@ -34,3 +34,24 @@ Linux NFS 客户端并没有正确处理 NFS_ERR_INVAL，尽管所有 NFS 规范
 
 5.4代码没有`nfsd4_encode_read_plus()`。
 
+# `CVE-2024-49974 aadc3bbea163 NFSD: Limit the number of concurrent async COPY operations`
+
+```
+NFS服务器：限制并发的异步COPY操作数量
+
+目前似乎没有限制客户端可以启动的并发异步COPY操作的数量。此外，至少在我看来，每个异步COPY操作可以复制无限数量的4MB数据块，因此可能会持续很长时间。因此，我认为异步COPY操作可能成为一种拒绝服务（DoS）攻击的潜在载体。
+
+我们需要添加一种限制机制，来限制并发的后台COPY操作数量。为了简单且公平起见，这个补丁实现了每个命名空间的限制。
+
+当异步COPY请求发生时，如果并发操作数量已经超过限制，则返回 NFS4ERR_DELAY 错误。请求客户端可以选择在延迟后重新发送请求，或者退回使用传统的读写复制方式。
+
+如果将来需要使该机制更为复杂，我们可以在后续的补丁中进一步讨论和改进。
+```
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/IAYR9C)。
+
+[openeuler 5.10补丁](https://gitee.com/openeuler/kernel/pulls/12460)，后续还有修复补丁:
+
+- CVE-2024-50241: [`NFSD: Initialize struct nfsd4_copy earlier`](https://gitee.com/openeuler/kernel/pulls/13356)
+- CVE-2024-53073: [`NFSD: Never decrement pending_async_copies on error`](https://gitee.com/openeuler/kernel/pulls/13905)
+
