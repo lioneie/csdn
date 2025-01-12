@@ -105,3 +105,9 @@ so_count是三个不同计数的总和。
 
 前置补丁`eb82dd393744 nfsd: convert fi_deleg_file and ls_file fields to nfsd_file`合入时有冲突。前置补丁`e0aa651068bf nfsd: don't call nfsd_file_put from client states seqfile display`合入时也有冲突。冲突太大合入风险大。
 
+# `CVE-2024-46696 1116e0e372eb nfsd: fix potential UAF in nfsd4_cb_getattr_release`
+
+引入问题的补丁: `c5967721e106 NFSD: handle GETATTR conflict with write delegation`。
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/IAR4FS)
+
