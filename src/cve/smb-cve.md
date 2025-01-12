@@ -61,7 +61,7 @@ sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-deadlock-in-smb2_find_smb_tcon
 
 在4.19和5.4代码中，`smb2_find_smb_tcon()`函数中未对`smb2_find_smb_sess_tcon_unlocked()`的结果进行错误处理，没有相关逻辑，不影响。
 
-# `CVE-2024-0565 eec04ea11969 [smb: client: fix OOB in receive_encrypted_standard()](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=eec04ea119691e65227a97ce53c0da6b9b74b0b7)
+# [`CVE-2024-0565 eec04ea11969 smb: client: fix OOB in receive_encrypted_standard()`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=eec04ea119691e65227a97ce53c0da6b9b74b0b7)
 
 [openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I8WEOK)
 
@@ -155,3 +155,193 @@ sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-potential-deadlock-when-releas
         spin_unlock(&server->mid_lock);
  }
 ```
+
+# [`CVE-2023-6610 567320c46a60a3c39b69aa1df802d753817a3f86 smb: client: fix potential OOB in smb2_dump_detail()`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=567320c46a60a3c39b69aa1df802d753817a3f86)
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I8MXXY)
+
+因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，低版本要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
+```sh
+sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-potential-OOB-in-smb2_dump_detail.patch
+```
+
+此修复补丁修复`smb2_dump_detail()->calc_smb_size()`的越界问题，调用`calc_smb_size()`之前要先用`check_message()`校验。
+
+## 4.19合补丁
+
+使用`git am 0001-smb-client-fix-potential-OOB-in-smb2_dump_detail.patch --reject`命令打上补丁后，会有冲突，不同的地方是:
+```sh
+diff --git a/fs/cifs/smb2misc.c b/fs/cifs/smb2misc.c
+index 39ae3baa52a3..790e2e932e68 100644
+--- a/fs/cifs/smb2misc.c
++++ b/fs/cifs/smb2misc.c
+@@ -204,20 +204,20 @@ smb2_check_message(char *buf, unsigned int len, struct TCP_Server_Info *srvr)
+                return 1;
+ 
+        if (shdr->StructureSize != SMB2_HEADER_STRUCTURE_SIZE) {
+-               cifs_dbg(VFS, "Illegal structure size %u\n",
++               cifs_dbg(VFS, "Invalid structure size %u\n",
+                         le16_to_cpu(shdr->StructureSize));
+                return 1;
+        }
+ 
+        command = le16_to_cpu(shdr->Command);
+        if (command >= NUMBER_OF_SMB2_COMMANDS) {
+-               cifs_dbg(VFS, "Illegal SMB2 command %d\n", command);
++               cifs_dbg(VFS, "Invalid SMB2 command %d\n", command);
+                return 1;
+        }
+ 
+        if (smb2_rsp_struct_sizes[command] != pdu->StructureSize2) {
+                if (command != SMB2_OPLOCK_BREAK_HE && (shdr->Status == 0 ||
+-                   pdu->StructureSize2 != SMB2_ERROR_STRUCTURE_SIZE2)) {
++                   pdu->StructureSize2 != SMB2_ERROR_STRUCTURE_SIZE2_LE)) {
+                        /* error packets have 9 byte structure size */
+                        cifs_dbg(VFS, "Illegal response size %u for command %d\n",
+                                 le16_to_cpu(pdu->StructureSize2), command);
+diff --git a/fs/cifs/smb2ops.c b/fs/cifs/smb2ops.c
+index 813d67b4a1a5..9f2c0733a4ae 100644
+--- a/fs/cifs/smb2ops.c
++++ b/fs/cifs/smb2ops.c
+@@ -245,9 +245,9 @@ smb2_dump_detail(void *buf, struct TCP_Server_Info *server)
+ #ifdef CONFIG_CIFS_DEBUG2
+        struct smb2_sync_hdr *shdr = (struct smb2_sync_hdr *)buf;
+ 
+-       cifs_dbg(VFS, "Cmd: %d Err: 0x%x Flags: 0x%x Mid: %llu Pid: %d\n",
++       cifs_server_dbg(VFS, "Cmd: %d Err: 0x%x Flags: 0x%x Mid: %llu Pid: %d\n",
+                 shdr->Command, shdr->Status, shdr->Flags, shdr->MessageId,
+-                shdr->ProcessId);
++                shdr->Id.SyncId.ProcessId);
+        cifs_dbg(VFS, "smb buf %p len %u\n", buf,
+                 server->ops->calc_smb_size(buf, server));
+ #endif
+```
+
+先看`fs/cifs/smb2ops.c`文件的冲突，在主线代码上使用`git blame fs/smb/client/smb2ops.c | grep "cifs_server_dbg"`找到前置补丁`3175eb9b577e cifs: add a debug macro that prints \\server\share for errors`，打上这个前置补丁有很多的冲突，而这里只是涉及到打印相关的，所以不合入此前置补丁，手动处理冲突。再使用`git blame fs/smb/client/smb2ops.c | grep "Id.SyncId.ProcessId"`找到前置补丁`0d35e382e4e9 cifs: Create a new shared file holding smb2 pdu definitions`，打上这个前置补丁也会有很多的冲突，也不涉及cve的修复内容，所以不合入这个前置补丁，也手动处理冲突。
+
+再看`fs/cifs/smb2misc.c`文件的冲突，在主线代码上使用`git blame fs/smb/client/smb2misc.c | grep SMB2_ERROR_STRUCTURE_SIZE2_LE`找到前置补丁`113be37d8744 [smb3] move more common protocol header definitions to smbfs_common`，打上这个前置补丁会有很多冲突，也不涉及cve的修复内容，所以不合入此前置补丁，手动处理冲突。再切换到cve修复补丁的前一个commit，`git checkout aa3e193d66db56b3331142509acb4b5bad4e7f4f && git blame fs/smb/client/smb2misc.c | grep Invalid SMB2 command`找到前置补丁`a0a3036b81f1 cifs: Standardize logging output`，打上这个前置补丁有很多冲突，只涉及打印相关的，所以不合入这个前置补丁，手动处理冲突。
+
+## 4.4合补丁
+
+前置补丁有:
+
+- `93012bf98416 cifs: add server->vals->header_preamble_size`: `9ec672bd1713`的前置补丁，用`header_preamble_size`变量取代常数4
+- `c0953f2ed510 cifs: smb2pdu: Fix potential NULL pointer dereference`: 修复`93012bf98416`导致的空指针解引用
+- `14547f7d74c4 cifs: add server argument to the dump_detail method`: 给函数`smb2_dump_detail()`增加一个参数
+- `9ec672bd1713 cifs: update calc_size to take a server argument`: 给`calc_size()`相关的函数增加一个参数，另外用`heder_preamble_size`变量取代常数4
+- `71992e62b864 cifs: fix build break when CONFIG_CIFS_DEBUG2 enabled`: 修复编译错误, `dump_detail()`和`calc_smb_size()`增加参数，要把`CONFIG_CIFS_DEBUG2`配置打开测试才会出现，麒麟的配置默认不打开
+
+# `CVE-2023-52434 af1689a9b770 smb: client: fix potential OOBs in smb2_parse_contexts()`
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I92HX8)
+
+在`smb2_parse_contexts()`中解引用create contexts时如果没有判断offsets和lengths的有效性，会发生访问越界。
+
+## 4.19合补丁
+
+因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
+```sh
+sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-potential-OOBs-in-smb2_parse_contexts.patch
+```
+
+打上前置补丁`89a5bfa350fa smb3: optimize open to not send query file internal info`后有冲突，还需要再合入前置补丁`b0f6df737a1c cifs: cache FILE_ALL_INFO for the shared root handle`。
+
+
+# 暂无openeuler issue `CVE-2024-35866 58acd1f49716 smb: client: fix potential UAF in cifs_dump_full_key()`
+
+`git blame fs/smb/client/ioctl.c | grep "cifs_dump_full_key"`找引入`cifs_dump_full_key()`函数的补丁，找到`1bb56810677f2`（还不是最终的引入补丁），`checkout`到之前的`eb0688180549e3b72464e9f78df58cb7a5592c7f`，再执行`git blame fs/cifs/ioctl.c | grep "cifs_dump_full_key"`，找到`7ba3d1cdb7988ccfbc6e4995dee04510c85fefbc smb3.1.1: allow dumping keys for multiuser mounts`，就是最终的引入问题的补丁。
+
+# 暂无openeuler issue `CVE-2024-35861 e0e50401cc39 smb: client: fix potential UAF in cifs_signal_cifsd_for_reconnect()`
+
+## 4.19合补丁
+
+因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
+```sh
+sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-potential-UAF-in-cifs_signal_cifsd_fo.patch
+```
+
+引入问题的补丁: `dca65818c80c cifs: use a different reconnect helper for non-cifsd threads`。
+
+# 暂无openeuler issue `CVE-2024-35868 d3da25c5ac84 smb: client: fix potential UAF in cifs_stats_proc_write()`
+
+因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
+```sh
+sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-potential-UAF-in-cifs_stats_proc_writ.patch
+```
+
+参考[`d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()`](https://chenxiaosong.com/src/cve/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.html)
+
+# 暂无openeuler issue `CVE-2024-35863 69ccf040acdd smb: client: fix potential UAF in is_valid_oplock_break()`
+
+因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
+```sh
+sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-potential-UAF-in-is_valid_oplock_brea.patch
+```
+
+`cifs_ses_exiting()`函数引入的补丁是`ca545b7f0823 smb: client: fix potential UAF in cifs_debug_files_proc_show()`，此补丁还有前置补丁`d7d7a66aacd6 cifs: avoid use of global locks for high contention data`（引入`struct cifs_ses`中的`spinlock_t ses_lock`）。
+
+找引入`is_valid_oplock_break()`函数的补丁，`git blame fs/smb/client/misc.c | grep is_valid_oplock_break`找到`d4e4854fd1c85`，还不是引入补丁，再`git checkout 792af7b05b8a78def080ec757a4d4420b9fd0cc2`到之前的记录，再使用`git blame fs/cifs/misc.c | grep is_valid_oplock_break`找到`d7c8c94d3e4c1`，还不是引入补丁，`git checkout 083d3a2cff514c5301f3a043642940d4d5371b22`到之前的记录，`git blame fs/cifs/misc.c | grep is_valid_oplock_break`找到最早的commit `1da177e4c3f41524e886b7f1b8a0c1fc7321cac2`，就是引入问题的补丁。
+
+按如下修改，参考[`d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()`](https://chenxiaosong.com/src/cve/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.html):
+```c
+diff --git a/fs/cifs/misc.c b/fs/cifs/misc.c
+index 00e99a4ea023..6d54c0117c73 100644
+--- a/fs/cifs/misc.c
++++ b/fs/cifs/misc.c
+@@ -468,6 +468,8 @@ is_valid_oplock_break(char *buffer, struct TCP_Server_Info *srv)
+        spin_lock(&cifs_tcp_ses_lock);
+        list_for_each(tmp, &srv->smb_ses_list) {
+                ses = list_entry(tmp, struct cifs_ses, smb_ses_list);
++               if (ses->status == CifsExiting)
++                       continue;
+                list_for_each(tmp1, &ses->tcon_list) {
+                        tcon = list_entry(tmp1, struct cifs_tcon, tcon_list);
+                        if (tcon->tid != buf->Tid)
+```
+
+# 暂无openeuler issue `CVE-2024-35865 22863485a462 smb: client: fix potential UAF in smb2_is_valid_oplock_break()`
+
+因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
+```sh
+sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-potential-UAF-in-smb2_is_valid_oplock.patch
+```
+
+参考[`d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()`](https://chenxiaosong.com/src/cve/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.html)
+
+# `CVE-2024-35870 24a9799aa8ef smb: client: fix UAF in smb2_reconnect_server()`
+
+```
+UAF（Use After Free）漏洞是由于 smb2_reconnect_server() 访问了一个已经被另一个执行 __cifs_put_smb_ses() 线程正在销毁的会话（session）。这种情况可能发生在以下情况: (a) 客户端与服务器建立了连接但没有会话，或 (b) 另一个线程再次将 @ses->ses_status 设置为 SES_EXITING 以外的其他状态。
+
+为了解决这个问题，我们需要确保无条件地将 @ses->ses_status 设置为 SES_EXITING，并防止在我们仍在销毁会话时，任何其他线程设置新的状态。
+
+在 __cifs_put_smb_ses() 中释放 ipc 之后添加一些延迟可以重现这个问题——这将使 smb2_reconnect_server() 的工作线程有机会运行，然后访问 @ses->ipc。
+```
+
+因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
+```sh
+sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-UAF-in-smb2_reconnect_server.patch
+```
+
+`git blame fs/smb/client/connect.c | grep cifs_mark_tcp_ses_conns_for_reconnect`找到补丁`183eea2ee5ba9`，再回退到之前的补丁`git checkout 2e0fa298d149e07005504350358066f380f72b52`，执行`git blame fs/cifs/connect.c | grep cifs_mark_tcp_ses_conns_for_reconnect`找到`43b459aa5e222`，回退到之前的补丁`git checkout efb21d7b0fa4b1a9a35dcf38b262a314fb3628ea`，找到引入`cifs_reconnect`的补丁`1da177e4c3f41524e886b7f1b8a0c1fc7321cac2`。
+
+[openeuler issue](https://gitee.com/src-openeuler/kernel/issues/I9QG1A)。
+
+# [`CVE-2023-52752 d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()`](https://lore.kernel.org/all/20231030201956.2660-2-pc@manguebit.com/)
+
+[openeuler的4.19 pr](https://gitee.com/openeuler/kernel/pulls/8522/files)
+
+[openeuler的5.10 pr](https://gitee.com/openeuler/kernel/pulls/8605/files)
+
+[openeuler上的代码分析](https://gitee.com/openeuler/kernel/pulls/8605#note_30899023_conversation_122811113)
+
+`struct cifs_ses`的`ses_lock`成员是在补丁`d7d7a66aacd6 cifs: avoid use of global locks for high contention data`中引入的。
+
+# 暂无openeuler issue `CVE-2023-52751 5c86919455c1 smb: client: fix use-after-free in smb2_query_info_compound()`
+
+因为主线代码文件夹经过了重命名`38c8a9a52082 smb: move client and server files to common directory fs/smb`，4.19要打上这个补丁，必须将`.patch`文件中的`smb/client`改成`cifs`:
+```sh
+sed -i 's/smb\/client/cifs/g' 0001-smb-client-fix-use-after-free-in-smb2_query_info_com.patch
+```
+
+[`git log fs/smb/client/cached_dir.c`](https://github.com/torvalds/linux/commits/master/fs/smb/client/cached_dir.c)
