@@ -1,13 +1,22 @@
-# openeuler nfs+
+# openeuler nfs+的使用
 
-- [NFS多路径用户指南](https://docs.openeuler.org/zh/docs/23.03/docs/NfsMultipath/NFS%E5%A4%9A%E8%B7%AF%E5%BE%84.html)（[文档源码](https://gitee.com/openeuler/docs/tree/stable2-23.03/docs/zh/docs/NfsMultipath)）
+- [eNFS 使用指南](https://docs.openeuler.org/zh/docs/20.03_LTS_SP4/docs/eNFS/enfs%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html)（[文档源码](https://gitee.com/openeuler/docs/blob/stable2-20.03_LTS_SP4/docs/zh/docs/eNFS/enfs%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.md)）
+- [openeuler23.03 NFS多路径用户指南](https://docs.openeuler.org/zh/docs/23.03/docs/NfsMultipath/NFS%E5%A4%9A%E8%B7%AF%E5%BE%84.html)（[文档源码](https://gitee.com/openeuler/docs/tree/stable2-23.03/docs/zh/docs/NfsMultipath)），瞎搞的，这个版本根本没有多路径功能
 - [pull request](https://gitee.com/src-openeuler/kernel/pulls?assignee_id=&author_id=&label_ids=&label_text=&milestone_id=&priority=&project_id=src-openeuler%2Fkernel&project_type=&scope=&search=enfs&single_label_id=&single_label_text=&sort=closed_at+desc&status=merged&target_project=&tester_id=)
 - [补丁文件](https://gitee.com/src-openeuler/kernel/tree/openEuler-20.03-LTS-SP4)
 - [support.huawei.com](https://support.huawei.com/supportindex/index)选择"企业技术支持"
 
-可以使用脚本[`create-enfs-patchset.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/create-enfs-patchset.sh)生成完整的补丁文件。
+可以使用脚本[`create-enfs-patchset.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/create-enfs-patchset.sh)生成完整的补丁文件。切换到`openEuler-1.0-LTS`分支，编译前打开配置`CONFIG_ENFS=y`，可能还要关闭配置`CONFIG_NET_VENDOR_NETRONOME`。
 
-编译前打开配置`CONFIG_ENFS=y`。
+qemu命令行不知道怎么搞多个网卡，有知道的朋友可以教教我。我就在virt-manager虚拟机中的麒麟server来测试，在图形界面上添加网卡。
+
+挂载:
+```sh
+modprobe enfs
+mount -t nfs -o localaddrs=192.168.122.149~192.168.122.161,remoteaddrs=192.168.122.23~192.168.122.254 192.168.122.254:/s_test /mnt/
+```
+
+# nfs+代码分析
 
 挂载选项解析流程:
 ```c
@@ -18,7 +27,7 @@ nfs_parse_mount_options
         nfs_multipath_parse_ip_list_inter
 ```
 
-# `nconnect`挂载选项
+# 主线`nconnect`挂载选项
 
 [Multiple network connections for a single NFS mount.](https://patchwork.kernel.org/project/linux-nfs/cover/155917564898.3988.6096672032831115016.stgit@noble.brown/)
 
@@ -78,7 +87,7 @@ cat /proc/self/mountstats | less
 
 ## 9/9 53c326307156 NFS: Allow multiple connections to a NFSv2 or NFSv3 server
 
-# `max_connect`挂载选项
+# 主线`max_connect`挂载选项
 
 [do not collapse trunkable transports](https://patchwork.kernel.org/project/linux-nfs/cover/20210827183719.41057-1-olga.kornievskaia@gmail.com/)
 
