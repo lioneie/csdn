@@ -380,15 +380,27 @@ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- O=build Image
 ```sh
 rm x86_64-build -rf && mkdir x86_64-build
 cp ../tmp/configs/x86_64-config x86_64-build/.config
+
 rm aarch64-build -rf && mkdir aarch64-build
 cp ../tmp/configs/aarch64-config aarch64-build/.config
 ```
 <!-- public end -->
 ```sh
 make O=x86_64-build menuconfig
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=aarch64-build menuconfig
 make O=x86_64-build bzImage -j`nproc`
+make O=x86_64-build modules -j`nproc`
+mkdir -p x86_64-build/boot && make O=x86_64-build install INSTALL_PATH=boot -j`nproc`
+make O=x86_64-build modules_install INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=mod -j`nproc`
+zip -r boot.zip x86_64-build/boot/
+rm x86_64-build/mod/lib/modules/xxxx/build
+rm x86_64-build/mod/lib/modules/xxxx/source
+
+
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=aarch64-build menuconfig
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=aarch64-build Image -j`nproc`
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=aarch64-build modules -j`nproc`
+mkdir -p aarch64-build/boot && make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=aarch64-build install INSTALL_PATH=boot -j`nproc`
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=aarch64-build modules_install INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=mod -j`nproc`
 ```
 
 老版本（如v5.17）编译如果报错`FAILED: load BTF from vmlinux: Invalid argument`，可以尝试关闭`CONFIG_DEBUG_INFO_BTF`配置。
@@ -518,24 +530,30 @@ make O=build SPHINXOPTS=-v htmldocs -j`nproc` # -v 获得更详细的输出。
 
 把`build/mod/lib/modules/xxx/`复制到待测环境上的`/lib/modules/`路径，把`build/boot/`目录下的文件复制到待测环境上的`/boot/`路径下。
 
-生成`initrd.img`，其中`xxx`为内核版本:
 ```sh
-# centos
-mkinitrd /boot/initrd.img-xxx xxx
-# ubuntu
-mkinitramfs -o /boot/initrd.img-xxx xxx
+# centos, 麒麟server
+mkinitrd /boot/initrd.img-xxx xxx # 生成`initrd.img`，其中`xxx`为内核版本
+grub2-mkconfig -o /boot/grub2/grub.cfg
+vim /boot/efi/EFI/kylin/grub.cfg # arm64
+vim /boot/grub2/grub.cfg # x86
+sync
+
+# ubuntu，麒麟desktop
+mkinitramfs -o /boot/initrd.img-xxx xxx # 生成`initrd.img`，其中`xxx`为内核版本
+update-grub
+# 麒麟桌面系统要在把`grub.cfg`新生成的启动项里的`security=kysec`改成`security= `（注意后面有空格）
+vim /boot/grub/grub.cfg # x86
+vim /boot/efi/boot/grub/grub.cfg # arm64
+sync
 ```
 
-ubuntu下运行`update-grub`，`x86`的`grub.cfg`文件在`/boot/grub/grub.cfg`，`arm64`的`grub.cfg`文件在`/boot/efi/boot/grub/grub.cfg`。麒麟桌面系统要在把`grub.cfg`新生成的启动项里的`security=kysec`改成`security= `（注意后面有空格）。
-
-centos下运行`grub2-mkconfig -o /boot/grub2/grub.cfg`。
-
-麒麟server 4.19替换内核的步骤:
+麒麟server 4.19安装内核rpm包的步骤:
 ```sh
 # kernel-devel-4.19.* kernel-headers-4.19.* 可不安装
 rpm -i kernel-4.19.* kernel-core-4.19.* kernel-modules-* --force
 cat /boot/grub2/grubenv # 查看默认启动项
-view /boot/efi/EFI/kylin/grub.cfg # 从这里复制 Kylin Linux Advanced Server (4.19.90-23.29.v2101.fortest.ky10.aarch64) V10 (Lance)
+view /boot/efi/EFI/kylin/grub.cfg # aarch64 从这里复制 Kylin Linux Advanced Server (4.19.90-23.29.v2101.fortest.ky10.aarch64) V10 (Lance)
+view /boot/grub2/grub.cfg # x86_64从这里复制
 grub2-set-default "Kylin Linux Advanced Server (4.19.90-23.29.v2101.fortest.ky10.aarch64) V10 (Lance)" # 更改默认启动项
 cat /boot/grub2/grubenv # 查看是否更改成功
 sync # 确保落盘
