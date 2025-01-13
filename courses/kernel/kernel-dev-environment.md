@@ -78,7 +78,7 @@ qemu命令行的网络参数修改成（`model`和`macaddr`可以自己指定）
 -net nic,model=virtio,macaddr=00:11:22:33:44:01 \
 ```
 
-注意在虚拟机中，不要手动配置ip，要运行`systemctl restart networking.service`自动获取ip地址。
+注意在虚拟机中，不要手动配置ip，要运行`systemctl restart networking.service`自动获取ip地址（可能还需要修改`/etc/network/interfaces`）。
 
 ### 桥接模式（TODO）
 
