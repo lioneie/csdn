@@ -6,7 +6,9 @@
 - [补丁文件](https://gitee.com/src-openeuler/kernel/tree/openEuler-20.03-LTS-SP4)
 - [support.huawei.com](https://support.huawei.com/supportindex/index)选择"企业技术支持"
 
-可以使用脚本[`create-enfs-patchset.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/create-enfs-patchset.sh)生成完整的补丁文件。切换到`openEuler-1.0-LTS`分支，编译前打开配置`CONFIG_ENFS=y`，可能还要关闭配置`CONFIG_NET_VENDOR_NETRONOME`。
+可以使用脚本[`create-enfs-patchset.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/create-enfs-patchset.sh)生成完整的补丁文件。切换到`openEuler-1.0-LTS`分支，编译前打开配置`CONFIG_SUNRPC=m`、`CONFIG_ENFS=m`，可能还要关闭配置`CONFIG_NET_VENDOR_NETRONOME`。
+
+注意目前的代码如果配置成`CONFIG_ENFS=y`、`CONFIG_SUNRPC=y`运行会有问题，无法挂载。如果配置成`CONFIG_ENFS=m`、`CONFIG_SUNRPC=y`编译无法通过。后续有时间我再修改吧。
 
 最方便的就是在virt-manager虚拟机中测试，在图形界面上添加多个网卡。
 
@@ -28,6 +30,8 @@ systemctl restart networking
 modprobe enfs
 mount -t nfs -o localaddrs=192.168.53.40~192.168.53.53,remoteaddrs=192.168.53.215~192.168.53.216 192.168.53.216:/s_test /mnt/
 ```
+
+如果没有创建`/etc/enfs/config.ini`，会报错`failed to open file:/etc/enfs/config.ini err:-2`，配置文件请参考[eNFS 使用指南](https://docs.openeuler.org/zh/docs/20.03_LTS_SP4/docs/eNFS/enfs%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html)。
 
 # nfs+代码分析
 
