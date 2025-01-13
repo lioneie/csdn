@@ -8,15 +8,38 @@
 
 可以使用脚本[`create-enfs-patchset.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/create-enfs-patchset.sh)生成完整的补丁文件。切换到`openEuler-1.0-LTS`分支，编译前打开配置`CONFIG_ENFS=y`，可能还要关闭配置`CONFIG_NET_VENDOR_NETRONOME`。
 
-qemu命令行不知道怎么搞多个网卡，有知道的朋友可以教教我。我就在virt-manager虚拟机中的麒麟server来测试，在图形界面上添加网卡。
+最方便的就是在virt-manager虚拟机中测试，在图形界面上添加多个网卡。
+
+qemu命令行启动虚拟机时，多个网卡的启动参数如下:
+```sh
+-net tap \
+-net nic,model=virtio,macaddr=00:11:22:33:44:06 \
+-net nic,model=virtio,macaddr=00:11:22:33:44:56 \
+```
+
+启动后，在虚拟机中用`ifconfig -a`可以看到另一个网卡`ens3`，使用以下命令:
+```sh
+echo -e "auto ens3\niface ens3 inet dhcp" >> /etc/network/interfaces
+systemctl restart networking
+```
 
 挂载:
 ```sh
 modprobe enfs
-mount -t nfs -o localaddrs=192.168.122.149~192.168.122.161,remoteaddrs=192.168.122.23~192.168.122.254 192.168.122.254:/s_test /mnt/
+mount -t nfs -o localaddrs=192.168.53.40~192.168.53.53,remoteaddrs=192.168.53.215~192.168.53.216 192.168.53.216:/s_test /mnt/
 ```
 
 # nfs+代码分析
+
+[pull request](https://gitee.com/src-openeuler/kernel/pulls?assignee_id=&author_id=&label_ids=&label_text=&milestone_id=&priority=&project_id=src-openeuler%2Fkernel&project_type=&scope=&search=enfs&single_label_id=&single_label_text=&sort=closed_at+desc&status=merged&target_project=&tester_id=)和[补丁文件](https://gitee.com/src-openeuler/kernel/tree/openEuler-20.03-LTS-SP4)。
+
+## [`1/6 nfs: add api to support enfs registe and handle mount option`](https://gitee.com/src-openeuler/kernel/blob/openEuler-20.03-LTS-SP4/0001-nfs_add_api_to_support_enfs_registe_and_handle_mount_option.patch)
+
+```
+At the NFS layer, the eNFS registration function is called back when
+the mount command parses parameters. The eNFS parses and saves the IP
+address list entered by users.
+```
 
 挂载选项解析流程:
 ```c
@@ -25,6 +48,51 @@ nfs_parse_mount_options
     nfs_multipath_parse_options
       nfs_multipath_parse_ip_list
         nfs_multipath_parse_ip_list_inter
+```
+
+## [`2/6 sunrpc: add api to support enfs registe and create multipath then dispatch IO`](https://gitee.com/src-openeuler/kernel/blob/openEuler-20.03-LTS-SP4/0002-sunrpc_add_api_to_support_enfs_registe_and_create_multipath_then_dispatch_IO.patch)
+
+```
+At the sunrpc layer, the eNFS registration function is called back When
+the NFS uses sunrpc to create rpc_clnt, the eNFS combines the IP address
+list entered for mount to generate multiple xprts. When the I/O times
+out, the callback function of the eNFS is called back so that the eNFS
+switches to an available link for retry.
+```
+
+## [`3/6 nfs: add enfs module for nfs mount option`](https://gitee.com/src-openeuler/kernel/blob/openEuler-20.03-LTS-SP4/0003-add_enfs_module_for_nfs_mount_option.patch)
+
+```
+The eNFS module registers the interface for parsing the mount command.
+During the mount process, the NFS invokes the eNFS interface to enable
+the eNFS to parse the mounting parameters of UltraPath. The eNFS module
+saves the mounting parameters to the context of nfs_client.
+```
+
+## [`4/6 nfs: add enfs module for sunrpc multipatch`](https://gitee.com/src-openeuler/kernel/blob/openEuler-20.03-LTS-SP4/0004-add_enfs_module_for_sunrpc_multipatch.patch)
+
+```
+When the NFS invokes the SunRPC to create rpc_clnt, the eNFS interface
+is called back. The eNFS creates multiple xprts based on the output IP
+address list. When NFS V3 I/Os are delivered, eNFS distributes I/Os to
+available links based on the link status, improving performance through
+load balancing.
+```
+
+## [`5/6 nfs: add enfs module for sunrpc failover and configure`](https://gitee.com/src-openeuler/kernel/blob/openEuler-20.03-LTS-SP4/0005-add_enfs_module_for_sunrpc_failover_and_configure.patch)
+
+```
+When sending I/Os from the SunRPC module to the NFS server times out,
+the SunRPC module calls back the eNFS module to reselect a link. The
+eNFS module distributes I/Os to other available links, preventing
+service interruption caused by a single link failure.
+```
+
+## [`6/6 nfs, sunrpc: add enfs compile option`](https://gitee.com/src-openeuler/kernel/blob/openEuler-20.03-LTS-SP4/0006-add_enfs_compile_option.patch)
+
+```
+The eNFS compilation option and makefile are added. By default, the eNFS
+compilation is performed.
 ```
 
 # 主线`nconnect`挂载选项
