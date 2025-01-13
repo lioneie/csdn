@@ -14,6 +14,35 @@
 
 [openeuler 4.19 补丁](https://gitee.com/openeuler/kernel/pulls/14249)
 
+还有后续修复补丁`e9f2517a3e18 smb: client: fix TCP timers deadlock after rmmod`。
+
+```
+最近，我们收到客户报告称，在重新连接到服务器时，通用Internet文件系统（CIFS）触发了oops（内核错误）。[0]
+
+该工作负载运行在Kubernetes上，部分Pods在非根网络命名空间中挂载CIFS服务器。虽然这个问题很少发生，但每次发生时都是在Pod即将终止的过程中。
+
+根本原因是网络命名空间引用计数错误。
+
+CIFS使用内核套接字，而这些套接字并不持有它们所属网络命名空间的引用计数。这意味着CIFS必须确保套接字始终在网络命名空间被释放之前被释放；否则，就会发生“使用已释放内存”的错误。
+
+重现问题的步骤大致如下：
+
+在非根网络命名空间中挂载CIFS。
+丢弃该网络命名空间中的数据包。
+销毁网络命名空间。
+卸载CIFS。
+
+使用下面的脚本[1]，我们可以快速重现该问题，如果启用了CONFIG_NET_NS_REFCNT_TRACKER配置选项，还可以看到错误提示[2]。
+
+当套接字是TCP类型时，由于存在异步定时器，很难在不持有引用计数的情况下保证网络命名空间的生命周期。
+
+让我们像在处理提交 9744d2bf1976（"smc: 修复tcp_write_timer_handler()中的使用已释放内存错误。"）中的SMC时那样，为每个套接字持有网络命名空间的引用计数。
+
+注意，我们需要将put_net()从cifs_put_tcp_session()中移动到clean_demultiplex_info()；否则，在cifsd尝试从cifs_demultiplex_thread()重新连接时，__sock_create()仍可能访问已被释放的网络命名空间。
+
+此外，不能在__sock_create()之前直接放置maybe_get_net()，因为该代码不在RCU保护之下，存在很小的可能性是，相同的地址可能被重新分配给另一个网络命名空间。
+```
+
 # `CVE-2024-49988 ee426bfb9d09 ksmbd: add refcnt to ksmbd_conn struct`
 
 ```
