@@ -151,8 +151,6 @@ comm_array=(
 	1 1 src/filesystem/tmpfs-oom.md ~ "tmpfs不断写导致oom的问题"
 	1 1 src/filesystem/lazy-umount.md ~ "文件系统延迟卸载"
 	# cve
-	1 1 src/cve/cve-smb-client-fix-use-after-free-bug-in-cifs_debug_data.md ~
-		"d328c09ee9f1 smb: client: fix use-after-free bug in cifs_debug_data_proc_show()"
 	1 1 src/cve/cve-smb-client-fix-potential-UAF-in-is_valid_oplock_brea.md ~
 		"69ccf040acdd smb: client: fix potential UAF in is_valid_oplock_break()"
 	# Linux环境
