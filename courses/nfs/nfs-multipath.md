@@ -53,6 +53,21 @@ cat /proc/enfs/192.168.53.216_0/path
 cat /proc/enfs/192.168.53.216_0/stat
 ```
 
+# 我的修改
+
+[我修改的补丁请查看这里](https://gitee.com/chenxiaosonggitee/tmp/tree/master/nfs/enfs)。
+
+```c
+// struct enfs_adapter_ops->owner 的引用计数参考
+struct nfs_client
+  struct nfs_subversion * cl_nfs_mod
+    struct module *owner
+
+// nfs_multipath_router_get 修改参考
+get_nfs_version
+  request_module
+```
+
 # nfs+代码分析
 
 [pull request](https://gitee.com/src-openeuler/kernel/pulls?assignee_id=&author_id=&label_ids=&label_text=&milestone_id=&priority=&project_id=src-openeuler%2Fkernel&project_type=&scope=&search=enfs&single_label_id=&single_label_text=&sort=closed_at+desc&status=merged&target_project=&tester_id=)和[补丁文件](https://gitee.com/src-openeuler/kernel/tree/openEuler-20.03-LTS-SP4)。
