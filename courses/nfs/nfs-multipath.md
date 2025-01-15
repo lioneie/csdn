@@ -12,9 +12,7 @@
 - [补丁文件](https://gitee.com/src-openeuler/kernel/tree/openEuler-20.03-LTS-SP4)
 - [support.huawei.com](https://support.huawei.com/supportindex/index)选择"企业技术支持"
 
-可以使用脚本[`create-enfs-patchset.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/create-enfs-patchset.sh)生成完整的补丁文件。切换到`openEuler-1.0-LTS`分支，编译前打开配置`CONFIG_SUNRPC=m`、`CONFIG_ENFS=m`，可能还要关闭配置`CONFIG_NET_VENDOR_NETRONOME`，可以使用[我的`enfs-x86_64-config`文件](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/enfs-x86_64-config)。
-
-注意目前的代码如果配置成`CONFIG_ENFS=y`、`CONFIG_SUNRPC=y`运行会有问题，无法挂载。如果配置成`CONFIG_ENFS=m`、`CONFIG_SUNRPC=y`编译无法通过。后续有时间我再修改吧。
+可以使用脚本[`create-enfs-patchset.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/create-enfs-patchset.sh)生成完整的补丁文件，[再打上我修改的补丁](https://gitee.com/chenxiaosonggitee/tmp/tree/master/nfs/enfs)。切换到`openEuler-1.0-LTS`分支，编译前打开配置`CONFIG_ENFS`，可能还要关闭配置`CONFIG_NET_VENDOR_NETRONOME`，可以使用[我的`enfs-x86_64-config`文件](https://gitee.com/chenxiaosonggitee/tmp/blob/master/configs/enfs-x86_64-config)。
 
 最方便的就是在virt-manager虚拟机中测试，在图形界面上添加多个网卡。
 
@@ -25,7 +23,7 @@ qemu命令行启动虚拟机时，多个网卡的启动参数如下:
 -net nic,model=virtio,macaddr=00:11:22:33:44:56 \
 ```
 
-启动后，在虚拟机中用`ifconfig -a`可以看到另一个网卡`ens3`，使用以下命令:
+启动后，在虚拟机中用`ifconfig -a`可以看到另一个网卡`ens3`，debian使用以下命令:
 ```sh
 echo -e "auto ens3\niface ens3 inet dhcp" >> /etc/network/interfaces
 systemctl restart networking
@@ -35,7 +33,7 @@ qemu命令行启动虚拟机可以参考[《内核开发环境》](https://chenx
 
 挂载:
 ```sh
-modprobe enfs
+modprobe enfs # 经过我的修改已经能自动加载了
 mount -t nfs -o localaddrs=192.168.53.40~192.168.53.53,remoteaddrs=192.168.53.215~192.168.53.216 192.168.53.216:/s_test /mnt/
 ```
 
@@ -53,7 +51,7 @@ cat /proc/enfs/192.168.53.216_0/path
 cat /proc/enfs/192.168.53.216_0/stat
 ```
 
-# 我的修改
+# 我修改的nfs+补丁
 
 [我修改的补丁请查看这里](https://gitee.com/chenxiaosonggitee/tmp/tree/master/nfs/enfs)。
 
@@ -80,8 +78,21 @@ the mount command parses parameters. The eNFS parses and saves the IP
 address list entered by users.
 ```
 
-挂载选项解析流程:
 ```c
+nfs4_create_server
+  nfs4_init_server
+    nfs4_set_client
+      nfs_get_client
+        nfs4_alloc_client
+          nfs_create_multi_path_client
+            nfs_multipath_router_get
+              request_module("enfs")
+              try_module_get(ops->owner)
+
+nfs4_free_client
+  nfs_free_client
+    nfs_free_multi_path_client
+
 nfs_parse_mount_options
   enfs_check_mount_parse_info
     nfs_multipath_parse_options
