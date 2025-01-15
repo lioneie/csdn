@@ -10,11 +10,13 @@
 8. 定义文件系统类型。
 9. 模块加载卸载方法。
 
-注意，我只会列出结构体的代码，会在结构的成员加些中文注释（也可能以后再加），不会贴整段的函数代码，因为函数的实现要自己去看，看具体问题时再看函数实现才有意义。
+除了列出结构体的代码和中文注释外，还会整理一些函数的执行流程，方便后续查询。
 
-# 超级块
+# 数据结构
 
-## `struct nfs_server`
+## 超级块
+
+### `struct nfs_server`
 
 由于nfs client没有磁盘超级块，所以只有内存超级块结构体，在`nfs_get_tree_common()`函数中赋值`fc->s_fs_info = server`。
 
@@ -147,7 +149,7 @@ struct nfs_server {
 };
 ```
 
-## `struct nfs_client`
+### `struct nfs_client`
 
 ```c
 /*                                                                                                 
@@ -255,40 +257,7 @@ struct nfs_client {
 };                                                
 ```
 
-## 相关代码流程
-
-```c
-// v3
-mount
-  do_mount
-    path_mount
-      do_new_mount
-        vfs_get_tree
-          nfs_get_tree
-            nfs_try_get_tree
-              nfs_try_mount_request
-                nfs3_create_server
-                  nfs_create_server
-                    nfs_init_server
-                      nfs_get_client
-                        nfs_init_client
-
-// v4
-mount
-  do_mount
-    path_mount
-      do_new_mount
-        vfs_get_tree
-          nfs_get_tree
-            nfs4_try_get_tree
-              nfs4_create_server
-                nfs4_init_server
-                  nfs4_set_client
-                    nfs_get_client
-                      nfs4_init_client
-```
-
-# 超级块操作
+## 超级块操作
 
 ```c
 // nfsv2, nfsv3
@@ -322,7 +291,7 @@ static const struct super_operations nfs4_sops = {
 };                                                 
 ```
 
-# 索引节点
+## 索引节点
 
 nfs没有磁盘索引节点，只有内存索引节点。
 
@@ -441,9 +410,9 @@ struct nfs_inode {
 };
 ```
 
-# 索引节点操作
+## 索引节点操作
 
-## 常规文件
+### 常规文件
 
 ```c
 // nfsv2
@@ -474,7 +443,7 @@ static const struct inode_operations nfs4_file_inode_operations = {
 };                                                                 
 ```
 
-## 目录
+### 目录
 
 ```c
 // nfsv2
@@ -533,7 +502,7 @@ static const struct inode_operations nfs4_dir_inode_operations = {
 };                                                                
 ```
 
-## 符号链接
+### 符号链接
 
 ```c
 /*                                                            
@@ -546,7 +515,7 @@ const struct inode_operations nfs_symlink_inode_operations = {
 };                                                            
 ```
 
-## 命名空间
+### 命名空间
 
 ```c
 const struct inode_operations nfs_mountpoint_inode_operations = {
@@ -560,7 +529,7 @@ const struct inode_operations nfs_referral_inode_operations = {
 };                                                               
 ```
 
-# `dentry`操作
+## `dentry`操作
 
 ```c
 // nfsv2 nfsv3
@@ -584,9 +553,9 @@ const struct dentry_operations nfs4_dentry_operations = {
 };                                                       
 ```
 
-# `file`操作
+## `file`操作
 
-## 常规文件
+### 常规文件
 
 ```c
 // nfsv2 nfsv3
@@ -633,7 +602,7 @@ const struct file_operations nfs4_file_operations = {
 };                                                   
 ```
 
-## 目录
+### 目录
 
 ```c
 const struct file_operations nfs_dir_operations = {
@@ -646,9 +615,9 @@ const struct file_operations nfs_dir_operations = {
 };                                                 
 ```
 
-# `address_space`操作
+## `address_space`操作
 
-## 常规文件
+### 常规文件
 
 ```c
 const struct address_space_operations nfs_file_aops = { 
@@ -671,7 +640,7 @@ const struct address_space_operations nfs_file_aops = {
 };                                                      
 ```
 
-## 目录
+### 目录
 
 ```c
 const struct address_space_operations nfs_dir_aops = {
@@ -679,7 +648,7 @@ const struct address_space_operations nfs_dir_aops = {
 };                                                    
 ```
 
-# 文件系统类型
+## 文件系统类型
 
 ```c
 // nfsv2 nfsv3
@@ -703,6 +672,89 @@ struct file_system_type nfs4_fs_type = {
 };                                                                          
 ```
 
-# 模块加载卸载方法
+## 模块加载卸载方法
 
 `init_nfs_fs()`和`exit_nfs_fs()`。
+
+# 函数流程
+
+## rpc
+
+```c
+rpc_run_task / rpc_run_bc_task
+  rpc_execute
+    rpc_make_runnable
+      INIT_WORK(&task->u.tk_work, rpc_async_schedule) // 异步执行
+    __rpc_execute // 同步执行
+```
+
+## mount
+
+```c
+vfs_parse_fs_param
+  // 不指定版本号挂载时，默认用哪个版本由 `mount.nfs` 程序决定
+  nfs_fs_context_parse_param
+
+// v3
+vfs_get_tree
+  nfs_get_tree
+    nfs_try_get_tree
+      nfs_try_mount_request
+        nfs3_create_server
+          nfs_create_server
+            nfs_init_server
+              nfs_get_client
+                nfs_alloc_client
+                nfs_init_client
+
+// v4
+vfs_get_tree
+  nfs_get_tree
+    nfs4_try_get_tree
+      nfs4_create_server
+        nfs4_init_server
+          nfs4_set_client
+            nfs_get_client
+              nfs_create_rpc_client
+                rpc_create
+              nfs4_alloc_client
+              nfs4_init_client
+                nfs4_discover_server_trunking
+                  nfs41_discover_server_trunking // 返回的 nfs_client 未就绪
+                    nfs4_proc_exchange_id
+
+kthread
+  nfs4_run_state_manager
+    nfs4_state_manager
+      nfs4_reclaim_lease
+        nfs4_establish_lease
+          nfs41_init_clientid
+            nfs4_proc_exchange_id
+            nfs4_proc_create_session
+            nfs_mark_client_ready(clp, NFS_CS_READY) // 设置成就绪状态
+      nfs4_state_end_reclaim_reboot
+        nfs4_reclaim_complete
+          nfs41_proc_reclaim_complete
+```
+
+## umount
+
+```c
+// v4
+task_work_run
+  __cleanup_mnt
+    cleanup_mnt
+      deactivate_super
+        deactivate_locked_super
+          nfs_kill_super
+            nfs_free_server
+              nfs_put_client
+                nfs4_free_client
+                  nfs4_shutdown_client
+                    nfs41_shutdown_client
+                      nfs4_destroy_session
+                        nfs4_proc_destroy_session
+                      nfs4_destroy_clientid
+                        nfs4_proc_destroy_clientid
+                          _nfs4_proc_destroy_clientid
+```
