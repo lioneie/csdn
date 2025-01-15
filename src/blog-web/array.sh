@@ -59,7 +59,7 @@ comm_array=(
 	0 1 courses/nfs/nfs.md ~ "nfs文件系统"
 		1 1 courses/nfs/nfs-introduction.md ~ "nfs简介"
 		1 1 courses/nfs/nfs-environment.md ~ "nfs环境"
-		1 1 courses/nfs/nfs-client-struct.md ~ "nfs client数据结构"
+		1 1 courses/nfs/nfs-client.md ~ "nfs client数据结构和函数流程"
 		1 1 courses/nfs/pnfs.md ~ "Parallel NFS (pNFS)"
 		1 1 courses/nfs/nfs-debug.md ~ "nfs调试方法"
 		1 1 courses/nfs/nfs-multipath.md ~ "nfs多路径"
