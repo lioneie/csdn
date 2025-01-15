@@ -25,8 +25,9 @@ cd ${github_io_repo}
 if [[ "${is_new_repo}" == true ]]; then
 	rm .git -rf
 	git init
+else
+	git remote remove origin
 fi
-git remote remove origin
 git remote add origin git@github.com:${user_name}/${user_name}.github.io.git
 if [[ "${is_new_repo}" == false ]]; then
 	git fetch origin
