@@ -704,6 +704,7 @@ vfs_get_tree
           nfs_create_server
             nfs_init_server
               nfs_get_client
+                nfs_match_client
                 nfs_alloc_client
                 nfs_init_client
 
@@ -715,9 +716,10 @@ vfs_get_tree
         nfs4_init_server
           nfs4_set_client
             nfs_get_client
-              nfs_create_rpc_client
-                rpc_create
+              nfs_match_client
               nfs4_alloc_client
+                nfs_create_rpc_client
+                  rpc_create
               nfs4_init_client
                 nfs4_discover_server_trunking
                   nfs41_discover_server_trunking // 返回的 nfs_client 未就绪
@@ -757,4 +759,5 @@ task_work_run
                       nfs4_destroy_clientid
                         nfs4_proc_destroy_clientid
                           _nfs4_proc_destroy_clientid
+                  nfs_free_client
 ```
