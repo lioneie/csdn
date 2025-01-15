@@ -132,6 +132,67 @@ out, the callback function of the eNFS is called back so that the eNFS
 switches to an available link for retry.
 ```
 
+```c
+// The high-level client handle
+struct rpc_clnt
+  bool cl_enfs
+
+struct rpc_create_args
+  // 这里使用了nfs层的结构体，耦合了
+  void *multipath_option // struct multipath_mount_options
+
+struct rpc_task
+  unsigned long           tk_major_timeo
+
+// RPC task flags
+#define RPC_TASK_FIXED  0x0004          /* detect xprt status task */
+
+struct rpc_multipath_ops
+
+struct rpc_xprt
+  atomic_long_t   queuelen;
+  void *multipath_context;
+
+struct rpc_xprt_switch
+  unsigned int            xps_nactive;
+  atomic_long_t           xps_queuelen;
+  unsigned long           xps_tmp_time;
+
+// 挂载
+nfs4_alloc_client
+  nfs_create_rpc_client
+    rpc_create
+      rpc_create_xprt
+        rpc_multipath_ops_create_clnt
+
+// 卸载
+rpc_shutdown_client
+  rpc_multipath_ops_releas_clnt
+
+rpc_task_release_client / nfs4_async_handle_exception
+  rpc_task_release_transport // 这里改成和主线一样
+    rpc_task_release_xprt // 从主线搬运过来的
+
+rpc_task_set_transport
+  rpc_task_get_next_xprt // 从主线搬运过来的
+    rpc_task_get_xprt // 从主线搬运过来的
+
+call_reserveresult
+  rpc_multipath_ops_task_need_call_start_again
+
+call_transmit
+  rpc_multipath_ops_prepare_transmit
+
+call_timeout
+  rpc_multipath_ops_failover_handle
+
+rpc_clnt_add_xprt
+  rpc_xprt_switch_set_roundrobin
+
+rpc_init_task
+  rpc_task_get_xprt // 和主线一样?
+```
+
 ## [`3/6 nfs: add enfs module for nfs mount option`](https://gitee.com/src-openeuler/kernel/blob/openEuler-20.03-LTS-SP4/0003-add_enfs_module_for_nfs_mount_option.patch)
 
 ```
