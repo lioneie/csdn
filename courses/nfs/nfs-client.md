@@ -681,11 +681,30 @@ struct file_system_type nfs4_fs_type = {
 ## rpc
 
 ```c
+// 挂载时
+nfs4_alloc_client
+  nfs_create_rpc_client
+    rpc_create
+      rpc_create_xprt // 只会在挂载时执行到
+        rpc_ping
+          rpc_call_null_helper
+            rpc_call_null_helper
+              rpc_run_task
+
 rpc_run_task / rpc_run_bc_task
+  rpc_new_task
+    rpc_init_task
+      rpc_task_get_xprt
   rpc_execute
     rpc_make_runnable
       INIT_WORK(&task->u.tk_work, rpc_async_schedule) // 异步执行
-    __rpc_execute // 同步执行
+    __rpc_execute // 同步执行，异步在内核线程执行到这个函数
+
+rpc_task_release_client / nfs4_async_handle_exception
+  rpc_task_release_transport
+
+rpc_task_set_client / call_start
+  rpc_task_set_transport
 ```
 
 ## mount
@@ -724,6 +743,8 @@ vfs_get_tree
                 nfs4_discover_server_trunking
                   nfs41_discover_server_trunking // 返回的 nfs_client 未就绪
                     nfs4_proc_exchange_id
+              nfs4_add_trunk // 主线的多路径？
+                rpc_clnt_add_xprt
 
 kthread
   nfs4_run_state_manager
@@ -750,6 +771,7 @@ task_work_run
         deactivate_locked_super
           nfs_kill_super
             nfs_free_server
+              rpc_shutdown_client
               nfs_put_client
                 nfs4_free_client
                   nfs4_shutdown_client
@@ -760,4 +782,5 @@ task_work_run
                         nfs4_proc_destroy_clientid
                           _nfs4_proc_destroy_clientid
                   nfs_free_client
+                    rpc_shutdown_client
 ```
