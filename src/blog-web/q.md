@@ -34,6 +34,10 @@
 
 当然，自己用得称手的兵器才是好兵器，别人的建议也只是建议，还是得根据自己的习惯选择最适合自己的编辑器工具。
 
+# Virtual Machine Manager怎么用串口调试？
+
+[《内核开发环境》](https://chenxiaosong.com/courses/kernel/kernel-dev-environment.html)中搜索“virsh list”或“virsh console”。
+
 # 内核怎么用C语言实现面向对象的设计思想？
 
 稍等，资料还在整理中，马上哈。

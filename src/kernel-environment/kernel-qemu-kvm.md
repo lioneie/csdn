@@ -107,16 +107,3 @@ qemu启动参数需要做一些小修改 `-append "... root=/dev/vda2 ..."`。
 默认的登录账号是`root`，密码是 `openEuler12#$`，具体参考[系统安装](https://docs.openeuler.org/zh/docs/22.03_LTS_SP3/docs/Releasenotes/%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85.html)。
 
 注意需要打开`vfat`文件系统相关配置，具体查看[《微软文件系统》](https://chenxiaosong.com/src/filesystem/microsoft-fs.html)中`vfat`相关的一节。否则会进入emergency mode，如果你实在不想打开`vfat`文件系统相关配置，可以编辑`/etc/fstab`文件删除`/boot`相关的一行，重启系统就可以正常启动了，但不建议哈。
-
-# virt-manager
-
-串口打印:
-```sh
-virsh list # 找到虚拟机名称
-virsh console <虚拟机名称> # 执行完下面的echo命令后能在这里看到输出
-echo "hello" > /dev/ttyS0 # 在虚拟机中执行，也有可能是 ttyS1, ttyS2 ...，执行完后能在virsh console中看到输出
-vim /boot/grub/grub.cfg
-# 在grub.cfg文件中相应启动选项的 linux   /vmlinuz-5.10.0-8-generic 开头的一行最后加 console=ttyS0,115200 loglevel=8
-# 注意不是initrd开头的那一行
-# 重新启动后，virsh console <虚拟机名称> 就能看到虚拟机中的dmesg打印了
-```

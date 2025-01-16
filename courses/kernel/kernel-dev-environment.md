@@ -31,6 +31,17 @@ Linux下安装VMware时需要注意的是`/tmp`目录的挂载不能在`/etc/fst
 
 配置虚拟机时，Windows系统cpu核数查看方法: 任务管理器->性能->CPU，苹果电脑cpu核数查看方法: `sysctl hw.ncpu`或`sysctl -n machdep.cpu.core_count`，Linux系统cpu核数查看方法`lscpu`。
 
+如果你用的是Linux下的Virtual Machine Manager，串口调试的方法如下：
+```sh
+virsh list # 找到虚拟机名称
+virsh console <虚拟机名称> # 执行完下面的echo命令后能在这里看到输出
+echo "hello" > /dev/ttyS0 # 在虚拟机中执行，也有可能是 ttyS1, ttyS2 ...，执行完后能在virsh console中看到输出
+vim /boot/grub/grub.cfg
+# 在grub.cfg文件中相应启动选项的 linux   /vmlinuz-5.10.0-8-generic 开头的一行最后加 console=ttyS0,115200 loglevel=8
+# 注意不是initrd开头的那一行
+# 重新启动后，virsh console <虚拟机名称> 就能看到虚拟机中的dmesg打印了
+```
+
 ## 安装Ubuntu发行版
 
 Linux发行版很多，我们选择一个使用人数相对较多的[Ubuntu发行版](https://ubuntu.com/)。[x86_64的ubuntu22.04](https://releases.ubuntu.com/22.04/)，[arm64的ubuntu22.04](http://cdimage.ubuntu.com/jammy/daily-live/current/)下载。[x86_64的ubuntu20.04](https://releases.ubuntu.com/20.04/)，[arm64的ubuntu20.04](https://ftpmirror.your.org/pub/ubuntu/cdimage/focal/daily-live/current/)
