@@ -115,6 +115,8 @@ qemu启动参数需要做一些小修改 `-append "... root=/dev/vda2 ..."`。
 virsh list # 找到虚拟机名称
 virsh console <虚拟机名称> # 执行完下面的echo命令后能在这里看到输出
 echo "hello" > /dev/ttyS0 # 在虚拟机中执行，也有可能是 ttyS1, ttyS2 ...，执行完后能在virsh console中看到输出
-vim /boot/grub/grub.cfg # 在相应启动选项的 linux   /vmlinuz-5.10.0-8-generic 开头的一行最后加 console=ttyS0,115200 loglevel=8
-# 现在，virsh console <虚拟机名称> 就能看到虚拟机中的dmesg打印了
+vim /boot/grub/grub.cfg
+# 在grub.cfg文件中相应启动选项的 linux   /vmlinuz-5.10.0-8-generic 开头的一行最后加 console=ttyS0,115200 loglevel=8
+# 注意不是initrd开头的那一行
+# 重新启动后，virsh console <虚拟机名称> 就能看到虚拟机中的dmesg打印了
 ```
