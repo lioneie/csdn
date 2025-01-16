@@ -9,21 +9,21 @@
 - 邮箱: <chenxiaosong@chenxiaosong.com>
 - [QQ交流群: 544216206, 点击查看群介绍](https://chenxiaosong.com/q.html)
 
-爱好: 自行车骑行，Linux操作系统。顺便提一句，[只用键盘](https://chenxiaosong.com/pictures/self-introduction/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/src/wubi/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
+爱好: [自行车骑行](https://www.strava.com/athletes/chenxiaosong)，Linux操作系统。顺便提一句，[只用键盘](https://chenxiaosong.com/pictures/self-introduction/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/src/wubi/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
 
 自由软件的狂热者，能力一般的极客。现在麒麟软件从事**Linux内核**开发，工作内容全世界都看得到，[贡献过多个自由开源软件项目](https://chenxiaosong.com/contributions.html)。
 
-另外，多年前还从事过**游戏开发**，**web开发**（vue），[**嵌入式开发**](https://chenxiaosong.com/src/lorawan/lorawan.html)，但不敢说精通哈，只是现在还能用来做点小东西吧，比如弄个网页、用开发板做个小工具啥的。
+另外，多年前还从事过[**鸿蒙操作系统开发**](https://chenxiaosong.com/openharmony) 、[**游戏开发**](https://chenxiaosong.com/courses/godot/godot.html)，[**嵌入式开发**](https://chenxiaosong.com/src/lorawan/lorawan.html)，**web开发**（vue）等，但不敢说精通哈，只是现在还能用来做点小东西吧，比如开发个台球手机游戏、弄个网页、用开发板做个小工具啥的。
 
 # 平平无奇的经历
 
-本科毕业后做游戏开发一年多，期间**边工作边考研**。至于考研的原因嘛，是因为我从小就对游戏没兴趣，想着回到学校去重新选择自己喜欢的方向。
+本科毕业后[做游戏开发一年多](https://chenxiaosong.com/courses/godot/godot.html)，期间**边工作边考研**。至于考研的原因嘛，是因为我从小就对游戏没兴趣，想着回到学校去重新选择自己喜欢的方向。
 
 后在浙江理工大学读**全日制**硕士研究生。在导师公司边上课边上班，研究方向: [LoRaWAN（远距离广域网）](https://chenxiaosong.com/src/lorawan/lorawan.html)。
 
 硕士研究生毕业后在海康威视从事LoRaWAN（远距离广域网）产品研发。
 
-曾在华为OS内核实验室从事 **Linux内核** 和 **鸿蒙操作系统** 开发。
+曾在华为OS内核实验室从事 [**Linux内核** 和 **鸿蒙操作系统** 开发](https://chenxiaosong.com/contributions.html)。
 
 现在麒麟软件从事 **Linux内核** 开发。
 
