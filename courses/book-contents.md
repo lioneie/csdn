@@ -3221,3 +3221,8 @@ Bibliography / 参考书目 947
 附录D C.BPF. 793
 附录E BPF指令812
 ```
+
+# [《算法导论（原书第3版）》](https://book.douban.com/subject/20432061/)
+
+[点击这里查看](https://chenxiaosong.com/courses/algorithms/book.html)
+

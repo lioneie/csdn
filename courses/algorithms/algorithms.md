@@ -2,13 +2,13 @@
 
 另外，Linux内核有时也要用到算法，如[Zhen Lei的这组补丁](https://lore.kernel.org/lkml/20221102084921.1615-1-thunder.leizhen@huawei.com/)和[`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
 
-用到的书籍的电子版，可以[点击这里下载](https://chenxiaosong.com/baidunetdisk)，仅作为学习用途，有需要的话建议购买纸质书。
-
 [点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://www.bilibili.com/video/BV1cNxueQEmn/)。
 
 持续更新中。。。
 
 点击下面的标题跳转。
+
+# [算法书籍推荐](https://chenxiaosong.com/courses/algorithms/book.html)
 
 # [动态规划](https://chenxiaosong.com/courses/algorithms/dynamic-programming.html)
 
