@@ -8,7 +8,8 @@
 
 - [eNFS 使用指南](https://docs.openeuler.org/zh/docs/20.03_LTS_SP4/docs/eNFS/enfs%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html)（[文档源码](https://gitee.com/openeuler/docs/blob/stable2-20.03_LTS_SP4/docs/zh/docs/eNFS/enfs%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.md)）
 - [openeuler23.03 NFS多路径用户指南](https://docs.openeuler.org/zh/docs/23.03/docs/NfsMultipath/NFS%E5%A4%9A%E8%B7%AF%E5%BE%84.html)（[文档源码](https://gitee.com/openeuler/docs/tree/stable2-23.03/docs/zh/docs/NfsMultipath)），瞎搞的，这个版本根本没有多路径功能
-- [pull request](https://gitee.com/src-openeuler/kernel/pulls?assignee_id=&author_id=&label_ids=&label_text=&milestone_id=&priority=&project_id=src-openeuler%2Fkernel&project_type=&scope=&search=enfs&single_label_id=&single_label_text=&sort=closed_at+desc&status=merged&target_project=&tester_id=)
+- [src-openeuler合入的pull request](https://gitee.com/src-openeuler/kernel/pulls?assignee_id=&author_id=&label_ids=&label_text=&milestone_id=&priority=&project_id=src-openeuler%2Fkernel&project_type=&scope=&search=enfs&single_label_id=&single_label_text=&sort=closed_at+desc&status=merged&target_project=&tester_id=)
+- [openeuler没合入的pull request](https://gitee.com/openeuler/kernel/pulls?assignee_id=&author_id=&label_ids=&label_text=&milestone_id=&priority=&project_id=openeuler%2Fkernel&project_type=&scope=&search=enfs&single_label_id=&single_label_text=&sort=&status=all&target_project=&tester_id=)
 - [补丁文件](https://gitee.com/src-openeuler/kernel/tree/openEuler-20.03-LTS-SP4)
 - [support.huawei.com](https://support.huawei.com/supportindex/index)选择"企业技术支持"
 
@@ -190,7 +191,7 @@ rpc_clnt_add_xprt
   rpc_xprt_switch_set_roundrobin
 
 rpc_init_task
-  rpc_task_get_xprt // 和主线一样?
+  rpc_task_get_xprt // 和主线一样
 ```
 
 ## [`3/6 nfs: add enfs module for nfs mount option`](https://gitee.com/src-openeuler/kernel/blob/openEuler-20.03-LTS-SP4/0003-add_enfs_module_for_nfs_mount_option.patch)
