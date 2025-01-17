@@ -9,7 +9,7 @@ struct hash_table {
 
 static struct hash_table *head_table = NULL;
 
-void uthash_add(struct hash_table *add)
+static void uthash_add(struct hash_table *add)
 {
 	HASH_ADD_INT(head_table, key, add);
 }
