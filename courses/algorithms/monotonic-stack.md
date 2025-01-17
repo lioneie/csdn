@@ -11,16 +11,16 @@ struct hash_table {
 
 // TODO: 把head_table传入函数中，或把head_table声明成全局变量，都无法通过全部用例，为什么？
 /*
-void uthash_add(struct hash_table *add)
+static void uthash_add(struct hash_table *add)
 {
-	HASH_ADD_INT(head_table, key, add);
+	HASH_ADD_INT(head_table, key, add); // 这里的key不是变量，而是结构体成员名
 }
 
 static struct hash_table *uthash_find(int key)
 {
 	struct hash_table *out;
 
-	HASH_FIND_INT(head_table, &key, out);
+	HASH_FIND_INT(head_table, &key, out); // 这里的key是变量
 	return out;
 }
 
