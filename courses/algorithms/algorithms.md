@@ -1,3 +1,27 @@
+<!--
+华为可信考试练习题目:
+
+算法类型 LeetCode题目
+
+滑动窗口 1208 209 1004
+done 前缀和、差分 1094 1109 253
+递归 698 776 726
+done DFS 200 695 934
+done BFS 126 127 752
+done 单调栈 503 739 496
+字典树 648 208 692
+并查集 1202 1135 737
+done HASH 974 347 451
+堆和优先级队列 1845 1882 355
+字符串 393 1247 1850
+done 贪心 1540 452
+二分查找 1060 33 1818
+系统设计题 635 379 1396
+回溯 79 78 498
+时间区间类 57 253
+系统题 631 208 146 355 635 901 1396 1500 1603
+-->
+
 准备出一个算法相关的课程，不会从零讲算法，主要是以实践做题为主，做一些算法题，还有回顾我以前做过的算法题，偶尔用算法活跃一下大脑。
 
 另外，Linux内核有时也要用到算法，如[Zhen Lei的这组补丁](https://lore.kernel.org/lkml/20221102084921.1615-1-thunder.leizhen@huawei.com/)和[`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
@@ -13,3 +37,16 @@
 # [动态规划](https://chenxiaosong.com/courses/algorithms/dynamic-programming.html)
 
 # [排序算法](https://chenxiaosong.com/courses/algorithms/sort.html)
+
+# [前缀和、差分](https://chenxiaosong.com/courses/algorithms/prefix-sum.html)
+
+# [哈希表](https://chenxiaosong.com/courses/algorithms/hash-table.html)
+
+# [单调栈](https://chenxiaosong.com/courses/algorithms/monotonic-stack.html)
+
+# [贪心](https://chenxiaosong.com/courses/algorithms/greedy.html)
+
+# [广度优先搜索](https://chenxiaosong.com/courses/algorithms/breadth-first-search.html)
+
+# [深度优先搜索](https://chenxiaosong.com/courses/algorithms/depth-first-search.html)
+
