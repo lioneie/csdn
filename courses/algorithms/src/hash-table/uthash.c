@@ -1,4 +1,11 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * uthash的使用
+ *
+ * Copyright (C) 2025.01.17 ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+ */
 #include <stdio.h>
+// 如果访问不了github，uthash.h头文件也可以在这里下载: https://gitee.com/chenxiaosonggitee/tmp/blob/master/algorithms/uthash.h
 #include "../../../../../tmp/algorithms/uthash.h"
 
 struct hash_table {
