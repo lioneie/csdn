@@ -439,6 +439,53 @@ comm_generate_index() {
 	done
 }
 
+# 在仓库干净的前提下，确认git仓库要采取的操作
+#   return 0: 要手动处理
+#   return 1: git pull
+#   return 2: git push
+comm_check_pull_push() {
+	local origin_commit=$(git rev-parse origin/master)
+	local master_commit=$(git rev-parse master)
+	local contains_origin=$(git branch -a --contains "${origin_commit}")
+	local contains_master=$(git branch -a --contains "${master_commit}")
+	local remote_contain_origin=false
+	local local_contain_origin=false
+	local remote_contain_master=false
+	local local_contain_master=false
+
+	comm_echo "${contains_origin}"
+	if echo "${contains_origin}" | grep -q "^  remotes/origin/master"; then
+		comm_echo "origin commit is contained in remote branch"
+		remote_contain_origin=true
+	fi
+	if echo "${contains_origin}" | grep -q "^* master"; then
+		comm_echo "origin commit is contained in local branch"
+		local_contain_origin=true
+	fi
+
+	comm_echo "${contains_master}"
+	if echo "${contains_master}" | grep -q "^  remotes/origin/master"; then
+		comm_echo "master commit is contained in remote branch"
+		remote_contain_master=true
+	fi
+	if echo "${contains_master}" | grep -q "^* master"; then
+		comm_echo "master commit is contained in local branch"
+		local_contain_master=true
+	fi
+
+	if [[ "${remote_contain_origin}" == "true" && "${local_contain_origin}" == "false" && \
+	      "${remote_contain_master}" == "true" && "${local_contain_master}" == "true" ]]; then
+		comm_echo "should pull"
+		return 1
+	elif [[ "${remote_contain_origin}" == "true" && "${local_contain_origin}" == "true" && \
+	      "${remote_contain_master}" == "false" && "${local_contain_master}" == "true" ]]; then
+		comm_echo "should push"
+		return 2
+	fi
+
+	return 0
+}
+
 comm_check_repo() {
 	local path=$1
 	local -n not_exist_repos_ref=$2
@@ -446,6 +493,7 @@ comm_check_repo() {
 	local -n not_sync_repos_ref=$4
 	local -n ok_repos_ref=$5
 
+	local func_ret=""
 	local repo=$(basename "${path}")
 
 	if [ ! -d "${path}" ]; then
@@ -479,7 +527,20 @@ comm_check_repo() {
 		ok_repos_ref+=(${repo})
 	else
 		comm_echo "${repo}未push/pull"
-		not_sync_repos_ref+=(${repo})
+		comm_check_pull_push
+		func_ret=$?
+		if [[ "${func_ret}" == 1 ]]; then
+			git pull origin master
+			comm_echo "${repo} pull完后，全部搞定"
+			ok_repos_ref+=(${repo})
+		elif [[ "${func_ret}" == 2 ]]; then
+			git push origin master
+			comm_echo "${repo} push完后，全部搞定"
+			ok_repos_ref+=(${repo})
+		else
+			comm_echo "${repo}未push/pull，要手动处理"
+			not_sync_repos_ref+=(${repo})
+		fi
 	fi
 }
 
