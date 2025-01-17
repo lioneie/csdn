@@ -7,15 +7,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int ascend_cmp(const void* _a, const void* _b)
+int ascend_cmp(const void *_a, const void *_b)
 {
-    int a = *(int*)_a, b = *(int*)_b;
+    int a = *(int *)_a, b = *(int *)_b;
     return a - b;
 }
 
-int descend_cmp(const void* _a, const void* _b)
+int descend_cmp(const void *_a, const void *_b)
 {
-    int a = *(int*)_a, b = *(int*)_b;
+    int a = *(int *)_a, b = *(int *)_b;
     return b - a;
 }
 
