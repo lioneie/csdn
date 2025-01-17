@@ -455,7 +455,7 @@ comm_check_repo() {
 	fi
 
 	cd ${path}
-	status=$(git status -s)
+	local status=$(git status -s)
 
 	if [ ! -z "${status}" ]; then
 		comm_echo "${repo}有未提交的更改:"
@@ -469,8 +469,8 @@ comm_check_repo() {
 		echo "!!! ${repo} fetch fail !!!"
 		return
 	fi
-	origin_commit=$(git rev-parse origin/master)
-	master_commit=$(git rev-parse master)
+	local origin_commit=$(git rev-parse origin/master)
+	local master_commit=$(git rev-parse master)
 	comm_echo "${repo} origin_commit: ${origin_commit}"
 	comm_echo "${repo} master_commit: ${master_commit}"
 
