@@ -7,3 +7,8 @@
 # leetcode 1. 两数之和
 
 - [点击这里查看题目](https://leetcode.cn/problems/two-sum/description/)
+
+# leetcode 496. 下一个更大元素 I
+
+[点击这里查看“单调栈 + 哈希表”的解法](https://chenxiaosong.com/courses/algorithms/monotonic-stack.html)
+
