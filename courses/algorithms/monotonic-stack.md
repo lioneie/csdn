@@ -1,6 +1,6 @@
 # leetcode 496. 下一个更大元素 I
 
-- [题目](https://leetcode.cn/problems/next-greater-element-i/description/)
+- [点击这里查看题目](https://leetcode.cn/problems/next-greater-element-i/description/)
 
 ```c
 struct hash_table {

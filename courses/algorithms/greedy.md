@@ -1,6 +1,6 @@
 # leetcode 409. 最长回文串
 
-- [题目](https://leetcode.cn/problems/longest-palindrome/description/)
+- [点击这里查看题目](https://leetcode.cn/problems/longest-palindrome/description/)
 
 c语言实现:
 ```c

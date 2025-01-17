@@ -6,4 +6,4 @@
 
 # leetcode 1. 两数之和
 
-- [题目](https://leetcode.cn/problems/two-sum/description/)
+- [点击这里查看题目](https://leetcode.cn/problems/two-sum/description/)

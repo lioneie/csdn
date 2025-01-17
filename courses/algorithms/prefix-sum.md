@@ -1,6 +1,6 @@
 # leetcode 303. 区域和检索 - 数组不可变
 
-- [题目](https://leetcode.cn/problems/range-sum-query-immutable/description/)
+- [点击这里查看题目](https://leetcode.cn/problems/range-sum-query-immutable/description/)
 
 c语言实现:
 ```c
@@ -38,7 +38,7 @@ void numArrayFree(NumArray* obj) {
 
 # leetcode 1893. 检查是否区域内所有整数都被覆盖
 
-- [题目](https://leetcode.cn/problems/check-if-all-the-integers-in-a-range-are-covered/description/)
+- [点击这里查看题目](https://leetcode.cn/problems/check-if-all-the-integers-in-a-range-are-covered/description/)
 
 [leetcode官方答案](https://leetcode.cn/problems/check-if-all-the-integers-in-a-range-are-covered/solutions/825466/jian-cha-shi-fou-qu-yu-nei-suo-you-zheng-5hib/)加注释:
 ```c
