@@ -20,10 +20,7 @@ void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, c
 
 # 堆排序
 
-《算法导论》书中的第84页。时间复杂度O(nlgn)，空间复杂度O(1)。
-
-- [堆排序源码](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/sort/heap-sort.c)
-- [优先队列源码](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/sort/priority_queue.c)
+[点击这里查看“堆（优先队列）”](https://chenxiaosong.com/courses/algorithms/heap-priority-queue.html)
 
 # leetcode 217. 存在重复元素
 

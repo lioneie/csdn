@@ -12,7 +12,7 @@ done 单调栈 503 739 496
 字典树 648 208 692
 并查集 1202 1135 737
 done HASH 974 347 451
-堆和优先级队列 1845 1882 355
+done 堆和优先级队列 1845 1882 355
 done 字符串 393 1247 1850
 done 贪心 1540 452
 done 二分查找 1060 33 1818
@@ -39,6 +39,8 @@ done 回溯 79 78 498
 # [动态规划](https://chenxiaosong.com/courses/algorithms/dynamic-programming.html)
 
 # [排序算法](https://chenxiaosong.com/courses/algorithms/sort.html)
+
+# [堆（优先队列）](https://chenxiaosong.com/courses/algorithms/heap-priority-queue.html)
 
 # [前缀和、差分](https://chenxiaosong.com/courses/algorithms/prefix-sum.html)
 

@@ -123,6 +123,7 @@ comm_array=(
 		1 1 courses/algorithms/book.md ~ "算法书籍推荐"
 		1 1 courses/algorithms/dynamic-programming.md ~ "动态规划"
 		1 1 courses/algorithms/sort.md ~ "排序算法"
+		1 1 courses/algorithms/heap-priority-queue.md ~ "堆（优先队列）"
 		1 1 courses/algorithms/prefix-sum.md ~ "前缀和、差分"
 		1 1 courses/algorithms/hash-table.md ~ "哈希表"
 		1 1 courses/algorithms/monotonic-stack.md ~ "单调栈"
