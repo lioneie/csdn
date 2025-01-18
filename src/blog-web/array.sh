@@ -127,6 +127,7 @@ comm_array=(
 		1 1 courses/algorithms/hash-table.md ~ "哈希表"
 		1 1 courses/algorithms/monotonic-stack.md ~ "单调栈"
 		1 1 courses/algorithms/greedy.md ~ "贪心"
+		1 1 courses/algorithms/backtracking.md ~ "回溯"
 		1 1 courses/algorithms/breadth-first-search.md ~ "广度优先搜索"
 		1 1 courses/algorithms/depth-first-search.md ~ "深度优先搜索"
 	0 1 courses/godot/godot.md ~ "Godot游戏开发"

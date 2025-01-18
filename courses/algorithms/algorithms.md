@@ -17,7 +17,7 @@ done HASH 974 347 451
 done 贪心 1540 452
 二分查找 1060 33 1818
 系统设计题 635 379 1396
-回溯 79 78 498
+done 回溯 79 78 498
 时间区间类 57 253
 系统题 631 208 146 355 635 901 1396 1500 1603
 -->
@@ -47,6 +47,8 @@ done 贪心 1540 452
 # [单调栈](https://chenxiaosong.com/courses/algorithms/monotonic-stack.html)
 
 # [贪心](https://chenxiaosong.com/courses/algorithms/greedy.html)
+
+# [回溯](https://chenxiaosong.com/courses/algorithms/backtracking.html)
 
 # [广度优先搜索](https://chenxiaosong.com/courses/algorithms/breadth-first-search.html)
 
