@@ -32,6 +32,8 @@ done 贪心 1540 452
 
 点击下面的标题跳转。
 
+需要特别注意的是，leetcode c语言实现时全局变量和静态变量只能声明，不能初始化赋值，因为leetcode运行测试用例时是在一个程序里多次调用函数接口，全局变量和静态变量只会初始化一次。所以要在函数里每次执行用例时都对全局变量和静态变量初始化赋值一次。
+
 # [算法书籍推荐](https://chenxiaosong.com/courses/algorithms/book.html)
 
 # [动态规划](https://chenxiaosong.com/courses/algorithms/dynamic-programming.html)

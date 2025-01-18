@@ -9,8 +9,8 @@ struct hash_table {
 	UT_hash_handle hh; /* makes this structure hashable */
 };
 
-// TODO: 把head_table传入函数中，或把head_table声明成全局变量，都无法通过全部用例，为什么？
-/*
+struct hash_table *head_table; // 在这里初始化没用
+
 static void uthash_add(struct hash_table *add)
 {
 	HASH_ADD_INT(head_table, key, add); // 这里的key不是变量，而是结构体成员名
@@ -28,13 +28,12 @@ static void uthash_delete(struct hash_table *del)
 {
 	HASH_DEL(head_table, del);
 }
-*/
 
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
 int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize){
-    struct hash_table *head_table = NULL;
+    head_table = NULL; // 必须要在这里初始化
     int *res = malloc(sizeof(int) * nums1Size);
     int stack_array[nums2Size];
     int top_idx = -1;
@@ -47,16 +46,14 @@ int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size, in
         }
         tmp->key = num;
         tmp->value = (top_idx >= 0) ? stack_array[top_idx] : -1;
-        // TODO: 使用uthash_add()无法通过全部用例
-        HASH_ADD_INT(head_table, key, tmp);
+        uthash_add(tmp);
         stack_array[++top_idx] = num;
     }
     for (int i = 0; i <= top_idx; i++) {
         printf(" %d", stack_array[i]);
     }
     for (int i = 0; i < nums1Size; i++) {
-        // TODO: 使用uthash_find()无法通过全部用例
-        HASH_FIND_INT(head_table, &nums1[i], tmp);
+        tmp = uthash_find(nums1[i]);
         res[i] = tmp->value;
     }
     *returnSize = nums1Size;
