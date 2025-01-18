@@ -130,6 +130,7 @@ comm_array=(
 		1 1 courses/algorithms/greedy.md ~ "贪心"
 		1 1 courses/algorithms/backtracking.md ~ "回溯"
 		1 1 courses/algorithms/binary-search.md ~ "二分查找"
+		1 1 courses/algorithms/union-find.md ~ "并查集"
 		1 1 courses/algorithms/breadth-first-search.md ~ "广度优先搜索"
 		1 1 courses/algorithms/depth-first-search.md ~ "深度优先搜索"
 		1 1 courses/algorithms/string.md ~ "字符串"

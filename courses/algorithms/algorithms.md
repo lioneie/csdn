@@ -10,7 +10,7 @@ done DFS 200 695 934
 done BFS 126 127 752
 done 单调栈 503 739 496
 字典树 648 208 692
-并查集 1202 1135 737
+done 并查集 1202 1135 737
 done HASH 974 347 451
 done 堆和优先级队列 1845 1882 355
 done 字符串 393 1247 1850
@@ -53,6 +53,8 @@ done 回溯 79 78 498
 # [回溯](https://chenxiaosong.com/courses/algorithms/backtracking.html)
 
 # [二分查找](https://chenxiaosong.com/courses/algorithms/binary-search.html)
+
+# [并查集](https://chenxiaosong.com/courses/algorithms/union-find.html)
 
 # [广度优先搜索](https://chenxiaosong.com/courses/algorithms/breadth-first-search.html)
 
