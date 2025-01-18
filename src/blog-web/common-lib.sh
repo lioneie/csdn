@@ -493,7 +493,7 @@ comm_check_repo() {
 	local -n not_sync_repos_ref=$4
 	local -n ok_repos_ref=$5
 
-	local func_ret=""
+	local cmd_res=""
 	local repo=$(basename "${path}")
 
 	if [ ! -d "${path}" ]; then
@@ -528,12 +528,12 @@ comm_check_repo() {
 	else
 		comm_echo "${repo}未push/pull"
 		comm_check_pull_push
-		func_ret=$?
-		if [[ "${func_ret}" == 1 ]]; then
+		cmd_res=$?
+		if [[ "${cmd_res}" == 1 ]]; then
 			git pull origin master
 			comm_echo "${repo} pull完后，全部搞定"
 			ok_repos_ref+=(${repo})
-		elif [[ "${func_ret}" == 2 ]]; then
+		elif [[ "${cmd_res}" == 2 ]]; then
 			git push origin master
 			comm_echo "${repo} push完后，全部搞定"
 			ok_repos_ref+=(${repo})
