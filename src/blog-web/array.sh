@@ -131,6 +131,7 @@ comm_array=(
 		1 1 courses/algorithms/binary-search.md ~ "二分查找"
 		1 1 courses/algorithms/breadth-first-search.md ~ "广度优先搜索"
 		1 1 courses/algorithms/depth-first-search.md ~ "深度优先搜索"
+		1 1 courses/algorithms/string.md ~ "字符串"
 	0 1 courses/godot/godot.md ~ "Godot游戏开发"
 		1 1 courses/godot/godot-introduction.md ~ "Godot简介"
 		1 1 courses/godot/godot-demo.md ~ "Godot官方demo"

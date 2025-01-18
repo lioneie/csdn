@@ -13,7 +13,7 @@ done 单调栈 503 739 496
 并查集 1202 1135 737
 done HASH 974 347 451
 堆和优先级队列 1845 1882 355
-字符串 393 1247 1850
+done 字符串 393 1247 1850
 done 贪心 1540 452
 done 二分查找 1060 33 1818
 系统设计题 635 379 1396
@@ -55,4 +55,6 @@ done 回溯 79 78 498
 # [广度优先搜索](https://chenxiaosong.com/courses/algorithms/breadth-first-search.html)
 
 # [深度优先搜索](https://chenxiaosong.com/courses/algorithms/depth-first-search.html)
+
+# [字符串](https://chenxiaosong.com/courses/algorithms/string.html)
 
