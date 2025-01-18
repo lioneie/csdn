@@ -9,7 +9,7 @@
 #include "../../../../../tmp/algorithms/uthash.h"
 
 struct hash_table {
-	int key;            /* we'll use this field as the key */
+	int key;
 	char name[10]; // value
 	UT_hash_handle hh; /* makes this structure hashable */
 };
@@ -91,8 +91,7 @@ static void test_free_all(void)
 {
 	printf("testing free all\n");
 	struct hash_table *curr, *next;
-	HASH_ITER(hh, head_table, curr, next)
-	{
+	HASH_ITER(hh, head_table, curr, next) {
 		uthash_delete(curr);
 		free(curr);
 	}
