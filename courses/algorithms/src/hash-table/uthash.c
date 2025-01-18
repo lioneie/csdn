@@ -82,6 +82,7 @@ static void test_delete(void)
 		struct hash_table *user = uthash_find(key);
 		if (user) {
 			uthash_delete(user);
+			free(user);
 		}
 	}
 }
