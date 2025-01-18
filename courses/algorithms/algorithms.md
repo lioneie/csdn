@@ -15,7 +15,7 @@ done HASH 974 347 451
 堆和优先级队列 1845 1882 355
 字符串 393 1247 1850
 done 贪心 1540 452
-二分查找 1060 33 1818
+done 二分查找 1060 33 1818
 系统设计题 635 379 1396
 done 回溯 79 78 498
 时间区间类 57 253
@@ -49,6 +49,8 @@ done 回溯 79 78 498
 # [贪心](https://chenxiaosong.com/courses/algorithms/greedy.html)
 
 # [回溯](https://chenxiaosong.com/courses/algorithms/backtracking.html)
+
+# [二分查找](https://chenxiaosong.com/courses/algorithms/binary-search.html)
 
 # [广度优先搜索](https://chenxiaosong.com/courses/algorithms/breadth-first-search.html)
 
