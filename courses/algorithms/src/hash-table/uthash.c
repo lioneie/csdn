@@ -87,12 +87,25 @@ static void test_delete(void)
 	}
 }
 
+static void test_free_all(void)
+{
+	printf("testing free all\n");
+	struct hash_table *curr, *next;
+	HASH_ITER(hh, head_table, curr, next)
+	{
+		uthash_delete(curr);
+		free(curr);
+	}
+}
+
 int main(int argc, char **argv)
 {
 	head_table = NULL;
 	test_add();
 	test_find();
 	test_delete();
+	test_find();
+	test_free_all();
 	test_find();
 	return 0;
 }
