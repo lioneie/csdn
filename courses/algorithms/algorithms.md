@@ -3,7 +3,7 @@
 
 算法类型 LeetCode题目
 
-滑动窗口 1208 209 1004
+done 滑动窗口 1208 209 1004
 done 前缀和、差分 1094 1109 253
 done 递归 698 776 726
 done DFS 200 695 934
@@ -59,6 +59,8 @@ done 回溯 79 78 498
 # [前缀树（字典树）](https://chenxiaosong.com/courses/algorithms/trie.html)
 
 # [递归](https://chenxiaosong.com/courses/algorithms/recursion.html)
+
+# [滑动窗口](https://chenxiaosong.com/courses/algorithms/sliding-window.html)
 
 # [广度优先搜索](https://chenxiaosong.com/courses/algorithms/breadth-first-search.html)
 
