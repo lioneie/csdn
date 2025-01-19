@@ -37,9 +37,12 @@ static void uthash_delete(struct hash_table *del)
 	HASH_DEL(head_table, del);
 }
 
+#define uthash_iter(curr, next) \
+	HASH_ITER(hh, head_table, curr, next)
+
 static void test_add(void)
 {
-	printf("testing add\n");
+	printf("\ntesting add\n");
 
 	char *name_array[] = {
 		"you",
@@ -53,27 +56,28 @@ static void test_add(void)
 		user->key = key;
 		strcpy(user->name, name_array[i]);
 		uthash_add(user);
+		printf("\tadd %d -> %s\n", user->key, user->name);
 	}
 }
 
 static void test_find(void)
 {
-	printf("testing find\n");
+	printf("\ntesting find\n");
 
 	for (int i = 0; i < 4; i++) {
 		int key = i + 5;
 		struct hash_table *user = uthash_find(key);
 		if (user) {
-			printf("%d -> %s\n", key, user->name);
+			printf("\t%d -> %s\n", key, user->name);
 		} else {
-			printf("%d -> NULL\n", key);
+			printf("\t%d -> NULL\n", key);
 		}
 	}
 }
 
 static void test_delete(void)
 {
-	printf("testing delete\n");
+	printf("\ntesting delete\n");
 
 	int key_array[] = {6};
 
@@ -81,6 +85,7 @@ static void test_delete(void)
 		int key = key_array[i];
 		struct hash_table *user = uthash_find(key);
 		if (user) {
+			printf("\tdelete %d -> %s\n", user->key, user->name);
 			uthash_delete(user);
 			free(user);
 		}
@@ -89,10 +94,11 @@ static void test_delete(void)
 
 static void test_free_all(void)
 {
-	printf("testing free all\n");
+	printf("\ntesting free all\n");
 	struct hash_table *curr, *next;
-	HASH_ITER(hh, head_table, curr, next) {
-		uthash_delete(curr);
+	uthash_iter(curr, next) {
+		printf("\tfree %d -> %s\n", curr->key, curr->name);
+		uthash_delete(curr); // 如果不从链表中删除，再次遍历时获取到的是已经free的指针
 		free(curr);
 	}
 }
