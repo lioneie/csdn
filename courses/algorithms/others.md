@@ -27,7 +27,45 @@ int countPrimes(int n) {
 
 ## 埃氏筛
 
-[这个方法暂还没看懂](https://leetcode.cn/problems/count-primes/solutions/507273/ji-shu-zhi-shu-by-leetcode-solution/)。
+[点击这里查看官方讲解](https://leetcode.cn/problems/count-primes/solutions/507273/ji-shu-zhi-shu-by-leetcode-solution/)。
+
+```c
+static int *is_composites;
+
+void get_composites(int n)
+{
+    for (int i = 2; i < n; ++i) {
+        if (!is_composites[i]) {
+            // n 不必被 2 ~ n-1 之间的每一个整数去除，只需被 2 ~ 根号 n 之间的每一个整数去除就可以了
+            if ((long long)i * i < n) {
+                // 应该直接从 i*i 开始标记，因为 2i,3i,… 这些数一定在 i 之前就被其他数的倍数标记过了
+                for (int j = i * i; j < n; j += i) {
+                    is_composites[j] = 1;
+                }
+            }
+        }
+    }
+}
+
+int is_prime(int n)
+{
+    return !is_composites[n];
+}
+
+int countPrimes(int n) {
+    if (n < 2) {
+        return 0;
+    }
+    is_composites = malloc(sizeof(int) * n);
+    memset(is_composites, 0, sizeof(int) * n);
+    get_composites(n);
+    int ret = 0;
+    for (int i = 2; i < n; i++)
+        ret += is_prime(i);
+    free(is_composites);
+    return ret;
+}
+```
 
 ## 线性筛
 
