@@ -1,6 +1,6 @@
 # windows环境
 
-[下载地址](https://dev.mysql.com/downloads/mysql/), 选择“Windows (x86, 64-bit), ZIP Archive”。可能还要安装[Latest Microsoft Visual C++ Redistributable Version](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-160#latest-microsoft-visual-c-redistributable-version)。
+[下载地址](https://dev.mysql.com/downloads/mysql/)（[老版本下载](https://downloads.mysql.com/archives/community/)）, 选择“Windows (x86, 64-bit), ZIP Archive”。可能还要安装[Latest Microsoft Visual C++ Redistributable Version](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-160#latest-microsoft-visual-c-redistributable-version)。
 
 ```sh
 cd mysql-8.4.2-winx64/ # 不在这个目录下创建my.ini似乎也可以
