@@ -21,7 +21,7 @@
 c语言实现:
 ```c
 struct hash_table {
-	int key;            /* we'll use this field as the key */
+	int key;
 	int value;  // value用不到，可以去掉
 	UT_hash_handle hh; /* makes this structure hashable */
 };

@@ -4,7 +4,7 @@
 
 ```c
 struct hash_table {
-	int key;            /* we'll use this field as the key */
+	int key;
 	int value;
 	UT_hash_handle hh; /* makes this structure hashable */
 };

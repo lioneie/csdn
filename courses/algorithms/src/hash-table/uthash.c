@@ -15,7 +15,7 @@ struct hash_table {
 };
 
 // 必须要初始化为NULL，考虑到leetcode c语言实现执行多个用例时全局变量和静态变量只会初始化一次，
-// 所以我们这里就不在这里初始化值，而是放到main()中，
+// 所以我们就不在这里初始化值，而是放到main()中，
 // 防止以后从这里copy代码到leetcode中时用例不通过
 static struct hash_table *head_table;
 
