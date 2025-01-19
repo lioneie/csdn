@@ -39,6 +39,7 @@ bool containsNearbyDuplicate(int* nums, int numsSize, int k) {
     struct hash_table *curr, *next;
     for (int i = 0; i < numsSize; i++) {
         if (i > k) {
+            // 窗口大小为k，移除掉一个元素
             tmp = uthash_find(nums[i - k - 1]);
             if (tmp)
                 uthash_delete(tmp);
