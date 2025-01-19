@@ -17,9 +17,9 @@ done 字符串 393 1247 1850
 done 贪心 1540 452
 done 二分查找 1060 33 1818
 done 回溯 79 78 498
-时间区间类 57 253
-系统设计题 635 379 1396
-系统题 631 208 146 355 635 901 1396 1500 1603
+done 时间区间类 57 253(会员)
+done 系统设计题 635(会员) 379(会员) 1396
+done 系统题 631(会员) 208(字典树) 146 355 635(会员) 901 1396 1500(会员) 1603
 -->
 
 准备出一个算法相关的课程，不会从零讲算法，主要是以实践做题为主，做一些算法题，还有回顾我以前做过的算法题，偶尔用算法活跃一下大脑。
@@ -67,4 +67,6 @@ done 回溯 79 78 498
 # [深度优先搜索](https://chenxiaosong.com/courses/algorithms/depth-first-search.html)
 
 # [字符串](https://chenxiaosong.com/courses/algorithms/string.html)
+
+# [未分类的内容](https://chenxiaosong.com/courses/algorithms/others.html)
 
