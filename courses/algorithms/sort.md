@@ -26,7 +26,7 @@ void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, c
 
 - [点击这里查看题目](https://leetcode.cn/problems/contains-duplicate/description/)
 
-这个题目主要是熟悉一下c语言快速排序的库函数用法，
+这个题目主要是熟悉一下c语言快速排序的库函数`qsort()`的用法，
 
 c语言实现:
 ```c
