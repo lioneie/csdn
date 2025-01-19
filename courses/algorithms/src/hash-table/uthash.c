@@ -19,6 +19,9 @@ struct hash_table {
 // 防止以后从这里copy代码到leetcode中时用例不通过
 static struct hash_table *head_table;
 
+// 临时变量，不保存值
+static struct hash_table *tmp_table;
+
 static void uthash_add(struct hash_table *add)
 {
 	HASH_ADD_INT(head_table, key, add); // 这里的key不是变量，而是结构体成员名
@@ -37,8 +40,8 @@ static void uthash_delete(struct hash_table *del)
 	HASH_DEL(head_table, del);
 }
 
-#define uthash_iter(curr, next) \
-	HASH_ITER(hh, head_table, curr, next)
+#define uthash_iter(el) \
+	HASH_ITER(hh, head_table, el, tmp_table)
 
 static void test_add(void)
 {
@@ -95,11 +98,11 @@ static void test_delete(void)
 static void test_free_all(void)
 {
 	printf("\ntesting free all\n");
-	struct hash_table *curr, *next;
-	uthash_iter(curr, next) {
-		printf("\tfree %d -> %s\n", curr->key, curr->name);
-		uthash_delete(curr); // 如果不从链表中删除，再次遍历时获取到的是已经free的指针
-		free(curr);
+	struct hash_table *user;
+	uthash_iter(user) {
+		printf("\tfree %d -> %s\n", user->key, user->name);
+		uthash_delete(user); // 如果不从链表中删除，再次遍历时获取到的是已经free的指针
+		free(user);
 	}
 }
 
