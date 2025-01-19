@@ -39,6 +39,18 @@ int countPrimes(int n) {
 
 [点击这里查看源码](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/others/twin-prime.c)。
 
+# leetcode 32. 最长有效括号
+
+23年刚开始的几天做了但没什么卵用的题目。
+
+- [点击这里查看题目](https://leetcode.cn/problems/longest-valid-parentheses/description/)
+
+# leetcode 236. 二叉树的最近公共祖先
+
+23年刚开始的几天做了但没什么卵用的题目。
+
+- [点击这里查看题目](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/description/)
+
 # 时间区间类 leetcode 57. 插入区间
 
 - [点击这里查看题目](https://leetcode.cn/problems/insert-interval/description/)
