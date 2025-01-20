@@ -2,9 +2,10 @@
 
 - [uthash主页](https://troydhanson.github.io/uthash/)
 - [uthash github](https://github.com/troydhanson/uthash)
-- [key为int类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/hash-table/int-key-uthash.c)（[头文件`uthash.h`也可点击这里下载](https://gitee.com/chenxiaosonggitee/tmp/blob/master/algorithms/uthash.h)）
-- [key为char指针类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/hash-table/char-ptr-key-uthash.c)（[头文件`uthash.h`也可点击这里下载](https://gitee.com/chenxiaosonggitee/tmp/blob/master/algorithms/uthash.h)）
-- [key为char数组类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/hash-table/char-array-key-uthash.c)（[头文件`uthash.h`也可点击这里下载](https://gitee.com/chenxiaosonggitee/tmp/blob/master/algorithms/uthash.h)）
+- 头文件`uthash.h`: [github](https://github.com/troydhanson/uthash/blob/master/src/uthash.h)，[也可以在github下载](https://gitee.com/chenxiaosonggitee/tmp/blob/master/algorithms/uthash.h)）
+- [key为int类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/hash-table/int-key-uthash.c)
+- [key为char指针类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/hash-table/char-ptr-key-uthash.c)
+- [key为char数组类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/hash-table/char-array-key-uthash.c)
 
 注意在leetcode中使用uthash，`struct hash_table *head_table`的定义不能在函数外，必须要函数内，不知道搞什么鬼，这有个屁不同呢。
 
