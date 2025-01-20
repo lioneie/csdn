@@ -82,7 +82,7 @@ static int *is_composite;
 static int *primes;
 static int primes_size = 0;
 
-void get_composites(int n)
+void get_primes(int n)
 {
     for (int i = 2; i < n; i++) {
         if (!is_composite[i]) {
@@ -115,10 +115,7 @@ int countPrimes(int n) {
     memset(is_composite, 0, sizeof(int) * n);
     primes = malloc(sizeof(int) * n); // 不用初始化为0
     primes_size = 0;
-    get_composites(n);
-    int ret = 0;
-    for (int i = 2; i < n; i++)
-        ret += is_prime(i);
+    get_primes(n);
     free(is_composite);
     return primes_size;
 }
