@@ -76,11 +76,11 @@ int countPrimes(int n) {
 
 c语言实现:
 ```c
-// leetcode给的代码对数组的命名不对，这个数组应该为1时应该是合成数，为0时应该是质数
+// leetcode给的代码里数组的命名不对，这个数组应该为1时应该是合成数，为0时应该是质数
 // 所以应该命名成 is_composite
 static int *is_composite;
 static int *primes;
-static int primes_size = 0;
+static int primes_size;
 
 void get_primes(int n)
 {
@@ -116,6 +116,7 @@ int countPrimes(int n) {
     primes = malloc(sizeof(int) * n); // 不用初始化为0
     primes_size = 0;
     get_primes(n);
+    free(primes);
     free(is_composite);
     return primes_size;
 }
