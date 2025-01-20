@@ -29,18 +29,19 @@ int countPrimes(int n) {
 
 [点击这里查看官方讲解](https://leetcode.cn/problems/count-primes/solutions/507273/ji-shu-zhi-shu-by-leetcode-solution/)。
 
+c语言实现:
 ```c
-static int *is_composites;
+static int *is_composite;
 
 void get_composites(int n)
 {
     for (int i = 2; i < n; ++i) {
-        if (!is_composites[i]) {
+        if (!is_composite[i]) {
             // n 不必被 2 ~ n-1 之间的每一个整数去除，只需被 2 ~ 根号 n 之间的每一个整数去除就可以了
             if ((long long)i * i < n) {
                 // 应该直接从 i*i 开始标记，因为 2i,3i,… 这些数一定在 i 之前就被其他数的倍数标记过了
                 for (int j = i * i; j < n; j += i) {
-                    is_composites[j] = 1;
+                    is_composite[j] = 1;
                 }
             }
         }
@@ -49,20 +50,20 @@ void get_composites(int n)
 
 int is_prime(int n)
 {
-    return !is_composites[n];
+    return !is_composite[n];
 }
 
 int countPrimes(int n) {
     if (n < 2) {
         return 0;
     }
-    is_composites = malloc(sizeof(int) * n);
-    memset(is_composites, 0, sizeof(int) * n);
+    is_composite = malloc(sizeof(int) * n);
+    memset(is_composite, 0, sizeof(int) * n);
     get_composites(n);
     int ret = 0;
     for (int i = 2; i < n; i++)
         ret += is_prime(i);
-    free(is_composites);
+    free(is_composite);
     return ret;
 }
 ```
@@ -70,6 +71,31 @@ int countPrimes(int n) {
 ## 线性筛
 
 [这个方法有时间再研究](https://leetcode.cn/problems/count-primes/solutions/507273/ji-shu-zhi-shu-by-leetcode-solution/)
+
+c语言实现:
+```c
+int countPrimes(int n) {
+    if (n < 2) {
+        return 0;
+    }
+    int is_composite[n];
+    int primes[n], primesSize = 0;
+    memset(is_composite, 0, sizeof(is_composite));
+    for (int i = 2; i < n; ++i) {
+        if (!is_composite[i]) {
+            primes[primesSize++] = i; // 把新的质数插入数组
+        }
+        for (int j = 0; j < primesSize && i * primes[j] < n; ++j) {
+            // 只标记质数集合中的数与 i 相乘的数
+            is_composite[i * primes[j]] = 1;
+            if (i % primes[j] == 0) {
+                break;
+            }
+        }
+    }
+    return primesSize;
+}
+```
 
 # 2019华为面试题 - 计算孪生素数对的个数
 
