@@ -7,7 +7,7 @@
 - [key为char指针类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/hash-table/char-ptr-key-uthash.c)
 - [key为char数组类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/hash-table/char-array-key-uthash.c)
 
-注意在leetcode中使用uthash，`struct hash_table *head_table`的定义不能在函数外，必须要函数内，不知道搞什么鬼，这有个屁不同呢。
+注意在leetcode中使用uthash，`head_table`在每个用例执行时都要初始化为`NULL`，因为全局变量和静态变量的初始化只会执行一次。
 
 # leetcode 1. 两数之和
 
