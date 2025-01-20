@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * uthash的使用
+ * key为char指针时，uthash的使用
  *
  * Copyright (C) 2025.01.20 ChenXiaoSong <chenxiaosong@chenxiaosong.com>
  */
@@ -9,7 +9,7 @@
 #include "../../../../../tmp/algorithms/uthash.h"
 
 struct hash_table {
-	char *key;
+	char *key; // 对比的是字符串是否相同，而不是指针的值
 	int id; // value
 	UT_hash_handle hh; /* makes this structure hashable */
 };
@@ -59,7 +59,7 @@ static void test_add(void)
 	for (int i = 0; i < 3; i++) {
 		int id = i + 5;
 		struct hash_table *user = malloc(sizeof(struct hash_table));
-		user->key = name_array[i];
+		user->key = name_array[i]; // add后，这个指针要能找到字符串所在的内存，字符串不能被释放
 		user->id = id;
 		uthash_add(user);
 		printf("\tadd\t %*s -> %d\n", NAME_WIDTH, user->key, user->id);
@@ -85,7 +85,7 @@ static void test_delete(void)
 {
 	printf("\ntesting delete\n");
 
-	char *key_array[] = {name_array[1]};
+	char *key_array[] = {"me"};
 
 	for (int i = 0; i < sizeof(key_array) / sizeof(key_array[0]); i++) {
 		char *key = key_array[i];
