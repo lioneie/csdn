@@ -49,8 +49,6 @@ server {
 	# root /home/sonvhi/chenxiaosong/www/html;
 	root /var/www/html;
 	autoindex on; # 打开目录浏览功能
-	# 目录浏览时字符集为 UTF-8
-	add_header Content-Type "text/html; charset=UTF-8";
 
 	# Add index.php to the list if you are using PHP
 	index index.html index.htm index.nginx-debian.html;
@@ -68,6 +66,12 @@ server {
 	location = /default-location {
 		# 设置默认地址的配置，使用302临时重定向
 		return 302 /;
+	}
+
+	# TODO: 放在location /passwd后面不生效，为什么呢，为什么呢
+	location /private/kylinos {
+		# 目录浏览时字符集为 UTF-8
+		add_header Content-Type "text/html; charset=UTF-8";
 	}
 
 	location /passwd {
