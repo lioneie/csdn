@@ -2,6 +2,11 @@
 
 各位朋友可以[点击这里从百度网盘下载pdf电子书](https://chenxiaosong.com/baidunetdisk)。电子书请仅作为学习用途，有需要的话建议购买纸质书。
 
+# 简略目录
+
+- [《算法书籍推荐》](https://chenxiaosong.com/courses/algorithms/book.html)
+- [《内核书籍推荐》](https://chenxiaosong.com/courses/kernel/kernel-book.html)
+
 # 四库全书之一[《Linux内核设计与实现》](https://book.douban.com/subject/6097773/)-基于2.6.34内核
 
 ```
