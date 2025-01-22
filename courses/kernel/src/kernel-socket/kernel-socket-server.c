@@ -3,6 +3,8 @@
 #include <linux/kthread.h>
 #include <net/sock.h>
 
+static struct task_struct *task;
+
 static int socket_thread(void *data)
 {
 	struct socket *sock, *newsock;
@@ -69,7 +71,6 @@ release_sock:
 
 static int __init socket_server_init(void)
 {
-	struct task_struct *task;
 	task = kthread_run(socket_thread, NULL, "socket server thread");
 	
 	return 0;
@@ -77,6 +78,12 @@ static int __init socket_server_init(void)
 
 static void __exit socket_server_exit(void)
 {
+	if (task) {
+		// 如果没调用kthread_stop()，会发生panic
+		// https://gitee.com/chenxiaosonggitee/tmp/blob/master/mptcp/kernel-socket-panic-log.txt
+		kthread_stop(task);
+		task = NULL;
+	}
 }
 
 module_init(socket_server_init);

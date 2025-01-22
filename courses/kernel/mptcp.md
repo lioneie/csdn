@@ -26,6 +26,12 @@ sysctl -w net.mptcp.enabled=1 # 如果上面命令检查没开，就执行这条
 dnf install mptcpd -y
 ```
 
+# 内核态socket
+
+- [`kernel-socket-client.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kernel-socket/kernel-socket-client.c)
+- [`kernel-socket-server.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kernel-socket/kernel-socket-server.c)
+- [`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kernel-socket/Makefile)
+
 #  疑问
 
 - 不修改应用，使用BPF来修改socket类型，用mptcpize？

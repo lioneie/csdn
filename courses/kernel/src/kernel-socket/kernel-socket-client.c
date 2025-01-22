@@ -4,6 +4,8 @@
 #include <net/sock.h>
 #include <linux/delay.h>
 
+static struct task_struct *task;
+
 static int socket_thread(void *data)
 {
 	struct socket *sock;
@@ -51,7 +53,6 @@ release_sock:
 
 static int __init socket_client_init(void)
 {
-	struct task_struct *task;
 	task = kthread_run(socket_thread, NULL, "socket client thread");
 	
 	return 0;
@@ -59,6 +60,12 @@ static int __init socket_client_init(void)
 
 static void __exit socket_client_exit(void)
 {
+	if (task) {
+		// 如果没调用kthread_stop()，会发生panic
+		// https://gitee.com/chenxiaosonggitee/tmp/blob/master/mptcp/kernel-socket-panic-log.txt
+		kthread_stop(task);
+		task = NULL;
+	}
 }
 
 module_init(socket_client_init);
