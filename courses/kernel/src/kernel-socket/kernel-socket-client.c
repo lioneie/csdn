@@ -3,8 +3,17 @@
 #include <linux/kthread.h>
 #include <net/sock.h>
 #include <linux/delay.h>
+#include <linux/inet.h>
 
 static struct task_struct *task;
+
+static char *server_ip = "192.168.53.37";  // 默认 server IP 地址
+module_param(server_ip, charp, 0644);
+MODULE_PARM_DESC(server_ip, "The IP address to connect to");
+
+static int server_port = 5555; // 默认端口
+module_param(server_port, int, 0644);
+MODULE_PARM_DESC(server_port, "The port on which the server is listening");
 
 static int socket_thread(void *data)
 {
@@ -19,20 +28,27 @@ static int socket_thread(void *data)
 	
 	err = sock_create_kern(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP, &sock);
 	if(err < 0) {
-		printk("client sock_create_kern fail, err: %d\n", err);
+		printk("client sock_create_kern failed, err: %d\n", err);
 		return err;
 	}
 	
 	memset(&server_addr, 0, sizeof(server_addr));
-	server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-	server_addr.sin_port = htons(5555);
+	// server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK); // 127.0.0.1
+	// 将字符串 IP 地址转换为网络字节序的整数
+	err = in4_pton(server_ip, strlen(server_ip), (u8 *)&server_addr.sin_addr.s_addr, 0, NULL);
+	if (err != 1) {
+		printk("client in4_pton failed, err: %d\n", err);
+		return -EINVAL;
+	}
+	server_addr.sin_port = htons(server_port);
 	server_addr.sin_family = AF_INET;
 
 	err = kernel_connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr), 0);
 	if (err < 0) {
-		printk("client kernel_connect fail, err: %d\n", err);
+		printk("client kernel_connect to %s:%d failed, err: %d\n", server_ip, server_port, err);
 		goto release_sock;
 	}
+	printk("client kernel_connect to %s:%d successful\n", server_ip, server_port);
 
 	send_msg.msg_name = &server_addr,
 	send_msg.msg_namelen = sizeof(server_addr);
@@ -54,7 +70,7 @@ static int socket_thread(void *data)
 		len = kernel_recvmsg(sock, &recv_msg, &iov, 1, buflen,
 					MSG_WAITFORONE);
 		if(len < 0)
-			printk("client kernel_recvmsg fail, err: %d\n", len);
+			printk("client kernel_recvmsg failed, err: %d\n", len);
 		else
 			printk("client kernel_recvmsg %d bytes, buffer: %s\n", len, buffer);
 
