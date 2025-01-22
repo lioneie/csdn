@@ -32,6 +32,13 @@ dnf install mptcpd -y
 - [`kernel-socket-server.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kernel-socket/kernel-socket-server.c)
 - [`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kernel-socket/Makefile)
 
+测试步骤:
+```sh
+make
+insmod ./kernel-socket-server.ko
+insmod ./kernel-socket-client.ko
+```
+
 #  疑问
 
 - 不修改应用，使用BPF来修改socket类型，用mptcpize？

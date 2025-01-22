@@ -10,10 +10,11 @@ static int socket_thread(void *data)
 	struct socket *sock, *newsock;
 	struct sockaddr_in addr;
 	int err;
+	int cnt;
 	
 	err = sock_create_kern(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP, &sock);
 	if(err < 0) {
-		printk("sock_create_kern failed, err: %d\n", err);
+		printk("server sock_create_kern failed, err: %d\n", err);
 		return err;
 	}
 	
@@ -23,22 +24,23 @@ static int socket_thread(void *data)
 	addr.sin_port = htons(5555);
 	err = kernel_bind(sock, (struct sockaddr *) &addr, sizeof(addr));
 	if (err < 0) {
-		printk("kernel_bind fail, err: %d\n", err);
+		printk("server kernel_bind fail, err: %d\n", err);
 		goto release_sock;
 	}
 	
 	err = kernel_listen(sock, 1024);
 	if (err < 0) {
-		printk("kernel_listen fail, err: %d\n", err);
+		printk("server kernel_listen fail, err: %d\n", err);
 		goto release_sock;
 	}
 	
 	err = kernel_accept(sock, &newsock, 0);
 	if (err < 0) {
-		printk("kernel_accept fail, err: %d\n", err);
+		printk("server kernel_accept fail, err: %d\n", err);
 		goto release_sock;
 	}
-	
+
+	cnt = 0;
 	while (!kthread_should_stop()) {
 		struct msghdr msg = { .msg_name = NULL, .msg_flags = MSG_DONTWAIT };
 		char buffer[1024];
@@ -52,14 +54,23 @@ static int socket_thread(void *data)
 		wait_event_interruptible(*sk_sleep(newsock->sk),
 			!skb_queue_empty(&newsock->sk->sk_receive_queue) ||
 					 kthread_should_stop());
+
+		// receive message
 		if(!skb_queue_empty(&newsock->sk->sk_receive_queue)) {
 			len = kernel_recvmsg(newsock, &msg, &iov, 1, buflen,
-					     msg.msg_flags = MSG_DONTWAIT);
+					     MSG_DONTWAIT);
 			if(len < 0)
-				printk("kernel_recvmsg fail, err: %d\n", len);
+				printk("server kernel_recvmsg fail, err: %d\n", len);
 			else
-				printk("kernel_recvmsg %d bytes, buffer: %s\n", len, buffer);
+				printk("server kernel_recvmsg %d bytes, buffer: %s\n", len, buffer);
 		}
+
+		// send message
+		cnt++;
+		sprintf(buffer, "data from server %d", cnt);
+		iov.iov_base = buffer;
+		iov.iov_len = strlen(buffer);
+		kernel_sendmsg(newsock, &msg, &iov, 1, iov.iov_len);
 	}
 
 	sock_release(newsock);

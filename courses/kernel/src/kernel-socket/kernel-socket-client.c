@@ -11,14 +11,15 @@ static int socket_thread(void *data)
 	struct socket *sock;
 	struct sockaddr_in server_addr;
 	char buffer[1024];
+	int buflen = sizeof(buffer);
 	int err;
 	int cnt;
-	struct msghdr msg;
-	struct kvec iov;
+	struct msghdr send_msg;
+	struct msghdr recv_msg = { .msg_name = NULL, .msg_flags = MSG_DONTWAIT };
 	
 	err = sock_create_kern(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP, &sock);
 	if(err < 0) {
-		printk("sock_create_kern fail, err: %d\n", err);
+		printk("client sock_create_kern fail, err: %d\n", err);
 		return err;
 	}
 	
@@ -29,21 +30,35 @@ static int socket_thread(void *data)
 
 	err = kernel_connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr), 0);
 	if (err < 0) {
-		printk("kernel_connect fail, err: %d\n", err);
+		printk("client kernel_connect fail, err: %d\n", err);
 		goto release_sock;
 	}
 
-	msg.msg_name = &server_addr,
-	msg.msg_namelen = sizeof(server_addr);
+	send_msg.msg_name = &server_addr,
+	send_msg.msg_namelen = sizeof(server_addr);
 	cnt=0;
 	while (!kthread_should_stop()) {
+		struct kvec iov;
+		// send message
+		int len;
 		cnt++;
-		sprintf(buffer, "data %d", cnt);
-		printk("kernel_sendmsg, buffer: %s\n", buffer);
+		sprintf(buffer, "data from client %d", cnt);
 		iov.iov_base = buffer;
 		iov.iov_len = strlen(buffer);
-		kernel_sendmsg(sock, &msg, &iov, 1, iov.iov_len);
-		msleep(1 * 1000);
+		kernel_sendmsg(sock, &send_msg, &iov, 1, iov.iov_len);
+
+		// receive message
+		iov.iov_base = buffer;
+		iov.iov_len  = (size_t)buflen;
+		// MSG_WAITFORONE是同步读，如果异步读用 MSG_DONTWAIT
+		len = kernel_recvmsg(sock, &recv_msg, &iov, 1, buflen,
+					MSG_WAITFORONE);
+		if(len < 0)
+			printk("client kernel_recvmsg fail, err: %d\n", len);
+		else
+			printk("client kernel_recvmsg %d bytes, buffer: %s\n", len, buffer);
+
+		msleep(2 * 1000);
 	}
 
 release_sock:
