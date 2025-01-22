@@ -49,6 +49,7 @@ static int socket_thread(void *data)
 		printk("server kernel_accept failed, err: %d\n", err);
 		goto release_newsock;
 	}
+	// %pI4 格式化字符串会将 in_addr 类型的 IP 地址转换为字符串并以标准点分十进制的形式打印出来
 	printk("server kernel_accept %pI4:%d successful\n", &addr.sin_addr, ntohs(addr.sin_port));
 
 	cnt = 0;
