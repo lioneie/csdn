@@ -21,7 +21,7 @@ static int socket_thread(void *data)
 		printk("server sock_create_kern failed, err: %d\n", err);
 		return err;
 	}
-	
+
 	memset(&addr, 0, sizeof(addr));
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -43,6 +43,13 @@ static int socket_thread(void *data)
 		printk("server kernel_accept failed, err: %d\n", err);
 		goto release_sock;
 	}
+	memset(&addr, 0, sizeof(addr));
+	err = kernel_getpeername(newsock, (struct sockaddr *)&addr);
+	if (err <= 0) {
+		printk("server kernel_accept failed, err: %d\n", err);
+		goto release_newsock;
+	}
+	printk("server kernel_accept %pI4:%d successful\n", &addr.sin_addr, ntohs(addr.sin_port));
 
 	cnt = 0;
 	while (!kthread_should_stop()) {
@@ -76,7 +83,7 @@ static int socket_thread(void *data)
 		iov.iov_len = strlen(buffer);
 		kernel_sendmsg(newsock, &msg, &iov, 1, iov.iov_len);
 	}
-
+release_newsock:
 	sock_release(newsock);
 release_sock:
 	sock_release(sock);
