@@ -515,7 +515,7 @@ comm_check_repo() {
 	git fetch origin
 	if [ $? -ne 0 ]; then
 		echo "!!! ${repo} fetch fail !!!"
-		return
+		exit
 	fi
 	local origin_commit=$(git rev-parse origin/master)
 	local master_commit=$(git rev-parse master)
