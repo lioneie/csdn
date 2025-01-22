@@ -493,6 +493,7 @@ comm_check_repo() {
 	local -n not_sync_repos_ref=$4
 	local -n ok_repos_ref=$5
 
+	local -n tmp_repos_ref
 	local cmd_res=""
 	local repo=$(basename "${path}")
 
@@ -504,11 +505,18 @@ comm_check_repo() {
 
 	cd ${path}
 	local status=$(git status -s)
+	local no_untracked_status=$(git status -s --untracked-files=no)
 
+	local is_repo_clean=true
 	if [ ! -z "${status}" ]; then
 		comm_echo "${repo}有未提交的更改:"
 		comm_echo "${status}"
 		not_clean_repos_ref+=(${repo})
+		is_repo_clean=false
+	fi
+
+	if [ ! -z "${no_untracked_status}" ]; then
+		comm_echo "${repo}跟踪的文件有未提交的更改"
 		return
 	fi
 
@@ -523,24 +531,28 @@ comm_check_repo() {
 	comm_echo "${repo} master_commit: ${master_commit}"
 
 	if [ "${origin_commit}" == "${master_commit}" ]; then
-		comm_echo "${repo}全部搞定"
-		ok_repos_ref+=(${repo})
+		comm_echo "${repo}不用push/pull"
+		tmp_repos_ref=ok_repos_ref
 	else
 		comm_echo "${repo}未push/pull"
 		comm_check_pull_push
 		cmd_res=$?
 		if [[ "${cmd_res}" == 1 ]]; then
 			git pull origin master
-			comm_echo "${repo} pull完后，全部搞定"
-			ok_repos_ref+=(${repo})
+			comm_echo "${repo} pull完成"
+			tmp_repos_ref=ok_repos_ref
 		elif [[ "${cmd_res}" == 2 ]]; then
 			git push origin master
-			comm_echo "${repo} push完后，全部搞定"
-			ok_repos_ref+=(${repo})
+			comm_echo "${repo} push完成"
+			tmp_repos_ref=ok_repos_ref
 		else
 			comm_echo "${repo}未push/pull，要手动处理"
-			not_sync_repos_ref+=(${repo})
+			tmp_repos_ref=not_sync_repos_ref
 		fi
+	fi
+	if [[ "${is_repo_clean}" == "true" ]]; then
+		comm_echo "${repo}仓库是干净的"
+		tmp_repos_ref+=(${repo})
 	fi
 }
 
