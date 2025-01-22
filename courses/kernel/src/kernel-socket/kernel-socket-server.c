@@ -1,0 +1,85 @@
+#include <linux/kernel.h>
+#include <linux/module.h>
+#include <linux/kthread.h>
+#include <net/sock.h>
+
+static int socket_thread(void *data)
+{
+	struct socket *sock, *newsock;
+	struct sockaddr_in addr;
+	int err;
+	
+	err = sock_create_kern(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP, &sock);
+	if(err < 0) {
+		printk("sock_create_kern failed, err: %d\n", err);
+		return err;
+	}
+	
+	memset(&addr, 0, sizeof(addr));
+	addr.sin_family = AF_INET;
+	addr.sin_addr.s_addr = htonl(INADDR_ANY);
+	addr.sin_port = htons(5555);
+	err = kernel_bind(sock, (struct sockaddr *) &addr, sizeof(addr));
+	if (err < 0) {
+		printk("kernel_bind fail, err: %d\n", err);
+		goto release_sock;
+	}
+	
+	err = kernel_listen(sock, 1024);
+	if (err < 0) {
+		printk("kernel_listen fail, err: %d\n", err);
+		goto release_sock;
+	}
+	
+	err = kernel_accept(sock, &newsock, 0);
+	if (err < 0) {
+		printk("kernel_accept fail, err: %d\n", err);
+		goto release_sock;
+	}
+	
+	while (!kthread_should_stop()) {
+		struct msghdr msg = { .msg_name = NULL, .msg_flags = MSG_DONTWAIT };
+		char buffer[1024];
+		int len;
+		int buflen = sizeof(buffer);
+		struct kvec iov = {
+			.iov_base = buffer,
+			.iov_len  = (size_t)buflen,
+		};
+
+		wait_event_interruptible(*sk_sleep(newsock->sk),
+			!skb_queue_empty(&newsock->sk->sk_receive_queue) ||
+					 kthread_should_stop());
+		if(!skb_queue_empty(&newsock->sk->sk_receive_queue)) {
+			len = kernel_recvmsg(newsock, &msg, &iov, 1, buflen,
+					     msg.msg_flags = MSG_DONTWAIT);
+			if(len < 0)
+				printk("kernel_recvmsg fail, err: %d\n", len);
+			else
+				printk("kernel_recvmsg %d bytes, buffer: %s\n", len, buffer);
+		}
+	}
+
+	sock_release(newsock);
+release_sock:
+	sock_release(sock);
+
+	return err;
+}
+
+static int __init socket_server_init(void)
+{
+	struct task_struct *task;
+	task = kthread_run(socket_thread, NULL, "socket server thread");
+	
+	return 0;
+}
+
+static void __exit socket_server_exit(void)
+{
+}
+
+module_init(socket_server_init);
+module_exit(socket_server_exit);
+MODULE_LICENSE("GPL");
+
