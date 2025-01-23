@@ -1,6 +1,8 @@
 mptcp的maintainer之一Geliang Tang <tanggeliang@kylinos.cn>是我们麒麟软件的，最近在调研mptcp和smb结合的可能性，顺便记录一下。
 
-- [mptcp.dev](https://www.mptcp.dev/)
+# 资料
+
+- [mptcp.dev](https://www.mptcp.dev/), 对应的[github仓库](https://github.com/multipath-tcp/mptcp.dev)
 - [mptcp_net-next/wiki](https://github.com/multipath-tcp/mptcp_net-next/wiki)
 - [RFC 8684](https://www.rfc-editor.org/rfc/rfc8684.html), [pdf文档翻译请查看百度网盘](https://chenxiaosong.com/baidunetdisk)
 - [邮件列表](https://lore.kernel.org/mptcp/)
@@ -13,7 +15,8 @@ mptcp的maintainer之一Geliang Tang <tanggeliang@kylinos.cn>是我们麒麟软�
 
 # 使用
 
-[参考网页](https://www.mptcp.dev/setup.html)
+- [`mptcp-client.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mptcp/mptcp-client.c)
+- [`mptcp-server.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mptcp/mptcp-server.c)
 
 打开内核配置`CONFIG_MPTCP`、`CONFIG_MPTCP_IPV6`和`CONFIG_INET_MPTCP_DIAG`。
 
@@ -31,7 +34,7 @@ dnf install mptcpd -y
 
 路径管理器:
 ```sh
-/proc/sys/net/mptcp/pm_type
+/proc/sys/net/mptcp/pm_type # 0: 内核, 1: 用户空间
 ```
 
 数据包调度器:
