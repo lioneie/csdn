@@ -74,7 +74,7 @@ int main()
 				if(fd == server_sockfd) {
 					client_len = sizeof(client_address);
 					client_sockfd = accept(server_sockfd, 
-						(struct sockaddr *)&client_address, &client_len);
+						(struct sockaddr *)&client_address, (socklen_t *)&client_len);
 					FD_SET(client_sockfd, &readfds);
 					printf("adding client on fd %d\n", client_sockfd);
 				}
