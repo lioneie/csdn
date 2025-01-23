@@ -31,6 +31,7 @@ comm_array=(
 		1 1 courses/kernel/kernel-bpf.md ~ "BPF"
 		1 1 courses/kernel/kernel-sync.md ~ "内核同步"
 		1 1 courses/kernel/kernel-networks.md ~ "网络"
+		1 1 courses/kernel/mptcp.md ~ "MPTCP"
 		1 1 courses/kernel/kernel-patches.md ~ "内核补丁分析"
 			# 我写的补丁
 			1 1 courses/kernel/patches/xfs-fix-NULL-pointer-dereference-in-xfs_getbmap.md ~

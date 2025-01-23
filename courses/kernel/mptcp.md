@@ -6,8 +6,10 @@ mptcp的maintainer之一Geliang Tang <tanggeliang@kylinos.cn>是我们麒麟软�
 - [邮件列表](https://lore.kernel.org/mptcp/)
 - [patchwork](https://patchwork.kernel.org/project/mptcp/list/)
 - [mptcpd](https://github.com/multipath-tcp/mptcpd)
-- [tools/testing/selftests/net/mptcp](https://github.com/torvalds/linux/tree/master/tools/testing/selftests/net/mptcp)
+- [tools/testing/selftests/net/mptcp](https://github.com/torvalds/linux/tree/master/tools/testing/selftests/net/mptcp), [github mptcp_net-next仓库](https://github.com/multipath-tcp/mptcp_net-next/tree/export/tools/testing/selftests/net/mptcp), [内核编译需要打开的配置选项](https://github.com/multipath-tcp/mptcp_net-next/blob/export/tools/testing/selftests/net/mptcp/config)
 - [mptcp-upstream-virtme-docker](https://github.com/multipath-tcp/mptcp-upstream-virtme-docker)
+- [开发中的特性](https://github.com/multipath-tcp/mptcp_net-next/projects?query=is%3Aopen), [MPTCP Upstream: Future](https://github.com/orgs/multipath-tcp/projects/1/views/1)
+- [mptcp-hello](https://github.com/mptcp-apps/mptcp-hello/)
 
 # 使用
 
@@ -17,6 +19,7 @@ mptcp的maintainer之一Geliang Tang <tanggeliang@kylinos.cn>是我们麒麟软�
 
 检查系统配置:
 ```sh
+# 也就是 /proc/sys/net/mptcp/enabled 文件的值
 sysctl net.mptcp.enabled # 检查
 sysctl -w net.mptcp.enabled=1 # 如果上面命令检查没开，就执行这条命令
 ```
@@ -24,6 +27,23 @@ sysctl -w net.mptcp.enabled=1 # 如果上面命令检查没开，就执行这条
 安装相关软件:
 ```sh
 dnf install mptcpd -y
+```
+
+路径管理器:
+```sh
+/proc/sys/net/mptcp/pm_type
+```
+
+数据包调度器:
+```sh
+/proc/sys/net/mptcp/available_schedulers
+/proc/sys/net/mptcp/scheduler
+```
+
+已经编译完的二进程程序使用mptcp:
+```sh
+mptcpize run <command>
+mptcpize enable <systemd unit>
 ```
 
 # 内核态socket
@@ -42,4 +62,5 @@ insmod ./kernel-socket-client.ko
 #  疑问
 
 - 不修改应用，使用BPF来修改socket类型，用mptcpize？
+- 路径管理器，内核内和用户空间，区别？是能相互替代还是各有分工？
 
