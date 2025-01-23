@@ -504,8 +504,7 @@ comm_check_repo() {
 	fi
 
 	cd ${path}
-	local status=$(git status -s)
-	local no_untracked_status=$(git status -s --untracked-files=no)
+	local status=$(git status -s) # git status -s --untracked-files=no
 
 	local is_repo_clean=true
 	if [ ! -z "${status}" ]; then
@@ -513,11 +512,6 @@ comm_check_repo() {
 		comm_echo "${status}"
 		not_clean_repos_ref+=(${repo})
 		is_repo_clean=false
-	fi
-
-	if [ ! -z "${no_untracked_status}" ]; then
-		comm_echo "${repo}跟踪的文件有未提交的更改"
-		return
 	fi
 
 	git fetch origin
