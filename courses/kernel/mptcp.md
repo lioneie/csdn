@@ -1,9 +1,10 @@
-mptcp的maintainer之一Geliang Tang <tanggeliang@kylinos.cn>是我们麒麟软件的，最近在调研mptcp和smb结合的可能性，顺便记录一下。
+mptcp的maintainer之一Geliang Tang <tanggeliang@kylinos.cn>是我们麒麟软件的，最近在调研mptcp和smb、nfs结合的可能性，顺便记录一下。
 
 # 资料
 
 - [mptcp.dev](https://www.mptcp.dev/), 对应的[github仓库](https://github.com/multipath-tcp/mptcp.dev)
 - [mptcp_net-next/wiki](https://github.com/multipath-tcp/mptcp_net-next/wiki)
+- [Multipath TCP Documentation](https://mptcp-apps.github.io/mptcp-doc/)
 - [RFC 8684](https://www.rfc-editor.org/rfc/rfc8684.html), [pdf文档翻译请查看百度网盘](https://chenxiaosong.com/baidunetdisk)
 - [邮件列表](https://lore.kernel.org/mptcp/)
 - [patchwork](https://patchwork.kernel.org/project/mptcp/list/)
@@ -17,8 +18,28 @@ mptcp的maintainer之一Geliang Tang <tanggeliang@kylinos.cn>是我们麒麟软�
 
 - [`mptcp-client.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mptcp/mptcp-client.c)
 - [`mptcp-server.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mptcp/mptcp-server.c)
+- [`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mptcp/Makefile.c)
 
-打开内核配置`CONFIG_MPTCP`、`CONFIG_MPTCP_IPV6`和`CONFIG_INET_MPTCP_DIAG`。
+## qemu虚拟机
+
+qemu命令行启动虚拟机时，多个网卡的启动参数如下:
+```sh
+-net tap \
+-net nic,model=virtio,macaddr=00:11:22:33:44:06 \
+-net nic,model=virtio,macaddr=00:11:22:33:44:56 \
+```
+
+启动后，在虚拟机中用`ifconfig -a`可以看到另一个网卡`ens3`，debian使用以下命令:
+```sh
+echo -e "auto ens3\niface ens3 inet dhcp" >> /etc/network/interfaces
+systemctl restart networking
+```
+
+qemu命令行启动虚拟机可以参考[《内核开发环境》](https://chenxiaosong.com/courses/kernel/kernel-dev-environment.html)。
+
+## mptcp相关命令
+
+编译内核时打开配置`CONFIG_MPTCP`、`CONFIG_MPTCP_IPV6`和`CONFIG_INET_MPTCP_DIAG`。
 
 检查系统配置:
 ```sh
@@ -49,6 +70,27 @@ mptcpize run <command>
 mptcpize enable <systemd unit>
 ```
 
+## 路径管理
+
+client端操作:
+```sh
+ss -iaM # 查看socket状态
+    # State  Recv-Q  Send-Q  Local Address:Port    Peer Address:Port
+    # ESTAB  0       0       192.168.53.210:36632  192.168.53.37:9734
+ip mptcp endpoint show # 列出主机上活动 IP 地址的标识符
+    # 192.168.53.38 id 1 subflow dev ens3
+    # 192.168.53.210 id 2 subflow dev ens2
+ip mptcp endpoint del id 1
+ip mptcp endpoint add 192.168.53.38 dev ens3 subflow backup # 将ens3接口配置为备份接口
+ip mptcp endpoint show # 再次查看
+    # 192.168.53.210 id 2 subflow dev ens2
+    # 192.168.53.38 id 3 subflow backup dev ens3
+ip mptcp limits # 查看限制
+    # add_addr_accepted 0 subflows 2
+ip mptcp limits set subflow 2
+ip mptcp limits set add_addr_accepted 2
+```
+
 # 内核态socket
 
 - [`kernel-socket-client.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kernel-socket/kernel-socket-client.c)
@@ -66,4 +108,5 @@ insmod ./kernel-socket-client.ko
 
 - 不修改应用，使用BPF来修改socket类型，用mptcpize？
 - 路径管理器，内核内和用户空间，区别？是能相互替代还是各有分工？
+- 子路径是自动识别的还是要手动操作？
 
