@@ -72,6 +72,27 @@ mptcpize enable <systemd unit>
 
 ## 路径管理
 
+我的环境如下:
+```sh
+server:
+    ens2: 192.168.53.209
+    ens3: 192.168.53.37
+client:
+    ens2: 192.168.53.210
+    ens3: 192.168.53.38
+```
+
+server端操作:
+```sh
+ss -iaM # 查看socket状态
+    # State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port
+    # ESTAB   0       0       192.168.53.37:9734  192.168.53.1:36632
+    # LISTEN  0       5             0.0.0.0:9734       0.0.0.0:*
+ip mptcp endpoint show # 列出主机上活动 IP 地址的标识符
+    # 192.168.53.37 id 1 subflow dev ens3
+    # 192.168.53.209 id 2 subflow dev ens2
+```
+
 client端操作:
 ```sh
 ss -iaM # 查看socket状态
@@ -80,15 +101,15 @@ ss -iaM # 查看socket状态
 ip mptcp endpoint show # 列出主机上活动 IP 地址的标识符
     # 192.168.53.38 id 1 subflow dev ens3
     # 192.168.53.210 id 2 subflow dev ens2
-ip mptcp endpoint del id 1
-ip mptcp endpoint add 192.168.53.38 dev ens3 subflow backup # 将ens3接口配置为备份接口
-ip mptcp endpoint show # 再次查看
-    # 192.168.53.210 id 2 subflow dev ens2
-    # 192.168.53.38 id 3 subflow backup dev ens3
 ip mptcp limits # 查看限制
     # add_addr_accepted 0 subflows 2
 ip mptcp limits set subflow 2
 ip mptcp limits set add_addr_accepted 2
+# 删除和添加路径
+ip mptcp endpoint del id 1 # ens3
+ip mptcp endpoint del id 2 # 全给删除了
+ip mptcp endpoint add 192.168.53.38 dev ens3 subflow
+ip mptcp endpoint add 192.168.53.210 dev ens2 subflow
 ```
 
 # 内核态socket
