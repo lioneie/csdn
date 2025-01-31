@@ -439,9 +439,9 @@ comm_generate_index() {
 	done
 }
 
-# 在仓库干净的前提下，确认git仓库要采取的操作
+# 确认git仓库要采取的操作
 #   return 0: 要手动处理
-#   return 1: git pull
+#   return 1: git pull (调用的地方要保证不会冲突)
 #   return 2: git push
 comm_check_pull_push() {
 	local origin_commit=$(git rev-parse origin/master)
@@ -455,11 +455,11 @@ comm_check_pull_push() {
 
 	comm_echo "${contains_origin}"
 	if echo "${contains_origin}" | grep -q "^  remotes/origin/master"; then
-		comm_echo "origin commit is contained in remote branch"
+		comm_echo "origin/master commit is contained in remote branch"
 		remote_contain_origin=true
 	fi
 	if echo "${contains_origin}" | grep -q "^* master"; then
-		comm_echo "origin commit is contained in local branch"
+		comm_echo "origin/master commit is contained in local branch"
 		local_contain_origin=true
 	fi
 
