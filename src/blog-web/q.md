@@ -32,7 +32,7 @@
 
 # 怎么搭建类似的网站？
 
-搭建网站的开源框架有很多，我的网站是比较简陋的，只能浏览网页，暂时没做后台管理系统，想快速搭建一个类似的简陋网站参考视频[《搭建个人主页-局域网》](https://www.bilibili.com/video/BV14z421z7Mb/)和[《搭建个人主页-公网》](https://www.bilibili.com/video/BV1Tm421579v/)，博客文章是[《如何拥有个人域名的网站和邮箱》](https://chenxiaosong.com/src/blog-web/blog-web.html)。
+搭建网站的开源框架有很多，我的网站是托管在github.io，可以参考博客文章[《如何拥有个人域名的网站和邮箱》](https://chenxiaosong.com/src/blog-web/blog-web.html)，我的网站现在还比较简陋，只能浏览网页，暂时没做后台管理系统。想在阿里云服务器上搭建可以参考视频[《搭建个人主页-局域网》](https://www.bilibili.com/video/BV14z421z7Mb/)和[《搭建个人主页-公网》](https://www.bilibili.com/video/BV1Tm421579v/)。
 
 # 怎么往内核社区发补丁？
 
