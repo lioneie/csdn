@@ -27,6 +27,7 @@ comm_array=(
 		1 1 courses/kernel/kernel-process.md ~ "进程管理和调度"
 		1 1 courses/kernel/kernel-interrupt.md ~ "中断"
 		1 1 courses/kernel/kernel-syscall.md ~ "系统调用"
+		1 1 courses/kernel/kernel-block.md ~ "块I/O层"
 		1 1 courses/kernel/kernel-timer.md ~ "定时器"
 		1 1 courses/kernel/kernel-bpf.md ~ "BPF"
 		1 1 courses/kernel/kernel-sync.md ~ "内核同步"
