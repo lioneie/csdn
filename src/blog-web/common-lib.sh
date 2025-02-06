@@ -508,8 +508,8 @@ comm_check_repo() {
 
 	local is_repo_clean=true
 	if [ ! -z "${status}" ]; then
-		comm_echo "${repo}有未提交的更改:"
-		comm_echo "${status}"
+		echo -e "$(comm_red_color)${repo}$(comm_no_color) 有未提交的更改:"
+		git status -s
 		not_clean_repos_ref+=(${repo})
 		is_repo_clean=false
 	fi
@@ -567,7 +567,7 @@ comm_get_title_filename() {
 	# 提取文件的目录路径
 	local dir_path=$(dirname "${dst_file}")
 	# 提取文件的扩展名
-	local extension="${dst_file##*.}" # TODO: 多个点号时
+	local extension="${dst_file##*.}" # 最后一个点号后面的部分
 	# 除下划线外，所有标点和空格替换为减号
 	# html_title=$(echo "${html_title}" | sed 's/_/underscore/g' | sed 's/[[:punct:][:space:]]/-/g' | sed 's/underscore/_/g')
 	# 替换/

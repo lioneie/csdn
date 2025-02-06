@@ -153,7 +153,7 @@ pandoc test.html --pdf-engine=wkhtmltopdf -o test.pdf
 
 你辛辛苦苦写的文章，肯定是希望被更多人看到，虽然百度上广告很多，但毕竟国内用的人还是多。
 
-更具体的方法可以百度搜索，这里只说一下大致过程。进入[链接提交](https://ziyuan.baidu.com/linksubmit/url)，填写提交就可以了，听说要等个把月才能被搜索到。如果你的网站已经被收录了，在[百度搜索引擎](www.baidu.com)中搜索`site:chenxiaosong.com`能看到结果。
+更具体的方法可以百度搜索，这里只说一下大致过程。进入[链接提交](https://ziyuan.baidu.com/linksubmit/url)，填写提交就可以了，听说要等个把月才能被搜索到。如果你的网站已经被收录了，在[百度搜索引擎](https://www.baidu.com/)中搜索`site:chenxiaosong.com`能看到结果。
 
 # 个人域名后缀的邮箱
 

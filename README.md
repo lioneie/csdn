@@ -4,4 +4,4 @@
 
 如有引用其他人的文章也会标明出处。
 
-如果你发现任何内容与你的文章雷同，请联系我（chenxiaosong@chenxiaosong.com），我会标明出处。
+如果你发现任何内容与你的文章雷同，或者发现有需要修改和补充的地方，请联系我（<chenxiaosong@chenxiaosong.com>），我会标明出处。
