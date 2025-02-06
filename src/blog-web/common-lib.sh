@@ -508,7 +508,7 @@ comm_check_repo() {
 
 	local is_repo_clean=true
 	if [ ! -z "${status}" ]; then
-		echo "${repo}有未提交的更改:"
+		echo -e "$(comm_red_color)${repo}$(comm_no_color) 有未提交的更改:"
 		git status -s
 		not_clean_repos_ref+=(${repo})
 		is_repo_clean=false
