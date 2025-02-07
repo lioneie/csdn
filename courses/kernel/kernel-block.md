@@ -166,12 +166,20 @@ I/O调度器管理块设备的请求队列，减少磁盘寻址时间，提高�
 
 合并是将多个请求结合成一个请求，原本要执行的多次磁盘寻址就变成只需要一次磁盘寻址。排序是将请求按磁盘上扇区的排列顺序尽可能的有序排列，从而让磁盘头以直线方向移动，和电梯调度类似。
 
+https://github.com/torvalds/linux/blob/master/Documentation/block/switching-sched.rst
+
 <!-- ing begin -->
 # mq-deadline
 
+https://github.com/torvalds/linux/blob/master/Documentation/block/deadline-iosched.rst
+
 # bfq
 
+https://github.com/torvalds/linux/blob/master/Documentation/block/bfq-iosched.rst
+
 # kyber
+
+https://github.com/torvalds/linux/blob/master/Documentation/block/kyber-iosched.rst
 
 # 其他已淘汰的I/O调度器
 
