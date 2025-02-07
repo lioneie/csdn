@@ -141,33 +141,9 @@ ip link set dev ens2 up
 curl -fsSL https://code-server.dev/install.sh | sh
 ```
 
-<!--
-安装成功后，输出以下日志:
-```sh
-Ubuntu 22.04.2 LTS
-Installing v4.11.0 of the amd64 deb package from GitHub.
-
-+ mkdir -p ~/.cache/code-server
-+ curl -#fL -o ~/.cache/code-server/code-server_4.11.0_amd64.deb.incomplete -C - https://github.com/coder/code-server/releases/download/v4.11.0/code-server_4.11.0_amd64.deb
-######################################################################## 100.0%
-+ mv ~/.cache/code-server/code-server_4.11.0_amd64.deb.incomplete ~/.cache/code-server/code-server_4.11.0_amd64.deb
-+ sudo dpkg -i ~/.cache/code-server/code-server_4.11.0_amd64.deb
-Selecting previously unselected package code-server.
-(Reading database ... 226525 files and directories currently installed.)
-Preparing to unpack .../code-server_4.11.0_amd64.deb ...
-Unpacking code-server (4.11.0) ...
-Setting up code-server (4.11.0) ...
-
-deb package has been installed.
-
-To have systemd start code-server now and restart on boot:
-  sudo systemctl enable --now code-server@$USER
-Or, if you don't want/need a background service you can run:
-  code-server
-
-Deploy code-server for your team with Coder: https://github.com/coder/coder
-```
--->
+<!-- public begin -->
+[安装过程中输出的提示信息](https://gitee.com/chenxiaosonggitee/tmp/blob/master/kernel/code-server-install-log.txt)。
+<!-- public end -->
 
 或者下载[对应系统的安装包](https://github.com/coder/code-server/releases)。
 
