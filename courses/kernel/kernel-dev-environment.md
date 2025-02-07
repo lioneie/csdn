@@ -132,7 +132,7 @@ ip link set dev ens2 up
 
 ## code-server
 
-注意现在无法下载[C/C++ GNU Global](https://marketplace.visualstudio.com/items?itemName=jaycetyle.vscode-gnu-global)的.vsix文件了，所以还是建议用vscode客户端。
+注意现在无法在[vscode网站](https://marketplace.visualstudio.com/vscode)下载`.vsix`文件，所以还是建议用上面的vscode客户端。
 
 为了尽可能的方便，可以使用code-server在网页上浏览和编辑代码，当然你也可以使用自己习惯的代码浏览和编辑工具。
 
@@ -163,7 +163,7 @@ sudo systemctl restart code-server@$USER
 
 有些格式的文件可能不会自动换行显示，可以勾选`View -> Word Wrap`。
 
-注意，和vscode客户端不一样，vscode server装插件时有些插件无法搜索到，这时就需要在[vscode网站](https://marketplace.visualstudio.com/vscode)上下载`.vsix`文件，手动安装。
+注意，和vscode客户端不一样，vscode server装插件时有些插件无法搜索到，这时就需要在[vscode网站](https://marketplace.visualstudio.com/vscode)下载`.vsix`文件，手动安装。
 
 <!-- public begin -->
 常用插件:
