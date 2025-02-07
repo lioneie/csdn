@@ -189,6 +189,8 @@ I/O调度器管理块设备的请求队列，减少磁盘寻址时间，提高�
 
 ## Noop
 
+<!-- https://www.cnblogs.com/liulianzhen99/articles/18021188 -->
+
 none是多队列版本的Noop
 
 <!-- ing end -->
