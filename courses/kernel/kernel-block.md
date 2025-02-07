@@ -177,15 +177,19 @@ I/O调度器管理块设备的请求队列，减少磁盘寻址时间，提高�
 
 ## Linus Elevator
 
-## Deadline I/O Scheduler
+## Deadline
 
 被mq-deadline延续
 
-## Anticipatory I/O Scheduler
+## Anticipatory
 
-## Complete Fair Queuing I/O Scheduler
+## CFQ(Complete Fair Queuing)
 
 被bfq取代
+
+## Noop
+
+none是多队列版本的Noop
 
 <!-- ing end -->
 
