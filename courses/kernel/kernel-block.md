@@ -172,5 +172,20 @@ I/O调度器管理块设备的请求队列，减少磁盘寻址时间，提高�
 # bfq
 
 # kyber
+
+# 其他已淘汰的I/O调度器
+
+## Linus Elevator
+
+## Deadline I/O Scheduler
+
+被mq-deadline延续
+
+## Anticipatory I/O Scheduler
+
+## Complete Fair Queuing I/O Scheduler
+
+被bfq取代
+
 <!-- ing end -->
 
