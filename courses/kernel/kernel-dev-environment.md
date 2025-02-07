@@ -122,9 +122,19 @@ ip link set dev ens2 up
 
 # 代码管理和编辑工具
 
-## 使用code-server浏览和编辑代码
+## vscode
 
-为了尽可能的方便，推荐使用code-server在网页上浏览和编辑代码，当然你也可以使用自己习惯的代码浏览和编辑工具。
+浏览代码的编辑器每个人都有自己的喜好，就像我用的是小众的emacs，Linux下也有很多人用vim和vscode。
+
+当然，自己用得称手的兵器才是好兵器，别人的建议也只是建议，还是得根据自己的习惯选择最适合自己的编辑器工具。
+
+建议使用[vscode客户端](https://code.visualstudio.com/)打开远程的文件时, 可以使用 [remote-ssh](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)插件。
+
+## code-server
+
+注意现在无法下载[C/C++ GNU Global](https://marketplace.visualstudio.com/items?itemName=jaycetyle.vscode-gnu-global)的.vsix文件了，所以还是建议用vscode客户端。
+
+为了尽可能的方便，可以使用code-server在网页上浏览和编辑代码，当然你也可以使用自己习惯的代码浏览和编辑工具。
 
 [code-server源码](https://github.com/coder/code-server)托管在GitHub，安装命令:
 ```sh
@@ -191,8 +201,6 @@ sudo systemctl restart code-server@$USER
 - Vue.js推荐使用插件[Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)、[Vue Peek](https://marketplace.visualstudio.com/items?itemName=dariofuzinato.vue-peek)、[ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)、[Bracket Pair Colorizer 2](https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer-2)、[VueHelper](https://marketplace.visualstudio.com/items?itemName=oysun.vuehelper)
 
 - markdown插件[Markdown Preview Enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)
-
-当想在[vscode客户端](https://code.visualstudio.com/)打开远程的文件时, 可以使用 [remote-ssh](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)插件.
 <!-- public end -->
 
 <!-- public begin -->
