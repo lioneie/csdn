@@ -524,6 +524,7 @@ comm_check_repo() {
 	comm_echo "${repo} origin_commit: ${origin_commit}"
 	comm_echo "${repo} master_commit: ${master_commit}"
 
+	local is_include_repo=${is_repo_clean}
 	if [ "${origin_commit}" == "${master_commit}" ]; then
 		comm_echo "${repo}不用push/pull"
 		tmp_repos_ref=ok_repos_ref
@@ -542,10 +543,11 @@ comm_check_repo() {
 		else
 			comm_echo "${repo}未push/pull，要手动处理"
 			tmp_repos_ref=not_sync_repos_ref
+			is_include_repo=true
 		fi
 	fi
-	if [[ "${is_repo_clean}" == "true" ]]; then
-		comm_echo "${repo}仓库是干净的"
+	if [[ "${is_include_repo}" == "true" ]]; then
+		comm_echo "${repo}被包含到数组中"
 		tmp_repos_ref+=(${repo})
 	fi
 }
