@@ -66,6 +66,7 @@ create_full_course_md() {
 	local target_path=${src_path}/${mid_path}
 	local except_array=(
 		courses/${course}/${course}.md
+		courses/${course}/video.md
 	)
 	local array=()
 	scan_md array "${target_path}" "${mid_path}"

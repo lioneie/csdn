@@ -2,9 +2,7 @@
 
 在这里郑重承诺一下，接下来的课程的每一个字，我都是用键盘一字一句的敲出来，绝对不会复制粘贴，引用其他朋友原话的内容我也会标明出处，欢迎各位朋友的监督。
 
-[点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://www.bilibili.com/video/BV15C411E7Sm/)。
-
-[点击这里在哔哩哔哩bilibili在线观看配套的加餐视频（就是一些补充）](https://www.bilibili.com/video/BV1Tx4y187vg/)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/courses/kernel/video.html)。
 
 持续更新中。。。
 

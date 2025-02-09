@@ -17,6 +17,7 @@ comm_array=(
 	# 课程
 	1 1 courses/myfs/myfs.md ~ '"我的"文件系统'
 	0 1 courses/kernel/kernel.md ~ "Linux内核课程"
+		1 1 courses/kernel/video.md ~ "Linux内核课程配套视频"
 		1 1 courses/kernel/kernel-introduction.md ~ "内核简介"
 		1 1 courses/kernel/kernel-dev-environment.md ~ "内核开发环境"
 		1 1 courses/kernel/kernel-book.md ~ "内核书籍推荐"
