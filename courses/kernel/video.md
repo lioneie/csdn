@@ -1,10 +1,5 @@
 [点击跳转到内核课程博客的所有目录](https://chenxiaosong.com/courses/kernel/kernel.html)。
 
-<!--
-1. 保存成html文件
-2. grep -r "href=\"https://www.bilibili.com/video" xxx.html
--->
-
 # 内核简介
 
 - [001-陈孝松个人简介](https://www.bilibili.com/video/BV15C411E7Sm/)
