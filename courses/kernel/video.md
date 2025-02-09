@@ -13,6 +13,8 @@
 - [006-QEMU运行内核](https://www.bilibili.com/video/BV1zx4y1q7eW/)
 - [007-GDB调试内核](https://www.bilibili.com/video/BV13w4m1y7BU/)
 - [008-docker内核开发环境](https://www.bilibili.com/video/BV1ez421U7Lu/)
+- [加餐: 002-虚拟机软件UTM和VirtualBox](https://www.bilibili.com/video/BV1Ss421T7KY/)
+- [加餐: 006-内核文档编译](https://www.bilibili.com/video/BV19MD5YhEv7/)
 
 # 内核书籍推荐
 
@@ -22,6 +24,8 @@
 
 - [010-内核社区和内核源码树](https://www.bilibili.com/video/BV1Cf421U7Sj/)
 - [011-贡献内核社区](https://www.bilibili.com/video/BV1eT421977p/)
+- [加餐: 001-脚本查找长函数](https://www.bilibili.com/video/BV1Tx4y187vg/)
+- [加餐: 005-内核获取邮箱脚本](https://www.bilibili.com/video/BV1Y2yrYZES8/)
 
 # 文件系统
 
@@ -64,6 +68,7 @@
 - [045-crash分析汇编](https://www.bilibili.com/video/BV1wx4y187zV/)
 - [046-fedora使用kdump和systemtap](https://www.bilibili.com/video/BV1dT421r7SB/)
 - [047-systemtap调试最新内核](https://www.bilibili.com/video/BV1Ez421q7yu/)
+- [加餐: 004-bpftrace](https://www.bilibili.com/video/BV1ej4sepEyr/)
 
 # 内存管理
 
@@ -127,3 +132,6 @@
 - [099-工作队列（下）](https://www.bilibili.com/video/BV1i61sYQERB/)
 - [100-threaded_irq](https://www.bilibili.com/video/BV1nk1hYyEcj/)
 
+# 其他视频
+
+- [加餐: 003-syzkaller](https://www.bilibili.com/video/BV1aE421A7n3/)
