@@ -652,3 +652,35 @@ comm_normalize_path() {
 	echo "$path"
 }
 
+comm_tmp_params_file() {
+	echo "/tmp/blog-params.json"
+}
+
+comm_defaut_local_ip() {
+	echo "10.42.20.221"
+}
+
+comm_delete_params() {
+	echo "捕获到 Ctrl+C 信号或脚本正常退出！"
+	rm -rf "$(comm_tmp_params_file)"
+	exit 0
+}
+
+
+comm_create_params() {
+	local is_replace_ip="${1:-false}" # 是否要替换ip
+	local ip_addr="${2:-$(comm_defaut_local_ip)}" # 内网要替换的ip
+
+	echo "	{\
+			\"is_replace_ip\": \"${is_replace_ip}\", \
+			\"ip_addr\": \"${ip_addr}\" \
+		}" | jq '.' > "$(comm_tmp_params_file)"
+	# trap comm_delete_params SIGINT
+	trap comm_delete_params EXIT # ctrl+c也会被捕获，所以不需要捕获SIGINT
+}
+
+comm_get_param() {
+	local key=$1
+	cat "$(comm_tmp_params_file)" | jq ".${key}"
+}
+

@@ -7,6 +7,17 @@
 
 这篇文章记录一下我是如何搭建[我那个简陋的个人网站](https://chenxiaosong.com/)，以及怎么拥有像chenxiaosong@chenxiaosong.com这种个人域名后缀的邮箱。各位朋友如果有更好的建议，请务必联系我。
 
+# 所需软件
+
+安装以下软件:
+```sh
+apt install nginx -y # 异步框架的网页服务器
+apt-get install pandoc -y # 用于生成html
+apt install jq -y # 解析json
+apt-get install -y apache2-utils # 用于密码保护，ubuntu
+yum install -y httpd-tools # 用于密码保护, fedora
+```
+
 # 域名和公网ip
 
 首先，得先申请个域名，比如《你的名字拼音全拼.com》，可以在[阿里云](https://dc.console.aliyun.com/next/index?spm=5176.100251.console-base.ddomain.17894f15m8MjuR#/overview)、腾讯云等平台注册申请。然后还要有一台有公网ip的服务器，我用的是[阿里云的服务器](https://ecs.console.aliyun.com/home#/)。再把这个域名对应到这个公网ip上。
@@ -19,11 +30,6 @@
 
 Nginx（发音同「engine X」）是异步框架的网页服务器，也可以用作反向代理、负载平衡器和HTTP缓存。
 
-ubuntu安装nginx:
-```sh
-apt install nginx -y
-```
-
 在[阿里云](https://yundun.console.aliyun.com/?p=cas#/certExtend/free/cn-hangzhou)购买免费SSL证书，再点击“创建证书”，点击“状态”栏中的感叹号，然后根据提示添加域名解析记录，注意证书签发后有效期为3个月。
 
 将[`nginx-config`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/blog-web/nginx-config)复制到`/etc/nginx/sites-enabled/default`，具体的配置选项的解释请查看配置文件的具体内容。
@@ -35,12 +41,6 @@ sudo systemctl restart nginx
 ```
 
 ## nginx某个目录密码保护
-
-安装软件:
-```sh
-apt-get install -y apache2-utils
-yum install -y httpd-tools
-```
 
 创建密码文件:
 ```sh
@@ -65,11 +65,6 @@ rstcheck file
 ## pandoc
 
 pandoc用于将markdown或rst（ReStructuredText）格式文件转换成html。
-
-安装:
-```sh
-apt-get install pandoc -y
-```
 
 具体的命令可以参考[`create-html.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/blog-web/create-html.sh)，脚本里写了详细的说明。
 

@@ -5,6 +5,8 @@ github_io_repo=${code_path}/${user_name}.github.io/
 # 导入其他脚本
 . ${code_path}/blog/src/blog-web/common-lib.sh
 
+comm_create_params "false"
+
 is_new_repo=false
 if [ $# -ge 1 ]; then
 	is_new_repo=$1

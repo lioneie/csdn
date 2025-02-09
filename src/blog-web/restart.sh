@@ -1,12 +1,12 @@
 # 运行命令不断检查 while true; do bash restart.sh; sleep 90; done
 . ~/.top-path
+src_path=${MY_CODE_TOP_PATH}/blog # 替换为你的仓库路径
+. ${src_path}/src/blog-web/common-lib.sh
 
 is_replace_ip=true # 是否要替换ip
-# 也可以使用简化版本: other_ip="${1:-10.42.20.221}"
-other_ip=10.42.20.221 # 内网要替换的ip
-if [ -n "$1" ]; then
-	other_ip="$1"
-fi
+other_ip="${1:-$(comm_defaut_local_ip)}" # 内网要替换的ip
+
+comm_create_params "${is_replace_ip}" "${other_ip}"
 
 code_path=${MY_CODE_TOP_PATH} # 替换成你的仓库路径
 is_restart=false # 是否重新启动
