@@ -26,7 +26,7 @@ done 系统题 631(会员) 208(字典树) 146 355 635(会员) 901 1396 1500(会�
 
 另外，Linux内核有时也要用到算法，如[Zhen Lei的这组补丁](https://lore.kernel.org/lkml/20221102084921.1615-1-thunder.leizhen@huawei.com/)和[`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
 
-[点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://www.bilibili.com/video/BV1cNxueQEmn/)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/courses/algorithms/video.html)。
 
 持续更新中。。。
 

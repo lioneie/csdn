@@ -124,6 +124,7 @@ comm_array=(
 			1 1 courses/smb/issues/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect()空指针解引用问题"
 			1 1 courses/smb/issues/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat()系统调用报错ENOTSUPP"
 	0 1 courses/algorithms/algorithms.md ~ "算法"
+		1 1 courses/algorithms/video.md ~ "算法课程配套视频"
 		1 1 courses/algorithms/book.md ~ "算法书籍推荐"
 		1 1 courses/algorithms/dynamic-programming.md ~ "动态规划"
 		1 1 courses/algorithms/sort.md ~ "排序算法"
