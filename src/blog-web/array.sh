@@ -105,6 +105,7 @@ comm_array=(
 			1 1 courses/nfs/issues/nfsiostat-queue-long-time.md ~ "nfsiostat命令queue时间长的问题"
 			1 1 courses/nfs/issues/null-ptr-deref-in-nfs_ctx_key_to_expire.md ~ "nfs_ctx_key_to_expire()引用计数泄露和空指针解引用的问题"
 	0 1 courses/smb/smb.md ~ "smb文件系统"
+		1 1 courses/smb/video.md ~ "smb课程配套视频"
 		1 1 courses/smb/smb-introduction.md ~ "smb简介"
 		1 1 courses/smb/smb-environment.md ~ "smb环境"
 		1 1 courses/smb/ksmbd.md ~ "smb server (ksmbd)"
