@@ -2,10 +2,13 @@
 
 # 课程配套视频
 
-- [Linux内核课程配套教学视频](https://chenxiaosong.com/courses/kernel/video.html)
-- [nfs课程配套教学视频](https://chenxiaosong.com/courses/nfs/video.html)
-- [smb课程配套教学视频](https://chenxiaosong.com/courses/smb/video.html)
-- [算法课程配套教学视频](https://chenxiaosong.com/courses/algorithms/video.html)
+[点击这里查看Linux内核课程配套教学视频](https://chenxiaosong.com/courses/kernel/video.html)
+
+[点击这里查看nfs课程配套教学视频](https://chenxiaosong.com/courses/nfs/video.html)
+
+[点击这里查看smb课程配套教学视频](https://chenxiaosong.com/courses/smb/video.html)
+
+[点击这里查看算法课程配套教学视频](https://chenxiaosong.com/courses/algorithms/video.html)
 
 # 其他博客配套视频
 
