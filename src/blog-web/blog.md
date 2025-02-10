@@ -10,6 +10,10 @@
 
 利用业余时间写了一些教程，同时也录了配套的视频，最大的目的是为了整理自己以前学习到的知识点，当然也为了学习还没学到的知识点，查缺补漏，温故知新。
 
+# 博客配套视频
+
+[点击这里查看博客配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)
+
 # Linux内核
 
 [点击查看Linux内核课程（持续更新中）](https://chenxiaosong.com/courses/kernel/kernel.html)

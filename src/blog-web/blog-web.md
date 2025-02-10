@@ -1,11 +1,6 @@
+[点击这里查看配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)。
 
-[点击这里在哔哩哔哩bilibili在线观看配套的教学视频《搭建个人主页-局域网》](https://www.bilibili.com/video/BV14z421z7Mb/)。
-
-[点击这里在哔哩哔哩bilibili在线观看配套的教学视频《搭建个人主页-公网》](https://www.bilibili.com/video/BV1Tm421579v/)。
-
-[点击这里在哔哩哔哩bilibili在线观看配套的教学视频《个人域名后缀的邮箱》](https://www.bilibili.com/video/BV1uE421N7iC/)。
-
-这篇文章记录一下我是如何搭建[我那个简陋的个人网站](https://chenxiaosong.com/)，以及怎么拥有像chenxiaosong@chenxiaosong.com这种个人域名后缀的邮箱。各位朋友如果有更好的建议，请务必联系我。
+这篇文章记录一下我是如何搭建[我那个简陋的个人网站](https://chenxiaosong.com/)，以及怎么拥有像<chenxiaosong@chenxiaosong.com>这种个人域名后缀的邮箱。各位朋友如果有更好的建议，请务必联系我。
 
 # 所需软件
 

@@ -1,4 +1,4 @@
-[点击这里在哔哩哔哩bilibili在线观看配套的教学视频](https://www.bilibili.com/video/BV1bs4peuEai/)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)。
 
 现在有3台电脑:
 ```

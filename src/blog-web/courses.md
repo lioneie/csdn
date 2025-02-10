@@ -22,11 +22,9 @@
 
 [点击查看Godot游戏开发课程（持续更新中）](https://chenxiaosong.com/courses/godot/godot.html)
 
-# 未分类的一些视频
+# 课程配套视频
 
-除了上面成体系的课程外，还录了一些其他视频，统一放到了哔哩哔哩bilibili的一个合集中。
-
-[点击这里在哔哩哔哩bilibili在线观看未分类的一些视频](https://www.bilibili.com/video/BV14z421z7Mb/)
+[点击这里查看课程配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)
 
 # 参考书籍
 

@@ -34,7 +34,7 @@
 
 # 哔哩哔哩视频
 
-[点击这里在哔哩哔哩bilibili在线观看教学视频](https://chenxiaosong.com/bili)
+[点击这里查看哔哩哔哩bilibili教学视频](https://chenxiaosong.com/src/blog-web/video.html)
 
 在b站上录了一些视频，配合着这里个人主页的文章，记录自己学习的成果，也希望能对其他热爱技术的朋友有所启发。
 

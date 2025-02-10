@@ -20,12 +20,15 @@
 
 - [010-鸿蒙操作系统和OpenHarmony介绍](https://www.bilibili.com/video/BV1Nf1FYYEjx/)
 
+vnc:
+
+- [006-vnc软件](https://www.bilibili.com/video/BV1fM4m127UM/)
+- [007-qemu+vnc](https://www.bilibili.com/video/BV1mw4m1a7sE/)
+
 Linux环境:
 
 - [004-苹果电脑虚拟机软件UTM](https://www.bilibili.com/video/BV1uz421z7Wn/)
 - [005-arm64的Linux通过Wine运行exe](https://www.bilibili.com/video/BV19s421T7ws/)
-- [006-vnc软件](https://www.bilibili.com/video/BV1fM4m127UM/)
-- [007-qemu+vnc](https://www.bilibili.com/video/BV1mw4m1a7sE/)
 - [009-反向ssh和内网穿透](https://www.bilibili.com/video/BV1bs4peuEai/)
 
 docker:

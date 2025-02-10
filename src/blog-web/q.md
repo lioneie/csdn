@@ -28,11 +28,11 @@
 
 - 看内核书籍（请参考[《内核书籍推荐》](https://chenxiaosong.com/courses/kernel/kernel-book.html)），可以[点击这里从百度网盘下载pdf电子书](https://chenxiaosong.com/baidunetdisk)。电子书请仅作为学习用途，有需要的话建议购买纸质书。
 - 多和社区交流，多看源码。关于社区交流可以查看[《内核源码介绍》](https://chenxiaosong.com/courses/kernel/kernel-source.html)。
-- 还可以看我的视频: [点击这里在哔哩哔哩bilibili在线观看教学视频](https://chenxiaosong.com/bili)，当然我也还在学习中，很多知识可以说是现学现卖。
+- 还可以看我的视频: [点击这里在哔哩哔哩bilibili在线观看教学视频](https://chenxiaosong.com/src/blog-web/video.html)，当然我也还在学习中，很多知识可以说是现学现卖。
 
 # 怎么搭建类似的网站？
 
-搭建网站的开源框架有很多，我的网站是托管在github.io，可以参考博客文章[《如何拥有个人域名的网站和邮箱》](https://chenxiaosong.com/src/blog-web/blog-web.html)，我的网站现在还比较简陋，只能浏览网页，暂时没做后台管理系统。想在阿里云服务器上搭建可以参考视频[《搭建个人主页-局域网》](https://www.bilibili.com/video/BV14z421z7Mb/)和[《搭建个人主页-公网》](https://www.bilibili.com/video/BV1Tm421579v/)。
+搭建网站的开源框架有很多，我的网站是托管在github.io，可以参考博客文章[《如何拥有个人域名的网站和邮箱》](https://chenxiaosong.com/src/blog-web/blog-web.html)，我的网站现在还比较简陋，只能浏览网页，暂时没做后台管理系统。
 
 # 怎么往内核社区发补丁？
 
