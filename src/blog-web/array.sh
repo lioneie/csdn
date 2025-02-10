@@ -60,6 +60,7 @@ comm_array=(
 			1 1 courses/kernel/patches/refactor-of-__ext4_fill_super.md ~
 				"some refactor of __ext4_fill_super()"
 	0 1 courses/nfs/nfs.md ~ "nfs文件系统"
+		1 1 courses/nfs/video.md ~ "nfs课程配套视频"
 		1 1 courses/nfs/nfs-introduction.md ~ "nfs简介"
 		1 1 courses/nfs/nfs-environment.md ~ "nfs环境"
 		1 1 courses/nfs/nfs-client.md ~ "nfs client数据结构和函数流程"
