@@ -1,4 +1,4 @@
-[点击这里查看配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/video.html)。
 
 [OpenHarmony](https://www.openharmony.cn/mainPlay)是华为“鸿蒙操作系统”的底座，包含: 华为捐献的“鸿蒙操作系统”的基础能力 和 其他参与者的贡献。
 

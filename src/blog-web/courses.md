@@ -24,7 +24,7 @@
 
 # 课程配套视频
 
-[点击这里查看课程配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)
+[点击这里查看课程配套的教学视频](https://chenxiaosong.com/video.html)
 
 # 参考书籍
 

@@ -1,4 +1,4 @@
-[点击这里查看配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/video.html)。
 
 这篇文章就是记录一些常用的docker操作命令，方便后续查阅。
 

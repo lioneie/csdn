@@ -1,4 +1,4 @@
-[点击这里查看配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/video.html)。
 
 这篇文章记录一下我是如何搭建[我那个简陋的个人网站](https://chenxiaosong.com/)，以及怎么拥有像<chenxiaosong@chenxiaosong.com>这种个人域名后缀的邮箱。各位朋友如果有更好的建议，请务必联系我。
 

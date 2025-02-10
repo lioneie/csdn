@@ -1,4 +1,4 @@
-[点击这里查看配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/video.html)。
 
 现在有3台电脑:
 ```

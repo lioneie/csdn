@@ -1,4 +1,4 @@
-[点击这里查看配套的视频](https://chenxiaosong.com/src/blog-web/video.html)。
+[点击这里查看配套的视频](https://chenxiaosong.com/video.html)。
 
 本文章的目的不是教学五笔，而是谈谈为什么要用五笔，还有一些笔记。
 

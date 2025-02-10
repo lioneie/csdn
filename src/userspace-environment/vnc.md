@@ -8,7 +8,7 @@ qemu-img create -f qcow2 kylin-sp1-210528.qcow2 100G
 virt-install --virt-type kvm --name kylin-sp1-210528 --vcpus=4 --ram 4096 --cdrom=/root/virtual-machine/Kylin-Server-10-SP1-Release-Build20-20210518-x86_64.iso  --disk /root/virtual-machine/kylin-sp1-210528.qcow2,format=qcow2 --network network=default --graphics vnc,listen=0.0.0.0,port=5913 --os-type=linux 
 
 -->
-[点击这里查看配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/video.html)。
 
 # vnc软件
 

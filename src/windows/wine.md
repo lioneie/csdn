@@ -1,4 +1,4 @@
-[点击这里查看配套的教学视频](https://chenxiaosong.com/src/blog-web/video.html)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/video.html)。
 
 在Linux操作系统要运行Windows的`exe`程序，可以使用`wine`，还能跨cpu运行呢。
 
