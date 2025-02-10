@@ -16,6 +16,8 @@
 
 # [内核源码介绍](https://chenxiaosong.com/courses/kernel/kernel-source.html)
 
+# [内核测试工具](https://chenxiaosong.com/courses/kernel/kernel-tests.html)
+
 # [文件系统](https://chenxiaosong.com/courses/kernel/kernel-fs.html)
 
 # [内核调试方法](https://chenxiaosong.com/courses/kernel/kernel-debug.html)

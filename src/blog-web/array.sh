@@ -155,7 +155,6 @@ comm_array=(
 	1 1 src/kernel/kprobe-scsi-data.md ~ "使用kprobe监控scsi的读写数据"
 	1 1 src/process/process.md ~ "Linux进程调度"
 	1 1 src/kernel/gio-to-mount.md ~ "gio执行慢的临时解决办法"
-	1 1 src/kernel/syzkaller.md ~ "syzkaller - 内核模糊测试工具"
 	# nfs
 	1 1 src/nfs/4.19-rdma-not-supported.md ~ "4.19 rdma协议不支持的问题"
 	1 1 src/nfs/4.19-nfs-mount-hung.md ~ "4.19 nfs lazy umount 后无法挂载的问题"

@@ -1,3 +1,7 @@
+下面介绍一些Linux内核的测试工具。
+
+# syzkaller
+
 <!--
 https://i-m.dev/posts/20200313-143737.html
 
@@ -29,7 +33,7 @@ CONFIG_BINFMT_MISC=y
 - [syzkaller源码](https://github.com/google/syzkaller)
 - [syzkaller文档翻译](https://chenxiaosong.com/src/translations/tests/syzkaller.html)
 
-# 软件环境
+## 软件环境
 
 打开[All releases - The Go Programming Language](https://go.dev/dl/)，下载最新版本，如`go1.22.5.linux-amd64.tar.gz`:
 ```sh
@@ -62,7 +66,7 @@ CONFIG_KASAN=y
 CONFIG_KASAN_INLINE=y
 ```
 
-# 生成`qcow2`镜像
+## 生成`qcow2`镜像
 
 ```sh
 sudo apt install debootstrap -y
@@ -103,7 +107,7 @@ ssh -i bullseye.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localhost
 
 测试完后，要把虚拟机关机，因为syzkaller会自己启动虚拟机。如果你已经用上面的脚本启动了虚拟机，再启动syzkaller就会启动失败，而且`qcow2`镜像也会损坏。
 
-# 运行
+## 运行
 
 到syzkaller源码目录下，创建`my.cfg`文件如下:
 ```sh
@@ -148,7 +152,7 @@ server {
 
 这时就可以在其他电脑上访问`http://192.168.3.224:56741/`（`192.168.3.224`是宿主机的ip）。
 
-# 构造一个简单的bug
+## 构造一个简单的bug
 
 连续两次`chmod`调用的mode入参为0时，产生空指针解引用的bug，这个函数的执行路径是`chmod() -> do_fchmodat() -> chmod_common()`。
 
@@ -202,7 +206,7 @@ mkdir workdir
 ./bin/syz-manager -config=my.cfg
 ```
 
-# 复现
+## 复现
 
 可以在[syzbot](https://syzkaller.appspot.com/upstream)中找发现的bug，有crash的日志和复现程序（syz和C），把`bin/linux_amd64/`复制到要测试的虚拟机中，按以下步骤复现。
 
@@ -220,3 +224,4 @@ cat /proc/sys/kernel/panic_on_oops # 确认是否生效
 
 也可在转换为c代码前，排除掉单个程序中不会导致崩溃的系统调用，得到最终某几个系统调用触发的崩溃，在用syz-prog2c进行c代码的转换。
 -->
+

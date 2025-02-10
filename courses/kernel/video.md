@@ -29,6 +29,10 @@
 - [加餐: 001-脚本查找长函数](https://www.bilibili.com/video/BV1Tx4y187vg/)
 - [加餐: 005-内核获取邮箱脚本](https://www.bilibili.com/video/BV1Y2yrYZES8/)
 
+# 内核测试工具
+
+- [加餐: 003-syzkaller](https://www.bilibili.com/video/BV1aE421A7n3/)
+
 # 文件系统
 
 - [012-什么是文件系统](https://www.bilibili.com/video/BV1gi421D7RL/)
@@ -134,6 +138,3 @@
 - [099-工作队列（下）](https://www.bilibili.com/video/BV1i61sYQERB/)
 - [100-threaded_irq](https://www.bilibili.com/video/BV1nk1hYyEcj/)
 
-# 其他视频
-
-- [加餐: 003-syzkaller](https://www.bilibili.com/video/BV1aE421A7n3/)
