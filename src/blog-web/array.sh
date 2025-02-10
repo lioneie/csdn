@@ -10,7 +10,6 @@ comm_array=(
 	1 1 src/blog-web/openharmony.md openharmony.html "陈孝松OpenHarmony贡献"
 	1 1 src/blog-web/blog.md blog.html "陈孝松博客"
 	1 1 src/blog-web/contributions.md contributions.html "陈孝松自由软件贡献"
-	1 1 src/blog-web/translations.md ~ "翻译"
 	1 1 src/blog-web/courses.md courses.html "课程和视频"
 	1 1 src/blog-web/q.md q.html "QQ交流群"
 	1 1 src/blog-web/patent-paper.md patent-paper.html "陈孝松专利和论文"
@@ -200,6 +199,7 @@ comm_array=(
 	1 1 src/health/tooth-clean.md ~ "牙齿护理"
 	1 1 src/game/black-myth-wukong.md ~ "黑神话：悟空"
 	# 翻译
+	1 1 src/blog-web/translations.md ~ "翻译"
 		# kernel
 		1 1 src/translations/kernel/sched-design-CFS.rst ~ "CFS Scheduler"
 		1 1 src/translations/kernel/sched-eevdf.rst ~ "EEVDF Scheduler"
