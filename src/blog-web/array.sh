@@ -104,6 +104,7 @@ comm_array=(
 			1 1 courses/nfs/issues/4.19-nfs-soft-lockup-in-nfs_wb_page.md ~ "4.19 nfs_wb_page() soft lockup的问题"
 			1 1 courses/nfs/issues/nfsiostat-queue-long-time.md ~ "nfsiostat命令queue时间长的问题"
 			1 1 courses/nfs/issues/null-ptr-deref-in-nfs_ctx_key_to_expire.md ~ "nfs_ctx_key_to_expire()引用计数泄露和空指针解引用的问题"
+			1 1 courses/nfs/issues/cthon-nfs-tests.md ~ "Connectathon NFS tests测试问题"
 	0 1 courses/smb/smb.md ~ "smb文件系统"
 		1 1 courses/smb/video.md ~ "smb课程配套视频"
 		1 1 courses/smb/smb-introduction.md ~ "smb简介"
@@ -158,7 +159,6 @@ comm_array=(
 	# nfs
 	1 1 src/nfs/4.19-rdma-not-supported.md ~ "4.19 rdma协议不支持的问题"
 	1 1 src/nfs/4.19-nfs-mount-hung.md ~ "4.19 nfs lazy umount 后无法挂载的问题"
-	1 1 src/nfs/cthon-nfs-tests.md ~ "Connectathon NFS tests"
 	1 1 src/nfs/unable-to-initialize-client-recovery-tracking.md ~ "重启nfs server后client打开文件卡顿很长时间的问题"
 	1 1 src/nfs/4.19-ltp-nfs-fail.md ~ "4.19 ltp nfs测试失败问题"
 	1 1 src/nfs/nfs-no-net-oom.md ~ "nfs断网导致oom的问题"

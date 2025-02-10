@@ -22,3 +22,5 @@
 
 [nfs_ctx_key_to_expire()引用计数泄露和空指针解引用的问题](https://chenxiaosong.com/courses/nfs/issues/null-ptr-deref-in-nfs_ctx_key_to_expire.html)
 
+[Connectathon NFS tests测试用例失败问题](https://chenxiaosong.com/courses/nfs/issues/cthon-nfs-tests.html)
+
