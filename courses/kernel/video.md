@@ -1,4 +1,6 @@
-[点击跳转到内核课程博客的所有目录](https://chenxiaosong.com/courses/kernel/kernel.html)。
+[点击这里跳转到博客的目录](https://chenxiaosong.com/courses/kernel/kernel.html)。
+
+哔哩哔哩上的配套视频的目录如下。
 
 # 内核简介
 
