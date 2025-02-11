@@ -278,7 +278,7 @@ sudo groupadd fsgqa
 
 ## 测试
 
-## #`./check --help`
+### `./check --help`
 
 翻译如下:
 ```
