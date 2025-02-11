@@ -23,7 +23,10 @@ int main ()
 }
 ```
 
-系统调用声明为`asmlinkage long sys_close(unsigned int fd)`的形式，其中`asmlinkage`限定词是编译指令，通知编译器仅从栈中提取函数参数。每个系统调用对应一个独一无二的系统调用号，定义在`include/uapi/asm-generic/unistd.h`文件中，另外有些体系结构如x86还要在`arch/x86/entry/syscalls/syscall_32.tbl`和`arch/x86/entry/syscalls/syscall_64.tbl`文件中指定。如果一个系统调用被删除，这个系统调用号也不会回收，而是用以下函数取代:
+系统调用声明为`asmlinkage long sys_close(unsigned int fd)`的形式，其中`asmlinkage`限定词是编译指令，通知编译器仅从栈中提取函数参数。
+每个系统调用对应一个独一无二的系统调用号，定义在`include/uapi/asm-generic/unistd.h`文件中，存在`sys_call_table[]`数组中，
+另外有些体系结构如x86还要在`arch/x86/entry/syscalls/syscall_32.tbl`和`arch/x86/entry/syscalls/syscall_64.tbl`文件中指定。
+如果一个系统调用被删除，这个系统调用号也不会回收，而是用以下函数取代:
 ```c
 SYSCALL_DEFINE0(ni_syscall)
 {
@@ -33,7 +36,28 @@ SYSCALL_DEFINE0(ni_syscall)
 
 # 系统调用处理程序
 
-出于系统安全性和稳定性的考虑，用户空间进程无法在内核地址空间上读写。应用程序需要以某种机制通知内核，让内核代表自己执行一个系统调用，这种机制是通过软件中断（又叫编程异常）来实现，触发异常让系统切换到内核态执行异常处理程序，也就是系统调用处理程序。x86体系结构触发系统调用的软件中断的中断号是`0x80`（10进制`128`），指令是`int $0x80`（或`sysenter`指令）。
+出于系统安全性和稳定性的考虑，用户空间进程无法在内核地址空间上读写。应用程序需要以某种机制通知内核，让内核代表自己执行一个系统调用，这种机制是通过软件中断（又叫编程异常）来实现，
+触发异常让系统切换到内核态执行异常处理程序，也就是系统调用处理程序。x86体系结构触发系统调用的软件中断的中断号是`0x80`（10进制`128`），指令是`int $0x80`（或`sysenter`指令）。
+x86体系结构下，`arch/x86/kernel/idt.c`文件中的`def_idts[]`数组定义了 Interrupt Descriptor Table（中断描述符表），系统调用的中断号是`IA32_SYSCALL_VECTOR`（`0x80`）。
+
+x86_64体系结构下，代码流程如下:
+```c
+entry_SYSCALL_64 // arch/x86/entry/entry_64.S
+  call    do_syscall_64 // %eax作为第二个参数传入
+    do_syscall_x64
+      if (unr < NR_syscalls)
+      regs->ax = x64_sys_call // 系统调用返回值放在%eax
+```
+
+通过`man syscall`命令查看到常用的体系结构系统调用传参使用的寄存器如下:
+```sh
+Arch/ABI      arg1  arg2  arg3  arg4  arg5  arg6  arg7  Notes
+-------------------------------------------------------------
+arm64         x0    x1    x2    x3    x4    x5    -
+i386          ebx   ecx   edx   esi   edi   ebp   -
+riscv         a0    a1    a2    a3    a4    a5    -
+x86-64        rdi   rsi   rdx   r10   r8    r9    -
+```
 
 # 增加一个系统调用
 
