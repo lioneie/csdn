@@ -87,3 +87,14 @@ int main()
         return 0;
 }
 ```
+
+用户空间与内核空间数据copy用以下函数:
+```c
+// 从用户空间读取数据，成功返回0，失败返回未完成copy的数据的字节数
+unsigned long copy_from_user(void *to, const void __user *from, unsigned long n)
+// 向用户空间写入数据，成功返回0，失败返回未完成copy的数据的字节数
+unsigned long copy_to_user(void __user *to, const void *from, unsigned long n)
+```
+
+检查权限用函数`capable()`，参数传入`CAP_CHOWN`等宏定义。
+
