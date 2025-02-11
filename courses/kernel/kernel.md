@@ -30,14 +30,14 @@
 
 # [块I/O层](https://chenxiaosong.com/courses/kernel/kernel-block.html)
 
+# [系统调用](https://chenxiaosong.com/courses/kernel/kernel-syscall.html)
+
 # [MPTCP](https://chenxiaosong.com/courses/kernel/mptcp.html)
 
 # [内核补丁分析](https://chenxiaosong.com/courses/kernel/kernel-patches.html)
 
 <!--
 # [内核同步](https://chenxiaosong.com/courses/kernel/kernel-sync.html)
-
-# [系统调用](https://chenxiaosong.com/courses/kernel/kernel-syscall.html)
 
 # [BPF](https://chenxiaosong.com/courses/kernel/kernel-bpf.html)
 
