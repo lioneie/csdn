@@ -11,7 +11,6 @@ grep -r "</div></a><a href=\"https://www.bilibili.com/video" "${html_file}" > "$
 while IFS= read -r line; do
     # 提取 URL 和标题
     url=$(echo "${line}" | grep -oP '(?<=href=")[^"]+' | tail -n 1) # 取最后一行
-    # echo $url
     title=$(echo "${line}" | grep -oP '(?<=title=")[^"]+')
 
     # 如果提取到有效的数据，格式化为 Markdown 并写入输出文件
