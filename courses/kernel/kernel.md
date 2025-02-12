@@ -34,7 +34,7 @@
 
 # [MPTCP](https://chenxiaosong.com/courses/kernel/mptcp.html)
 
-# [内核补丁分析](https://chenxiaosong.com/courses/kernel/kernel-patches.html)
+# [内核补丁分析](https://chenxiaosong.com/courses/kernel/kernel-patch.html)
 
 <!--
 # [内核同步](https://chenxiaosong.com/courses/kernel/kernel-sync.html)
