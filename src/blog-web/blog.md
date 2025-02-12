@@ -31,7 +31,7 @@
 [gio执行慢的临时解决办法](https://chenxiaosong.com/src/kernel/gio-to-mount.html)
 
 <!-- b站 Linux内核加餐: 003-syzkaller 视频里展示 -->
-[syzkaller - 内核模糊测试工具](https://chenxiaosong.com/courses/kernel/kernel-tests.html)
+[syzkaller - 内核模糊测试工具](https://chenxiaosong.com/courses/kernel/kernel-test.html)
 
 # NFS（网络文件系统）
 
