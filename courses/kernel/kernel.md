@@ -41,6 +41,6 @@
 
 # [BPF](https://chenxiaosong.com/courses/kernel/kernel-bpf.html)
 
-# [网络](https://chenxiaosong.com/courses/kernel/kernel-networks.html)
+# [网络](https://chenxiaosong.com/courses/kernel/kernel-network.html)
 -->
 
