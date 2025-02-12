@@ -59,7 +59,11 @@ riscv         a0    a1    a2    a3    a4    a5    -
 x86-64        rdi   rsi   rdx   r10   r8    r9    -
 ```
 
-# 增加一个系统调用
+# 系统调用的实现
+
+我们通过增加一个新的系统调用的方式来看一下系统调用的代码细节。
+
+## 接口
 
 内核打上补丁
 <!-- public begin -->
@@ -88,6 +92,8 @@ int main()
 }
 ```
 
+# 实现
+
 用户空间与内核空间数据copy用以下函数:
 ```c
 // 从用户空间读取数据，成功返回0，失败返回未完成copy的数据的字节数
@@ -97,4 +103,6 @@ unsigned long copy_to_user(void __user *to, const void *from, unsigned long n)
 ```
 
 检查权限用函数`capable()`，参数传入`CAP_CHOWN`等宏定义。
+
+内核执行系统调用时，处于进程上下文，`current`指针指向触发系统调用的用户态进程。在进程上下文中，可以休眠，可以被其他进程抢占。
 
