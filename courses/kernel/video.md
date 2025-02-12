@@ -22,7 +22,7 @@
 
 - [009-内核书籍推荐](https://www.bilibili.com/video/BV1KT42197fe/)
 
-# 内核源码介绍
+# 内核社区
 
 - [010-内核社区和内核源码树](https://www.bilibili.com/video/BV1Cf421U7Sj/)
 - [011-贡献内核社区](https://www.bilibili.com/video/BV1eT421977p/)

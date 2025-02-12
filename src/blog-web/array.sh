@@ -21,7 +21,7 @@ comm_array=(
 		1 1 courses/kernel/kernel-introduction.md ~ "内核简介"
 		1 1 courses/kernel/kernel-dev-environment.md ~ "内核开发环境"
 		1 1 courses/kernel/kernel-book.md ~ "内核书籍推荐"
-		1 1 courses/kernel/kernel-source.md ~ "内核源码介绍"
+		1 1 courses/kernel/kernel-community.md ~ "内核社区"
 		1 1 courses/kernel/kernel-test.md ~ "内核测试工具"
 		1 1 courses/kernel/kernel-fs.md ~ "文件系统"
 		1 1 courses/kernel/kernel-debug.md ~ "内核调试方法"

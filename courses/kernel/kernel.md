@@ -14,7 +14,7 @@
 
 # [内核书籍推荐](https://chenxiaosong.com/courses/kernel/kernel-book.html)
 
-# [内核源码介绍](https://chenxiaosong.com/courses/kernel/kernel-source.html)
+# [内核社区](https://chenxiaosong.com/courses/kernel/kernel-community.html)
 
 # [内核测试工具](https://chenxiaosong.com/courses/kernel/kernel-test.html)
 

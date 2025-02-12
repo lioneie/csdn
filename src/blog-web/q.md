@@ -27,7 +27,7 @@
 # 有没推荐的学习路线？
 
 - 看内核书籍（请参考[《内核书籍推荐》](https://chenxiaosong.com/courses/kernel/kernel-book.html)），可以[点击这里从百度网盘下载pdf电子书](https://chenxiaosong.com/baidunetdisk)。电子书请仅作为学习用途，有需要的话建议购买纸质书。
-- 多和社区交流，多看源码。关于社区交流可以查看[《内核源码介绍》](https://chenxiaosong.com/courses/kernel/kernel-source.html)。
+- 多和社区交流，多看源码。关于社区交流可以查看[《内核社区》](https://chenxiaosong.com/courses/kernel/kernel-community.html)。
 - 还可以看我的视频: [点击这里在哔哩哔哩bilibili在线观看教学视频](https://chenxiaosong.com/video.html)，当然我也还在学习中，很多知识可以说是现学现卖。
 
 # 怎么搭建类似的网站？
@@ -36,7 +36,7 @@
 
 # 怎么往内核社区发补丁？
 
-请查看[《贡献内核社区》](https://www.bilibili.com/video/BV1eT421977p/)，博客文章[《内核源码介绍》](https://chenxiaosong.com/courses/kernel/kernel-source.html)。
+请查看[《贡献内核社区》](https://www.bilibili.com/video/BV1eT421977p/)，博客文章[《内核社区》](https://chenxiaosong.com/courses/kernel/kernel-community.html)。
 
 # 内核代码浏览用什么编辑器？
 
