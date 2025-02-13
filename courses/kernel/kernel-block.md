@@ -67,6 +67,9 @@ typedef int (get_block_t)(struct inode *inode, sector_t iblock,
                         struct buffer_head *bh_result, int create);
 ```
 
+我们还会看到`buffer_uptodate()`、`set_buffer_uptodate()`、`buffer_uptodate()`之类的函数，但找不到函数定义，
+这是因为函数定义是以宏定义的形式展开，具体可以看`BUFFER_FNS(bit, name)`。
+
 # bio
 
 块I/O操作的容器用`bio`结构体表示，以segment(一小块连续内存缓冲区)链表形式组织，一个缓冲区可以分散在内存的多个位置，叫向量I/O，又叫聚散I/O。
