@@ -784,3 +784,44 @@ task_work_run
                   nfs_free_client
                     rpc_shutdown_client
 ```
+
+## read
+
+```c
+read
+  ksys_read
+    vfs_read
+      new_sync_read
+        nfs_file_read
+          generic_file_read_iter
+            filemap_read
+              filemap_get_pages
+                page_cache_sync_readahead
+                  page_cache_sync_ra
+                    page_cache_ra_order
+                      read_pages
+                        nfs_readahead
+                          nfs_pageio_complete_read
+                            nfs_pageio_complete
+                              nfs_pageio_complete_mirror
+                                nfs_pageio_doio
+                                  nfs_generic_pg_pgios
+                                    nfs_initiate_pgio
+                                      atomic_set(&task->tk_count, 1) // 引用计数
+                                      .flags = RPC_TASK_ASYNC | flags, // 异步
+                                      nfs_initiate_read
+                                        nfs3_proc_read_setup
+                                          &nfs3_procedures[NFS3PROC_READ]
+                                      rpc_run_task
+                                        rpc_new_task
+                                          rpc_init_task
+                                            task->tk_flags  = task_setup_data->flags // flag在这里赋值
+                                        atomic_inc(&task->tk_count) // 引用计数加1
+                                        rpc_execute
+                                          rpc_make_runnable
+                                            INIT_WORK(&task->u.tk_work, rpc_async_schedule)
+                filemap_update_page
+                  folio_put_wait_locked
+                    folio_wait_bit_common
+```
+
