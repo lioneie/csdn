@@ -26,8 +26,6 @@
 
 [使用kprobe监控scsi的读写数据](https://chenxiaosong.com/src/kernel/kprobe-scsi-data.html)
 
-[Linux进程调度](https://chenxiaosong.com/src/process/process.html)
-
 [gio执行慢的临时解决办法](https://chenxiaosong.com/src/kernel/gio-to-mount.html)
 
 <!-- b站 Linux内核加餐: 003-syzkaller 视频里展示 -->

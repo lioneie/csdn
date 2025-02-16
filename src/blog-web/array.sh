@@ -156,7 +156,6 @@ comm_array=(
 	1 1 src/strace-fault-inject/strace-fault-inject.md ~ "strace内存分配失败故障注入"
 	1 1 src/kernel/openeuler-sysmonitor.md ~ "openEuler的sysmonitor"
 	1 1 src/kernel/kprobe-scsi-data.md ~ "使用kprobe监控scsi的读写数据"
-	1 1 src/process/process.md ~ "Linux进程调度"
 	1 1 src/kernel/gio-to-mount.md ~ "gio执行慢的临时解决办法"
 	# nfs
 	1 1 src/nfs/4.19-rdma-not-supported.md ~ "4.19 rdma协议不支持的问题"
