@@ -28,7 +28,11 @@
 
 [gio执行慢的临时解决办法](https://chenxiaosong.com/src/kernel/gio-to-mount.html)
 
-<!-- b站 Linux内核加餐: 003-syzkaller 视频里展示 -->
+<!--
+不能删除，以下视频里用到:
+Linux内核加餐:
+003-syzkaller
+-->
 [syzkaller - 内核模糊测试工具](https://chenxiaosong.com/courses/kernel/kernel-test.html)
 
 # NFS（网络文件系统）
@@ -73,16 +77,39 @@
 
 # Linux环境
 
+<!--
+不能删除，以下视频里用到:
+006-vnc软件
+007-qemu+vnc
+-->
 [VNC远程桌面](https://chenxiaosong.com/src/userspace-environment/vnc.html)
 
+<!--
+不能删除，以下视频里用到:
+001-搭建个人主页-局域网
+002-搭建个人主页-公网
+015-搭建个人主页-github.io
+003-个人域名后缀的邮箱
+-->
 [如何拥有个人域名的网站和邮箱](https://chenxiaosong.com/src/blog-web/blog-web.html)
 
 [Linux环境安装与配置](https://chenxiaosong.com/src/userspace-environment/install-linux.html)
 
 [Linux配置文件](https://chenxiaosong.com/src/linux-config/linux-config.html)
 
+<!--
+不能删除，以下视频里用到:
+009-反向ssh和内网穿透
+-->
 [反向ssh和内网穿透](https://chenxiaosong.com/src/ssh-reverse/ssh-reverse.html)
 
+<!--
+不能删除，以下视频里用到:
+011-docker安装与使用（一）
+012-docker安装与使用（二）
+013-docker安装与使用（三）
+014-docker安装与使用（四）
+-->
 [Docker安装与使用](https://chenxiaosong.com/src/docker/docker.html)
 
 [QEMU/KVM安装macOS系统](https://chenxiaosong.com/src/macos/qemu-kvm-install-macos.html)
@@ -93,6 +120,10 @@
 
 [编辑器](https://chenxiaosong.com/src/editor/editor.html)
 
+<!--
+不能删除，以下视频里用到:
+005-arm64的Linux通过Wine运行exe
+-->
 [Linux使用wine运行Windows软件](https://chenxiaosong.com/src/windows/wine.html)
 
 [OpenHarmony编译运行调试环境](https://chenxiaosong.com/src/openharmony/openharmony.html)
@@ -105,6 +136,10 @@
 
 [键盘配置](https://chenxiaosong.com/src/keybord/keybord.html)
 
+<!--
+不能删除，以下视频里用到:
+008-五笔输入法
+-->
 [五笔输入法](https://chenxiaosong.com/src/wubi/wubi.html)
 
 [自由软件介绍](https://chenxiaosong.com/src/free-software/free-software.html)
