@@ -28,4 +28,4 @@
 
 # 参考书籍
 
-[点击这里查看我做这些课程参考的书籍](https://chenxiaosong.com/courses/book-contents.html)
+[点击这里查看我做这些课程参考的书籍](https://chenxiaosong.com/courses/book.html)

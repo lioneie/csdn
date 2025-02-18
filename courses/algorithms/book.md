@@ -1,10 +1,14 @@
-这里列一下《算法导论（原书第3版）》这本书的目录，方便搜索。
+这里列一下推荐的算法书的目录，方便搜索。
 
 各位朋友可以[点击这里从百度网盘下载pdf电子书](https://chenxiaosong.com/baidunetdisk)。电子书请仅作为学习用途，有需要的话建议购买纸质书。
 
-[点击这里查看这本书的豆瓣评分](https://book.douban.com/subject/20432061/)。
+# 所有推荐书籍的目录
+
+[点击这里查看所有推荐书籍的目录](https://chenxiaosong.com/courses/book.html)。
 
 # 简略目录
+
+## [《算法导论（原书第3版）》](https://book.douban.com/subject/20432061/)
 
 ```
 出版者的话
@@ -62,6 +66,8 @@
 ```
 
 # 详细目录
+
+## [《算法导论（原书第3版）》](https://book.douban.com/subject/20432061/)
 
 ```
 出版者的话

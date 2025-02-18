@@ -150,7 +150,7 @@ comm_array=(
 	0 1 courses/godot/godot.md ~ "Godot游戏开发"
 		1 1 courses/godot/godot-introduction.md ~ "Godot简介"
 		1 1 courses/godot/godot-demo.md ~ "Godot官方demo"
-	1 1 courses/book-contents.md ~ "书籍目录"
+	1 1 courses/book.md ~ "推荐书籍"
 	# Linux内核
 	1 1 src/kernel-environment/kernel-qemu-kvm.md ~ "QEMU/KVM环境搭建与使用"
 	1 1 src/strace-fault-inject/strace-fault-inject.md ~ "strace内存分配失败故障注入"
