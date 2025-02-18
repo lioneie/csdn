@@ -24,3 +24,5 @@
 
 [Connectathon NFS tests测试用例失败问题](https://chenxiaosong.com/courses/nfs/issues/cthon-nfs-tests.html)
 
+[4.19 __rpc_execute() soft lockup的问题](https://chenxiaosong.com/courses/nfs/issues/4.19-nfs-soft-lockup-in-__rpc_execute.html)
+
