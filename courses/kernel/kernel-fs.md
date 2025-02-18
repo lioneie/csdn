@@ -1767,3 +1767,8 @@ openat
 暂时只对最后一个路径名作hash映射，后续再补充支持对中间路径名进行hash映射，补丁为[`0001-minix-support-long-file-name.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-minix-support-long-file-name.patch)。
 
 <!-- public end -->
+
+# 页高速缓存和页回写
+
+页高速缓存（page cache）把磁盘数据缓存到物理内存中，减少磁盘I/O操作，页回写（page writeback）是将页高速缓存中修改的数据刷新到磁盘中。
+
