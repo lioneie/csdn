@@ -403,7 +403,10 @@ mkdir -p aarch64-build/boot && make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- 
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=aarch64-build modules_install INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=mod -j`nproc`
 ```
 
-老版本（如v5.17）编译如果报错`FAILED: load BTF from vmlinux: Invalid argument`，可以尝试关闭`CONFIG_DEBUG_INFO_BTF`配置。
+## 可能的编译问题
+
+- 老版本（如v5.17）编译如果报错`FAILED: load BTF from vmlinux: Invalid argument`，可以尝试关闭`CONFIG_DEBUG_INFO_BTF`配置。
+- 如果报错`arch/x86/entry/.tmp_thunk_64.o: warning: objtool: missing symbol table`，可以尝试合入补丁`1d489151e9f9 objtool: Don't fail on missing symbol table`。
 
 ## 独立模块编译
 
