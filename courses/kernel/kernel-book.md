@@ -2,11 +2,15 @@
 
 各位朋友可以[点击这里从百度网盘下载pdf电子书](https://chenxiaosong.com/baidunetdisk)。电子书请仅作为学习用途，有需要的话建议购买纸质书。
 
-下面各小节列一下这些书的章节目录，方便自己和各位朋友的搜索。更详细的目录可以查看[《书籍目录》](https://chenxiaosong.com/courses/book-contents.html)。
+下面各小节列一下这些书的章节目录，方便自己和各位朋友的搜索。
 
 有好几本书是陈莉君老师翻译的，还可以查看[Linux内核之旅网站](https://www.kerneltravel.net/)（还有"Linux内核之旅"微信公众号）。
 
 点击小节标题可以看豆瓣上对这几本书的评价。
+
+# 详细目录
+
+[详细的目录可以点击这里查看](https://chenxiaosong.com/courses/book-contents.html)。
 
 # 四库全书之一[《Linux内核设计与实现》](https://book.douban.com/subject/6097773/)-基于2.6.34内核
 
