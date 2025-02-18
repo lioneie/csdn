@@ -34,5 +34,5 @@
 
 - [《算法书籍推荐》](https://chenxiaosong.com/courses/algorithms/book.html)
 - [《内核书籍推荐》](https://chenxiaosong.com/courses/kernel/kernel-book.html)
-- [《GNU/Linux发行版使用书籍推荐》](https://chenxiaosong.com/courses/linux/linux-book.html)
+- [《GNU/Linux发行版使用书籍推荐》](https://chenxiaosong.com/courses/gnu-linux/book.html)
 
