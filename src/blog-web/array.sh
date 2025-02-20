@@ -151,7 +151,7 @@ comm_array=(
 		1 1 courses/godot/godot-demo.md ~ "Godot官方demo"
 	# Linux环境
 		1 1 courses/gnu-linux/book.md ~ "GNU/Linux书籍推荐"
-	1 1 courses/harmony/harmony.md ~ "鸿蒙教程"
+	0 1 courses/harmony/harmony.md ~ "鸿蒙教程"
 		1 1 courses/harmony/contributions.md ~ "陈孝松OpenHarmony贡献"
 		1 1 courses/harmony/openharmony.md ~ "OpenHarmony开发"
 	# Linux内核
