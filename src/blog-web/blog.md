@@ -126,8 +126,6 @@ Linux内核加餐:
 -->
 [Linux使用wine运行Windows软件](https://chenxiaosong.com/src/windows/wine.html)
 
-[OpenHarmony编译运行调试环境](https://chenxiaosong.com/src/openharmony/openharmony.html)
-
 [macOS下用EulerLauncher运行openEuler](https://chenxiaosong.com/src/userspace-environment/eulerlauncher.html)
 
 # 还没有分类

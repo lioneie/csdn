@@ -151,8 +151,9 @@ comm_array=(
 		1 1 courses/godot/godot-demo.md ~ "Godot官方demo"
 	# Linux环境
 		1 1 courses/gnu-linux/book.md ~ "GNU/Linux书籍推荐"
-	# 鸿蒙
+	1 1 courses/harmony/harmony.md ~ "鸿蒙教程"
 		1 1 courses/harmony/contributions.md ~ "陈孝松OpenHarmony贡献"
+		1 1 courses/harmony/openharmony.md ~ "OpenHarmony开发"
 	# Linux内核
 	1 1 src/kernel-environment/kernel-qemu-kvm.md ~ "QEMU/KVM环境搭建与使用"
 	1 1 src/strace-fault-inject/strace-fault-inject.md ~ "strace内存分配失败故障注入"
@@ -190,7 +191,6 @@ comm_array=(
 	1 1 src/userspace-environment/mosquitto-mqtt.md ~ "使用mosquitto搭建MQTT服务器"
 	1 1 src/editor/editor.md ~ "编辑器"
 	1 1 src/windows/wine.md ~ "Linux使用wine运行Windows软件"
-	1 1 src/openharmony/openharmony.md ~ "OpenHarmony编译运行调试环境"
 	1 1 src/userspace-environment/eulerlauncher.md ~ "macOS下用EulerLauncher运行openEuler"
 	# 其他
 	1 1 src/windows/windows.md ~ "Windows系统"
