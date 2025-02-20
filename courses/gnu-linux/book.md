@@ -4,7 +4,7 @@
 
 # 所有推荐书籍的目录
 
-[点击这里查看所有推荐书籍的目录](https://chenxiaosong.com/src/blog-web/courses.html)。
+[点击这里查看课程、配套视频和所有推荐书籍的目录](https://chenxiaosong.com/src/blog-web/courses.html)。
 
 # 鸟哥的Linux私房菜
 
