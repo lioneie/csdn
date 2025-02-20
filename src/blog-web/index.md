@@ -12,7 +12,7 @@
 
 爱好: [自行车骑行](https://www.strava.com/athletes/chenxiaosong)，[Linux操作系统](https://chenxiaosong.com/courses.html)。[只用键盘](https://chenxiaosong.com/pictures/self-introduction/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/src/wubi/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
 
-自由软件的狂热者，能力一般的极客。现在麒麟软件从事**Linux内核**开发，工作内容全世界都看得到，[贡献过多个自由开源软件项目](https://chenxiaosong.com/contributions.html)。
+自由软件的狂热者，能力一般的极客。现在麒麟软件从事**Linux内核**开发，工作内容全世界都看得到，[贡献过多个自由开源软件项目](https://chenxiaosong.com/contribution.html)。
 
 另外，多年前还从事过[**鸿蒙操作系统开发**](https://chenxiaosong.com/courses/harmony/harmony.html) 、
 [**游戏开发**](https://chenxiaosong.com/courses/godot/godot.html)，
@@ -27,7 +27,7 @@
 
 硕士研究生毕业后在海康威视从事LoRaWAN（远距离广域网）产品研发。
 
-曾在华为OS内核实验室从事 [**Linux内核** 和 **鸿蒙操作系统** 开发](https://chenxiaosong.com/contributions.html)。
+曾在华为OS内核实验室从事 [**Linux内核** 和 **鸿蒙操作系统** 开发](https://chenxiaosong.com/contribution.html)。
 
 现在麒麟软件从事 **Linux内核** 开发。
 
@@ -55,7 +55,7 @@
 
 # 自由软件贡献
 
-[点击查看我的自由软件贡献: chenxiaosong.com/contributions](https://chenxiaosong.com/contributions.html)
+[点击查看我的自由软件贡献: chenxiaosong.com/contribution](https://chenxiaosong.com/contribution.html)
 
 除了Linux内核和鸿蒙操作系统的贡献外，还贡献过LoRaWAN、KDE的ghostwriter等项目。
 

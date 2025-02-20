@@ -4,7 +4,7 @@
 - [哔哩哔哩教学视频: 陈孝松](https://chenxiaosong.com/video.html)
 - [课程: chenxiaosong.com/courses](https://chenxiaosong.com/courses.html)
 - [博客: chenxiaosong.com/blog](https://chenxiaosong.com/blog.html)
-- [贡献: chenxiaosong.com/contributions](https://chenxiaosong.com/contributions.html)
+- [贡献: chenxiaosong.com/contribution](https://chenxiaosong.com/contribution.html)
 - 邮箱: <chenxiaosong@chenxiaosong.com>
 - [QQ交流群: 544216206, 点击查看群介绍](https://chenxiaosong.com/q.html)
 
