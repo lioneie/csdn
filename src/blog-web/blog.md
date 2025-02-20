@@ -154,4 +154,4 @@ Linux内核加餐:
 
 # 翻译
 
-[点击查看翻译文章](https://chenxiaosong.com/src/blog-web/translations.html)
+[点击查看翻译文章](https://chenxiaosong.com/src/blog-web/translation.html)

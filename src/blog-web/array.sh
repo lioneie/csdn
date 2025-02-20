@@ -203,7 +203,7 @@ comm_array=(
 	1 1 src/health/tooth-clean.md ~ "牙齿护理"
 	1 1 src/game/black-myth-wukong.md ~ "黑神话：悟空"
 	# 翻译
-	1 1 src/blog-web/translations.md ~ "翻译"
+	1 1 src/blog-web/translation.md ~ "翻译"
 		# kernel
 		1 1 src/translations/kernel/sched-design-CFS.rst ~ "CFS Scheduler"
 		1 1 src/translations/kernel/sched-eevdf.rst ~ "EEVDF Scheduler"
