@@ -16,7 +16,7 @@
 
 # 算法课程
 
-[点击查看算法课程（持续更新中）](https://chenxiaosong.com/courses/algorithm/algorithms.html)
+[点击查看算法课程（持续更新中）](https://chenxiaosong.com/courses/algorithm/algorithm.html)
 
 # Godot游戏开发
 

@@ -68,5 +68,5 @@ done 系统题 631(会员) 208(字典树) 146 355 635(会员) 901 1396 1500(会�
 
 # [字符串](https://chenxiaosong.com/courses/algorithm/string.html)
 
-# [未分类的内容](https://chenxiaosong.com/courses/algorithm/others.html)
+# [未分类的内容](https://chenxiaosong.com/courses/algorithm/other.html)
 
