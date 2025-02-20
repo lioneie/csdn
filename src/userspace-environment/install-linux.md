@@ -31,6 +31,12 @@ vim /etc/default/grub # GRUB_TIMEOUT=5
 
 # virt-manager
 
+`/etc/libvirt/qemu.conf`文件配置:
+```sh
+user = "root"
+group = "libvirt"
+```
+
 ## `x86_64` `virt-manager`安装`aarch64`系统
 
 - 首先`ssh-copy-id root@${ip}`确保可以免密码登录（非`root`用户就行）。
