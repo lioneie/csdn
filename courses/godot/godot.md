@@ -4,7 +4,7 @@
 
 点击下面的标题跳转。
 
-# [Godot简介](https://chenxiaosong.com/courses/godot/godot-introduction.html)
+# [Godot简介](https://chenxiaosong.com/courses/godot/introduction.html)
 
-# [Godot官方demo](https://chenxiaosong.com/courses/godot/godot-demo.html)
+# [Godot官方demo](https://chenxiaosong.com/courses/godot/demo.html)
 
