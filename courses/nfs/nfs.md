@@ -14,22 +14,22 @@
 
 点击下面的标题跳转。
 
-# [nfs简介](https://chenxiaosong.com/courses/nfs/nfs-introduction.html)
+# [nfs简介](https://chenxiaosong.com/courses/nfs/introduction.html)
 
-# [nfs环境](https://chenxiaosong.com/courses/nfs/nfs-environment.html)
+# [nfs环境](https://chenxiaosong.com/courses/nfs/environment.html)
 
-# [nfs client数据结构和函数流程](https://chenxiaosong.com/courses/nfs/nfs-client.html)
+# [nfs client数据结构和函数流程](https://chenxiaosong.com/courses/nfs/client.html)
 
 # [Parallel NFS (pNFS)](https://chenxiaosong.com/courses/nfs/pnfs.html)
 
-# [nfs调试方法](https://chenxiaosong.com/courses/nfs/nfs-debug.html)
+# [nfs调试方法](https://chenxiaosong.com/courses/nfs/debug.html)
 
-# [nfs多路径](https://chenxiaosong.com/courses/nfs/nfs-multipath.html)
+# [nfs多路径](https://chenxiaosong.com/courses/nfs/-multipath.html)
 
-# [nfs补丁分析](https://chenxiaosong.com/courses/nfs/nfs-patches.html)
+# [nfs补丁分析](https://chenxiaosong.com/courses/nfs/patches.html)
 
-# [nfs问题分析](https://chenxiaosong.com/courses/nfs/nfs-issues.html)
+# [nfs问题分析](https://chenxiaosong.com/courses/nfs/issues.html)
 
-# [nfs社区贡献](https://chenxiaosong.com/courses/nfs/nfs-mailing-lists.html)
+# [nfs社区贡献](https://chenxiaosong.com/courses/nfs/mailing-lists.html)
 
-# [nfs未分类的内容](https://chenxiaosong.com/courses/nfs/nfs-others.html)
+# [nfs未分类的内容](https://chenxiaosong.com/courses/nfs/others.html)
