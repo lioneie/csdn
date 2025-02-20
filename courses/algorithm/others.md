@@ -126,7 +126,7 @@ int countPrimes(int n) {
 
 题目: 计算不大于n(1 < n < 100000001)的范围内的[孪生素数](https://baike.baidu.com/item/%E5%AD%AA%E7%94%9F%E8%B4%A8%E6%95%B0/10399834)对的个数。100以内有: (3,5), (5,7), (11,13), (17,19), (29,31), (41,43), (59,61), (71,73)，共8组。
 
-[点击这里查看源码](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithms/src/others/twin-prime.c)。
+[点击这里查看源码](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithm/src/others/twin-prime.c)。
 
 # leetcode 32. 最长有效括号
 
