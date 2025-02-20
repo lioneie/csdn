@@ -128,5 +128,5 @@ sleep 1
 
 # rcu相关函数注释翻译
 
-趁此机会，顺便翻译一下rcu相关函数的注释，学习一下，请查看[《内核同步》](https://chenxiaosong.com/courses/kernel/kernel-sync.html)。
+趁此机会，顺便翻译一下rcu相关函数的注释，学习一下，请查看[《内核同步》](https://chenxiaosong.com/courses/kernel/sync.html)。
 

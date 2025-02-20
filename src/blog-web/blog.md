@@ -33,7 +33,7 @@
 Linux内核加餐:
 003-syzkaller
 -->
-[syzkaller - 内核模糊测试工具](https://chenxiaosong.com/courses/kernel/kernel-test.html)
+[syzkaller - 内核模糊测试工具](https://chenxiaosong.com/courses/kernel/test.html)
 
 # NFS（网络文件系统）
 

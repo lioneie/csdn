@@ -6,7 +6,7 @@
 
 # 参考
 
-- [《Linux内核文件系统》](https://chenxiaosong.com/courses/kernel/kernel-fs.html)
+- [《Linux内核文件系统》](https://chenxiaosong.com/courses/kernel/fs.html)
 - [`ksmbd/README.md`](https://github.com/namjaejeon/ksmbd/blob/master/README.md)
 - [`ksmbd/Makefile`](https://github.com/namjaejeon/ksmbd/blob/master/Makefile)
 
@@ -107,3 +107,4 @@ openat
                 ext2_dir_open
 ```
 -->
+

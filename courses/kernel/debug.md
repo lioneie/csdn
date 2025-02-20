@@ -927,7 +927,7 @@ cat /mnt/file
 <!-- public begin -->
 # bpftrace
 
-请查看[《BPF》](https://chenxiaosong.com/courses/kernel/kernel-bpf.html)。
+请查看[《BPF》](https://chenxiaosong.com/courses/kernel/bpf.html)。
 <!-- public end -->
 
 <!-- private begin -->

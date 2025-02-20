@@ -8,39 +8,39 @@
 
 点击下面的标题跳转。
 
-# [内核简介](https://chenxiaosong.com/courses/kernel/kernel-introduction.html)
+# [内核简介](https://chenxiaosong.com/courses/kernel/introduction.html)
 
-# [内核开发环境](https://chenxiaosong.com/courses/kernel/kernel-dev-environment.html)
+# [内核开发环境](https://chenxiaosong.com/courses/kernel/dev-environment.html)
 
-# [内核书籍推荐](https://chenxiaosong.com/courses/kernel/kernel-book.html)
+# [内核书籍推荐](https://chenxiaosong.com/courses/kernel/book.html)
 
-# [内核社区](https://chenxiaosong.com/courses/kernel/kernel-community.html)
+# [内核社区](https://chenxiaosong.com/courses/kernel/community.html)
 
-# [内核测试工具](https://chenxiaosong.com/courses/kernel/kernel-test.html)
+# [内核测试工具](https://chenxiaosong.com/courses/kernel/test.html)
 
-# [文件系统](https://chenxiaosong.com/courses/kernel/kernel-fs.html)
+# [文件系统](https://chenxiaosong.com/courses/kernel/fs.html)
 
-# [内核调试方法](https://chenxiaosong.com/courses/kernel/kernel-debug.html)
+# [内核调试方法](https://chenxiaosong.com/courses/kernel/debug.html)
 
-# [内存管理](https://chenxiaosong.com/courses/kernel/kernel-mm.html)
+# [内存管理](https://chenxiaosong.com/courses/kernel/mm.html)
 
-# [进程管理和调度](https://chenxiaosong.com/courses/kernel/kernel-process.html)
+# [进程管理和调度](https://chenxiaosong.com/courses/kernel/process.html)
 
-# [中断](https://chenxiaosong.com/courses/kernel/kernel-interrupt.html)
+# [中断](https://chenxiaosong.com/courses/kernel/interrupt.html)
 
-# [块I/O层](https://chenxiaosong.com/courses/kernel/kernel-block.html)
+# [块I/O层](https://chenxiaosong.com/courses/kernel/block.html)
 
-# [系统调用](https://chenxiaosong.com/courses/kernel/kernel-syscall.html)
+# [系统调用](https://chenxiaosong.com/courses/kernel/syscall.html)
 
 # [MPTCP](https://chenxiaosong.com/courses/kernel/mptcp.html)
 
-# [内核补丁分析](https://chenxiaosong.com/courses/kernel/kernel-patch.html)
+# [内核补丁分析](https://chenxiaosong.com/courses/kernel/patch.html)
 
 <!--
-# [内核同步](https://chenxiaosong.com/courses/kernel/kernel-sync.html)
+# [内核同步](https://chenxiaosong.com/courses/kernel/sync.html)
 
-# [BPF](https://chenxiaosong.com/courses/kernel/kernel-bpf.html)
+# [BPF](https://chenxiaosong.com/courses/kernel/bpf.html)
 
-# [网络](https://chenxiaosong.com/courses/kernel/kernel-network.html)
+# [网络](https://chenxiaosong.com/courses/kernel/network.html)
 -->
 
