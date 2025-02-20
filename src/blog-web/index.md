@@ -14,7 +14,10 @@
 
 自由软件的狂热者，能力一般的极客。现在麒麟软件从事**Linux内核**开发，工作内容全世界都看得到，[贡献过多个自由开源软件项目](https://chenxiaosong.com/contributions.html)。
 
-另外，多年前还从事过[**鸿蒙操作系统开发**](https://chenxiaosong.com/openharmony) 、[**游戏开发**](https://chenxiaosong.com/courses/godot/godot.html)，[**嵌入式开发**](https://chenxiaosong.com/src/lorawan/lorawan.html)，**web开发**（vue）等，但不敢说精通哈，只是现在还能用来做点小东西吧，比如开发个台球手机游戏、弄个网页、用开发板做个小工具啥的。
+另外，多年前还从事过[**鸿蒙操作系统开发**](https://chenxiaosong.com/courses/harmony/contributions.html) 、
+[**游戏开发**](https://chenxiaosong.com/courses/godot/godot.html)，
+[**嵌入式开发**](https://chenxiaosong.com/src/lorawan/lorawan.html)，
+**web开发**（vue）等，但不敢说精通哈，只是现在还能用来做点小东西吧，比如开发个台球手机游戏、弄个网页、用开发板做个小工具啥的。
 
 # 平平无奇的经历
 

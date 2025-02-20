@@ -7,7 +7,6 @@
 comm_array=(
 	# 自我介绍
 	1 1 src/blog-web/index.md index.html '陈孝松个人主页'
-	1 1 src/blog-web/openharmony.md openharmony.html "陈孝松OpenHarmony贡献"
 	1 1 src/blog-web/blog.md blog.html "陈孝松博客"
 	1 1 src/blog-web/contributions.md contributions.html "陈孝松自由软件贡献"
 	1 1 src/blog-web/courses.md courses.html "课程和视频"
@@ -152,6 +151,8 @@ comm_array=(
 		1 1 courses/godot/godot-demo.md ~ "Godot官方demo"
 	# Linux环境
 		1 1 courses/gnu-linux/book.md ~ "GNU/Linux书籍推荐"
+	# 鸿蒙
+		1 1 courses/harmony/contributions.md ~ "陈孝松OpenHarmony贡献"
 	# Linux内核
 	1 1 src/kernel-environment/kernel-qemu-kvm.md ~ "QEMU/KVM环境搭建与使用"
 	1 1 src/strace-fault-inject/strace-fault-inject.md ~ "strace内存分配失败故障注入"
