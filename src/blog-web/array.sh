@@ -149,8 +149,9 @@ comm_array=(
 	0 1 courses/godot/godot.md ~ "Godot游戏开发"
 		1 1 courses/godot/godot-introduction.md ~ "Godot简介"
 		1 1 courses/godot/godot-demo.md ~ "Godot官方demo"
-	# Linux环境
+	0 1 courses/gnu-linux/gnu-linux.md ~ "GNU/Linux教程"
 		1 1 courses/gnu-linux/book.md ~ "GNU/Linux书籍推荐"
+		1 1 courses/gnu-linux/install.md ~ "安装GNU/Linux发行版"
 	0 1 courses/harmony/harmony.md ~ "鸿蒙教程"
 		1 1 courses/harmony/contributions.md ~ "陈孝松OpenHarmony贡献"
 		1 1 courses/harmony/openharmony.md ~ "OpenHarmony开发"
