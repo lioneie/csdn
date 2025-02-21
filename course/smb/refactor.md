@@ -2,7 +2,7 @@
 
 # 重构参考
 
-重构技巧可以参考Jason Yan <yanaijie@huawei.com>的ext4重构补丁集[`some refactor of __ext4_fill_super()`](https://chenxiaosong.com/course/kernel/patches/refactor-of-__ext4_fill_super.html)。
+重构技巧可以参考Jason Yan <yanaijie@huawei.com>的ext4重构补丁集[`some refactor of __ext4_fill_super()`](https://chenxiaosong.com/course/kernel/patch/refactor-of-__ext4_fill_super.html)。
 
 函数参数是结构体请参考`nfs4_run_open_task()`。
 

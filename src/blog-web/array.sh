@@ -36,28 +36,28 @@ comm_array=(
 		1 1 course/kernel/mptcp.md ~ "MPTCP"
 		1 1 course/kernel/patch.md ~ "内核补丁分析"
 			# 我写的补丁
-			1 1 course/kernel/patches/xfs-fix-NULL-pointer-dereference-in-xfs_getbmap.md ~
+			1 1 course/kernel/patch/xfs-fix-NULL-pointer-dereference-in-xfs_getbmap.md ~
 				"001c179c4e26d xfs: fix NULL pointer dereference in xfs_getbmap()"
-			1 1 course/kernel/patches/configfs-fix-a-race-in-configfs_-un-register_subsyst.md ~
+			1 1 course/kernel/patch/configfs-fix-a-race-in-configfs_-un-register_subsyst.md ~
 				"84ec758fb2da configfs: fix a race in configfs_{,un}register_subsystem()"
 			# 调度
-			1 1 course/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.md ~
+			1 1 course/kernel/patch/sched-EEVDF-and-latency-nice-and-or-slice-attr.md ~
 				"sched: EEVDF and latency-nice and/or slice-attr"
 			# vfs
-			1 1 course/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.md ~
+			1 1 course/kernel/patch/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.md ~
 				"4595a298d556 iomap: Set all uptodate bits for an Uptodate page"
 			# ext
-			1 1 course/kernel/patches/jbd2-fix-a-potential-race-while-discarding-reserved-.md ~
+			1 1 course/kernel/patch/jbd2-fix-a-potential-race-while-discarding-reserved-.md ~
 				"23e3d7f7061f jbd2: fix a potential race while discarding reserved buffers after an abort"
-			1 1 course/kernel/patches/ext4-fix-bug_on-in-ext4_writepages.md ~
+			1 1 course/kernel/patch/ext4-fix-bug_on-in-ext4_writepages.md ~
 				"ef09ed5d37b8 ext4: fix bug_on in ext4_writepages"
-			1 1 course/kernel/patches/ext4-fix-bug_on-in-start_this_handle-during-umount-f.md ~
+			1 1 course/kernel/patch/ext4-fix-bug_on-in-start_this_handle-during-umount-f.md ~
 				"b98535d09179 ext4: fix bug_on in start_this_handle during umount filesystem"
-			1 1 course/kernel/patches/ext4-fix-symlink-file-size-not-match-to-file-content.md ~
+			1 1 course/kernel/patch/ext4-fix-symlink-file-size-not-match-to-file-content.md ~
 				"a2b0b205d125 ext4: fix symlink file size not match to file content"
-			1 1 course/kernel/patches/ext4-fix-use-after-free-in-ext4_search_dir.md ~
+			1 1 course/kernel/patch/ext4-fix-use-after-free-in-ext4_search_dir.md ~
 				"c186f0887fe7 ext4: fix use-after-free in ext4_search_dir"
-			1 1 course/kernel/patches/refactor-of-__ext4_fill_super.md ~
+			1 1 course/kernel/patch/refactor-of-__ext4_fill_super.md ~
 				"some refactor of __ext4_fill_super()"
 	0 1 course/nfs/nfs.md ~ "nfs文件系统"
 		1 1 course/nfs/video.md ~ "nfs课程配套视频"

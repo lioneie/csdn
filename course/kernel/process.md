@@ -548,7 +548,7 @@ pick_next_task_fair
 # EEVDF调度器
 
 <!-- public begin -->
-- 补丁集: [`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/course/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
+- 补丁集: [`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/course/kernel/patch/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
 - 文档[EEVDF Scheduler](https://chenxiaosong.com/src/translations/kernel/sched-eevdf.html)翻译。
 <!-- public end -->
 

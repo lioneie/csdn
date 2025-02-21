@@ -16,9 +16,9 @@
 
 我写的补丁，除了上面的模块外，其他模块还有以下补丁。
 
-[`001c179c4e26 xfs: fix NULL pointer dereference in xfs_getbmap()`](https://chenxiaosong.com/course/kernel/patches/xfs-fix-NULL-pointer-dereference-in-xfs_getbmap.html)
+[`001c179c4e26 xfs: fix NULL pointer dereference in xfs_getbmap()`](https://chenxiaosong.com/course/kernel/patch/xfs-fix-NULL-pointer-dereference-in-xfs_getbmap.html)
 
-[`84ec758fb2daa configfs: fix a race in configfs_{,un}register_subsystem()`](https://chenxiaosong.com/course/kernel/patches/configfs-fix-a-race-in-configfs_-un-register_subsyst.html)
+[`84ec758fb2daa configfs: fix a race in configfs_{,un}register_subsystem()`](https://chenxiaosong.com/course/kernel/patch/configfs-fix-a-race-in-configfs_-un-register_subsyst.html)
 
 [`f7e942b5bb35d btrfs: qgroup: fix sleep from invalid context bug in btrfs_qgroup_inherit()`](https://lore.kernel.org/all/20221116142354.1228954-3-chenxiaosong2@huawei.com/)
 
@@ -30,24 +30,24 @@
 
 # 调度
 
-[`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/course/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)
+[`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/course/kernel/patch/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)
 
 <!--
 # VFS（虚拟文件系统）
 
-[`4595a298d556 iomap: Set all uptodate bits for an Uptodate page`](https://chenxiaosong.com/course/kernel/patches/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.html)
+[`4595a298d556 iomap: Set all uptodate bits for an Uptodate page`](https://chenxiaosong.com/course/kernel/patch/iomap-Set-all-uptodate-bits-for-an-Uptodate-page.html)
 -->
 
 # EXT文件系统
 
-[`23e3d7f7061f jbd2: fix a potential race while discarding reserved buffers after an abort`](https://chenxiaosong.com/course/kernel/patches/jbd2-fix-a-potential-race-while-discarding-reserved-.html)
+[`23e3d7f7061f jbd2: fix a potential race while discarding reserved buffers after an abort`](https://chenxiaosong.com/course/kernel/patch/jbd2-fix-a-potential-race-while-discarding-reserved-.html)
 
-[`ef09ed5d37b8 ext4: fix bug_on in ext4_writepages`](https://chenxiaosong.com/course/kernel/patches/ext4-fix-bug_on-in-ext4_writepages.html)
+[`ef09ed5d37b8 ext4: fix bug_on in ext4_writepages`](https://chenxiaosong.com/course/kernel/patch/ext4-fix-bug_on-in-ext4_writepages.html)
 
-[`b98535d09179 ext4: fix bug_on in start_this_handle during umount filesystem`](https://chenxiaosong.com/course/kernel/patches/ext4-fix-bug_on-in-start_this_handle-during-umount-f.html)
+[`b98535d09179 ext4: fix bug_on in start_this_handle during umount filesystem`](https://chenxiaosong.com/course/kernel/patch/ext4-fix-bug_on-in-start_this_handle-during-umount-f.html)
 
-[`a2b0b205d125 ext4: fix symlink file size not match to file content`](https://chenxiaosong.com/course/kernel/patches/ext4-fix-symlink-file-size-not-match-to-file-content.html)
+[`a2b0b205d125 ext4: fix symlink file size not match to file content`](https://chenxiaosong.com/course/kernel/patch/ext4-fix-symlink-file-size-not-match-to-file-content.html)
 
-[`c186f0887fe7 ext4: fix use-after-free in ext4_search_dir`](https://chenxiaosong.com/course/kernel/patches/ext4-fix-use-after-free-in-ext4_search_dir.html)
+[`c186f0887fe7 ext4: fix use-after-free in ext4_search_dir`](https://chenxiaosong.com/course/kernel/patch/ext4-fix-use-after-free-in-ext4_search_dir.html)
 
-[`some refactor of __ext4_fill_super()`](https://chenxiaosong.com/course/kernel/patches/refactor-of-__ext4_fill_super.html)
+[`some refactor of __ext4_fill_super()`](https://chenxiaosong.com/course/kernel/patch/refactor-of-__ext4_fill_super.html)
