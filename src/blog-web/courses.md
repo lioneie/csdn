@@ -12,7 +12,7 @@
 
 # SMB文件系统课程
 
-[点击查看smb文件系统课程（持续更新中）](https://chenxiaosong.com/courses/smb/smb.html)
+[点击查看smb文件系统课程（持续更新中）](https://chenxiaosong.com/course/smb/smb.html)
 
 # 算法课程
 

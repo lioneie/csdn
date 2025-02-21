@@ -51,11 +51,11 @@ Linux内核加餐:
 
 # SMB(CIFS)文件系统
 
-[点击查看smb文件系统课程（持续更新中）](https://chenxiaosong.com/courses/smb/smb.html)
+[点击查看smb文件系统课程（持续更新中）](https://chenxiaosong.com/course/smb/smb.html)
 
-[4.19 cifs_reconnect()空指针解引用问题](https://chenxiaosong.com/courses/smb/issues/4.19-null-ptr-deref-in-cifs_reconnect.html)
+[4.19 cifs_reconnect()空指针解引用问题](https://chenxiaosong.com/course/smb/issues/4.19-null-ptr-deref-in-cifs_reconnect.html)
 
-[cifs newfstatat()系统调用报错ENOTSUPP](https://chenxiaosong.com/courses/smb/issues/cifs-newfstatat-ENOTSUPP.html)
+[cifs newfstatat()系统调用报错ENOTSUPP](https://chenxiaosong.com/course/smb/issues/cifs-newfstatat-ENOTSUPP.html)
 
 # XFS文件系统
 

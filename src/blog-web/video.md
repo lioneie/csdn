@@ -6,7 +6,7 @@
 
 [点击这里查看nfs课程配套教学视频](https://chenxiaosong.com/course/nfs/video.html)
 
-[点击这里查看smb课程配套教学视频](https://chenxiaosong.com/courses/smb/video.html)
+[点击这里查看smb课程配套教学视频](https://chenxiaosong.com/course/smb/video.html)
 
 [点击这里查看算法课程配套教学视频](https://chenxiaosong.com/course/algorithm/video.html)
 
