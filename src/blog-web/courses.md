@@ -20,7 +20,7 @@
 
 # Godot游戏开发
 
-[点击查看Godot游戏开发课程（持续更新中）](https://chenxiaosong.com/courses/godot/godot.html)
+[点击查看Godot游戏开发课程（持续更新中）](https://chenxiaosong.com/course/godot/godot.html)
 
 # 课程配套视频
 
