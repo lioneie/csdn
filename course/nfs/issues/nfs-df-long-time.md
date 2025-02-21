@@ -200,7 +200,7 @@ cat trace_pipe
 
 ## kprobe module
 
-源码[`kprobe-df-long-time.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/kprobe-df-long-time.c)，修改[`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/Makefile)中`KDIR`路径后编译运行。
+源码[`kprobe-df-long-time.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/nfs/src/kprobe-df-long-time.c)，修改[`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/nfs/src/Makefile)中`KDIR`路径后编译运行。
 
 ## `request-key`调试
 

@@ -37,7 +37,7 @@ Linux内核加餐:
 
 # NFS（网络文件系统）
 
-[点击查看nfs文件系统课程（持续更新中）](https://chenxiaosong.com/courses/nfs/nfs.html)
+[点击查看nfs文件系统课程（持续更新中）](https://chenxiaosong.com/course/nfs/nfs.html)
 
 [4.19 rdma协议不支持的问题](https://chenxiaosong.com/src/nfs/4.19-rdma-not-supported.html)
 

@@ -8,7 +8,7 @@
 
 # NFS文件系统课程
 
-[点击查看nfs文件系统课程（持续更新中）](https://chenxiaosong.com/courses/nfs/nfs.html)
+[点击查看nfs文件系统课程（持续更新中）](https://chenxiaosong.com/course/nfs/nfs.html)
 
 # SMB文件系统课程
 

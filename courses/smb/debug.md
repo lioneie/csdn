@@ -57,5 +57,5 @@ cifs_dbg
 
 # tcpdump抓包
 
-请查看[《nfs调试方法》](https://chenxiaosong.com/courses/nfs/debug.html)。
+请查看[《nfs调试方法》](https://chenxiaosong.com/course/nfs/debug.html)。
 

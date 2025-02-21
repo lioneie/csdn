@@ -4,7 +4,7 @@
 
 [点击这里查看Linux内核课程配套教学视频](https://chenxiaosong.com/course/kernel/video.html)
 
-[点击这里查看nfs课程配套教学视频](https://chenxiaosong.com/courses/nfs/video.html)
+[点击这里查看nfs课程配套教学视频](https://chenxiaosong.com/course/nfs/video.html)
 
 [点击这里查看smb课程配套教学视频](https://chenxiaosong.com/courses/smb/video.html)
 

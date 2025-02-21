@@ -364,7 +364,7 @@ MOUNT_OPTIONS="-o acl,user_xattr"
 
 ### nfs
 
-先执行[`bash nfs-svr-setup.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/nfs-svr-setup.sh)启动nfs server。
+先执行[`bash nfs-svr-setup.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/nfs/src/nfs-svr-setup.sh)启动nfs server。
 
 创建`local.config`配置文件:
 ```sh

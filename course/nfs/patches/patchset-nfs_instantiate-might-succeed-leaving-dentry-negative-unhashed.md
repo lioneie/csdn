@@ -1,4 +1,4 @@
-相关的问题: [4.19 __nfs3_proc_setacls()空指针解引用问题](https://chenxiaosong.com/courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.html)。
+相关的问题: [4.19 __nfs3_proc_setacls()空指针解引用问题](https://chenxiaosong.com/course/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.html)。
 
 `[PATCH 0/3] nfs_instantiate() might succeed leaving dentry negative unhashed`:
 ```

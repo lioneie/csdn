@@ -59,53 +59,53 @@ comm_array=(
 				"c186f0887fe7 ext4: fix use-after-free in ext4_search_dir"
 			1 1 course/kernel/patches/refactor-of-__ext4_fill_super.md ~
 				"some refactor of __ext4_fill_super()"
-	0 1 courses/nfs/nfs.md ~ "nfs文件系统"
-		1 1 courses/nfs/video.md ~ "nfs课程配套视频"
-		1 1 courses/nfs/introduction.md ~ "nfs简介"
-		1 1 courses/nfs/environment.md ~ "nfs环境"
-		1 1 courses/nfs/client.md ~ "nfs client数据结构和函数流程"
-		1 1 courses/nfs/pnfs.md ~ "Parallel NFS (pNFS)"
-		1 1 courses/nfs/debug.md ~ "nfs调试方法"
-		1 1 courses/nfs/multipath.md ~ "nfs多路径"
-		1 1 courses/nfs/other.md ~ "nfs未分类的内容"
-		1 1 courses/nfs/mailing-list.md ~ "nfs社区贡献"
-		1 1 courses/nfs/patch.md ~ "nfs补丁分析"
+	0 1 course/nfs/nfs.md ~ "nfs文件系统"
+		1 1 course/nfs/video.md ~ "nfs课程配套视频"
+		1 1 course/nfs/introduction.md ~ "nfs简介"
+		1 1 course/nfs/environment.md ~ "nfs环境"
+		1 1 course/nfs/client.md ~ "nfs client数据结构和函数流程"
+		1 1 course/nfs/pnfs.md ~ "Parallel NFS (pNFS)"
+		1 1 course/nfs/debug.md ~ "nfs调试方法"
+		1 1 course/nfs/multipath.md ~ "nfs多路径"
+		1 1 course/nfs/other.md ~ "nfs未分类的内容"
+		1 1 course/nfs/mailing-list.md ~ "nfs社区贡献"
+		1 1 course/nfs/patch.md ~ "nfs补丁分析"
 			# 我写的补丁
-			1 1 courses/nfs/patches/CVE-2022-24448.md ~ "CVE-2022-24448"
-			1 1 courses/nfs/patches/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
+			1 1 course/nfs/patches/CVE-2022-24448.md ~ "CVE-2022-24448"
+			1 1 course/nfs/patches/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
 			# 其他人的补丁
-			1 1 courses/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
+			1 1 course/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
 				"e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
-			1 1 courses/nfs/patches/nfsd-minor-4.1-callback-cleanup.md ~
+			1 1 course/nfs/patches/nfsd-minor-4.1-callback-cleanup.md ~
 				"12357f1b2c8e nfsd: minor 4.1 callback cleanup"
-			1 1 courses/nfs/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md ~
+			1 1 course/nfs/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md ~
 				"2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()"
-			1 1 courses/nfs/patches/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.md ~
+			1 1 course/nfs/patches/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.md ~
 				"e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held"
-			1 1 courses/nfs/patches/nfsd4-use-reference-count-to-free-client.md ~
+			1 1 course/nfs/patches/nfsd4-use-reference-count-to-free-client.md ~
 				"59f8e91b75ec nfsd4: use reference count to free client"
-			1 1 courses/nfs/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.md ~
+			1 1 course/nfs/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.md ~
 				"c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down"
-			1 1 courses/nfs/patches/NFS-Improve-warning-message-when-locks-are-lost.md ~
+			1 1 course/nfs/patches/NFS-Improve-warning-message-when-locks-are-lost.md ~
 				"3e2910c7e23b NFS: Improve warning message when locks are lost."
-			1 1 courses/nfs/patches/nfsd-Remove-incorrect-check-in-nfsd4_validate_statei.md ~
+			1 1 course/nfs/patches/nfsd-Remove-incorrect-check-in-nfsd4_validate_statei.md ~
 				"600df3856f0b nfsd: Remove incorrect check in nfsd4_validate_stateid"
-			1 1 courses/nfs/patches/patchset-nfs_instantiate-might-succeed-leaving-dentry-negative-unhashed.md ~
+			1 1 course/nfs/patches/patchset-nfs_instantiate-might-succeed-leaving-dentry-negative-unhashed.md ~
 				"patchset: nfs_instantiate() might succeed leaving dentry negative unhashed"
-		1 1 courses/nfs/issue.md ~ "nfs问题分析"
-			1 1 courses/nfs/issues/nfs-clients-same-hostname-clientid-expire.md ~ "多个NFS客户端使用相同的hostname导致clientid过期"
-			1 1 courses/nfs/issues/4.19-nfs-no-iterate_shared.md ~ "nfs没实现iterate_shared()导致的遍历目录无法并发问题"
-			1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage()空指针解引用问题'
-			1 1 courses/nfs/issues/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md ~ "aarch64架构 4.19 nfs_readpage_async()空指针解引用问题"
-			1 1 courses/nfs/issues/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async()空指针解引用问题'
-			1 1 courses/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid()报warning紧接着panic的问题"
-			1 1 courses/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.md ~ "4.19 __nfs3_proc_setacls()空指针解引用问题"
-			1 1 courses/nfs/issues/nfs-df-long-time.md ~ "nfs df命令执行时间长的问题"
-			1 1 courses/nfs/issues/4.19-nfs-soft-lockup-in-nfs_wb_page.md ~ "4.19 nfs_wb_page() soft lockup的问题"
-			1 1 courses/nfs/issues/nfsiostat-queue-long-time.md ~ "nfsiostat命令queue时间长的问题"
-			1 1 courses/nfs/issues/null-ptr-deref-in-nfs_ctx_key_to_expire.md ~ "nfs_ctx_key_to_expire()引用计数泄露和空指针解引用的问题"
-			1 1 courses/nfs/issues/cthon-nfs-tests.md ~ "Connectathon NFS tests测试问题"
-			1 1 courses/nfs/issues/4.19-nfs-soft-lockup-in-__rpc_execute.md ~ "4.19 __rpc_execute() soft lockup的问题"
+		1 1 course/nfs/issue.md ~ "nfs问题分析"
+			1 1 course/nfs/issues/nfs-clients-same-hostname-clientid-expire.md ~ "多个NFS客户端使用相同的hostname导致clientid过期"
+			1 1 course/nfs/issues/4.19-nfs-no-iterate_shared.md ~ "nfs没实现iterate_shared()导致的遍历目录无法并发问题"
+			1 1 course/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage()空指针解引用问题'
+			1 1 course/nfs/issues/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md ~ "aarch64架构 4.19 nfs_readpage_async()空指针解引用问题"
+			1 1 course/nfs/issues/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async()空指针解引用问题'
+			1 1 course/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid()报warning紧接着panic的问题"
+			1 1 course/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.md ~ "4.19 __nfs3_proc_setacls()空指针解引用问题"
+			1 1 course/nfs/issues/nfs-df-long-time.md ~ "nfs df命令执行时间长的问题"
+			1 1 course/nfs/issues/4.19-nfs-soft-lockup-in-nfs_wb_page.md ~ "4.19 nfs_wb_page() soft lockup的问题"
+			1 1 course/nfs/issues/nfsiostat-queue-long-time.md ~ "nfsiostat命令queue时间长的问题"
+			1 1 course/nfs/issues/null-ptr-deref-in-nfs_ctx_key_to_expire.md ~ "nfs_ctx_key_to_expire()引用计数泄露和空指针解引用的问题"
+			1 1 course/nfs/issues/cthon-nfs-tests.md ~ "Connectathon NFS tests测试问题"
+			1 1 course/nfs/issues/4.19-nfs-soft-lockup-in-__rpc_execute.md ~ "4.19 __rpc_execute() soft lockup的问题"
 	0 1 courses/smb/smb.md ~ "smb文件系统"
 		1 1 courses/smb/video.md ~ "smb课程配套视频"
 		1 1 courses/smb/introduction.md ~ "smb简介"

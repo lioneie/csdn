@@ -1,6 +1,6 @@
 做这个课程的目的是通过整理知识点来找到一些正在开发中或需要完善的特性进行社区贡献。
 
-[点击这里查看配套的教学视频](https://chenxiaosong.com/courses/nfs/video.html)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/course/nfs/video.html)。
 
 参考网站:
 
@@ -14,22 +14,22 @@
 
 点击下面的标题跳转。
 
-# [nfs简介](https://chenxiaosong.com/courses/nfs/introduction.html)
+# [nfs简介](https://chenxiaosong.com/course/nfs/introduction.html)
 
-# [nfs环境](https://chenxiaosong.com/courses/nfs/environment.html)
+# [nfs环境](https://chenxiaosong.com/course/nfs/environment.html)
 
-# [nfs client数据结构和函数流程](https://chenxiaosong.com/courses/nfs/client.html)
+# [nfs client数据结构和函数流程](https://chenxiaosong.com/course/nfs/client.html)
 
-# [Parallel NFS (pNFS)](https://chenxiaosong.com/courses/nfs/pnfs.html)
+# [Parallel NFS (pNFS)](https://chenxiaosong.com/course/nfs/pnfs.html)
 
-# [nfs调试方法](https://chenxiaosong.com/courses/nfs/debug.html)
+# [nfs调试方法](https://chenxiaosong.com/course/nfs/debug.html)
 
-# [nfs多路径](https://chenxiaosong.com/courses/nfs/-multipath.html)
+# [nfs多路径](https://chenxiaosong.com/course/nfs/-multipath.html)
 
-# [nfs补丁分析](https://chenxiaosong.com/courses/nfs/patch.html)
+# [nfs补丁分析](https://chenxiaosong.com/course/nfs/patch.html)
 
-# [nfs问题分析](https://chenxiaosong.com/courses/nfs/issue.html)
+# [nfs问题分析](https://chenxiaosong.com/course/nfs/issue.html)
 
-# [nfs社区贡献](https://chenxiaosong.com/courses/nfs/mailing-list.html)
+# [nfs社区贡献](https://chenxiaosong.com/course/nfs/mailing-list.html)
 
-# [nfs未分类的内容](https://chenxiaosong.com/courses/nfs/other.html)
+# [nfs未分类的内容](https://chenxiaosong.com/course/nfs/other.html)

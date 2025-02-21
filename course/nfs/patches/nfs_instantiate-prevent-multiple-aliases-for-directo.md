@@ -12,6 +12,6 @@ nfs_instantiate()：防止目录 inode 有多个别名
         * 我们可能会获得一个对已有别名的引用。在这种情况下，该别名已被移动到 nfs_mkdir() 参数的位置（并在此位置哈希），而 nfs_mkdir() 参数被保留为未哈希的负值。对于 ->mkdir() 调用者来说，这完全没问题，我们只需要释放从 d_splice_alias() 获取的引用并报告成功。
 ```
 
-后续还有补丁集: [`nfs_instantiate() might succeed leaving dentry negative unhashed`](https://chenxiaosong.com/courses/nfs/patches/patchset-nfs_instantiate-might-succeed-leaving-dentry-negative-unhashed.html)
+后续还有补丁集: [`nfs_instantiate() might succeed leaving dentry negative unhashed`](https://chenxiaosong.com/course/nfs/patches/patchset-nfs_instantiate-might-succeed-leaving-dentry-negative-unhashed.html)
 
 

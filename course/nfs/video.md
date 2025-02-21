@@ -1,4 +1,4 @@
-[点击这里跳转到博客的目录](https://chenxiaosong.com/courses/nfs/nfs.html)。
+[点击这里跳转到博客的目录](https://chenxiaosong.com/course/nfs/nfs.html)。
 
 哔哩哔哩上的配套视频的目录如下，可以点击下面的链接或[b站手机客户端搜索: 陈孝松](https://chenxiaosong.com/bili)。
 
