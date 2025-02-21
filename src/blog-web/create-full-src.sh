@@ -21,7 +21,7 @@ my_init() {
 	rm -rf $(comm_tmp_src_path)
 	mkdir -p $(comm_tmp_src_path)
 	cp -rf ${public_src_path}/* $(comm_tmp_src_path)
-	bash ${public_src_path}/courses/courses.sh
+	bash ${public_src_path}/course/course.sh
 	comm_rm_private $(comm_tmp_src_path)
 }
 
