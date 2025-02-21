@@ -1,7 +1,7 @@
 # 参考资料
 
-- [KSMBD kernel doc](https://chenxiaosong.com/src/translations/smb/ksmbd-kernel-doc.html)
-- [ksmbd-tools](https://chenxiaosong.com/src/translations/smb/ksmbd-tools-readme.html)
+- [KSMBD kernel doc](https://chenxiaosong.com/src/translation/smb/ksmbd-kernel-doc.html)
+- [ksmbd-tools](https://chenxiaosong.com/src/translation/smb/ksmbd-tools-readme.html)
 - [cifsd-team/ksmbd](https://github.com/cifsd-team/ksmbd)
 
 # 现状
@@ -47,7 +47,7 @@ sudo make install
 
 安装的二进制文件为`/usr/local/sbin/ksmbd.*`，配置文件例子`/usr/local/etc/ksmbd/ksmbd.conf.example`。
 
-以上是使用`autotools`编译，如果要使用`meson`编译，查看[ksmbd-tools README](https://chenxiaosong.com/src/translations/smb/ksmbd-tools-readme.html)。
+以上是使用`autotools`编译，如果要使用`meson`编译，查看[ksmbd-tools README](https://chenxiaosong.com/src/translation/smb/ksmbd-tools-readme.html)。
 
 用户操作:
 <!--

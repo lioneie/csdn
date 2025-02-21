@@ -15,7 +15,7 @@ NFS会首先尝试调用/sbin/request-key。如果调用成功，结果将被缓
 Configuring
 ===========
 
-  陈孝松注: 最新的用法请查看`《nfs idmap相关man手册》 <https://chenxiaosong.com/src/translations/nfs/man-nfsidmap.html>`_，这里的写的已经和最新的用法不一样了。
+  陈孝松注: 最新的用法请查看`《nfs idmap相关man手册》 <https://chenxiaosong.com/src/translation/nfs/man-nfsidmap.html>`_，这里的写的已经和最新的用法不一样了。
 
 为了让/sbin/request-key能够指导上调用，需要修改/etc/request-key.conf文件。应该添加以下行：
 

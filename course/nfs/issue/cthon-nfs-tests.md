@@ -13,7 +13,7 @@ PATH=${PATH}:.
 make -j16
 ```
 
-更多的内容请查看[Connectathon NFS tests README中文翻译](https://chenxiaosong.com/src/translations/nfs/cthon-nfs-tests-readme.html)。
+更多的内容请查看[Connectathon NFS tests README中文翻译](https://chenxiaosong.com/src/translation/nfs/cthon-nfs-tests-readme.html)。
 
 # 测试
 

@@ -10,7 +10,7 @@
 
 引入问题的补丁是[7df302f75ee2 NFSD: TEST_STATEID should not return NFS4ERR_STALE_STATEID](https://lore.kernel.org/all/20120529175556.4472.63375.stgit@lebasque.1015granger.net/)。
 
-邮件中提到[Bug 2176575 点击查看中文翻译](https://chenxiaosong.com/src/translations/nfs/bugzilla-redhat-bug-2176575.html)中的以下描述似乎和[《4.19 nfs lazy umount 后无法挂载的问题》](https://chenxiaosong.com/src/nfs/4.19-nfs-mount-hung.html)遇到的问题相关:
+邮件中提到[Bug 2176575 点击查看中文翻译](https://chenxiaosong.com/src/translation/nfs/bugzilla-redhat-bug-2176575.html)中的以下描述似乎和[《4.19 nfs lazy umount 后无法挂载的问题》](https://chenxiaosong.com/src/nfs/4.19-nfs-mount-hung.html)遇到的问题相关:
 
 > 在机器保持开启的状态下执行 umount -l / 和重新挂载同一文件系统似乎并没有改善情况。一旦发生这种情况，似乎无法停止它，即使通过重新启动服务器也不行。重新启动客户端可以很自然地修复问题。
 

@@ -81,7 +81,7 @@ ln -s /usr/bin/aarch64-linux-gnu-gcc-9 /usr/bin/aarch64-linux-gnu-gcc # 指向�
 
 ### NAT模式
 
-参考[中文翻译QEMU Documentation/Networking/NAT](https://chenxiaosong.com/src/translations/qemu/qemu-networking-nat.html)。
+参考[中文翻译QEMU Documentation/Networking/NAT](https://chenxiaosong.com/src/translation/qemu/qemu-networking-nat.html)。
 
 qemu命令行的网络参数修改成（`model`和`macaddr`可以自己指定）:
 ```sh

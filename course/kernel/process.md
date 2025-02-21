@@ -549,7 +549,7 @@ pick_next_task_fair
 
 <!-- public begin -->
 - 补丁集: [`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/course/kernel/patch/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
-- 文档[EEVDF Scheduler](https://chenxiaosong.com/src/translations/kernel/sched-eevdf.html)翻译。
+- 文档[EEVDF Scheduler](https://chenxiaosong.com/src/translation/kernel/sched-eevdf.html)翻译。
 <!-- public end -->
 
 CFS已经在v6.6被EEVDF (Earliest Eligible Virtual Deadline First，最早可用虚拟截止时间优先) 调度器取代，每个进程有一个虚拟截止时间，代表应该运行完成的时间，EEVDF调度器优先选择虚拟截止时间最早的进程运行，虚拟截止时间取决于进程优先级和已经获得的cpu时间，可以保证延迟敏感的进程及时得到cpu时间。和CFS一样，时间片根据进程的优先级和已使用的 CPU 时间进行综合动态调整。
@@ -659,7 +659,7 @@ Brain Fuck Scheduler, 脑残调度器，由澳洲麻醉师康恩·科里瓦斯�
 ## Extensible Scheduler Class
 
 <!-- public begin -->
-- 文档[Extensible Scheduler Class](https://chenxiaosong.com/src/translations/kernel/sched-ext.html)翻译
+- 文档[Extensible Scheduler Class](https://chenxiaosong.com/src/translation/kernel/sched-ext.html)翻译
 <!-- public end -->
 <!-- private begin -->
 - [Extensible Scheduler Class](https://www.kernel.org/doc/html/next/scheduler/sched-ext.html)文档

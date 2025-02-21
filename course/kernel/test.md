@@ -31,7 +31,7 @@ CONFIG_BINFMT_MISC=y
 参考:
 
 - [syzkaller源码](https://github.com/google/syzkaller)
-- [syzkaller文档翻译](https://chenxiaosong.com/src/translations/tests/syzkaller.html)
+- [syzkaller文档翻译](https://chenxiaosong.com/src/translation/tests/syzkaller.html)
 
 ## 软件环境
 
@@ -227,8 +227,8 @@ cat /proc/sys/kernel/panic_on_oops # 确认是否生效
 
 # xfstests
 
-- [xfstests README中文翻译](https://chenxiaosong.com/src/translations/tests/xfstests-readme.html)。
-- [xfstests README.config-sections中文翻译](https://chenxiaosong.com/src/translations/tests/xfstests-readme.config-sections.html)
+- [xfstests README中文翻译](https://chenxiaosong.com/src/translation/tests/xfstests-readme.html)。
+- [xfstests README.config-sections中文翻译](https://chenxiaosong.com/src/translation/tests/xfstests-readme.config-sections.html)
 
 ## 安装
 
@@ -393,11 +393,11 @@ apt search linux-headers | less # 搜索对应的软件包名
 apt install -y linux-headers-amd64 linux-headers-5.10.0-28-common
 ```
 
-编译安装参考[README中文翻译](https://chenxiaosong.com/src/translations/tests/ltp-readme.html)，默认安装在`/opt/ltp`中。
+编译安装参考[README中文翻译](https://chenxiaosong.com/src/translation/tests/ltp-readme.html)，默认安装在`/opt/ltp`中。
 
 ## LTP Network Tests
 
-[LTP Network Tests README中文翻译](https://chenxiaosong.com/src/translations/tests/ltp-network-tests-readme.html)。
+[LTP Network Tests README中文翻译](https://chenxiaosong.com/src/translation/tests/ltp-network-tests-readme.html)。
 
 打开配置`CONFIG_VETH=m`、`CONFIG_NFS_FS=m`。
 
