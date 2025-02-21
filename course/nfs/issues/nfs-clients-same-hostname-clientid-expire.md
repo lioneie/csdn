@@ -10,7 +10,7 @@ NFS客户端采用NFSv4.2(vers=4.2)挂载时，tcpdump抓包发现，NFS服务�
 
 # 分析
 
-关于打印日志`NFS: nfs4_reclaim_open_state: Lock reclaim failed!`，请查看[`3e2910c7e23b NFS: Improve warning message when locks are lost.`](https://chenxiaosong.com/course/nfs/patches/NFS-Improve-warning-message-when-locks-are-lost.html)，注意nfs4.0、4.1和4.2都会有这个打印。
+关于打印日志`NFS: nfs4_reclaim_open_state: Lock reclaim failed!`，请查看[`3e2910c7e23b NFS: Improve warning message when locks are lost.`](https://chenxiaosong.com/course/nfs/patch/NFS-Improve-warning-message-when-locks-are-lost.html)，注意nfs4.0、4.1和4.2都会有这个打印。
 
 关于打印`NFSD: client xx.xx.xx.xx testing state ID with incorrect client ID`已经被补丁`663e36f07666 nfsd4: kill warnings on testing stateids with mismatched clientids`移除。
 

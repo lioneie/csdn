@@ -71,26 +71,26 @@ comm_array=(
 		1 1 course/nfs/mailing-list.md ~ "nfs社区贡献"
 		1 1 course/nfs/patch.md ~ "nfs补丁分析"
 			# 我写的补丁
-			1 1 course/nfs/patches/CVE-2022-24448.md ~ "CVE-2022-24448"
-			1 1 course/nfs/patches/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
+			1 1 course/nfs/patch/CVE-2022-24448.md ~ "CVE-2022-24448"
+			1 1 course/nfs/patch/nfs-handle-writeback-errors-incorrectly.md ~ "NFS回写错误处理不正确的问题"
 			# 其他人的补丁
-			1 1 course/nfs/patches/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
+			1 1 course/nfs/patch/xprtrdma-kmalloc-rpcrdma_ep-separate-from-rpcrdma_xp.md ~
 				"e28ce90083f0 xprtrdma: kmalloc rpcrdma_ep separate from rpcrdma_xprt"
-			1 1 course/nfs/patches/nfsd-minor-4.1-callback-cleanup.md ~
+			1 1 course/nfs/patch/nfsd-minor-4.1-callback-cleanup.md ~
 				"12357f1b2c8e nfsd: minor 4.1 callback cleanup"
-			1 1 course/nfs/patches/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md ~
+			1 1 course/nfs/patch/nfsd-Fix-races-between-nfsd4_cb_release-and-nfsd4_sh.md ~
 				"2bbfed98a4d8 nfsd: Fix races between nfsd4_cb_release() and nfsd4_shutdown_callback()"
-			1 1 course/nfs/patches/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.md ~
+			1 1 course/nfs/patch/nfsd-Don-t-release-the-callback-slot-unless-it-was-a.md ~
 				"e6abc8caa6de nfsd: Don't release the callback slot unless it was actually held"
-			1 1 course/nfs/patches/nfsd4-use-reference-count-to-free-client.md ~
+			1 1 course/nfs/patch/nfsd4-use-reference-count-to-free-client.md ~
 				"59f8e91b75ec nfsd4: use reference count to free client"
-			1 1 course/nfs/patches/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.md ~
+			1 1 course/nfs/patch/NFSD-Reschedule-CB-operations-when-backchannel-rpc_c.md ~
 				"c1ccfcf1a9bf NFSD: Reschedule CB operations when backchannel rpc_clnt is shut down"
-			1 1 course/nfs/patches/NFS-Improve-warning-message-when-locks-are-lost.md ~
+			1 1 course/nfs/patch/NFS-Improve-warning-message-when-locks-are-lost.md ~
 				"3e2910c7e23b NFS: Improve warning message when locks are lost."
-			1 1 course/nfs/patches/nfsd-Remove-incorrect-check-in-nfsd4_validate_statei.md ~
+			1 1 course/nfs/patch/nfsd-Remove-incorrect-check-in-nfsd4_validate_statei.md ~
 				"600df3856f0b nfsd: Remove incorrect check in nfsd4_validate_stateid"
-			1 1 course/nfs/patches/patchset-nfs_instantiate-might-succeed-leaving-dentry-negative-unhashed.md ~
+			1 1 course/nfs/patch/patchset-nfs_instantiate-might-succeed-leaving-dentry-negative-unhashed.md ~
 				"patchset: nfs_instantiate() might succeed leaving dentry negative unhashed"
 		1 1 course/nfs/issue.md ~ "nfs问题分析"
 			1 1 course/nfs/issues/nfs-clients-same-hostname-clientid-expire.md ~ "多个NFS客户端使用相同的hostname导致clientid过期"
