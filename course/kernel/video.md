@@ -144,4 +144,6 @@
 - [102-缓冲区和缓冲区头（上）](https://www.bilibili.com/video/BV1GgKFeZEuT/)
 - [103-缓冲区和缓冲区头（下）](https://www.bilibili.com/video/BV1RXKPeyEc3/)
 - [104-bio](https://www.bilibili.com/video/BV1r5A5erEWZ/)
+- [105-IO调度器介绍（上）](https://www.bilibili.com/video/BV1jyABeMEdT/)
+- [106-IO调度器介绍（下）](https://www.bilibili.com/video/BV1tRApeLESS/)
 
