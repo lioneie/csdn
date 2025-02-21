@@ -12,7 +12,7 @@ Linux内核是我现在的工作，更是我的兴趣和信仰（自由软件）
 
 # 鸿蒙操作系统贡献
 
-[点击这里查看具体的代码](https://chenxiaosong.com/courses/harmony/contribution.html)
+[点击这里查看具体的代码](https://chenxiaosong.com/course/harmony/contribution.html)
 
 OpenHarmony是华为“鸿蒙操作系统”的底座，包含: 华为捐献的“鸿蒙操作系统”的基础能力 和 其他参与者的贡献。
 

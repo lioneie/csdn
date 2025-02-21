@@ -1,4 +1,4 @@
-[点击这里跳转到陈孝松OpenHarmony贡献](https://chenxiaosong.com/courses/harmony/contribution.html)。
+[点击这里跳转到陈孝松OpenHarmony贡献](https://chenxiaosong.com/course/harmony/contribution.html)。
 
 # 环境
 
@@ -229,7 +229,7 @@ docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp ubuntu-openharmony:22
 
 # tdd
 
-合入补丁[0001-fuse-read-debug-dentry_meta_file_test-tdd.patch](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/harmony/src/0001-fuse-read-debug-dentry_meta_file_test-tdd.patch)后，编译和运行tdd:
+合入补丁[0001-fuse-read-debug-dentry_meta_file_test-tdd.patch](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/harmony/src/0001-fuse-read-debug-dentry_meta_file_test-tdd.patch)后，编译和运行tdd:
 ```sh
 # 含调试信息的编译结果: out/rk3568/exe.unstripped/tests/unittest/filemanagement/dfs_service/dentry_meta_file_test
 # 不含调试信息的编译结果: out/rk3568/tests/unittest/filemanagement/dfs_service/dentry_meta_file_test

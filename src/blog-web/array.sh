@@ -152,9 +152,9 @@ comm_array=(
 	0 1 course/gnu-linux/gnu-linux.md ~ "GNU/Linux教程"
 		1 1 course/gnu-linux/book.md ~ "GNU/Linux书籍推荐"
 		1 1 course/gnu-linux/install.md ~ "安装GNU/Linux发行版"
-	0 1 courses/harmony/harmony.md ~ "鸿蒙教程"
-		1 1 courses/harmony/contribution.md ~ "陈孝松OpenHarmony贡献"
-		1 1 courses/harmony/openharmony.md ~ "OpenHarmony开发"
+	0 1 course/harmony/harmony.md ~ "鸿蒙教程"
+		1 1 course/harmony/contribution.md ~ "陈孝松OpenHarmony贡献"
+		1 1 course/harmony/openharmony.md ~ "OpenHarmony开发"
 	# Linux内核
 	1 1 src/kernel-environment/kernel-qemu-kvm.md ~ "QEMU/KVM环境搭建与使用"
 	1 1 src/strace-fault-inject/strace-fault-inject.md ~ "strace内存分配失败故障注入"
