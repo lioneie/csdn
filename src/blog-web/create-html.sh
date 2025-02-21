@@ -55,7 +55,7 @@ update_lan_sign() {
 		# 在<ul>之后插入公网主页
 		sed -i -e '/<ul>/a<li><a href="https://chenxiaosong.com/">公网主页: chenxiaosong.com</a></li>' ${sign_file}
 		# 私有仓库的脚本更改签名
-		bash ${src_path}/../private-blog/scripts/update-sign.sh ${sign_file}
+		bash ${src_path}/../private-blog/script/update-sign.sh ${sign_file}
 	fi
 }
 

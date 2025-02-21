@@ -25,7 +25,7 @@ copy_config() {
 restart_private() {
 	# 部署在局域网
 	if [ ${is_replace_ip} = true ]; then
-		bash ${src_path}/private-blog/scripts/create-html.sh ${other_ip}
+		bash ${src_path}/private-blog/script/create-html.sh ${other_ip}
 	fi
 }
 
