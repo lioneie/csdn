@@ -13,7 +13,7 @@
 
 # 五笔字根助记词
 
-用五笔很多年了，虽然大部分时候不需要字根助记词，但偶尔还是会回想一下，[点击这里查看86版五笔字根助记词](https://chenxiaosong.com/pictures/wubi-86.png)。
+用五笔很多年了，虽然大部分时候不需要字根助记词，但偶尔还是会回想一下，[点击这里查看86版五笔字根助记词](https://chenxiaosong.com/picture/wubi-86.png)。
 
 # Linux五笔输入法安装与配置
 

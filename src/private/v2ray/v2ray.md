@@ -98,7 +98,7 @@ sudo systemctl restart v2ray
 
 下载v2ray的[安卓安装包](https://github.com/2dust/v2rayNG/releases)，并新建与服务器对应的配置。
 
-[点击这里查看配置信息](https://chenxiaosong.com/pictures/v2ray-android.jpeg)。
+[点击这里查看配置信息](https://chenxiaosong.com/picture/v2ray-android.jpeg)。
 
 # Windows系统客户端安装与配置
 
