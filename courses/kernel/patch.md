@@ -6,7 +6,7 @@
 
 # SMB(CIFS)文件系统
 
-[点击这里查看SMB相关补丁](https://chenxiaosong.com/courses/smb/smb-patches.html)
+[点击这里查看SMB相关补丁](https://chenxiaosong.com/courses/smb/patches.html)
 
 # 我写的补丁
 

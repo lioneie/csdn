@@ -39,7 +39,7 @@ make O=x86_64-build modules -j`nproc`
 
 ## 调试日志
 
-参考[`fs/smb/server/server.c`](https://github.com/torvalds/linux/blob/master/fs/smb/server/server.c)写了一个日志开关功能，使用请参考[《smb调试方法》](https://chenxiaosong.com/courses/smb/smb-debug.html)。
+参考[`fs/smb/server/server.c`](https://github.com/torvalds/linux/blob/master/fs/smb/server/server.c)写了一个日志开关功能，使用请参考[《smb调试方法》](https://chenxiaosong.com/courses/smb/debug.html)。
 
 控制命令如下:
 ```sh

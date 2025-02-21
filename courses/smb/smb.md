@@ -15,23 +15,23 @@
 
 点击下面的标题跳转。
 
-# [smb简介](https://chenxiaosong.com/courses/smb/smb-introduction.html)
+# [smb简介](https://chenxiaosong.com/courses/smb/introduction.html)
 
-# [smb环境](https://chenxiaosong.com/courses/smb/smb-environment.html)
+# [smb环境](https://chenxiaosong.com/courses/smb/environment.html)
 
 # [smb server (ksmbd)](https://chenxiaosong.com/courses/smb/ksmbd.html)
 
-# [smb client数据结构](https://chenxiaosong.com/courses/smb/smb-client-struct.html)
+# [smb client数据结构](https://chenxiaosong.com/courses/smb/client-struct.html)
 
-# [smb调试方法](https://chenxiaosong.com/courses/smb/smb-debug.html)
+# [smb调试方法](https://chenxiaosong.com/courses/smb/debug.html)
 
-# [smb补丁分析](https://chenxiaosong.com/courses/smb/smb-patches.html)
+# [smb补丁分析](https://chenxiaosong.com/courses/smb/patches.html)
 
-# [smb代码重构](https://chenxiaosong.com/courses/smb/smb-refactor.html)
+# [smb代码重构](https://chenxiaosong.com/courses/smb/refactor.html)
 
-# [smb问题分析](https://chenxiaosong.com/courses/smb/smb-issues.html)
+# [smb问题分析](https://chenxiaosong.com/courses/smb/issues.html)
 
-# [smb未分类的内容](https://chenxiaosong.com/courses/smb/smb-others.html)
+# [smb未分类的内容](https://chenxiaosong.com/courses/smb/others.html)
 
-# [smb社区贡献](https://chenxiaosong.com/courses/smb/smb-mailing-lists.html)
+# [smb社区贡献](https://chenxiaosong.com/courses/smb/mailing-lists.html)
 
