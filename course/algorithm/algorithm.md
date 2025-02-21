@@ -26,7 +26,7 @@ done 系统题 631(会员) 208(字典树) 146 355 635(会员) 901 1396 1500(会�
 
 另外，Linux内核有时也要用到算法，如[Zhen Lei的这组补丁](https://lore.kernel.org/lkml/20221102084921.1615-1-thunder.leizhen@huawei.com/)和[`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/course/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
 
-[点击这里查看配套的教学视频](https://chenxiaosong.com/courses/algorithm/video.html)。
+[点击这里查看配套的教学视频](https://chenxiaosong.com/course/algorithm/video.html)。
 
 持续更新中。。。
 
@@ -34,39 +34,39 @@ done 系统题 631(会员) 208(字典树) 146 355 635(会员) 901 1396 1500(会�
 
 点击下面的标题跳转。
 
-# [算法书籍推荐](https://chenxiaosong.com/courses/algorithm/book.html)
+# [算法书籍推荐](https://chenxiaosong.com/course/algorithm/book.html)
 
-# [动态规划](https://chenxiaosong.com/courses/algorithm/dynamic-programming.html)
+# [动态规划](https://chenxiaosong.com/course/algorithm/dynamic-programming.html)
 
-# [排序算法](https://chenxiaosong.com/courses/algorithm/sort.html)
+# [排序算法](https://chenxiaosong.com/course/algorithm/sort.html)
 
-# [堆（优先队列）](https://chenxiaosong.com/courses/algorithm/heap-priority-queue.html)
+# [堆（优先队列）](https://chenxiaosong.com/course/algorithm/heap-priority-queue.html)
 
-# [前缀和、差分](https://chenxiaosong.com/courses/algorithm/prefix-sum.html)
+# [前缀和、差分](https://chenxiaosong.com/course/algorithm/prefix-sum.html)
 
-# [哈希表](https://chenxiaosong.com/courses/algorithm/hash-table.html)
+# [哈希表](https://chenxiaosong.com/course/algorithm/hash-table.html)
 
-# [单调栈](https://chenxiaosong.com/courses/algorithm/monotonic-stack.html)
+# [单调栈](https://chenxiaosong.com/course/algorithm/monotonic-stack.html)
 
-# [贪心](https://chenxiaosong.com/courses/algorithm/greedy.html)
+# [贪心](https://chenxiaosong.com/course/algorithm/greedy.html)
 
-# [回溯](https://chenxiaosong.com/courses/algorithm/backtracking.html)
+# [回溯](https://chenxiaosong.com/course/algorithm/backtracking.html)
 
-# [二分查找](https://chenxiaosong.com/courses/algorithm/binary-search.html)
+# [二分查找](https://chenxiaosong.com/course/algorithm/binary-search.html)
 
-# [并查集](https://chenxiaosong.com/courses/algorithm/union-find.html)
+# [并查集](https://chenxiaosong.com/course/algorithm/union-find.html)
 
-# [前缀树（字典树）](https://chenxiaosong.com/courses/algorithm/trie.html)
+# [前缀树（字典树）](https://chenxiaosong.com/course/algorithm/trie.html)
 
-# [递归](https://chenxiaosong.com/courses/algorithm/recursion.html)
+# [递归](https://chenxiaosong.com/course/algorithm/recursion.html)
 
-# [滑动窗口](https://chenxiaosong.com/courses/algorithm/sliding-window.html)
+# [滑动窗口](https://chenxiaosong.com/course/algorithm/sliding-window.html)
 
-# [广度优先搜索](https://chenxiaosong.com/courses/algorithm/breadth-first-search.html)
+# [广度优先搜索](https://chenxiaosong.com/course/algorithm/breadth-first-search.html)
 
-# [深度优先搜索](https://chenxiaosong.com/courses/algorithm/depth-first-search.html)
+# [深度优先搜索](https://chenxiaosong.com/course/algorithm/depth-first-search.html)
 
-# [字符串](https://chenxiaosong.com/courses/algorithm/string.html)
+# [字符串](https://chenxiaosong.com/course/algorithm/string.html)
 
-# [未分类的内容](https://chenxiaosong.com/courses/algorithm/other.html)
+# [未分类的内容](https://chenxiaosong.com/course/algorithm/other.html)
 

@@ -6,8 +6,8 @@
 
 有一根钢条，给出一个价格数组`price[] = {0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30}`，其中`price[1]`表示长度为`1`的钢条价格为`1`，`price[2]`表示长度为`2`的钢条价格为`5`，求最多能卖多少钱？
 
-- [带备忘的自顶向下法钢条切割](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithm/src/dynamic-programming/cut-rod-resultsized.c)
-- [自底向上法钢条切割](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithm/src/dynamic-programming/cut-rod-bottom-up.c)
+- [带备忘的自顶向下法钢条切割](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/dynamic-programming/cut-rod-resultsized.c)
+- [自底向上法钢条切割](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/dynamic-programming/cut-rod-bottom-up.c)
 
 # leetcode 509. 斐波那契数
 

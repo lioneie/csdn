@@ -3,9 +3,9 @@
 - [uthash主页](https://troydhanson.github.io/uthash/)
 - [uthash github](https://github.com/troydhanson/uthash)
 - 头文件`uthash.h`: [github](https://github.com/troydhanson/uthash/blob/master/src/uthash.h)，[也可以在github下载](https://gitee.com/chenxiaosonggitee/tmp/blob/master/algorithms/uthash.h)）
-- [key为int类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithm/src/hash-table/int-key-uthash.c)
-- [key为char指针类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithm/src/hash-table/char-ptr-key-uthash.c)
-- [key为char数组类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithm/src/hash-table/char-array-key-uthash.c)
+- [key为int类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/hash-table/int-key-uthash.c)
+- [key为char指针类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/hash-table/char-ptr-key-uthash.c)
+- [key为char数组类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/hash-table/char-array-key-uthash.c)
 
 注意在leetcode中使用uthash，`head_table`在每个用例执行时都要初始化为`NULL`，因为全局变量和静态变量的初始化只会执行一次。
 
@@ -71,7 +71,7 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
 
 # leetcode 496. 下一个更大元素 I
 
-[点击这里查看“单调栈 + 哈希表”的解法](https://chenxiaosong.com/courses/algorithm/monotonic-stack.html)
+[点击这里查看“单调栈 + 哈希表”的解法](https://chenxiaosong.com/course/algorithm/monotonic-stack.html)
 
 # leetcode 217. 存在重复元素
 

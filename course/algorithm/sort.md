@@ -2,9 +2,9 @@
 
 《算法导论》书中的第95页。时间复杂度O(nlgn)，空间复杂度O(lgn)。
 
-[快速排序源码](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithm/src/sort/quick-sort.c)
+[快速排序源码](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/sort/quick-sort.c)
 
-[c语言快速排序的库函数用法](https://www.runoob.com/cprogramming/c-function-qsort.html)，[测试程序请点击这里](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithm/src/sort/clib-qsort.c)。函数原型:
+[c语言快速排序的库函数用法](https://www.runoob.com/cprogramming/c-function-qsort.html)，[测试程序请点击这里](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/sort/clib-qsort.c)。函数原型:
 ```c
 // compar(a, b):
 //   return *a - *b: 升序
@@ -16,11 +16,11 @@ void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, c
 
 《算法导论》书中的第17页。时间复杂度O(nlgn)，空间复杂度O(n)。
 
-[归并排序源码](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/algorithm/src/sort/merge-sort.c)
+[归并排序源码](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/sort/merge-sort.c)
 
 # 堆排序
 
-[点击这里查看“堆（优先队列）”](https://chenxiaosong.com/courses/algorithm/heap-priority-queue.html)
+[点击这里查看“堆（优先队列）”](https://chenxiaosong.com/course/algorithm/heap-priority-queue.html)
 
 # leetcode 217. 存在重复元素
 

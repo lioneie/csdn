@@ -8,7 +8,7 @@
 
 [点击这里查看smb课程配套教学视频](https://chenxiaosong.com/courses/smb/video.html)
 
-[点击这里查看算法课程配套教学视频](https://chenxiaosong.com/courses/algorithm/video.html)
+[点击这里查看算法课程配套教学视频](https://chenxiaosong.com/course/algorithm/video.html)
 
 # 其他博客配套视频
 
