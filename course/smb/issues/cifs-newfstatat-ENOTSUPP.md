@@ -98,7 +98,7 @@ strace -o strace.out -f -v -s 4096 ls /mnt
 
 # 代码分析
 
-[相关补丁](https://chenxiaosong.com/course/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)。
+[相关补丁](https://chenxiaosong.com/course/smb/patch/cifs-Fix-in-error-types-returned-for-out-of-credit-s.html)。
 
 执行`ls /mnt`时，返回`-ENOTSUPP`错误的一个流程:
 ```c

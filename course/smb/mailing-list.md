@@ -101,5 +101,5 @@ git log --follow --format='%aN <%aE>' fs/cifsd/ | sort | uniq -c | sort -nr
 
 # 社区其他人的补丁
 
-请查看[社区补丁](https://chenxiaosong.com/course/smb/patches/others-patches.html)
+请查看[社区补丁](https://chenxiaosong.com/course/smb/patch/others-patches.html)
 

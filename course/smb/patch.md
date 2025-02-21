@@ -4,7 +4,7 @@
 
 [点击查看kernel.org网站上我的Linux内核仓库提交记录](https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/?qt=grep&q=chenxiaosong)（加载需要一丢丢时间哈）
 
-[CVE-2024-46742: `4e8771a3666c8 smb/server: fix potential null-ptr-deref of lease_ctx_info in smb2_open()`](https://chenxiaosong.com/course/smb/patches/CVE-2024-46742.html)
+[CVE-2024-46742: `4e8771a3666c8 smb/server: fix potential null-ptr-deref of lease_ctx_info in smb2_open()`](https://chenxiaosong.com/course/smb/patch/CVE-2024-46742.html)
 
 [`542228db2f28f cifs: fix use-after-free on the link name`](https://patchwork.kernel.org/project/cifs-client/patch/20221104074441.634677-1-chenxiaosong2@huawei.com/)
 
