@@ -124,8 +124,8 @@ comm_array=(
 			1 1 course/smb/patch/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
 				"7de0394801da cifs: Fix in error types returned for out-of-credit situations."
 		1 1 course/smb/issue.md ~ "smb问题分析"
-			1 1 course/smb/issues/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect()空指针解引用问题"
-			1 1 course/smb/issues/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat()系统调用报错ENOTSUPP"
+			1 1 course/smb/issue/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect()空指针解引用问题"
+			1 1 course/smb/issue/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat()系统调用报错ENOTSUPP"
 	0 1 course/algorithm/algorithm.md ~ "算法"
 		1 1 course/algorithm/video.md ~ "算法课程配套视频"
 		1 1 course/algorithm/book.md ~ "算法书籍推荐"
