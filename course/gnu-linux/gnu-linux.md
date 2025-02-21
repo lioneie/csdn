@@ -4,7 +4,7 @@
 
 点击下面的标题跳转。
 
-# [GNU/Linux书籍推荐](https://chenxiaosong.com/courses/gnu-linux/book.html)
+# [GNU/Linux书籍推荐](https://chenxiaosong.com/course/gnu-linux/book.html)
 
-# [安装GNU/Linux发行版](https://chenxiaosong.com/courses/gnu-linux/install.html)
+# [安装GNU/Linux发行版](https://chenxiaosong.com/course/gnu-linux/install.html)
 

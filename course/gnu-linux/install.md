@@ -10,7 +10,7 @@
 
 ## 双系统grub设置
 
-grub的配置文件的示例[boot-efi-EFI](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/gnu-linux/src/boot-efi-EFI)，在操作系统中的路径为`/boot/efi/EFI/{ubuntu,centos}/grub.cfg`。
+grub的配置文件的示例[boot-efi-EFI](https://gitee.com/chenxiaosonggitee/blog/tree/master/course/gnu-linux/src/boot-efi-EFI)，在操作系统中的路径为`/boot/efi/EFI/{ubuntu,centos}/grub.cfg`。
 
 centos9 grub设置:
 ```sh
