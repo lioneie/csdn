@@ -582,7 +582,7 @@ QEMU: quick emulation，高速度、跨平台的开源模拟器，能模拟x86�
 
 测试编译好的内核我们不直接用发行版的iso镜像安装的系统，而是使用脚本生成比较小的镜像（不含有图形界面）。
 <!-- public begin -->
-进入目录[`course`](https://gitee.com/chenxiaosonggitee/blog/tree/master/course)，
+进入目录[`kernel`](https://gitee.com/chenxiaosonggitee/blog/tree/master/course/kernel)，
 <!-- public end -->
 选择相应的cpu架构，如
 <!-- public begin -->
