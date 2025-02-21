@@ -26,10 +26,10 @@
 
 # [nfs多路径](https://chenxiaosong.com/courses/nfs/-multipath.html)
 
-# [nfs补丁分析](https://chenxiaosong.com/courses/nfs/patches.html)
+# [nfs补丁分析](https://chenxiaosong.com/courses/nfs/patch.html)
 
-# [nfs问题分析](https://chenxiaosong.com/courses/nfs/issues.html)
+# [nfs问题分析](https://chenxiaosong.com/courses/nfs/issue.html)
 
-# [nfs社区贡献](https://chenxiaosong.com/courses/nfs/mailing-lists.html)
+# [nfs社区贡献](https://chenxiaosong.com/courses/nfs/mailing-list.html)
 
-# [nfs未分类的内容](https://chenxiaosong.com/courses/nfs/others.html)
+# [nfs未分类的内容](https://chenxiaosong.com/courses/nfs/other.html)

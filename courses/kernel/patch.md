@@ -2,7 +2,7 @@
 
 # NFS（网络文件系统）
 
-[点击这里查看NFS相关补丁](https://chenxiaosong.com/courses/nfs/patches.html)
+[点击这里查看NFS相关补丁](https://chenxiaosong.com/courses/nfs/patch.html)
 
 # SMB(CIFS)文件系统
 
