@@ -6,7 +6,7 @@ MY_ECHO_DEBUG=0
 . ${code_path}/blog/src/blog-web/common-lib.sh
 
 # 检查参数
-if [ $# -ne 1 ]; then
+if [ $# -lt 1 ]; then
         echo "用法: bash $0 <要查找的字符串>"
         exit 1
 fi
