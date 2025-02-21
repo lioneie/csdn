@@ -10,7 +10,7 @@
 - [QQ交流群: 544216206, 点击查看群介绍](https://chenxiaosong.com/q.html)
 - 如果需要微信号和手机号的朋友可以通过上面的邮箱和QQ交流群联系我
 
-爱好: [自行车骑行](https://www.strava.com/athletes/chenxiaosong)，[Linux操作系统](https://chenxiaosong.com/courses.html)。[只用键盘](https://chenxiaosong.com/pictures/self-introduction/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/src/wubi/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
+爱好: [自行车骑行](https://www.strava.com/athletes/chenxiaosong)，[Linux操作系统](https://chenxiaosong.com/course.html)。[只用键盘](https://chenxiaosong.com/pictures/self-introduction/hhkb.jpg)不用鼠标，[五笔打字](https://chenxiaosong.com/src/wubi/wubi.html)，喜欢[写技术文档](https://chenxiaosong.com/blog)。
 
 自由软件的狂热者，能力一般的极客。现在麒麟软件从事**Linux内核**开发，工作内容全世界都看得到，[贡献过多个自由开源软件项目](https://chenxiaosong.com/contribution.html)。
 
@@ -43,7 +43,7 @@
 
 # 课程
 
-[点击查看课程（持续更新中）](https://chenxiaosong.com/courses.html)
+[点击查看课程（持续更新中）](https://chenxiaosong.com/course.html)
 
 利用业余时间写了一些教程，同时也录了配套的视频，最大的目的是为了整理自己以前学习到的知识点，当然也为了学习还没学到的知识点，查缺补漏，温故知新。
 

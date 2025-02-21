@@ -9,7 +9,7 @@ comm_array=(
 	1 1 src/blog-web/index.md index.html '陈孝松个人主页'
 	1 1 src/blog-web/blog.md blog.html "陈孝松博客"
 	1 1 src/blog-web/contribution.md contribution.html "陈孝松自由软件贡献"
-	1 1 src/blog-web/courses.md courses.html "课程和视频"
+	1 1 src/blog-web/course.md course.html "课程和视频"
 	1 1 src/blog-web/q.md q.html "QQ交流群"
 	1 1 src/blog-web/patent-paper.md patent-paper.html "陈孝松专利和论文"
 	1 1 src/blog-web/video.md video.html "博客配套视频"
