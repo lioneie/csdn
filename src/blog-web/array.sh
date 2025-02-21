@@ -93,19 +93,19 @@ comm_array=(
 			1 1 course/nfs/patch/patchset-nfs_instantiate-might-succeed-leaving-dentry-negative-unhashed.md ~
 				"patchset: nfs_instantiate() might succeed leaving dentry negative unhashed"
 		1 1 course/nfs/issue.md ~ "nfs问题分析"
-			1 1 course/nfs/issues/nfs-clients-same-hostname-clientid-expire.md ~ "多个NFS客户端使用相同的hostname导致clientid过期"
-			1 1 course/nfs/issues/4.19-nfs-no-iterate_shared.md ~ "nfs没实现iterate_shared()导致的遍历目录无法并发问题"
-			1 1 course/nfs/issues/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage()空指针解引用问题'
-			1 1 course/nfs/issues/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md ~ "aarch64架构 4.19 nfs_readpage_async()空指针解引用问题"
-			1 1 course/nfs/issues/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async()空指针解引用问题'
-			1 1 course/nfs/issues/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid()报warning紧接着panic的问题"
-			1 1 course/nfs/issues/4.19-null-ptr-deref-in-__nfs3_proc_setacls.md ~ "4.19 __nfs3_proc_setacls()空指针解引用问题"
-			1 1 course/nfs/issues/nfs-df-long-time.md ~ "nfs df命令执行时间长的问题"
-			1 1 course/nfs/issues/4.19-nfs-soft-lockup-in-nfs_wb_page.md ~ "4.19 nfs_wb_page() soft lockup的问题"
-			1 1 course/nfs/issues/nfsiostat-queue-long-time.md ~ "nfsiostat命令queue时间长的问题"
-			1 1 course/nfs/issues/null-ptr-deref-in-nfs_ctx_key_to_expire.md ~ "nfs_ctx_key_to_expire()引用计数泄露和空指针解引用的问题"
-			1 1 course/nfs/issues/cthon-nfs-tests.md ~ "Connectathon NFS tests测试问题"
-			1 1 course/nfs/issues/4.19-nfs-soft-lockup-in-__rpc_execute.md ~ "4.19 __rpc_execute() soft lockup的问题"
+			1 1 course/nfs/issue/nfs-clients-same-hostname-clientid-expire.md ~ "多个NFS客户端使用相同的hostname导致clientid过期"
+			1 1 course/nfs/issue/4.19-nfs-no-iterate_shared.md ~ "nfs没实现iterate_shared()导致的遍历目录无法并发问题"
+			1 1 course/nfs/issue/4.19-null-ptr-deref-in-nfs_updatepage.md ~ '4.19 nfs_updatepage()空指针解引用问题'
+			1 1 course/nfs/issue/4.19-aarch64-null-ptr-deref-in-nfs_readpage_async.md ~ "aarch64架构 4.19 nfs_readpage_async()空指针解引用问题"
+			1 1 course/nfs/issue/4.19-null-ptr-deref-in-nfs_readpage_async.md ~ '4.19 nfs_readpage_async()空指针解引用问题'
+			1 1 course/nfs/issue/4.19-warning-in-nfs4_put_stid-and-panic.md ~ "4.19 nfs4_put_stid()报warning紧接着panic的问题"
+			1 1 course/nfs/issue/4.19-null-ptr-deref-in-__nfs3_proc_setacls.md ~ "4.19 __nfs3_proc_setacls()空指针解引用问题"
+			1 1 course/nfs/issue/nfs-df-long-time.md ~ "nfs df命令执行时间长的问题"
+			1 1 course/nfs/issue/4.19-nfs-soft-lockup-in-nfs_wb_page.md ~ "4.19 nfs_wb_page() soft lockup的问题"
+			1 1 course/nfs/issue/nfsiostat-queue-long-time.md ~ "nfsiostat命令queue时间长的问题"
+			1 1 course/nfs/issue/null-ptr-deref-in-nfs_ctx_key_to_expire.md ~ "nfs_ctx_key_to_expire()引用计数泄露和空指针解引用的问题"
+			1 1 course/nfs/issue/cthon-nfs-tests.md ~ "Connectathon NFS tests测试问题"
+			1 1 course/nfs/issue/4.19-nfs-soft-lockup-in-__rpc_execute.md ~ "4.19 __rpc_execute() soft lockup的问题"
 	0 1 course/smb/smb.md ~ "smb文件系统"
 		1 1 course/smb/video.md ~ "smb课程配套视频"
 		1 1 course/smb/introduction.md ~ "smb简介"
