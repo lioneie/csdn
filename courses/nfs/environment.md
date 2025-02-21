@@ -21,7 +21,7 @@ exportfs -i -o fsid=148252,no_root_squash,rw *:/tmp/s_test # 添加
 exportfs -u *:/tmp/s_test # 删除
 ```
 
-执行脚本[nfs-svr-setup.sh](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/nfs-svr-setup.sh)启动nfs server，其中，`rpcbind`（在服务文件`/lib/systemd/system/rpcbind.service`中）负责端口的对应工作（以前叫`portmap`），其他程序请查看`/lib/systemd/system/nfs-server.service`服务文件。
+执行脚本[nfs-svr-setup.sh](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/nfs/src/nfs-svr-setup.sh)启动nfs server，其中，`rpcbind`（在服务文件`/lib/systemd/system/rpcbind.service`中）负责端口的对应工作（以前叫`portmap`），其他程序请查看`/lib/systemd/system/nfs-server.service`服务文件。
 
 ## 软件和配置文件
 
