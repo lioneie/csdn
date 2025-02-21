@@ -2,7 +2,7 @@
 
 - [uthash主页](https://troydhanson.github.io/uthash/)
 - [uthash github](https://github.com/troydhanson/uthash)
-- 头文件`uthash.h`: [github](https://github.com/troydhanson/uthash/blob/master/src/uthash.h)，[也可以在github下载](https://gitee.com/chenxiaosonggitee/tmp/blob/master/algorithms/uthash.h)）
+- 头文件`uthash.h`: [github](https://github.com/troydhanson/uthash/blob/master/src/uthash.h)，[也可以在gitee下载](https://gitee.com/chenxiaosonggitee/tmp/blob/master/algorithm/uthash.h)）
 - [key为int类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/hash-table/int-key-uthash.c)
 - [key为char指针类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/hash-table/char-ptr-key-uthash.c)
 - [key为char数组类型时uthash的示例](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/algorithm/src/hash-table/char-array-key-uthash.c)
@@ -104,3 +104,4 @@ bool containsDuplicate(int* nums, int numsSize) {
     return false;
 }
 ```
+

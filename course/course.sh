@@ -76,6 +76,6 @@ create_full_course_md() {
 create_full_course_md "kernel"
 create_full_course_md "nfs"
 create_full_course_md "smb"
-create_full_course_md "algorithms"
+create_full_course_md "algorithm"
 create_full_course_md "godot"
 
