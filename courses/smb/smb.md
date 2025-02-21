@@ -25,13 +25,13 @@
 
 # [smb调试方法](https://chenxiaosong.com/courses/smb/debug.html)
 
-# [smb补丁分析](https://chenxiaosong.com/courses/smb/patches.html)
+# [smb补丁分析](https://chenxiaosong.com/courses/smb/patch.html)
 
 # [smb代码重构](https://chenxiaosong.com/courses/smb/refactor.html)
 
-# [smb问题分析](https://chenxiaosong.com/courses/smb/issues.html)
+# [smb问题分析](https://chenxiaosong.com/courses/smb/issue.html)
 
-# [smb未分类的内容](https://chenxiaosong.com/courses/smb/others.html)
+# [smb未分类的内容](https://chenxiaosong.com/courses/smb/other.html)
 
-# [smb社区贡献](https://chenxiaosong.com/courses/smb/mailing-lists.html)
+# [smb社区贡献](https://chenxiaosong.com/courses/smb/mailing-list.html)
 

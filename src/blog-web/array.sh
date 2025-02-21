@@ -114,16 +114,16 @@ comm_array=(
 		1 1 courses/smb/client-struct.md ~ "smb client数据结构"
 		1 1 courses/smb/debug.md ~ "smb调试方法"
 		1 1 courses/smb/refactor.md ~ "smb代码重构"
-		1 1 courses/smb/others.md ~ "smb未分类的内容"
-		1 1 courses/smb/mailing-lists.md ~ "smb社区贡献"
+		1 1 courses/smb/other.md ~ "smb未分类的内容"
+		1 1 courses/smb/mailing-list.md ~ "smb社区贡献"
 			1 1 courses/smb/patches/others-patches.md ~ "社区补丁"
-		1 1 courses/smb/patches.md ~ "smb补丁分析"
+		1 1 courses/smb/patch.md ~ "smb补丁分析"
 			# 我写的补丁
 			1 1 courses/smb/patches/CVE-2024-46742.md ~ "CVE-2024-46742"
 			# 其他人的补丁
 			1 1 courses/smb/patches/cifs-Fix-in-error-types-returned-for-out-of-credit-s.md ~
 				"7de0394801da cifs: Fix in error types returned for out-of-credit situations."
-		1 1 courses/smb/issues.md ~ "smb问题分析"
+		1 1 courses/smb/issue.md ~ "smb问题分析"
 			1 1 courses/smb/issues/4.19-null-ptr-deref-in-cifs_reconnect.md ~ "4.19 cifs_reconnect()空指针解引用问题"
 			1 1 courses/smb/issues/cifs-newfstatat-ENOTSUPP.md ~ "cifs newfstatat()系统调用报错ENOTSUPP"
 	0 1 courses/algorithms/algorithms.md ~ "算法"
