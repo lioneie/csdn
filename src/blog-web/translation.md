@@ -10,7 +10,7 @@ pdftk file.pdf cat 1-10 output part1.pdf # 拆分1-10页
 pdftk part1.pdf part2.pdf cat output merged.pdf # 合并
 ```
 
-拆分pdf文件可以使用脚本[`split-pdf.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/scripts/split-pdf.sh)。
+拆分pdf文件可以使用脚本[`split-pdf.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/script/split-pdf.sh)。
 
 # kernel
 
