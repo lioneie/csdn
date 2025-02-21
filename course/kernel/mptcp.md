@@ -18,7 +18,7 @@ mptcp的maintainer之一Geliang Tang <tanggeliang@kylinos.cn>是我们麒麟软�
 
 - [`mptcp-client.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/mptcp/mptcp-client.c)
 - [`mptcp-server.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/mptcp/mptcp-server.c)
-- [`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/mptcp/Makefile.c)
+- [`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/mptcp/Makefile)
 
 ## qemu虚拟机
 
