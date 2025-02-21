@@ -76,7 +76,7 @@ tar xvf linux-6.8.5.tar.xz
 
 内核编译时打开[Documentation/9psetup](https://wiki.qemu.org/Documentation/9psetup)中的配置。虚拟机中执行脚本
 <!-- public begin -->
-[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mod-cfg.sh)
+[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/mod-cfg.sh)
 <!-- public end -->
 <!-- private begin -->
 `src/mod-cfg.sh`
@@ -284,7 +284,7 @@ cat trace_pipe
 
 参考
 <!-- public begin -->
-[kprobes](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kprobes)
+[kprobes](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/kprobes)
 <!-- public end -->
 <!-- private begin -->
 `src/kprobes`
@@ -927,7 +927,7 @@ cat /mnt/file
 <!-- public begin -->
 # bpftrace
 
-请查看[《BPF》](https://chenxiaosong.com/courses/kernel/bpf.html)。
+请查看[《BPF》](https://chenxiaosong.com/course/kernel/bpf.html)。
 <!-- public end -->
 
 <!-- private begin -->

@@ -16,9 +16,9 @@ mptcp的maintainer之一Geliang Tang <tanggeliang@kylinos.cn>是我们麒麟软�
 
 # 使用
 
-- [`mptcp-client.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mptcp/mptcp-client.c)
-- [`mptcp-server.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mptcp/mptcp-server.c)
-- [`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mptcp/Makefile.c)
+- [`mptcp-client.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/mptcp/mptcp-client.c)
+- [`mptcp-server.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/mptcp/mptcp-server.c)
+- [`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/mptcp/Makefile.c)
 
 ## qemu虚拟机
 
@@ -35,7 +35,7 @@ echo -e "auto ens3\niface ens3 inet dhcp" >> /etc/network/interfaces
 systemctl restart networking
 ```
 
-qemu命令行启动虚拟机可以参考[《内核开发环境》](https://chenxiaosong.com/courses/kernel/dev-environment.html)。
+qemu命令行启动虚拟机可以参考[《内核开发环境》](https://chenxiaosong.com/course/kernel/dev-environment.html)。
 
 ## mptcp相关命令
 
@@ -114,9 +114,9 @@ ip mptcp endpoint add 192.168.53.210 dev ens2 subflow
 
 # 内核态socket
 
-- [`kernel-socket-client.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kernel-socket/kernel-socket-client.c)
-- [`kernel-socket-server.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kernel-socket/kernel-socket-server.c)
-- [`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/kernel-socket/Makefile)
+- [`kernel-socket-client.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/kernel-socket/kernel-socket-client.c)
+- [`kernel-socket-server.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/kernel-socket/kernel-socket-server.c)
+- [`Makefile`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/kernel-socket/Makefile)
 
 测试步骤:
 ```sh

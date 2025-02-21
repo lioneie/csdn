@@ -23,7 +23,7 @@ CLA 协议是开源贡献协议，用于规范贡献者的权利及义务。贡�
 
 [Kernel SIG | openEuler Kernel 补丁合入规范](https://my.oschina.net/openeuler/blog/5949607)，可以用
 <!-- public begin -->
-[脚本`create-openeuler-git-msg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/scripts/create-openeuler-git-msg.sh)
+[脚本`create-openeuler-git-msg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/scripts/create-openeuler-git-msg.sh)
 <!-- public end -->
 <!-- private begin -->
 脚本`src/scripts/create-openeuler-git-msg.sh`
@@ -77,7 +77,7 @@ CLA 协议是开源贡献协议，用于规范贡献者的权利及义务。贡�
 
 你可以通过[bugzilla](https://bugzilla.kernel.org/)或[syzbot](https://syzkaller.appspot.com/upstream)发现内核bug，也可以通过阅读内核代码发现bug或进行重构。
 <!-- public begin -->
-或者可以用[`calc-func-lines.sh`脚本](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/scripts/calc-func-lines.sh)
+或者可以用[`calc-func-lines.sh`脚本](https://gitee.com/chenxiaosonggitee/blog/tree/master/course/kernel/src/scripts/calc-func-lines.sh)
 <!-- public end -->
 <!-- private begin -->
 或者可以用`src/scripts/calc-func-lines.sh`脚本
@@ -185,7 +185,7 @@ foxmail(qq)邮箱`~/.gitconfig`:
 git send-email --to=to1@example.com,to2@example.com --cc=cc1@example.com,cc2@example.com file1.patch file2.patch
 ```
 
-可以使用脚本[`get-maintainer-email.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/scripts/get-maintainer-email.sh)来获取邮箱:
+可以使用脚本[`get-maintainer-email.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/scripts/get-maintainer-email.sh)来获取邮箱:
 ```sh
 git format-patch -1 1aee9158bc97
 bash get-maintainer-email.sh fs/nfs/ fs/nfsd fs/nfs_common 0001-nfsd-lock_rename-needs-both-directories-to-live-on-t.patch

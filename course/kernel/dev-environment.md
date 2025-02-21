@@ -520,7 +520,7 @@ make O=build SPHINXOPTS=-v htmldocs -j`nproc` # -v 获得更详细的输出。
 
 - 降低编译优化等级，默认的内核编译优化等级太高，用GDB调试时不太方便，有些函数语句被优化了，无法打断点，这时就要降低编译优化等级。做好的虚拟机中已经打上了降低编译优化等级的补丁。
 <!-- public begin -->
-比如`x86_64`架构下可以在[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)目录下选择对应版本的补丁，更多详细的内容请查看GDB调试相关的章节。
+比如`x86_64`架构下可以在[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/course/kernel/src/x86_64)目录下选择对应版本的补丁，更多详细的内容请查看GDB调试相关的章节。
 <!-- public end -->
 - `dump_stack()`输出的栈全是问号的解决办法。如果你使用`dump_stack()`输出的栈全是问号，可以 revert 补丁 `f1d9a2abff66 x86/unwind/orc: Don't skip the first frame for inactive tasks`。主线已经有补丁做了 revert: `230db82413c0 x86/unwind/orc: Fix unreliable stack dump with gcov`。
 <!-- public begin -->
@@ -586,21 +586,21 @@ QEMU: quick emulation，高速度、跨平台的开源模拟器，能模拟x86�
 <!-- public end -->
 选择相应的cpu架构，如
 <!-- public begin -->
-[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)
+[`x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/course/kernel/src/x86_64)
 <!-- public end -->
 <!-- private begin -->
 `src/x86_64`
 <!-- private end -->
 目录。执行
 <!-- public begin -->
-[`create-raw.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/create-raw.sh)
+[`create-raw.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/x86_64/create-raw.sh)
 <!-- public end -->
 <!-- private begin -->
 `create-raw.sh`
 <!-- private end -->
 生成raw格式的镜像，这个脚本会调用到
 <!-- public begin -->
-[`create-debian.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/create-debian.sh)
+[`create-debian.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/create-debian.sh)
 <!-- public end -->
 <!-- private begin -->
 `src/create-debian.sh`
@@ -617,21 +617,21 @@ qemu-img convert -p -f raw -O qcow2 image.raw image.qcow2
 
 再执行脚本
 <!-- public begin -->
-[`link-scripts.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/link-scripts.sh)
+[`link-scripts.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/link-scripts.sh)
 <!-- public end -->
 <!-- private begin -->
 `src/link-scripts.sh`
 <!-- private end -->
 把脚本链接到相应的目录，执行
 <!-- public begin -->
-[`update-base.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/update-base.sh)
+[`update-base.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/x86_64/update-base.sh)
 <!-- public end -->
 <!-- private begin -->
 `update-base.sh`
 <!-- private end -->
 启动虚拟机更新镜像（如再安装一些额外的软件），镜像更新完后关闭虚拟机，再执行
 <!-- public begin -->
-[`create-qcow2.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/x86_64/create-qcow2.sh)
+[`create-qcow2.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/x86_64/create-qcow2.sh)
 <!-- public end -->
 <!-- private begin -->
 `create-qcow2.sh`
@@ -789,7 +789,7 @@ echo "stty rows 54 cols 229" > stty.sh
 
 当启用了9p文件系统，就可以把宿主机的modules目录（当然也可以是其他任何目录）共享给虚拟机，具体参考[Documentation/9psetup](https://wiki.qemu.org/Documentation/9psetup)。虚拟机中执行脚本
 <!-- public begin -->
-[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/mod-cfg.sh)
+[`mod-cfg.sh`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/mod-cfg.sh)
 <!-- public end -->
 <!-- private begin -->
 `src/mod-cfg.sh`
@@ -860,7 +860,7 @@ gcc的编译选项`O1`优化等级不需要修改就可以编译通过。`O0`优
 <!-- public end -->
 `Og`优化等级经过修改可以编译通过，`x86_64`合入目录
 <!-- public begin -->
-[`courses/kernel/src/x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/x86_64)
+[`course/kernel/src/x86_64`](https://gitee.com/chenxiaosonggitee/blog/tree/master/course/kernel/src/x86_64)
 <!-- public end -->
 <!-- private begin -->
 `src/x86_64`

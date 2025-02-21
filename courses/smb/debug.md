@@ -53,7 +53,7 @@ cifs_dbg
       __dynamic_pr_debug // 打开了配置 CONFIG_DYNAMIC_DEBUG
 ```
 
-动态打印相关的内容请查看[《内核调试方法》](https://chenxiaosong.com/courses/kernel/debug.html)。
+动态打印相关的内容请查看[《内核调试方法》](https://chenxiaosong.com/course/kernel/debug.html)。
 
 # tcpdump抓包
 

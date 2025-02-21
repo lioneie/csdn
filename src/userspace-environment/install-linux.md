@@ -27,7 +27,7 @@ group = "libvirt"
 
 我平时工作用的是ubuntu桌面系统。
 
-Linux内核开发相关的环境请查看[《Linux内核课程》](https://chenxiaosong.com/courses/kernel/kernel.html)。
+Linux内核开发相关的环境请查看[《Linux内核课程》](https://chenxiaosong.com/course/kernel/kernel.html)。
 
 常用的软件安装:
 ```sh

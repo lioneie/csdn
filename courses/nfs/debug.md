@@ -84,7 +84,7 @@ echo 1 > /proc/sys/kernel/sysrq
 echo c > /proc/sysrq-trigger
 ```
 
-关于vmcore的更详细内容，请查看[内核调试方法](https://chenxiaosong.com/courses/kernel/debug.html)。
+关于vmcore的更详细内容，请查看[内核调试方法](https://chenxiaosong.com/course/kernel/debug.html)。
 
 如果要让内核在hungtask或softlockup等情况触发panic，可以执行以下操作:
 ```sh

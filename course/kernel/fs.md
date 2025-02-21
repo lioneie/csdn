@@ -840,7 +840,7 @@ struct ucounts {
 
 调试补丁为
 <!-- public begin -->
-[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-vfs.patch)
+[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/0001-debug-vfs.patch)
 <!-- public end -->
 <!-- private begin -->
 `src/0001-debug-vfs.patch`
@@ -890,7 +890,7 @@ mkdir // 系统调用
 
 调试补丁为
 <!-- public begin -->
-[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-vfs.patch)
+[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/0001-debug-vfs.patch)
 <!-- public end -->
 <!-- private begin -->
 `src/0001-debug-vfs.patch`
@@ -920,7 +920,7 @@ mount
 
 调试补丁为
 <!-- public begin -->
-[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-vfs.patch)
+[`0001-debug-vfs.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/0001-debug-vfs.patch)
 <!-- public end -->
 <!-- private begin -->
 `src/0001-debug-vfs.patch`
@@ -1649,7 +1649,7 @@ mount -t minix /dev/sda /mnt
 
 ## 独立模块编译
 
-如果我们要在minix文件系统的基础上再开发，为了方便开发测试，可以`fs/minix`复制出来，[然后打上补丁`0001-myminix.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-myminix.patch)，这里我把文件系统类型名改为了`myminix`，挂载时要指定挂载选项，如通过loop设备挂载:
+如果我们要在minix文件系统的基础上再开发，为了方便开发测试，可以`fs/minix`复制出来，[然后打上补丁`0001-myminix.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/0001-myminix.patch)，这里我把文件系统类型名改为了`myminix`，挂载时要指定挂载选项，如通过loop设备挂载:
 ```sh
 mount -t myminix -o loop image /mnt
 ```
@@ -1764,7 +1764,7 @@ openat
 
 如果当路径中前面有其他路径时（如`/mnt/<4095字节文件名>`就有4100个字节），会被vfs拦截，所以当要支持4095字节长度时，要在`vfs`做修改。而大部分文件系统支持的最大文件名长度为255字节，所以我们可以这样设计: 当文件名（普通文件和文件夹）大于255字节时，在`vfs`对文件名做hash映射，当文件名（普通文件和文件夹）大于minix v3文件系统最大支持的60字节时，在minix文件系统对文件名做hash映射。
 
-暂时只对最后一个路径名作hash映射，后续再补充支持对中间路径名进行hash映射，补丁为[`0001-minix-support-long-file-name.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-minix-support-long-file-name.patch)。
+暂时只对最后一个路径名作hash映射，后续再补充支持对中间路径名进行hash映射，补丁为[`0001-minix-support-long-file-name.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/0001-minix-support-long-file-name.patch)。
 
 <!-- public end -->
 

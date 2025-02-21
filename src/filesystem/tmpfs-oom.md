@@ -27,7 +27,7 @@ Mem:           3.8Gi       417Mi       3.4Gi       948Ki       168Mi       3.4Gi
 Mem:           3.8Gi       3.6Gi        71Mi       2.9Gi       3.2Gi       169Mi
 ```
 
-`qemu`虚拟机中导出`vmcore`的方法请参考[《内核调试方法》](https://chenxiaosong.com/courses/kernel/debug.html)，虚拟机导出`vmcore`对比，用`crash`解析。
+`qemu`虚拟机中导出`vmcore`的方法请参考[《内核调试方法》](https://chenxiaosong.com/course/kernel/debug.html)，虚拟机导出`vmcore`对比，用`crash`解析。
 
 总内存`3.8G`，通过`crash`的命令`kmem -i`对比看出，发生oom时，大幅增加的内存有`USED`（增加约`3.33G`）和`CACHED`（增加约`2.76G`），小幅增加的有`SLAB`（增加约`660M`）。
 

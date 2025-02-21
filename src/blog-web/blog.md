@@ -16,7 +16,7 @@
 
 # Linux内核
 
-[点击查看Linux内核课程（持续更新中）](https://chenxiaosong.com/courses/kernel/kernel.html)
+[点击查看Linux内核课程（持续更新中）](https://chenxiaosong.com/course/kernel/kernel.html)
 
 [QEMU/KVM环境搭建与使用](https://chenxiaosong.com/src/kernel-environment/kernel-qemu-kvm.html)
 
@@ -33,7 +33,7 @@
 Linux内核加餐:
 003-syzkaller
 -->
-[syzkaller - 内核模糊测试工具](https://chenxiaosong.com/courses/kernel/test.html)
+[syzkaller - 内核模糊测试工具](https://chenxiaosong.com/course/kernel/test.html)
 
 # NFS（网络文件系统）
 

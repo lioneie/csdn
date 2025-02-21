@@ -39,7 +39,7 @@ struct pcpu_hot {
 
 用结构体`struct task_struct`来描述进程，这个结构体很大，请查看 
 <!-- public begin -->
-[`src/task_struct.c`](https://gitee.com/chenxiaosonggitee/blog/tree/master/courses/kernel/src/task_struct.c)
+[`src/task_struct.c`](https://gitee.com/chenxiaosonggitee/blog/tree/master/course/kernel/src/task_struct.c)
 <!-- public end -->
 <!-- private begin -->
 `task_struct.c`
@@ -139,14 +139,14 @@ waitpid
 
 内核打上
 <!-- public begin -->
-[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-task_struct.patch)
+[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/0001-debug-task_struct.patch)
 <!-- public end -->
 <!-- private begin -->
 `src/0001-debug-task_struct.patch`
 <!-- private end -->
 补丁，编译运行
 <!-- public begin -->
-[`fork.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/fork.c)
+[`fork.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/fork.c)
 <!-- public end -->
 <!-- private begin -->
 `src/fork.c`
@@ -283,14 +283,14 @@ int kthread_stop(struct task_struct *k)
 
 内核打上
 <!-- public begin -->
-[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/0001-debug-task_struct.patch)
+[`0001-debug-task_struct.patch`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/0001-debug-task_struct.patch)
 <!-- public end -->
 <!-- private begin -->
 `src/0001-debug-task_struct.patch`
 <!-- private end -->
 补丁，编译运行
 <!-- public begin -->
-[`pthread.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/pthread.c)
+[`pthread.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/pthread.c)
 <!-- public end -->
 <!-- private begin -->
 `src/pthread.c`
@@ -342,7 +342,7 @@ SYSCALL_DEFINE1(nice, int, increment)
 
 示例文件
 <!-- public begin -->
-[`nice.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/courses/kernel/src/nice.c)
+[`nice.c`](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/nice.c)
 <!-- public end -->
 <!-- private begin -->
 `src/nice.c`
@@ -548,7 +548,7 @@ pick_next_task_fair
 # EEVDF调度器
 
 <!-- public begin -->
-- 补丁集: [`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/courses/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
+- 补丁集: [`sched: EEVDF and latency-nice and/or slice-attr`](https://chenxiaosong.com/course/kernel/patches/sched-EEVDF-and-latency-nice-and-or-slice-attr.html)。
 - 文档[EEVDF Scheduler](https://chenxiaosong.com/src/translations/kernel/sched-eevdf.html)翻译。
 <!-- public end -->
 
