@@ -1,4 +1,4 @@
-[点击这里跳转到陈孝松OpenHarmony贡献](https://chenxiaosong.com/courses/harmony/contributions.html)。
+[点击这里跳转到陈孝松OpenHarmony贡献](https://chenxiaosong.com/courses/harmony/contribution.html)。
 
 # 环境
 

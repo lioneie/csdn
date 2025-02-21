@@ -153,7 +153,7 @@ comm_array=(
 		1 1 courses/gnu-linux/book.md ~ "GNU/Linux书籍推荐"
 		1 1 courses/gnu-linux/install.md ~ "安装GNU/Linux发行版"
 	0 1 courses/harmony/harmony.md ~ "鸿蒙教程"
-		1 1 courses/harmony/contributions.md ~ "陈孝松OpenHarmony贡献"
+		1 1 courses/harmony/contribution.md ~ "陈孝松OpenHarmony贡献"
 		1 1 courses/harmony/openharmony.md ~ "OpenHarmony开发"
 	# Linux内核
 	1 1 src/kernel-environment/kernel-qemu-kvm.md ~ "QEMU/KVM环境搭建与使用"
