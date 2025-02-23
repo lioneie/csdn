@@ -66,6 +66,10 @@ parse_frequently_used() {
 	> "${file}.md"
 	> "traditional-${file}.md"
 
+	# 五笔网站:
+	# 	https://toolb.cn/wbconvert (可选，默认全码优先)
+	# 	https://tool.lu/py5bconvert/ (只能简码，还要用dos2unix转换，有些字没有，如"该")
+	# 	https://toolkits.cn/wubi (全码和简码全部列出)
 	if [ ! -f "${file}-wubi.txt" ]; then
 		echo "${file}-wubi.txt 不存在"
 		return
