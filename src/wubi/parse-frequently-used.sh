@@ -21,9 +21,9 @@ parse_line() {
 	fi
 
 	if [[ -z "${word2}" || "${word2}" =~ ^[0-9]+$ ]]; then
-		echo "${word1} ${word2} 第二个汉字的位置是数字或为空"
+		echo "${word1} 没有繁体字"
 	else
-		echo "${word1} ${word2} 第二个汉字的位置是繁体字"
+		echo "${word1} 有繁体字"
 		echo "${modified_line}" >> "traditional-${file}"
 	fi
 
