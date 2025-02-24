@@ -63,8 +63,11 @@ deduplicate() {
 		if [ "${word1}" == "${word2}" ]; then
 			all_line=${word1} # 只保留第1个字
 			comm_echo "${word1} 没有繁体字"
-		else
+		elif [[ ! -z "${word2}" ]]; then
 			comm_echo "${word1} 有繁体字"
+			echo "${line}" >> "traditional-${file}.txt"
+		else
+			comm_echo "${word1} 没有繁体字"
 		fi
 		echo "${all_line}" >> "${file}.tmp"
 
@@ -75,10 +78,12 @@ deduplicate() {
 parse_frequently_used() {
 	local file=$1
 
-	deduplicate ${file}
 	# 清空
 	> "${file}.md"
+	> "traditional-${file}.txt"
 	> "traditional-${file}.md"
+
+	deduplicate ${file}
 
 	# 五笔网站:
 	# 	https://toolb.cn/wbconvert (可选，默认全码优先)
