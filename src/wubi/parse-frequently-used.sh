@@ -6,33 +6,47 @@ tmp_repo_path=${MY_CODE_TOP_PATH}/tmp/
 
 MY_ECHO_DEBUG=0
 
+# 有繁体字返回0, 无繁体字返回1
 parse_line() {
 	local line=$1
 	local file=$2
+	local index=$3
+	local traditional_index=$4
+
+	local ret=1
 
 	# 获取第1和第2个字符（从0开始）
 	local word1="${line:0:1}"
 	local word2="${line:1:1}"
 
-	local modified_line="1. ${line}" # 加上序号
+	local all_line="${index}. ${line}" # 加上序号
+	local traditional_line="${traditional_index}. ${line}"
 
 	# \t 两边必须是单引号
 	if [[ "${word2}" == $'\t' ]]; then
 		comm_echo "${word1} 没有繁体字"
 	else
 		comm_echo "${word1} 有繁体字"
-		echo "${modified_line}" >> "traditional-${file}.md"
+		echo "${traditional_line}" >> "traditional-${file}.md"
+		ret=0
 	fi
 
 	# 输出处理后的行
-	echo "${modified_line}" >> "${file}.tmp"
+	echo "${all_line}" >> "${file}.tmp"
+	return $ret
 }
 
 create_md() {
 	local file=$1
 	# 读取文件并处理每一行
+	local index=1
+	local traditional_index=1
 	while IFS= read -r line; do
-		parse_line "${line}" "${file}"
+		parse_line "${line}" "${file}" "${index}" "${traditional_index}"
+		if [[ $? == 0 ]]; then
+			traditional_index=$((traditional_index + 1))
+		fi
+		index=$((index + 1))
 	done < "${file}.md"
 	mv "${file}.tmp" "${file}.md"
 }
@@ -45,14 +59,14 @@ deduplicate() {
 		word1="${line:0:1}" # 汉字也是一个字符？
 		word2="${line:1:1}"
 
-		modified_line="${line}"
+		all_line="${line}"
 		if [ "${word1}" == "${word2}" ]; then
-			modified_line=${word1} # 只保留第1个字
+			all_line=${word1} # 只保留第1个字
 			comm_echo "${word1} 没有繁体字"
 		else
 			comm_echo "${word1} 有繁体字"
 		fi
-		echo "${modified_line}" >> "${file}.tmp"
+		echo "${all_line}" >> "${file}.tmp"
 
 	done < "${file}.txt"
 	mv "${file}.tmp" "${file}.txt"
