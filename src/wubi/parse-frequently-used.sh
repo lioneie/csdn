@@ -93,7 +93,7 @@ deduplicate() {
 			comm_echo "${raw_word} 没有繁体字"
 		else
 			comm_echo "${raw_word} 有繁体字"
-			echo "${line}" >> "${file}-traditional.txt"
+			echo "${dedup_words}" >> "${file}-traditional.txt"
 		fi
 		echo "${dedup_words}" >> "${file}.tmp"
 		index=$((index + 1))
