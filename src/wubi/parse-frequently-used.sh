@@ -1,4 +1,17 @@
 #!/bin/bash
+
+# 繁体字网站:
+# 	http://www.aies.cn/
+# 	http://www.ku51.net/
+# 	https://www.2weima.com/jianfan.html
+# 	https://www.sojson.com/convert/cn2spark.html
+# 	https://5ujq.com/
+
+# 五笔网站:
+# 	https://toolb.cn/wbconvert (可选，默认全码优先)
+# 	https://tool.lu/py5bconvert/ (只能简码，还要用dos2unix转换，有些字没有，如"该")
+# 	https://toolkits.cn/wubi (全码和简码全部列出)
+
 . ~/.top-path
 tmp_repo_path=${MY_CODE_TOP_PATH}/tmp/
 
@@ -27,7 +40,7 @@ parse_line() {
 		comm_echo "${word1} 没有繁体字"
 	else
 		comm_echo "${word1} 有繁体字"
-		echo "${traditional_line}" >> "traditional-${file}.md"
+		echo "${traditional_line}" >> "${file}-traditional.md"
 		ret=0
 	fi
 
@@ -51,27 +64,40 @@ create_md() {
 	mv "${file}.tmp" "${file}.md"
 }
 
+__deduplicate() {
+	local str=$1
+	local ret=""
+	for ((i=0; i<${#str}; i++)); do
+		local word="${str:i:1}"
+		if [[ ! "${ret}" =~ "${word}" ]]; then
+			ret="${ret}${word}"
+		fi
+	done
+	echo "${ret}"
+}
+
 deduplicate() {
 	local file=$1
 
+	local index=1
 	# 读取文件并处理每一行
 	while IFS= read -r line; do
-		word1="${line:0:1}" # 汉字也是一个字符？
-		word2="${line:1:1}"
+		local raw_word="${line:0:1}"
+		local wubi_words=$(sed -n ${index}p ${file}-raw-wubi.txt)
+		local full_words="${raw_word}${wubi_words}"
+		local dedup_words=$(__deduplicate ${full_words})
+		local str_len="${#dedup_words}"
 
-		all_line="${line}"
-		if [ "${word1}" == "${word2}" ]; then
-			all_line=${word1} # 只保留第1个字
-			comm_echo "${word1} 没有繁体字"
-		elif [[ ! -z "${word2}" ]]; then
-			comm_echo "${word1} 有繁体字"
-			echo "${line}" >> "traditional-${file}.txt"
+		# echo "${dedup_words} ${str_len}"
+		if [ "${str_len}" == 1 ]; then
+			comm_echo "${raw_word} 没有繁体字"
 		else
-			comm_echo "${word1} 没有繁体字"
+			comm_echo "${raw_word} 有繁体字"
+			echo "${line}" >> "${file}-traditional.txt"
 		fi
-		echo "${all_line}" >> "${file}.tmp"
-
-	done < "${file}.txt"
+		echo "${dedup_words}" >> "${file}.tmp"
+		index=$((index + 1))
+	done < "${file}-raw-simplified.txt"
 	mv "${file}.tmp" "${file}.txt"
 }
 
@@ -80,16 +106,13 @@ parse_frequently_used() {
 
 	cd ${tmp_repo_path}/calligraphy/frequently-used/${file}/
 	# 清空
+	> "${file}.txt"
 	> "${file}.md"
-	> "traditional-${file}.txt"
-	> "traditional-${file}.md"
+	> "${file}-traditional.txt"
+	> "${file}-traditional.md"
 
 	deduplicate ${file}
 
-	# 五笔网站:
-	# 	https://toolb.cn/wbconvert (可选，默认全码优先)
-	# 	https://tool.lu/py5bconvert/ (只能简码，还要用dos2unix转换，有些字没有，如"该")
-	# 	https://toolkits.cn/wubi (全码和简码全部列出)
 	if [ ! -f "${file}-wubi.txt" ]; then
 		echo "${file}-wubi.txt 不存在"
 		return
@@ -102,6 +125,7 @@ parse_frequently_used() {
 	create_md ${file}
 }
 
-parse_frequently_used 500
-parse_frequently_used 2500
+# parse_frequently_used 500
+# parse_frequently_used 2500
+parse_frequently_used 1000
 
