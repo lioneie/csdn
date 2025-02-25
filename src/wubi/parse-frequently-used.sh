@@ -78,6 +78,7 @@ deduplicate() {
 parse_frequently_used() {
 	local file=$1
 
+	cd ${tmp_repo_path}/calligraphy/frequently-used/${file}/
 	# 清空
 	> "${file}.md"
 	> "traditional-${file}.txt"
@@ -101,7 +102,6 @@ parse_frequently_used() {
 	create_md ${file}
 }
 
-cd ${tmp_repo_path}/calligraphy/frequently-used/
 parse_frequently_used 500
 parse_frequently_used 2500
 
