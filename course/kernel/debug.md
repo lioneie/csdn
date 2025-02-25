@@ -284,10 +284,10 @@ cat trace_pipe
 
 参考
 <!-- public begin -->
-[kprobes](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/kprobes)
+[kprobes](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/kernel/src/kprobe)
 <!-- public end -->
 <!-- private begin -->
-`src/kprobes`
+`src/kprobe`
 <!-- private end -->
 里的例子。
 
