@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # 繁体字网站:
+# 	https://www.2weima.com/jianfan.html （可选）
+# 	http://www.ku51.net/ （可选）
 # 	http://www.aies.cn/
-# 	http://www.ku51.net/
-# 	https://www.2weima.com/jianfan.html
 # 	https://www.sojson.com/convert/cn2spark.html
 # 	https://5ujq.com/
 
@@ -83,7 +83,7 @@ deduplicate() {
 	# 读取文件并处理每一行
 	while IFS= read -r line; do
 		local raw_word="${line:0:1}"
-		local wubi_words=$(sed -n ${index}p ${file}-raw-wubi.txt)
+		local wubi_words=$(sed -n ${index}p ${file}-raw-traditional.txt)
 		local full_words="${raw_word}${wubi_words}"
 		local dedup_words=$(__deduplicate ${full_words})
 		local str_len="${#dedup_words}"
@@ -125,7 +125,7 @@ parse_frequently_used() {
 	create_md ${file}
 }
 
-# parse_frequently_used 500
-# parse_frequently_used 2500
+parse_frequently_used 500
+parse_frequently_used 2500
 parse_frequently_used 1000
 
