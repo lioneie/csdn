@@ -12,6 +12,10 @@ if [ $# -ge 1 ]; then
 	is_new_repo=$1
 fi
 echo "new github.io repo: ${is_new_repo}"
+if [[ ! -d "${github_io_repo}" ]]; then
+	echo "${github_io_repo} not exist, set is_new_repo=true"
+	is_new_repo=true
+fi
 
 cd ${code_path}/blog/
 git pull github master
