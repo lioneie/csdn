@@ -93,8 +93,6 @@ Linux内核加餐:
 -->
 [如何拥有个人域名的网站和邮箱](https://chenxiaosong.com/src/blog-web/blog-web.html)
 
-[Linux环境安装与配置](https://chenxiaosong.com/src/userspace-environment/install-linux.html)
-
 [Linux配置文件](https://chenxiaosong.com/src/linux-config/linux-config.html)
 
 <!--

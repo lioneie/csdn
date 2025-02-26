@@ -1,27 +1,3 @@
-# virt-manager
-
-`/etc/libvirt/qemu.conf`文件配置:
-```sh
-user = "root"
-group = "libvirt"
-```
-
-## `x86_64` `virt-manager`安装`aarch64`系统
-
-- 首先`ssh-copy-id root@${ip}`确保可以免密码登录（非`root`用户就行）。
-- 启动virt-manager后，`添加连接 -> 勾选 通过ssh连接到远程主机 -> 用户名: root -> 主机名: ${ip}:22｀。
-- `创建虚拟机 -> 架构选项 -> 架构: aarch64 -> 机器类型: virt -> 在完成前打勾 在安装前自定义配置`。
-- 弹出配置界面，`概况 固件: UEFI aarch64 -> cpu数 型号: cortex-a72 -> 添加硬件 图形 类型: spice服务器 地址: 所有接口 -> 添加硬件 输入 USB鼠标 USB键盘`。
-
-`添加硬件 图形 类型:`如果选`vnc服务器`，要把virt-manager窗口关闭才能用vnc客户端登录，而且系统鼠标定位有一点小问题，所以不建议选择`vnc服务器`，建议选择`spice服务器`。
-
-## 桥接
-
-- 网络源: Macvtap设备
-- 设备名称: 选择要桥接的接口，如enp2s0
-- 设备型号: 我选择virtio
-
-注意Macvtap方式不能访问宿主机和同一个交换机上的ip。
 
 # ubuntu22.04
 
