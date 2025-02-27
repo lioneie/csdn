@@ -78,4 +78,5 @@ create_full_course_md "nfs"
 create_full_course_md "smb"
 create_full_course_md "algorithm"
 create_full_course_md "godot"
+create_full_course_md "gnu-linux"
 
