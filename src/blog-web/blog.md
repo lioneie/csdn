@@ -82,7 +82,7 @@ Linux内核加餐:
 006-vnc软件
 007-qemu+vnc
 -->
-[VNC远程桌面](https://chenxiaosong.com/src/userspace-environment/vnc.html)
+[VNC远程桌面](https://chenxiaosong.com/course/gnu-linux/install.html#vnc)
 
 <!--
 不能删除，以下视频里用到:

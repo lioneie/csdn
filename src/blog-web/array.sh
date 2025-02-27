@@ -181,7 +181,6 @@ comm_array=(
 	1 1 src/cve/smb-cve.md ~ "smb cve"
 	1 1 src/cve/others-cve.md ~ "未分类的cve"
 	# Linux环境
-	1 1 src/userspace-environment/vnc.md ~ "VNC远程桌面"
 	1 1 src/blog-web/blog-web.md ~ "如何拥有个人域名的网站和邮箱"
 	1 1 src/linux-config/linux-config.md ~ "Linux配置文件"
 	1 1 src/ssh-reverse/ssh-reverse.md ~ "反向ssh和内网穿透"
