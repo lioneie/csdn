@@ -1,6 +1,6 @@
 下面介绍一些Linux内核的测试工具。
 
-# syzkaller
+# syzkaller {#syzkaller}
 
 <!--
 https://i-m.dev/posts/20200313-143737.html
