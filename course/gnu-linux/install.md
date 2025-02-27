@@ -223,7 +223,7 @@ sudo apt install vim-gtk3 -y
 chromium-browser --proxy-server="https=127.0.0.1:1080;http=127.0.0.1:1080;ftp=127.0.0.1:1080"
 ```
 
-# 麒麟系统
+## 麒麟系统
 
 填写[产品试用申请](https://www.kylinos.cn/support/trial.html)后就可以下载iso文件。
 
@@ -240,7 +240,7 @@ swap分区可以分配稍大一些，剩下全给`/`，备份分区在虚拟机�
 
 一直提示“发现未认证应用执行”的解决办法，打开`/etc/default/grub`，修改为`GRUB_CMDLINE_LINUX_SECURITY="security="`，更新grub配置`sudo update-grub`，最后，重启系统。
 
-# arcolinux
+## arcolinux
 
 [ArcoLinux](https://arcolinux.com/)是[Arch Linux](https://archlinux.org/)的衍生发行版。
 
