@@ -60,7 +60,8 @@ qemu-system-x86_64 \
 -vnc :1
 ```
 
-vnc客户端可以使用ubuntu自带的Remmina（当然也可以使用其他vnc客户端），连接`${server_ip}:5901`，端口`5901`是由`-vnc :1`决定的（`5900 + 1`）。macOS要使用[appstore安装的Remote Ripple](https://remoteripple.com/download/)，好像无法使用macOS自带的vnc客户端。
+vnc客户端可以使用ubuntu自带的Remmina（当然也可以使用其他vnc客户端），连接`${server_ip}:5901`，端口`5901`是由`-vnc :1`决定的（`5900 + 1`）。
+macOS除了使用macOS自带的`Screen Sharing`（屏幕共享），还可以使用[appstore安装的Remote Ripple](https://remoteripple.com/download/)。
 
 安装完成后，再运行:
 ```sh
