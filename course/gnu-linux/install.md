@@ -33,7 +33,7 @@ configfile $prefix/grub.cfg
 vim /etc/default/grub # GRUB_TIMEOUT=5
 ```
 
-# virt-manager
+# virt-manager安装虚拟机
 
 `/etc/libvirt/qemu.conf`文件配置:
 ```sh
@@ -59,4 +59,57 @@ group = "libvirt"
 - 设备型号: 我选择virtio
 
 注意Macvtap方式不能访问宿主机和同一个交换机上的ip。
+
+目前暂还没找到完美的virt-manager桥接方法。可以使用其他虚拟机软件如vmware或virtualbox。
+
+# 配置
+
+有些发行版默认`poweroff`和`reboot`等命令可以以非root权限运行，容易误操作，这些命令都软链接到`/bin/systemctl`, 可以用以下命令修改权限:
+```sh
+sudo chmod 700 /bin/systemctl
+```
+
+设置hostname:
+```sh
+sudo hostnamectl set-hostname Threadripper-Ubuntu2204
+```
+
+新建或删除用户:
+```sh
+sudo useradd -s /bin/bash -d /home/test -m test # 新建用户test
+sudo userdel -r test # 删除用户test，-r选项代表同时删除用户的家目录和相关文件
+```
+
+ssh密码输入界面要很久才出现的解决办法,修改`/etc/ssh/ssh_config`文件:
+```sh
+GSSAPIAuthentication no # GSSAPI 通常用于支持 Kerberos 认证，提供一种安全且无缝的认证方式
+```
+
+如果没有挂载`/tmp`目录，可以修改`/etc/fstab`文件:
+```sh
+# defaults: 使用默认的挂载选项。
+# noatime: 不更新文件的访问时间戳。
+# nosuid: 不允许设置文件的 SUID 位。
+# nodev: 不允许设备文件。
+# noexec: 不允许执行二进制文件。安装vmware等软件时会安装不上
+# mode=1777: 设置目录的权限为 1777，确保它是可写的临时目录。
+tmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,mode=1777,size=20G 0 0
+```
+
+如果内存比较小，可以添加swap:
+```sh
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+ls -lh /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo swapon -s
+sudo vi /etc/fstab # 在/etc/fstab最后一行添加 /swapfile  none  swap  sw  0  0
+```
+
+shell界面路径名显示绝对路径，想换成只显示最后一个路径名分量, `~/.bashrc`文件修改以下变量:
+```sh
+PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W\$ '
+```
+
 
