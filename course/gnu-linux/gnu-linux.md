@@ -4,8 +4,6 @@
 
 点击下面的标题跳转。
 
-# [GNU/Linux简介](https://chenxiaosong.com/course/gnu-linux/introduction.html)
-
 # [GNU/Linux书籍推荐](https://chenxiaosong.com/course/gnu-linux/book.html)
 
 # [安装GNU/Linux发行版](https://chenxiaosong.com/course/gnu-linux/install.html)

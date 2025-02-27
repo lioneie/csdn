@@ -150,7 +150,6 @@ comm_array=(
 		1 1 course/godot/introduction.md ~ "Godot简介"
 		1 1 course/godot/demo.md ~ "Godot官方demo"
 	0 1 course/gnu-linux/gnu-linux.md ~ "GNU/Linux教程"
-		1 1 course/gnu-linux/introduction.md ~ "GNU/Linux简介"
 		1 1 course/gnu-linux/book.md ~ "GNU/Linux书籍推荐"
 		1 1 course/gnu-linux/install.md ~ "安装GNU/Linux发行版"
 	0 1 course/harmony/harmony.md ~ "鸿蒙教程"

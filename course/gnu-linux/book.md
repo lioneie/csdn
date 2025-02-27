@@ -14,6 +14,8 @@
   - [伺服器篇](https://linux.vbird.org/linux_server/)
 - [简体首页](http://cn.linux.vbird.org/)
 
+繁体字看不懂？没事，常用的繁体字并不多，[点击这里查看我整理的常用繁体字](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/gitee-md/练过的字.md)。
+
 ## 简略目录
 
 ### [鸟哥的Linux私房菜 基础学习篇 第四版](https://book.douban.com/subject/30359954/)
