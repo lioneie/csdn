@@ -22,7 +22,8 @@ Ubuntu 服务端 `Settings -> Sharing -> Screen Sharing -> 启用旧式vnc协议
 
 服务端`System Settings` -> `General` -> `Sharing` -> `Screen Sharing` -> `开关右侧的i号`。
 
-客户端可以使用系统自带的屏幕共享，`Spotlight Search`(command+space)搜索`Screen Sharing`，然后直接输入ip。还可以在Finder（访达）中按`cmd+k`跳出输入框，或在浏览器中，输入`vnc://${server_ip}`。自带的屏幕共享鼠标功能支持更好。
+客户端可以使用系统自带的屏幕共享，`Spotlight Search`(command+space)搜索`Screen Sharing`（屏幕共享），然后直接输入ip。
+还可以在Finder（访达）中按`cmd+k`跳出输入框（或在浏览器中直接输入），输入`vnc://${server_ip}:${port_number`。自带的屏幕共享鼠标功能支持更好。
 
 客户端还可以使用[tightvnc](https://www.tightvnc.com/)，在[appstore安装Remote Ripple](https://remoteripple.com/download/)。鼠标功能支持不够（至少在连接ubuntu时）。
 
