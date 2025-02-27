@@ -1,5 +1,7 @@
 在GNU/Linux发行版的选择上，我们这里是学习的目的，所以就选用能体验最新特性的[Ubuntu](https://ubuntu.com/download)和[Fedora](https://fedoraproject.org/)，都是每年发布两个版本。
 
+与Linux内核开发相关的请查看[内核开发环境](https://chenxiaosong.com/course/kernel/dev-environment.html)。
+
 # 启动配置
 
 ## BIOS设置
@@ -210,8 +212,6 @@ qemu-system-x86_64 \
 ## ubuntu
 
 我平时工作用的是ubuntu桌面系统。
-
-Linux内核开发相关的环境请查看[《Linux内核课程》](https://chenxiaosong.com/course/kernel/kernel.html)。
 
 常用的软件安装:
 ```sh
