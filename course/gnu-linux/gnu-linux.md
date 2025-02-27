@@ -8,3 +8,5 @@
 
 # [安装GNU/Linux发行版](https://chenxiaosong.com/course/gnu-linux/install.html)
 
+# [编辑器](https://chenxiaosong.com/course/gnu-linux/editor.html)
+

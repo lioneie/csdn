@@ -152,6 +152,7 @@ comm_array=(
 	0 1 course/gnu-linux/gnu-linux.md ~ "GNU/Linux课程"
 		1 1 course/gnu-linux/book.md ~ "GNU/Linux书籍推荐"
 		1 1 course/gnu-linux/install.md ~ "安装GNU/Linux发行版"
+		1 1 course/gnu-linux/editor.md ~ "编辑器"
 	0 1 course/harmony/harmony.md ~ "鸿蒙教程"
 		1 1 course/harmony/contribution.md ~ "陈孝松OpenHarmony贡献"
 		1 1 course/harmony/openharmony.md ~ "OpenHarmony开发"
@@ -188,7 +189,6 @@ comm_array=(
 	1 1 src/macos/qemu-kvm-install-macos.md ~ "QEMU/KVM安装macOS系统"
 	1 1 src/userspace-environment/ghostwriter-makdown.md ~ "ghostwriter: 一款makdown编辑器"
 	1 1 src/userspace-environment/mosquitto-mqtt.md ~ "使用mosquitto搭建MQTT服务器"
-	1 1 src/editor/editor.md ~ "编辑器"
 	1 1 src/windows/wine.md ~ "Linux使用wine运行Windows软件"
 	1 1 src/userspace-environment/eulerlauncher.md ~ "macOS下用EulerLauncher运行openEuler"
 	# 其他

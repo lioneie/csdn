@@ -280,7 +280,9 @@ evil 配置: M-x customize-group RET evil RET， 参考: https://evil.readthedoc
 
 # cscope
 
-安装cscope: `sudo apt install cscope -y`，但有很多bug，建议使用[源码](https://sourceforge.net/p/cscope/cscope/ci/master/tree/)安装，可以使用[`configure`](https://sourceforge.net/p/cscope/cscope/ci/configure/tree/)分支，然后merge [`master(eaea31cb93ec)`](https://sourceforge.net/p/cscope/cscope/ci/master/tree/)和[`no_generated_files_in_repo(9c49a74d7ac1)](https://sourceforge.net/p/cscope/cscope/ci/no_generated_files_in_repo/tree/)分支，再合入[更改cscope快捷键的补丁](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/editor/0001-cscope-emacs-change-cscope-select-entry-other-window.patch)。
+现在我使用的代码浏览插件是gtags，但很早以前用过cscope，这里也记录一下。
+
+安装cscope: `sudo apt install cscope -y`，但有很多bug，建议使用[源码](https://sourceforge.net/p/cscope/cscope/ci/master/tree/)安装，可以使用[`configure`](https://sourceforge.net/p/cscope/cscope/ci/configure/tree/)分支，然后merge [`master(eaea31cb93ec)`](https://sourceforge.net/p/cscope/cscope/ci/master/tree/)和[`no_generated_files_in_repo(9c49a74d7ac1)](https://sourceforge.net/p/cscope/cscope/ci/no_generated_files_in_repo/tree/)分支，再合入[更改cscope快捷键的补丁](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/gnu-linux/src/0001-cscope-emacs-change-cscope-select-entry-other-window.patch)。
 
 ```sh
 # ubuntu/raspberry-pi build environment
@@ -299,6 +301,6 @@ cd build
 make
 ```
 
-将脚本文件[cscope_maps.vim](https://gitee.com/chenxiaosonggitee/blog/blob/master/src/editor/cscope_maps.vim)放到`~/.vim/plugin/`路径下，即可使用快捷键（快捷键种类查看 `:cs help`），如`:cs find s word`查找word引用可使用快捷键`ctrl加\加s`（按顺序依次按3个键）。
+将脚本文件[cscope_maps.vim](https://gitee.com/chenxiaosonggitee/blog/blob/master/course/gnu-linux/src/cscope_maps.vim)放到`~/.vim/plugin/`路径下，即可使用快捷键（快捷键种类查看 `:cs help`），如`:cs find s word`查找word引用可使用快捷键`ctrl加\加s`（按顺序依次按3个键）。
 
 使用`cscope -Rqbk`（当需要包含`/usr/include`头文件时，不使用`-k`选项）编译代码生成`cscope.out`文件，在`cscope.out`文件所在目录打开`vim`即可加载`cscope.out`文件。Linux内核代码使用`make cscope`命令生成索引文件。

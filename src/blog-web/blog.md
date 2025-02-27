@@ -116,8 +116,6 @@ Linux内核加餐:
 
 [使用mosquitto搭建MQTT服务器](https://chenxiaosong.com/src/userspace-environment/mosquitto-mqtt.html)
 
-[编辑器](https://chenxiaosong.com/src/editor/editor.html)
-
 <!--
 不能删除，以下视频里用到:
 005-arm64的Linux通过Wine运行exe
